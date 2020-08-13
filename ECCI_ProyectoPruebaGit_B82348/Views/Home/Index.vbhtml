@@ -10,10 +10,11 @@ End Code
 
 <div class="row">
     <div class="col-md-4">
-        <h2>Getting started</h2>
+        <h2>Hola desde la ECCI de la UCR</h2>
         <p>
             ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
+            enables a clean separation of concerns and gives you full control over mar
+            <a href="~/Views/Home/Index.vbhtml">~/Views/Home/Index.vbhtml</a>kup
             for enjoyable, agile development.
         </p>
         <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
