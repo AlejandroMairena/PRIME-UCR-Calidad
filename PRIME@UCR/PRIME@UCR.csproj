@@ -1,0 +1,37 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>PRIME_UCR</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Components\CheckLists\" />
+    <Folder Include="Components\Dashboard\" />
+    <Folder Include="Components\Incidents\" />
+    <Folder Include="Components\MedicalRecords\" />
+    <Folder Include="Components\Multimedia\" />
+    <Folder Include="Components\UserAdministration\" />
+    <Folder Include="..\PRIME%2540UCR\Models\" />
+    <Folder Include="Interfaces\CheckLists\" />
+    <Folder Include="Interfaces\Dashboard\" />
+    <Folder Include="Interfaces\Incidents\" />
+    <Folder Include="Interfaces\MedicalRecords\" />
+    <Folder Include="Interfaces\Multimedia\" />
+    <Folder Include="Interfaces\UserAdministration\" />
+    <Folder Include="Models\" />
+    <Folder Include="Pages\Dashboard\" />
+    <Folder Include="Pages\CheckLists\" />
+    <Folder Include="Pages\Incidents\" />
+    <Folder Include="Pages\Multimedia\" />
+    <Folder Include="Pages\MedicalRecords\" />
+    <Folder Include="Pages\UserAdministration\" />
+    <Folder Include="Services\CheckLists\" />
+    <Folder Include="Services\Dashboard\" />
+    <Folder Include="Services\Incidents\" />
+    <Folder Include="Services\MedicalRecords\" />
+    <Folder Include="Services\Multimedia\" />
+    <Folder Include="Services\UserAdministration\" />
+  </ItemGroup>
+
+</Project>
