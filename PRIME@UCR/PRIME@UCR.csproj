@@ -6,32 +6,50 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Components\CheckLists\" />
-    <Folder Include="Components\Dashboard\" />
-    <Folder Include="Components\Incidents\" />
-    <Folder Include="Components\MedicalRecords\" />
-    <Folder Include="Components\Multimedia\" />
-    <Folder Include="Components\UserAdministration\" />
+    <Compile Remove="Components\**" />
+    <Compile Remove="Interfaces\**" />
+    <Compile Remove="Models\**" />
+    <Compile Remove="Pages\CheckLists\**" />
+    <Compile Remove="Pages\Dashboard\**" />
+    <Compile Remove="Pages\Incidents\**" />
+    <Compile Remove="Pages\MedicalRecords\**" />
+    <Compile Remove="Pages\Multimedia\**" />
+    <Compile Remove="Pages\UserAdministration\**" />
+    <Compile Remove="Services\**" />
+    <Content Remove="Components\**" />
+    <Content Remove="Interfaces\**" />
+    <Content Remove="Models\**" />
+    <Content Remove="Pages\CheckLists\**" />
+    <Content Remove="Pages\Dashboard\**" />
+    <Content Remove="Pages\Incidents\**" />
+    <Content Remove="Pages\MedicalRecords\**" />
+    <Content Remove="Pages\Multimedia\**" />
+    <Content Remove="Pages\UserAdministration\**" />
+    <Content Remove="Services\**" />
+    <EmbeddedResource Remove="Components\**" />
+    <EmbeddedResource Remove="Interfaces\**" />
+    <EmbeddedResource Remove="Models\**" />
+    <EmbeddedResource Remove="Pages\CheckLists\**" />
+    <EmbeddedResource Remove="Pages\Dashboard\**" />
+    <EmbeddedResource Remove="Pages\Incidents\**" />
+    <EmbeddedResource Remove="Pages\MedicalRecords\**" />
+    <EmbeddedResource Remove="Pages\Multimedia\**" />
+    <EmbeddedResource Remove="Pages\UserAdministration\**" />
+    <EmbeddedResource Remove="Services\**" />
+    <None Remove="Components\**" />
+    <None Remove="Interfaces\**" />
+    <None Remove="Models\**" />
+    <None Remove="Pages\CheckLists\**" />
+    <None Remove="Pages\Dashboard\**" />
+    <None Remove="Pages\Incidents\**" />
+    <None Remove="Pages\MedicalRecords\**" />
+    <None Remove="Pages\Multimedia\**" />
+    <None Remove="Pages\UserAdministration\**" />
+    <None Remove="Services\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="..\PRIME%2540UCR\Models\" />
-    <Folder Include="Interfaces\CheckLists\" />
-    <Folder Include="Interfaces\Dashboard\" />
-    <Folder Include="Interfaces\Incidents\" />
-    <Folder Include="Interfaces\MedicalRecords\" />
-    <Folder Include="Interfaces\Multimedia\" />
-    <Folder Include="Interfaces\UserAdministration\" />
-    <Folder Include="Models\" />
-    <Folder Include="Pages\Dashboard\" />
-    <Folder Include="Pages\CheckLists\" />
-    <Folder Include="Pages\Incidents\" />
-    <Folder Include="Pages\Multimedia\" />
-    <Folder Include="Pages\MedicalRecords\" />
-    <Folder Include="Pages\UserAdministration\" />
-    <Folder Include="Services\CheckLists\" />
-    <Folder Include="Services\Dashboard\" />
-    <Folder Include="Services\Incidents\" />
-    <Folder Include="Services\MedicalRecords\" />
-    <Folder Include="Services\Multimedia\" />
-    <Folder Include="Services\UserAdministration\" />
   </ItemGroup>
 
 </Project>
