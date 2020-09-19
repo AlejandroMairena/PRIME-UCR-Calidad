@@ -9,7 +9,8 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using PRIME_UCR.Data;
+using PRIME_UCR.BusinessLogic.Interfaces;
+using PRIME_UCR.BusinessLogic.Services;
 
 namespace PRIME_UCR
 {
@@ -28,7 +29,7 @@ namespace PRIME_UCR
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddSingleton<WeatherForecastService>();
+            services.AddTransient<ITestService, TestService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
