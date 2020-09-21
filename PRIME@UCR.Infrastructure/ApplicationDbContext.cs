@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using PRIME_UCR.Core.Models;
+using PRIME_UCR.Domain.Models;
 using System;
 
 namespace PRIME_UCR.Infrastructure

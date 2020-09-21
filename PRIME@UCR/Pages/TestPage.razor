@@ -1,5 +1,25 @@
 ﻿@page "/test-page"
 
-<h3>TestPage</h3>
-
-<p>My test value: @myModel.MyProperty</p>
+<h3>Página de prueba</h3>
+<div class="row justify-content-center">
+    <table class="table table-striped text-center">
+        <thead>
+            <tr>
+                <th>Llave</th>
+                <th>Valor</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var model in models)
+            {
+                <tr>
+                    <td>@model.Key</td>
+                    <td>@model.Value</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<div class="row justify-content-center pt-2">
+    <button @onclick="AddRandomModel" class="btn btn-primary">Agregar modelo</button>
+</div>

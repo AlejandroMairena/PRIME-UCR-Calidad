@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
-using PRIME_UCR.BusinessLogic.Interfaces;
-using PRIME_UCR.Core.Models;
+using PRIME_UCR.Application.Services;
+using PRIME_UCR.Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,15 +10,22 @@ namespace PRIME_UCR.Pages
 {
     public partial class TestPage
     {
-        private TestModel myModel;
+        private IEnumerable<TestModel> models;
 
-        [Inject]
-        public ITestService MyService { get; set; }
+        // dependency injection
+        [Inject] public ITestService MyService { get; set; }
 
         protected override void OnInitialized()
         {
-            Random rand = new Random();
-            myModel = MyService.CreateModel(rand.Next());
+            // UI logic goes here
+            models = MyService.GetAll();
+        }
+
+        private void AddRandomModel()
+        {
+            // UI logic goes here
+            // never write business logic here, always call a service from the Application layer for that
+            MyService.InsertRandomModel();
         }
     }
 }

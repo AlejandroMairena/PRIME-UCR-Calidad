@@ -6,29 +6,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Interfaces\**" />
-    <Compile Remove="Models\**" />
-    <Compile Remove="Services\**" />
-    <Content Remove="Interfaces\**" />
-    <Content Remove="Models\**" />
-    <Content Remove="Services\**" />
-    <EmbeddedResource Remove="Interfaces\**" />
-    <EmbeddedResource Remove="Models\**" />
-    <EmbeddedResource Remove="Services\**" />
-    <None Remove="Interfaces\**" />
-    <None Remove="Models\**" />
-    <None Remove="Services\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="..\PRIME%2540UCR\Models\" />
     <Folder Include="wwwroot\js\" />
     <Folder Include="wwwroot\images\" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PRIME@UCR.BusinessLogic\PRIME@UCR.BusinessLogic.csproj" />
-    <ProjectReference Include="..\PRIME@UCR.Core\PRIME@UCR.Core.csproj" />
+    <ProjectReference Include="..\PRIME@UCR.Application\PRIME@UCR.Application.csproj" />
+    <ProjectReference Include="..\PRIME@UCR.Domain\PRIME@UCR.Domain.csproj" />
+    <ProjectReference Include="..\PRIME@UCR.Infrastructure\PRIME@UCR.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

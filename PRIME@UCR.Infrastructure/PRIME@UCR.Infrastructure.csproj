@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -10,7 +10,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PRIME@UCR.Core\PRIME@UCR.Core.csproj" />
+    <ProjectReference Include="..\PRIME@UCR.Application\PRIME@UCR.Application.csproj" />
+    <ProjectReference Include="..\PRIME@UCR.Domain\PRIME@UCR.Domain.csproj" />
   </ItemGroup>
 
 </Project>
