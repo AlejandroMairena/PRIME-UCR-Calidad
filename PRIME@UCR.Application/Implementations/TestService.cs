@@ -4,6 +4,7 @@ using PRIME_UCR.Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace PRIME_UCR.Application.Implementations
 {
@@ -17,18 +18,18 @@ namespace PRIME_UCR.Application.Implementations
             _repo = repo;
         }
 
-        public IEnumerable<TestModel> GetAll()
+        public async Task<IEnumerable<TestModel>> GetAll()
         {
-            return _repo.GetAll();
+            return await _repo.GetAll();
         }
 
-        public TestModel InsertRandomModel()
+        public async Task<TestModel> InsertRandomModel()
         {
             // business logic goes here
             Random rand = new Random();
-            TestModel model = new TestModel { Key = rand.Next(), Value = rand.Next() };
+            TestModel model = new TestModel { Value = rand.Next() };
             // calls infrastructure to access data, but doesn't care about the implementation for this
-            return _repo.Insert(model.Key, model);
+            return await _repo.Insert(model.Key, model);
         }
     }
 }

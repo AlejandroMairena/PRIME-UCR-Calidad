@@ -1,25 +1,33 @@
 ﻿@page "/test-page"
+@inherits TestPageBase
 
 <h3>Página de prueba</h3>
-<div class="row justify-content-center">
-    <table class="table table-striped text-center">
-        <thead>
-            <tr>
-                <th>Llave</th>
-                <th>Valor</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var model in models)
-            {
+@if (models == null)
+{
+    <p>Cargando datos...</p>
+}
+else
+{
+    <div class="row justify-content-center">
+        <table class="table table-striped text-center">
+            <thead>
                 <tr>
-                    <td>@model.Key</td>
-                    <td>@model.Value</td>
+                    <th>Llave</th>
+                    <th>Valor</th>
                 </tr>
-            }
-        </tbody>
-    </table>
-</div>
-<div class="row justify-content-center pt-2">
-    <button @onclick="AddRandomModel" class="btn btn-primary">Agregar modelo</button>
-</div>
+            </thead>
+            <tbody>
+                @foreach (var model in models)
+                {
+                    <tr>
+                        <td>@model.Key</td>
+                        <td>@model.Value</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="row justify-content-center pt-2">
+        <button @onclick="AddRandomModel" class="btn btn-primary">Agregar modelo</button>
+    </div>
+}

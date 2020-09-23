@@ -9,10 +9,16 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using PRIME_UCR.Application;
 using PRIME_UCR.Application.Services;
 using PRIME_UCR.Application.Implementations;
 using PRIME_UCR.Application.Repositories;
+using PRIME_UCR.Infrastructure;
+using PRIME_UCR.Infrastructure.DataProviders;
+using PRIME_UCR.Infrastructure.DataProviders.Implementations;
 using PRIME_UCR.Infrastructure.Repositories;
+using PRIME_UCR.Infrastructure.Repositories.Memory;
+using Microsoft.EntityFrameworkCore;
 
 namespace PRIME_UCR
 {
@@ -32,15 +38,10 @@ namespace PRIME_UCR
             services.AddRazorPages();
             services.AddServerSideBlazor();
 
-           /*
-            * dependency injection summary
-            * singleton: shared instance for the whole server
-            * transient: shared instance per request to the server(resets on reload)
-            * scoped: never shared, one new instance per injection
-           */
-           services.AddTransient<ITestService, TestService>();
-            // use scoped because it is not thread safe, so it cannot be shared
-            services.AddScoped<ITestRepository, InMemoryTestRepository>();
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DevelopmentDbConnection")));
+            services.AddApplicationLayer();
+            services.AddInfrastructureLayer();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

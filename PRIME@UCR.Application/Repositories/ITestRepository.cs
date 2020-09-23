@@ -2,12 +2,13 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace PRIME_UCR.Application.Repositories
 {
     public interface ITestRepository : IGenericRepository<TestModel, int>
     {
         // no need to add basic CRUD operations since they are inherited from IGenericRepository
-        IEnumerable<TestModel> GetByValue(int value);
+        Task<IEnumerable<TestModel>> GetByValue(int value);
     }
 }

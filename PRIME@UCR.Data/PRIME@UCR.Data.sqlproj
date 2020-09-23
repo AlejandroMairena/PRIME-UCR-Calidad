@@ -57,4 +57,10 @@
   <ItemGroup>
     <Folder Include="Properties" />
   </ItemGroup>
+  <ItemGroup>
+    <Build Include="TestModels.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <PostDeploy Include="SeedTestModels.sql" />
+  </ItemGroup>
 </Project>
