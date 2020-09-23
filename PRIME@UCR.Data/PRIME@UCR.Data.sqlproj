@@ -59,6 +59,19 @@
   </ItemGroup>
   <ItemGroup>
     <Build Include="TestModels.sql" />
+    <Build Include="Pais.sql" />
+    <Build Include="Distrito.sql" />
+    <Build Include="Canton.sql" />
+    <Build Include="Provincia.sql" />
+    <Build Include="Domicilio.sql" />
+    <Build Include="Centro_Ubicacion.sql" />
+    <Build Include="Centro_Medico.sql" />
+    <Build Include="Domicilio_Ubicacion.sql" />
+    <Build Include="Modalidad.sql" />
+    <Build Include="Ubicacion.sql" />
+    <Build Include="Pais_Ubicacion.sql" />
+    <Build Include="Unidad_De_Transporte.sql" />
+    <Build Include="Incidente.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="SeedTestModels.sql" />
