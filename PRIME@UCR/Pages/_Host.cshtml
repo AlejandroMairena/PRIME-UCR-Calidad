@@ -1,6 +1,8 @@
 ﻿@page "/"
 @namespace PRIME_UCR.Pages
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@using PRIME_UCR.Components
 @{
     Layout = null;
 }
@@ -33,4 +35,5 @@
 
     <script src="_framework/blazor.server.js"></script>
 </body>
+<component type="typeof(FooterComponent)" render-mode="ServerPrerendered"/> 
 </html>
