@@ -13,6 +13,7 @@ using PRIME_UCR.Application.Services;
 using PRIME_UCR.Application.Implementations;
 using PRIME_UCR.Application.Repositories;
 using PRIME_UCR.Infrastructure.Repositories;
+using PRIME_UCR.Application.Services.Multimedia;
 
 namespace PRIME_UCR
 {
@@ -41,6 +42,9 @@ namespace PRIME_UCR
            services.AddTransient<ITestService, TestService>();
             // use scoped because it is not thread safe, so it cannot be shared
             services.AddScoped<ITestRepository, InMemoryTestRepository>();
+
+            //MultimediaContentService - DT
+            services.AddTransient<IMultimediaContentService, MultimediaContentService>(); 
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
