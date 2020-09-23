@@ -1,11 +1,8 @@
-﻿<div class="top-row pl-4 navbar d-flex navbar-dark">
-    <a class="navbar-brand" href="">PRIME@UCR</a>
-    <button class="navbar-toggler" @onclick="ToggleNavMenu">
-        <span class="navbar-toggler-icon"></span>
-    </button>
+﻿<div class="top-row pl-4 navbar d-flex navbar-light bg-primary text-white">
+    <a class="navbar-brand  text-white" href="">PRIME@UCR</a>
 </div>
 
-<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
+<div class="@NavMenuCssClass bg-primary text-white" @onclick="ToggleNavMenu">
     <ul class="nav flex-column">
         <li class="nav-item px-3">
             <NavLink class="nav-link" href="login" Match="NavLinkMatch.All">
