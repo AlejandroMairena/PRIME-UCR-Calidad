@@ -11,6 +11,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="ChartJs.Blazor" Version="1.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\PRIME@UCR.Application\PRIME@UCR.Application.csproj" />
     <ProjectReference Include="..\PRIME@UCR.Domain\PRIME@UCR.Domain.csproj" />
     <ProjectReference Include="..\PRIME@UCR.Infrastructure\PRIME@UCR.Infrastructure.csproj" />
