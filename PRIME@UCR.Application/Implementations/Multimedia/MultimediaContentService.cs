@@ -19,7 +19,7 @@ namespace PRIME_UCR.Application.Services.Multimedia
         public MultimediaContent AddFile() {
 
             //abrir aqui el archivo que se desea adjuntar. 
-            string path = ""; 
+            string path = "c:/ Temp / MM / "; //esto es un ejemplo
 
             return FillMultimediaContent(path); 
 

@@ -1,0 +1,32 @@
+﻿@using PRIME_UCR.Application.Services.Multimedia
+@using System.IO
+@inject IMultimediaContentService multimedia_content_service
+
+<div class="btn-block">
+    @ChildContent
+    <button class="btn btn-outline-success" @onclick="open_file">
+        Adjuntar Archivo
+    </button>
+</div>
+
+
+
+@code {
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    protected override void OnInitialized()
+    {
+        //puedo usar esto gracias a la inyeccion que se hizo arriba.
+        MultimediaContent multimedia = multimedia_content_service.AddFile();
+
+    }
+
+    public void open_file()
+    {
+
+
+    }
+
+}
