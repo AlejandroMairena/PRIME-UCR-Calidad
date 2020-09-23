@@ -4,5 +4,7 @@
     {
         public Pais Pais { get; set; }
         public Ubicacion Ubicacion { get; set; }
+
+        public int Id { get; set; }
     }
 }

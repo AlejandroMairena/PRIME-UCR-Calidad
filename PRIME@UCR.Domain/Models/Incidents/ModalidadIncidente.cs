@@ -2,5 +2,6 @@
 {
     public class ModalidadIncidente
     {
+       public string TipoModalidad { get; set; }
     }
 }

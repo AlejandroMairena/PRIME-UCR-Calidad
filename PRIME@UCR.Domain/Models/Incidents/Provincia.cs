@@ -2,6 +2,7 @@
 {
     public class Provincia
     {
-        public string Nombre { get; set; } 
+        public string Nombre { get; set; }
+        public Pais Pais { get; set; }
     }
 }
