@@ -1,7 +1,7 @@
 ﻿CREATE TABLE [dbo].[Centro_Medico]
 (
 	Id			INT,
-	UbicadoEn	INT,
+	UbicadoEn	INT NOT NULL,
 	Latitud		INT,
 	Longitud	INT,
 	Nombre		VARCHAR(30),

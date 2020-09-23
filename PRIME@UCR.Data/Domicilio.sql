@@ -2,7 +2,7 @@
 (
 	Id			INT,
 	Direccion	VARCHAR(30),
-	DistridoId	INT,
+	DistridoId	INT NOT NULL,
 	Latitud		INT,
 	Longitud	INT,
 	PRIMARY KEY (Id),
