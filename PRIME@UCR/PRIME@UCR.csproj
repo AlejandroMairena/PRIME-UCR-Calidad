@@ -6,6 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\css\NewFile.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="wwwroot\js\" />
     <Folder Include="wwwroot\images\" />
   </ItemGroup>

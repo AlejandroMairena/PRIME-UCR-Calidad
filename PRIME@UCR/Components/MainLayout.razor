@@ -1,7 +1,6 @@
 ﻿@inherits LayoutComponentBase
 
-
-<div class="sidebar navbar-light bg-primary text-white background-image:blue">
+<div class="sidebar navbar-light text-white background-image:blue">
     @if (authenticated)
     {
         <NavMenu />
@@ -14,7 +13,6 @@
 <div class="main">
     <NavBarComponent />
        
-    <a @onclick="changeAuthe">Cambiar autenticación para hacer prueba</a>
 
     @if (authenticated)
     {

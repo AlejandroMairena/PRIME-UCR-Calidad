@@ -1,4 +1,4 @@
-﻿<div class="top-row pl-4 navbar d-flex navbar-light bg-primary text-white">
+﻿<div class="top-row pl-4 navbar d-flex navbar-light text-white">
     <a class="navbar-brand  text-white" href="">PRIME@UCR</a>
 
     <button class="navbar-toggler" @onclick="ToggleNavMenu">
@@ -6,7 +6,7 @@
     </button>
 </div>
 
-<div class="@NavMenuCssClass bg-primary text-white" @onclick="ToggleNavMenu">
+<div class="@NavMenuCssClass text-white" @onclick="ToggleNavMenu">
     <ul class="nav flex-column">
         <li class="nav-item px-3">
             <NavLink class="nav-link" href="login" Match="NavLinkMatch.All">
@@ -44,6 +44,6 @@
 
     private void ToggleNavMenu()
     {
-        collapseNavMenu = !collapseNavMenu;
+    collapseNavMenu = !collapseNavMenu;
     }
 }
