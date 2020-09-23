@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Build Include="TestModels.sql" />
+    <Build Include="CheckList.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="SeedTestModels.sql" />

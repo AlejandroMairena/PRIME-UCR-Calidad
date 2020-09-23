@@ -19,6 +19,8 @@ namespace PRIME_UCR.Infrastructure
             //services.AddScoped<ITestRepository, MemoryTestRepository>();
             services.AddTransient(typeof(IGenericRepository<,>), typeof(SqlGenericRepository<,>));
             services.AddTransient<ITestRepository, SqlTestRepository>();
+
+            services.AddTransient<ICheckListRepository, SqlCheckListRepository>();
             return services;
         }
     }
