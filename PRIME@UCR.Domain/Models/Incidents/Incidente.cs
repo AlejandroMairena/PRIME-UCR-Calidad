@@ -13,6 +13,6 @@
         // public Cita Cita {}
         public ModalidadIncidente Modalidad { get; set; }
 
-
+        public string Id { get; set; }
     }
 }
