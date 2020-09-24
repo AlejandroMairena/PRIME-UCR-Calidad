@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[Centro_Ubicacion]
 (
-	Id			INT,
+	Id			INT IDENTITY(1,1),
 	IdCentro	INT NOT NULL,
 	UbicacionId	INT NOT NULL,
 	PRIMARY KEY (Id),

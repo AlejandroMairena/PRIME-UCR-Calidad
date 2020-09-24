@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[Incidente]
 (
-	Codigo						INT,
+	Codigo						VARCHAR(30),
 	MatriculaTrans				VARCHAR(30) NOT NULL,
 	Estado						VARCHAR(30) NOT NULL,
 	IdEspecialista				INT NOT NULL, --****

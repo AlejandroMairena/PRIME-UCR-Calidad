@@ -1,9 +1,9 @@
 ﻿CREATE TABLE [dbo].[Centro_Medico]
 (
-	Id			INT,
+	Id			INT IDENTITY(1,1),
 	UbicadoEn	INT NOT NULL,
-	Latitud		INT,
-	Longitud	INT,
+	Latitud		FLOAT,
+	Longitud	FLOAT,
 	Nombre		VARCHAR(30),
 	PRIMARY KEY (Id),
 	FOREIGN KEY (UbicadoEn) REFERENCES Distrito(Id)

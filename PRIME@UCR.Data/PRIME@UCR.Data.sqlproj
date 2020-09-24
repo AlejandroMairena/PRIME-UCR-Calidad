@@ -58,7 +58,6 @@
     <Folder Include="Properties" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="TestModels.sql" />
     <Build Include="Pais.sql" />
     <Build Include="Distrito.sql" />
     <Build Include="Canton.sql" />
@@ -74,6 +73,6 @@
     <Build Include="Incidente.sql" />
   </ItemGroup>
   <ItemGroup>
-    <PostDeploy Include="SeedTestModels.sql" />
+    <None Include="Script.PostDeployment1.sql" />
   </ItemGroup>
 </Project>

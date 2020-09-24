@@ -1,9 +1,8 @@
 ﻿CREATE TABLE [dbo].[Domicilio_Ubicacion]
 (
-	Id			INT,
+	Id			INT IDENTITY(1,1),
 	IdDomicilio INT NOT NULL,
 	UbicacionId	INT NOT NULL,
-	PRIMARY KEY (Id),
 	FOREIGN KEY (IdDomicilio) REFERENCES Domicilio(Id),
 	FOREIGN KEY (UbicacionId) REFERENCES Ubicacion(Id)
 );
