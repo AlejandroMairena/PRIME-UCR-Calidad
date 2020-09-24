@@ -1,6 +1,7 @@
 ﻿@page "/checklist"
 @inherits CheckListPageBase
-
+@* @attribute [Authorize(Roles = "coordinador tecnico medico")] *@
+@* @attribute [Authorize(Policy = "check-list")] *@
 
 @if (lists == null)
 {
