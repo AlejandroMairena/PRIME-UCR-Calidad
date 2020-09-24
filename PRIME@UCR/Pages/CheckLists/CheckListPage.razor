@@ -1,0 +1,71 @@
+﻿@page "/checklist"
+@inherits CheckListPageBase
+
+
+@if (lists == null)
+{
+    <p><em>No se han creado ninguna lista, presione el boton Crear Lista de Chequeo para crear una.</em></p>
+}
+else
+{
+    if (lists.Count() == 0)
+    {
+        <p><em>No se han creado ninguna lista, presione el boton Crear Lista de Chequeo para crear una.</em></p>
+    }
+    else
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var tempList in lists)
+                {
+                    <tr>
+                        <td>@tempList.Nombre</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+}
+
+<button @onclick="e => IsModalOpened = true">Crear lista de chequeo</button>
+
+<Modal @bind-Open="IsModalOpened" Close="OnClose">
+    <EditForm EditContext="@editContext" OnValidSubmit="@HandleValidSubmit">
+        <DataAnnotationsValidator />
+
+        <p>
+            <label for="name">Nombre:</label>
+            <InputText id="name" @bind-Value="checkList.Nombre" />
+            <ValidationMessage For="@(() => checkList.Nombre)" />
+        </p>
+
+        <p>
+            <label for="description">Descripción:</label>
+            <InputTextArea id="description" @bind-Value="checkList.Descripcion" />
+        </p>
+
+        <p>
+            <label for="type">Tipo:</label>
+            <InputText id="type" @bind-Value="checkList.Tipo" />
+            <ValidationMessage For="@(() => checkList.Tipo)" />
+        </p>
+
+        <p>
+            <label for="order">Orden:</label>
+            <InputNumber id="order" @bind-Value="checkList.Orden" />
+        </p>
+        <menu>
+            <button type="submit" class="btn btn-primary" disabled="@formInvalid">Guardar cambios</button>
+            <button type="button" class="btn btn-secondary" @onclick="e => IsModalOpened = false">Cancelar</button>
+        </menu>
+
+    </EditForm>
+</Modal>
+
+@code{
+}

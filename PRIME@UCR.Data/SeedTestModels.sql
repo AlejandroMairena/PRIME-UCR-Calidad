@@ -1,4 +1,5 @@
 ﻿DELETE FROM TestModels;
+DELETE FROM CheckList;
 
 INSERT INTO TestModels (Value)
 VALUES
