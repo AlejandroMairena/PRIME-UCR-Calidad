@@ -2,6 +2,9 @@
 @using System.IO
 @inject IMultimediaContentService multimedia_content_service
 
+@using Microsoft.AspNetCore.Hosting
+@inject IWebHostEnvironment _environment;
+
 <div class="btn-block">
     @ChildContent
     <button class="btn btn-outline-success" @onclick="open_file">
@@ -9,6 +12,19 @@
     </button>
 </div>
 
+<hr />
+<hr />
+<hr />
+
+<InputFile OnChange="OpenFile"></InputFile>
+@if (file != null)
+{
+
+    <p>Name:@file.Name</p>
+    <p>Size:@file.Size</p>
+    <p>Type:@file.Type</p>
+
+}
 
 
 @code {
@@ -18,15 +34,39 @@
 
     protected override void OnInitialized()
     {
-        //puedo usar esto gracias a la inyeccion que se hizo arriba.
-        MultimediaContent multimedia = multimedia_content_service.AddFile();
 
     }
 
     public void open_file()
     {
+        //puedo usar esto gracias a la inyeccion que se hizo arriba.
+        MultimediaContent multimedia = multimedia_content_service.AddFile();
+    }
 
 
+
+
+    IFileListEntry file;
+
+    async Task OpenFile(IFileListEntry[] files)
+    {
+        file = files.FirstOrDefault();
+        if (file != null)
+        {
+            await UploadAsync(file);
+
+        }
+    }
+
+    async Task UploadAsync(IFileListEntry fileEntry)
+    {
+        var path = Path.Combine(_environment.ContentRootPath, "Upload", fileEntry.Name);
+        var ms = new MemoryStream();
+        await fileEntry.Data.CopyToAsync(ms);
+        using (FileStream file = new FileStream(path, FileMode.Create, FileAccess.Write))
+        {
+            ms.WriteTo(file);
+        }
     }
 
 }
