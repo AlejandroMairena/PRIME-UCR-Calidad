@@ -22,7 +22,7 @@
 <Modal @bind-Open="IsModalOpened" Close="OnClose">
     <EditForm EditContext="@editContext" OnValidSubmit="@HandleValidSubmit">
         <DataAnnotationsValidator />
-
+        <h4 align="center"> Crear lista de chequeo </h4>
         <p>
             <label for="name">Nombre plantilla <span style=" color:red">*</span></label>
             <InputText id="name" @bind-Value="checkList.Nombre" />
@@ -36,7 +36,14 @@
 
         <p>
             <label for="type">Tipo <span style=" color:red">*</span></label>
-            <InputText id="type" @bind-Value="checkList.Tipo" />
+            <InputSelect id="type" @bind-Value="checkList.Tipo">
+                <option value="" selected="selected" disabled>Seleccione el tipo</option>
+                <option value="Colocación equipo">Colocación equipo</option>
+                <option value="Retiro equipo">Retiro equipo</option>
+                <option value="Paciente en origen">Paciente en origen</option>
+                <option value="Paciente en destino">Paciente en destino</option>
+                <option value="Paciente en traslado">Paciente en traslado</option>
+            </InputSelect>
             <ValidationMessage For="@(() => checkList.Tipo)" />
         </p>
 
@@ -47,7 +54,7 @@
 
         <p style="color:red">* campo requerido</p>
         <menu>
-            <button type="submit" class="btn btn-primary" disabled="@formInvalid">Guardar cambios</button>
+            <button type="submit" class="btn btn-primary" disabled="@formInvalid">Guardar</button>
             <button type="button" class="btn btn-secondary" @onclick="e => IsModalOpened = false">Cancelar</button>
         </menu>
 
