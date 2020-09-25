@@ -21,7 +21,7 @@
         <DataAnnotationsValidator />
 
         <p>
-            <label for="name">Nombre plantilla *</label>
+            <label for="name">Nombre plantilla <span style=" color:red">*</span></label>
             <InputText id="name" @bind-Value="checkList.Nombre" />
             <ValidationMessage For="@(() => checkList.Nombre)" />
         </p>
@@ -32,7 +32,7 @@
         </p>
 
         <p>
-            <label for="type">Tipo *</label>
+            <label for="type">Tipo <span style=" color:red">*</span></label>
             <InputText id="type" @bind-Value="checkList.Tipo" />
             <ValidationMessage For="@(() => checkList.Tipo)" />
         </p>
@@ -42,7 +42,7 @@
             <InputNumber id="order" @bind-Value="checkList.Orden" />
         </p>
 
-        <p>* campo requerido</p>
+        <p style="color:red">* campo requerido</p>
         <menu>
             <button type="submit" class="btn btn-primary" disabled="@formInvalid">Guardar cambios</button>
             <button type="button" class="btn btn-secondary" @onclick="e => IsModalOpened = false">Cancelar</button>
