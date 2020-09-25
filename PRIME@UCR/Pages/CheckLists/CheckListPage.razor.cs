@@ -36,7 +36,10 @@ namespace PRIME_UCR.Pages.CheckLists
 
         protected void HandleFieldChanged(object sender, FieldChangedEventArgs e)
         {
-            formInvalid = !editContext.Validate();
+            if (checkList.Nombre != null && checkList.Tipo != null) 
+            {
+                formInvalid = !editContext.Validate();
+            }
             StateHasChanged();
         }
 
@@ -47,6 +50,13 @@ namespace PRIME_UCR.Pages.CheckLists
 
         protected void OnClose(string value)
         {
+            checkList.Nombre = null;
+            checkList.Descripcion = null;
+            checkList.Tipo = null;
+            checkList.Orden = 0;
+            editContext = new EditContext(checkList);
+            editContext.OnFieldChanged += HandleFieldChanged;
+            formInvalid = true;
         }
 
         protected async Task AddCheckList(CheckList tempList)
