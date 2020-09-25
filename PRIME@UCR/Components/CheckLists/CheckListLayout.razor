@@ -1,0 +1,26 @@
+﻿@inherits LayoutComponentBase
+
+<div class="sidebar">
+    <CheckListNavMenu lists="lists" />
+</div>
+
+<div class="main">
+    <div class="top-row px-4">
+        <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
+    </div>
+
+    <div>
+        <CascadingValue Value=getLists>@Body</CascadingValue>
+    </div>
+</div>
+
+@code{
+    public IEnumerable<CheckList> lists;
+
+    public Task assignLists(IEnumerable<CheckList> BList)
+    {
+        lists = BList;
+        return null;
+    }
+    public EventCallback<IEnumerable<CheckList>> getLists => EventCallback.Factory.Create< IEnumerable < CheckList > > (this, assignLists);
+}

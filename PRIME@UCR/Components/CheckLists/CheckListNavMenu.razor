@@ -1,0 +1,61 @@
+﻿<div class="top-row pl-4 navbar navbar-dark">
+    <a class="navbar-brand" href="">PRIME@UCR</a>
+    <button class="navbar-toggler" @onclick="ToggleNavMenu">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+</div>
+
+<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
+    <ul class="nav flex-column">
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                <span class="oi oi-home" aria-hidden="true"></span> Home
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="about-us">
+                <span class="oi oi-people" aria-hidden="true"></span> Acerca de nosotros
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="test-page">
+                <span class="oi oi-cog" aria-hidden="true"></span> Prueba
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="checklist">
+                <span class="oi oi-cog" aria-hidden="true"></span> Listas de Chequeo
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <button>Crear lista de chequeo</button>
+        </li>
+    </ul>
+    @if (lists != null && lists.Count() > 0)
+    {
+        <ul class="nav flex-column">
+        @foreach (var tempList in lists)
+        {
+            <li class="nav-item px-3">
+                <NavLink class="nav-link">
+                    @tempList.Nombre
+                </NavLink>
+            </li>
+        }
+        </ul>
+    }
+</div>
+
+@code {
+    
+    [Parameter] public IEnumerable<CheckList> lists { get; set; }
+
+    private bool collapseNavMenu = true;
+
+    private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+}

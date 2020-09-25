@@ -1,35 +1,17 @@
 ﻿@page "/checklist"
 @inherits CheckListPageBase
+@layout CheckListLayout
 @* @attribute [Authorize(Roles = "coordinador tecnico medico")] *@
 @* @attribute [Authorize(Policy = "check-list")] *@
 
 @if (lists == null)
 {
-    <p><em>Cargando listas de chequeo.</em></p>
-}
-else
-{
+    <p><em class="nav-link">No se han creado ninguna lista, presione el boton Crear Lista de Chequeo para crear una.</em></p>
+} else
+  {
     if (lists.Count() == 0)
     {
-        <p><em>No se han creado ninguna lista, presione el boton Crear Lista de Chequeo para crear una.</em></p>
-    }
-    else
-    {
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Nombre</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var tempList in lists)
-                {
-                    <tr>
-                        <td><a href="@($"/checklist/{tempList.Id}")" class="nav-link">@tempList.Nombre</a></td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+        <p><em class="nav-link">No se han creado ninguna lista, presione el boton Crear Lista de Chequeo para crear una.</em></p>
     }
 }
 
@@ -69,6 +51,3 @@ else
 
     </EditForm>
 </Modal>
-
-@code{
-}

@@ -25,6 +25,7 @@ namespace PRIME_UCR.Pages.CheckLists
         protected async Task RefreshModels()
         {
             lists = await MyService.GetAll();
+            await getLists.InvokeAsync(lists);
         }
 
         protected override async Task OnInitializedAsync()
@@ -74,5 +75,8 @@ namespace PRIME_UCR.Pages.CheckLists
             editContext.OnFieldChanged += HandleFieldChanged;
             formInvalid = true;
         }
+
+        [CascadingParameter]
+        protected EventCallback<IEnumerable<CheckList>> getLists { get; set; }
     }
 }
