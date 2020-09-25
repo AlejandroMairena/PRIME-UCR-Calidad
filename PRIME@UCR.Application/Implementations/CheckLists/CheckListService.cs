@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace PRIME_UCR.Application.Implementations.CheckLists
 {
@@ -18,7 +19,8 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
         }
         public async Task<IEnumerable<CheckList>> GetAll()
         {
-            return await _repo.GetAll();
+            IEnumerable<CheckList> lists = await _repo.GetAll();
+            return lists.OrderBy(checklist => checklist.Orden);
         }
         public async Task<CheckList> InsertCheckList(CheckList list) 
         {

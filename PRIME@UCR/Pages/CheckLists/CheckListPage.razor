@@ -4,17 +4,19 @@
 @* @attribute [Authorize(Roles = "coordinador tecnico medico")] *@
 @* @attribute [Authorize(Policy = "check-list")] *@
 
-@if (lists == null)
-{
-    <h3 align="center"> Listas de Chequeo </h3>
-    <p><em class="nav-link">No se han creado ninguna lista, presione el boton Crear Lista de Chequeo para crear una.</em></p>
-} else
-  {
-    if (lists.Count() == 0)
+<h3 align="center"> Listas de Chequeo </h3>
+<div>
+    @if (lists == null)
     {
-        <p><em class="nav-link">No se han creado ninguna lista, presione el boton Crear Lista de Chequeo para crear una.</em></p>
+     <p><em class="nav-link">No se han creado ninguna lista, presione el boton Crear Lista de Chequeo para crear una.</em></p>
+    } else
+    {
+        if (lists.Count() == 0)
+        {
+            <p><em class="nav-link">No se han creado ninguna lista, presione el boton Crear Lista de Chequeo para crear una.</em></p>
+        }
     }
-}
+</div>
 <button class="btn btn-primary" @onclick="e => IsModalOpened = true">Crear lista de chequeo</button>
 
 <Modal @bind-Open="IsModalOpened" Close="OnClose">
