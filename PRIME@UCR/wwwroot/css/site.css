@@ -160,7 +160,6 @@ app {
         position: sticky;
         top: 0;
         height: auto;
-        max-height: fit-content;
         min-height: 100vh;
     }
 

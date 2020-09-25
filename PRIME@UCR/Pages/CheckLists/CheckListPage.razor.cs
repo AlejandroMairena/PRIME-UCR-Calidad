@@ -11,6 +11,7 @@ namespace PRIME_UCR.Pages.CheckLists
 {
     public class CheckListPageBase : ComponentBase
     {
+        [CascadingParameter(Name = "IsModalOpened")]
         public bool IsModalOpened { get; set; }
 
         protected IEnumerable<CheckList> lists;
@@ -76,7 +77,7 @@ namespace PRIME_UCR.Pages.CheckLists
             formInvalid = true;
         }
 
-        [CascadingParameter]
+        [CascadingParameter(Name ="getLists")]
         protected EventCallback<IEnumerable<CheckList>> getLists { get; set; }
     }
 }

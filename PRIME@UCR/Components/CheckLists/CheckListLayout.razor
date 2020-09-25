@@ -1,7 +1,7 @@
 ﻿@inherits LayoutComponentBase
 
 <div class="sidebar">
-    <CheckListNavMenu lists="lists" />
+    <CheckListNavMenu lists="lists"/>
 </div>
 
 <div class="main">
@@ -10,16 +10,18 @@
     </div>
 
     <div>
-        <CascadingValue Value=getLists>@Body</CascadingValue>
+        <CascadingValue Value=getLists Name="getLists">
+            @Body
+        </CascadingValue>
     </div>
 </div>
 
 @code{
     public IEnumerable<CheckList> lists;
 
-    public Task assignLists(IEnumerable<CheckList> BList)
+    public Task assignLists(IEnumerable<CheckList> BodyList)
     {
-        lists = BList;
+        lists = BodyList;
         return null;
     }
     public EventCallback<IEnumerable<CheckList>> getLists => EventCallback.Factory.Create< IEnumerable < CheckList > > (this, assignLists);
