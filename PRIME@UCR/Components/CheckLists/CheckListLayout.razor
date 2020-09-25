@@ -1,7 +1,9 @@
 ﻿@inherits LayoutComponentBase
 
 <div class="sidebar">
-    <CheckListNavMenu lists="lists"/>
+    <CascadingValue Value="@IsModalOpened" Name="IsModalOpened">
+        <CheckListNavMenu lists="lists" OnIsModalOpenedChange="ChangeIsModalOpened" />
+    </CascadingValue>
 </div>
 
 <div class="main">
@@ -11,7 +13,9 @@
 
     <div>
         <CascadingValue Value=getLists Name="getLists">
-            @Body
+            <CascadingValue Value="@IsModalOpened" Name="IsModalOpened">
+                @Body
+            </CascadingValue>
         </CascadingValue>
     </div>
 </div>
@@ -24,5 +28,12 @@
         lists = BodyList;
         return null;
     }
-    public EventCallback<IEnumerable<CheckList>> getLists => EventCallback.Factory.Create< IEnumerable < CheckList > > (this, assignLists);
-}
+    public EventCallback<IEnumerable<CheckList>> getLists => EventCallback.Factory.Create<IEnumerable<CheckList>>(this, assignLists);
+
+    public bool IsModalOpened { get; set; }
+
+    private void ChangeIsModalOpened(bool newIsModalOpened)
+    {
+        IsModalOpened = newIsModalOpened;
+        StateHasChanged();
+    } }

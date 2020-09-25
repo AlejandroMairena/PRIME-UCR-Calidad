@@ -27,6 +27,9 @@
                 <span class="oi oi-list" aria-hidden="true"></span> Listas de Chequeo
             </NavLink>
         </li>
+        <li class="nav-item px-3">
+            <button class="btn btn-primary" @onclick="ChangeIsModalOpened">Crear lista de chequeo</button>
+        </li>
     </ul>
     @if (lists != null && lists.Count() > 0)
     {
@@ -47,6 +50,9 @@
 
     [Parameter] public IEnumerable<CheckList> lists { get; set; }
 
+    [CascadingParameter(Name = "IsModalOpened")]
+    public bool IsModalOpened { get; set; }
+
     private bool collapseNavMenu = true;
 
     private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
@@ -56,4 +62,11 @@
         collapseNavMenu = !collapseNavMenu;
     }
 
+    [Parameter] public Action<bool> OnIsModalOpenedChange { get; set; }
+
+    private void ChangeIsModalOpened()
+    {
+        IsModalOpened = true;
+        OnIsModalOpenedChange?.Invoke(IsModalOpened);
+    }
 }

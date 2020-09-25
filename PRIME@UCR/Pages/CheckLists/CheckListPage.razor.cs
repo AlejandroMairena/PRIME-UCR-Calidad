@@ -28,6 +28,7 @@ namespace PRIME_UCR.Pages.CheckLists
         {
             lists = await MyService.GetAll();
             await getLists.InvokeAsync(lists);
+            IsModalOpened = false;
         }
 
         protected override async Task OnInitializedAsync()

@@ -11,20 +11,19 @@
 @inherits SingleCheckListBase
 @layout CheckListLayout
 
+<h3 align="center"> Listas de Chequeo</h3>
+
 @if (list == null)
 {
     <p><em>Cargando lista de chequeo.</em></p>
 }
 else
 {
-<p>
-    <b>Nombre: </b> @list.Nombre
-<span style="color:dimgray">&emsp;&emsp;Tipo: </span> @list.Tipo
-<span style="color:dimgray">&emsp;&emsp;Id: </span> @list.Id
-</p>
+    <p>
+        <b>Nombre: </b> @list.Nombre
+        <span style="color:dimgray">&emsp;&emsp;Tipo: </span> @list.Tipo
+        <span style="color:dimgray">&emsp;&emsp;Id: </span> @list.Id
+    </p>
     <p><span style="color:dimgray">Descripcion: </span> @list.Descripcion</p>
     
-}
-
-@code {
 }

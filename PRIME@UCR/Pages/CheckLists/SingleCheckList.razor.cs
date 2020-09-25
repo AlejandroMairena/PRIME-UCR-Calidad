@@ -28,5 +28,9 @@ namespace PRIME_UCR.Pages.CheckLists
             list = await MyService.GetById(id);
         }
 
+        protected override async Task OnParametersSetAsync()
+        {
+            await RefreshModels();
+        }
     }
 }
