@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using PRIME_UCR.Application.Services.CheckLists;
 using PRIME_UCR.Components.CheckLists;
 using Microsoft.AspNetCore.Components.Forms;
+using System.Linq;
 
 namespace PRIME_UCR.Pages.CheckLists
 {
@@ -34,6 +35,7 @@ namespace PRIME_UCR.Pages.CheckLists
             editContext = new EditContext(checkList);
             editContext.OnFieldChanged += HandleFieldChanged;
             await RefreshModels();
+            checkList.Orden = lists.Count() + 1;
         }
 
         protected void HandleFieldChanged(object sender, FieldChangedEventArgs e)
@@ -55,7 +57,7 @@ namespace PRIME_UCR.Pages.CheckLists
             checkList.Nombre = null;
             checkList.Descripcion = null;
             checkList.Tipo = null;
-            checkList.Orden = 0;
+            checkList.Orden = lists.Count() + 1;
             editContext = new EditContext(checkList);
             editContext.OnFieldChanged += HandleFieldChanged;
             formInvalid = true;
