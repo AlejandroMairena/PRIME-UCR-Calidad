@@ -5,7 +5,7 @@
 
 @if (lists == null)
 {
-    <p><em>No se han creado ninguna lista, presione el boton Crear Lista de Chequeo para crear una.</em></p>
+    <p><em>Cargando listas de chequeo.</em></p>
 }
 else
 {
@@ -25,7 +25,7 @@ else
                 @foreach (var tempList in lists)
                 {
                     <tr>
-                        <td>@tempList.Nombre</td>
+                        <td><a href="@($"/checklist/{tempList.Id}")" class="nav-link">@tempList.Nombre</a></td>
                     </tr>
                 }
             </tbody>
@@ -33,7 +33,7 @@ else
     }
 }
 
-<button @onclick="e => IsModalOpened = true">Crear lista de chequeo</button>
+<button class="btn btn-primary" @onclick="e => IsModalOpened = true">Crear lista de chequeo</button>
 
 <Modal @bind-Open="IsModalOpened" Close="OnClose">
     <EditForm EditContext="@editContext" OnValidSubmit="@HandleValidSubmit">

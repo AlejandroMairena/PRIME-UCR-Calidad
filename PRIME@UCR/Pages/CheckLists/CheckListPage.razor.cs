@@ -60,6 +60,9 @@ namespace PRIME_UCR.Pages.CheckLists
             await AddCheckList(checkList);
             IsModalOpened = false;
             checkList = new CheckList();
+            editContext = new EditContext(checkList);
+            editContext.OnFieldChanged += HandleFieldChanged;
+            formInvalid = true;
         }
     }
 }

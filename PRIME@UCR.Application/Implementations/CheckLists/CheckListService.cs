@@ -24,5 +24,10 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
         {
             return await _repo.Insert(list.Id, list);
         }
+
+        public async Task<CheckList> GetById(int id)
+        {
+            return await _repo.GetByKey(id);
+        }
     }
 }
