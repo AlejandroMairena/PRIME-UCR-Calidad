@@ -1,0 +1,33 @@
+﻿@using PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
+
+<div class="container">
+    @if (Active == DetailsTab.Info)
+    {
+        <InfoTab Incident="Incident"/>
+    }
+    else if (Active == DetailsTab.Origin)
+    {
+        <OriginTab />
+    }
+    else if (Active == DetailsTab.Destination)
+    {
+        <DestinationTab />
+    }
+    else if(Active == DetailsTab.Patient)
+    {
+        <PatientTab />
+    }
+    else
+    {
+        <h4 class="text-danger">Not found</h4>
+    }
+</div>
+
+@code {
+    
+    [Parameter]
+    public DetailsTab Active { get; set; }    
+    
+    [Parameter]
+    public Incidente Incident { get; set; }    
+}
