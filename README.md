@@ -7,16 +7,22 @@
 
 ### Atenienses++
 Integrantes:
+
 - Jose Andrés Víquez Ramírez B88635
+
 - Daniela Vargas Sauma B88306 
+
 - Luis Andrés Sánchez Romero B87367
+
 - Fernando Morales B85338
+
 - Elian Ortega Velasquez B85791
 
 ### Asignación de roles para cada una de las iteraciones
 #### Sprint 0:
 
 - Atenienses++
+
 | Integrante                     | Rol             |
 | -------------------------------| ----------------| 
 | Luis Andrés Sánchez Romero     | Developer       |
@@ -37,7 +43,7 @@ El tema del que se encarga de desarrollar Atenienses++ es el de estadística y au
 usuario asignado, puedan ingresar a la aplicación con este, además de los diversos asuntos pertinentes a este tema, como la seguridad, la regulación de los tipos de usuario (sus características y permisos), además,
 en la parte de estadística, se ve todo lo que tiene que ver con la representación visual de las estadisticas a mostrar al usuario, mediante el uso de gráficos.
 
-Los epícs a desarrollar para este tema son los siguientes:
+Los epics a desarrollar para este tema son los siguientes:
 
 1.  **Administración de usuarios y perfiles**:
 El administrador de la aplicación debe contar con métodos de autenticación de los usuarios de la aplicación para garantizar la confiabilidad del acceso a los datos de la aplicación.
@@ -72,6 +78,6 @@ Corresponde a un framework de CSS. Es una biblioteca de herramientas para el dis
 ### Definición de listo
 
 ## Referencias Bibliográficas
-
+-Ouellette, A. (2017, 20 septiembre). What is Bootstrap: A Beginners Guide. CareerFoundry. https://getbootstrap.com/docs/4.5/getting-started/introduction/
 - Roth, D. (2020, 11 agosto). ASP.NET Core Blazor hosting models. Microsoft Docs. https://docs.microsoft.com/en-us/aspnet/core/blazor/hosting-models?view=aspnetcore-3.1
 - Roth, D., & Latham, L. (2020, 19 junio). Introduction to ASP.NET Core Blazor. Microsoft Docs. https://docs.microsoft.com/en-us/aspnet/core/blazor/?view=aspnetcore-3.1
