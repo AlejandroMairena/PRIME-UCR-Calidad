@@ -56,5 +56,26 @@
   <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
   <ItemGroup>
     <Folder Include="Properties" />
+    <Folder Include="Tables" />
+    <Folder Include="Scripts" />
+    <Folder Include="Scripts\PostDeployment" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="Tables\Canton.sql" />
+    <Build Include="Tables\Centro_Medico.sql" />
+    <Build Include="Tables\Centro_Ubicacion.sql" />
+    <Build Include="Tables\Distrito.sql" />
+    <Build Include="Tables\Domicilio.sql" />
+    <Build Include="Tables\Domicilio_Ubicacion.sql" />
+    <Build Include="Tables\Incidente.sql" />
+    <Build Include="Tables\Modalidad.sql" />
+    <Build Include="Tables\Pais.sql" />
+    <None Include="Scripts\PostDeployment\Incidents_PostDeployment.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="Tables\Pais_Ubicacion.sql" />
+    <Build Include="Tables\Provincia.sql" />
+    <Build Include="Tables\Ubicacion.sql" />
+    <Build Include="Tables\Unidad_De_Transporte.sql" />
   </ItemGroup>
 </Project>
