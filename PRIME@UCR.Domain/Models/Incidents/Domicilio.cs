@@ -1,11 +1,18 @@
-﻿namespace PRIME_UCR.Domain.Models
+﻿using System.Collections.Generic;
+
+namespace PRIME_UCR.Domain.Models
 {
     public class Domicilio
     {
-        public string DireccionExacta { get; set; }
+        public Domicilio() {
+            UbicacionIncidentes = new List<DomicilioUbicacion>(); 
+        }
+        public int Id {get; set;}
+        public string Direccion { get; set; }
+        public int DistridoId { get; set; }
         public Distrito Distrito { get; set; }
-        public double Longitud { get; set; }        
         public double Latitud { get; set; }
-        public int Id { get; set; }
+        public double Longitud { get; set; }
+        public List<DomicilioUbicacion> UbicacionIncidentes { get; private set; }
     }
 }
