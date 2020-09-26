@@ -1,31 +1,34 @@
 ﻿using Microsoft.AspNetCore.Components;
 using PRIME_UCR.Application.Services;
 using PRIME_UCR.Domain.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace PRIME_UCR.Pages
 {
-    public partial class TestPage
+    public class TestPageBase : ComponentBase
     {
-        private IEnumerable<TestModel> models;
+        protected IEnumerable<TestModel> models;
 
         // dependency injection
-        [Inject] public ITestService MyService { get; set; }
+        [Inject] protected ITestService MyService { get; set; }
 
-        protected override void OnInitialized()
+        private async Task RefreshModels()
         {
-            // UI logic goes here
-            models = MyService.GetAll();
+            models = await MyService.GetAll();
         }
 
-        private void AddRandomModel()
+        protected override async Task OnInitializedAsync()
+        {
+            await RefreshModels();
+        }
+
+        protected async Task AddRandomModel()
         {
             // UI logic goes here
             // never write business logic here, always call a service from the Application layer for that
-            MyService.InsertRandomModel();
+            await MyService.InsertRandomModel();
+            await RefreshModels();
         }
     }
 }
