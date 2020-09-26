@@ -6,12 +6,18 @@ using Microsoft.AspNetCore.Components;
 
 namespace PRIME_UCR.Components.Controls
 {
-    public partial class DropDownMenu<TEnum> where TEnum : notnull
+    public partial class DropDownMenu<T>
     {
-        [Parameter] public List<(TEnum, string)> Values { get; set; }
-        [Parameter] public EventCallback<TEnum> OnChangeCallback { get; set; }
+        [Parameter]
+        public List<Tuple<T, string>> Values { get; set; }
 
-        int GetIndex((TEnum, string) tuple)
+        [Parameter]
+        public EventCallback<T> OnChangeCallback { get; set; }
+
+        [Parameter]
+        public string Label { get; set; }
+
+        int GetIndex(Tuple<T, string> tuple)
         {
             return Values.IndexOf(tuple) + 1; // Subrtract one to have values be one based
                                               // otherwise onchange event is not fired for index 0

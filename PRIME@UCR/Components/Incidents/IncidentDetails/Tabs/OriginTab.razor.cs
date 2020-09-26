@@ -25,31 +25,29 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
         private CountryType _selectedCountryType = CountryType.CostaRica;
 
         // Lists of options
-        private readonly List<(OriginType, string)> _dropdownValuesOrigin = new List<(OriginType, string)>
+        private readonly List<Tuple<OriginType, string>> _dropdownValuesOrigin = new List<Tuple<OriginType, string>>
         {
-            (OriginType.Household, "Domicilio"),
-            (OriginType.International, "Internacional"),
-            (OriginType.MedicalCenter, "Centro médico")
+            Tuple.Create(OriginType.Household, "Domicilio"),
+            Tuple.Create(OriginType.International, "Internacional"),
+            Tuple.Create(OriginType.MedicalCenter, "Centro médico")
         };
 
-        private readonly List<(CountryType, string)> _dropdownValuesCountries = new List<(CountryType, string)>
+        private readonly List<Tuple<CountryType, string>> _dropdownValuesCountries = new List<Tuple<CountryType, string>>
         {
-            (CountryType.CostaRica, "Costa Rica"),
-            (CountryType.UnitedStates, "Estados Unidos"),
-            (CountryType.Panama, "Panamá")
+            Tuple.Create(CountryType.CostaRica, "Costa Rica"),
+            Tuple.Create(CountryType.UnitedStates, "Estados Unidos"),
+            Tuple.Create(CountryType.Panama, "Panamá")
         };
         
-        //On click methods
         void OnChangeOrigin(OriginType originType)
         {
             _selectedOriginType = originType;
         }
-
+        
         void OnChangeCountry(CountryType countryType)
         {
             _selectedCountryType = countryType;
         }
-
     }
     
 }

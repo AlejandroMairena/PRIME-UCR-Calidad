@@ -1,6 +1,7 @@
-﻿@typeparam TEnum 
+@typeparam T
 
 <div class="form-group">
+    <label>@Label</label>
     <select @onchange="OnChange" class="custom-select">
         @foreach (var tuple in Values)
         {

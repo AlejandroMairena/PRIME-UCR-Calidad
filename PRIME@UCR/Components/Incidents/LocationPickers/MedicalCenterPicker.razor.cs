@@ -1,28 +1,25 @@
-﻿using System.Collections.Generic;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Components;
+using PRIME_UCR.Application.Services.Incidents;
+using PRIME_UCR.Domain.Models;
 
 namespace PRIME_UCR.Components.Incidents.LocationPickers
 {
     public partial class MedicalCenterPicker
     {
-        enum MedicalCenterType
+        [Inject]
+        public IIncidentService IncidentService { get; set; }
+
+        private List<Tuple<CentroMedico, string>> _values;
+
+        async Task UpdateList()
         {
-            Cima,
-            Mexico
+            _values = (await IncidentService.GetAllMedicalCentersAsync())
+                .Select(mc => Tuple.Create(mc, mc.Nombre))
+                .ToList();
         }
-
-        //Selected type
-        private MedicalCenterType _selectedMedicalCenterType = MedicalCenterType.Cima;
-
-        private readonly List<(MedicalCenterType, string)> _dropdownValuesMedicalCenter = new List<(MedicalCenterType, string)>
-        {
-            (MedicalCenterType.Cima, "CIMA"),
-            (MedicalCenterType.Mexico, "México")
-        };
-
-        void OnChangeMedicalCenter(MedicalCenterType medicalType)
-        {
-            _selectedMedicalCenterType = medicalType;
-        }
-
     }
 }

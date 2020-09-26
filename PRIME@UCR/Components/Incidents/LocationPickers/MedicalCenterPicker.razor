@@ -1,6 +1,15 @@
 ﻿@using PRIME_UCR.Components.Controls
-    
-<label>Nombre del centro médico</label>
-<DropDownMenu Values="@_dropdownValuesMedicalCenter" OnChangeCallback="@((MedicalCenterType tab) => OnChangeMedicalCenter(tab))" />
+@using Microsoft.EntityFrameworkCore
 
-    
+<Loading IsLoading="_values == null">
+    <DropDownMenu Values="_values" T="CentroMedico" Label="Centro médico"/>
+</Loading>
+
+@code {
+
+    protected override async Task OnInitializedAsync()
+    {
+        await UpdateList();
+    }
+
+}
