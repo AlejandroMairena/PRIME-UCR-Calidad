@@ -4,7 +4,7 @@
 	UbicadoEn	INT NOT NULL,
 	Latitud		FLOAT,
 	Longitud	FLOAT,
-	Nombre		VARCHAR(30),
+	Nombre		VARCHAR(100),
 	PRIMARY KEY (Id),
 	FOREIGN KEY (UbicadoEn) REFERENCES Distrito(Id)
 );

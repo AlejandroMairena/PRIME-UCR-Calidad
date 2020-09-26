@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using PRIME_UCR.Components.Incidents.IncidentDetails.Tabs;
@@ -27,7 +28,7 @@ namespace PRIME_UCR.Pages.Incidents
 
         private Incidente _incident;
 
-        void OnTabSet(DetailsTab tab)
+        private void OnTabSet(DetailsTab tab)
         {
             _activeTab = tab;
         }

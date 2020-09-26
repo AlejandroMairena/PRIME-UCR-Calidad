@@ -1,12 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PRIME_UCR.Domain.Models;
 using System.Threading.Tasks;
+using PRIME_UCR.Infrastructure.DataProviders.Implementations.EntityConfiguration.Incidents;
 
 namespace PRIME_UCR.Infrastructure.DataProviders.Implementations
 {
     public class ApplicationDbContext : DbContext, ISqlDataProvider
     {
-        public DbSet<TestModel> TestModels { get; set; }
+        public DbSet<Provincia> Provincias { get; set; }
+        public DbSet<Pais> Pais { get; set; }
 
         public ApplicationDbContext(DbContextOptions options) : base(options)
         {
@@ -14,13 +16,9 @@ namespace PRIME_UCR.Infrastructure.DataProviders.Implementations
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            base.OnModelCreating(builder);
-            builder.Entity<TestModel>(tm =>
-            {
-                tm.HasKey("Key");
-            });
+            builder.ApplyConfiguration(new PaisMap());
+            builder.ApplyConfiguration(new ProvinciaMap());
         }
-
 
         public Task<int> SaveChangesAsync()
         {

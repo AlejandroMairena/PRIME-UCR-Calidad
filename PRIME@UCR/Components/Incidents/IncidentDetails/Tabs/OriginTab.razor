@@ -1,26 +1,4 @@
-﻿<div class="form-group">
-    <label>Tipo de origen</label>
-    <select class="custom-select">
-        @foreach (var i in Enum.GetValues(typeof(OriginType)).Cast<OriginType>())
-        {
-            <option value="@i">@OriginTypeName[(int)i]</option>
-        }
-    </select>
-</div>
+﻿@using PRIME_UCR.Components.Controls
 
-@code {
-    // order matters, update name below
-    enum OriginType
-    {
-        Household,
-        International,
-        MedicalCenter
-    }
-
-    private readonly string[] OriginTypeName = 
-    {
-        "Domicilio",
-        "Internacional",
-        "Centro médico"
-    };
-}
+<DropDownMenu Values="@_dropdownValues" OnChangeCallback="@((OriginType tab) => OnChange(tab))"/>
+<h1 class="text-danger">@_selectedOriginType.ToString()</h1>

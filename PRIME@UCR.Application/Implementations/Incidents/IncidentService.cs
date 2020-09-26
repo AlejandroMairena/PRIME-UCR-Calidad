@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using PRIME_UCR.Application.Repositories;
+using PRIME_UCR.Application.Repositories.Incidents;
 using PRIME_UCR.Application.Services.Incidents;
 using PRIME_UCR.Domain.Models;
 
