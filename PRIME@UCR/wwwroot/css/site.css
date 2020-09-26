@@ -181,20 +181,3 @@ app {
         display: block;
     }
 }
-
-/* Styles for Multumedia Component*/
-.m-input
-{
-    margin: 5px 0px;
-    display: block;
-}
-
-.m-label:hover
-{
-    text-decoration: underline;
-}
-
-.m-menu-div
-{
-    padding-left: 15px;
-}
