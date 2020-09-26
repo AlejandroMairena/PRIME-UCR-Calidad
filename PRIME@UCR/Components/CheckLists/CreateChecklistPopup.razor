@@ -4,20 +4,20 @@
     <EditForm EditContext="@editContext" OnValidSubmit="@HandleValidSubmit">
         <DataAnnotationsValidator />
         <h4 align="center"> Crear lista de chequeo </h4>
-        <p>
-            <label for="name">Nombre plantilla <span style=" color:red">*</span></label>
-            <InputText id="name" @bind-Value="checkList.Nombre" />
+        <p align ="left">
+            <label for="name">Nombre:<span style=" color:red">*&nbsp;&nbsp;&nbsp;&nbsp;</span></label>
+            <InputText id="name" @bind-Value="checkList.Nombre" style ="width: 252px; height : 25px"  />
             <ValidationMessage For="@(() => checkList.Nombre)" />
         </p>
 
-        <p>
-            <label for="description">Descripción</label>
-            <InputTextArea id="description" @bind-Value="checkList.Descripcion" />
+        <p align="left">
+                <label for="description">Descripción: </label>
+                <InputTextArea id="description" @bind-Value="checkList.Descripcion" style ="width: 250px; height : 50px" />
         </p>
 
-        <p>
-            <label for="type">Tipo <span style=" color:red">*</span></label>
-            <InputSelect id="type" @bind-Value="checkList.Tipo">
+        <p align ="left">
+            <label for="type">Tipo:<span style=" color:red">*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></label>
+            <InputSelect id="type" @bind-Value="checkList.Tipo" style ="width: 248px; height : 25px" >
                 <option value="" selected="selected" disabled>Seleccione el tipo</option>
                 <option value="Colocación equipo">Colocación equipo</option>
                 <option value="Retiro equipo">Retiro equipo</option>
@@ -28,14 +28,14 @@
             <ValidationMessage For="@(() => checkList.Tipo)" />
         </p>
 
-        <p>
-            <label for="order">Orden</label>
-            <InputNumber id="order" @bind-Value="checkList.Orden" />
+        <p align ="left">
+            <label for="order">Orden: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+            <InputNumber id="order" @bind-Value="checkList.Orden" style ="width: 248px; height : 25px" />
         </p>
 
-        <p style="color:red">* campo requerido</p>
-        <menu>
-            <button type="submit" class="btn btn-primary" disabled="@formInvalid">Guardar</button>
+        <p style="color:red">* Campo requerido</p>
+        <menu align ="center">
+            <button type="submit" class="btn btn-primary" disabled="@formInvalid">Guardar Lista</button>
             <button type="button" class="btn btn-secondary" @onclick="e => IsModalOpened = false">Cancelar</button>
         </menu>
 
