@@ -22,7 +22,7 @@ DBCC CHECKIDENT ('Pais_Ubicacion', RESEED, 0)
 DBCC CHECKIDENT ('Ubicacion', RESEED, 0)
 
 -- Pais
-INSERT INTO Pais (NombrePais)
+INSERT INTO Pais (Nombre)
 VALUES
     ('Costa Rica'),
     ('Panamá'),
@@ -33,7 +33,7 @@ VALUES
     ('El Salvador');
 
 -- Provincia
-Insert Into Provincia (NombreProvincia, NombrePais)
+Insert Into Provincia (Nombre, NombrePais)
 Values
     ('San José', 'Costa Rica'),
     ('Heredia', 'Costa Rica'),
@@ -45,7 +45,7 @@ Values
 
 
 -- Canton
-INSERT INTO Canton (NombreProvincia, NombreCanton)
+INSERT INTO Canton (NombreProvincia, Nombre)
 VALUES
     ('San José', 'Desamparados'),
     ('San José','Escazú'),
@@ -58,7 +58,7 @@ VALUES
     ('San José', 'Santa Ana');
 
 -- Distritos
-INSERT INTO Distrito (IdCanton, NombreDistrito)
+INSERT INTO Distrito (IdCanton, Nombre)
 VALUES
     (6,'Pavas'),
     (2,'Escazú'),
@@ -134,3 +134,4 @@ INSERT INTO Incidente (Codigo, MatriculaTrans, Estado, IdEspecialista, CedulaAdm
 VALUES
     ('TERR123', 'BPC087', 'Registrado', 123, 111111111, 117222222, 1173333333, 1, 1, 2, 'Terrestre'),
     ('AER123', 'PHP999', 'Registrado', 456, 117111111, 117112222, 1171133333, 1, 2, 1, 'Aéreo');
+

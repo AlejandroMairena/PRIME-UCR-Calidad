@@ -2,8 +2,8 @@
 {
     public class DomicilioUbicacion
     {
-        public Domicilio Domicilio { get; set; }
-        public Ubicacion Ubicacion { get; set; }
         public int Id { get; set; }
+        public int IdDomicilio { get; set; }
+        public int UbicacionId { get; set; }
     }
 }
