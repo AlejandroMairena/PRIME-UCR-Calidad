@@ -4,13 +4,24 @@
     display: block;
 }
 
-.m-label:hover {
-    text-decoration: underline;
+.m-label {
+    width: 100px;
 }
+
+    .m-label:hover {
+        text-decoration: underline;
+    }
 
 .m-menu-div {
     padding-left: 15px;
 }
-#dropdownMenuButton {
-    background-color: #095290;
+
+.m-btn-remove {
+    height: 20px;
+    padding: 2px 6px;
+    font-size: 10px;
+    margin-left: 10px;
+}
+
+.m-file-menu {
 }
