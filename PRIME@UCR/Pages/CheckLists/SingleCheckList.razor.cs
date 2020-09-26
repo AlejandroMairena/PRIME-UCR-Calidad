@@ -14,6 +14,9 @@ namespace PRIME_UCR.Pages.CheckLists
         [Parameter]
         public int id { get; set; }
 
+        [CascadingParameter(Name = "lists")]
+        protected IEnumerable<CheckList> lists { get; set; }
+
         public CheckList list { get; set; }
 
         [Inject] protected ICheckListService MyService { get; set; }

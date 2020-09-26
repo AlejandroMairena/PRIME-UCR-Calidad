@@ -1,4 +1,6 @@
-﻿<div class="top-row pl-4 navbar navbar-dark">
+﻿@inherits CheckListNavMenuBase
+
+<div class="top-row pl-4 navbar navbar-dark">
     <a class="navbar-brand" href="">PRIME@UCR</a>
     <button class="navbar-toggler" @onclick="ToggleNavMenu">
         <span class="navbar-toggler-icon"></span>
@@ -28,7 +30,7 @@
             </NavLink>
         </li>
         <li class="nav-item px-3">
-            <button class="btn btn-primary" @onclick="ChangeIsModalOpened">Crear lista de chequeo</button>
+            <button class="btn btn-primary" @onclick="ToggleIsModalOpened">Crear lista de chequeo</button>
         </li>
     </ul>
     @if (lists != null && lists.Count() > 0)
@@ -46,27 +48,8 @@
     }
 </div>
 
-@code {
-
-    [Parameter] public IEnumerable<CheckList> lists { get; set; }
-
-    [CascadingParameter(Name = "IsModalOpened")]
-    public bool IsModalOpened { get; set; }
-
-    private bool collapseNavMenu = true;
-
-    private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
-
-    private void ToggleNavMenu()
-    {
-        collapseNavMenu = !collapseNavMenu;
-    }
-
-    [Parameter] public Action<bool> OnIsModalOpenedChange { get; set; }
-
-    private void ChangeIsModalOpened()
-    {
-        IsModalOpened = true;
-        OnIsModalOpenedChange?.Invoke(IsModalOpened);
-    }
-}
+<CascadingValue Value="@lists" Name="lists">
+    <CascadingValue Value="@IsModalOpened" Name="IsModalOpened">
+        <CreateChecklistPopup OnlistsChange="Changelists" OnIsModalOpenedChange="ChangeIsModalOpened"/>
+    </CascadingValue>
+</CascadingValue>
