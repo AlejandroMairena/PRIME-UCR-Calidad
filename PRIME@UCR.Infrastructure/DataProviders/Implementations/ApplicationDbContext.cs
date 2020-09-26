@@ -18,6 +18,8 @@ namespace PRIME_UCR.Infrastructure.DataProviders.Implementations
         {
             builder.ApplyConfiguration(new PaisMap());
             builder.ApplyConfiguration(new ProvinciaMap());
+            builder.ApplyConfiguration(new DistritoMap());
+            builder.ApplyConfiguration(new CantonMap());
         }
 
         public Task<int> SaveChangesAsync()

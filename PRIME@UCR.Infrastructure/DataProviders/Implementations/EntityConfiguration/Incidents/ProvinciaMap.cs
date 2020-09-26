@@ -12,7 +12,10 @@ namespace PRIME_UCR.Infrastructure.DataProviders.Implementations.EntityConfigura
                 .HasOne(p => p.Pais)
                 .WithMany(p => p.Provincias)
                 .HasForeignKey(p => p.NombrePais);
+            builder
+                .Property(p => p.Nombre)
+                .IsRequired()
+                .HasMaxLength(50);
             builder.HasKey("Nombre");
-        }
     }
 }
