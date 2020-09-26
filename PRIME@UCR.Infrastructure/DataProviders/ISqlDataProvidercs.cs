@@ -6,8 +6,9 @@ namespace PRIME_UCR.Infrastructure.DataProviders
 {
     public interface ISqlDataProvider
     {
-        DbSet<TestModel> TestModels { get; set; }
-
+        DbSet<Provincia> Provincias { get; set; }
+        DbSet<Pais> Pais { get; set; }
+        
         DbSet<T> Set<T>() where T : class;
         Task<int> SaveChangesAsync();     
     }

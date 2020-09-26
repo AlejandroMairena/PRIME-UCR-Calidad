@@ -1,0 +1,26 @@
+﻿@page "/incidents/{Id}"
+@using PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
+@using PRIME_UCR.Components.Incidents.IncidentDetails
+@using PRIME_UCR.Components.Controls
+@inject NavigationManager NavigationManager
+@inject IIncidentService IncidentService
+
+<h1>Detalles del incidente</h1>
+<hr />
+<Loading IsLoading="_incident == null">
+    <div class="row">
+        <div class="col-lg-3">
+            <TabMenu Tabs="Tabs" DefaultTab="DefaultTab" IsVertical="true" OnTabSetCallback="@((DetailsTab tab) => OnTabSet(tab))"></TabMenu>
+        </div> 
+        <div class="col">
+            <ActiveTab Active="@_activeTab" Incident="@_incident"></ActiveTab>
+        </div>
+    </div>
+</Loading>
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        await SetIncident();
+    }
+}

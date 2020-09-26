@@ -1,0 +1,4 @@
+﻿@using PRIME_UCR.Components.Controls
+
+<DropDownMenu Values="@_dropdownValues" OnChangeCallback="@((OriginType tab) => OnChange(tab))"/>
+<h1 class="text-danger">@_selectedOriginType.ToString()</h1>

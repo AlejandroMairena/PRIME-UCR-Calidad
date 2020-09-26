@@ -1,9 +1,10 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using PRIME_UCR.Application.Repositories;
+using PRIME_UCR.Application.Repositories.Incidents;
 using PRIME_UCR.Infrastructure.DataProviders;
 using PRIME_UCR.Infrastructure.DataProviders.Implementations;
-using PRIME_UCR.Infrastructure.Repositories.Memory;
 using PRIME_UCR.Infrastructure.Repositories.Sql;
+using PRIME_UCR.Infrastructure.Repositories.Sql.Incidents;
 
 namespace PRIME_UCR.Infrastructure
 {
@@ -11,14 +12,9 @@ namespace PRIME_UCR.Infrastructure
     {
         public static IServiceCollection AddInfrastructureLayer(this IServiceCollection services)
         {
-            // data providers
-            //services.AddScoped(typeof(IMemoryDataProvider<,>), typeof(MemoryDataProvider<,>));
             services.AddTransient<ISqlDataProvider, ApplicationDbContext>();
-            // repositories
-            //services.AddScoped(typeof(IGenericRepository<,>), typeof(MemoryGenericRepository<,>));
-            //services.AddScoped<ITestRepository, MemoryTestRepository>();
-            services.AddTransient(typeof(IGenericRepository<,>), typeof(SqlGenericRepository<,>));
-            services.AddTransient<ITestRepository, SqlTestRepository>();
+            services.AddTransient(typeof(IGenericRepository<,>), typeof(GenericRepository<,>));
+            services.AddTransient<IIncidentRepository, IncidentRepository>();
             return services;
         }
     }

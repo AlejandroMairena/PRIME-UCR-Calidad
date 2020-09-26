@@ -1,0 +1,27 @@
+﻿@page "/incidents/create"
+
+<div class="container">
+    <h1>Crear incidente</h1>
+    <form>
+        <div class="form-group">
+            <label>Modalidad</label>
+            <select class="custom-select">
+                <option>Terrestre</option>
+                <option>Marítimo</option>
+                <option>Aéreo</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Fecha estimada</label>
+            <input class="form-control" type="date" />
+        </div>
+        <div class="form-group">
+            <label>Hora estimada</label>
+            <input class="form-control" type="Time" />
+        </div>
+        <div class="text-center">
+            <button type="submit" class="btn btn-outline-danger">Cancelar</button>
+            <button type="submit" class="btn btn-primary">Crear</button>
+        </div>
+    </form>
+</div>
