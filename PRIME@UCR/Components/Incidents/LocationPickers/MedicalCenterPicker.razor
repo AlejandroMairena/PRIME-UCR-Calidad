@@ -1,3 +1,6 @@
 ﻿@using PRIME_UCR.Components.Controls
+    
+<label>Nombre del centro médico</label>
+<DropDownMenu Values="@_dropdownValuesMedicalCenter" OnChangeCallback="@((MedicalCenterType tab) => OnChangeMedicalCenter(tab))" />
 
-@*<DropDownMenu Values="null"/>*@
+    
