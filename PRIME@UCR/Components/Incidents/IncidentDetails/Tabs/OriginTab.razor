@@ -1,4 +1,24 @@
 ﻿@using PRIME_UCR.Components.Controls
+@using PRIME_UCR.Components.Incidents.LocationPickers
 
-<DropDownMenu Values="@_dropdownValues" OnChangeCallback="@((OriginType tab) => OnChange(tab))"/>
-<h1 class="text-danger">@_selectedOriginType.ToString()</h1>
+<h1> Información sobre el origen </h1>
+<br />
+<label>Origen</label>
+<DropDownMenu Values="@_dropdownValuesOrigin" OnChangeCallback="@((OriginType tab) => OnChangeOrigin(tab))" />
+@if (_selectedOriginType == OriginType.Household)
+{
+    <label>Pais</label>
+    <DropDownMenu Values="@_dropdownValuesCountries" OnChangeCallback="@((CountryType tab) => OnChangeCountry(tab))" />
+}
+else if (_selectedOriginType == OriginType.International)
+{
+    <label>Pais</label>
+    <DropDownMenu Values="@_dropdownValuesCountries" OnChangeCallback="@((CountryType tab) => OnChangeCountry(tab))" />
+}
+else
+{ 
+    <label>Centro médico</label>
+    <MedicalCenterPicker />
+
+}
+
