@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <PackageReference Include="ChartJs.Blazor" Version="1.1.0" />
+	<PackageReference Include="BlazorInputFile" Version="0.1.0-preview-00002" />
   </ItemGroup>
 
   <ItemGroup>
