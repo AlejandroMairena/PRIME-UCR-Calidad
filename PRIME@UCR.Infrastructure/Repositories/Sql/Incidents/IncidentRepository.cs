@@ -20,9 +20,7 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Incidents
                 {
                     Id = key,
                     Estado = "Creado",
-                    FechaHoraEstimada = DateTime.Now.AddDays(1).AddHours(3),
-                    FechaHoraRegistro = DateTime.Now,
-                    Modalidad = new ModalidadIncidente { TipoModalidad = "Marítimo" }
+                    Modalidad = new Modalidad { Tipo = "Marítimo" }
                 }
             );
         }
