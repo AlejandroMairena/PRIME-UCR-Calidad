@@ -12,7 +12,7 @@ namespace PRIME_UCR.Infrastructure.DataProviders
         DbSet<Provincia> Provinces { get; set; }
         DbSet<Pais> Countries { get; set; }
         DbSet<CentroMedico> MedicalCenters { get; set; }
-        
+
         DbSet<T> Set<T>() where T : class;
         Task<int> SaveChangesAsync();     
     }

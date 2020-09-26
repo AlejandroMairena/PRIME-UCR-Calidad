@@ -13,7 +13,14 @@ namespace PRIME_UCR.Components.Incidents.LocationPickers
         [Inject]
         public IIncidentService IncidentService { get; set; }
 
+        private CentroMedico _selectedMedicalCenter;
+
         private List<Tuple<CentroMedico, string>> _values;
+
+        void OnChangeMedicalCenter(CentroMedico medicalCenter)
+        {
+            _selectedMedicalCenter = medicalCenter;   
+        }
 
         async Task UpdateList()
         {

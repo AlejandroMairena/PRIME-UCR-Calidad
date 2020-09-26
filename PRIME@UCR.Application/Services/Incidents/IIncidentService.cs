@@ -8,5 +8,8 @@ namespace PRIME_UCR.Application.Services.Incidents
     {
         Task<Incidente> GetIncidentAsync(string id);
         Task<IEnumerable<CentroMedico>> GetAllMedicalCentersAsync();
+        Task<IEnumerable<Pais>> GetAllCountriesAsync();
+        Task<IEnumerable<Provincia>> GetAllProvincesAsync();
+
     }
 }
