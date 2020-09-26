@@ -30,7 +30,8 @@
     <div class="@ddMenuClass" aria-labelledby="dropdownMenuButton">
         <div class="m-menu-div">
             <label for="imgFileInput" class="m-label">Imagen</label>
-            <input id="imgFileInput" style="visibility:hidden; width: 0" type="file" @bind="imgFilePath">
+            <input id="imgFileInput" style="visibility:hidden; width: 0" type="file" @bind="imgFilePath"
+                   accept=".png,.jpg">
             @if (HasFiles(imgFilePath))
             {
                 <div class="m-file-menu">
@@ -43,7 +44,8 @@
         </div>
         <div class="m-menu-div">
             <label for="audioFileInput" class="m-label">Audio</label>
-            <input id="audioFileInput" style="visibility:hidden;" type="file" @bind="audioFilePath">
+            <input id="audioFileInput" style="visibility:hidden;" type="file" @bind="audioFilePath"
+                   accept=".mp3,.wav">
             @if (HasFiles(audioFilePath))
             {
                 <div class="m-file-menu">
@@ -56,12 +58,27 @@
         </div>
         <div class="m-menu-div">
             <label for="textFileInput" class="m-label">Texto</label>
-            <input id="textFileInput" style="visibility:hidden;" type="file" @bind="textFilePath">
+            <input id="textFileInput" style="visibility:hidden;" type="file" @bind="textFilePath"
+                   accept=".pdf,.doc,.docx,.xls,.txt">
             @if (HasFiles(textFilePath))
             {
                 <div class="m-file-menu">
                     <hr />
                     @CleanPath(textFilePath)
+                    <button type="button" class="btn btn-danger m-btn-remove">Eliminar</button>
+                    <hr />
+                </div>
+            }
+        </div>
+        <div class="m-menu-div">
+            <label for="videoFileInput" class="m-label">Video</label>
+            <input id="videoFileInput" style="visibility:hidden;" type="file" @bind="videoFilePath"
+                   accept=".mp4,.wmv,.avi">
+            @if (HasFiles(videoFilePath))
+            {
+                <div class="m-file-menu">
+                    <hr />
+                    @CleanPath(videoFilePath)
                     <button type="button" class="btn btn-danger m-btn-remove">Eliminar</button>
                     <hr />
                 </div>
@@ -125,6 +142,7 @@
     public string imgFilePath;
     public string audioFilePath;
     public string textFilePath;
+    public string videoFilePath;
 
     public bool HasFiles(string filePath)
     {

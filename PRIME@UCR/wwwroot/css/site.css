@@ -209,6 +209,7 @@ app {
     height: 20px;
     padding: 2px 6px;
     font-size: 10px;
+    margin-left: 10px;
 }
 
 .m-file-menu 
