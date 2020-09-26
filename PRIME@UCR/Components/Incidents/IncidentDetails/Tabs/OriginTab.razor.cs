@@ -12,11 +12,11 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
     
     public partial class OriginTab
     {
-        private readonly List<(OriginType, string)> _dropdownValues = new List<(OriginType, string)>
+        private readonly List<Tuple<OriginType, string>> _dropdownValues = new List<Tuple<OriginType, string>>
         {
-            (OriginType.Household, "Domicilio"),
-            (OriginType.International, "Internacional"),
-            (OriginType.MedicalCenter, "Centro médico")
+            Tuple.Create(OriginType.Household, "Domicilio"),
+            Tuple.Create(OriginType.International, "Internacional"),
+            Tuple.Create(OriginType.MedicalCenter, "Centro médico")
         };
 
         private OriginType _selectedOriginType = OriginType.Household;

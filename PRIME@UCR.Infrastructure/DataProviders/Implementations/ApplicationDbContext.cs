@@ -1,17 +1,21 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Data;
+using Microsoft.EntityFrameworkCore;
 using PRIME_UCR.Domain.Models;
 using System.Threading.Tasks;
 using PRIME_UCR.Infrastructure.DataProviders.Implementations.EntityConfiguration.Incidents;
 
 namespace PRIME_UCR.Infrastructure.DataProviders.Implementations
 {
-    public class ApplicationDbContext : DbContext, ISqlDataProvider
+    public sealed class ApplicationDbContext : DbContext, ISqlDataProvider
     {
-        public DbSet<Provincia> Provincias { get; set; }
-        public DbSet<Pais> Pais { get; set; }
+        public IDbConnection DbConnection { get; set; }
+        public DbSet<Provincia> Provinces { get; set; }
+        public DbSet<Pais> Countries { get; set; }
+        public DbSet<CentroMedico> MedicalCenters { get; set; }
 
         public ApplicationDbContext(DbContextOptions options) : base(options)
         {
+            DbConnection = Database.GetDbConnection();
         }
 
         protected override void OnModelCreating(ModelBuilder builder)

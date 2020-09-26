@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using PRIME_UCR.Application.Repositories;
 using PRIME_UCR.Application.Repositories.Incidents;
@@ -9,16 +10,24 @@ namespace PRIME_UCR.Application.Implementations.Incidents
 {
     public class IncidentService : IIncidentService
     {
-        private readonly IIncidentRepository _repository;
+        private readonly IIncidentRepository _incidentRepository;
+        private readonly IMedicalCenterRepository _medicalCenterRepository;
 
-        public IncidentService(IIncidentRepository repository)
+
+        public IncidentService(IIncidentRepository incidentRepository, IMedicalCenterRepository medicalCenterRepository)
         {
-            _repository = repository;
+            _incidentRepository = incidentRepository;
+            _medicalCenterRepository = medicalCenterRepository;
         }
 
         public async Task<Incidente> GetIncidentAsync(string id)
         {
-            return await _repository.GetByKeyAsync(id);
+            return await _incidentRepository.GetByKeyAsync(id);
+        }
+
+        public async Task<IEnumerable<CentroMedico>> GetAllMedicalCentersAsync()
+        {
+            return await _medicalCenterRepository.GetAllAsync();
         }
     }
 }
