@@ -10,9 +10,7 @@
     }
 </div>
 
-<div class="main">
-    <NavBarComponent />
-       
+<div class="main">       
 
     @if (authenticated)
     {
@@ -40,7 +38,7 @@
         base.OnInitialized();
     }
 
-    private void changeAuthe()
+    public void changeAuthe()
     {
         authenticated = !authenticated;
     }

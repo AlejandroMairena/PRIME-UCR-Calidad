@@ -15,9 +15,11 @@ a, .btn-link {
 }
 
 .btn-primary {
-    color: #fff;
-    background-color: #E6E6E6;
-    border-color: #1861ac;
+    background: #FFFFFF;
+    height: 100%;
+    margin-top: 0;
+    z-index: 2;
+    position: relative;
 }
 
 app {
@@ -28,17 +30,17 @@ app {
 
 .top-row {
     height: 2.5rem;
-    width:100%;
+    width: 100%;
     display: flex;
     align-items: center;
+    background-color: white;
 }
 
 .main {
     flex: 1;
 }
 
-    .main .top-row
-    {
+    .main .top-row {
         z-index: 100;
         background-color: #f7f7f7;
         border-bottom: 1px solid #d6d5d5;
@@ -48,20 +50,13 @@ app {
 
         .main .top-row > a, .main .top-row .btn-link {
             white-space: nowrap;
-            margin-left: 1.5rem;
         }
 
 
-.main .top-row a:first-child {
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-
-.sidebar .top-row {
-    background-color: #1861ac;
-    color: white;
-}
+        .main .top-row a:first-child {
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
 
 .sidebar .navbar-brand {
     font-size: 1.1rem;
@@ -166,12 +161,14 @@ app {
     }
 
     .sidebar {
+        background: #095290;
         width: 250px;
-        background: #58ABDB;
-        height: 100vh;
         position: sticky;
         top: 0;
+        height: auto;
+        min-height: 100vh;
     }
+
 
     .main .top-row {
         top: 0;
@@ -195,8 +192,9 @@ app {
     width:100%;
 }
 
+
 footer#footer_page {
-    font-size: 12px;
+    font-size: medium;
     display: table;
     background: #666666;
     color: white;
@@ -206,12 +204,22 @@ footer#footer_page {
     z-index: 1;
 }
 
-#ucr_header {
+.footer_links > a, .btn-link, .footer_pubs > a, btn-link {
+    color: white;
+    font-size: medium;
+}
+
+.footer_copyright > a, .btn-link {
+    color: white;
+    font-size: medium;
+}
+
+.ucr_header {
     background-size: 100%;
     width: 100%;
-    padding: 28px;
+    height: 56px;
     top: 0;
     z-index: 5;
-    background: #005DA4;
+    background: #00c0f3;
     color: white;
 }
