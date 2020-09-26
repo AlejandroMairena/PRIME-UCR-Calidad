@@ -30,26 +30,58 @@
     <div class="@ddMenuClass" aria-labelledby="dropdownMenuButton">
         <div class="m-menu-div">
             <label for="imgFileInput" class="m-label">Imagen</label>
-            <input id="imgFileInput" style="visibility:hidden;" type="file" @bind="imgFilePath">
-            @if (hasFiles(imgFilePath))
+            <input id="imgFileInput" style="visibility:hidden; width: 0" type="file" @bind="imgFilePath"
+                   accept=".png,.jpg">
+            @if (HasFiles(imgFilePath))
             {
-                <p>Imagen Adjunta</p>
+                <div class="m-file-menu">
+                    <hr />
+                    @CleanPath(imgFilePath)
+                    <button type="button" class="btn btn-danger m-btn-remove">Eliminar</button>
+                    <hr />
+                </div>
             }
         </div>
         <div class="m-menu-div">
             <label for="audioFileInput" class="m-label">Audio</label>
-            <input id="audioFileInput" style="visibility:hidden;" type="file" @bind="audioFilePath">
-            @if (hasFiles(audioFilePath))
+            <input id="audioFileInput" style="visibility:hidden;" type="file" @bind="audioFilePath"
+                   accept=".mp3,.wav">
+            @if (HasFiles(audioFilePath))
             {
-                <p>Audio Adjunto</p>
+                <div class="m-file-menu">
+                    <hr />
+                    @CleanPath(audioFilePath)
+                    <button type="button" class="btn btn-danger m-btn-remove">Eliminar</button>
+                    <hr />
+                </div>
             }
         </div>
         <div class="m-menu-div">
             <label for="textFileInput" class="m-label">Texto</label>
-            <input id="textFileInput" style="visibility:hidden;" type="file" @bind="textFilePath">
-            @if (hasFiles(textFilePath))
+            <input id="textFileInput" style="visibility:hidden;" type="file" @bind="textFilePath"
+                   accept=".pdf,.doc,.docx,.xls,.txt">
+            @if (HasFiles(textFilePath))
             {
-                <p>Texto Adjunto</p>
+                <div class="m-file-menu">
+                    <hr />
+                    @CleanPath(textFilePath)
+                    <button type="button" class="btn btn-danger m-btn-remove">Eliminar</button>
+                    <hr />
+                </div>
+            }
+        </div>
+        <div class="m-menu-div">
+            <label for="videoFileInput" class="m-label">Video</label>
+            <input id="videoFileInput" style="visibility:hidden;" type="file" @bind="videoFilePath"
+                   accept=".mp4,.wmv,.avi">
+            @if (HasFiles(videoFilePath))
+            {
+                <div class="m-file-menu">
+                    <hr />
+                    @CleanPath(videoFilePath)
+                    <button type="button" class="btn btn-danger m-btn-remove">Eliminar</button>
+                    <hr />
+                </div>
             }
         </div>
     </div>
@@ -110,10 +142,17 @@
     public string imgFilePath;
     public string audioFilePath;
     public string textFilePath;
+    public string videoFilePath;
 
-    public bool hasFiles(string filePath)
+    public bool HasFiles(string filePath)
     {
         return !String.IsNullOrEmpty(filePath);
+    }
+
+    public string CleanPath(string path)
+    {
+        string[] s_split = path.Split('\\');
+        return s_split[s_split.Length - 1];
     }
 
     //Todo el siguiente codigo.
