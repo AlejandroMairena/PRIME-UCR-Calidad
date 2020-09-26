@@ -71,7 +71,7 @@ app {
 
     .sidebar .nav-item {
         font-size: 0.9rem;
-        padding-bottom: 0.5rem;
+        padding-bottom: 1.5rem;
     }
 
         .sidebar .nav-item:first-of-type {
@@ -86,9 +86,7 @@ app {
             color: #d7d7d7;
             border-radius: 4px;
             height: 3rem;
-            display: flex;
             align-items: center;
-            line-height: 3rem;
         }
 
             .sidebar .nav-item a.active {
@@ -192,6 +190,13 @@ app {
     width:100%;
 }
 
+.hide {
+    display:none;
+}
+
+.show {
+    display:normal;
+}
 
 footer#footer_page {
     font-size: medium;
