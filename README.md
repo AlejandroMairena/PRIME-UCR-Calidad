@@ -102,6 +102,17 @@ Corresponde a un sistema de manejo de bases de datos relacionales desarrollado p
 Corresponde a un framework de CSS. Es una biblioteca de herramientas para el diseño de aplicaciones web. 
 ### Repositorio de código y estrategia git para el proyecto
 
+#### Repositorio 
+Se usó Bitbucket para guardar el repositorio que contiene el código del desarrollo del proyecto, el cual se encuentra en el siguiente enlace: https://bitbucket.org/cristian_quesadalopez/ecci_ci0128_ii2020_g01_pi/src/master/. 
+
+#### Estrategia git para el proyecto
+
+La estrategia de git que se utlizó fue la de branching; en esta forma de trabajo, la estructura es la siguiente: inicialmente, se tiene el branch de master, luego por equipo, se tiene un branch aparte y, por cada desarrollador indivual, se tiene un branch personal. Al ser 4 equipos que forman parte del proyecto, se tendrá, además del branch master, 1 branch por equipo + 5 branches por los integrantes de los equipos; por lo que, en total, se tendrían 25 branches diferentes. 
+
+Cabe destacar que en la branch master únicamente se le harán commits y merge al final de las iteraciones; esto para tener releases funcionales en el master y poder asegurar que el la aplicación haya sido testeada correctamente antes de ser agregada al branch. 
+
+En más detalle, los desarrolladores que vayan implementando funcionalidades a la aplicación van realizando commits a su branch por la duración de un sprint. Cuando sea necesario, estos desarrolladores pueden realizar merges con su branch de equipo, ya que otros miembros del equipo pueden ir utilizando las funcionalidades que sus compañeros hayan implementado. Una vez que se termine la iteración, se hará merge entre los diferentes branches de los equipos principales, para de esta forma, poder hacer un único merge con el master, para así evitar la máxima cantidad de errores que pueden ocurrir. 
+
 ### Definición de listo
 
 ## Referencias Bibliográficas
