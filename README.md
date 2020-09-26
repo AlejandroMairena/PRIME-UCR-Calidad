@@ -2,6 +2,10 @@
 
 ## Definiciones, acrónimos y abreviaciones
 
+CEACO: Centro Especializado de Atención de Pacientes con COVID-19 
+
+PRIME: Primera Respuesta Médica Especializada
+
 ## Listado de equipos y miembros de los equipos.
 
 
@@ -34,6 +38,29 @@ Integrantes:
 ## Descripción general del sistema a desarrollar
 
 ### Solución propuesta
+
+Ante el problema descrito anteriormente se da como solución la implementación de una aplicación web por medio de la cual se permite gestionar de mejor manera el proceso ante la atención de incidentes de pacientes COVID-19, inclusive el traslado de los mismos. La idea es brindar un medio digital que permite crear, monitorear, atender y gestionar los incidentes del equipo PRIME del CEACO ante la atención de pacientes. Esta aplicación permitiría llevar el registro desde el momento del reporte del incidente hasta el momento en que se culmine la atención de dicho paciente.
+
+La aplicación a desarrollar se compone de 4 módulos principales; el primero de ellos es el despacho, seguimiento y monitoreo en tiempo real tanto del equipo PRIME como de los pacientes COVID. El segundo la creación de listas de chequeo parametrizables para cada uno de los procesos de atención. El tercero la gestión del envío de información en tiempo real entre el equipo PRIME en campo y el centro de control, tanto para archivos de texto como de multimedia. Y finalmente la autorización y administración gráfica, por medio de cuadros de control, de los diferentes tipos de granularidad de la información.
+
+El primero módulo permitiría inicialmente la creación de nuevos incidentes de pacientes COVID-19 para su respectiva atención de parte del equipo PRIME. La idea consiste en brindar un medio por el cual se pueden notificar al equipo PRIME del CEACO la lista de incidentes en espera de ser atendidos de acuerdo a su prioridad para que se pueda llevar un mejor control de atenciones. Igualmente, este módulo se encargaría de automatizar el proceso de despacho de pacientes de un centro de salud al siguiente en los casos que sea requerido; o bien desde cualquier zona geográfica donde sea necesaria la atención de pacientes COVID-19. Finalmente, este módulo se encargaría de monitorear en tiempo real las unidades PRIME del CEACO, así como la de pacientes COVID por medio de un mapa nacional que permita visualizar la movilización de unidades.
+
+Posteriormente el módulo de creación de listas de chequeo parametrizables por cada uno de los procesos de atención a pacientes COVID, permite para cada uno de los procesos de atención de un incidente, tener listas de chequeos de requerimientos obligatorios para cada uno de los tipos de traslado. Por ejemplo, para un traslado de un paciente permite tener la serie de pasos que los miembros de equipo PRIME debe cumplir antes de atender el incidente con la finalidad de satisfacer las condiciones impuestas por los medios de salud. Es decir, contar con las distintas capas de guantes, mascarillas, batas de protección, entre otros.
+
+El módulo de administración de la información de las listas de chequeo permite garantizar la correcta emisión de mensajes informativos del proceso de atención a la central de mando del equipo PRIME del CEACO. Es decir, este módulo se encarga de garantizar el correcto envío de información presente en listas de chequeo, o en las actualizaciones del estado de un traslado, por medio de mensajes de texto o mensajes multimedia desde el equipo móvil del PRIME hasta el equipo del centro de control para su correcta gestión de la información entre todos los entes responsables de los traslados.
+
+Y finalmente el módulo de autorización y administración gráfica de los distintos niveles de granularidad permite el acceso a la aplicación de un usuario previamente identificado y con sus permisos para poder gestionar, monitorear y administrar cada uno de procesos de atención de incidentes de pacientes COVID de acuerdo a sus permisos sobre el acceso a la información. Igualmente permite mostrar resúmenes visuales, por medio de gráficos, de los procesos de atención de pacientes COVID donde entonces se permitiría llevar una mejor administración del equipo de respuesta PRIME para garantizar su eficiencia en los procesos de atención.
+
+En síntesis, la solución del problema dado se puede resumir por medio de un diagrama de flujos de la aplicación a partir del cual se puede visualizar el proceso de atención de pacientes COVID-19. 
+
+![](https://i.imgur.com/BTWHypT.png)
+*Figura 1: Flujo de la aplicación web*
+
+El primer paso corresponde a la creación de un nuevo incidente de atención de un paciente COVID; luego el equipo PRIME del CEACO hace el despacho del incidente, ya sea por medio de una visita a la residencia del paciente para administrar su traslado o a un hospital. Para esto el equipo de atención sigue una serie de procedimientos previos a la atención del paciente para verificar el seguimiento de los protocolos de salud indicados. Igualmente, durante la atención del paciente el equipo PRIME puede validar el cumplimiento de una serie de procedimientos médicos a aplicarle a dicho paciente de acuerdo a su condición; y finalmente una validación de los cumplimientos al finalizar la atención del paciente. 
+
+Todo esto se realiza por medio de las listas de chequeo y el envío de información en tiempo real entre el equipo PRIME y la central de control o los respectivos centros de salud asociados al traslado. Además, la aplicación permite monitorear en tiempo real la movilización de las unidades del equipo PRIME durante cualquier momento de la atención de un incidente.
+
+Además de esto, la aplicación propuesta como solución permite que se dé una administración gráfica, por medio de cuadros de control de mando, en la cual se pueden visualizar gráficos sobre los procesos de atención de pacientes COVID donde se resuma información administrativa de interés. Además de que se manejaría la seguridad de la aplicación por medio de la asignación de usuarios y perfiles a cada una de las personas con acceso a la aplicación para que se pueda manejar los distintos niveles de granularidad y acceso a la información de acuerdo al perfil asociado.
 
 ### Descripción  de  los  temas  (módulos)  asignados  a  cada  equipo
 
