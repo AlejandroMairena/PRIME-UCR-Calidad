@@ -1,6 +1,8 @@
 ﻿@page "/"
 @namespace PRIME_UCR.Pages
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@using PRIME_UCR.Components
 @{
     Layout = null;
 }
@@ -10,6 +12,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="TODO: Poner descripcion relevante del sitio" />
     <title>PRIME@UCR</title>
     <base href="~/" />
     <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
@@ -19,6 +22,9 @@
     <script src="_content/BlazorInputFile/inputfile.js"></script>
 
 </head>
+
+<component type="typeof(HeaderComponent)" render-mode="ServerPrerendered" />
+
 <body>
     <app>
         <component type="typeof(App)" render-mode="ServerPrerendered" />
@@ -36,5 +42,21 @@
     </div>
 
     <script src="_framework/blazor.server.js"></script>
+
+
+    <!--Atenienses++ scripts to include Charts.js.Blazor-->
+    <!-- Reference the included moment.js javascript file. -->
+    <script src="_content/ChartJs.Blazor/moment-with-locales.min.js" type="text/javascript" language="javascript"></script>
+
+    <!-- Reference the included ChartJs javascript file. -->
+    <script src="_content/ChartJs.Blazor/Chart.min.js" type="text/javascript" language="javascript"></script>
+
+    <!-- This is the glue between the C# code and the ChartJs charts -->
+    <script src="_content/ChartJs.Blazor/ChartJsBlazorInterop.js" type="text/javascript" language="javascript"></script>
+
+    <!-- Some styling -->
+    <link rel="stylesheet" href="_content/ChartJs.Blazor/ChartJSBlazor.css" />
+
 </body>
+<component type="typeof(FooterComponent)" render-mode="ServerPrerendered" />
 </html>
