@@ -17,7 +17,7 @@ namespace PRIME_UCR.Infrastructure.DataProviders.Implementations.EntityConfigura
                 .WithOne(p => p.Incidente)
                 .HasForeignKey<Incidente>(p => p.IdDestino);
             builder
-                .Property(p => p.Id)
+                .Property(p => p.Codigo)
                 .IsRequired();
             builder
                 .HasOne(p => p.Modalidad)
@@ -27,7 +27,7 @@ namespace PRIME_UCR.Infrastructure.DataProviders.Implementations.EntityConfigura
                 .HasOne(p => p.UnidadDeTransporte)
                 .WithMany(p => p.Incidentes)
                 .HasForeignKey(p => p.MatriculaTrans);
-            builder.HasKey("Id");
+            builder.HasKey("Codigo");
         }
     }
 }
