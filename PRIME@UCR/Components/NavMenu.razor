@@ -83,22 +83,26 @@
     {
         string uri = MyNavegationManager.ToBaseRelativePath(MyNavegationManager.Uri);
 
-        if(uri != "")
+        if (uri != "")
         {
             uri = uri.Split('/').First();
             if (uri == "dashboard")
             {
                 showDashboardMenu();
-            } else if (uri == "incidents")
+            }
+            else if (uri == "incidents")
             {
                 showIncidentsMenu();
-            } else if (uri == "user_administration")
+            }
+            else if (uri == "user_administration")
             {
                 showUserAdminMenu();
-            } else if (uri == "medical_records")
+            }
+            else if (uri == "medical_records")
             {
                 showMedicalRecordsMenu();
-            } else if (uri == "check_list")
+            }
+            else if (uri == "check_list")
             {
                 showCheckListMenu();
             }
