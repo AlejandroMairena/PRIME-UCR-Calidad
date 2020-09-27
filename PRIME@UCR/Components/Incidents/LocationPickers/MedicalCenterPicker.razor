@@ -4,16 +4,6 @@
 @using System.Linq;
 
 <Loading IsLoading="_values == null">
-    <DropDownMenu Values="_values" T="CentroMedico" Label="Centro médico" OnChangeCallback="@((CentroMedico tab) => OnChangeMedicalCenter(tab))" /><br />
+    <DropDownMenu Values="_values" T="CentroMedico" Label="Centro médico" OnChange="@((CentroMedico tab) => OnChangeMedicalCenter(tab))" /><br />
     @*<ListItem Title="Pais" Text="@_selectedMedicalCenter.Distrito.Canton.Provincia.Pais" />*@
 </Loading>
-
-
-@code {
-
-    protected override async Task OnInitializedAsync()
-    {
-        await UpdateList();
-    }
-
-}

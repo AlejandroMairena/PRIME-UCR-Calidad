@@ -2,14 +2,5 @@
 @using Microsoft.EntityFrameworkCore
 
 <Loading IsLoading="_values == null">
-    <DropDownMenu Values="@_values" T="Pais" Label="País" /> 
+    <DropDownMenu Values="@_values" T="Pais" Label="País" OnChange="@((Pais c) => OnCountryChange(c))"/> 
 </Loading>
-
-@code {
-
-    protected override async Task OnInitializedAsync()
-    {
-        await InitializeComponent();
-    }
-
-}

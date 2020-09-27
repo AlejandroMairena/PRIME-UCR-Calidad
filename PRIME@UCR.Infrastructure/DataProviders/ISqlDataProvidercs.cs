@@ -16,9 +16,8 @@ namespace PRIME_UCR.Infrastructure.DataProviders
         DbSet<Canton> Cantons { get; set; }
         DbSet<Distrito> Districts { get; set; }
         DbSet<Ubicacion> Locations { get; set; }
-        DbSet<Domicilio> Households { get; set; }
-        DbSet<DomicilioUbicacion> HouseholdLocations { get; set; }
-        DbSet<PaisUbicacion> InternationalLocations { get; set; }
+        DbSet<Domicilio> HouseholdLocations { get; set; }
+        DbSet<Internacional> InternationalLocations { get; set; }
         DbSet<CentroMedico> MedicalCenters { get; set; }
         DbSet<CentroUbicacion> MedicalCenterLocations { get; set; }
         DbSet<Modalidad> Modes { get; set; }

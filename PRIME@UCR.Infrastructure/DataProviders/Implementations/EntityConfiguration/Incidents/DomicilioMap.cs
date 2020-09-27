@@ -9,6 +9,7 @@ namespace PRIME_UCR.Infrastructure.DataProviders.Implementations.EntityConfigura
         public void Configure(EntityTypeBuilder<Domicilio> builder)
         {
             builder.ToTable("Domicilio");
+            // no key because it is a derived type
             builder
                 .HasOne(p => p.Distrito)
                 .WithMany(p => p.Domicilios)
@@ -16,8 +17,6 @@ namespace PRIME_UCR.Infrastructure.DataProviders.Implementations.EntityConfigura
             builder
                 .Property(p => p.Id)
                 .IsRequired();
-            builder.HasKey("Id");
-
         }
 
     }

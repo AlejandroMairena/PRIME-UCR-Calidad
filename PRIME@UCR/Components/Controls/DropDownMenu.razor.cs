@@ -12,7 +12,7 @@ namespace PRIME_UCR.Components.Controls
         public List<Tuple<T, string>> Values { get; set; }
 
         [Parameter]
-        public EventCallback<T> OnChangeCallback { get; set; }
+        public EventCallback<T> OnChange { get; set; }
 
         [Parameter]
         public string Label { get; set; }
@@ -23,11 +23,11 @@ namespace PRIME_UCR.Components.Controls
                                               // otherwise onchange event is not fired for index 0
         }
 
-        async Task OnChange(ChangeEventArgs args)
+        async Task OnChangeEvent(ChangeEventArgs args)
         {
             var index = Int32.Parse((string)args.Value) - 1; // Subtract one to make it zero based
             if (index >= 0 && index < Values.Count) // only if value is within bounds
-                await OnChangeCallback.InvokeAsync(Values[index].Item1);
+                await OnChange.InvokeAsync(Values[index].Item1);
         }
     }
 }

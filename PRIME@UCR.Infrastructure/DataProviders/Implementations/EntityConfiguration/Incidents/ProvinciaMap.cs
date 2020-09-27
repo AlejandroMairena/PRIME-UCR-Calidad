@@ -16,7 +16,7 @@ namespace PRIME_UCR.Infrastructure.DataProviders.Implementations.EntityConfigura
             builder
                 .Property(p => p.Nombre)
                 .IsRequired()
-                .HasMaxLength(50);
+                .HasMaxLength(30);
             builder.HasKey("Nombre");
         }
     }

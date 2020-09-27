@@ -12,21 +12,43 @@ namespace PRIME_UCR.Components.Incidents.LocationPickers
     {
         [Inject]
         public ILocationService LocationService { get; set; }
-
+        
+        [Parameter]
+        public EventCallback<Ubicacion> OnChange { get; set; }
+        
         private CentroMedico _selectedMedicalCenter;
 
         private List<Tuple<CentroMedico, string>> _values;
 
-        void OnChangeMedicalCenter(CentroMedico medicalCenter)
+        async Task Callback()
         {
-            _selectedMedicalCenter = medicalCenter;   
+            var location = new CentroUbicacion
+            {
+                CentroMedicoId = _selectedMedicalCenter.Id
+            };
+            await OnChange.InvokeAsync(location);
         }
 
-        async Task UpdateList()
+        async Task OnChangeMedicalCenter(CentroMedico medicalCenter)
         {
-            _values = (await LocationService.GetAllMedicalCentersAsync())
+            _selectedMedicalCenter = medicalCenter;
+
+            await Callback();
+        }
+        
+        protected override async Task OnInitializedAsync()
+        {
+            var medicalCenters =
+                (await LocationService.GetAllMedicalCentersAsync())
+                .ToList();
+            
+            _values = medicalCenters
                 .Select(mc => Tuple.Create(mc, mc.Nombre))
                 .ToList();
+            
+            _selectedMedicalCenter = medicalCenters.First();
+
+            await Callback();
         }
     }
 }

@@ -2,7 +2,7 @@
 
 <div class="form-group">
     <label>@Label</label>
-    <select @onchange="OnChange" class="custom-select">
+    <select @onchange="OnChangeEvent" class="custom-select">
         @foreach (var tuple in Values)
         {
             <option value="@GetIndex(tuple)">@tuple.Item2</option>

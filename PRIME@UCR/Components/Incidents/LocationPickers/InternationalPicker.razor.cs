@@ -4,8 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using PRIME_UCR.Application.Services.Incidents;
+using PRIME_UCR.Components.Controls;
 using PRIME_UCR.Domain.Models;
-using PRIME_UCR.Models.Incidents;
 
 namespace PRIME_UCR.Components.Incidents.LocationPickers
 {
@@ -14,20 +14,32 @@ namespace PRIME_UCR.Components.Incidents.LocationPickers
     {
         [Inject]
         public ILocationService LocationService { get; set; }
+        
+        [Parameter]
+        public EventCallback<Ubicacion> OnChange { get; set; }
 
         private List<Tuple<Pais, string>> _values;
 
-        [Parameter]
-        public InternationalOriginModel Model { get; set; }
-
-        async Task InitializeComponent()
+        private Internacional _international;
+        
+        async Task OnCountryChange(Pais country)
         {
-            _values = (await LocationService.GetAllCountriesAsync())
-                .Select(c => Tuple.Create(c, c.Nombre))
+            _international = new Internacional()
+            {
+                NombrePais = country.Nombre,
+            };
+            await OnChange.InvokeAsync(_international);
+        }
+
+        protected override async Task OnInitializedAsync()
+        {
+            var values = (await LocationService.GetAllCountriesAsync())
                 .ToList();
-            var tuple = _values.FirstOrDefault();
-            if (tuple != null)
-                Model = new InternationalOriginModel { Country = tuple.Item1 };
+            _values = DropDownUtilities.LoadAsTupleList(values, "Nombre");
+            
+            var country = values.First();
+            _international = new Internacional { NombrePais = country.Nombre };
+            await OnChange.InvokeAsync(_international);
         }
     }
 }

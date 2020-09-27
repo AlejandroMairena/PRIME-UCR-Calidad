@@ -66,7 +66,6 @@
     <Build Include="Tables\Centro_Ubicacion.sql" />
     <Build Include="Tables\Distrito.sql" />
     <Build Include="Tables\Domicilio.sql" />
-    <Build Include="Tables\Domicilio_Ubicacion.sql" />
     <Build Include="Tables\Incidente.sql" />
     <Build Include="Tables\Modalidad.sql" />
     <Build Include="Tables\Pais.sql" />
@@ -75,7 +74,7 @@
     <Build Include="Tables\EstadoIncidente.sql" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="Tables\Pais_Ubicacion.sql" />
+    <Build Include="Tables\Internacional.sql" />
     <Build Include="Tables\Provincia.sql" />
     <Build Include="Tables\Ubicacion.sql" />
     <Build Include="Tables\Unidad_De_Transporte.sql" />

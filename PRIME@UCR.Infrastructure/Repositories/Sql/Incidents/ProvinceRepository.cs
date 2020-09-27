@@ -17,7 +17,6 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Incidents
         public async Task<IEnumerable<Provincia>> GetProvincesByCountryNameAsync(string countryName)
         {
             return await _db.Provinces
-                .Include(p => p.Pais)
                 .AsNoTracking()
                 .Where(p => p.NombrePais == countryName)
                 .ToListAsync();

@@ -5,8 +5,7 @@ DELETE FROM Unidad_De_Transporte
 DELETE FROM Modalidad
 DELETE FROM Centro_Ubicacion
 DELETE FROM Centro_Medico
-DELETE FROM Pais_Ubicacion
-DELETE FROM Domicilio_Ubicacion
+DELETE FROM Internacional
 DELETE FROM Domicilio
 DELETE FROM Ubicacion
 DELETE FROM Distrito
@@ -16,11 +15,7 @@ DELETE FROM Pais
 
 DBCC CHECKIDENT ('Canton', RESEED, 0)
 DBCC CHECKIDENT ('Centro_Medico', RESEED, 0)
-DBCC CHECKIDENT ('Centro_Ubicacion', RESEED, 0)
 DBCC CHECKIDENT ('Distrito', RESEED, 0)
-DBCC CHECKIDENT ('Domicilio', RESEED, 0)
-DBCC CHECKIDENT ('Domicilio_Ubicacion', RESEED, 0)
-DBCC CHECKIDENT ('Pais_Ubicacion', RESEED, 0)
 DBCC CHECKIDENT ('Ubicacion', RESEED, 0)
 
 -- Pais
@@ -71,35 +66,27 @@ VALUES
     (7, 'Santa Ana');
 
 -- Ubicación
-INSERT INTO Ubicacion (CedulaDeMedico)
-VALUES
-    (117800880),
-    (127488581),
-    (126305352),
-    (826305352),
-    (326308472),
-    (426308573),
-    (126182752),
-    (878348179);
+INSERT INTO Ubicacion DEFAULT VALUES
+INSERT INTO Ubicacion DEFAULT VALUES
+INSERT INTO Ubicacion DEFAULT VALUES
+INSERT INTO Ubicacion DEFAULT VALUES
+INSERT INTO Ubicacion DEFAULT VALUES
+INSERT INTO Ubicacion DEFAULT VALUES
+INSERT INTO Ubicacion DEFAULT VALUES
+INSERT INTO Ubicacion DEFAULT VALUES
 
 -- Domicilio
-INSERT INTO Domicilio (Direccion, DistridoId, Latitud, Longitud)
+INSERT INTO Domicilio (Id, Direccion, DistridoId, Latitud, Longitud)
 VALUES
-    ('Santa Ana 420 metros este de City Place', 9, 205, 200),
-    ('Pavas al lado del aeropuerto', 1, 124, 260);
+    (1, 'Santa Ana 420 metros este de City Place', 9, 205, 200),
+    (2, 'Pavas al lado del aeropuerto', 1, 124, 260);
 
--- Domicilio Ubicacion
-INSERT INTO Domicilio_Ubicacion (IdDomicilio, UbicacionId)
-VALUES
-    (1,1),
-    (2,2);
-
--- Pais_Ubicacion
-INSERT INTO Pais_Ubicacion (NombrePais, UbicacionId)
+-- Internacional
+INSERT INTO Internacional (Id, NombrePais)
 VALUES 
-    ('Costa Rica', 6),
-    ('Panamá', 7),
-    ('Nicaragua', 8);
+    (3, 'Costa Rica'),
+    (4, 'Panamá'),
+    (5, 'Nicaragua');
 
 -- Centro Médicos
 INSERT INTO Centro_Medico (UbicadoEn, Latitud, Longitud, Nombre)
@@ -109,11 +96,11 @@ VALUES
     (2, 69, 42.0, 'Hospital Cima');
 
 -- Centro_Ubicacion
-INSERT INTO Centro_Ubicacion (IdCentro, UbicacionId)
+INSERT INTO Centro_Ubicacion (Id, IdCentro)
 VALUES 
-    (1,3),
-    (2,4),
-    (3,5);
+    (6, 1),
+    (7, 2),
+    (8, 3);
 
 -- Modalidad 
 INSERT INTO Modalidad (Tipo)
@@ -130,12 +117,12 @@ VALUES
     ('PHP999', 'Disponible', 'Aéreo');
 
 -- Incidente
-INSERT INTO Incidente (Codigo, MatriculaTrans, Estado, IdEspecialista, CedulaAdmin,
+INSERT INTO Incidente (Codigo, MatriculaTrans, IdEspecialista, CedulaAdmin,
     CedulaTecnicoCoordinador, CedulaTecnicoRevisor, CodigoCita, IdOrigen, IdDestino,
     Modalidad, FechaHoraRegistro, FechaHoraEstimada)
 VALUES
-    ('TERR123', 'BPC087', 'Registrado', 123, 111111111, 117222222, 1173333333, 1, 1, 2, 'Terrestre', GETDATE(), GETDATE()),
-    ('AER123', 'PHP999', 'Registrado', 456, 117111111, 117112222, 1171133333, 1, 2, 1, 'Aéreo', GETDATE(), GETDATE());
+    ('TERR123', 'BPC087', 123, 111111111, 117222222, 1173333333, 1, 1, 2, 'Terrestre', GETDATE(), GETDATE()),
+    ('AER123', 'PHP999', 456, 117111111, 117112222, 1171133333, 1, 2, 1, 'Aéreo', GETDATE(), GETDATE());
 
 -- Estado
 INSERT INTO Estado

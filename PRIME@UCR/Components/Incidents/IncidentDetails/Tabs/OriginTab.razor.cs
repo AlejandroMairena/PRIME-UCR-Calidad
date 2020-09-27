@@ -1,5 +1,4 @@
-﻿using PRIME_UCR.Models.Incidents;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using PRIME_UCR.Domain.Models;
 
@@ -18,7 +17,7 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
         // Selected options
         private OriginType _selectedOriginType = OriginType.Household;
 
-        private InternationalOriginModel intlModel;
+        private Ubicacion _origin;
 
         // Lists of options
         private readonly List<Tuple<OriginType, string>> _dropdownValuesOrigin = new List<Tuple<OriginType, string>>
@@ -28,9 +27,14 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
             Tuple.Create(OriginType.MedicalCenter, "Centro médico")
         };
         
-        void OnChangeOrigin(OriginType originType)
+        void OnChangeOriginType(OriginType originType)
         {
             _selectedOriginType = originType;
+        }
+
+        void OnChangeOrigin(Ubicacion location)
+        {
+            _origin = location;
         }
         
     }

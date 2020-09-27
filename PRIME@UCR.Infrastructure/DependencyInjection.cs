@@ -12,14 +12,19 @@ namespace PRIME_UCR.Infrastructure
     {
         public static IServiceCollection AddInfrastructureLayer(this IServiceCollection services)
         {
+            // data providers
             services.AddTransient<ISqlDataProvider, ApplicationDbContext>();
+            // generic repositories
             services.AddTransient(typeof(IGenericRepository<,>), typeof(GenericRepository<,>));
+            // incidents repositories
             services.AddTransient<ICountryRepository, CountryRepository>();
             services.AddTransient<IProvinceRepository, ProvinceRepository>();
             services.AddTransient<ICantonRepository, CantonRepository>();
             services.AddTransient<IDistrictRepository, DistrictRepository>();
-            services.AddTransient<IIncidentRepository, IncidentRepository>();
             services.AddTransient<IMedicalCenterRepository, MedicalCenterRepository>();
+            services.AddTransient<IModesRepository, ModesRepository>();
+            services.AddTransient<IIncidentRepository, IncidentRepository>();
+            services.AddTransient<IIncidentStateRepository, IncidentStateRepository>();
 
             return services;
         }

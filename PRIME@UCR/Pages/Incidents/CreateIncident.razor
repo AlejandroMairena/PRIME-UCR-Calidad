@@ -1,27 +1,21 @@
 ﻿@page "/incidents/create"
+@using PRIME_UCR.Components.Controls
 
 <div class="container">
     <h1>Crear incidente</h1>
-    <form>
-        <div class="form-group">
-            <label>Modalidad</label>
-            <select class="custom-select">
-                <option>Terrestre</option>
-                <option>Marítimo</option>
-                <option>Aéreo</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label>Fecha estimada</label>
-            <input class="form-control" type="date" />
-        </div>
-        <div class="form-group">
-            <label>Hora estimada</label>
-            <input class="form-control" type="Time" />
-        </div>
-        <div class="text-center">
-            <button type="submit" class="btn btn-outline-danger">Cancelar</button>
-            <button type="submit" class="btn btn-primary">Crear</button>
-        </div>
-    </form>
+    <EditForm Model="_model" OnValidSubmit="@Create" >
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <Loading IsLoading="_modes == null">
+            <div class="form-group">
+                <DropDownMenu Label="Modalidad" Values="_modes" OnChange="@((Modalidad m) => _model.Mode = m)"/>
+            </div>
+            <DateTimePicker @bind-Date="@_model.EstimatedDateOfTransfer"
+                             DateLabel="Fecha estimada de traslado" TimeLabel="Hora estimada de traslado"/>
+            <div class="text-center">
+                <button type="reset" class="btn btn-outline-danger">Cancelar</button>
+                <button type="submit" class="btn btn-primary">Crear</button>
+            </div>
+        </Loading>
+    </EditForm>
 </div>

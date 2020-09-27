@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[EstadoIncidente]
 (
-    CodigoIncidente VARCHAR(30) NOT NULL,
+    CodigoIncidente VARCHAR(50) NOT NULL,
     NombreEstado    VARCHAR(50) NOT NULL,
     FechaHora       DATETIME    NOT NULL,
     Activo          BIT         NOT NULL,

@@ -43,7 +43,7 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql
             return await _db.Set<T>().FindAsync(key);
         }
 
-        public async Task<T> InsertAsync(TKey key, T model)
+        public async Task<T> InsertAsync(T model)
         {
             _db.Set<T>().Add(model);
             await _db.SaveChangesAsync();

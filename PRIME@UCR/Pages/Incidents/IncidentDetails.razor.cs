@@ -16,7 +16,7 @@ namespace PRIME_UCR.Pages.Incidents
         [Parameter]
         public string Active { get; set; }
 
-        private bool exists = true;
+        protected bool exists = true;
         
         private readonly IEnumerable<Tuple<DetailsTab, string>> _tabs = new List<Tuple<DetailsTab, string>>
         {
@@ -35,7 +35,7 @@ namespace PRIME_UCR.Pages.Incidents
             _activeTab = tab;
         }
 
-        async Task SetIncident()
+        protected override async Task OnInitializedAsync()
         {
             _incident = await IncidentService.GetIncidentAsync(Id);
             if (_incident == null)

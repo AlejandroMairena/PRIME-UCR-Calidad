@@ -12,15 +12,16 @@ namespace PRIME_UCR.Infrastructure.DataProviders.Implementations.EntityConfigura
             builder.HasKey("Codigo");
             builder
                 .HasOne(p => p.Origen)
-                .WithOne(p => p.IncidenteOrigen)
+                .WithOne()
                 .HasForeignKey<Incidente>(p => p.IdOrigen);
             builder
                 .HasOne(p => p.Destino)
-                .WithOne(p => p.IncidenteDestino)
+                .WithOne()
                 .HasForeignKey<Incidente>(p => p.IdDestino);
             builder
                 .Property(p => p.Codigo)
-                .IsRequired();
+                .IsRequired()
+                .HasMaxLength(50);
             builder
                 .Property(p => p.TipoModalidad)
                 .HasColumnName("Modalidad");
