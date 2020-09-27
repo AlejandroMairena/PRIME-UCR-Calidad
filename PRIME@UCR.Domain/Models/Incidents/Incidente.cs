@@ -19,6 +19,8 @@ namespace PRIME_UCR.Domain.Models
         public int CedulaTecnicoRevisor { get; set; }
         //public TecnicoRevisor {get; set;}
         public int CodigoCita { get; set; }
+        public DateTime FechaHoraEstimada { get; set; }
+        public DateTime FechaHoraRegistro { get; set; }
         public int IdOrigen { get; set; }
         public Ubicacion Origen {get; set;}
         public int IdDestino { get; set; }
