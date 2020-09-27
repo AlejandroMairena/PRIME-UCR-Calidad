@@ -3,7 +3,7 @@
 	CédulaPersona		nvarchar(12)		NOT NULL,
 	Correo				nvarchar(40)		NOT NULL,
 	Contraseña			nvarchar(20)		NOT NULL,	
-	primary key(Correo),
+	primary key(CédulaPersona, Correo),
 	foreign key(CédulaPersona)
 		references Persona(Cédula)
 );
