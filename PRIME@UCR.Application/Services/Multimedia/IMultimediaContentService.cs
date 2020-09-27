@@ -12,7 +12,7 @@ namespace PRIME_UCR.Application.Services.Multimedia
 
     public interface IMultimediaContentService {
 
-        MultimediaContent AddFile();
+        bool AddFile(MultimediaContent mcontent);
 
         /*
         Task UploadAsync(IFileListEntry file); 

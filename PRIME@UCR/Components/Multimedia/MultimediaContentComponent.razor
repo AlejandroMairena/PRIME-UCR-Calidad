@@ -77,6 +77,23 @@
 
     IFileListEntry file;
 
+    void HandleFileSelected(IFileListEntry[] files)
+    {
+        file = files.FirstOrDefault();
+        if (file == null) return;
+        MultimediaContent mcontent = new MultimediaContent
+        {
+            ID = "0101",
+            Nombre = file.Name,
+            Archivo = "path",
+            Descripcion = "prueba",
+            Fecha_Hora = DateTime.Now,
+            Tipo = file.Type,
+            ID_accion = "1"
+        };
+        multimedia_content_service.AddFile(mcontent);
+    }
+
     async Task OpenFile(IFileListEntry[] files)
     {
         file = files.FirstOrDefault();
