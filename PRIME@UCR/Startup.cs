@@ -12,7 +12,6 @@ using Microsoft.Extensions.Hosting;
 using PRIME_UCR.Application.Services;
 using PRIME_UCR.Application.Implementations;
 using PRIME_UCR.Application.Repositories;
-using PRIME_UCR.Infrastructure.Repositories;
 using PRIME_UCR.Application.Services.Multimedia;
 
 namespace PRIME_UCR
@@ -39,10 +38,6 @@ namespace PRIME_UCR
             * transient: shared instance per request to the server(resets on reload)
             * scoped: never shared, one new instance per injection
            */
-           services.AddTransient<ITestService, TestService>();
-            // use scoped because it is not thread safe, so it cannot be shared
-            services.AddScoped<ITestRepository, InMemoryTestRepository>();
-
             //MultimediaContentService - DT
             services.AddTransient<IMultimediaContentService, MultimediaContentService>(); 
         }
