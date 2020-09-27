@@ -24,9 +24,10 @@
 
 </head>
 
-<component type="typeof(HeaderComponent)" render-mode="ServerPrerendered" />
+
 
 <body>
+    <component type="typeof(HeaderComponent)" render-mode="ServerPrerendered" />
     <app>
         <component type="typeof(App)" render-mode="ServerPrerendered" />
     </app>
@@ -57,7 +58,7 @@
 
     <!-- Some styling -->
     <link rel="stylesheet" href="_content/ChartJs.Blazor/ChartJSBlazor.css" />
-
+    <component type="typeof(FooterComponent)" render-mode="ServerPrerendered" />
 </body>
-<component type="typeof(FooterComponent)" render-mode="ServerPrerendered" />
+
 </html>
