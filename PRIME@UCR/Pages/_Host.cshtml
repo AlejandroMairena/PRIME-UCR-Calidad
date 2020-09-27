@@ -2,6 +2,7 @@
 @namespace PRIME_UCR.Pages
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
+
 @using PRIME_UCR.Components
 @{
     Layout = null;
@@ -23,8 +24,6 @@
     <script src="_content/BlazorInputFile/inputfile.js"></script>
 
 </head>
-
-
 
 <body>
     <component type="typeof(HeaderComponent)" render-mode="ServerPrerendered" />
@@ -58,7 +57,7 @@
 
     <!-- Some styling -->
     <link rel="stylesheet" href="_content/ChartJs.Blazor/ChartJSBlazor.css" />
-    <component type="typeof(FooterComponent)" render-mode="ServerPrerendered" />
-</body>
 
+</body>
+<component type="typeof(FooterComponent)" render-mode="ServerPrerendered" />
 </html>
