@@ -25,3 +25,14 @@
 
 .m-file-menu {
 }
+
+.m-button {
+    background-color: #095290;
+}
+
+.m-button:hover {
+    background-color: #00c0f3;
+}
+.show > .btn-secondary.dropdown-toggle {
+    background-color: #00c0f3;
+}
