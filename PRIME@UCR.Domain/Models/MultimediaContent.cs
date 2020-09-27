@@ -7,7 +7,7 @@ namespace PRIME_UCR.Domain.Models
 {
     public class MultimediaContent
     {
-        public string ID { get; set; }
+        public int ID { get; set; }
 
         public string Nombre { get; set; }
 

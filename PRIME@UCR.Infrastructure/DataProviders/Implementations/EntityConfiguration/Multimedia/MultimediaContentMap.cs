@@ -38,12 +38,13 @@ namespace PRIME_UCR.Infrastructure.DataProviders.Implementations.EntityConfigura
 
             builder
                 .Property(p => p.Fecha_Hora)
-                .HasMaxLength(20);
+                .IsRequired();
+                //.HasMaxLength(20);
 
             builder
                 .Property(p => p.Tipo)
                 .IsRequired()
-                .HasMaxLength(50);
+                .HasMaxLength(20);
 
             builder
                 .Property(p => p.ID_accion)

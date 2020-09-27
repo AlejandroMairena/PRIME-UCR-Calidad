@@ -91,7 +91,7 @@
             Tipo = file.Type,
             ID_accion = "1"
         };
-        multimedia_content_service.AddFile(mcontent);
+        multimedia_content_service.AddFileAsync(mcontent);
     }
 
     async Task OpenFile(IFileListEntry[] files)
