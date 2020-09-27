@@ -1,9 +1,9 @@
 ﻿@inherits CreateChecklistPopupBase
 <link href="css/Checklist.css" rel="stylesheet" />
 <Modal @bind-Open="IsModalOpened" Close="OnClose">
-    <div class="modal-dialog">
+ 
         <div class="modal-header" id="MH_LC">
-            <h5 class="modal-title">Crear lista de chequeo </h5>
+            <h5 class="modal-title">Crear plantilla de lista de chequeo </h5>
         </div>
         <div class="modal-body" id="MB_LC">
 
@@ -43,7 +43,7 @@
                 <button type="submit" class="btn btn-primary" disabled="@formInvalid">Guardar Lista</button>
                 <button type="button" class="btn btn-secondary" @onclick="e => IsModalOpened = false">Cancelar</button>
             </menu>
-        </div>
+
         </div>
 
 </Modal>
