@@ -15,8 +15,12 @@ namespace PRIME_UCR.Infrastructure.DataProviders.Implementations.EntityConfigura
                 .HasKey(c => new { c.Id, c.CentroMedicoId });
             builder
                 .HasOne(p => p.CentroMedico)
-                .WithMany(p => p.CentroMedicoUbicaciones)
+                .WithMany(p => p.UbicacionIncidentes)
                 .HasForeignKey(p => p.CentroMedicoId);
+            builder
+                .HasOne(p => p.Ubicacion)
+                .WithOne(p => p.CentroUbicacion)
+                .HasForeignKey<CentroUbicacion>(p => p.UbicacionId);
 
         }
 

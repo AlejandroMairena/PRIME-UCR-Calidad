@@ -15,7 +15,7 @@ namespace PRIME_UCR.Infrastructure.DataProviders.Implementations.EntityConfigura
             builder
                 .HasOne(p => p.Distrito)
                 .WithMany(p => p.CentroMedicos)
-                .HasForeignKey(p => p.DistritoId);
+                .HasForeignKey(p => p.UbicadoEn);
         }
 
     }

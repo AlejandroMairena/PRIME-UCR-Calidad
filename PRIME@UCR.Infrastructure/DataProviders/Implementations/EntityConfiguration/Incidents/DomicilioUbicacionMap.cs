@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PRIME_UCR.Domain.Models;
 
@@ -9,12 +10,17 @@ namespace PRIME_UCR.Infrastructure.DataProviders.Implementations.EntityConfigura
         {
             builder
                 .HasOne(p => p.Domicilio)
-                .WithMany(p => p.DomicilioUbicaciones)
-                .HasForeignKey(p => p.DomicilioId);
+                .WithMany(p => p.UbicacionIncidentes)
+                .HasForeignKey(p => p.IdDomicilio);
+            builder
+                .HasOne(p => p.Ubicacion)
+                .WithOne(p => p.DomicilioUbicacion)
+                .HasForeignKey<DomicilioUbicacion>(p => p.UbicacionId);
             builder
                 .Property(p => p.Id)
-                .IsRequired()
-            builder.HasKey("Id");
+                .IsRequired();
+            builder
+                .HasKey(c => new { c.Id, c.IdDomicilio });
 
         }
 
