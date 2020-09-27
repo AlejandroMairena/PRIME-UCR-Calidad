@@ -11,18 +11,5 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Incidents
         public IncidentRepository(ISqlDataProvider dataProvider) : base(dataProvider)
         {
         }
-        
-        // testing purposes only
-        public new Task<Incidente> GetByKeyAsync(string key)
-        {
-            return Task.FromResult(
-                new Incidente
-                {
-                    Id = key,
-                    Estado = "Creado",
-                    Modalidad = new Modalidad { Tipo = "Marítimo" }
-                }
-            );
-        }
     }
 }

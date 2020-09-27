@@ -12,12 +12,19 @@ namespace PRIME_UCR.Infrastructure.DataProviders.Implementations
         public IDbConnection DbConnection { get; set; }
         public DbSet<Provincia> Provinces { get; set; }
         public DbSet<Pais> Countries { get; set; }
+        public DbSet<PaisUbicacion> InternationalLocations { get; set; }
         public DbSet<CentroMedico> MedicalCenters { get; set; }
-        // public DbSet<Estado> States { get; set; }
-        // public DbSet<EstadoIncidente> IncidentStates { get; set; }
-        // public DbSet<Incidente> Incidents { get; set; }
-        // public DbSet<Canton> Cantons { get; set; }
-        // public DbSet<Distrito> Districts { get; set; }
+        public DbSet<CentroUbicacion> MedicalCenterLocations { get; set; }
+        public DbSet<Modalidad> Modes { get; set; }
+        public DbSet<UnidadDeTransporte> TransportUnits { get; set; }
+        public DbSet<Estado> States { get; set; }
+        public DbSet<EstadoIncidente> IncidentStates { get; set; }
+        public DbSet<Incidente> Incidents { get; set; }
+        public DbSet<Canton> Cantons { get; set; }
+        public DbSet<Distrito> Districts { get; set; }
+        public DbSet<Ubicacion> Locations { get; set; }
+        public DbSet<Domicilio> Households { get; set; }
+        public DbSet<DomicilioUbicacion> HouseholdLocations { get; set; }
 
         public ApplicationDbContext(DbContextOptions options) : base(options)
         {
@@ -39,11 +46,13 @@ namespace PRIME_UCR.Infrastructure.DataProviders.Implementations
             builder.ApplyConfiguration(new PaisUbicacionMap());
             builder.ApplyConfiguration(new UbicacionMap());
             builder.ApplyConfiguration(new UnidadDeTransporteMap());
+            builder.ApplyConfiguration(new EstadoMap());
+            builder.ApplyConfiguration(new EstadoIncidenteMap());
         }
 
         public Task<int> SaveChangesAsync()
         {
-            var result = SaveChanges();
+            var result = SaveChanges(); // TODO: check if async works
             return Task.FromResult(result);
         }
     }

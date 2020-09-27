@@ -2,21 +2,29 @@
 @using PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
 @using PRIME_UCR.Components.Incidents.IncidentDetails
 @using PRIME_UCR.Components.Controls
+@using System.Security.Cryptography
 @inject NavigationManager NavigationManager
 @inject IIncidentService IncidentService
 
 <h1>Detalles del incidente</h1>
 <hr />
-<Loading IsLoading="_incident == null">
-    <div class="row">
-        <div class="col-lg-3">
-            <TabMenu Tabs="_tabs" DefaultTab="DefaultTab" IsVertical="true" OnTabSetCallback="@((DetailsTab tab) => OnTabSet(tab))"></TabMenu>
-        </div> 
-        <div class="col">
-            <ActiveTab Active="@_activeTab" Incident="@_incident"></ActiveTab>
+@if (exists)
+{
+    <Loading IsLoading="_incident == null">
+        <div class="row">
+            <div class="col-lg-3">
+                <TabMenu Tabs="_tabs" DefaultTab="DefaultTab" IsVertical="true" OnTabSetCallback="@((DetailsTab tab) => OnTabSet(tab))"></TabMenu>
+            </div> 
+            <div class="col">
+                <ActiveTab Active="@_activeTab" Incident="@_incident"></ActiveTab>
+            </div>
         </div>
-    </div>
-</Loading>
+    </Loading>
+}
+else
+{
+    <h4 class="text-danger">No se encontró el incidente solicitado.</h4>
+}
 
 @code {
     protected override async Task OnInitializedAsync()

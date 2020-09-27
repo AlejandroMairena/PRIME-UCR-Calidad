@@ -8,6 +8,7 @@ namespace PRIME_UCR.Infrastructure.DataProviders.Implementations.EntityConfigura
     {
         public void Configure(EntityTypeBuilder<Ubicacion> builder)
         {
+            builder.ToTable("Ubicacion");
             builder
                 .Property(p => p.Id)
                 .IsRequired();

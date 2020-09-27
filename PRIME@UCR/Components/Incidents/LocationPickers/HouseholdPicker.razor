@@ -1,7 +1,7 @@
 ﻿@using PRIME_UCR.Components.Controls
 
 <Loading IsLoading="@IsLoading()">
-    <DropDownMenu Values="@_countries" Label="Pais" OnChangeCallback="@((Pais c) => OnChangeCountry(c))" /> 
+    <DropDownMenu Values="@_countries" Label="País" OnChangeCallback="@((Pais c) => OnChangeCountry(c))" /> 
     <DropDownMenu Values="@_provinces" Label="Provincia" OnChangeCallback="@((Provincia p) => OnChangeProvince(p))"/> 
     <DropDownMenu Values="@_cantons" Label="Cantón" OnChangeCallback="@((Canton c) => OnChangeCanton(c))"/> 
     <DropDownMenu Values="@_districts" Label="Distrito" OnChangeCallback="@((Distrito d) => OnChangeDistrict(d))"/> 

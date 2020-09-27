@@ -9,6 +9,7 @@ namespace PRIME_UCR.Infrastructure.DataProviders.Implementations.EntityConfigura
     {
         public void Configure(EntityTypeBuilder<UnidadDeTransporte> builder)
         {
+            builder.ToTable("Ubicacion_De_Transporte");
             builder
                 .Property(p => p.Matricula)
                 .IsRequired();

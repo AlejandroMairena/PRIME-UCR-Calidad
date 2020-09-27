@@ -7,7 +7,8 @@
         public DomicilioUbicacion DomicilioUbicacion { get; set; }
         public CentroUbicacion CentroUbicacion { get; set; }
         public PaisUbicacion PaisUbicacion { get; set; }
-        public Incidente Incidente { get; set; }
+        public Incidente IncidenteOrigen { get; set; }
+        public Incidente IncidenteDestino { get; set; }
         //public Medico Medico { get; set; } //not implemented
         
 

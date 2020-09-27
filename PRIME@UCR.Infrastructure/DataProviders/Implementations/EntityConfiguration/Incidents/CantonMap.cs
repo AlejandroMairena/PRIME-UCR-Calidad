@@ -8,6 +8,7 @@ namespace PRIME_UCR.Infrastructure.DataProviders.Implementations.EntityConfigura
     {
         public void Configure(EntityTypeBuilder<Canton> builder)
         {
+            builder.ToTable("Canton");
             builder
                 .Property(p => p.Id)
                 .IsRequired();

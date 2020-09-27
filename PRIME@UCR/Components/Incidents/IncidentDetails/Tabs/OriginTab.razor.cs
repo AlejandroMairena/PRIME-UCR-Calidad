@@ -1,6 +1,7 @@
 ﻿using PRIME_UCR.Models.Incidents;
 using System;
 using System.Collections.Generic;
+using PRIME_UCR.Domain.Models;
 
 namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
 {

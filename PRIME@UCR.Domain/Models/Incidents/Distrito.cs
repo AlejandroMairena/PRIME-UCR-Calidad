@@ -12,7 +12,7 @@ namespace PRIME_UCR.Domain.Models
         }
         public int Id { get; set; }
         public string Nombre { get; set; }
-        public string CantonId { get; set; }
+        public int IdCanton { get; set; }
         public Canton Canton { get; set; }
         public List<CentroMedico> CentroMedicos { get; private set; }
         public List<Domicilio> Domicilios { get; private set; }

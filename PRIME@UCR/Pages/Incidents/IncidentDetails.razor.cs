@@ -16,6 +16,8 @@ namespace PRIME_UCR.Pages.Incidents
         [Parameter]
         public string Active { get; set; }
 
+        private bool exists = true;
+        
         private readonly IEnumerable<Tuple<DetailsTab, string>> _tabs = new List<Tuple<DetailsTab, string>>
         {
             Tuple.Create(DetailsTab.Info, "Información"),
@@ -36,6 +38,8 @@ namespace PRIME_UCR.Pages.Incidents
         async Task SetIncident()
         {
             _incident = await IncidentService.GetIncidentAsync(Id);
+            if (_incident == null)
+                exists = false;
         }
     }
 }

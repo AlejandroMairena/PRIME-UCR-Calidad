@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
+using Microsoft.EntityFrameworkCore.Internal;
 using PRIME_UCR.Application.Services.Incidents;
 using PRIME_UCR.Domain.Models;
 using PRIME_UCR.Models.Incidents;
@@ -12,7 +13,7 @@ namespace PRIME_UCR.Components.Incidents.LocationPickers
     public partial class HouseholdPicker
     {
         [Inject]
-        public IIncidentService IncidentService { get; set; }
+        public ILocationService LocationService { get; set; }
 
         private List<Tuple<Pais, string>> _countries;
         private List<Tuple<Provincia, string>> _provinces;
@@ -32,15 +33,6 @@ namespace PRIME_UCR.Components.Incidents.LocationPickers
                    _districts == null;
         }
 
-        T LoadFirst<T>(IEnumerable<Tuple<T, string>> values)
-        {
-            var tuple = values.FirstOrDefault();
-            if (tuple != null)
-                return tuple.Item1;
-            
-            throw new ArgumentException("List was empty or first tuple was null");
-        }
-
         List<Tuple<T, string>> LoadAsTupleList<T>(IEnumerable<T> values, string displayProperty)
         {
             return values
@@ -55,11 +47,15 @@ namespace PRIME_UCR.Components.Incidents.LocationPickers
         
         async Task LoadCountries()
         {
-            _countries = (await IncidentService.GetAllCountriesAsync())
-                .Select(c => Tuple.Create(c, c.Nombre))
+            var countries =
+                (await LocationService.GetAllCountriesAsync())
                 .ToList();
-            _selectedCountry = LoadFirst(_countries);
+            _countries = LoadAsTupleList(countries, "Nombre");
 
+            // Load first value
+            _selectedCountry = countries.First(); 
+            
+            // cascaded behavior
             await LoadProvinces();
             await LoadCantons();
             await LoadDistricts();
@@ -74,11 +70,16 @@ namespace PRIME_UCR.Components.Incidents.LocationPickers
 
         async Task LoadProvinces()
         {
+            // get options
             var provinces =
-                await IncidentService.GetProvincesByCountryAsync(_selectedCountry);
+                (await LocationService.GetProvincesByCountryNameAsync(_selectedCountry.Nombre))
+                .ToList();
             _provinces = LoadAsTupleList(provinces, "Nombre");
-            
-            _selectedProvince = LoadFirst(_provinces);
+
+            // Could throw invalid operation exception if list is empty,
+            // but this should only happen if there are countries in our DB with no provinces registered,
+            // which shouldn't happen.
+            _selectedProvince = provinces.First();
             
             await LoadCantons();
             await LoadDistricts();
@@ -94,8 +95,11 @@ namespace PRIME_UCR.Components.Incidents.LocationPickers
         async Task LoadCantons()
         {
             var cantons =
-                await IncidentService.GetCantonsByProvinceAsync(_selectedProvince);
+                (await LocationService.GetCantonsByProvinceNameAsync(_selectedProvince.Nombre))
+                .ToList();
             _cantons = LoadAsTupleList(cantons, "Nombre");
+
+            _selectedCanton = cantons.First();
             
             await LoadDistricts();
         }
@@ -110,8 +114,11 @@ namespace PRIME_UCR.Components.Incidents.LocationPickers
         async Task LoadDistricts()
         {
             var districts =
-                await IncidentService.GetDistrictsByCantonAsync(_selectedCanton);
+                (await LocationService.GetDistrictsByCantonIdAsync(_selectedCanton.Id))
+                .ToList();
             _districts = LoadAsTupleList(districts, "Nombre");
+
+            _selectedDistrict = districts.First();
         }
 
         void OnChangeDistrict(Distrito district)

@@ -13,7 +13,7 @@ namespace PRIME_UCR.Components.Incidents.LocationPickers
     public partial class InternationalPicker
     {
         [Inject]
-        public IIncidentService IncidentService { get; set; }
+        public ILocationService LocationService { get; set; }
 
         private List<Tuple<Pais, string>> _values;
 
@@ -22,7 +22,7 @@ namespace PRIME_UCR.Components.Incidents.LocationPickers
 
         async Task InitializeComponent()
         {
-            _values = (await IncidentService.GetAllCountriesAsync())
+            _values = (await LocationService.GetAllCountriesAsync())
                 .Select(c => Tuple.Create(c, c.Nombre))
                 .ToList();
             var tuple = _values.FirstOrDefault();

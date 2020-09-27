@@ -11,7 +11,7 @@ namespace PRIME_UCR.Components.Incidents.LocationPickers
     public partial class MedicalCenterPicker
     {
         [Inject]
-        public IIncidentService IncidentService { get; set; }
+        public ILocationService LocationService { get; set; }
 
         private CentroMedico _selectedMedicalCenter;
 
@@ -24,7 +24,7 @@ namespace PRIME_UCR.Components.Incidents.LocationPickers
 
         async Task UpdateList()
         {
-            _values = (await IncidentService.GetAllMedicalCentersAsync())
+            _values = (await LocationService.GetAllMedicalCentersAsync())
                 .Select(mc => Tuple.Create(mc, mc.Nombre))
                 .ToList();
         }

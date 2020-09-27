@@ -1,10 +1,13 @@
 ﻿<h3> Información general de incidentes</h3>
 <br />
 <ul class="list-group">
-    <ListItem Title="Id" Text="@Incident.Id"/>
+    <ListItem Title="Id" Text="@Incident.Codigo"/>
     <ListItem Title="Estado" Text="@Incident.Estado"/>
-    <ListItem Title="Modalidad" Text="@Incident.Modalidad.Tipo"/>
-    @* <ListItem Title="Registrado por" Text="" /> *@
+    <ListItem Title="Modalidad" Text="@Incident.TipoModalidad"/>
+    <ListItem Title="Fecha estimada del traslado" Text="@Incident.FechaHoraEstimada.ToShortDateString()"></ListItem>
+    <ListItem Title="Hora estimada del traslado" Text="@Incident.FechaHoraEstimada.ToShortTimeString()"></ListItem>
+    <ListItem Title="Fecha de registro" Text="@Incident.FechaHoraRegistro.ToShortDateString()"></ListItem>
+    <ListItem Title="Hora de registro" Text="@Incident.FechaHoraRegistro.ToShortTimeString()"></ListItem>
 </ul>
 
 @code {

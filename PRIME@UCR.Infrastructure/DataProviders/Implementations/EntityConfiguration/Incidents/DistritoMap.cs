@@ -8,10 +8,11 @@ namespace PRIME_UCR.Infrastructure.DataProviders.Implementations.EntityConfigura
     {
         public void Configure(EntityTypeBuilder<Distrito> builder)
         {
+            builder.ToTable("Distrito");
             builder
                 .HasOne(p => p.Canton)
                 .WithMany(p => p.Distritos)
-                .HasForeignKey(p => p.CantonId);
+                .HasForeignKey(p => p.IdCanton);
             builder
                 .Property(p => p.Id)
                 .IsRequired();

@@ -18,7 +18,6 @@ namespace PRIME_UCR.Domain.Models
         public List<EstadoIncidente> EstadoIncidentes { get; private set; }
         public int IdEspecialista { get; set; }
         //public Especialista Especialista {get; set;}
-        public string Id { get; set; }
         public int CedulaAdmin { set; get; }
         //public Administrador Administrador {get; set;}
         public int CedulaTecnicoCoordinador { get; set; }

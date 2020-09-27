@@ -8,6 +8,7 @@ namespace PRIME_UCR.Infrastructure.DataProviders.Implementations.EntityConfigura
     {
         public void Configure(EntityTypeBuilder<Modalidad> builder)
         {
+            builder.ToTable("Modalidad");
             builder
                 .Property(p => p.Tipo)
                 .IsRequired();

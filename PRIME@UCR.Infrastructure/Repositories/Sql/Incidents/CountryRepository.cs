@@ -12,15 +12,5 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Incidents
         public CountryRepository(ISqlDataProvider dataProvider) : base(dataProvider)
         {
         }
-
-        // public new Task<IEnumerable<Pais>> GetAllAsync()
-        // {
-        //     IEnumerable<Pais> result = new List<Pais>
-        //     {
-        //         new Pais { Nombre = "Costa Rica" },
-        //         new Pais { Nombre = "Panamá" }
-        //     };
-        //     return Task.FromResult(result);
-        // }
     }
 }

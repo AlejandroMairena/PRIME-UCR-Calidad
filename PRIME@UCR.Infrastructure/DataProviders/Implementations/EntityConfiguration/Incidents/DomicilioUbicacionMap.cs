@@ -8,6 +8,7 @@ namespace PRIME_UCR.Infrastructure.DataProviders.Implementations.EntityConfigura
     {
         public void Configure(EntityTypeBuilder<DomicilioUbicacion> builder)
         {
+            builder.ToTable("Domicilio_Ubicacion");
             builder
                 .HasOne(p => p.Domicilio)
                 .WithMany(p => p.UbicacionIncidentes)
