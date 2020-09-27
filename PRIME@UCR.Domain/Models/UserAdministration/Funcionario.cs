@@ -4,7 +4,8 @@ using System.Text;
 
 namespace PRIME_UCR.Domain.Models.UserAdministration
 {
-    class Funcionario
+    public class Funcionario
     {
+        public string CédulaFuncionario { get; set; }
     }
 }

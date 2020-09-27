@@ -4,7 +4,9 @@ using System.Text;
 
 namespace PRIME_UCR.Domain.Models.UserAdministration
 {
-    class TienePerfil
+    public class TienePerfil
     {
+        public string Cédula { get; set; }
+        public string NombrePerfil { get; set; }
     }
 }

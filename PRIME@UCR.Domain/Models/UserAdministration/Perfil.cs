@@ -4,7 +4,8 @@ using System.Text;
 
 namespace PRIME_UCR.Domain.Models.UserAdministration
 {
-    class Perfil
+    public class Perfil
     {
+        public string NombrePerfil { get; set; }
     }
 }

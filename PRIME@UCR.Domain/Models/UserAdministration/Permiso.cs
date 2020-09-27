@@ -4,7 +4,9 @@ using System.Text;
 
 namespace PRIME_UCR.Domain.Models.UserAdministration
 {
-    class Permiso
+    public class Permiso
     {
+        public int IDPermiso { get; set; }
+        public string DescripciónPermiso { get; set; }
     }
 }
