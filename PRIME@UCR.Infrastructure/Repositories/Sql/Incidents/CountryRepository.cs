@@ -13,14 +13,14 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Incidents
         {
         }
 
-        public new Task<IEnumerable<Pais>> GetAllAsync()
-        {//Solo pusimos el nombre del pais porque no entendimos como hacer los demas
-            IEnumerable<Pais> result = new List<Pais>
-            {
-                new Pais { Nombre = "Costa Rica" },
-                new Pais { Nombre = "Panam·" }
-            };
-            return Task.FromResult(result);
-        }
+        // public new Task<IEnumerable<Pais>> GetAllAsync()
+        // {
+        //     IEnumerable<Pais> result = new List<Pais>
+        //     {
+        //         new Pais { Nombre = "Costa Rica" },
+        //         new Pais { Nombre = "Panam√°" }
+        //     };
+        //     return Task.FromResult(result);
+        // }
     }
 }

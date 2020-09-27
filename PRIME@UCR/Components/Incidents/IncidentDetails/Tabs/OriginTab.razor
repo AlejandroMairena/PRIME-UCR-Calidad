@@ -1,18 +1,16 @@
 ﻿@using PRIME_UCR.Components.Controls
 @using PRIME_UCR.Components.Incidents.LocationPickers
 
-<h1> Información sobre el origen </h1>
+<h3> Información sobre el origen </h3>
 <br />
-<label>Origen</label>
-<DropDownMenu Values="@_dropdownValuesOrigin" OnChangeCallback="@((OriginType tab) => OnChangeOrigin(tab))" />
-@if (@_selectedOriginType == OriginType.Household)
+<DropDownMenu Values="@_dropdownValuesOrigin" Label="Tipo de origen" OnChangeCallback="@((OriginType tab) => OnChangeOrigin(tab))" />
+@if (_selectedOriginType == OriginType.Household)
 {
-    <CountryPicker />
+    <HouseholdPicker />
 }
-else if (@_selectedOriginType == OriginType.International)
+else if (_selectedOriginType == OriginType.International)
 {
-    <CountryPicker />
-
+    <InternationalPicker Model="@intlModel" />
 }
 else
 { 

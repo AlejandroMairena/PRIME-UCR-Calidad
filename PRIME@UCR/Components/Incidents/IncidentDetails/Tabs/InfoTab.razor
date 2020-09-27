@@ -1,10 +1,9 @@
-﻿<ul class="list-group">
+﻿<h3> Información general de incidentes</h3>
+<br />
+<ul class="list-group">
     <ListItem Title="Id" Text="@Incident.Id"/>
     <ListItem Title="Estado" Text="@Incident.Estado"/>
-    @if (Incident.Modalidad != null)
-    {
-        <ListItem Title="Estado" Text="@Incident.Modalidad.Tipo"/>
-    }
+    <ListItem Title="Modalidad" Text="@Incident.Modalidad.Tipo"/>
     @* <ListItem Title="Registrado por" Text="" /> *@
 </ul>
 

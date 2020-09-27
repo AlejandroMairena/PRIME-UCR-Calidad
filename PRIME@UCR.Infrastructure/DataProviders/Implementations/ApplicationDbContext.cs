@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using PRIME_UCR.Domain.Models;
 using System.Threading.Tasks;
+using PRIME_UCR.Domain.Models.Incidents;
 using PRIME_UCR.Infrastructure.DataProviders.Implementations.EntityConfiguration.Incidents;
 
 namespace PRIME_UCR.Infrastructure.DataProviders.Implementations
@@ -12,6 +13,11 @@ namespace PRIME_UCR.Infrastructure.DataProviders.Implementations
         public DbSet<Provincia> Provinces { get; set; }
         public DbSet<Pais> Countries { get; set; }
         public DbSet<CentroMedico> MedicalCenters { get; set; }
+        // public DbSet<Estado> States { get; set; }
+        // public DbSet<EstadoIncidente> IncidentStates { get; set; }
+        // public DbSet<Incidente> Incidents { get; set; }
+        // public DbSet<Canton> Cantons { get; set; }
+        // public DbSet<Distrito> Districts { get; set; }
 
         public ApplicationDbContext(DbContextOptions options) : base(options)
         {

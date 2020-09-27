@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PRIME_UCR.Models.Incidents;
+using System;
 using System.Collections.Generic;
 
 namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
@@ -15,6 +16,8 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
     {
         // Selected options
         private OriginType _selectedOriginType = OriginType.Household;
+
+        private InternationalOriginModel intlModel;
 
         // Lists of options
         private readonly List<Tuple<OriginType, string>> _dropdownValuesOrigin = new List<Tuple<OriginType, string>>

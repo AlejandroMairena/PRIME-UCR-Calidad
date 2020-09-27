@@ -2,15 +2,14 @@
 @using Microsoft.EntityFrameworkCore
 
 <Loading IsLoading="_values == null">
-    <DropDownMenu Values="@_values" T="Provincia" Label="Provincia" />
-    <br />
+    <DropDownMenu Values="@_values" T="Pais" Label="Pais" /> 
 </Loading>
 
 @code {
 
     protected override async Task OnInitializedAsync()
     {
-    await UpdateList();
+        await InitializeComponent();
     }
 
 }

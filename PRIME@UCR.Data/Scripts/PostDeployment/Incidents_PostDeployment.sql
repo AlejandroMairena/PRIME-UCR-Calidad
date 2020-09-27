@@ -1,4 +1,6 @@
-﻿DELETE FROM Incidente
+﻿DELETE FROM EstadoIncidente
+DELETE FROM Estado
+DELETE FROM Incidente
 DELETE FROM Unidad_De_Transporte
 DELETE FROM Modalidad
 DELETE FROM Centro_Ubicacion
@@ -60,14 +62,14 @@ VALUES
 -- Distritos
 INSERT INTO Distrito (IdCanton, Nombre)
 VALUES
-    (6,'Pavas'),
-    (2,'Escazú'),
-    (2,'San Rafael'),
-    (6,'Merced'),
-    (8,'Sabanilla'),
-    (6,'San Pedro'),
-    (3,'Ulloa'),
-    (6,'Uruca'),
+    (6, 'Pavas'),
+    (2, 'Escazú'),
+    (2, 'San Rafael'),
+    (6, 'Merced'),
+    (8, 'Sabanilla'),
+    (6, 'San Pedro'),
+    (3, 'Ulloa'),
+    (6, 'Uruca'),
     (9, 'Santa Ana');
 
 -- Ubicación
@@ -134,4 +136,26 @@ INSERT INTO Incidente (Codigo, MatriculaTrans, Estado, IdEspecialista, CedulaAdm
 VALUES
     ('TERR123', 'BPC087', 'Registrado', 123, 111111111, 117222222, 1173333333, 1, 1, 2, 'Terrestre'),
     ('AER123', 'PHP999', 'Registrado', 456, 117111111, 117112222, 1171133333, 1, 2, 1, 'Aéreo');
+
+-- Estado
+INSERT INTO Estado
+VALUES
+    ('En proceso de creación'),
+    ('Creado'),
+    ('Rechazado'),
+    ('Aceptado'),
+    ('Asignado'),
+    ('En preparación'),
+    ('En ruta a origen'),
+    ('Paciente recolectado en origen'),
+    ('En traslado'),
+    ('Entregado'),
+    ('Reactivación'),
+    ('Finalizado')
+
+-- EstadoIncidente
+INSERT INTO EstadoIncidente
+VALUES
+    ('TERR123', 'En proceso de creación', GETDATE(), 1),
+    ('AER123', 'En proceso de creación', GETDATE(), 1)
 

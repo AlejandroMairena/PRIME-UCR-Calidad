@@ -21,7 +21,7 @@ namespace PRIME_UCR.Pages.Incidents
             Tuple.Create(DetailsTab.Info, "Información"),
             Tuple.Create(DetailsTab.Origin, "Origen"),
             Tuple.Create(DetailsTab.Destination, "Destino"),
-            Tuple.Create(DetailsTab.Patient, "Paciente")
+            // Tuple.Create(DetailsTab.Patient, "Paciente")
         };
         
         private DetailsTab _activeTab;
