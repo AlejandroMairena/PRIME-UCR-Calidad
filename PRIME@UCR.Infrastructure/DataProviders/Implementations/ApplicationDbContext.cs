@@ -1,10 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using PRIME_UCR.Domain.Models;
+using PRIME_UCR.Infrastructure.DataProviders.Implementations.EntityConfiguration.UserAdministration;
 using System.Threading.Tasks;
 
 namespace PRIME_UCR.Infrastructure.DataProviders.Implementations
 {
-    public class ApplicationDbContext : DbContext, ISqlDataProvider
+    public class ApplicationDbContext : IdentityDbContext, ISqlDataProvider
     {
         public DbSet<TestModel> TestModels { get; set; }
 
@@ -19,6 +21,7 @@ namespace PRIME_UCR.Infrastructure.DataProviders.Implementations
             {
                 tm.HasKey("Key");
             });
+            builder.ApplyConfiguration(new UsuarioMap());
         }
 
 
