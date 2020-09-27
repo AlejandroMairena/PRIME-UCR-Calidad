@@ -15,6 +15,7 @@ namespace PRIME_UCR.Infrastructure
             services.AddTransient<ISqlDataProvider, ApplicationDbContext>();
             services.AddTransient(typeof(IGenericRepository<,>), typeof(GenericRepository<,>));
             services.AddTransient<IIncidentRepository, IncidentRepository>();
+            services.AddTransient<IMedicalCenterRepository, MedicalCenterRepository>();
             return services;
         }
     }

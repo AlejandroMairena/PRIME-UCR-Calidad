@@ -16,12 +16,12 @@ namespace PRIME_UCR.Pages.Incidents
         [Parameter]
         public string Active { get; set; }
 
-        private IEnumerable<(DetailsTab, string)> Tabs = new List<(DetailsTab Info, string)>
+        private readonly IEnumerable<Tuple<DetailsTab, string>> _tabs = new List<Tuple<DetailsTab, string>>
         {
-            (DetailsTab.Info, "Información"),
-            (DetailsTab.Origin, "Origen"),
-            (DetailsTab.Destination, "Destino"),
-            (DetailsTab.Patient, "Paciente")
+            Tuple.Create(DetailsTab.Info, "Información"),
+            Tuple.Create(DetailsTab.Origin, "Origen"),
+            Tuple.Create(DetailsTab.Destination, "Destino"),
+            Tuple.Create(DetailsTab.Patient, "Paciente")
         };
         
         private DetailsTab _activeTab;

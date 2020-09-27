@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 
@@ -16,7 +17,7 @@ namespace PRIME_UCR.Components.Controls
         public EventCallback<TEnum> OnTabSetCallback { get; set; }
 
         [Parameter]
-        public IEnumerable<(TEnum, string)> Tabs { get; set; }
+        public IEnumerable<Tuple<TEnum, string>> Tabs { get; set; }
 
         private TEnum _currentTab;
 

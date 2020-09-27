@@ -1,3 +1,15 @@
 ﻿@using PRIME_UCR.Components.Controls
+@using Microsoft.EntityFrameworkCore
 
-@*<DropDownMenu Values="null"/>*@
+<Loading IsLoading="_values == null">
+    <DropDownMenu Values="_values" T="CentroMedico" Label="Centro médico"/>
+</Loading>
+
+@code {
+
+    protected override async Task OnInitializedAsync()
+    {
+        await UpdateList();
+    }
+
+}

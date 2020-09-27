@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using PRIME_UCR.Domain.Models;
 
 namespace PRIME_UCR.Application.Services.Incidents
@@ -6,5 +7,6 @@ namespace PRIME_UCR.Application.Services.Incidents
     public interface IIncidentService
     {
         Task<Incidente> GetIncidentAsync(string id);
+        Task<IEnumerable<CentroMedico>> GetAllMedicalCentersAsync();
     }
 }
