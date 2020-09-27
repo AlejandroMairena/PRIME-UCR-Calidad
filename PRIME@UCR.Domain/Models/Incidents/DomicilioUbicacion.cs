@@ -5,5 +5,7 @@
         public int Id { get; set; }
         public int IdDomicilio { get; set; }
         public int UbicacionId { get; set; }
+        public Ubicacion Ubicacion { get; set; }
+        public Domicilio Domicilio { get; set; }
     }
 }

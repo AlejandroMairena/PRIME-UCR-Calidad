@@ -1,0 +1,17 @@
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using PRIME_UCR.Domain.Models;
+
+namespace PRIME_UCR.Infrastructure.DataProviders.Implementations.EntityConfiguration.Incidents
+{
+    public class UbicacionMap : IEntityTypeConfiguration<Ubicacion>
+    {
+        public void Configure(EntityTypeBuilder<Ubicacion> builder)
+        {
+            builder
+                .Property(p => p.Id)
+                .IsRequired();
+            builder.HasKey("Id");
+        }
+    }
+}
