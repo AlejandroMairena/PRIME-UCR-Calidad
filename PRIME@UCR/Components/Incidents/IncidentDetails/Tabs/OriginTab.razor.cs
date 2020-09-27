@@ -1,5 +1,7 @@
-﻿using System;
+﻿using PRIME_UCR.Models.Incidents;
+using System;
 using System.Collections.Generic;
+using PRIME_UCR.Domain.Models;
 
 namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
 {
@@ -11,18 +13,12 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
         MedicalCenter
     }
 
-    enum CountryType {
-        CostaRica, 
-        UnitedStates,
-        Panama
-    }
-
     public partial class OriginTab
     {
         // Selected options
         private OriginType _selectedOriginType = OriginType.Household;
 
-        private CountryType _selectedCountryType = CountryType.CostaRica;
+        private InternationalOriginModel intlModel;
 
         // Lists of options
         private readonly List<Tuple<OriginType, string>> _dropdownValuesOrigin = new List<Tuple<OriginType, string>>
@@ -31,23 +27,12 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
             Tuple.Create(OriginType.International, "Internacional"),
             Tuple.Create(OriginType.MedicalCenter, "Centro médico")
         };
-
-        private readonly List<Tuple<CountryType, string>> _dropdownValuesCountries = new List<Tuple<CountryType, string>>
-        {
-            Tuple.Create(CountryType.CostaRica, "Costa Rica"),
-            Tuple.Create(CountryType.UnitedStates, "Estados Unidos"),
-            Tuple.Create(CountryType.Panama, "Panamá")
-        };
         
         void OnChangeOrigin(OriginType originType)
         {
             _selectedOriginType = originType;
         }
         
-        void OnChangeCountry(CountryType countryType)
-        {
-            _selectedCountryType = countryType;
-        }
     }
     
 }

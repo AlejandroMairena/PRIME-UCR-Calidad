@@ -12,6 +12,7 @@ namespace PRIME_UCR.Application
         {
             // services
             services.AddScoped<IIncidentService, IncidentService>();
+            services.AddScoped<ILocationService, LocationService>();
             return services;
         }
     }

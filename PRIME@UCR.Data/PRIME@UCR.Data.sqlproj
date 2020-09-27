@@ -71,6 +71,8 @@
     <Build Include="Tables\Modalidad.sql" />
     <Build Include="Tables\Pais.sql" />
     <None Include="Scripts\PostDeployment\Incidents_PostDeployment.sql" />
+    <Build Include="Tables\Estado.sql" />
+    <Build Include="Tables\EstadoIncidente.sql" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\Pais_Ubicacion.sql" />

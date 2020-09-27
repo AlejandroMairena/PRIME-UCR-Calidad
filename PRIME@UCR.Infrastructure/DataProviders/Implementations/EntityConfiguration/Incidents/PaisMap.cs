@@ -8,11 +8,12 @@ namespace PRIME_UCR.Infrastructure.DataProviders.Implementations.EntityConfigura
     {
         public void Configure(EntityTypeBuilder<Pais> builder)
         {
+            builder.ToTable("Pais");
             builder
                 .Property(p => p.Nombre)
                 .IsRequired()
                 .HasMaxLength(50);
             builder.HasKey("Nombre");
-        }
+        }       
     }
 }

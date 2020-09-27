@@ -11,13 +11,10 @@ namespace PRIME_UCR.Application.Implementations.Incidents
     public class IncidentService : IIncidentService
     {
         private readonly IIncidentRepository _incidentRepository;
-        private readonly IMedicalCenterRepository _medicalCenterRepository;
 
-
-        public IncidentService(IIncidentRepository incidentRepository, IMedicalCenterRepository medicalCenterRepository)
+        public IncidentService(IIncidentRepository incidentRepository, IMedicalCenterRepository medicalCenterRepository, ICountryRepository countryRepository)
         {
             _incidentRepository = incidentRepository;
-            _medicalCenterRepository = medicalCenterRepository;
         }
 
         public async Task<Incidente> GetIncidentAsync(string id)
@@ -25,9 +22,5 @@ namespace PRIME_UCR.Application.Implementations.Incidents
             return await _incidentRepository.GetByKeyAsync(id);
         }
 
-        public async Task<IEnumerable<CentroMedico>> GetAllMedicalCentersAsync()
-        {
-            return await _medicalCenterRepository.GetAllAsync();
-        }
     }
 }

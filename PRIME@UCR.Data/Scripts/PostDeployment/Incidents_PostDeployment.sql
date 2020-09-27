@@ -1,4 +1,6 @@
-﻿DELETE FROM Incidente
+﻿DELETE FROM EstadoIncidente
+DELETE FROM Estado
+DELETE FROM Incidente
 DELETE FROM Unidad_De_Transporte
 DELETE FROM Modalidad
 DELETE FROM Centro_Ubicacion
@@ -29,7 +31,6 @@ VALUES
     ('Nicaragua'),
     ('Guatemala'),
     ('Honduras'),
-    ('Colombia'),
     ('El Salvador');
 
 -- Provincia
@@ -54,21 +55,20 @@ VALUES
     ('San José','Mora'),
     ('San José','San José'),
     ('San José','Santa Ana'),
-    ('Alajuela','Alajuela'),
-    ('San José', 'Santa Ana');
+    ('Alajuela','Alajuela')
 
 -- Distritos
 INSERT INTO Distrito (IdCanton, Nombre)
 VALUES
-    (6,'Pavas'),
-    (2,'Escazú'),
-    (2,'San Rafael'),
-    (6,'Merced'),
-    (8,'Sabanilla'),
-    (6,'San Pedro'),
-    (3,'Ulloa'),
-    (6,'Uruca'),
-    (9, 'Santa Ana');
+    (6, 'Pavas'),
+    (2, 'Escazú'),
+    (2, 'San Rafael'),
+    (6, 'Merced'),
+    (8, 'Sabanilla'),
+    (6, 'San Pedro'),
+    (3, 'Ulloa'),
+    (6, 'Uruca'),
+    (7, 'Santa Ana');
 
 -- Ubicación
 INSERT INTO Ubicacion (CedulaDeMedico)
@@ -130,8 +130,32 @@ VALUES
     ('PHP999', 'Disponible', 'Aéreo');
 
 -- Incidente
-INSERT INTO Incidente (Codigo, MatriculaTrans, Estado, IdEspecialista, CedulaAdmin, CedulaTecnicoCoordinador, CedulaTecnicoRevisor, CodigoCita, IdOrigen, IdDestino, Modalidad)
+INSERT INTO Incidente (Codigo, MatriculaTrans, Estado, IdEspecialista, CedulaAdmin,
+    CedulaTecnicoCoordinador, CedulaTecnicoRevisor, CodigoCita, IdOrigen, IdDestino,
+    Modalidad, FechaHoraRegistro, FechaHoraEstimada)
 VALUES
-    ('TERR123', 'BPC087', 'Registrado', 123, 111111111, 117222222, 1173333333, 1, 1, 2, 'Terrestre'),
-    ('AER123', 'PHP999', 'Registrado', 456, 117111111, 117112222, 1171133333, 1, 2, 1, 'Aéreo');
+    ('TERR123', 'BPC087', 'Registrado', 123, 111111111, 117222222, 1173333333, 1, 1, 2, 'Terrestre', GETDATE(), GETDATE()),
+    ('AER123', 'PHP999', 'Registrado', 456, 117111111, 117112222, 1171133333, 1, 2, 1, 'Aéreo', GETDATE(), GETDATE());
+
+-- Estado
+INSERT INTO Estado
+VALUES
+    ('En proceso de creación'),
+    ('Creado'),
+    ('Rechazado'),
+    ('Aceptado'),
+    ('Asignado'),
+    ('En preparación'),
+    ('En ruta a origen'),
+    ('Paciente recolectado en origen'),
+    ('En traslado'),
+    ('Entregado'),
+    ('Reactivación'),
+    ('Finalizado')
+
+-- EstadoIncidente
+INSERT INTO EstadoIncidente
+VALUES
+    ('TERR123', 'En proceso de creación', GETDATE(), 1),
+    ('AER123', 'En proceso de creación', GETDATE(), 1)
 

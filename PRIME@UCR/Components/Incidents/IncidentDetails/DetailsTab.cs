@@ -8,6 +8,5 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
         Origin,
         Destination,
         Patient,
-        Unknown
     }
 }

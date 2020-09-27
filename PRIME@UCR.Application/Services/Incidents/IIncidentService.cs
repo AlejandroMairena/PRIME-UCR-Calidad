@@ -7,6 +7,6 @@ namespace PRIME_UCR.Application.Services.Incidents
     public interface IIncidentService
     {
         Task<Incidente> GetIncidentAsync(string id);
-        Task<IEnumerable<CentroMedico>> GetAllMedicalCentersAsync();
+
     }
 }

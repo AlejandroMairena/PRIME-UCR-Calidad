@@ -1,0 +1,15 @@
+﻿@using PRIME_UCR.Components.Controls
+@using Microsoft.EntityFrameworkCore
+
+<Loading IsLoading="_values == null">
+    <DropDownMenu Values="@_values" T="Pais" Label="País" /> 
+</Loading>
+
+@code {
+
+    protected override async Task OnInitializedAsync()
+    {
+        await InitializeComponent();
+    }
+
+}
