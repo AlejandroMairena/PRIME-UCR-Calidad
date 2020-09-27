@@ -1,43 +1,49 @@
 ﻿@inherits CreateChecklistPopupBase
-
+<link href="css/Checklist.css" rel="stylesheet" />
 <Modal @bind-Open="IsModalOpened" Close="OnClose">
-    <EditForm EditContext="@editContext" OnValidSubmit="@HandleValidSubmit">
-        <DataAnnotationsValidator />
-        <h4 align="center"> Crear lista de chequeo </h4>
-        <p align ="left">
-            <label for="name">Nombre:<span style=" color:red">*&nbsp;&nbsp;&nbsp;&nbsp;</span></label>
-            <InputText id="name" @bind-Value="checkList.Nombre" style ="width: 252px; height : 25px"  />
-            <ValidationMessage For="@(() => checkList.Nombre)" />
-        </p>
+    <div class="modal-dialog">
+        <div class="modal-header" id="MH_LC">
+            <h5 class="modal-title">Crear lista de chequeo </h5>
+        </div>
+        <div class="modal-body" id="MB_LC">
 
-        <p align="left">
-                <label for="description">Descripción: </label>
-                <InputTextArea id="description" @bind-Value="checkList.Descripcion" style ="width: 250px; height : 50px" />
-        </p>
+            <EditForm EditContext="@editContext" OnValidSubmit="@HandleValidSubmit">
+                <DataAnnotationsValidator />
+                <div class="modal-content" id="MC_LC">
+                    <div class="createLC">
+                        <p align="center">
+                            <br />
+                            <label for="name">Nombre:<span style=" color:red">*&nbsp;&nbsp;&nbsp;&nbsp;</span></label>
+                            <InputText id="name" @bind-Value="checkList.Nombre" style="width: 226px; height : 25px" />
+                            <ValidationMessage For="@(() => checkList.Nombre)" />
+                            <br />
+                            <label for="description">Descripción: </label>
+                            <InputTextArea id="description" @bind-Value="checkList.Descripcion" style="width: 224px; height : 50px" />
+                            <br />
+                            <label for="type">Tipo:<span style=" color:red">*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></label>
+                            <InputSelect id="type" @bind-Value="checkList.Tipo" style="width: 220px; height : 25px">
+                                <option value="" selected="selected" disabled>Seleccione el tipo</option>
+                                <option value="Colocación equipo">Colocación equipo</option>
+                                <option value="Retiro equipo">Retiro equipo</option>
+                                <option value="Paciente en origen">Paciente en origen</option>
+                                <option value="Paciente en destino">Paciente en destino</option>
+                                <option value="Paciente en traslado">Paciente en traslado</option>
+                            </InputSelect>
+                            <ValidationMessage For="@(() => checkList.Tipo)" />
+                            <br />
+                            <label for="order">Orden: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                            <InputNumber id="order" @bind-Value="checkList.Orden" style="width: 220px; height : 25px" />
+                        </p>
+                    </div>
+                </div>
+            </EditForm>
 
-        <p align ="left">
-            <label for="type">Tipo:<span style=" color:red">*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></label>
-            <InputSelect id="type" @bind-Value="checkList.Tipo" style ="width: 248px; height : 25px" >
-                <option value="" selected="selected" disabled>Seleccione el tipo</option>
-                <option value="Colocación equipo">Colocación equipo</option>
-                <option value="Retiro equipo">Retiro equipo</option>
-                <option value="Paciente en origen">Paciente en origen</option>
-                <option value="Paciente en destino">Paciente en destino</option>
-                <option value="Paciente en traslado">Paciente en traslado</option>
-            </InputSelect>
-            <ValidationMessage For="@(() => checkList.Tipo)" />
-        </p>
+            <p style="color:red">* Campo requerido</p>
+            <menu align="center">
+                <button type="submit" class="btn btn-primary" disabled="@formInvalid">Guardar Lista</button>
+                <button type="button" class="btn btn-secondary" @onclick="e => IsModalOpened = false">Cancelar</button>
+            </menu>
+        </div>
+        </div>
 
-        <p align ="left">
-            <label for="order">Orden: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-            <InputNumber id="order" @bind-Value="checkList.Orden" style ="width: 248px; height : 25px" />
-        </p>
-
-        <p style="color:red">* Campo requerido</p>
-        <menu align ="center">
-            <button type="submit" class="btn btn-primary" disabled="@formInvalid">Guardar Lista</button>
-            <button type="button" class="btn btn-secondary" @onclick="e => IsModalOpened = false">Cancelar</button>
-        </menu>
-
-    </EditForm>
 </Modal>
