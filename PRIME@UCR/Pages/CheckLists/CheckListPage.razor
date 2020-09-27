@@ -16,16 +16,25 @@
             <p><em class="nav-link">No se han creado ninguna lista, presione el boton Crear Lista de Chequeo para crear una.</em></p>
         }
         else { 
-            <ul class="nav flex-column">
-            @foreach (var tempList in lists)
-            {
-                <li class="nav-item px-3">
-                    <NavLink href='@string.Format("checklist/{0}", @tempList.Id)'>
-                        @tempList.Nombre
-                    </NavLink>
-                </li>
-            }
-            </ul>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Tipo</th>
+                        <th>Descripción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var tempList in lists)
+                    {
+                        <tr class="nav-item px-3" style="transform: rotate(0);">
+                            <th scope="row"><a href='@string.Format("checklist/{0}", @tempList.Id)' class="stretched-link">@tempList.Nombre</a></th>
+                                <td>@tempList.Tipo</td>
+                                <td>@tempList.Descripcion</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
         }
     }
 </div>
