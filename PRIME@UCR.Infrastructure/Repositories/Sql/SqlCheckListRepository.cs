@@ -1,0 +1,23 @@
+﻿using PRIME_UCR.Application.Repositories;
+using PRIME_UCR.Domain.Models;
+using PRIME_UCR.Infrastructure.DataProviders;
+using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace PRIME_UCR.Infrastructure.Repositories.Sql
+{
+    class SqlCheckListRepository : SqlGenericRepository<CheckList, int>, ICheckListRepository
+    {
+        public SqlCheckListRepository(ISqlDataProvider dataProvider) : base(dataProvider)
+        {
+        }
+
+        public async Task<IEnumerable<CheckList>> GetByName(string name)
+        {
+            return await this.GetByCondition(checkListModel => checkListModel.Nombre == name);
+        }
+    }
+}
