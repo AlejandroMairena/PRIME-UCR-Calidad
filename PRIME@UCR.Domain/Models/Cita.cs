@@ -14,11 +14,9 @@ namespace PRIME_UCR.Domain.Models
 
         public List<Acciones> Acciones { get; set; }
 
+        public List<CitaMedica> CitasMedicas { get; set; }
 
-        //PENDIENTES. 
-        //public List<CitaMedica>
-
-        //public List<Metricas>
+        public List<Metricas> Metricas { get; set; }
 
     }
 }

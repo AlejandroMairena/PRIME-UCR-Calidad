@@ -15,8 +15,4 @@
     <ProjectReference Include="..\PRIME@UCR.Domain\PRIME@UCR.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Repositories\Sql\Multimedia\" />
-  </ItemGroup>
-
 </Project>
