@@ -7,12 +7,6 @@
 
 @using PRIME_UCR.Infrastructure
 
-@*<div class="btn-block">
-        @ChildContent
-        <button class="btn btn-outline-success" @onclick="open_file">
-            Adjuntar Archivo
-        </button>
-    </div>*@
 
 <div class="@divDDClass">
     <button class="btn btn-secondary dropdown-toggle m-button"
@@ -28,78 +22,19 @@
         </svg>
     </button>
     <div class="@ddMenuClass" aria-labelledby="dropdownMenuButton">
+        @for(int i = 0; i < counter; i++)
+        {
         <div class="m-menu-div">
-            <label for="imgFileInput" class="m-label">Imagen</label>
-            <input id="imgFileInput" style="visibility:hidden; width: 0" type="file" @bind="imgFilePath"
-                   accept=".png,.jpg">
-            @if (HasFiles(imgFilePath))
-            {
-                <div class="m-file-menu">
-                    <hr />
-                    @CleanPath(imgFilePath)
-                    <button type="button" class="btn btn-danger m-btn-remove">Eliminar</button>
-                    <hr />
-                </div>
-            }
+            <BlazorInputFile.InputFile></BlazorInputFile.InputFile>
+            <button type="button" class="btn btn-danger m-btn m-btn-rm">Eliminar</button>
         </div>
+        }
         <div class="m-menu-div">
-            <label for="audioFileInput" class="m-label">Audio</label>
-            <input id="audioFileInput" style="visibility:hidden;" type="file" @bind="audioFilePath"
-                   accept=".mp3,.wav">
-            @if (HasFiles(audioFilePath))
-            {
-                <div class="m-file-menu">
-                    <hr />
-                    @CleanPath(audioFilePath)
-                    <button type="button" class="btn btn-danger m-btn-remove">Eliminar</button>
-                    <hr />
-                </div>
-            }
+            <button type="button" class="btn btn-success m-btn" @onclick="AddInputFile">+</button>
         </div>
-        <div class="m-menu-div">
-            <label for="textFileInput" class="m-label">Texto</label>
-            <input id="textFileInput" style="visibility:hidden;" type="file" @bind="textFilePath"
-                   accept=".pdf,.doc,.docx,.xls,.txt">
-            @if (HasFiles(textFilePath))
-            {
-                <div class="m-file-menu">
-                    <hr />
-                    @CleanPath(textFilePath)
-                    <button type="button" class="btn btn-danger m-btn-remove">Eliminar</button>
-                    <hr />
-                </div>
-            }
-        </div>
-        <div class="m-menu-div">
-            <label for="videoFileInput" class="m-label">Video</label>
-            <input id="videoFileInput" style="visibility:hidden;" type="file" @bind="videoFilePath"
-                   accept=".mp4,.wmv,.avi">
-            @if (HasFiles(videoFilePath))
-            {
-                <div class="m-file-menu">
-                    <hr />
-                    @CleanPath(videoFilePath)
-                    <button type="button" class="btn btn-danger m-btn-remove">Eliminar</button>
-                    <hr />
-                </div>
-            }
-        </div>
+        
     </div>
 </div>
-
-<hr />
-<hr />
-<hr />
-<!--- Install-Package BlazorInputFile -Version 0.1.0-preview-00002-->
-@*<InputFile OnChange="OpenFile"></InputFile>
-    @if (file != null)
-    {
-
-        <p>Name:@file.Name</p>
-        <p>Size:@file.Size</p>
-        <p>Type:@file.Type</p>
-
-    }*@
 
 
 @code {
@@ -107,9 +42,27 @@
     [Parameter]
     public RenderFragment ChildContent { get; set; }
 
+    int counter = 0;
+
+    bool open = false;
+    string divDDClass = "dropdown";
+    string ddMenuClass = "dropdown-menu";
+
     protected override void OnInitialized()
     {
+    }
 
+    public void Open()
+    {
+        divDDClass = open ? "dropdown" : "dropdown show";
+        ddMenuClass = open ? "dropdown-menu" : "dropdown-menu show";
+
+        open = !open;
+    }
+
+    public void AddInputFile()
+    {
+        counter++;
     }
 
     public void open_file()
@@ -117,42 +70,6 @@
         //puedo usar esto gracias a la inyeccion que se hizo arriba.
         //este servicio me retorna el modelo, dentro del servicio es que se debe abrir el archivo.
         MultimediaContent multimedia = multimedia_content_service.AddFile();
-    }
-
-
-    bool open = false;
-    string divDDClass = "dropdown";
-    string ddMenuClass = "dropdown-menu";
-
-    public void Open()
-    {
-        if (open)
-        {
-            divDDClass = "dropdown";
-            ddMenuClass = "dropdown-menu";
-        }
-        else
-        {
-            divDDClass = "dropdown show";
-            ddMenuClass = "dropdown-menu show";
-        }
-        open = !open;
-    }
-
-    public string imgFilePath;
-    public string audioFilePath;
-    public string textFilePath;
-    public string videoFilePath;
-
-    public bool HasFiles(string filePath)
-    {
-        return !String.IsNullOrEmpty(filePath);
-    }
-
-    public string CleanPath(string path)
-    {
-        string[] s_split = path.Split('\\');
-        return s_split[s_split.Length - 1];
     }
 
     //Todo el siguiente codigo.
