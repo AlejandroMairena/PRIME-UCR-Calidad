@@ -45,7 +45,7 @@ namespace PRIME_UCR.Infrastructure.DataProviders.Implementations.EntityConfigura
             builder
                 .Property(p => p.Tipo)
                 .IsRequired()
-                .HasMaxLength(20);
+                .HasMaxLength(100);
 
             builder
                 .Property(p => p.ID_accion)
