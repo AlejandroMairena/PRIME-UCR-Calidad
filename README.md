@@ -85,6 +85,23 @@ El administrador debe poder visualizar la informacion y permisos asignados a cad
 
 ### Esquema lógico de la base de datos
 
+![](https://i.imgur.com/e6I08mP.png)
+
+A continuación se muestra el esquema lógico dividido en los correspondientes a cada equipo: 
+
+Atenienses++ (Administración de Usuarios):
+![](https://i.imgur.com/6xnF6eE.png)
+
+Diosvier (Administración de Translados) :
+![](https://i.imgur.com/HE20mND.png)
+
+Legados (Control del Procedimientos) :
+![](https://i.imgur.com/Mobj6U3.png)
+
+Drim Team (Gestión de Información) :
+![](https://i.imgur.com/te7oeHP.png)
+
+
 ## Decisiones técnicas
 
 ### Tecnologías utilizadas con sus respectivas versiones.
