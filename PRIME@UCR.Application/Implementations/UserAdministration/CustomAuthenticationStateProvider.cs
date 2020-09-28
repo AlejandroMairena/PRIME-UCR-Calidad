@@ -68,5 +68,18 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
 
             return await Task.FromResult(true);
         }
+        
+        public async Task<bool> Logout()
+        {
+
+            ClaimsIdentity identity = new ClaimsIdentity();
+
+            var user = new ClaimsPrincipal(identity);
+
+            NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(user)));
+
+            return await Task.FromResult(true);
+        }
+
     }
 }

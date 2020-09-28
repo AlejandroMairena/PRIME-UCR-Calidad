@@ -11,29 +11,18 @@
     </AuthorizeView>
 </div>
 
-<div class="main">       
+<div class="main">
 
-   
-        <div class="content px-4 float-none">
-            @Body
-        </div>
-   
-    
-</div> 
+    <div class="content px-4 float-none">
+        <AuthorizeView>
+            <Authorized>
+                @Body
+            </Authorized>
+            <NotAuthorized>
+                <p>No esta registrado</p>
+            </NotAuthorized>
+        </AuthorizeView>
+       
+    </div>
 
-
-
-@code{
-    private bool authenticated;
-
-    protected override void OnInitialized()
-    {
-        authenticated = true;
-        base.OnInitialized();
-    }
-
-    public void changeAuthe()
-    {
-        authenticated = !authenticated;
-    }
-}
+</div>

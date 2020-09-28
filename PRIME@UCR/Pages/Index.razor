@@ -1,21 +1,12 @@
-﻿@page "/"
+﻿@page "/" 
+<h1>Welcome to your new app.</h1>
 
-<h1>Hello, world!</h1>
-
-Welcome to your new app.
 
 <AuthorizeView>
     <Authorized>
-        <a href="/">Hello, @context.User.Identity.Name! </a>
-       
-            <a href="/" class="nav-link btn btn-link" >Log Out</a>
-        
+        <a href="/">Hello, @context.User.Identity.Name! </a>       
     </Authorized>
     <NotAuthorized>
         <p>Not Authorized</p>
-        <a href="Identity/Account/Register">Register </a>
-
-        <a href="Identity/Account/Login">Login </a>
-
     </NotAuthorized>
 </AuthorizeView>
