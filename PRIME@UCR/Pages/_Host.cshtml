@@ -14,12 +14,13 @@
     <base href="~/" />
     <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
     <link href="css/site.css" rel="stylesheet" />
+    <link href="css/Multimedia.css" rel="stylesheet" />
 
-    <!---to add files, it is still on testing, it probably wont stay here that long-->>
+    <!---to add files, it is still on testing, it probably wont stay here that long-->
     <script src="_content/BlazorInputFile/inputfile.js"></script>
-
 </head>
 <body>
+    <component type="typeof(PRIME_UCR.Components.HeaderComponent)" render-mode="ServerPrerendered" />
     <app>
         <component type="typeof(App)" render-mode="ServerPrerendered" />
     </app>
@@ -35,6 +36,8 @@
         <a class="dismiss">🗙</a>
     </div>
 
+
     <script src="_framework/blazor.server.js"></script>
 </body>
+<component type="typeof(PRIME_UCR.Components.FooterComponent)" render-mode="ServerPrerendered" />
 </html>

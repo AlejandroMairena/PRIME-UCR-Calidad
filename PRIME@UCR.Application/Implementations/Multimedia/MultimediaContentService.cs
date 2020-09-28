@@ -5,27 +5,27 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-/*
-using BlazorInputFile;
-*/
+//using BlazorInputFile;
+
 
 namespace PRIME_UCR.Application.Services.Multimedia
 {
     public class MultimediaContentService : IMultimediaContentService
     {
+        //public IFileListEntry file;
 
         public MultimediaContentService() { 
         
         
         }
 
-        public MultimediaContent AddFile() {
+        public bool AddFile(MultimediaContent mcontent) {
 
             //abrir aqui el archivo que se desea adjuntar. 
             string path = "c:/ Temp / MM / "; //esto es un ejemplo
 
-            return FillMultimediaContent(path); 
-
+            //return FillMultimediaContent(path); 
+            return true;
         }
 
         public MultimediaContent FillMultimediaContent(string patch) {
