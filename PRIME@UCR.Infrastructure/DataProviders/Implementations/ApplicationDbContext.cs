@@ -9,9 +9,9 @@ namespace PRIME_UCR.Infrastructure.DataProviders.Implementations
     public sealed class ApplicationDbContext : DbContext, ISqlDataProvider
     {
         public IDbConnection DbConnection { get; set; }
-        public DbSet<Acciones> Acciones { get; set; }
+       // public DbSet<Acciones> Acciones { get; set; }
         public DbSet<MultimediaContent> Multimedia_Contents { get; set; }
-        public DbSet<Cita> Citas { get; set; }
+        //public DbSet<Cita> Citas { get; set; }
 
         public ApplicationDbContext(DbContextOptions options) : base(options)
         {
@@ -21,8 +21,8 @@ namespace PRIME_UCR.Infrastructure.DataProviders.Implementations
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.ApplyConfiguration(new MultimediaContentMap()); 
-            builder.ApplyConfiguration(new AccionesMap());
-            builder.ApplyConfiguration(new CitaMap());
+            //builder.ApplyConfiguration(new AccionesMap());
+            //builder.ApplyConfiguration(new CitaMap());
         }
 
         public Task<int> SaveChangesAsync()

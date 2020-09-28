@@ -12,15 +12,16 @@ namespace PRIME_UCR.Infrastructure.DataProviders.Implementations.EntityConfigura
 
         public void Configure(EntityTypeBuilder<MultimediaContent> builder)
         {
-            builder
-                .HasOne(p => p.Acciones)
-                .WithMany(p => p.MultimediaContents)
-                .HasForeignKey(p => p.ID_accion);
+            builder.ToTable("MultimediaContent");
+
+            //builder
+            //    .HasOne(p => p.Acciones)
+            //    .WithMany(p => p.MultimediaContents)
+            //    .HasForeignKey(p => p.ID_accion);
 
             builder
                 .Property(p => p.ID)
-                .IsRequired()
-                .HasMaxLength(50);
+                .IsRequired();
 
             builder
                 .Property(p => p.Nombre)
