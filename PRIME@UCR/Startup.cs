@@ -20,6 +20,11 @@ using PRIME_UCR.Infrastructure.Repositories;
 using PRIME_UCR.Infrastructure.Repositories.Memory;
 using Microsoft.EntityFrameworkCore;
 using PRIME_UCR.Components;
+using Microsoft.AspNetCore.Identity;
+using PRIME_UCR.Domain.Models.UserAdministration;
+using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.Components.Server;
+using PRIME_UCR.Application.Implementations.UserAdministration;
 
 namespace PRIME_UCR
 {
@@ -41,6 +46,12 @@ namespace PRIME_UCR
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DevelopmentDbConnection")));
+            //services.AddDefaultIdentity<Usuario>();
+            services.AddIdentityCore<Usuario>()
+                .AddEntityFrameworkStores<ApplicationDbContext>();
+            //services.AddIdentity<Usuario>();
+            services.AddScoped<AuthenticationStateProvider,CustomAuthenticationStateProvider>();
+
             services.AddApplicationLayer();
             services.AddInfrastructureLayer();
         }
@@ -63,9 +74,12 @@ namespace PRIME_UCR
             app.UseStaticFiles();
 
             app.UseRouting();
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllers();
                 endpoints.MapBlazorHub();
                 endpoints.MapFallbackToPage("/_Host");
             });
