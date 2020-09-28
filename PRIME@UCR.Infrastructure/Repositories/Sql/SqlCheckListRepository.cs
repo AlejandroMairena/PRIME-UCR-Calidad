@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace PRIME_UCR.Infrastructure.Repositories.Sql
 {
-    class SqlCheckListRepository : SqlGenericRepository<CheckList, int>, ICheckListRepository
+    class SqlCheckListRepository : GenericRepository<CheckList, int>, ICheckListRepository
     {
         public SqlCheckListRepository(ISqlDataProvider dataProvider) : base(dataProvider)
         {

@@ -1,0 +1,18 @@
+@typeparam T
+
+<div class="form-group">
+    <label>@Label</label>
+    <select @onchange="OnChangeEvent" class="custom-select">
+        @foreach (var value in Data.Select((v, i) => new { v, i }))
+        {
+            @if (value.i == _index)
+            {
+                <option selected value="@value.i">@GetText(value.v)</option>
+            }
+            else
+            {
+                <option value="@value.i">@GetText(value.v)</option>
+            }
+        }
+    </select>
+</div>
