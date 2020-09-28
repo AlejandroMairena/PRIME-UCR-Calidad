@@ -1,15 +1,20 @@
 ﻿@inherits LayoutComponentBase
-@using PRIME_UCR.Components
-<div class="sidebar">
-    <NavMenu />
+
+<div class="sidebar navbar-light text-white background-image:blue">
+    <AuthorizeView>
+        <Authorized>
+            <NavMenu />
+        </Authorized>
+        <NotAuthorized>
+            <LoginForm />
+        </NotAuthorized>
+    </AuthorizeView>
 </div>
 
 <div class="main">
-    <div class="top-row px-4">
-        <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
-    </div>
 
-    <div class="content px-4">
+    <div class="content px-4 float-none">
         @Body
     </div>
+
 </div>

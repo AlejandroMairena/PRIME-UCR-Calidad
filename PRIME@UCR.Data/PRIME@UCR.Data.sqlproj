@@ -59,8 +59,11 @@
     <Folder Include="Tables" />
     <Folder Include="Scripts" />
     <Folder Include="Scripts\PostDeployment" />
+    <Folder Include="Tables\UserEntityCore" />
+    <Folder Include="Tables\UserAdministration" />
   </ItemGroup>
   <ItemGroup>
+    <Build Include="CheckList.sql" />
     <Build Include="Tables\Canton.sql" />
     <Build Include="Tables\Centro_Medico.sql" />
     <Build Include="Tables\Centro_Ubicacion.sql" />
@@ -69,14 +72,42 @@
     <Build Include="Tables\Incidente.sql" />
     <Build Include="Tables\Modalidad.sql" />
     <Build Include="Tables\Pais.sql" />
-    <None Include="Scripts\PostDeployment\Incidents_PostDeployment.sql" />
     <Build Include="Tables\Estado.sql" />
     <Build Include="Tables\EstadoIncidente.sql" />
+    <Build Include="Tables\UserEntityCore\AspNetRoles.sql" />
+    <Build Include="Tables\UserEntityCore\AspNetUsers.sql" />
+    <Build Include="Tables\UserEntityCore\AspNetRoleClaims.sql" />
+    <Build Include="Tables\UserEntityCore\AspNetUserClaims.sql" />
+    <Build Include="Tables\UserEntityCore\AspNetUserLogins.sql" />
+    <Build Include="Tables\UserEntityCore\AspNetUserRoles.sql" />
+    <Build Include="Tables\UserEntityCore\AspNetUserTokens.sql" />
+    <Build Include="Tables\UserAdministration\Administrador.sql" />
+    <Build Include="Tables\UserAdministration\AdministradorCentroDeControl.sql" />
+    <Build Include="Tables\UserAdministration\CoordinadorTécnicoMédico.sql" />
+    <Build Include="Tables\UserAdministration\EspecialistaTécnicoMédico.sql" />
+    <Build Include="Tables\UserAdministration\Funcionario.sql" />
+    <Build Include="Tables\UserAdministration\GerenteMédico.sql" />
+    <Build Include="Tables\UserAdministration\Médico.sql" />
+    <Build Include="Tables\UserAdministration\NúmeroTeléfono.sql" />
+    <Build Include="Tables\UserAdministration\Paciente.sql" />
+    <Build Include="Tables\UserAdministration\Perfil.sql" />
+    <Build Include="Tables\UserAdministration\Permiso.sql" />
+    <Build Include="Tables\UserAdministration\Permite.sql" />
+    <Build Include="Tables\UserAdministration\Persona.sql" />
+    <Build Include="Tables\UserAdministration\Pertenece.sql" />
+    <Build Include="Tables\UserAdministration\TienePerfil.sql" />
+    <Build Include="Tables\UserAdministration\Usuario.sql" />
+    <None Include="Scripts\PostDeployment\PostDeploymentUserEntityIndexing.sql" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\Internacional.sql" />
     <Build Include="Tables\Provincia.sql" />
     <Build Include="Tables\Ubicacion.sql" />
     <Build Include="Tables\Unidad_De_Transporte.sql" />
+    <Build Include="Tables\MultimediaContent.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Scripts\PostDeployment\Incidents_PostDeployment.sql" />
+    <None Include="Scripts\Script.PostDeployment.sql" />
   </ItemGroup>
 </Project>

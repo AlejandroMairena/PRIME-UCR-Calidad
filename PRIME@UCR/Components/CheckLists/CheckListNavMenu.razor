@@ -1,0 +1,50 @@
+﻿@inherits CheckListNavMenuBase
+
+<div class="top-row pl-4 navbar navbar-dark">
+    <a class="navbar-brand" href="">PRIME@UCR</a>
+    <button class="navbar-toggler" @onclick="ToggleNavMenu">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+</div>
+
+<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
+    <ul class="nav flex-column">
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                <span class="oi oi-home" aria-hidden="true"></span> Home
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="about-us">
+                <span class="oi oi-people" aria-hidden="true"></span> Acerca de nosotros
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="checklist">
+                <span class="oi oi-list" aria-hidden="true"></span> Listas de Chequeo
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <button class="btn btn-primary" @onclick="ToggleIsModalOpened">Crear lista de chequeo</button>
+        </li>
+    </ul>
+    @if (lists != null && lists.Count() > 0)
+    {
+        <ul class="nav flex-column">
+        @foreach (var tempList in lists)
+        {
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href='@string.Format("checklist/{0}", @tempList.Id)'>
+                    @tempList.Nombre
+                </NavLink>
+            </li>
+        }
+        </ul>
+    }
+</div>
+
+<CascadingValue Value="@lists" Name="lists">
+    <CascadingValue Value="@IsModalOpened" Name="IsModalOpened">
+        <CreateChecklistPopup OnlistsChange="Changelists" OnIsModalOpenedChange="ChangeIsModalOpened"/>
+    </CascadingValue>
+</CascadingValue>
