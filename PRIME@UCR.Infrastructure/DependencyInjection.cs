@@ -1,7 +1,9 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using PRIME_UCR.Application.Implementations.Multimedia;
 using PRIME_UCR.Application.Repositories;
 using PRIME_UCR.Application.Repositories.Incidents;
 using PRIME_UCR.Application.Repositories.Multimedia;
+using PRIME_UCR.Application.Services.Multimedia;
 using PRIME_UCR.Infrastructure.DataProviders;
 using PRIME_UCR.Infrastructure.DataProviders.Implementations;
 using PRIME_UCR.Infrastructure.Repositories.Sql;
@@ -31,7 +33,9 @@ namespace PRIME_UCR.Infrastructure
             services.AddTransient<IIncidentRepository, IncidentRepository>();
             services.AddTransient<IIncidentStateRepository, IncidentStateRepository>();
             services.AddTransient<ILocationRepository, LocationRepository>();
+            // multimedia
             services.AddTransient<IMultimediaContentRepository, MultimediaContentRepository>();
+            services.AddTransient<IFileService, FileService>();
             return services;
         }
     }

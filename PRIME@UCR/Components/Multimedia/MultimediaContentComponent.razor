@@ -1,7 +1,7 @@
 ﻿@using PRIME_UCR.Application.Services.Multimedia
 @using System.IO
 @inject IMultimediaContentService multimedia_content_service
-
+@inject IFileService file_service;
 @using Microsoft.AspNetCore.Hosting
 @inject IWebHostEnvironment _environment;
 
@@ -91,6 +91,7 @@
             ID_accion = "1"
         };
         multimedia_content_service.AddFileAsync(mcontent);
+        file_service.StoreFile(file.Name, file.Data);
     }
 
     async Task OpenFile(IFileListEntry[] files)
