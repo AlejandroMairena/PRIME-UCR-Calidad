@@ -2,6 +2,7 @@
 @namespace PRIME_UCR.Pages
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
+
 @using PRIME_UCR.Components
 @{
     Layout = null;
@@ -17,12 +18,16 @@
     <base href="~/" />
     <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
     <link href="css/site.css" rel="stylesheet" />
+    <link href="css/Multimedia.css" rel="stylesheet" />
+
+    <!---to add files, it is still on testing, it probably wont stay here that long-->
+    <script src="_content/BlazorInputFile/inputfile.js"></script>
+
 </head>
 
-
 <body>
-
-    <component type="typeof(HeaderComponent)" render-mode="Server" />    
+    
+    <component type="typeof(HeaderComponent)" render-mode="Server" />
 
     <app>
         <component type="typeof(App)" render-mode="Server" />
@@ -39,6 +44,7 @@
         <a class="dismiss">🗙</a>
     </div>
 
+    <script src="~/js/blazor-modal.js"></script>
     <script src="_framework/blazor.server.js"></script>
 
 

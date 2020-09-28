@@ -1,0 +1,9 @@
+﻿@using PRIME_UCR.Components.Controls
+@using PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
+@using Microsoft.EntityFrameworkCore
+@using System.Linq;
+
+<Loading IsLoading="_values == null">
+    <DropDownMenu Data="_values" T="CentroMedico" Label="Centro médico" Value="@_selectedMedicalCenter" TextProperty="Nombre"
+                  ValueChanged="@((CentroMedico tab) => OnChangeMedicalCenter(tab))" /><br />
+</Loading>

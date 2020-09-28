@@ -58,11 +58,22 @@
     <Folder Include="Properties" />
     <Folder Include="Tables" />
     <Folder Include="Scripts" />
+    <Folder Include="Scripts\PostDeployment" />
     <Folder Include="Tables\UserEntityCore" />
     <Folder Include="Tables\UserAdministration" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="TestModels.sql" />
+    <Build Include="CheckList.sql" />
+    <Build Include="Tables\Canton.sql" />
+    <Build Include="Tables\Centro_Medico.sql" />
+    <Build Include="Tables\Centro_Ubicacion.sql" />
+    <Build Include="Tables\Distrito.sql" />
+    <Build Include="Tables\Domicilio.sql" />
+    <Build Include="Tables\Incidente.sql" />
+    <Build Include="Tables\Modalidad.sql" />
+    <Build Include="Tables\Pais.sql" />
+    <Build Include="Tables\Estado.sql" />
+    <Build Include="Tables\EstadoIncidente.sql" />
     <Build Include="Tables\UserEntityCore\AspNetRoles.sql" />
     <Build Include="Tables\UserEntityCore\AspNetUsers.sql" />
     <Build Include="Tables\UserEntityCore\AspNetRoleClaims.sql" />
@@ -86,10 +97,17 @@
     <Build Include="Tables\UserAdministration\Pertenece.sql" />
     <Build Include="Tables\UserAdministration\TienePerfil.sql" />
     <Build Include="Tables\UserAdministration\Usuario.sql" />
+    <None Include="Scripts\PostDeployment\PostDeploymentUserEntityIndexing.sql" />
   </ItemGroup>
   <ItemGroup>
-    <PostDeploy Include="SeedTestModels.sql" />
+    <Build Include="Tables\Internacional.sql" />
+    <Build Include="Tables\Provincia.sql" />
+    <Build Include="Tables\Ubicacion.sql" />
+    <Build Include="Tables\Unidad_De_Transporte.sql" />
+    <Build Include="Tables\MultimediaContent.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Scripts\PostDeployment\Incidents_PostDeployment.sql" />
     <None Include="Scripts\Script.PostDeployment.sql" />
-    <None Include="Tables\UserEntityCore\PostDeploymentUserEntityIndexing.sql" />
   </ItemGroup>
 </Project>
