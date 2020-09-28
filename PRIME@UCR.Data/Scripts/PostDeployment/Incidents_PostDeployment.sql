@@ -222,7 +222,7 @@ VALUES
     (79, 'Coto Brus'),
     (80, 'Parrita'),
     (81, 'Ciudad Neily'),
-    (82, 'Jacó');
+    (82, 'Jacó'),
     (3, 'Desamparados'),
     (4, 'Santiago'),
     (5, 'San Marcos'),
