@@ -9,3 +9,5 @@ Post-Deployment Script Template
                SELECT * FROM [$(TableName)]					
 --------------------------------------------------------------------------------------
 */
+DROP TABLE Usuario
+DROP TABLE AspNetUsers
