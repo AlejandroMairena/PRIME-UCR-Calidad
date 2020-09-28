@@ -28,6 +28,7 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Incidents
                 .Include(d => d.Canton)
                 .ThenInclude(c => c.Provincia)
                 .ThenInclude(p => p.Pais)
+                .AsNoTracking()
                 .FirstOrDefaultAsync(d => d.Id == distrcitId);
         }
     }

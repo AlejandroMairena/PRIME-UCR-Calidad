@@ -91,6 +91,7 @@ namespace PRIME_UCR.Application.Implementations.Incidents
         public async Task<IncidentDetailsModel> UpdateIncidentDetails(IncidentDetailsModel model)
         {
             var incident = await _incidentRepository.GetByKeyAsync(model.Code);
+            bool modified = false;
             // update origin
             if (model.Origin != null)
             {
@@ -99,6 +100,7 @@ namespace PRIME_UCR.Application.Implementations.Incidents
                     var origin = await _locationRepository.InsertAsync(model.Origin);
                     incident.IdOrigen = origin.Id;
                     incident.Origen = origin;
+                    modified = true;
                 }
             }
 
@@ -109,10 +111,12 @@ namespace PRIME_UCR.Application.Implementations.Incidents
                     var destination = await _locationRepository.InsertAsync(model.Destination);
                     incident.IdDestino = destination.Id;
                     incident.Destino = destination;
+                    modified = true;
                 }
             }
 
-            await _incidentRepository.UpdateAsync(incident);
+            if (modified) // TODO: check crash with PK violation when updating Origin (international) when there are no chanegs
+                await _incidentRepository.UpdateAsync(incident);
 
             var state = model.CurrentState;
             
