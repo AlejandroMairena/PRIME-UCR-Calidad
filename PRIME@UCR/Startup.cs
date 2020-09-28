@@ -10,7 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using PRIME_UCR.Application.Services;
-using PRIME_UCR.Application.Implementations;
+//using PRIME_UCR.Application.Implementations;
 using PRIME_UCR.Application.Repositories;
 using PRIME_UCR.Application.Services.Multimedia;
 

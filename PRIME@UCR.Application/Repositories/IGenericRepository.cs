@@ -1,16 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace PRIME_UCR.Application.Repositories
 {
     // generic repository with basic CRUD operations
     public interface IGenericRepository<T, TKey> where T : class
     {
-        T GetByKey(TKey key);
-        IEnumerable<T> GetAll();
-        T Insert(TKey key, T model);
-        void Delete(TKey key);
-        void Update(TKey key, T model);
+        Task<T> GetByKeyAsync(TKey key);
+        Task<IEnumerable<T>> GetAllAsync();
+        Task<IEnumerable<T>> GetByConditionAsync(Expression<Func<T, bool>> expression);
+        Task<T> InsertAsync(TKey key, T model);
+        Task DeleteAsync(TKey key);
+        Task UpdateAsync(TKey key, T model);
     }
 }
