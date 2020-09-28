@@ -8,6 +8,8 @@ namespace PRIME_UCR.Application.Services.Multimedia
 {
     public interface IFileService
     {
+        public string FilePath { get; set; }
+
         public Task<bool> StoreFile(string fileName, Stream fileStream);
 
     }
