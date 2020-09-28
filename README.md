@@ -47,24 +47,34 @@ i. Referencias bibliográficas.
 ## e. Listado de equipos y miembros de los equipos. 
 
 Diosvier:
+
 -Adrián Sibaja  B87561
+
 -Erik Kühlmann  B84175
+
 -Esteban Marín  B84594
+
 -Daniel Salazar B87214
+
 -Ricardo Franco B83050
     
     
 ### a. Asignación de roles para cada una de las iteraciones.
 
-Sprint 0
+**Sprint 0**
 
 Diosvier:
     
 -Adrián Sibaja B87561      Scrum Master
+
 -Erik Kühlmann B84175      Scrum Ambassador
+
 -Esteban Marín B84594      Developer
+
 -Daniel Salazar B87214     Developer
+
 -Ricardo Franco B83050     Developer
+
     
 ## f. Descripción general del sistema a desarrollar.
 
@@ -78,7 +88,31 @@ En la actualidad el equipo PRIME, en conjunto con un equipo de la UCR, ya se enc
 
 Dada que la emergencia sanitaria se encuentra en uno de sus picos de contagio, y se esperan nuevas olas de transmisión, el equipo PRIME requiere además una primera versión de una aplicación web para administrar sus procesos de atención, y que complemente la funcionalidad que ofrecerá la aplicación móvil. El presente producto corresponde a la implementación de la aplicación web.
 
-### k. Requerimientos no funcionales que debe cumplir toda la aplicación web.**
+### f. Visión del producto.
+
+Puede encontrar nuestra visión del producto en el link: https://docs.google.com/spreadsheets/d/1XnhCmkLnF6gNzaVUzOPjGgIScgK2AZjcDtBU81P5B8c/edit#gid=1003342746
+
+### g. Relación con otros sistemas externos.
+
+### h. Descripción de los temas (módulos) asignados a cada equipo. Descripción de los principales epics asociados al tema(s) a desarrollar por cada uno de los equipos. Relación con los demás módulos (temas) del sistema.
+
+**Diosvier - Administración de incidentes**
+
+Para la administración de los traslados (e incidentes) se requiere la implementación de una plataforma que permita el despacho, seguimiento y monitoreo en tiempo real por medio de GPS y mapas tanto para las unidades terrestres, marítimas y aéreas. Los epics asociados a este tema son:
+
+1. **Crear incidente con datos básicos:** para cada incidente, se debe digitar el origen, destino, nombre del paciente, síntomas y demás datos útiles para su atención.
+2. **Asociar expediente con incidente nuevo:** para cada incidente, se consulta en la base de datos si fue creado un expediente anteriormente o si debe generarse uno nuevo.
+3. **Asignación de incidente aprobado:** una vez se ha revisado que el incidente se ingresó correctamente, se aprueba y se procede a asignar una unidad de transporte y un equipo para su atención.
+    
+Con el módulo Dashboard, se debe coordinar el despliegue consistente y limpio de la información en la interfaz de la aplicación. Con el módulo Expedientes Médicos, se encuentran las consultas a los distintos expedientes generados con anterioridad y las solicitudes para crear nuevos documentos. Por último, con el módulo Listas de chequeo, se requiere coordinar el despliegue de esta información en la aplicación para su uso durante el traslado.
+
+### i. Requerimientos funcionales (Backlog del producto, solo indicando la referencia al proyecto en Jira).
+    
+### j. Mapa de ruta del producto (Product Road Map).
+
+Puede encontrar nuestro Product Roadmap en el link: https://docs.google.com/spreadsheets/d/1XnhCmkLnF6gNzaVUzOPjGgIScgK2AZjcDtBU81P5B8c/edit#gid=1653817941
+
+### k. Requerimientos no funcionales que debe cumplir toda la aplicación web.
 
 **Diosvier/Administración de Traslados - Usabilidad**
 
