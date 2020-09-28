@@ -24,7 +24,7 @@ button#BP_LC0.btn.btn-primary {
 }
 
 button:disabled#BP_LC0.btn.btn-primary {
-    background: rgb(89, 123, 142);
+    background: rgba(22, 69, 103, 0.80);
 }
 
 #Table_CL {
