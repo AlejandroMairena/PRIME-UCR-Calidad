@@ -48,7 +48,7 @@ namespace PRIME_UCR.Components
                 {
                     showMedicalRecordsMenu();
                 }
-                else if (uri == "check_list")
+                else if (uri == "checklist")
                 {
                     showCheckListMenu();
                 }
