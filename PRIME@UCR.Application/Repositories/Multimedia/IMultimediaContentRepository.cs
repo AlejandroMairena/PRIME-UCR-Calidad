@@ -5,7 +5,7 @@ using System.Text;
 
 namespace PRIME_UCR.Application.Repositories.Multimedia
 {
-    public interface IMultimediaContentRepository: IGenericRepository<MultimediaContent, string>
+    public interface IMultimediaContentRepository: IGenericRepository<MultimediaContent, int>
     {
     }
 }

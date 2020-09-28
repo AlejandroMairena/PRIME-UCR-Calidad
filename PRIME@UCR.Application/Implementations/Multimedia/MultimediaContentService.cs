@@ -6,8 +6,9 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using PRIME_UCR.Application.Repositories.Multimedia;
+using PRIME_UCR.Application.Services.Multimedia;
 
-namespace PRIME_UCR.Application.Services.Multimedia
+namespace PRIME_UCR.Application.Implementations.Multimedia
 {
     public class MultimediaContentService : IMultimediaContentService
     {

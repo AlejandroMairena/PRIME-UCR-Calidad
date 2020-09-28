@@ -9,9 +9,9 @@ namespace PRIME_UCR.Infrastructure.DataProviders.Implementations
     public sealed class ApplicationDbContext : DbContext, ISqlDataProvider
     {
         public IDbConnection DbConnection { get; set; }
-        public DbSet<Acciones> Acciones { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
-        public DbSet<MultimediaContent> Multimedia_Contents { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
-        public DbSet<Cita> Citas { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+        public DbSet<Acciones> Acciones { get; set; }
+        public DbSet<MultimediaContent> Multimedia_Contents { get; set; }
+        public DbSet<Cita> Citas { get; set; }
 
         public ApplicationDbContext(DbContextOptions options) : base(options)
         {
