@@ -1,17 +1,12 @@
 ﻿@inject AuthenticationStateProvider AuthenticationStateProvider
 
-<div class="top-row pl-4 navbar navbar-light bg-primary">
-    <a class="navbar-brand  text-white" href="">PRIME@UCR</a>
-</div>
-
-<div class="container mt-5 alert alert-light bg-primary text-white">
+<div class="container mt-5 text-white">
     <EditForm Model="@usuario" OnValidSubmit="@ValidateUser">
         <DataAnnotationsValidator />
         <ValidationSummary />
         <div class="form-group">
             <label for="inputEmail">Correo Electrónico:</label>
             <input @bind="usuario.Email" type="email" class="form-control" id="inputEmail" aria-describedby="emailHelp">
-            <small id="emailHelp" class="text-white">No compartiremos su correo electrónico con nadie.</small>
         </div>
         <div class="form-group">
             <label for="inputPassword">Contraseña</label>
@@ -19,6 +14,9 @@
         </div>
         <a href="changePassword" class="text-white">Cambiar contraseña</a>
         <br />
-        <button type="submit" class="btn btn-primary mt-2">Ingresar</button>
+        <button type="submit" class="btn btn-light mt-2">Ingresar</button>
     </EditForm>
+    <div class="text-left">
+        <small id="emailHelp" class="text-white">No compartiremos su correo electrónico con nadie.</small>
+    </div>
 </div>

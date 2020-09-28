@@ -59,25 +59,10 @@
     <Folder Include="Tables" />
     <Folder Include="Scripts" />
     <Folder Include="Tables\UserEntityCore" />
+    <Folder Include="Tables\UserAdministration" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="TestModels.sql" />
-    <Build Include="Tables\Persona.sql" />
-    <Build Include="Tables\NúmeroTeléfono.sql" />
-    <Build Include="Tables\Usuario.sql" />
-    <Build Include="Tables\Perfil.sql" />
-    <Build Include="Tables\TienePerfil.sql" />
-    <Build Include="Tables\Pertenece.sql" />
-    <Build Include="Tables\Permiso.sql" />
-    <Build Include="Tables\Permite.sql" />
-    <Build Include="Tables\Funcionario.sql" />
-    <Build Include="Tables\Paciente.sql" />
-    <Build Include="Tables\CoordinadorTécnicoMédico.sql" />
-    <Build Include="Tables\EspecialistaTécnicoMédico.sql" />
-    <Build Include="Tables\AdministradorCentroDeControl.sql" />
-    <Build Include="Tables\Administrador.sql" />
-    <Build Include="Tables\Médico.sql" />
-    <Build Include="Tables\GerenteMédico.sql" />
     <Build Include="Tables\UserEntityCore\AspNetRoles.sql" />
     <Build Include="Tables\UserEntityCore\AspNetUsers.sql" />
     <Build Include="Tables\UserEntityCore\AspNetRoleClaims.sql" />
@@ -85,6 +70,22 @@
     <Build Include="Tables\UserEntityCore\AspNetUserLogins.sql" />
     <Build Include="Tables\UserEntityCore\AspNetUserRoles.sql" />
     <Build Include="Tables\UserEntityCore\AspNetUserTokens.sql" />
+    <Build Include="Tables\UserAdministration\Administrador.sql" />
+    <Build Include="Tables\UserAdministration\AdministradorCentroDeControl.sql" />
+    <Build Include="Tables\UserAdministration\CoordinadorTécnicoMédico.sql" />
+    <Build Include="Tables\UserAdministration\EspecialistaTécnicoMédico.sql" />
+    <Build Include="Tables\UserAdministration\Funcionario.sql" />
+    <Build Include="Tables\UserAdministration\GerenteMédico.sql" />
+    <Build Include="Tables\UserAdministration\Médico.sql" />
+    <Build Include="Tables\UserAdministration\NúmeroTeléfono.sql" />
+    <Build Include="Tables\UserAdministration\Paciente.sql" />
+    <Build Include="Tables\UserAdministration\Perfil.sql" />
+    <Build Include="Tables\UserAdministration\Permiso.sql" />
+    <Build Include="Tables\UserAdministration\Permite.sql" />
+    <Build Include="Tables\UserAdministration\Persona.sql" />
+    <Build Include="Tables\UserAdministration\Pertenece.sql" />
+    <Build Include="Tables\UserAdministration\TienePerfil.sql" />
+    <Build Include="Tables\UserAdministration\Usuario.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="SeedTestModels.sql" />
