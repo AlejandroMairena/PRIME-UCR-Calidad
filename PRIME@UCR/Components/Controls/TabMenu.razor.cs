@@ -12,10 +12,13 @@ namespace PRIME_UCR.Components.Controls
         
         [Parameter]
         public TEnum DefaultTab { get; set; }
+
+        [Parameter]
+        public TEnum Value { get; set; } // used for data binding
         
         [Parameter]
-        public EventCallback<TEnum> OnTabSetCallback { get; set; }
-
+        public EventCallback<TEnum> ValueChanged { get; set; }
+        
         [Parameter]
         public IEnumerable<Tuple<TEnum, string>> Tabs { get; set; }
 
@@ -26,7 +29,7 @@ namespace PRIME_UCR.Components.Controls
         async Task OnTabSet(TEnum tab)
         {
             _currentTab = tab;
-            await OnTabSetCallback.InvokeAsync(tab);
+            await ValueChanged.InvokeAsync(tab);
         }
 
         void SetTabClass()

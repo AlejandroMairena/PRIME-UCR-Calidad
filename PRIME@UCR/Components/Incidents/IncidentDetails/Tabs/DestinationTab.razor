@@ -3,5 +3,24 @@
 
 <h3> Información sobre el destino </h3>
 <br />
-<MedicalCenterPicker />
-
+@if (Destination == null)
+{
+    <StatusMessage Message="Este valor está pendiente para finalizar la creación del incidente." Class="warning"/>
+}
+<EditForm Model="_model" OnValidSubmit="Save">
+    <DataAnnotationsValidator/>
+    <ValidationSummary/>
+    <MedicalCenterPicker Value="@Destination" ValueChanged="@OnDestinationChange"/>
+    <div class="text-center">
+        @if (Destination != null && Destination.Equals(_model.Destination))
+        {
+            <button disabled class="btn btn-outline-secondary">Cancelar</button>
+            <button disabled type="submit" class="btn btn-primary">Guardar</button>
+        }
+        else
+        {
+            <button type="reset" class="btn btn-outline-secondary ">Cancelar</button>
+            <button type="submit" class="btn btn-primary">Guardar</button>
+        }
+    </div>
+</EditForm>

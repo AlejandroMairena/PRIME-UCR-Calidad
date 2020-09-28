@@ -17,5 +17,14 @@ namespace PRIME_UCR.Domain.Models
         public List<CentroMedico> CentroMedicos { get; private set; }
         public List<Domicilio> Domicilios { get; private set; }
 
+        public override bool Equals(object obj)
+        {
+            if (obj is Distrito d)
+                return Id == d.Id &&
+                       Nombre == d.Nombre &&
+                       IdCanton == d.IdCanton;
+            
+            return false;
+        }
     }
 }

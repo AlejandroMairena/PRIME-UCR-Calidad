@@ -28,6 +28,7 @@ namespace PRIME_UCR
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DevelopmentDbConnection")));
+            
             services.AddApplicationLayer();
             services.AddInfrastructureLayer();
         }

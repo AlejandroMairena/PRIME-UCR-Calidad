@@ -1,10 +1,13 @@
 ﻿CREATE TABLE [dbo].[Domicilio]
 (
-	Id			INT IDENTITY(1,1),
+	Id          INT,
 	Direccion	VARCHAR(150),
-	DistridoId	INT NOT NULL,
+	DistritoId	INT NOT NULL,
 	Latitud		FLOAT,
 	Longitud	FLOAT,
 	PRIMARY KEY (Id),
-	FOREIGN KEY (DistridoId) REFERENCES Distrito(Id)
+	FOREIGN KEY (Id)
+		REFERENCES Ubicacion(Id),
+	FOREIGN KEY (DistritoId)
+		REFERENCES Distrito(Id)
 );

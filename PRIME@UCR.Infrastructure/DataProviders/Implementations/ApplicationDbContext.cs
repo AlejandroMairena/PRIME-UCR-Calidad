@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using PRIME_UCR.Domain.Models;
 using System.Threading.Tasks;
 using PRIME_UCR.Domain.Models.Incidents;
-using PRIME_UCR.Infrastructure.DataProviders.Implementations.EntityConfiguration.Incidents;
+using PRIME_UCR.Infrastructure.EntityConfiguration.Incidents;
 
 namespace PRIME_UCR.Infrastructure.DataProviders.Implementations
 {
@@ -12,7 +12,8 @@ namespace PRIME_UCR.Infrastructure.DataProviders.Implementations
         public IDbConnection DbConnection { get; set; }
         public DbSet<Provincia> Provinces { get; set; }
         public DbSet<Pais> Countries { get; set; }
-        public DbSet<PaisUbicacion> InternationalLocations { get; set; }
+        public DbSet<Domicilio> HouseholdLocations { get; set; }
+        public DbSet<Internacional> InternationalLocations { get; set; }
         public DbSet<CentroMedico> MedicalCenters { get; set; }
         public DbSet<CentroUbicacion> MedicalCenterLocations { get; set; }
         public DbSet<Modalidad> Modes { get; set; }
@@ -23,8 +24,6 @@ namespace PRIME_UCR.Infrastructure.DataProviders.Implementations
         public DbSet<Canton> Cantons { get; set; }
         public DbSet<Distrito> Districts { get; set; }
         public DbSet<Ubicacion> Locations { get; set; }
-        public DbSet<Domicilio> Households { get; set; }
-        public DbSet<DomicilioUbicacion> HouseholdLocations { get; set; }
 
         public ApplicationDbContext(DbContextOptions options) : base(options)
         {
@@ -40,10 +39,9 @@ namespace PRIME_UCR.Infrastructure.DataProviders.Implementations
             builder.ApplyConfiguration(new CentroMedicoMap());
             builder.ApplyConfiguration(new CentroUbicacionMap());
             builder.ApplyConfiguration(new DomicilioMap());
-            builder.ApplyConfiguration(new DomicilioUbicacionMap());
             builder.ApplyConfiguration(new IncidenteMap());
             builder.ApplyConfiguration(new ModalidadMap());
-            builder.ApplyConfiguration(new PaisUbicacionMap());
+            builder.ApplyConfiguration(new InternacionalMap());
             builder.ApplyConfiguration(new UbicacionMap());
             builder.ApplyConfiguration(new UnidadDeTransporteMap());
             builder.ApplyConfiguration(new EstadoMap());
@@ -52,7 +50,7 @@ namespace PRIME_UCR.Infrastructure.DataProviders.Implementations
 
         public Task<int> SaveChangesAsync()
         {
-            var result = SaveChanges(); // TODO: check if async works
+            var result = SaveChanges();
             return Task.FromResult(result);
         }
     }

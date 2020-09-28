@@ -5,8 +5,7 @@ DELETE FROM Unidad_De_Transporte
 DELETE FROM Modalidad
 DELETE FROM Centro_Ubicacion
 DELETE FROM Centro_Medico
-DELETE FROM Pais_Ubicacion
-DELETE FROM Domicilio_Ubicacion
+DELETE FROM Internacional
 DELETE FROM Domicilio
 DELETE FROM Ubicacion
 DELETE FROM Distrito
@@ -16,11 +15,7 @@ DELETE FROM Pais
 
 DBCC CHECKIDENT ('Canton', RESEED, 0)
 DBCC CHECKIDENT ('Centro_Medico', RESEED, 0)
-DBCC CHECKIDENT ('Centro_Ubicacion', RESEED, 0)
 DBCC CHECKIDENT ('Distrito', RESEED, 0)
-DBCC CHECKIDENT ('Domicilio', RESEED, 0)
-DBCC CHECKIDENT ('Domicilio_Ubicacion', RESEED, 0)
-DBCC CHECKIDENT ('Pais_Ubicacion', RESEED, 0)
 DBCC CHECKIDENT ('Ubicacion', RESEED, 0)
 
 -- Pais
@@ -228,37 +223,116 @@ VALUES
     (80, 'Parrita'),
     (81, 'Ciudad Neily'),
     (82, 'Jacó');
+    (3, 'Desamparados'),
+    (4, 'Santiago'),
+    (5, 'San Marcos'),
+    (6, 'Aserrí'),
+    (7, 'Ciudad Colon'),
+    (8, 'Guadalupe'),
+    (9, 'Santa Ana'),
+    (10, 'Alajuelita'),
+    (11, 'San Isidro'),
+    (12, 'San Ignacio'),
+    (13, 'San Ignacio'),
+    (14, 'San Vicente'),
+    (15, 'San Pedro'),
+    (16, 'San Pablo'),
+    (17, 'Santa María'),
+    (18, 'Curridabat'),
+    (19, 'San Isidro de El General'),
+    (20, 'San Pablo'),
+
+    (21, 'Alajuela'),
+    (22, 'San Ramón'),
+    (23, 'Grecia'),
+    (24, 'San Mateo'),
+    (25, 'Atenas'),
+    (26, 'Naranjo'),
+    (27, 'Palmares'),
+    (28, 'San Pedro'),
+    (29, 'Orotina'),
+    (30, 'Quesada'),
+    (31, 'Zarcero'),
+    (32, 'Sarchí Norte'),
+    (33, 'Upala'),
+    (34, 'Los Chiles'),
+    (35, 'San Rafael'),
+    (36, 'Río Cuarto'),
+
+    (37, 'Cartago'),
+    (38, 'Paraíso'),
+    (39, 'Tres Ríos'),
+    (40, 'Juan Viñas'),
+    (41, 'Turrialba'),
+    (42, 'Pacayas'),
+    (43, 'San Rafael'),
+    (44, 'El Tejar'),
+
+    (45, 'Heredia'),
+    (46, 'Barva'),
+    (47, 'Santo Domingo'),
+    (48, ' Santa Bárbara'),
+    (49, 'San Rafael'),
+    (50, 'San Isidro'),
+    (51, 'San Antonio'),
+    (52, 'San Joaquín'),
+    (53, 'San Pablo'),
+    (54, 'Puerto Viejo'),
+
+    (55, 'Liberia'),
+    (56, 'Nicoya'),
+    (57, 'Santa Cruz'),
+    (58, 'Bagaces'),
+    (59, 'Filadelfia'),
+    (60, 'Cañas'),
+    (61, 'Las Juntas'),
+    (62, 'Tilarán'),
+    (63, 'Carmona'),
+    (64, 'La Cruz'),
+    (65, 'Hojancha'),
+
+    (66, 'Limón'),
+    (67, 'Guápiles'),
+    (68, 'Siquirres'),
+    (69, 'Bribri'),
+    (70, 'Matina'),
+    (71, 'Guácimo'),
+    
+    (72, 'Puntarenas'),
+    (73, 'Esparza'),
+    (74, 'Buenos Aires'),
+    (75, 'Miramar'),
+    (76, 'Osa'),
+    (77, 'Quepos'),
+    (78, 'Golfito'),
+    (79, 'Coto Brus'),
+    (80, 'Parrita'),
+    (81, 'Ciudad Neily'),
+    (82, 'Jacó');
+
 
 -- Ubicación
-INSERT INTO Ubicacion (CedulaDeMedico)
-VALUES
-    (117800880),
-    (127488581),
-    (126305352),
-    (826305352),
-    (326308472),
-    (426308573),
-    (126182752),
-    (878348179);
+INSERT INTO Ubicacion DEFAULT VALUES
+INSERT INTO Ubicacion DEFAULT VALUES
+INSERT INTO Ubicacion DEFAULT VALUES
+INSERT INTO Ubicacion DEFAULT VALUES
+INSERT INTO Ubicacion DEFAULT VALUES
+INSERT INTO Ubicacion DEFAULT VALUES
+INSERT INTO Ubicacion DEFAULT VALUES
+INSERT INTO Ubicacion DEFAULT VALUES
 
 -- Domicilio
-INSERT INTO Domicilio (Direccion, DistridoId, Latitud, Longitud)
+INSERT INTO Domicilio (Id, Direccion, DistritoId, Latitud, Longitud)
 VALUES
-    ('Santa Ana 420 metros este de City Place', 9, 205, 200),
-    ('Pavas al lado del aeropuerto', 1, 124, 260);
+    (1, 'Santa Ana 420 metros este de City Place', 9, 205, 200),
+    (2, 'Pavas al lado del aeropuerto', 1, 124, 260);
 
--- Domicilio Ubicacion
-INSERT INTO Domicilio_Ubicacion (IdDomicilio, UbicacionId)
-VALUES
-    (1,1),
-    (2,2);
-
--- Pais_Ubicacion
-INSERT INTO Pais_Ubicacion (NombrePais, UbicacionId)
+-- Internacional
+INSERT INTO Internacional (Id, NombrePais)
 VALUES 
-    ('Costa Rica', 6),
-    ('Panamá', 7),
-    ('Nicaragua', 8);
+    (3, 'Costa Rica'),
+    (4, 'Panamá'),
+    (5, 'Nicaragua');
 
 -- Centro Médicos
 INSERT INTO Centro_Medico (UbicadoEn, Latitud, Longitud, Nombre)
@@ -268,11 +342,11 @@ VALUES
     (2, 69, 42.0, 'Hospital Cima');
 
 -- Centro_Ubicacion
-INSERT INTO Centro_Ubicacion (IdCentro, UbicacionId)
+INSERT INTO Centro_Ubicacion (Id, IdCentro)
 VALUES 
-    (1,3),
-    (2,4),
-    (3,5);
+    (6, 1),
+    (7, 2),
+    (8, 3);
 
 -- Modalidad 
 INSERT INTO Modalidad (Tipo)
@@ -289,12 +363,12 @@ VALUES
     ('PHP999', 'Disponible', 'Aéreo');
 
 -- Incidente
-INSERT INTO Incidente (Codigo, MatriculaTrans, Estado, IdEspecialista, CedulaAdmin,
+INSERT INTO Incidente (Codigo, MatriculaTrans, IdEspecialista, CedulaAdmin,
     CedulaTecnicoCoordinador, CedulaTecnicoRevisor, CodigoCita, IdOrigen, IdDestino,
     Modalidad, FechaHoraRegistro, FechaHoraEstimada)
 VALUES
-    ('TERR123', 'BPC087', 'Registrado', 123, 111111111, 117222222, 1173333333, 1, 1, 2, 'Terrestre', GETDATE(), GETDATE()),
-    ('AER123', 'PHP999', 'Registrado', 456, 117111111, 117112222, 1171133333, 1, 2, 1, 'Aéreo', GETDATE(), GETDATE());
+    ('TERR123', 'BPC087', 123, 111111111, 117222222, 1173333333, 1, 1, NULL, 'Terrestre', GETDATE(), GETDATE()),
+    ('AER123', 'PHP999', 456, 117111111, 117112222, 1171133333, 1, 2, NULL, 'Aéreo', GETDATE(), GETDATE());
 
 -- Estado
 INSERT INTO Estado

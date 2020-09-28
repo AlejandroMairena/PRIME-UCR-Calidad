@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
+using Microsoft.EntityFrameworkCore;
+using PRIME_UCR.Application.Dtos.Incidents;
 using PRIME_UCR.Components.Incidents.IncidentDetails.Tabs;
 using PRIME_UCR.Domain.Models;
 
@@ -13,10 +15,8 @@ namespace PRIME_UCR.Pages.Incidents
         
         [Parameter]
         public string Id { get; set; }
-        [Parameter]
-        public string Active { get; set; }
 
-        private bool exists = true;
+        protected bool exists = true;
         
         private readonly IEnumerable<Tuple<DetailsTab, string>> _tabs = new List<Tuple<DetailsTab, string>>
         {
@@ -25,21 +25,20 @@ namespace PRIME_UCR.Pages.Incidents
             Tuple.Create(DetailsTab.Destination, "Destino"),
             // Tuple.Create(DetailsTab.Patient, "Paciente")
         };
-        
-        private DetailsTab _activeTab;
 
-        private Incidente _incident;
+        private DetailsTab _activeTab = DefaultTab;
+        private IncidentDetailsModel _incidentModel;
 
-        private void OnTabSet(DetailsTab tab)
+        protected override async Task OnInitializedAsync()
         {
-            _activeTab = tab;
+            _incidentModel = await IncidentService.GetIncidentDetailsAsync(Id);
+            if (_incidentModel == null)
+                exists = false;
         }
 
-        async Task SetIncident()
+        private async Task Save(IncidentDetailsModel model)
         {
-            _incident = await IncidentService.GetIncidentAsync(Id);
-            if (_incident == null)
-                exists = false;
+            _incidentModel = await IncidentService.UpdateIncidentDetails(model);
         }
     }
 }

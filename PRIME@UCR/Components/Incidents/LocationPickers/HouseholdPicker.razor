@@ -1,15 +1,37 @@
 ﻿@using PRIME_UCR.Components.Controls
 
 <Loading IsLoading="@IsLoading()">
-    <DropDownMenu Values="@_countries" Label="País" OnChangeCallback="@((Pais c) => OnChangeCountry(c))" /> 
-    <DropDownMenu Values="@_provinces" Label="Provincia" OnChangeCallback="@((Provincia p) => OnChangeProvince(p))"/> 
-    <DropDownMenu Values="@_cantons" Label="Cantón" OnChangeCallback="@((Canton c) => OnChangeCanton(c))"/> 
-    <DropDownMenu Values="@_districts" Label="Distrito" OnChangeCallback="@((Distrito d) => OnChangeDistrict(d))"/> 
+    <DropDownMenu Data="@_provinces" Label="Provincia" Value="@_selectedProvince" TextProperty="Nombre"
+                  ValueChanged="@((Provincia p) => OnChangeProvince(p))"/>
+    <DropDownMenu Data="@_cantons" Label="Cantón" Value="@_selectedCanton" TextProperty="Nombre"
+                  ValueChanged="@((Canton c) => OnChangeCanton(c))"/>
+    <DropDownMenu Data="@_districts" Label="Distrito" Value="@_selectedDistrict" TextProperty="Nombre"
+                  ValueChanged="@((Distrito d) => OnChangeDistrict(d))"/>
+    <div class="form-group">
+        <label>Dirección exacta</label>
+        <input type="text" class="form-control" value="@_address" @oninput="@(async (args) => {
+                                                                                   _address = (string) args.Value;
+                                                                                   await Callback();
+                                                                             })"/>
+    </div>
+    <div class="form-row">
+        <div class="col">
+            <div class="form-group">
+                <label>Longitud</label>
+                <input type="number" value="@_longitude" @oninput="@(async (args) => {
+                                                                     _longitude = Double.Parse((string) args.Value);
+                                                                     await Callback();
+                                                               })" class="form-control"/>
+            </div>
+        </div>
+        <div class="col">
+            <div class="form-group">
+                <label>Latitud</label>
+                <input type="number" value="@_latitude" @oninput="@(async (args) => {
+                                                                     _latitude = Double.Parse((string) args.Value);
+                                                                     await Callback();
+                                                               })" class="form-control"/>
+            </div>
+        </div>
+    </div>
 </Loading>
-
-@code {
-    protected override async Task OnInitializedAsync()
-    {
-        await InitializeComponent();
-    }
-}

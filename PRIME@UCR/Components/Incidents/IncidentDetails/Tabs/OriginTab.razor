@@ -3,17 +3,36 @@
 
 <h3> Información sobre el origen </h3>
 <br />
-<DropDownMenu Values="@_dropdownValuesOrigin" Label="Tipo de origen" OnChangeCallback="@((OriginType tab) => OnChangeOrigin(tab))" />
-@if (_selectedOriginType == OriginType.Household)
+@if (Origin == null)
 {
-    <HouseholdPicker />
+    <StatusMessage Message="Este valor está pendiente para finalizar la creación del incidente." Class="warning"/>
 }
-else if (_selectedOriginType == OriginType.International)
-{
-    <InternationalPicker Model="@intlModel" />
-}
-else
-{ 
-    <MedicalCenterPicker />
-}
-
+<StatusMessage Message="@_errorMessage" Class="danger"/>
+<DropDownMenu Data="@_dropdownValuesOrigin" Label="Tipo de origen" Value="_selectedOriginType" TextProperty="Item2"
+              ValueChanged="@((Tuple<OriginType, string> o) => OnOriginTypeChange(o))" T="Tuple<OriginType, String>" />
+<EditForm Model="_model" OnValidSubmit="@Save">
+    @if (_selectedOriginType.Item1 == OriginType.Household)
+    {
+        <HouseholdPicker Value="@Origin" ValueChanged="@OnOriginChange"/>
+    }
+    else if (_selectedOriginType.Item1 == OriginType.International)
+    {
+        <InternationalPicker Value="@Origin" ValueChanged="@OnOriginChange" />
+    }
+    else
+    { 
+        <MedicalCenterPicker Value="@Origin" ValueChanged="@OnOriginChange"/>
+    }
+    <div class="text-center">
+        @if (Origin != null && Origin.Equals(_model.Origin))
+        {
+            <button disabled class="btn btn-outline-secondary">Cancelar</button>
+            <button disabled type="submit" class="btn btn-primary">Guardar</button>
+        }
+        else
+        {
+            <button @onclick:preventDefault @onclick="@LoadExistingValues" class="btn btn-outline-secondary ">Cancelar</button>
+            <button type="submit" class="btn btn-primary">Guardar</button>
+        }
+    </div>
+</EditForm>

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using PRIME_UCR.Application.Dtos;
 using PRIME_UCR.Application.Repositories.Incidents;
 using PRIME_UCR.Application.Services.Incidents;
 using PRIME_UCR.Domain.Models;
@@ -31,6 +32,21 @@ namespace PRIME_UCR.Application.Implementations.Incidents
         public async Task<IEnumerable<CentroMedico>> GetAllMedicalCentersAsync()
         {
             return await _medicalCenterRepository.GetAllAsync();
+        }
+
+        public async Task<LocationModel> GetLocationByDistrictId(int districtId)
+        {
+
+            var district =
+                await _districtRepository.GetDistrictWithFullLocationById(districtId);
+            
+            return new LocationModel()
+            {
+                Country = district.Canton.Provincia.Pais,
+                Province = district.Canton.Provincia,
+                Canton = district.Canton,
+                District = district
+            };
         }
 
         public async Task<IEnumerable<Pais>> GetAllCountriesAsync()

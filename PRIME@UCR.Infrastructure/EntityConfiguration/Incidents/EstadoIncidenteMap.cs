@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PRIME_UCR.Domain.Models.Incidents;
 
-namespace PRIME_UCR.Infrastructure.DataProviders.Implementations.EntityConfiguration.Incidents
+namespace PRIME_UCR.Infrastructure.EntityConfiguration.Incidents
 {
     public class EstadoIncidenteMap : IEntityTypeConfiguration<EstadoIncidente>
     {
@@ -21,6 +21,10 @@ namespace PRIME_UCR.Infrastructure.DataProviders.Implementations.EntityConfigura
                 .HasOne(e => e.Incidente)
                 .WithMany(i => i.EstadoIncidentes)
                 .HasForeignKey(e => e.CodigoIncidente);
+
+            builder
+                .Property(e => e.FechaModificado)
+                .HasColumnName("FechaHora");
         }
     }
 }
