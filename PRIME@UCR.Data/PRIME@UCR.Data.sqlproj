@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -56,10 +56,29 @@
   <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
   <ItemGroup>
     <Folder Include="Properties" />
-    <Folder Include="Scripts" />
     <Folder Include="Tables" />
+    <Folder Include="Scripts" />
+    <Folder Include="Scripts\PostDeployment" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="Tables\MultimediaContent.sql" />
+    <Build Include="CheckList.sql" />
+    <Build Include="Tables\Canton.sql" />
+    <Build Include="Tables\Centro_Medico.sql" />
+    <Build Include="Tables\Centro_Ubicacion.sql" />
+    <Build Include="Tables\Distrito.sql" />
+    <Build Include="Tables\Domicilio.sql" />
+    <Build Include="Tables\Incidente.sql" />
+    <Build Include="Tables\Modalidad.sql" />
+    <Build Include="Tables\Pais.sql" />
+    <None Include="Scripts\PostDeployment\Incidents_PostDeployment.sql" />
+    <Build Include="Tables\Estado.sql" />
+    <Build Include="Tables\EstadoIncidente.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="Tables\Internacional.sql" />
+    <Build Include="Tables\Provincia.sql" />
+    <Build Include="Tables\Ubicacion.sql" />
+    <Build Include="Tables\Unidad_De_Transporte.sql" />
+	<Build Include="Tables\MultimediaContent.sql" />	  
   </ItemGroup>
 </Project>

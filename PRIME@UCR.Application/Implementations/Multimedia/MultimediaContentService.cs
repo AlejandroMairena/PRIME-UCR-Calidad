@@ -23,7 +23,7 @@ namespace PRIME_UCR.Application.Implementations.Multimedia
 
             //abrir aqui el archivo que se desea adjuntar. 
             //string path = "c:/ Temp / MM / "; //esto es un ejemplo
-            await repository.InsertAsync(mcontent.ID, mcontent);
+            await repository.InsertAsync(mcontent);
 
             //return FillMultimediaContent(path); 
         }

@@ -1,24 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using PRIME_UCR.Application.Services;
-using PRIME_UCR.Application.Implementations;
-using PRIME_UCR.Application.Repositories;
-using PRIME_UCR.Application.Services.Multimedia;
-using PRIME_UCR.Application.Repositories.Multimedia;
-using PRIME_UCR.Infrastructure.Repositories.Sql.Multimedia;
-using PRIME_UCR.Application.Implementations.Multimedia;
-using PRIME_UCR.Infrastructure.DataProviders;
+using PRIME_UCR.Application;
+using PRIME_UCR.Infrastructure;
 using PRIME_UCR.Infrastructure.DataProviders.Implementations;
-using PRIME_UCR.Infrastructure.Repositories.Sql;
 using Microsoft.EntityFrameworkCore;
 
 namespace PRIME_UCR
@@ -38,22 +26,10 @@ namespace PRIME_UCR
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
-
-            /*
-             * dependency injection summary
-             * singleton: shared instance for the whole server
-             * transient: shared instance per request to the server(resets on reload)
-             * scoped: never shared, one new instance per injection
-            */
-            //MultimediaContentService - DT
-            services.AddTransient<IMultimediaContentRepository, MultimediaContentRepository>();
-            services.AddTransient<IMultimediaContentService, MultimediaContentService>();
-            // data providers
-            services.AddTransient<ISqlDataProvider, ApplicationDbContext>();
-            // generic repositories
-            services.AddTransient(typeof(IGenericRepository<,>), typeof(GenericRepository<,>));
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DevelopmentDbConnection")));
+            services.AddApplicationLayer();
+            services.AddInfrastructureLayer();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

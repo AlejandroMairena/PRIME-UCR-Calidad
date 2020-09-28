@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Text;
@@ -12,8 +12,8 @@ namespace PRIME_UCR.Application.Repositories
         Task<T> GetByKeyAsync(TKey key);
         Task<IEnumerable<T>> GetAllAsync();
         Task<IEnumerable<T>> GetByConditionAsync(Expression<Func<T, bool>> expression);
-        Task<T> InsertAsync(TKey key, T model);
+        Task<T> InsertAsync(T model);
         Task DeleteAsync(TKey key);
-        Task UpdateAsync(TKey key, T model);
+        Task UpdateAsync(T model);
     }
 }
