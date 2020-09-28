@@ -1,38 +1,53 @@
 ﻿/* Styles for Multumedia Component*/
-.m-input {
+.m-input 
+{
     margin: 5px 0px;
     display: block;
 }
 
-.m-label {
+.m-label
+{
     width: 100px;
 }
 
-    .m-label:hover {
+.m-label:hover
+{
         text-decoration: underline;
-    }
+}
 
 .m-menu-div {
     padding-left: 15px;
+    margin-top: 4px;
+    margin-bottom: 4px;
 }
 
-.m-btn-remove {
+.m-btn 
+{
     height: 20px;
     padding: 2px 6px;
     font-size: 10px;
-    margin-left: 10px;
 }
 
-.m-file-menu {
+.m-btn-rm
+{
+    display: inline;
+    margin-right: 15px;
 }
 
-.m-button {
+.m-file-menu 
+{
+}
+
+.m-button
+{
     background-color: #095290;
 }
 
-.m-button:hover {
+.m-button:hover 
+{
     background-color: #00c0f3;
 }
-.show > .btn-secondary.dropdown-toggle {
+.show > .btn-secondary.dropdown-toggle
+{
     background-color: #00c0f3;
 }

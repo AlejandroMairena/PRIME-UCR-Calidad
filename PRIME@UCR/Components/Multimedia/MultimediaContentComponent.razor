@@ -22,18 +22,17 @@
         </svg>
     </button>
     <div class="@ddMenuClass" aria-labelledby="dropdownMenuButton">
-        @for (int i = 0; i < counter; i++)
+        @for(int i = 0; i < counter; i++)
         {
-            <div class="m-menu-div">
-                <BlazorInputFile.InputFile></BlazorInputFile.InputFile>
-                <button type="button" class="btn btn-danger m-btn m-btn-rm">Eliminar</button>
-            </div>
+        <div class="m-menu-div">
+            <BlazorInputFile.InputFile OnChange="HandleFileSelected"></BlazorInputFile.InputFile>
+            <button type="button" class="btn btn-danger m-btn m-btn-rm">Eliminar</button>
+        </div>
         }
         <div class="m-menu-div">
             <button type="button" class="btn btn-success m-btn" @onclick="AddInputFile">+</button>
-
         </div>
-
+        
     </div>
 </div>
 
@@ -70,13 +69,29 @@
     {
         //puedo usar esto gracias a la inyeccion que se hizo arriba.
         //este servicio me retorna el modelo, dentro del servicio es que se debe abrir el archivo.
-        MultimediaContent multimedia = multimedia_content_service.AddFile();
+        //MultimediaContent multimedia = multimedia_content_service.AddFile();
     }
 
     //Todo el siguiente codigo.
     //debe estar en el servicio y que dicho servicio me retorne el Modelo ya construido
 
     IFileListEntry file;
+
+    void HandleFileSelected(IFileListEntry[] files)
+    {
+        file = files.FirstOrDefault();
+        if (file == null) return;
+        MultimediaContent mcontent = new MultimediaContent
+        {
+            Nombre = file.Name,
+            Archivo = "path",
+            Descripcion = "prueba",
+            Fecha_Hora = DateTime.Now,
+            Tipo = file.Type,
+            ID_accion = "1"
+        };
+        multimedia_content_service.AddFileAsync(mcontent);
+    }
 
     async Task OpenFile(IFileListEntry[] files)
     {

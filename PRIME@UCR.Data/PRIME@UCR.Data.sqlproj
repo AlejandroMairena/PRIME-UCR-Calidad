@@ -59,4 +59,7 @@
     <Folder Include="Scripts" />
     <Folder Include="Tables" />
   </ItemGroup>
+  <ItemGroup>
+    <Build Include="Tables\MultimediaContent.sql" />
+  </ItemGroup>
 </Project>

@@ -5,27 +5,27 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-/*
-using BlazorInputFile;
-*/
+using PRIME_UCR.Application.Repositories.Multimedia;
+using PRIME_UCR.Application.Services.Multimedia;
 
-namespace PRIME_UCR.Application.Services.Multimedia
+namespace PRIME_UCR.Application.Implementations.Multimedia
 {
     public class MultimediaContentService : IMultimediaContentService
     {
+        //public IFileListEntry file;
+        private readonly IMultimediaContentRepository repository; 
 
-        public MultimediaContentService() { 
-        
-        
+        public MultimediaContentService(IMultimediaContentRepository repository ) {
+            this.repository = repository;
         }
 
-        public MultimediaContent AddFile() {
+        public async Task AddFileAsync(MultimediaContent mcontent) {
 
             //abrir aqui el archivo que se desea adjuntar. 
-            string path = "c:/ Temp / MM / "; //esto es un ejemplo
+            //string path = "c:/ Temp / MM / "; //esto es un ejemplo
+            await repository.InsertAsync(mcontent.ID, mcontent);
 
-            return FillMultimediaContent(path); 
-
+            //return FillMultimediaContent(path); 
         }
 
         public MultimediaContent FillMultimediaContent(string patch) {

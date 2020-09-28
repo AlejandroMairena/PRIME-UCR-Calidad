@@ -9,9 +9,9 @@ namespace PRIME_UCR.Infrastructure.DataProviders
 {
     public interface ISqlDataProvider
     {
-        DbSet<Acciones> Acciones { get; set;  }
+        //DbSet<Acciones> Acciones { get; set;  }
         DbSet<MultimediaContent> Multimedia_Contents { get; set;  }
-        DbSet<Cita> Citas { get; set;  }
+        //DbSet<Cita> Citas { get; set;  }
         DbSet<T> Set<T>() where T : class;
         Task<int> SaveChangesAsync();
 
