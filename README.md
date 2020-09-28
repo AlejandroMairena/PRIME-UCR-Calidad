@@ -197,7 +197,7 @@ Puede encontrar nuestra visión del producto en el link: https://docs.google.com
 
 ### h. Descripción de los temas (módulos) asignados a cada equipo. Descripción de los principales epics asociados al tema(s) a desarrollar por cada uno de los equipos. Relación con los demás módulos (temas) del sistema.
 
-**Diosvier - Administración de incidentes**
+#### Diosvier - Administración de incidentes
 
 Para la administración de los traslados (e incidentes) se requiere la implementación de una plataforma que permita el despacho, seguimiento y monitoreo en tiempo real por medio de GPS y mapas tanto para las unidades terrestres, marítimas y aéreas. Los epics asociados a este tema son:
 
@@ -257,9 +257,14 @@ Cabe destacar que en la branch master únicamente se le harán commits y merge a
 
 En más detalle, los desarrolladores que vayan implementando funcionalidades a la aplicación van realizando commits a su branch por la duración de un sprint. Cuando sea necesario, estos desarrolladores pueden realizar merges con su branch de equipo, ya que otros miembros del equipo pueden ir utilizando las funcionalidades que sus compañeros hayan implementado. Una vez que se termine la iteración, se hará merge entre los diferentes branches de los equipos principales, para de esta forma, poder hacer un único merge con el master, para así evitar la máxima cantidad de errores que pueden ocurrir. 
 
-### Definición de listo
+## h. Definición de listo (DoD)
+
+Puede encontrar nuestra definición de listo en el [siguiente link](https://docs.google.com/spreadsheets/d/1XnhCmkLnF6gNzaVUzOPjGgIScgK2AZjcDtBU81P5B8c/edit#gid=115914780).
 
 ## Referencias Bibliográficas
--Ouellette, A. (2017, 20 septiembre). What is Bootstrap: A Beginners Guide. CareerFoundry. https://getbootstrap.com/docs/4.5/getting-started/introduction/
+
+- Ouellette, A. (2017, 20 septiembre). What is Bootstrap: A Beginners Guide. CareerFoundry. https://getbootstrap.com/docs/4.5/getting-started/introduction/
 - Roth, D. (2020, 11 agosto). ASP.NET Core Blazor hosting models. Microsoft Docs. https://docs.microsoft.com/en-us/aspnet/core/blazor/hosting-models?view=aspnetcore-3.1
 - Roth, D., & Latham, L. (2020, 19 junio). Introduction to ASP.NET Core Blazor. Microsoft Docs. https://docs.microsoft.com/en-us/aspnet/core/blazor/?view=aspnetcore-3.1
+- Elmasri, R., & Navathe, S. B. (2010). Fundamentals of Database Systems (6th ed. ed.). Addison Wesley Longman.
+- Cohn, M. (2005). Agile Estimating And Planning (1.a ed.). Prentice Hall.
