@@ -7,32 +7,45 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using PRIME_UCR.Domain.Models.UserAdministration;
 using Microsoft.AspNetCore.Identity;
+using Blazored.SessionStorage;
 
 namespace PRIME_UCR.Application.Implementations.UserAdministration
 {
     public class CustomAuthenticationStateProvider : AuthenticationStateProvider
     {
+        private ISessionStorageService SessionStorageService;
 
         protected readonly SignInManager<Usuario> SignInManager;
 
         protected readonly UserManager<Usuario> UserManager;
 
-        public CustomAuthenticationStateProvider(SignInManager<Usuario> _signInManager, UserManager<Usuario> _userManager)
+        public CustomAuthenticationStateProvider(SignInManager<Usuario> _signInManager, UserManager<Usuario> _userManager, ISessionStorageService _sessionStorageService)
         {
             SignInManager = _signInManager;
             UserManager = _userManager;
+            SessionStorageService = _sessionStorageService;
         }
 
         public override async Task<AuthenticationState> GetAuthenticationStateAsync()
         {
             var identity = new ClaimsIdentity();
 
-            var user = new ClaimsPrincipal(identity);
-
             Usuario user0 = new Usuario();
             user0.Email = user0.UserName = "admin@admin.com";
             String password = "Admin_1234";
             await UserManager.CreateAsync(user0, password);
+
+            var emailAddress = await SessionStorageService.GetItemAsync<string>("emailAddress");
+
+            if (emailAddress != null)
+            {
+                identity = new ClaimsIdentity(new[]
+                {
+                        new Claim(ClaimTypes.Name, emailAddress),
+                    }, "apiauth_type");
+            }
+            
+            var user = new ClaimsPrincipal(identity);
 
             return await Task.FromResult(new AuthenticationState(user));
         }
@@ -71,6 +84,7 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
         
         public async Task<bool> Logout()
         {
+            await SessionStorageService.RemoveItemAsync("emailAddress");
 
             ClaimsIdentity identity = new ClaimsIdentity();
 

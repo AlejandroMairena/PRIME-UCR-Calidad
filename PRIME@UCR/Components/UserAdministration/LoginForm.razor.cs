@@ -28,6 +28,9 @@ namespace PRIME_UCR.Components.UserAdministration
             //DB
             // var authResult = await SignInManager.PasswordSignInAsync(usuario.Email, usuario.PasswordHash, true, true);
             var result = await ((CustomAuthenticationStateProvider)MyAuthenticationStateProvider).AuthenticateLogin(usuario);
+
+            await sessionStorage.SetItemAsync("emailAddress",usuario.Email);
+
             return await Task.FromResult(result);
         }
         

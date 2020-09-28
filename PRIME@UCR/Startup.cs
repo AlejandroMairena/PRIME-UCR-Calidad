@@ -25,6 +25,7 @@ using PRIME_UCR.Domain.Models.UserAdministration;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Server;
 using PRIME_UCR.Application.Implementations.UserAdministration;
+using Blazored.SessionStorage;
 
 namespace PRIME_UCR
 {
@@ -50,6 +51,7 @@ namespace PRIME_UCR
             services.AddIdentity<Usuario, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             //services.AddIdentity<Usuario>();
+            services.AddBlazoredSessionStorage();
             services.AddScoped<AuthenticationStateProvider,CustomAuthenticationStateProvider>();
 
             services.AddApplicationLayer();
