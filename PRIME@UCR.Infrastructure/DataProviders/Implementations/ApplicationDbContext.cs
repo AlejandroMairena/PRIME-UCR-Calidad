@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using PRIME_UCR.Domain.Models;
 using System.Threading.Tasks;
 using PRIME_UCR.Domain.Models.Incidents;
-using PRIME_UCR.Infrastructure.DataProviders.Implementations.EntityConfiguration.Incidents;
+using PRIME_UCR.Infrastructure.EntityConfiguration.Incidents;
 
 namespace PRIME_UCR.Infrastructure.DataProviders.Implementations
 {

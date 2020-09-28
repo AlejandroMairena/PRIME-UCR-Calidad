@@ -4,6 +4,8 @@ namespace PRIME_UCR.Domain.Models
 {
     public class Pais
     {
+        public const string DefaultCountry = "Costa Rica";
+        
         public Pais()
         {
             Provincias = new List<Provincia>();

@@ -2,5 +2,6 @@
 @using Microsoft.EntityFrameworkCore
 
 <Loading IsLoading="_values == null">
-    <DropDownMenu Values="@_values" T="Pais" Label="País" OnChange="@((Pais c) => OnCountryChange(c))"/> 
+    <DropDownMenu Data="@_values" T="Pais" Label="País" Value="_international.Pais" TextProperty="Nombre"
+                  ValueChanged="@((Pais c) => OnCountryChange(c))"/> 
 </Loading>

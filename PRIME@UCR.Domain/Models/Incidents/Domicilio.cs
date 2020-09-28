@@ -4,7 +4,6 @@ namespace PRIME_UCR.Domain.Models
 {
     public class Domicilio : Ubicacion
     {
-        public int Id {get; set;}
         public string Direccion { get; set; }
         public int DistritoId { get; set; }
         public Distrito Distrito { get; set; }

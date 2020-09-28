@@ -4,6 +4,6 @@
 @using System.Linq;
 
 <Loading IsLoading="_values == null">
-    <DropDownMenu Values="_values" T="CentroMedico" Label="Centro médico" OnChange="@((CentroMedico tab) => OnChangeMedicalCenter(tab))" /><br />
-    @*<ListItem Title="Pais" Text="@_selectedMedicalCenter.Distrito.Canton.Provincia.Pais" />*@
+    <DropDownMenu Data="_values" T="CentroMedico" Label="Centro médico" Value="@_selectedMedicalCenter" TextProperty="Nombre"
+                  ValueChanged="@((CentroMedico tab) => OnChangeMedicalCenter(tab))" /><br />
 </Loading>

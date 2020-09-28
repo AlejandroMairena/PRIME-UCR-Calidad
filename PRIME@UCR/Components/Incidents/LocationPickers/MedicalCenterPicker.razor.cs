@@ -14,11 +14,14 @@ namespace PRIME_UCR.Components.Incidents.LocationPickers
         public ILocationService LocationService { get; set; }
         
         [Parameter]
-        public EventCallback<Ubicacion> OnChange { get; set; }
+        public Ubicacion Value { get; set; }
+        
+        [Parameter]
+        public EventCallback<Ubicacion> ValueChanged { get; set; }
         
         private CentroMedico _selectedMedicalCenter;
 
-        private List<Tuple<CentroMedico, string>> _values;
+        private List<CentroMedico> _values;
 
         async Task Callback()
         {
@@ -26,7 +29,7 @@ namespace PRIME_UCR.Components.Incidents.LocationPickers
             {
                 CentroMedicoId = _selectedMedicalCenter.Id
             };
-            await OnChange.InvokeAsync(location);
+            await ValueChanged.InvokeAsync(location);
         }
 
         async Task OnChangeMedicalCenter(CentroMedico medicalCenter)
@@ -38,17 +41,20 @@ namespace PRIME_UCR.Components.Incidents.LocationPickers
         
         protected override async Task OnInitializedAsync()
         {
-            var medicalCenters =
+            _values =
                 (await LocationService.GetAllMedicalCentersAsync())
                 .ToList();
-            
-            _values = medicalCenters
-                .Select(mc => Tuple.Create(mc, mc.Nombre))
-                .ToList();
-            
-            _selectedMedicalCenter = medicalCenters.First();
 
-            await Callback();
+            if (Value is CentroUbicacion location)
+            {
+                _selectedMedicalCenter = _values.First(mc => mc.Id == location.CentroMedicoId);
+            }
+            else
+            {
+                _selectedMedicalCenter = _values.First();
+                await Callback();
+            }
+
         }
     }
 }

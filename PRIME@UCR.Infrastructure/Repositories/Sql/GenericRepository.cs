@@ -50,7 +50,7 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql
             return model;
         }
 
-        public async Task UpdateAsync(TKey key, T model)
+        public async Task UpdateAsync(T model)
         {
             _db.Set<T>().Update(model);
             await _db.SaveChangesAsync();

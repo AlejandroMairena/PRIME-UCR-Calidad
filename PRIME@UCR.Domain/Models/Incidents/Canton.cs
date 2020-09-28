@@ -14,5 +14,14 @@ namespace PRIME_UCR.Domain.Models
         public Provincia Provincia { get; set; }
         public List<Distrito> Distritos { get; private set; }
 
+        public override bool Equals(object obj)
+        {
+            if (obj is Canton c)
+                return Id == c.Id &&
+                       Nombre == c.Nombre &&
+                       NombreProvincia == c.NombreProvincia;
+            
+            return false;
+        }
     }
 }

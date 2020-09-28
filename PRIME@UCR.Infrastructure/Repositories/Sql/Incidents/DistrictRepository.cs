@@ -21,5 +21,14 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Incidents
                 .Where(d => d.IdCanton == cantonId)
                 .ToListAsync();
         }
+
+        public async Task<Distrito> GetDistrictWithFullLocationById(int distrcitId)
+        {
+            return await _db.Districts
+                .Include(d => d.Canton)
+                .ThenInclude(c => c.Provincia)
+                .ThenInclude(p => p.Pais)
+                .FirstOrDefaultAsync(d => d.Id == distrcitId);
+        }
     }
 }

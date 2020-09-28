@@ -1,9 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using PRIME_UCR.Domain.Models;
 using PRIME_UCR.Domain.Models.Incidents;
 
-namespace PRIME_UCR.Infrastructure.DataProviders.Implementations.EntityConfiguration.Incidents
+namespace PRIME_UCR.Infrastructure.EntityConfiguration.Incidents
 {
     public class UnidadDeTransporteMap : IEntityTypeConfiguration<UnidadDeTransporte>
     {

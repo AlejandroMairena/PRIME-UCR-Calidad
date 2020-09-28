@@ -14,6 +14,6 @@ namespace PRIME_UCR.Application.Repositories
         Task<IEnumerable<T>> GetByConditionAsync(Expression<Func<T, bool>> expression);
         Task<T> InsertAsync(T model);
         Task DeleteAsync(TKey key);
-        Task UpdateAsync(TKey key, T model);
+        Task UpdateAsync(T model);
     }
 }

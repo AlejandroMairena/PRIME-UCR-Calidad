@@ -16,110 +16,86 @@ namespace PRIME_UCR.Components.Incidents.LocationPickers
         public ILocationService LocationService { get; set; }
         
         [Parameter]
-        public EventCallback<Ubicacion> OnChange { get; set; }
+        public Ubicacion Value { get; set; }
+        
+        [Parameter]
+        public EventCallback<Ubicacion> ValueChanged { get; set; }
 
-        private List<Tuple<Pais, string>> _countries;
-        private List<Tuple<Provincia, string>> _provinces;
-        private List<Tuple<Canton, string>> _cantons;
-        private List<Tuple<Distrito, string>> _districts;
+        private List<Provincia> _provinces;
+        private List<Canton> _cantons;
+        private List<Distrito> _districts;
 
-        private Pais _selectedCountry;
         private Provincia _selectedProvince;
         private Canton _selectedCanton;
         private Distrito _selectedDistrict;
+        private string _address;
+        private double _longitude;
+        private double _latitude;
 
+        // Check if everything has been loaded
         bool IsLoading()
         {
-            return _countries == null ||
-                   _provinces == null ||
-                   _cantons == null ||
-                   _districts == null;
-        }
-
-        async Task LoadCountries()
-        {
-            var countries =
-                (await LocationService.GetAllCountriesAsync())
-                .ToList();
-            _countries = DropDownUtilities.LoadAsTupleList(countries, "Nombre");
-
-            // Load first value
-            _selectedCountry = countries.First(); 
-            
-            // cascaded behavior
-            await LoadProvinces();
-            await LoadCantons();
-            await LoadDistricts();
-        }
-        
-        async Task OnChangeCountry(Pais country)
-        {
-            _selectedCountry = country;
-
-            await LoadProvinces();
+            return _provinces == null || _selectedProvince == null ||
+                   _cantons == null || _selectedCanton == null ||
+                   _districts == null || _selectedDistrict == null;
         }
 
         async Task LoadProvinces()
         {
             // get options
-            var provinces =
-                (await LocationService.GetProvincesByCountryNameAsync(_selectedCountry.Nombre))
+            _provinces =
+                (await LocationService.GetProvincesByCountryNameAsync(Pais.DefaultCountry))
                 .ToList();
-            _provinces = DropDownUtilities.LoadAsTupleList(provinces, "Nombre");
 
             // Could throw invalid operation exception if list is empty,
             // but this should only happen if there are countries in our DB with no provinces registered,
             // which shouldn't happen.
-            _selectedProvince = provinces.First();
-            
-            await LoadCantons();
-            await LoadDistricts();
+            _selectedProvince = _provinces.First();
         }
 
         async Task Callback()
         {
             var household = new Domicilio
             {
-                DistritoId = _selectedDistrict.Id
+                DistritoId = _selectedDistrict.Id,
+                Direccion = _address,
+                Longitud = _longitude,
+                Latitud = _latitude
             };
-            await OnChange.InvokeAsync(household);
+            await ValueChanged.InvokeAsync(household);
         }
 
         async Task OnChangeProvince(Provincia province)
         {
             _selectedProvince = province;
-
             await LoadCantons();
+            await LoadDistricts();
+            await Callback();
         }
 
         async Task LoadCantons()
         {
-            var cantons =
+            _cantons =
                 (await LocationService.GetCantonsByProvinceNameAsync(_selectedProvince.Nombre))
                 .ToList();
-            _cantons = DropDownUtilities.LoadAsTupleList(cantons, "Nombre");
 
-            _selectedCanton = cantons.First();
-            
-            await LoadDistricts();
+            _selectedCanton = _cantons.First();
         }
 
         async Task OnChangeCanton(Canton canton)
         {
             _selectedCanton = canton;
-
             await LoadDistricts();
+            await Callback();
         }
 
         async Task LoadDistricts()
         {
-            var districts =
+            _districts =
                 (await LocationService.GetDistrictsByCantonIdAsync(_selectedCanton.Id))
                 .ToList();
-            _districts = DropDownUtilities.LoadAsTupleList(districts, "Nombre");
 
-            _selectedDistrict = districts.First();
-            await Callback();
+            _selectedDistrict = _districts.First();
         }
 
         async Task OnChangeDistrict(Distrito district)
@@ -127,13 +103,34 @@ namespace PRIME_UCR.Components.Incidents.LocationPickers
             _selectedDistrict = district;
             await Callback();
         }
+
+        private async Task LoadExistingValues()
+        {
+            if (Value is Domicilio household)
+            {
+                var location = await LocationService.GetLocationByDistrictId(household.DistritoId);
+                await LoadProvinces();
+                _selectedProvince = location.Province;
+                await LoadCantons();
+                _selectedCanton = location.Canton;
+                await LoadDistricts();
+                _selectedDistrict = location.District;
+                _address = household.Direccion;
+                _longitude = household.Longitud;
+                _latitude = household.Latitud;
+            }
+            else
+            {
+                await LoadProvinces();
+                await LoadCantons();
+                await LoadDistricts();
+                await Callback();
+            }
+        }
         
         protected override async Task OnInitializedAsync()
         {
-            await LoadCountries();
-            await LoadProvinces();
-            await LoadCantons();
-            await LoadDistricts();
+            await LoadExistingValues();
         }
     }
 }

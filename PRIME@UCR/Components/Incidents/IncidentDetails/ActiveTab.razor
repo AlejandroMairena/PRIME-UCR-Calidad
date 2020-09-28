@@ -3,31 +3,22 @@
 <div class="container">
     @if (Active == DetailsTab.Info)
     {
-        <InfoTab Incident="Incident"/>
+        <InfoTab DetailsModel="@Incident"/>
     }
     else if (Active == DetailsTab.Origin)
     {
-        <OriginTab />
+        <OriginTab Origin="@Incident.Origin" OnSave="@SaveOrigin"/>
     }
     else if (Active == DetailsTab.Destination)
     {
-        <DestinationTab />
+        <DestinationTab Destination="@Incident.Destination" OnSave="@SaveDestination"/>
     }
-    else if(Active == DetailsTab.Patient)
+    else if (Active == DetailsTab.Patient)
     {
-        <PatientTab />
+        <PatientTab/>
     }
     else
     {
         <h4 class="text-danger">Not found</h4>
     }
 </div>
-
-@code {
-    
-    [Parameter]
-    public DetailsTab Active { get; set; }    
-    
-    [Parameter]
-    public Incidente Incident { get; set; }    
-}

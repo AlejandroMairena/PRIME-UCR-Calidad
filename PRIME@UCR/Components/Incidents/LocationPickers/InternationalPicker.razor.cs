@@ -16,9 +16,12 @@ namespace PRIME_UCR.Components.Incidents.LocationPickers
         public ILocationService LocationService { get; set; }
         
         [Parameter]
-        public EventCallback<Ubicacion> OnChange { get; set; }
+        public Ubicacion Value { get; set; }
+        
+        [Parameter]
+        public EventCallback<Ubicacion> ValueChanged { get; set; }
 
-        private List<Tuple<Pais, string>> _values;
+        private List<Pais> _values;
 
         private Internacional _international;
         
@@ -28,18 +31,32 @@ namespace PRIME_UCR.Components.Incidents.LocationPickers
             {
                 NombrePais = country.Nombre,
             };
-            await OnChange.InvokeAsync(_international);
+            await ValueChanged.InvokeAsync(_international);
         }
 
         protected override async Task OnInitializedAsync()
         {
-            var values = (await LocationService.GetAllCountriesAsync())
+            _values = (await LocationService.GetAllCountriesAsync())
+                .Where(c => c.Nombre != Pais.DefaultCountry)
                 .ToList();
-            _values = DropDownUtilities.LoadAsTupleList(values, "Nombre");
             
-            var country = values.First();
-            _international = new Internacional { NombrePais = country.Nombre };
-            await OnChange.InvokeAsync(_international);
+            if (Value is Internacional intl)
+            {
+                _international = intl;
+                // get strongly typed obj instead of only having FK
+                _international.Pais = _values.First(p => p.Nombre == intl.NombrePais);
+            }
+            else
+            {
+                var country = _values.First();
+                _international = new Internacional
+                {
+                    NombrePais = country.Nombre,
+                    Pais = country
+                };
+            }
+            
+            await ValueChanged.InvokeAsync(_international);
         }
     }
 }

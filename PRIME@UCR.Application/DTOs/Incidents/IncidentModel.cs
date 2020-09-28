@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Runtime.CompilerServices;
 using PRIME_UCR.Application.ValidationAttributes;
 using PRIME_UCR.Domain.Models;
+using PRIME_UCR.Domain.Models.Incidents;
 
 namespace PRIME_UCR.Application.Dtos.Incidents
 {
@@ -14,5 +15,6 @@ namespace PRIME_UCR.Application.Dtos.Incidents
         [Required]
         [FutureDate]
         public DateTime EstimatedDateOfTransfer { get; set; }
+
     }
 }

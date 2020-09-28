@@ -21,7 +21,7 @@ namespace PRIME_UCR.Pages.Incidents
         private NavigationManager NavManager { get; set; }
         
         private IncidentModel _model = new IncidentModel();
-        private List<Tuple<Modalidad, string>> _modes;
+        private List<Modalidad> _modes;
 
         private const string DetailsUrl = "/incidents";
 
@@ -40,11 +40,10 @@ namespace PRIME_UCR.Pages.Incidents
 
         protected override async Task OnInitializedAsync()
         {
-            var modes =
+            _modes =
                 (await IncidentService.GetTransportModesAsync())
                 .ToList();
-            _modes = DropDownUtilities.LoadAsTupleList(modes, "Tipo");
-            _model.Mode = modes.First();
+            _model.Mode = _modes.First();
         }
     }
 }

@@ -33,8 +33,10 @@ namespace PRIME_UCR.Components.Controls
 
             return DateChanged.InvokeAsync(Date);
         }
-        
-        
-        
+
+        protected override void OnInitialized()
+        {
+            _time = DateTime.Now - DateTime.Today;
+        }
     }
 }

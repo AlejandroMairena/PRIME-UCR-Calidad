@@ -6,6 +6,6 @@ namespace PRIME_UCR.Application.Dtos.Incidents
     public class DestinationModel
     {
         [Required]
-        public Ubicacion Destination { get; set; }
+        public Ubicacion Destination { get; set; }    
     }
 }

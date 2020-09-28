@@ -8,14 +8,15 @@
         <ValidationSummary />
         <Loading IsLoading="_modes == null">
             <div class="form-group">
-                <DropDownMenu Label="Modalidad" Values="_modes" OnChange="@((Modalidad m) => _model.Mode = m)"/>
+                <DropDownMenu Label="Modalidad" Data="_modes" @bind-Value="_model.Mode" TextProperty="Tipo"/>
             </div>
             <DateTimePicker @bind-Date="@_model.EstimatedDateOfTransfer"
                              DateLabel="Fecha estimada de traslado" TimeLabel="Hora estimada de traslado"/>
             <div class="text-center">
-                <button type="reset" class="btn btn-outline-danger">Cancelar</button>
+                <a class="btn btn-outline-secondary" href="">Cancelar</a>
                 <button type="submit" class="btn btn-primary">Crear</button>
             </div>
         </Loading>
     </EditForm>
 </div>
+<br/>

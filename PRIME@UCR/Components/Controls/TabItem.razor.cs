@@ -7,10 +7,13 @@ namespace PRIME_UCR.Components.Controls
     {
         [Parameter]
         public TEnum Tab { get; set; }
+        
         [Parameter]
         public TEnum CurrentTab { get; set; }
+        
         [Parameter]
         public string TabName { get; set; }
+        
         [Parameter]
         public EventCallback<TEnum> OnTabSetCallback { get; set; }
 
@@ -19,11 +22,11 @@ namespace PRIME_UCR.Components.Controls
             await OnTabSetCallback.InvokeAsync(Tab);
         }
 
-        private string activeClass;
+        private string _activeClass;
 
         void SetActiveClass()
         {
-            activeClass = Tab.Equals(CurrentTab) ? "active" : "";
+            _activeClass = Tab.Equals(CurrentTab) ? "active" : "";
         }
     }
 }

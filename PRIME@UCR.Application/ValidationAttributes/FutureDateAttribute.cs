@@ -14,7 +14,7 @@ namespace PRIME_UCR.Application.ValidationAttributes
                 return ValidationResult.Success;
             }
             
-            return new ValidationResult($"Date must be in the future");
+            return new ValidationResult($"Debe seleccionar una fecha en el futuro.");
         }
     }
 }
