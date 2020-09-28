@@ -83,6 +83,7 @@ app {
         }
 
         .sidebar .nav-item a {
+            transition-duration: 0.4s;
             color: #d7d7d7;
             border-radius: 4px;
             height: 3rem;

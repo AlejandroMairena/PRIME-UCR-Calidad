@@ -13,7 +13,7 @@
     }
 
 .m-menu-div {
-    padding-left: 15px;
+    justify-content: space-between;
 }
 
 .m-btn-remove {
@@ -34,5 +34,40 @@
     background-color: #00c0f3;
 }
 .show > .btn-secondary.dropdown-toggle {
+    background-color: #00c0f3;
+}
+#add-buttom {
+    margin-top: 10px;
+    transition-duration: 0.4s;
+    border: 0px;
+    border-radius: 5px;
+    color: white;
+    background-color: #095290;
+}
+#add-buttom:hover {
+    background-color: #00c0f3;
+}
+#add-buttom:active {
+   border-color: white;
+}
+#add-buttom:visited {
+    border-color:red;
+}
+.dropdown-menu.show {
+    display: table;
+    padding: 15px;
+    align-content: space-around;
+}
+.btn-danger {
+    font-size: 15px;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    padding-left: 3px;
+    padding-right: 3px;
+}
+button, input {
+    margin: 10px;
+}
+input#file-upload-buttom {
     background-color: #00c0f3;
 }
