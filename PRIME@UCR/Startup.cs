@@ -47,7 +47,7 @@ namespace PRIME_UCR
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DevelopmentDbConnection")));
             //services.AddDefaultIdentity<Usuario>();
-            services.AddIdentityCore<Usuario>()
+            services.AddIdentity<Usuario, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             //services.AddIdentity<Usuario>();
             services.AddScoped<AuthenticationStateProvider,CustomAuthenticationStateProvider>();

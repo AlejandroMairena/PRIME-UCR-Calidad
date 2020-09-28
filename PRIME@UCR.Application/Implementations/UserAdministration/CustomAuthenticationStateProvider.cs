@@ -7,12 +7,21 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using PRIME_UCR.Domain.Models.UserAdministration;
 using Microsoft.AspNetCore.Identity;
+
 namespace PRIME_UCR.Application.Implementations.UserAdministration
 {
     public class CustomAuthenticationStateProvider : AuthenticationStateProvider
     {
-        [Inject]
-        public SignInManager<Usuario> SignInManager { get; set; }
+
+        protected readonly SignInManager<Usuario> SignInManager;
+
+        protected readonly UserManager<Usuario> UserManager;
+
+        public CustomAuthenticationStateProvider(SignInManager<Usuario> _signInManager, UserManager<Usuario> _userManager)
+        {
+            SignInManager = _signInManager;
+            UserManager = _userManager;
+        }
 
         public override Task<AuthenticationState> GetAuthenticationStateAsync()
         {
@@ -25,8 +34,10 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
 
         public async Task<bool> AuthenticateLogin(Usuario usuario)
         {
-            /*
-            var loginResult = await SignInManager.PasswordSignInAsync(usuario.Email, usuario.PasswordHash, true, true);
+            usuario.UserName = usuario.Email;
+            var result = await UserManager.CreateAsync(usuario, usuario.Contraseña);
+
+            var loginResult = await SignInManager.CheckPasswordSignInAsync(usuario, usuario.Contraseña, false);
 
             ClaimsIdentity identity = new ClaimsIdentity();
 
@@ -37,11 +48,7 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
                     new Claim(ClaimTypes.Name, usuario.Email),
                 }, "apiauth_type");
 
-            } */
-            var identity = new ClaimsIdentity(new[]
-               {
-                    new Claim(ClaimTypes.Name, "ate@ate.com"),
-                }, "apiauth_type");
+            }
             var user = new ClaimsPrincipal(identity);
            
 
