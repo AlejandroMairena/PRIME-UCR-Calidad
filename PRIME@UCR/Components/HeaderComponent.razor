@@ -1,44 +1,37 @@
 ﻿@using PRIME_UCR.Application.Implementations.UserAdministration;
-@using Microsoft.AspNetCore.Components.Authorization;
-@inject AuthenticationStateProvider myAuthenticationStateProvider;
 
-<CascadingAuthenticationState>
+<header class="navbar-header">
 
-    <header class="navbar-header">
+    <div class="ucr_header">
+        <a class="nav-link" href="https://www.ucr.ac.cr/"> <img src=" https://i.imgur.com/Ltg4gCm.png "> </a>
+    </div>
 
-        <div class="ucr_header">
-            <a class="nav-link" href="https://www.ucr.ac.cr/"> <img src=" https://i.imgur.com/Ltg4gCm.png "> </a>
+
+    <div class="top-row px-4 justify-content-between">
+        <div class="row">
+            <a class="nav-link" href="">PRIME@UCR</a>
+            <a class="nav-link" href="https://www.ucr.ac.cr/">UCR</a>
+            <a class="nav-link" href="https://www.ccss.sa.cr/">CCSS</a>
+            <a class="nav-link " href="about-us">Acerca de nosotros</a>
         </div>
+        <div class="row">
 
+            <AuthorizeView>
+                <Authorized>
+                    <p style="margin:auto">
+                        @context.User.Identity.Name
+                    </p>
 
-        <div class="top-row px-4 justify-content-between">
-            <div class="row">
-                <a class="nav-link" href="">PRIME@UCR</a>
-                <a class="nav-link" href="https://www.ucr.ac.cr/">UCR</a>
-                <a class="nav-link" href="https://www.ccss.sa.cr/">CCSS</a>
-                <a class="nav-link " href="about-us">Acerca de nosotros</a>
-            </div>
-            <div class="row">
+                    <a class="nav-link btn btn-link" href="/logout">
+                        <img src="https://i.imgur.com/ENfAuBw.png" /> 
+                    </a>
+                </Authorized>
+            </AuthorizeView>
 
-                <AuthorizeView>
-                    <Authorized>
-                        <p style="margin:auto">
-                            @context.User.Identity.Name
-                        </p>
-
-                        <a class="nav-link btn btn-link" @onclick="((CustomAuthenticationStateProvider)myAuthenticationStateProvider).Logout">
-                            <img src="https://i.imgur.com/ENfAuBw.png" /> 
-                        </a>
-                    </Authorized>
-                </AuthorizeView>
-
-                <a class="nav-link">
-                    <img src="https://i.imgur.com/Mpf0Bx4.png" alt="ucr_header_logo">
-                </a>
-            </div>
+            <a class="nav-link">
+                <img src="https://i.imgur.com/Mpf0Bx4.png" alt="ucr_header_logo">
+            </a>
         </div>
+    </div>
 
-    </header>
-
-</CascadingAuthenticationState>
-
+</header>

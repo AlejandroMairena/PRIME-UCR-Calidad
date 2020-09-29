@@ -1,8 +1,9 @@
 ﻿@page "/checklist"
 @inherits CheckListPageBase
-@layout CheckListLayout
+@* @layout CheckListLayout *@
 @* @attribute [Authorize(Roles = "coordinador tecnico medico")] *@
 @* @attribute [Authorize(Policy = "check-list")] *@
+@attribute [Authorize]
 
 <h1> Plantillas de listas de chequeo </h1>
 <div>

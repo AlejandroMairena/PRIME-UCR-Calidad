@@ -56,24 +56,31 @@
   <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
   <ItemGroup>
     <Folder Include="Properties" />
-    <Folder Include="Tables" />
     <Folder Include="Scripts" />
     <Folder Include="Scripts\PostDeployment" />
+    <Folder Include="Tables\Incidents" />
     <Folder Include="Tables\UserEntityCore" />
     <Folder Include="Tables\UserAdministration" />
+    <Folder Include="Tables\CheckLists" />
+    <Folder Include="Tables\" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="CheckList.sql" />
-    <Build Include="Tables\Canton.sql" />
-    <Build Include="Tables\Centro_Medico.sql" />
-    <Build Include="Tables\Centro_Ubicacion.sql" />
-    <Build Include="Tables\Distrito.sql" />
-    <Build Include="Tables\Domicilio.sql" />
-    <Build Include="Tables\Incidente.sql" />
-    <Build Include="Tables\Modalidad.sql" />
-    <Build Include="Tables\Pais.sql" />
-    <Build Include="Tables\Estado.sql" />
-    <Build Include="Tables\EstadoIncidente.sql" />
+    <Build Include="Tables\CheckLists\CheckList.sql" />
+    <Build Include="Tables\Incidents\Pais.sql" />
+    <Build Include="Tables\Incidents\Provincia.sql" />
+    <Build Include="Tables\Incidents\Canton.sql" />
+    <Build Include="Tables\Incidents\Distrito.sql" />
+    <Build Include="Tables\Incidents\Ubicacion.sql" />
+    <Build Include="Tables\Incidents\Domicilio.sql" />
+    <Build Include="Tables\Incidents\Internacional.sql" />
+    <Build Include="Tables\Incidents\Centro_Medico.sql" />
+    <Build Include="Tables\Incidents\Centro_Ubicacion.sql" />
+    <Build Include="Tables\Incidents\Modalidad.sql" />
+    <Build Include="Tables\Incidents\Incidente.sql" />
+    <Build Include="Tables\Incidents\Estado.sql" />
+    <Build Include="Tables\Incidents\EstadoIncidente.sql" />
+    <Build Include="Tables\Incidents\Unidad_De_Transporte.sql" />
+    <Build Include="Tables\Incidents\MultimediaContent.sql" />
     <Build Include="Tables\UserEntityCore\AspNetRoles.sql" />
     <Build Include="Tables\UserEntityCore\AspNetUsers.sql" />
     <Build Include="Tables\UserEntityCore\AspNetRoleClaims.sql" />
@@ -97,17 +104,12 @@
     <Build Include="Tables\UserAdministration\Pertenece.sql" />
     <Build Include="Tables\UserAdministration\TienePerfil.sql" />
     <Build Include="Tables\UserAdministration\Usuario.sql" />
-    <None Include="Scripts\PostDeployment\PostDeploymentUserEntityIndexing.sql" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="Tables\Internacional.sql" />
-    <Build Include="Tables\Provincia.sql" />
-    <Build Include="Tables\Ubicacion.sql" />
-    <Build Include="Tables\Unidad_De_Transporte.sql" />
-    <Build Include="Tables\MultimediaContent.sql" />
-  </ItemGroup>
-  <ItemGroup>
+    <None Include="Scripts\PostDeployment\Identity_PostDeployment.sql" />
     <None Include="Scripts\PostDeployment\Incidents_PostDeployment.sql" />
-    <None Include="Scripts\Script.PostDeployment.sql" />
+    <None Include="Scripts\PostDeployment\Checklists_PostDeployment.sql" />
+    <None Include="Scripts\PostDeployment\Users_PostDeployment.sql" />
+    <PostDeploy Include="Scripts\Script.PostDeployment.sql" />
   </ItemGroup>
 </Project>

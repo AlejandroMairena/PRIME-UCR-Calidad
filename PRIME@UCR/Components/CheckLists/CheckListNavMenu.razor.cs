@@ -12,7 +12,7 @@ namespace PRIME_UCR.Components.CheckLists
         [CascadingParameter(Name = "lists")]
         public IEnumerable<CheckList> lists { get; set; }
 
-        [Parameter]
+        [CascadingParameter(Name = "Changelists")]
         public Action<IEnumerable<CheckList>> OnlistsChange { get; set; }
 
         public bool IsModalOpened { get; set; }

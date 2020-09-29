@@ -1,0 +1,10 @@
+﻿DELETE FROM Usuario
+DELETE FROM AspNetUsers
+
+INSERT INTO AspNetUsers
+VALUES
+    ('ba4d8abf-4eaa-41c3-bbec-d1614bd5277e','admin@admin.com','ADMIN@ADMIN.COM','admin@admin.com','ADMIN@ADMIN.COM','false','AQAAAAEAACcQAAAAEOMAG8dzBZIAIQ5cNqg4ej4WQ/m+lq2JEjiK/LX/8dampRmacvkfImYHLEnsXyBTEQ==','P6SGRZZKE3CLKRVQHAGRBJ52XYJP3G2D','26ceb620-5db9-4876-8345-50ef99d7c851',NULL,0,0,NULL,1,0)
+    
+INSERT INTO Usuario (Id)
+VALUES
+    ('ba4d8abf-4eaa-41c3-bbec-d1614bd5277e')

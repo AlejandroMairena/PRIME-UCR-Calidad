@@ -1,80 +1,21 @@
 ﻿@inject NavigationManager MyNavegationManager
 
-@*<div class="top-row pl-4 navbar navbar-dark">
-    <a class="navbar-brand" href="">PRIME@UCR</a>
-    <button class="navbar-toggler" @onclick="ToggleNavMenu">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-</div> *@
-
-<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
-    <ul class="nav flex-column">
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="@MyNavegationManager.ToBaseRelativePath(MyNavegationManager.Uri)">
-                <span class="@classOfModule" aria-hidden="true"></span> @moduleToShow
-            </NavLink>
-            <div>
-                @switch (moduleToShow)
-                {
-                    case "Dashboard":
-                        <DashboardMenuComponent />
-                        break;
-                    case "Expedientes":
-                        break;
-                    case "Administración de usuarios y perfiles":
-                        break;
-                    case "Plantillas de listas de chequeo":
-                        break;
-                    case "Administración de incidentes de traslado":
-                        break;
-                    default:
-                        break;
-                }
-
-
-            </div>
-        </li>
-        <li class="nav-item px-3 @showIncidents">
-            <NavLink class="nav-link" href="medical_records" Match="NavLinkMatch.All" @onclick="showIncidentsMenu">
-                <span class="oi oi-map" aria-hidden="true"></span> Administración de incidentes de traslado
-            </NavLink>
-        </li>
-        <li class="nav-item px-3 @showCheckList">
-            <NavLink class="nav-link" href="checklist" Match="NavLinkMatch.All" @onclick="showCheckListMenu">
-                <span class="oi oi-list" aria-hidden="true"></span> Plantillas de listas de chequeo
-            </NavLink>
-        </li>
-        <li class="nav-item px-5">
-            <button class="btn btn-primary" @onclick="ToggleIsModalOpened" id="BP_A_LC0">Crear lista de chequeo</button>
-            @if (lists != null && lists.Count() > 0)
+<ul class="nav flex-column">
+    <li class="nav-item px-5">
+        <button class="btn btn-primary" @onclick="ToggleIsModalOpened" id="BP_A_LC0">Crear lista de chequeo</button>
+        @if (lists != null && lists.Count() > 0)
+        {
+            @foreach (var tempList in lists)
             {
-                @foreach (var tempList in lists)
-                {
-                <li >
-                    <NavLink class="nav-link" href='@string.Format("checklist/{0}", @tempList.Id)'>
-                        @tempList.Nombre
-                    </NavLink>
-                </li>
+            <li >
+                <NavLink class="nav-link" href='@string.Format("checklist/{0}", @tempList.Id)'>
+                    @tempList.Nombre
+                </NavLink>
+            </li>
             }
-            }
-            </li>
-            <li class="nav-item px-3 @showMedicalRecords">
-                <NavLink class="nav-link" href="incidents" Match="NavLinkMatch.All" @onclick="showMedicalRecordsMenu">
-                    <span class="oi oi-medical-cross" aria-hidden="true"></span> Expedientes
-                </NavLink>
-            </li>
-            <li class="nav-item px-3 @showDashboard">
-                <NavLink class="nav-link" href="dashboard" Match="NavLinkMatch.All" @onclick="showDashboardMenu">
-                    <span class="oi oi-dashboard" aria-hidden="true"></span> Dashboard
-                </NavLink>
-            </li>
-            <li class="nav-item px-3 @showUserAdmin">
-                <NavLink class="nav-link" href="user_administration" Match="NavLinkMatch.All" @onclick="showUserAdminMenu">
-                    <span class="oi oi-book" aria-hidden="true"></span> Administración de usuarios y perfiles
-                </NavLink>
-            </li>
-        </ul>
-</div>
+        }
+    </li>
+</ul>
 
 <CascadingValue Value="@lists" Name="lists">
     <CascadingValue Value="@IsModalOpened" Name="IsModalOpened">

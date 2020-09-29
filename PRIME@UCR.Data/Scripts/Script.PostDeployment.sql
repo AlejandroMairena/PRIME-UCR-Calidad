@@ -9,5 +9,7 @@ Post-Deployment Script Template
                SELECT * FROM [$(TableName)]					
 --------------------------------------------------------------------------------------
 */
-DROP TABLE Usuario
-DROP TABLE AspNetUsers
+:r .\PostDeployment\Users_PostDeployment.sql
+:r .\PostDeployment\Identity_PostDeployment.sql
+:r .\PostDeployment\Incidents_PostDeployment.sql
+:r .\PostDeployment\Checklists_PostDeployment.sql
