@@ -20,6 +20,7 @@ namespace PRIME_UCR.Application
             services.AddScoped<IIncidentService, IncidentService>();
             services.AddScoped<ILocationService, LocationService>();
             services.AddScoped<IMultimediaContentService, MultimediaContentService>();
+            services.AddScoped<IEncryptionService, EncryptionService>();
             return services;
         }
     }

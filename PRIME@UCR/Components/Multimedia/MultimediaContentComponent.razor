@@ -1,7 +1,8 @@
 ﻿@using PRIME_UCR.Application.Services.Multimedia
 @using System.IO
 @inject IMultimediaContentService multimedia_content_service
-@inject IFileService file_service;
+@inject IFileService file_service
+@inject IEncryptionService encrypt_service
 @using Microsoft.AspNetCore.Hosting
 @inject IWebHostEnvironment _environment;
 
@@ -80,11 +81,14 @@
     void HandleFileSelected(IFileListEntry[] files)
     {
         file = files.FirstOrDefault();
+        string filePath = Path.Combine(file_service.FilePath, file.Name);
+        byte[] pathEncrypted = encrypt_service.Encrypt(filePath);
+        string pathEncryptedString = System.Text.Encoding.UTF8.GetString(pathEncrypted);
         if (file == null) return;
         MultimediaContent mcontent = new MultimediaContent
         {
             Nombre = file.Name,
-            Archivo = "path",
+            Archivo = pathEncryptedString,
             Descripcion = "prueba",
             Fecha_Hora = DateTime.Now,
             Tipo = file.Type,
@@ -92,6 +96,7 @@
         };
         multimedia_content_service.AddFileAsync(mcontent);
         file_service.StoreFile(file.Name, file.Data);
+        //encrypt_service.EncryptFile(file_service.FilePath,file.Name);
     }
 
     async Task OpenFile(IFileListEntry[] files)

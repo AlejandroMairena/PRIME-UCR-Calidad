@@ -3,22 +3,56 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Collections.Generic;
 using System.Text;
+using PRIME_UCR.Application.Services.Multimedia;
 
 namespace PRIME_UCR.Application.Implementations.Multimedia
 {
-    class EncryptionService
+    public class EncryptionService : IEncryptionService
     {
         public byte[] Key { get; set; }
         public byte[] IV { get; set; }
 
-
+        public EncryptionService() {
+            using (RijndaelManaged myRijndael = new RijndaelManaged())
+            {
+                myRijndael.GenerateKey();
+                myRijndael.GenerateIV();
+                Key = myRijndael.Key;
+                IV = myRijndael.IV;
+            }
+        }
         public string FiletoString(string path) {
             string fileString = "";
-            if (!File.Exists(path))
+            if (File.Exists(path))
             {
                 fileString = File.ReadAllText(path);
             }
             return fileString;
+        }
+
+        public bool ByteArrayToFile(string filePath, byte[] byteArray)
+        {
+            try
+            {
+                using (var fs = new FileStream(filePath, FileMode.Create, FileAccess.Write))
+                {
+                    fs.Write(byteArray, 0, byteArray.Length);
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Exception caught in process: {0}", ex);
+                return false;
+            }
+        }
+
+        public bool EncryptFile(string path, string fileName) {
+            string filePath = Path.Combine(path, fileName);
+            string fileText = FiletoString(filePath);
+            byte[] encryptedFile = Encrypt(fileText);
+            ByteArrayToFile(filePath, encryptedFile);
+            return true;
         }
 
         public byte[] Encrypt(string plainText)

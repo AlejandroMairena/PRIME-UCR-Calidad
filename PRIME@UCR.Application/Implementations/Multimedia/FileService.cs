@@ -12,11 +12,12 @@ namespace PRIME_UCR.Application.Implementations.Multimedia
         public string FilePath { get; set; }
         public FileService()
         {
-            FilePath = "PATH";
+            FilePath = "C:\\Users\\aleja\\Desktop\\Adrian\\UCR\\PI\\CarpetaPrueba";
         }
 
         public async Task<bool> StoreFile(string fileName, Stream fileStream)
         {
+            EncryptionService ES = new EncryptionService();
             DirectoryInfo info = new DirectoryInfo(FilePath);
             if (!info.Exists) info.Create();
 
@@ -25,7 +26,7 @@ namespace PRIME_UCR.Application.Implementations.Multimedia
             {
                 await fileStream.CopyToAsync(outputFileStream);
             }
-
+            ES.EncryptFile(FilePath, fileName);
             return true;
         }
     }
