@@ -4,14 +4,17 @@ using PRIME_UCR.Domain.Models;
 using System.Threading.Tasks;
 using PRIME_UCR.Domain.Models.Incidents;
 using PRIME_UCR.Infrastructure.EntityConfiguration.Incidents;
-using PRIME_UCR.Infrastructure.DataProviders.Implementations.EntityConfiguration.Multimedia;
+using PRIME_UCR.Infrastructure.EntityConfiguration.Multimedia;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using PRIME_UCR.Domain.Models.UserAdministration;
+using PRIME_UCR.Infrastructure.EntityConfiguration.UserAdministration;
 
 namespace PRIME_UCR.Infrastructure.DataProviders.Implementations
 {
-    public sealed class ApplicationDbContext : DbContext, ISqlDataProvider
+    public sealed class ApplicationDbContext : IdentityDbContext, ISqlDataProvider
     {
-        public DbSet<CheckList> CheckList { get; set; }
         public IDbConnection DbConnection { get; set; }
+        public DbSet<CheckList> CheckList { get; set; }
         public DbSet<Provincia> Provinces { get; set; }
         public DbSet<Pais> Countries { get; set; }
         public DbSet<Domicilio> HouseholdLocations { get; set; }
@@ -27,6 +30,8 @@ namespace PRIME_UCR.Infrastructure.DataProviders.Implementations
         public DbSet<Distrito> Districts { get; set; }
         public DbSet<Ubicacion> Locations { get; set; }
         public DbSet<MultimediaContent> Multimedia_Contents { get; set; }
+        public DbSet<Usuario> Usuarios { get ; set ; }
+
         public ApplicationDbContext(DbContextOptions options) : base(options)
         {
             DbConnection = Database.GetDbConnection();
@@ -54,6 +59,7 @@ namespace PRIME_UCR.Infrastructure.DataProviders.Implementations
             builder.ApplyConfiguration(new EstadoMap());
             builder.ApplyConfiguration(new EstadoIncidenteMap());
             builder.ApplyConfiguration(new MultimediaContentMap());
+            builder.ApplyConfiguration(new UsuarioMap());
         }
 
         public Task<int> SaveChangesAsync()

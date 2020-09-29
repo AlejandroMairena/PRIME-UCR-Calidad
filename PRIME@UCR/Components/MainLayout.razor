@@ -1,45 +1,20 @@
 ﻿@inherits LayoutComponentBase
 
 <div class="sidebar navbar-light text-white background-image:blue">
-    @if (authenticated)
-    {
-        <NavMenu />
-    } else
-    {
-        <LoginForm />
-    }
+    <AuthorizeView>
+        <Authorized>
+            <NavMenu />
+        </Authorized>
+        <NotAuthorized>
+            <LoginForm />
+        </NotAuthorized>
+    </AuthorizeView>
 </div>
 
-<div class="main">       
+<div class="main">
 
-    @if (authenticated)
-    {
-        <div class="content px-4 float-none">
-            @Body
-        </div>
-    }
-    else
-    {
-        <p>
-            Ingrese con su usuario.
-        </p>
-    }
-    
-</div> 
+    <div class="content px-4 float-none">
+        @Body
+    </div>
 
-
-
-@code{
-    private bool authenticated;
-
-    protected override void OnInitialized()
-    {
-        authenticated = true;
-        base.OnInitialized();
-    }
-
-    public void changeAuthe()
-    {
-        authenticated = !authenticated;
-    }
-}
+</div>

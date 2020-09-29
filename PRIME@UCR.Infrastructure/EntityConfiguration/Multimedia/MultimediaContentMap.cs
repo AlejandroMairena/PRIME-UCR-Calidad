@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using PRIME_UCR.Domain.Models;
 
-namespace PRIME_UCR.Infrastructure.DataProviders.Implementations.EntityConfiguration.Multimedia
+namespace PRIME_UCR.Infrastructure.EntityConfiguration.Multimedia
 {
     public class MultimediaContentMap : IEntityTypeConfiguration<MultimediaContent>
     {

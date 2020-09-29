@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace PRIME_UCR.Infrastructure.DataProviders.Implementations.EntityConfiguration.Multimedia
+namespace PRIME_UCR.Infrastructure.EntityConfiguration.Multimedia
 {
     public class AccionesMap : IEntityTypeConfiguration<Acciones>
     {

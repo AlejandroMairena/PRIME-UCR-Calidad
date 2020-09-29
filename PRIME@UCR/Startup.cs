@@ -1,4 +1,3 @@
-
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -8,6 +7,11 @@ using PRIME_UCR.Application;
 using PRIME_UCR.Infrastructure;
 using PRIME_UCR.Infrastructure.DataProviders.Implementations;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using PRIME_UCR.Domain.Models.UserAdministration;
+using Microsoft.AspNetCore.Components.Authorization;
+using PRIME_UCR.Application.Implementations.UserAdministration;
+using Blazored.SessionStorage;
 
 namespace PRIME_UCR
 {
@@ -26,8 +30,16 @@ namespace PRIME_UCR
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
+
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DevelopmentDbConnection")));
+            //services.AddDefaultIdentity<Usuario>();
+            services.AddIdentity<Usuario, IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>();
+            //services.AddIdentity<Usuario>();
+            services.AddBlazoredSessionStorage();
+            services.AddScoped<AuthenticationStateProvider,CustomAuthenticationStateProvider>();
+
             services.AddApplicationLayer();
             services.AddInfrastructureLayer();
         }
@@ -50,9 +62,12 @@ namespace PRIME_UCR
             app.UseStaticFiles();
 
             app.UseRouting();
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllers();
                 endpoints.MapBlazorHub();
                 endpoints.MapFallbackToPage("/_Host");
             });
