@@ -23,17 +23,18 @@
         </svg>
     </button>
     <div class="@ddMenuClass" aria-labelledby="dropdownMenuButton">
-        @for(int i = 0; i < counter; i++)
-        {
         <div class="m-menu-div">
             <BlazorInputFile.InputFile OnChange="HandleFileSelected"></BlazorInputFile.InputFile>
-            <button type="button" class="btn btn-danger m-btn m-btn-rm">Eliminar</button>
+            @*<button type="button" class="btn btn-danger m-btn m-btn-rm">Eliminar</button>*@
+            @if (fileNames.Count > 0)
+            {
+                <hr />
+                @foreach(string name in fileNames)
+                {
+                    <p>@name</p>
+                }
+            }
         </div>
-        }
-        <div class="m-menu-div">
-            <button type="button" class="btn btn-success m-btn" @onclick="AddInputFile">+</button>
-        </div>
-        
     </div>
 </div>
 
@@ -43,7 +44,7 @@
     [Parameter]
     public RenderFragment ChildContent { get; set; }
 
-    int counter = 0;
+    public List<string> fileNames;
 
     bool open = false;
     string divDDClass = "dropdown";
@@ -51,6 +52,7 @@
 
     protected override void OnInitialized()
     {
+        fileNames = new List<string>();
     }
 
     public void Open()
@@ -59,11 +61,6 @@
         ddMenuClass = open ? "dropdown-menu" : "dropdown-menu show";
 
         open = !open;
-    }
-
-    public void AddInputFile()
-    {
-        counter++;
     }
 
     public void open_file()
@@ -97,6 +94,7 @@
         multimedia_content_service.AddFileAsync(mcontent);
         file_service.StoreFile(file.Name, file.Data);
         //encrypt_service.EncryptFile(file_service.FilePath,file.Name);
+        fileNames.Add(file.Name);
     }
 
     async Task OpenFile(IFileListEntry[] files)
