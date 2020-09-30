@@ -1,8 +1,9 @@
 ﻿@page "/checklist"
 @inherits CheckListPageBase
-@layout CheckListLayout
+@* @layout CheckListLayout *@
 @* @attribute [Authorize(Roles = "coordinador tecnico medico")] *@
 @* @attribute [Authorize(Policy = "check-list")] *@
+@attribute [Authorize]
 
 <h1> Plantillas de listas de chequeo </h1>
 <div>
@@ -16,7 +17,7 @@
             <p><em class="nav-link">No se han creado ninguna lista, presione el boton Crear Lista de Chequeo para crear una.</em></p>
         }
         else { 
-            <table class="table">
+            <table class="table" id="Table_CL">
                 <thead>
                     <tr>
                         <th>Nombre</th>

@@ -1,6 +1,7 @@
 ﻿@page "/checklist/{id:int}"
 @inherits SingleCheckListBase
-@layout CheckListLayout
+@* @layout CheckListLayout *@
+@attribute [Authorize]
 
 <h3 align="center"> Listas de Chequeo</h3>
 

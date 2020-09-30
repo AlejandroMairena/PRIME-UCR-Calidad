@@ -1,7 +1,8 @@
 ﻿@using PRIME_UCR.Application.Services.Multimedia
 @using System.IO
 @inject IMultimediaContentService multimedia_content_service
-
+@inject IFileService file_service
+@inject IEncryptionService encrypt_service
 @using Microsoft.AspNetCore.Hosting
 @inject IWebHostEnvironment _environment;
 
@@ -22,17 +23,18 @@
         </svg>
     </button>
     <div class="@ddMenuClass" aria-labelledby="dropdownMenuButton">
-        @for(int i = 0; i < counter; i++)
-        {
         <div class="m-menu-div">
             <BlazorInputFile.InputFile OnChange="HandleFileSelected"></BlazorInputFile.InputFile>
-            <button type="button" class="btn btn-danger m-btn m-btn-rm">Eliminar</button>
+            @*<button type="button" class="btn btn-danger m-btn m-btn-rm">Eliminar</button>*@
+            @if (fileNames.Count > 0)
+            {
+                <hr />
+                @foreach(string name in fileNames)
+                {
+                    <p>@name</p>
+                }
+            }
         </div>
-        }
-        <div class="m-menu-div">
-            <button type="button" class="btn btn-success m-btn" @onclick="AddInputFile">+</button>
-        </div>
-        
     </div>
 </div>
 
@@ -42,7 +44,7 @@
     [Parameter]
     public RenderFragment ChildContent { get; set; }
 
-    int counter = 0;
+    public List<string> fileNames;
 
     bool open = false;
     string divDDClass = "dropdown";
@@ -50,6 +52,7 @@
 
     protected override void OnInitialized()
     {
+        fileNames = new List<string>();
     }
 
     public void Open()
@@ -58,11 +61,6 @@
         ddMenuClass = open ? "dropdown-menu" : "dropdown-menu show";
 
         open = !open;
-    }
-
-    public void AddInputFile()
-    {
-        counter++;
     }
 
     public void open_file()
@@ -80,17 +78,23 @@
     void HandleFileSelected(IFileListEntry[] files)
     {
         file = files.FirstOrDefault();
+        string filePath = Path.Combine(file_service.FilePath, file.Name);
+        byte[] pathEncrypted = encrypt_service.Encrypt(filePath);
+        string pathEncryptedString = System.Text.Encoding.UTF8.GetString(pathEncrypted);
         if (file == null) return;
         MultimediaContent mcontent = new MultimediaContent
         {
             Nombre = file.Name,
-            Archivo = "path",
+            Archivo = pathEncryptedString,
             Descripcion = "prueba",
             Fecha_Hora = DateTime.Now,
             Tipo = file.Type,
             ID_accion = "1"
         };
         multimedia_content_service.AddFileAsync(mcontent);
+        file_service.StoreFile(file.Name, file.Data);
+        //encrypt_service.EncryptFile(file_service.FilePath,file.Name);
+        fileNames.Add(file.Name);
     }
 
     async Task OpenFile(IFileListEntry[] files)

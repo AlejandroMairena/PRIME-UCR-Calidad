@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using PRIME_UCR.Domain.Models;
 
 namespace PRIME_UCR.Components
 {
@@ -24,6 +25,32 @@ namespace PRIME_UCR.Components
         private string showUserAdmin = "show";
 
         private string showCheckList = "show";
+
+        private string incidentUrl = "incidents/create";
+        private string checklistUrl = "checklist";
+        private string dashboardUrl = "dashboard";
+        private string usersUrl = "user_administration";
+        private string recordsUrl = "medical_records";
+
+        protected string GetUrl()
+        {
+            switch (moduleToShow)
+            {
+                case "Dashboard":
+                    return dashboardUrl;
+                case "Expedientes":
+                    return recordsUrl;
+                case "Administración de usuarios":
+                    return usersUrl;
+                case "Listas de chequeo":
+                    return checklistUrl;
+                case "Traslados":
+                    return incidentUrl;
+                default:
+                    return null;
+            }
+                
+        }
 
         protected override void OnInitialized()
         {
@@ -48,7 +75,7 @@ namespace PRIME_UCR.Components
                 {
                     showMedicalRecordsMenu();
                 }
-                else if (uri == "check_list")
+                else if (uri == "checklist")
                 {
                     showCheckListMenu();
                 }
@@ -62,7 +89,7 @@ namespace PRIME_UCR.Components
 
         private void showIncidentsMenu()
         {
-            moduleToShow = "Administración de incidentes de traslado";
+            moduleToShow = "Traslados";
             showIncidents = "hide";
             showMedicalRecords = showUserAdmin = showCheckList = showDashboard = "show";
             classOfModule = "oi oi-map";
@@ -70,7 +97,7 @@ namespace PRIME_UCR.Components
 
         private void showCheckListMenu()
         {
-            moduleToShow = "Plantillas de listas de chequeo";
+            moduleToShow = "Listas de chequeo";
             showCheckList = "hide";
             showMedicalRecords = showUserAdmin = showIncidents = showDashboard = "show";
             classOfModule = "oi oi-list";
@@ -94,7 +121,7 @@ namespace PRIME_UCR.Components
 
         private void showUserAdminMenu()
         {
-            moduleToShow = "Administración de usuarios y perfiles";
+            moduleToShow = "Administración de usuarios";
             showUserAdmin = "hide";
             showCheckList = showDashboard = showIncidents = showMedicalRecords = "show";
             classOfModule = "oi oi-book";

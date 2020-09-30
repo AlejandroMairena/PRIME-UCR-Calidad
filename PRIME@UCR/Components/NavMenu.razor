@@ -3,22 +3,23 @@
 <div class="@NavMenuCssClass text-white" @onclick="ToggleNavMenu">
     <ul class="nav flex-column">
         <li class="nav-item px-3">
-            <NavLink class="nav-link" href="@MyNavegationManager.ToBaseRelativePath(MyNavegationManager.Uri)">
+            <NavLink class="nav-link" href="@GetUrl()">
                 <span class="@classOfModule" aria-hidden="true"></span> @moduleToShow
             </NavLink>
             <div>
                 @switch (moduleToShow)
                 {
                     case "Dashboard":
-                        <DashboardMenuComponent />
+                        <DashboardMenuComponent/>
                         break;
                     case "Expedientes":
                         break;
-                    case "Administración de usuarios y perfiles":
+                    case "Administración de usuarios":
                         break;
-                    case "Plantillas de listas de chequeo":
+                    case "Listas de chequeo":
+                        <CheckListNavMenu/>
                         break;
-                    case "Administración de incidentes de traslado":
+                    case "Traslados":
                         break;
                     default:
                         break;
@@ -28,13 +29,13 @@
             </div>
         </li>
         <li class="nav-item px-3 @showIncidents">
-            <NavLink class="nav-link" href="medical_records" Match="NavLinkMatch.All" @onclick="showIncidentsMenu">
-                <span class="oi oi-map" aria-hidden="true"></span> Administración de incidentes de traslado
+            <NavLink class="nav-link" href="incidents/create" Match="NavLinkMatch.All" @onclick="showIncidentsMenu">
+                <span class="oi oi-map" aria-hidden="true"></span> Traslados
             </NavLink>
         </li>
         <li class="nav-item px-3 @showCheckList">
-            <NavLink class="nav-link" href="ckecking_list" Match="NavLinkMatch.All" @onclick="showCheckListMenu">
-                <span class="oi oi-list" aria-hidden="true"></span> Plantillas de listas de chequeo
+            <NavLink class="nav-link" href="checklist" Match="NavLinkMatch.All" @onclick="showCheckListMenu">
+                <span class="oi oi-list" aria-hidden="true"></span> Listas de chequeo
             </NavLink>
         </li>
         <li class="nav-item px-3 @showMedicalRecords">
@@ -49,12 +50,7 @@
         </li>
         <li class="nav-item px-3 @showUserAdmin">
             <NavLink class="nav-link" href="user_administration" Match="NavLinkMatch.All" @onclick="showUserAdminMenu">
-                <span class="oi oi-book" aria-hidden="true"></span> Administración de usuarios y perfiles
-            </NavLink>
-        </li>
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="checklist">
-                <span class="oi oi-list" aria-hidden="true"></span> Listas de Chequeo
+                <span class="oi oi-book" aria-hidden="true"></span> Administración de usuarios
             </NavLink>
         </li>
     </ul>

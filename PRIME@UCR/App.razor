@@ -1,13 +1,29 @@
-﻿
-<Router AppAssembly="@typeof(Program).Assembly">
-    <Found Context="routeData">
-        <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
-    </Found>
-    <NotFound>
-        <CascadingAuthenticationState>
-            <LayoutView>
-                <p>Sorry, there's nothing at this address.</p>
-            </LayoutView>
-        </CascadingAuthenticationState>
-    </NotFound>
-</Router>
+﻿@using PRIME_UCR.Application.Services.CheckLists
+<CascadingAuthenticationState>
+    <CascadingValue Value="@Lists" Name="lists">
+    <CascadingValue Value="@Changelists" Name="Changelists" TValue="Action<IEnumerable<CheckList>>">
+        <Router AppAssembly="@typeof(Program).Assembly">
+            <Found Context="routeData">
+                <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+            </Found>
+            <NotFound>
+                <LayoutView>
+                    <p>:)</p>
+                </LayoutView>
+            </NotFound>
+        </Router>
+    </CascadingValue>
+    </CascadingValue>
+</CascadingAuthenticationState>
+
+@code {
+
+    public IEnumerable<CheckList> Lists { get; set; }
+    
+    private void Changelists(IEnumerable<CheckList> newlists)
+    {
+        Lists = newlists;
+        StateHasChanged();
+    }
+
+}

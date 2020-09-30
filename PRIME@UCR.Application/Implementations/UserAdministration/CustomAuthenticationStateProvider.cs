@@ -13,7 +13,7 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
 {
     public class CustomAuthenticationStateProvider : AuthenticationStateProvider
     {
-        private ISessionStorageService SessionStorageService;
+        private readonly ISessionStorageService SessionStorageService;
 
         protected readonly SignInManager<Usuario> SignInManager;
 
@@ -29,11 +29,6 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
         public override async Task<AuthenticationState> GetAuthenticationStateAsync()
         {
             var identity = new ClaimsIdentity();
-
-            Usuario user0 = new Usuario();
-            user0.Email = user0.UserName = "admin@admin.com";
-            String password = "Admin_1234";
-            await UserManager.CreateAsync(user0, password);
 
             var emailAddress = await SessionStorageService.GetItemAsync<string>("emailAddress");
 

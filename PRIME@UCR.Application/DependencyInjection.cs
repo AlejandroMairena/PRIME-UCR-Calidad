@@ -16,10 +16,11 @@ namespace PRIME_UCR.Application
         {
             // services
 
-            services.AddScoped<ICheckListService, CheckListService>();
-            services.AddScoped<IIncidentService, IncidentService>();
-            services.AddScoped<ILocationService, LocationService>();
-            services.AddScoped<IMultimediaContentService, MultimediaContentService>();
+            services.AddTransient<ICheckListService, CheckListService>();
+            services.AddTransient<IIncidentService, IncidentService>();
+            services.AddTransient<ILocationService, LocationService>();
+            services.AddTransient<IMultimediaContentService, MultimediaContentService>();
+            services.AddTransient<IEncryptionService, EncryptionService>();
             return services;
         }
     }
