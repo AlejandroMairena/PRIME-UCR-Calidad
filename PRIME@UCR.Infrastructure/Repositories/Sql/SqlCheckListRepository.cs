@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace PRIME_UCR.Infrastructure.Repositories.Sql
 {
-    class SqlCheckListRepository : SqlGenericRepository<CheckList, int>, ICheckListRepository
+    class SqlCheckListRepository : GenericRepository<CheckList, int>, ICheckListRepository
     {
         public SqlCheckListRepository(ISqlDataProvider dataProvider) : base(dataProvider)
         {
@@ -17,7 +17,7 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql
 
         public async Task<IEnumerable<CheckList>> GetByName(string name)
         {
-            return await this.GetByCondition(checkListModel => checkListModel.Nombre == name);
+            return await this.GetByConditionAsync(checkListModel => checkListModel.Nombre == name);
         }
     }
 }

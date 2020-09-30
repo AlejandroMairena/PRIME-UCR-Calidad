@@ -19,17 +19,17 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
         }
         public async Task<IEnumerable<CheckList>> GetAll()
         {
-            IEnumerable<CheckList> lists = await _repo.GetAll();
+            IEnumerable<CheckList> lists = await _repo.GetAllAsync();
             return lists.OrderBy(checklist => checklist.Orden);
         }
         public async Task<CheckList> InsertCheckList(CheckList list) 
         {
-            return await _repo.Insert(list.Id, list);
+            return await _repo.InsertAsync(list);
         }
 
         public async Task<CheckList> GetById(int id)
         {
-            return await _repo.GetByKey(id);
+            return await _repo.GetByKeyAsync(id);
         }
     }
 }

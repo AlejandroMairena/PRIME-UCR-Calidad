@@ -15,6 +15,22 @@
     padding-right: 16px;
 }
 
+button#BP_A_LC0.btn.btn-primary {
+    background: rgba(49, 169, 255, 0.80);
+}
+
+button#BP_LC0.btn.btn-primary {
+    background: rgba(49, 169, 255, 0.80);
+}
+
+button:disabled#BP_LC0.btn.btn-primary {
+    background: rgba(22, 69, 103, 0.80);
+}
+
+#Table_CL {
+    background: white;
+}
+
 .createLC > p {
 }
 /*

@@ -1,0 +1,23 @@
+﻿@page "/incidents/create"
+@using PRIME_UCR.Components.Controls
+@attribute [Authorize]
+
+<div class="container">
+    <h1>Crear incidente</h1>
+    <EditForm Model="_model" OnValidSubmit="@Create" >
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <Loading IsLoading="_modes == null">
+            <div class="form-group">
+                <DropDownMenu Label="Modalidad" Data="_modes" @bind-Value="_model.Mode" TextProperty="Tipo"/>
+            </div>
+            <DateTimePicker @bind-Date="@_model.EstimatedDateOfTransfer"
+                             DateLabel="Fecha estimada de traslado" TimeLabel="Hora estimada de traslado"/>
+            <div class="text-center">
+                <a class="btn btn-outline-secondary" href="">Cancelar</a>
+                <button type="submit" class="btn btn-primary">Crear</button>
+            </div>
+        </Loading>
+    </EditForm>
+</div>
+<br/>
