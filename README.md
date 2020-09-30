@@ -1,10 +1,21 @@
 # Prime@UCR
 
+## Tabla de contenidos 
+
+[TOC]
+
 ## Definiciones, acrónimos y abreviaciones
 
 CEACO: Centro Especializado de Atención de Pacientes con COVID-19 
 
 PRIME: Primera Respuesta Médica Especializada
+
+Visión del producto: proyección al futuro de qué será el producto y por qué se creará.
+
+Mapa de ruta del producto: plan de acción que muestra cómo un producto evolucionará a lo largo del tiempo.
+
+Definición de listo: serie de criterios que toda historia de usuario debe cumplir antes de considerarse completada.
+
 
 ## Listado de equipos y miembros de los equipos.
 
@@ -22,6 +33,20 @@ Integrantes:
 
 - Elian Ortega Velasquez B85791
 
+### Diosvier
+
+Integrantes:
+
+- Adrián Sibaja Retana  B87561
+
+- Erik Kühlmann Salazar  B84175
+
+- José Esteban Marín Masís  B84594
+
+- Daniel Salazar Mora B87214
+
+- Ricardo Franco Rodríguez B83050
+
 ### Asignación de roles para cada una de las iteraciones
 #### Sprint 0:
 
@@ -35,7 +60,28 @@ Integrantes:
 | Fernando Ezequiel Morales      | Scrum Ambassador|
 | Elian Ortega Velasquez         | Developer       |
 
+
+- Diosvier:
+
+| Integrante                     | Rol             |
+| -------------------------------| ----------------| 
+| Adrián Sibaja Retana           | Scrum Master    |
+| Erik Kühlmann Salazar          | Scrum Ambassador|
+| Jose Esteban Marín Masís       | Developer       |
+| Daniel Salazar Mora            | Developer       |
+| Ricardo Franco Rodríguez       | Developer       |
+
+    
+
 ## Descripción general del sistema a desarrollar
+
+### Problema que resuelve
+
+El servicio de Terapia Respiratoria del CEACO por medio del equipo de Primera Respuesta Médica Especializada (PRIME), se encarga de la movilización de todos los pacientes con COVID-19 del país, pero de forma más importante de pacientes críticos, que necesitan de una movilización de centros de bajo nivel de complejidad a hospitales de mayor complejidad.
+
+En la actualidad el equipo PRIME, en conjunto con un equipo de la UCR, ya se encuentra trabajando en las funcionalidades iniciales de una aplicación móvil a partir de las prioridades de los usuarios especialistas respiratorios.
+
+Dada que la emergencia sanitaria se encuentra en uno de sus picos de contagio, y se esperan nuevas olas de transmisión, el equipo PRIME requiere además una primera versión de una aplicación web para administrar sus procesos de atención, y que complemente la funcionalidad que ofrecerá la aplicación móvil. El presente producto corresponde a la implementación de la aplicación web.
 
 ### Solución propuesta
 
@@ -62,6 +108,11 @@ Todo esto se realiza por medio de las listas de chequeo y el envío de informaci
 
 Además de esto, la aplicación propuesta como solución permite que se dé una administración gráfica, por medio de cuadros de control de mando, en la cual se pueden visualizar gráficos sobre los procesos de atención de pacientes COVID donde se resuma información administrativa de interés. Además de que se manejaría la seguridad de la aplicación por medio de la asignación de usuarios y perfiles a cada una de las personas con acceso a la aplicación para que se pueda manejar los distintos niveles de granularidad y acceso a la información de acuerdo al perfil asociado.
 
+### Visión del producto
+
+Puede encontrar nuestra visión del producto en el link: https://docs.google.com/spreadsheets/d/1XnhCmkLnF6gNzaVUzOPjGgIScgK2AZjcDtBU81P5B8c/edit#gid=1003342746
+
+
 ### Descripción  de  los  temas  (módulos)  asignados  a  cada  equipo
 
 #### Atenienses++
@@ -80,6 +131,28 @@ El administrador debe poder visualizar un dashboard con estadísticas referentes
 
 3.  **Vista gráfica de usuarios y perfiles**:
 El administrador debe poder visualizar la informacion y permisos asignados a cada usuario de la aplicacion. 
+
+#### Diosvier 
+
+Para la administración de los traslados (e incidentes) se requiere la implementación de una plataforma que permita el despacho, seguimiento y monitoreo en tiempo real por medio de GPS y mapas tanto para las unidades terrestres, marítimas y aéreas. Los epics asociados a este tema son:
+
+1. **Crear incidente con datos básicos:** para cada incidente, se debe digitar el origen, destino, nombre del paciente, síntomas y demás datos útiles para su atención.
+2. **Asociar expediente con incidente nuevo:** para cada incidente, se consulta en la base de datos si fue creado un expediente anteriormente o si debe generarse uno nuevo.
+3. **Asignación de incidente aprobado:** una vez se ha revisado que el incidente se ingresó correctamente, se aprueba y se procede a asignar una unidad de transporte y un equipo para su atención.
+    
+Con el módulo Dashboard, se debe coordinar el despliegue consistente y limpio de la información en la interfaz de la aplicación. Con el módulo Expedientes Médicos, se encuentran las consultas a los distintos expedientes generados con anterioridad y las solicitudes para crear nuevos documentos. Por último, con el módulo Listas de chequeo, se requiere coordinar el despliegue de esta información en la aplicación para su uso durante el traslado.
+
+### Mapa de ruta del producto (Product Road Map)
+
+Puede encontrar nuestro Product Roadmap en el link: https://docs.google.com/spreadsheets/d/1XnhCmkLnF6gNzaVUzOPjGgIScgK2AZjcDtBU81P5B8c/edit#gid=1653817941
+
+### Requerimientos no funcionales que debe cumplir toda la aplicación web
+
+#### Diosvier/Administración de Traslados - Usabilidad
+
+- La aplicación debe proveer una interfaz sencilla e intuitiva de utilizar para registrar un incidente.
+- Si el usuario registrara algún incidente incorrectamente, se le debe notificar con un mensaje claro y conciso su error.
+- La aplicación debe seguir todos los lineamientos del Manual de Identidad Visual de la Universidad de Costa Rica.
 
 ## Artefactos de base de datos
 
@@ -101,135 +174,12 @@ Legados (Control del Procedimientos) :
 Drim Team (Gestión de Información) :
 ![](https://i.imgur.com/te7oeHP.png)
 
-## b. Tabla de contenidos.
+## Decisiones técnicas.
 
-c. Definiciones, acrónimos y abreviaciones.
-d. Introducción que explique el objetivo y propósito del documento y su estructura.
-e. Listado de equipos y miembros de los equipos.
-a. Asignación de roles para cada una de las iteraciones.
-f. Descripción general del sistema a desarrollar.
-a. Contexto y situación actual.
-b. Problema que resuelve.
-c. Interesados del proyecto y tipos de usuarios.
-d. Solución propuesta.
-e. Análisis del entorno (estrategia del negocio y objetivos del sistema desde la
-perspectiva del negocio, clientes, uso esperado de la aplicación, sistemas legados
-relacionados, aspectos regulatorios, supuestos y restricciones del negocio, otras
-soluciones existentes).
-f. Visión del producto.
-g. Relación con otros sistemas externos.
-h. Descripción de los temas (módulos) asignados a cada equipo. Descripción de los
-principales epics asociados al tema(s) a desarrollar por cada uno de los equipos.
-Relación con los demás módulos (temas) del sistema.
-i. Requerimientos funcionales (Backlog del producto, solo indicando la referencia al
-proyecto en Jira).
-j. Mapa de ruta del producto (Product Road Map).
-k. Requerimientos no funcionales que debe cumplir toda la aplicación web.
-g. Artefactos de bases de datos.
-a. Esquema conceptual de la base de datos.
-b. Esquema lógico de la base de datos.
-h. Decisiones técnicas.
-a. Metodologías utilizadas y procesos definidos.
-b. Artefactos utilizados en el desarrollo del proyecto.
-c. Tecnologías utilizadas con sus respectivas versiones.
-d. Repositorio de código y estrategia git para el proyecto.
-e. Definición de listo (Definition of Done, DoD).
-i. Referencias bibliográficas.
+### Metodologías utilizadas y procesos definidos.
 
-[TOC]
-
-
-## c. Definiciones, acrónimos y abreviaciones.
-
-- **Visión del producto**: proyección al futuro de qué será el producto y por qué se creará.
-- **Mapa de ruta del producto**: plan de acción que muestra cómo un producto evolucionará a lo largo del tiempo.
-- **Definición de listo**: serie de criterios que toda historia de usuario debe cumplir antes de considerarse completada.
-
-## e. Listado de equipos y miembros de los equipos. 
-
-Diosvier:
-
--Adrián Sibaja  B87561
-
--Erik Kühlmann  B84175
-
--Esteban Marín  B84594
-
--Daniel Salazar B87214
-
--Ricardo Franco B83050
-    
-    
-### a. Asignación de roles para cada una de las iteraciones.
-
-**Sprint 0**
-
-Diosvier:
-    
--Adrián Sibaja B87561      Scrum Master
-
--Erik Kühlmann B84175      Scrum Ambassador
-
--Esteban Marín B84594      Developer
-
--Daniel Salazar B87214     Developer
-
--Ricardo Franco B83050     Developer
-
-    
-## f. Descripción general del sistema a desarrollar.
-
-### a. Contexto y situación actual.
-
-### b. Problema que resuelve.
-
-El servicio de Terapia Respiratoria del CEACO por medio del equipo de Primera Respuesta Médica Especializada (PRIME), se encarga de la movilización de todos los pacientes con COVID-19 del país, pero de forma más importante de pacientes críticos, que necesitan de una movilización de centros de bajo nivel de complejidad a hospitales de mayor complejidad.
-
-En la actualidad el equipo PRIME, en conjunto con un equipo de la UCR, ya se encuentra trabajando en las funcionalidades iniciales de una aplicación móvil a partir de las prioridades de los usuarios especialistas respiratorios.
-
-Dada que la emergencia sanitaria se encuentra en uno de sus picos de contagio, y se esperan nuevas olas de transmisión, el equipo PRIME requiere además una primera versión de una aplicación web para administrar sus procesos de atención, y que complemente la funcionalidad que ofrecerá la aplicación móvil. El presente producto corresponde a la implementación de la aplicación web.
-
-### f. Visión del producto.
-
-Puede encontrar nuestra visión del producto en el link: https://docs.google.com/spreadsheets/d/1XnhCmkLnF6gNzaVUzOPjGgIScgK2AZjcDtBU81P5B8c/edit#gid=1003342746
-
-### g. Relación con otros sistemas externos.
-
-### h. Descripción de los temas (módulos) asignados a cada equipo. Descripción de los principales epics asociados al tema(s) a desarrollar por cada uno de los equipos. Relación con los demás módulos (temas) del sistema.
-
-#### Diosvier - Administración de incidentes
-
-Para la administración de los traslados (e incidentes) se requiere la implementación de una plataforma que permita el despacho, seguimiento y monitoreo en tiempo real por medio de GPS y mapas tanto para las unidades terrestres, marítimas y aéreas. Los epics asociados a este tema son:
-
-1. **Crear incidente con datos básicos:** para cada incidente, se debe digitar el origen, destino, nombre del paciente, síntomas y demás datos útiles para su atención.
-2. **Asociar expediente con incidente nuevo:** para cada incidente, se consulta en la base de datos si fue creado un expediente anteriormente o si debe generarse uno nuevo.
-3. **Asignación de incidente aprobado:** una vez se ha revisado que el incidente se ingresó correctamente, se aprueba y se procede a asignar una unidad de transporte y un equipo para su atención.
-    
-Con el módulo Dashboard, se debe coordinar el despliegue consistente y limpio de la información en la interfaz de la aplicación. Con el módulo Expedientes Médicos, se encuentran las consultas a los distintos expedientes generados con anterioridad y las solicitudes para crear nuevos documentos. Por último, con el módulo Listas de chequeo, se requiere coordinar el despliegue de esta información en la aplicación para su uso durante el traslado.
-
-### i. Requerimientos funcionales (Backlog del producto, solo indicando la referencia al proyecto en Jira).
-    
-### j. Mapa de ruta del producto (Product Road Map).
-
-Puede encontrar nuestro Product Roadmap en el link: https://docs.google.com/spreadsheets/d/1XnhCmkLnF6gNzaVUzOPjGgIScgK2AZjcDtBU81P5B8c/edit#gid=1653817941
-
-### k. Requerimientos no funcionales que debe cumplir toda la aplicación web.
-
-**Diosvier/Administración de Traslados - Usabilidad**
-
-- La aplicación debe proveer una interfaz sencilla e intuitiva de utilizar para registrar un incidente.
-- Si el usuario registrara algún incidente incorrectamente, se le debe notificar con un mensaje claro y conciso su error.
-- La aplicación debe seguir todos los lineamientos del Manual de Identidad Visual de la Universidad de Costa Rica.
-
-
-## h. Decisiones técnicas.
-
-### a. Metodologías utilizadas y procesos definidos.
-1. Git: mecanismo para control de versiones. Se optó por una rama por equipo y una rama por cada desarrollador. Además, se acordaron reglas para subir código a la rama *master*, las cuales están especificadas en la definición de listo.
-2. Scrum: metodología ágil para el desarrollo de software. Se trabajó con un *scrum of scrums*, con cada equipo auto-organizado trabajando en un módulo específico de la aplicación. En los links adjuntos, se pueden consultar los distintos procesos que engloba esta metodología.
-    
-
-## Decisiones técnicas
+1. **Git:** mecanismo para control de versiones. Se optó por una rama por equipo y una rama por cada desarrollador. Además, se acordaron reglas para subir código a la rama *master*, las cuales están especificadas en la definición de listo.
+2. **Scrum:** metodología ágil para el desarrollo de software. Se trabajó con un *scrum of scrums*, con cada equipo auto-organizado trabajando en un módulo específico de la aplicación. En los links adjuntos, se pueden consultar los distintos procesos que engloba esta metodología.
 
 ### Tecnologías utilizadas con sus respectivas versiones.
 Para el presente proyecto, se decidió utilizar las siguientes tecnologías:
@@ -257,9 +207,11 @@ Cabe destacar que en la branch master únicamente se le harán commits y merge a
 
 En más detalle, los desarrolladores que vayan implementando funcionalidades a la aplicación van realizando commits a su branch por la duración de un sprint. Cuando sea necesario, estos desarrolladores pueden realizar merges con su branch de equipo, ya que otros miembros del equipo pueden ir utilizando las funcionalidades que sus compañeros hayan implementado. Una vez que se termine la iteración, se hará merge entre los diferentes branches de los equipos principales, para de esta forma, poder hacer un único merge con el master, para así evitar la máxima cantidad de errores que pueden ocurrir. 
 
-## h. Definición de listo (DoD)
 
-Puede encontrar nuestra definición de listo en el [siguiente link](https://docs.google.com/spreadsheets/d/1XnhCmkLnF6gNzaVUzOPjGgIScgK2AZjcDtBU81P5B8c/edit#gid=115914780).
+
+### Definición de listo (DoD)
+
+Puede encontrar nuestra definición de listo en el link: https://docs.google.com/spreadsheets/d/1XnhCmkLnF6gNzaVUzOPjGgIScgK2AZjcDtBU81P5B8c/edit#gid=115914780
 
 ## Referencias Bibliográficas
 
