@@ -88,9 +88,9 @@ Integrantes:
 | -------------------------------| ----------------| 
 | Luis Andrés Sánchez Romero     | Developer       |
 | Daniela Vargas Sauma           | Scrum Master    |
-| Jose Andrés Víquez Ramirez     | Developer       |
+| José Andrés Víquez Ramírez     | Developer       |
 | Fernando Ezequiel Morales      | Scrum Ambassador|
-| Elian Ortega Velasquez         | Developer       |
+| Elian Ortega Velásquez         | Developer       |
 
 
 - Diosvier:
@@ -99,7 +99,7 @@ Integrantes:
 | -------------------------------| ----------------| 
 | Adrián Sibaja Retana           | Scrum Master    |
 | Erik Kühlmann Salazar          | Scrum Ambassador|
-| Jose Esteban Marín Masís       | Developer       |
+| José Esteban Marín Masís       | Developer       |
 | Daniel Salazar Mora            | Developer       |
 | Ricardo Franco Rodríguez       | Developer       |
 
@@ -202,7 +202,7 @@ Para la administración de los traslados (e incidentes) se requiere la implement
     
 Con el módulo Dashboard, se debe coordinar el despliegue consistente y limpio de la información en la interfaz de la aplicación. Con el módulo Expedientes Médicos, se encuentran las consultas a los distintos expedientes generados con anterioridad y las solicitudes para crear nuevos documentos. Por último, con el módulo Listas de chequeo, se requiere coordinar el despliegue de esta información en la aplicación para su uso durante el traslado.
 
-### Legados
+#### Legados
 
 Para el control de los procedimientos durante los traslados de pacientes se deben implementar listas de chequeo parametrizables para cada uno de los subprocesos que los componen. Cada uno de los procedimientos, los subprocesos y sus actividades son definidas por los administradores de la aplicación para su posterior uso en los incidentes de atención.
 
@@ -222,7 +222,7 @@ El programa en su pantalla de inicio le muestra al usuario solamente un menú la
 
 ##### Diosvier/Administración de Traslados
 
-- La aplicación debe proveer una interfaz sencilla e intuitiva de utilizar para registrar un incidente.
+- La aplicación debe mostrar un menú lateral a la izquierda, con las pestañas o tabs respectivas a la funcionalidad del módulo Administración de Incidentes. Cada pestaña debe tener un nombre corto y significativo, de manera que el usuario pueda saber qué información está completando en todo momento. Este menú y estas pestañas debe seguir el mismo diseño que todas las demás ventanas y módulos de la aplicación.
 - Si el usuario registrara algún incidente incorrectamente, se le debe notificar con un mensaje claro y conciso su error.
 - La aplicación debe seguir todos los lineamientos del Manual de Identidad Visual de la Universidad de Costa Rica.
 
