@@ -220,6 +220,15 @@ Puede encontrar nuestro Product Roadmap en el link: https://docs.google.com/spre
 
 El programa en su pantalla de inicio le muestra al usuario solamente un menú lateral, cada elemento de este menú tiene un nombre corto y conciso con una imágen de referencia que es visible en todo momento, este menú, al igual que el encabezado, tiene el mismo diseño en todas las ventanas y módulos de la aplicación.
 
+##### Atenienses ++/Dashboards
+- La diseño y apariencia de la aplicacion deben de estar implementados en base a los lineamientos propuestos por la UCR.
+- La aplicacion debe de tener una interzas sencilla que permita a usuario entenderla intuitivamente.
+- El panel de navegacion izquierdo debe de ser facil de usar y poseer nombres de los diferentes modulos a los que se tiene acceso, todo esto siguiento las guias de diseño UCR.
+- En el proceso de autenticacion el usuario debe identificarse usando un email y contraseña. Solo los usuarios autenticados pueden tener acceso a la aplicacion.
+- El formulario debe de mostrar mensajes de claros cuando haya un error de autenticacion o un campo invalido en el formulario.
+- Los usuarios tienen acceso a la informacion de acuerdo a los permisos dados por el administrador.
+- El sistema debe de presentar mensajes de error informativos orientados al usuario.
+
 ##### Diosvier/Administración de Traslados
 
 - La aplicación debe mostrar un menú lateral a la izquierda, con las pestañas o tabs respectivas a la funcionalidad del módulo Administración de Incidentes. Cada pestaña debe tener un nombre corto y significativo, de manera que el usuario pueda saber qué información está completando en todo momento. Este menú y estas pestañas debe seguir el mismo diseño que todas las demás ventanas y módulos de la aplicación.
