@@ -79,6 +79,18 @@ Integrantes:
 
 - Alejandro Mairena Jiménez         B84561
 
+### Drim Team
+- Adrian Cordoba      B82348
+
+- Gustavo Jimenez     B84060
+
+- Jose Ignacio Cruz   B62230
+
+- Javier Sandoval     B56762
+
+- Isaac Zuñiga        B68038
+
+
 ### Asignación de roles para cada una de las iteraciones
 #### Sprint 0:
 
@@ -114,9 +126,30 @@ Integrantes:
 | Erick Rojas Zúñiga             | Developer       |
 | Alejandro Mairena Jiménez      | Developer       |
 
+
+- Drim Team:
+
+| Integrante                     | Rol             |
+| -------------------------------| ----------------| 
+| Adrian Cordoba                 | Scrum Master    |
+| Javier Sandoval                | Scrum Ambassador|
+| Jose Ignacio Cruz              | Developer       |
+| Gustavo Jimenez                | Developer       |
+| Isaac Zuñiga                   | Developer       |
+
     
 
 ## Descripción general del sistema a desarrollar
+La aplicación debe desarrollar e integrar las funciones necesarias para la sistematización de los procesos del equipo PRIME, desde una sola aplicación integrada. Por lo tanto, el sistema consiste en una aplicación web con una base de datos, que permita a los usuarios la sistematización de los procesos de atención y la gestión en tiempo real de la información de los procesos entre los equipos de atención y el centro de control. Esto con el fin de permitir que todos los usuarios autorizados cuenten con información actualizada por medio de la aplicación web.
+
+El sistema permitirá a los usuarios realizar la administración de los traslados e incidentes para la movilización desde centros de atención de bajo nivel de complejidad a hospitales de mayor complejidad, el control de los procedimientos establecidos durante los traslados de pacientes, la caracterización de los traslados y la condición de los pacientes, la gestión de envío de información en tiempo real por los miembros del equipo PRIME al centro de control, el seguimiento en tiempo real de los incidentes, la administración de la información de los usuarios especialistas médicos, de los equipos de trabajo humano, los equipos técnicos y las unidades de atención, y finalmente, la generación de estadísticas sobre los procesos de atención, entre otros. 
+
+Debido a la sensibilidad de la información que manejaría esta aplicación(Datos médicos de pacientes), esta debe almacenarse de forma segura, y solo personal autorizado debe poder accederla. Debido a que se manejan procesos médicos, el tiempo de respuesta es un aspecto crucial de la aplicación.
+
+Hasta el momento para esto se han utilizado otras aplicaciones de mensajería web para complir con estos objetivos, que al no estar diseñados para esto no cumplen con todas las funciones que se requieren. La aplicación también debe tener la escalabilidad para ser usada en situaciones similares en el futuro, y no solo para esta función actual.
+
+
+
 
 ### Problema que resuelve
 
@@ -210,11 +243,23 @@ Para el control de los procedimientos durante los traslados de pacientes se debe
 2. **Administrar las listas de chequeo:** Este Epic tiene como objetivo colaborar con médicos, pacientes y especialistas de la CEACO en la automatización del proceso de traslado de pacientes, ofreciendo una serie de funcionalidad que permita un ágil y efectivo control de procedimientos mediante el uso de listas de chequeo.
 3. **Interacción con procesos para incidentes:** Como coordinador técnico médico debo tener alguna forma de almacenar listas de chequeo que se usan solo en ocasiones específicas y que los especialistas técnico médicos tengan acceso a estas.
 
+### Drim Team
+
+Para la gestión de envío de información en tiempo real por los miembros del equipo PRIME al centro de contro se debe permitir que para cada una de las actividades de las listas de chequeo de los procesos, se pueda enviar información por medio de texto, imágenes, vídeo y voz.
+1. **Administración de Contenido Multimedia:**  Este Epic está relacionado a la acceso, visualización y almacenamiento seguro del contentido multimedia.
+2. **Adjuntar Contenido Multimedia:** Este está epic relacionado a poder adjuntar contenido, ya sea imagen, texto, video o audio, a las listas de chequeo, o a una cita.
+3. **Administración de Expedientes:** Este epic está relacionado a la creación de expedientes, así como la distribución de la información que tiene cada funcionario en referencia a sus permisos. 
+ 
+
 ### Mapa de ruta del producto (Product Road Map)
 
 Puede encontrar nuestro Product Roadmap en el link: https://docs.google.com/spreadsheets/d/1XnhCmkLnF6gNzaVUzOPjGgIScgK2AZjcDtBU81P5B8c/edit#gid=1653817941
 
 ### Requerimientos no funcionales que debe cumplir toda la aplicación web
+
+-El programa debe mostrar mensajes de error que sean informativos y orientados a un usuario final.
+-El programa debe tener una interfaz gráfica responsiva.
+
 
 #### Requerimientos de Usabilidad
 
@@ -240,6 +285,12 @@ El programa en su pantalla de inicio le muestra al usuario solamente un menú la
 En la pantalla de registro de listas de chequeo se puede ver cada lista junto a detalles de la misma en orden descendiente, además de enlaces directos en el menú lateral para una búsqueda más veloz de la lista deseada.  
 Para crear una lista se clickea el botón “Crear lista de chequeo” en el menú lateral de la pantalla, esto abrirá una ventana titulada “Crear plantilla de lista de chequeo” (definición previamente explicada en el apartado “Definiciones, acrónimos y abreviaciones”), en esta se ven las características principales de la lista marcadas en un cuadro blanco en el centro de la ventana y marcadas con un asterisco las que son fundamentales, la leyenda del asterisco también se muestra en la parte inferior; el botón de guardar lista está inhabilitado hasta que la ventanas necesarias, Nombre y Tipo, sean correctamente llenadas y esto se ve reflejado en el color del mismo que se hace más intenso y diferenciable cuando se encuentra habilitado, además de tener la opción de cancelar la creación si así lo desea.  
 Al crear una lista esta se ve inmediatamente reflejada en la pantalla de listas de chequeo.  
+
+### Drim Team/Contenido Multimedia-Expedientes
+
+-Cuando hay algún error a la hora de subir un archivo, se le debe dar retroalimentación al usuario para que decida si quiere intentarlo de nuevo.
+-El usuario debe poder subir archivos de tipo .pdf, .doc, .docx, .xls, .txt, .mp3, .jpg, .png, .mp4, .wmv, .avi.
+-Una vez adjuntado el archivo, este debe poder ser visualizado.
 
 #### Requerimientos de Eficiencia
 
