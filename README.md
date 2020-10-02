@@ -252,11 +252,14 @@ Para el control de los procedimientos durante los traslados de pacientes se debe
 
 3. **Interacción con procesos para incidentes:** Como coordinador técnico médico debo tener alguna forma de almacenar listas de chequeo que se usan solo en ocasiones específicas y que los especialistas técnico médicos tengan acceso a estas.
 
-### Drim Team
+#### Drim Team
 
 Para la gestión de envío de información en tiempo real por los miembros del equipo PRIME al centro de contro se debe permitir que para cada una de las actividades de las listas de chequeo de los procesos, se pueda enviar información por medio de texto, imágenes, vídeo y voz.
+
 1. **Administración de Contenido Multimedia:**  Este Epic está relacionado a la acceso, visualización y almacenamiento seguro del contentido multimedia.
+
 2. **Adjuntar Contenido Multimedia:** Este está epic relacionado a poder adjuntar contenido, ya sea imagen, texto, video o audio, a las listas de chequeo, o a una cita.
+
 3. **Administración de Expedientes:** Este epic está relacionado a la creación de expedientes, así como la distribución de la información que tiene cada funcionario en referencia a sus permisos. 
  
 
@@ -305,7 +308,7 @@ Para crear una lista se clickea el botón “Crear lista de chequeo” en el men
 
 Al crear una lista esta se ve inmediatamente reflejada en la pantalla de listas de chequeo.  
 
-### Drim Team/Contenido Multimedia-Expedientes
+#### Drim Team/Contenido Multimedia-Expedientes
 
 -Cuando hay algún error a la hora de subir un archivo, se le debe dar retroalimentación al usuario para que decida si quiere intentarlo de nuevo.
 -El usuario debe poder subir archivos de tipo .pdf, .doc, .docx, .xls, .txt, .mp3, .jpg, .png, .mp4, .wmv, .avi.
