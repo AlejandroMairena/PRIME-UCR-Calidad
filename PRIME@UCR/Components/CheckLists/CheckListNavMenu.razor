@@ -1,24 +1,32 @@
 ﻿@inject NavigationManager MyNavegationManager
 
+<div>
 <ul class="nav flex-column">
-    <li class="nav-item px-5">
+    <li class="nav-item px-sm-3">
         <button class="btn btn-primary" @onclick="ToggleIsModalOpened" id="BP_A_LC0">Crear lista de chequeo</button>
+    </li>
+</ul>
+</div>
+
+<div>
+    <ul class="ml-4"  type="square" >
         @if (lists != null && lists.Count() > 0)
         {
             @foreach (var tempList in lists)
             {
-            <li >
-                <NavLink class="nav-link" href='@string.Format("checklist/{0}", @tempList.Id)'>
-                    @tempList.Nombre
-                </NavLink>
-            </li>
+                <li class="mt-2">
+                    <NavLink href='@string.Format("checklist/{0}", @tempList.Id)'>
+                        @tempList.Nombre
+                    </NavLink>
+                </li>
+                
             }
         }
-    </li>
-</ul>
+    </ul>
+</div>
 
-<CascadingValue Value="@lists" Name="lists">
-    <CascadingValue Value="@IsModalOpened" Name="IsModalOpened">
-        <CreateChecklistPopup OnlistsChange="Changelists" OnIsModalOpenedChange="ChangeIsModalOpened" />
+    <CascadingValue Value="@lists" Name="lists">
+        <CascadingValue Value="@IsModalOpened" Name="IsModalOpened">
+            <CreateChecklistPopup OnlistsChange="Changelists" OnIsModalOpenedChange="ChangeIsModalOpened" />
+        </CascadingValue>
     </CascadingValue>
-</CascadingValue>
