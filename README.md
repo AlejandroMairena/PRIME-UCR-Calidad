@@ -308,7 +308,7 @@ El programa en su pantalla de inicio le muestra al usuario solamente un menú la
 
 - La aplicación debe seguir todos los lineamientos del Manual de Identidad Visual de la Universidad de Costa Rica.
 
-##### Legados/Constrol de procedimientos
+##### Legados/Control de procedimientos
 
 - En la pantalla de registro de listas de chequeo se puede ver cada lista junto a detalles de la misma en orden descendiente, además de enlaces directos en el menú lateral para una búsqueda más veloz de la lista deseada.  
 
