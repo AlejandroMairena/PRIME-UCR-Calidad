@@ -1,5 +1,13 @@
-# Prime@UCR
+# Universidad de Costa Rica
 
+## README.MD
+
+# PRIME@UCR
+
+#### Version 1.0
+  
+  
+    
 ## Tabla de contenidos 
 
 [TOC]
