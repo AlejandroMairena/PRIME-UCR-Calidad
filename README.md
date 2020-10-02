@@ -35,7 +35,9 @@ Lista de chequeo predeterminada: son listas que se aplican a todos los incidente
 Check: acción de marcar un ítem dentro de una lista de chequeo instanciada como completado.
 
 ## Introducción
+
 La función de este documento es explicar y detallar las tecnologías, diseños y funcionalidades de la aplicación PRIME@UCR, que consiste en una aplicación que permite una mejor administración de los transportes de pacientes a CEACO, Centro Especializado de Atención de Pacientes con COVID-19. Este documento tiene como objetivo dar un mejor entendimiento de la estructura de la aplicación, las diferentes funciones que cumple y los objetivos de cada una para mejorar la experiencia de los usuarios.
+
 El documento está compuesto por una portada, introducción, miembros del equipo de desarrollo, descripciones del sistema, artefactos de la base de datos utilizados, decisiones técnicas y bibliografía.
 
 ## Listado de equipos y miembros de los equipos.
@@ -92,6 +94,7 @@ Integrantes:
 
 
 ### Asignación de roles para cada una de las iteraciones
+
 #### Sprint 0:
 
 - Atenienses++
@@ -190,6 +193,7 @@ Y finalmente el módulo de autorización y administración gráfica de los disti
 En síntesis, la solución del problema dado se puede resumir por medio de un diagrama de flujos de la aplicación a partir del cual se puede visualizar el proceso de atención de pacientes COVID-19. 
 
 ![](https://i.imgur.com/BTWHypT.png)
+
 *Figura 1: Flujo de la aplicación web*
 
 El primer paso corresponde a la creación de un nuevo incidente de atención de un paciente COVID; luego el equipo PRIME del CEACO hace el despacho del incidente, ya sea por medio de una visita a la residencia del paciente para administrar su traslado o a un hospital. Para esto el equipo de atención sigue una serie de procedimientos previos a la atención del paciente para verificar el seguimiento de los protocolos de salud indicados. Igualmente, durante la atención del paciente el equipo PRIME puede validar el cumplimiento de una serie de procedimientos médicos a aplicarle a dicho paciente de acuerdo a su condición; y finalmente una validación de los cumplimientos al finalizar la atención del paciente. 
@@ -210,19 +214,20 @@ El sistema PRIME@UCR interactúa directamente con la aplicación web, una de las
 
 #### Atenienses++
 
-El tema del que se encarga de desarrollar Atenienses++ es el de estadística y autenticación. Este tema está caracterizado por el desarrollo de la autenticación de usuarios, es decir, que aquellos que tengan un
-usuario asignado, puedan ingresar a la aplicación con este, además de los diversos asuntos pertinentes a este tema, como la seguridad, la regulación de los tipos de usuario (sus características y permisos), además,
-en la parte de estadística, se ve todo lo que tiene que ver con la representación visual de las estadisticas a mostrar al usuario, mediante el uso de gráficos.
+El tema del que se encarga de desarrollar Atenienses++ es el de estadística y autenticación. Este tema está caracterizado por el desarrollo de la autenticación de usuarios, es decir, que aquellos que tengan un usuario asignado, puedan ingresar a la aplicación con este, además de los diversos asuntos pertinentes a este tema, como la seguridad, la regulación de los tipos de usuario (sus características y permisos), además, en la parte de estadística, se ve todo lo que tiene que ver con la representación visual de las estadisticas a mostrar al usuario, mediante el uso de gráficos.
 
 Los epics a desarrollar para este tema son los siguientes:
 
 1.  **Administración de usuarios y perfiles**:
+
 El administrador de la aplicación debe contar con métodos de autenticación de los usuarios de la aplicación para garantizar la confiabilidad del acceso a los datos de la aplicación.
 
 2.  **Administración del dashboard**:
+
 El administrador debe poder visualizar un dashboard con estadísticas referentes a la información obtenida a través de la aplicación para tener una representación gráfica de dicha información.
 
 3.  **Vista gráfica de usuarios y perfiles**:
+
 El administrador debe poder visualizar la informacion y permisos asignados a cada usuario de la aplicacion. 
 
 #### Diosvier 
@@ -230,7 +235,9 @@ El administrador debe poder visualizar la informacion y permisos asignados a cad
 Para la administración de los traslados (e incidentes) se requiere la implementación de una plataforma que permita el despacho, seguimiento y monitoreo en tiempo real por medio de GPS y mapas tanto para las unidades terrestres, marítimas y aéreas. Los epics asociados a este tema son:
 
 1. **Crear incidente con datos básicos:** para cada incidente, se debe digitar el origen, destino, nombre del paciente, síntomas y demás datos útiles para su atención.
+
 2. **Asociar expediente con incidente nuevo:** para cada incidente, se consulta en la base de datos si fue creado un expediente anteriormente o si debe generarse uno nuevo.
+
 3. **Asignación de incidente aprobado:** una vez se ha revisado que el incidente se ingresó correctamente, se aprueba y se procede a asignar una unidad de transporte y un equipo para su atención.
     
 Con el módulo Dashboard, se debe coordinar el despliegue consistente y limpio de la información en la interfaz de la aplicación. Con el módulo Expedientes Médicos, se encuentran las consultas a los distintos expedientes generados con anterioridad y las solicitudes para crear nuevos documentos. Por último, con el módulo Listas de chequeo, se requiere coordinar el despliegue de esta información en la aplicación para su uso durante el traslado.
@@ -240,7 +247,9 @@ Con el módulo Dashboard, se debe coordinar el despliegue consistente y limpio d
 Para el control de los procedimientos durante los traslados de pacientes se deben implementar listas de chequeo parametrizables para cada uno de los subprocesos que los componen. Cada uno de los procedimientos, los subprocesos y sus actividades son definidas por los administradores de la aplicación para su posterior uso en los incidentes de atención.
 
 1. **Creación de plantillas de listas de chequeo:** como administrador especializado en salud, registrado y con permisos, debo ser capaz de crear una plantilla de una lista de chequeo para los especialistas de transporte de pacientes.
+
 2. **Administrar las listas de chequeo:** Este Epic tiene como objetivo colaborar con médicos, pacientes y especialistas de la CEACO en la automatización del proceso de traslado de pacientes, ofreciendo una serie de funcionalidad que permita un ágil y efectivo control de procedimientos mediante el uso de listas de chequeo.
+
 3. **Interacción con procesos para incidentes:** Como coordinador técnico médico debo tener alguna forma de almacenar listas de chequeo que se usan solo en ocasiones específicas y que los especialistas técnico médicos tengan acceso a estas.
 
 ### Drim Team
@@ -267,23 +276,33 @@ El programa en su pantalla de inicio le muestra al usuario solamente un menú la
 
 ##### Atenienses ++/Dashboards
 - La diseño y apariencia de la aplicacion deben de estar implementados en base a los lineamientos propuestos por la UCR.
+
 - La aplicacion debe de tener una interzas sencilla que permita a usuario entenderla intuitivamente.
+
 - El panel de navegacion izquierdo debe de ser facil de usar y poseer nombres de los diferentes modulos a los que se tiene acceso, todo esto siguiento las guias de diseño UCR.
+
 - En el proceso de autenticacion el usuario debe identificarse usando un email y contraseña. Solo los usuarios autenticados pueden tener acceso a la aplicacion.
+
 - El formulario debe de mostrar mensajes de claros cuando haya un error de autenticacion o un campo invalido en el formulario.
+
 - Los usuarios tienen acceso a la informacion de acuerdo a los permisos dados por el administrador.
+
 - El sistema debe de presentar mensajes de error informativos orientados al usuario.
 
 ##### Diosvier/Administración de Traslados
 
 - La aplicación debe mostrar un menú lateral a la izquierda, con las pestañas o tabs respectivas a la funcionalidad del módulo Administración de Incidentes. Cada pestaña debe tener un nombre corto y significativo, de manera que el usuario pueda saber qué información está completando en todo momento. Este menú y estas pestañas debe seguir el mismo diseño que todas las demás ventanas y módulos de la aplicación.
+
 - Si el usuario registrara algún incidente incorrectamente, se le debe notificar con un mensaje claro y conciso su error.
+
 - La aplicación debe seguir todos los lineamientos del Manual de Identidad Visual de la Universidad de Costa Rica.
 
 ##### Legados/
 
 En la pantalla de registro de listas de chequeo se puede ver cada lista junto a detalles de la misma en orden descendiente, además de enlaces directos en el menú lateral para una búsqueda más veloz de la lista deseada.  
+
 Para crear una lista se clickea el botón “Crear lista de chequeo” en el menú lateral de la pantalla, esto abrirá una ventana titulada “Crear plantilla de lista de chequeo” (definición previamente explicada en el apartado “Definiciones, acrónimos y abreviaciones”), en esta se ven las características principales de la lista marcadas en un cuadro blanco en el centro de la ventana y marcadas con un asterisco las que son fundamentales, la leyenda del asterisco también se muestra en la parte inferior; el botón de guardar lista está inhabilitado hasta que la ventanas necesarias, Nombre y Tipo, sean correctamente llenadas y esto se ve reflejado en el color del mismo que se hace más intenso y diferenciable cuando se encuentra habilitado, además de tener la opción de cancelar la creación si así lo desea.  
+
 Al crear una lista esta se ve inmediatamente reflejada en la pantalla de listas de chequeo.  
 
 ### Drim Team/Contenido Multimedia-Expedientes
@@ -295,19 +314,25 @@ Al crear una lista esta se ve inmediatamente reflejada en la pantalla de listas 
 #### Requerimientos de Eficiencia
 
 El sistema PRIME@UCR es capaz de soportar la gran cantidad de incidentes que ocurren simultáneamente en todo momento y es capaz de abrir y cerrar los incidentes en menos de 5 segundos, además almacena los archivos multimedia que sean enviados y los enlaza a la instancia de ítem con el que fueron creados, este envío se hace además con algoritmos de compresión para dar la mayor velocidad posible que la conexión presente permita.  
+
 El Sistema Prime@UCR deberá ser capaz de soportar todos los incidentes de traslado de pacientes que se tengan que abrir.  
+
 El sistema deberá ser lo suficientemente eficiente para que un incidente de traslado se pueda abrir en un segundo.  
+
 El sistema deberá contar con algoritmos de autocompresión para que el envío de archivos multimedia sea lo más rápido posible y en tiempo real.
 
 #### Requerimientos de Confiabilidad 
 
 Ante un cierre involuntario del usuario y si este estaba haciendo alguna tarea, el sistema al abrirse nuevamente deberá restaurarse en el punto en el que el usuario lo dejó.  
+
 El sistema deberá contar con una opción de “reintentar” ante la existencia de una falla al enviar un archivo multimedia.
 
 #### Requerimientos de Seguridad
 
 Las claves y usuarios son encriptadas mediante una función Hash y los datos se encriptan al enviarlos y recibirlos, ya que contienen información delicada de los pacientes transportados.  
+
 El sistema PRIME@UCR deberá mantener una jerarquía de usuarios para que estos tengan acceso solo a ciertos tipos de datos.  
+
 Las comunicaciones y contenido multimedia que se intercambia deben estar encriptadas mediante algoritmos para dicho fin, esto para que no haya fugas o robo de información delicada.
 
 #### Requerimientos de desarrollo
@@ -321,15 +346,21 @@ Los usuarios deben iniciar sesión para la mayoría de funciones del sistema, lo
 #### Requerimientos legales
 
 El sistema PRIME@UCR, al manejar datos sensibles de carácter médico, debe contar con una serie de medidas de seguridad para que cumpla con la Ley 8968 o también conocida como “Protección de la Persona frente al tratamiento de sus datos personales”.  
+
 El sistema PRIME@UCR, mantendrá un control de quién tiene acceso a ciertos datos ya sea del paciente, médicos u otros entes relacionados con el traslado de pacientes COVID positivos y velará porque esto cumpla con los principios del secreto profesional de las Ciencias de la Salud. Este primer requerimiento es necesarios para cumplir la ley 8968, capítulo 2, sección 3, artículo 11.[1]
 
 #### Requerimientos éticos
 
 Los datos manejados por el sistema son encriptados y almacenados de manera segura, solo un pequeño grupo de personas tienen acceso selectivo a los datos almacenados, el acceso a información confidencial es registrada para futuras revisiones.  
+
 El equipo de desarrollo no tiene, tuvo ni tendrá ningún acceso a esta información y trabajó en todo momento con datos hipotéticos y de fantasía.  
+
 Las contraseñas de los distintos usuarios solo deben ser conocidas por ellos mismos y en caso de una emergencia, el administrador técnico médico podría llegar a tener acceso a ellos.  
+
 El contenido multimedia que se tome al hacer un traslado por ejemplo foto del paciente que está siendo trasladado, deberá manejarse con extrema cautela y no debe ser vista por nadie que no sean médicos o especialistas técnicos médicos.  
+
 La condición en la que se traslada el paciente solo deberá ser conocida por médicos y especialistas técnicos.  
+
 Información personal de los entes relacionados no debe fugarse ni ser vista por nadie más que los usuarios que tengan el nivel de jerarquía necesario.
 
 #### Requerimientos regulatorios
@@ -340,20 +371,24 @@ El diseño de la página sigue la paleta de colores, diseño del header y footer
 
 ### Esquema lógico de la base de datos
 
-![](https://i.imgur.com/e6I08mP.png)
+![](https://i.imgur.com/qdAyrje.jpg)
 
 A continuación se muestra el esquema lógico dividido en los correspondientes a cada equipo: 
 
 Atenienses++ (Administración de Usuarios):
-![](https://i.imgur.com/6xnF6eE.png)
+
+![](https://i.imgur.com/BsF0lHT.jpg)
 
 Diosvier (Administración de Translados) :
+
 ![](https://i.imgur.com/HE20mND.png)
 
 Legados (Control del Procedimientos) :
+
 ![](https://i.imgur.com/Mobj6U3.png)
 
 Drim Team (Gestión de Información) :
+
 ![](https://i.imgur.com/te7oeHP.png)
 
 ## Decisiones técnicas.
@@ -361,37 +396,58 @@ Drim Team (Gestión de Información) :
 ### Metodologías utilizadas y procesos definidos.
 
 1. **Git:** mecanismo para control de versiones. Se optó por una rama por equipo y una rama por cada desarrollador. Además, se acordaron reglas para subir código a la rama *master*, las cuales están especificadas en la definición de listo.
+
 2. **Scrum:** metodología ágil para el desarrollo de software. Se trabajó con un *scrum of scrums*, con cada equipo auto-organizado trabajando en un módulo específico de la aplicación. En los links adjuntos, se pueden consultar los distintos procesos que engloba esta metodología.
 
 ### Artefactos utilizados en el desarrollo del proyecto
 
 Jira software: herramienta de desarrollo de software para equipos ágiles que los ayuda a planificar, supervisar y  publicar software de alta calidad.[2]
+
 Bitbucket: Sitio para planificar proyectos,  programación colaborativamente del código, probar y colocar.Integrado con Jira software [3]
+
 Visual Studio 2019:  Entorno de desarrollo integrado.[4] IDE donde se creará el programa de la aplicación web en .Net core y Blazor en su versión de Visual Studio Enterprise
+
 SQL Server: Plataforma de inteligencia de datos, segura y de buen rendimiento, ayuda a analizar todo tipo de datos, obtener información valiosa consultando datos relacionales, no relacionales sea que estén o no estructurados. [7]
+
 Blazor: Es un marco para crear una interfaz de usuario web interactiva del lado del cliente utilizando .NET que tiene las ventajas:
   - Permite crear interfaces de usuario interactivas utilizando C# en lugar de JavaScript.
+  
   - Comparte lógica de aplicación del lado del servidor y del lado del cliente escrito en .NET.
+  
   - Renderizar la interfaz de usuario cómo HTML y CSS para una amplia compatibilidad entre navegadores.
+  
   - Integra plataformas de alojamiento modernas cómo Docker. [5]
+
 CORE .net: es la versión de código abierto de ASP.NET que se ejecuta en machOS, Linux y Windows. Fue lanzada a inicios del año 2016 y es un rediseno de versiones anteriores de ASP.NET que solo se podían utilizar en Windows. [6]
 
 ### Tecnologías utilizadas con sus respectivas versiones.
+
 Para el presente proyecto, se decidió utilizar las siguientes tecnologías:
 
 #### Blazor
+
 Se optó por el uso de Blazor como framework para el desarrollo de la aplicación web utilizando .NET, desarrollado por microsoft. 
+
 #### Core 3.1
+
 Es un franework de desarrollo de aplicaciones desarrollado por Microsoft.
+
 #### Blazor server 3.1
+
 Esto corresponde a un modelo de alojamiento, de manera que la aplicación se ejecute desde un servidor desde la aplicación ASP.NET
+
 #### Sql server 2019
+
 Corresponde a un sistema de manejo de bases de datos relacionales desarrollado por Microsoft.
+
 #### Bootstrap 4.5.2
+
 Corresponde a un framework de CSS. Es una biblioteca de herramientas para el diseño de aplicaciones web. 
+
 ### Repositorio de código y estrategia git para el proyecto
 
 #### Repositorio 
+
 Se usó Bitbucket para guardar el repositorio que contiene el código del desarrollo del proyecto, el cual se encuentra en el siguiente enlace: https://bitbucket.org/cristian_quesadalopez/ecci_ci0128_ii2020_g01_pi/src/master/. 
 
 #### Estrategia git para el proyecto
@@ -411,15 +467,27 @@ Puede encontrar nuestra definición de listo en el link: https://docs.google.com
 ## Referencias Bibliográficas
 
 [1] Sistema Costarricense de Información Jurídica. (2022, 23 septiembre). Procuraduría General de la República. http://www.pgrweb.go.cr/scij/Busqueda/Normativa/Normas/nrm_texto_completo.aspx?param1=NRTC&nValor1=1&nValor2=70975&nValor3=85989&strTipM=TC#:%7E:text=Esta%20ley%20es%20de%20orden,y%20dem%C3%A1s%20derechos%20de%20la
+
 [2] Jira Software. (n.d.). Atlassian. Retrieved Septiembre 24, 2020, from https://www.atlassian.com/es/software/jira?&aceid=&adposition=&adgroup=109687540504&campaign=10332064761&creative=443576046665&device=c&keyword=jira%20software&matchtype=e&network=g&placement=&ds_kids=p55122863597&ds_e=GOOGLE&ds_eid=700000001550060&ds_e1=G
+
 [3] Bitbucket. (n.d.). Alassian. Retrieved Septiembre 24, 2020, from https://www.atlassian.com/es/software/bitbucket
+
 [4] Visual Studio. (n.d.). Microsoft. Retrieved Septiembre 24, 2020, from https://visualstudio.microsoft.com/es/
+
 [5] Introduction to ASP.NET CORE Blazor. (n.d.). Microsoft. Retrieved Septiembre 24, 2020, from https://docs.microsoft.com/en-us/aspnet/core/blazor/?view=aspnetcore-3.1
+
 [6] What is ASP.NET Core? (n.d.). Microsoft. Retrieved Septiembre 24, 2020, from https://dotnet.microsoft.com/learn/aspnet/what-is-aspnet-core
+
 [7] Pruebe SQL server 2019. (n.d.). Microsoft. Retrieved Septiembre 24, 2020, from https://www.microsoft.com/en-us/sql-server/sql-server-2019
+
 [8] Manual de lineamientos de Sitios web UCR. (n.d.). Oficina de Divulgación e Información. Retrieved Setiembre 27, 2020, from https://odi.ucr.ac.cr/
+
 [9] Ouellette, A. (2017, 20 septiembre). What is Bootstrap: A Beginners Guide. CareerFoundry. https://getbootstrap.com/docs/4.5/getting-started/introduction/
+
 [10] Roth, D. (2020, 11 agosto). ASP.NET Core Blazor hosting models. Microsoft Docs. https://docs.microsoft.com/en-us/aspnet/core/blazor/hosting-models?view=aspnetcore-3.1
+
 [11] Roth, D., & Latham, L. (2020, 19 junio). Introduction to ASP.NET Core Blazor. Microsoft Docs. https://docs.microsoft.com/en-us/aspnet/core/blazor/?view=aspnetcore-3.1
+
 [12] Elmasri, R., & Navathe, S. B. (2010). Fundamentals of Database Systems (6th ed. ed.). Addison Wesley Longman.
+
 [13] Cohn, M. (2005). Agile Estimating And Planning (1.a ed.). Prentice Hall.
