@@ -491,3 +491,5 @@ Puede encontrar nuestra definición de listo en el link: https://docs.google.com
 [12] Elmasri, R., & Navathe, S. B. (2010). Fundamentals of Database Systems (6th ed. ed.). Addison Wesley Longman.
 
 [13] Cohn, M. (2005). Agile Estimating And Planning (1.a ed.). Prentice Hall.
+
+[14] Quesada Lopez C. (2020) Descripción general del sistema PRIME@UCR Recuperado de: https://mv1.mediacionvirtual.ucr.ac.cr/pluginfile.php/1167974/mod_folder/content/0/1-Descripci%C3%B3n%20general%20de%20la%20aplicaci%C3%B3n%20web_CI0128_001_II-2020.pdf?forcedownload=1 
