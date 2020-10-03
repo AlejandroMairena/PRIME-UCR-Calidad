@@ -23,8 +23,6 @@
                         <th>Nombre</th>
                         <th>Tipo</th>
                         <th>Descripción</th>
-                        <th>Orden</th>
-                        <th>Identificador</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -34,8 +32,6 @@
                             <th scope="row"><a href='@string.Format("checklist/{0}", @tempList.Id)' class="stretched-link">@tempList.Nombre</a></th>
                                 <td>@tempList.Tipo</td>
                                 <td>@tempList.Descripcion</td>
-                                <td>@tempList.Orden</td>
-                                <td>@tempList.Id</td>
                         </tr>
                     }
                 </tbody>
