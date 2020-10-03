@@ -13,6 +13,8 @@
     align-content: flex-start;
     padding-left: 16px;
     padding-right: 16px;
+    /*background: white; rgba(229, 229, 229, 0.81);*/
+    border: 0;
 }
 
 button#BP_A_LC0.btn.btn-primary {
@@ -33,9 +35,23 @@ button:disabled#BP_LC0.btn.btn-primary {
 
 .createLC > p {
 }
-/*
-        <link href="css/Checklist.css" rel="stylesheet" />
-    <div class="createLC">
-    <br />
 
-*/
+dialog { /*#Dialog_LC {*/
+    border-color: transparent;
+    border-width: thin;
+    border-style: unset;
+    border-radius: 5px;
+    padding: 0em;
+}
+
+.M_LC {
+    position: absolute;
+    top: 130px;
+    left: 300px;
+    z-index: auto;
+    display: none;
+    width: 200%;
+    height: 100%;
+    overflow: auto;
+    outline: 0;
+}
