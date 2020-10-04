@@ -29,6 +29,11 @@ namespace PRIME_UCR.Application.Implementations.Incidents
             _medicalCenterRepository = medicalCenterRepository;
         }
 
+        public async Task<Pais> GetCountryByName(string name)
+        {
+            return await _countryRepository.GetByKeyAsync(name);
+        }
+
         public async Task<IEnumerable<CentroMedico>> GetAllMedicalCentersAsync()
         {
             return await _medicalCenterRepository.GetAllAsync();

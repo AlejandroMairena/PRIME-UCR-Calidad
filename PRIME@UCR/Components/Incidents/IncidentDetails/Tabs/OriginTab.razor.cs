@@ -4,11 +4,12 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using PRIME_UCR.Application.Dtos.Incidents;
 using PRIME_UCR.Components.Controls;
+using PRIME_UCR.Components.Incidents.LocationPickers;
 using PRIME_UCR.Domain.Models;
 
 namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
 {
-    //Enum with the options for selects
+    // Enum with the options for available origin types
     enum OriginType
     {
         Household,
@@ -19,7 +20,7 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
     public partial class OriginTab
     {
         // Selected options
-        private Tuple<OriginType, string> _selectedOriginType = Tuple.Create(OriginType.Household, "Domicilio");
+        private Tuple<OriginType, string> _selectedOriginType;
         private OriginModel _model = new OriginModel();
         private string _errorMessage = "";
 
@@ -28,6 +29,10 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
 
         [Parameter]
         public EventCallback<OriginModel> OnSave { get; set; }
+
+        private InternationalPicker _intlPicker;
+        private HouseholdPicker _householdPicker;
+        private MedicalCenterPicker _medicalCenterPicker;
         
         // Lists of options
         private readonly List<Tuple<OriginType, string>> _dropdownValuesOrigin = new List<Tuple<OriginType, string>>
@@ -61,21 +66,35 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
             await OnSave.InvokeAsync(_model);
         }
 
-        private void LoadExistingValues()
+        private async Task LoadExistingValues(bool isFirstRender)
         {
             if (Origin is Domicilio)
+            {
                 _selectedOriginType = _dropdownValuesOrigin[0];
+                if (_householdPicker != null && !isFirstRender)
+                    await _householdPicker.LoadExistingValues();
+            }
             else if (Origin is Internacional)
+            {
                 _selectedOriginType = _dropdownValuesOrigin[1];
+                if (_intlPicker != null && !isFirstRender)
+                    await _intlPicker.LoadExistingValues();
+            }
             else if (Origin is CentroUbicacion)
+            {
                 _selectedOriginType = _dropdownValuesOrigin[2];
+                if (_medicalCenterPicker != null && !isFirstRender)
+                    await _medicalCenterPicker.LoadExistingValues();
+            }
+            else
+                _selectedOriginType = _dropdownValuesOrigin[0]; // default
             
             _model.Origin = Origin;
         }
 
-        protected override void OnInitialized()
+        protected override async Task OnInitializedAsync()
         {
-            LoadExistingValues();
+            await LoadExistingValues(true);
         }
     }
     

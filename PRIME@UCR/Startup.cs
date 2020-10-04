@@ -1,3 +1,4 @@
+using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -32,11 +33,12 @@ namespace PRIME_UCR
             services.AddServerSideBlazor();
 
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DevelopmentDbConnection")));
-            //services.AddDefaultIdentity<Usuario>();
+            {
+                options.LogTo(Console.WriteLine);
+                options.UseSqlServer(Configuration.GetConnectionString("DevelopmentDbConnection"));
+            });
             services.AddIdentity<Usuario, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
-            //services.AddIdentity<Usuario>();
             services.AddBlazoredSessionStorage();
             services.AddScoped<AuthenticationStateProvider,CustomAuthenticationStateProvider>();
 

@@ -115,7 +115,7 @@ namespace PRIME_UCR.Application.Implementations.Incidents
                 }
             }
 
-            if (modified) // TODO: check crash with PK violation when updating Origin (international) when there are no chanegs
+            if (modified)
                 await _incidentRepository.UpdateAsync(incident);
 
             var state = model.CurrentState;

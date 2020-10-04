@@ -2,10 +2,16 @@
 
 <Loading IsLoading="@IsLoading()">
     <DropDownMenu Data="@_provinces" Label="Provincia" Value="@_selectedProvince" TextProperty="Nombre"
+                  DefaultText="Seleccione una provincia"
+                  ValueExpression="() => _selectedProvince"
                   ValueChanged="@((Provincia p) => OnChangeProvince(p))"/>
     <DropDownMenu Data="@_cantons" Label="Cantón" Value="@_selectedCanton" TextProperty="Nombre"
+                  DefaultText="Seleccione un cantón"
+                  ValueExpression="() => _selectedCanton"
                   ValueChanged="@((Canton c) => OnChangeCanton(c))"/>
     <DropDownMenu Data="@_districts" Label="Distrito" Value="@_selectedDistrict" TextProperty="Nombre"
+                  DefaultText="Seleccione un distrito"
+                  ValueExpression="() => _selectedDistrict"
                   ValueChanged="@((Distrito d) => OnChangeDistrict(d))"/>
     <div class="form-group">
         <label>Dirección exacta</label>

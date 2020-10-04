@@ -9,7 +9,7 @@ namespace PRIME_UCR.Application.Dtos.Incidents
 {
     public class IncidentModel
     {
-        [Required]
+        [Required(ErrorMessage = "Debe seleccionar una modalidad.")]
         public Modalidad Mode { get; set; }
 
         [Required]

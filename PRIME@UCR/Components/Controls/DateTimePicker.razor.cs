@@ -8,35 +8,35 @@ namespace PRIME_UCR.Components.Controls
     public partial class DateTimePicker
     {
         private TimeSpan _time; 
-        
-        [Parameter]
-        public DateTime Date { get; set; }
-        
-        [Parameter]
-        public EventCallback<DateTime> DateChanged { get; set; }
-        
         [Parameter] public string DateLabel { get; set; }
         [Parameter] public string TimeLabel { get; set; }
 
-        Task OnDateChanged(ChangeEventArgs e)
+        Task OnDateChanged(DateTime d)
         {
-            Date = DateTime.Parse((string)e.Value).Date + _time;
+            Value = d + _time;
 
-            return DateChanged.InvokeAsync(Date);
+            return ValueChanged.InvokeAsync(Value);
         }
-        
 
-        Task OnTimeChanged(ChangeEventArgs e)
+        async Task OnTimeChanged(ChangeEventArgs e)
         {
             _time = TimeSpan.Parse((string)e.Value);
-            Date = Date.Date + _time;
+            Value = Value.Date + _time;
 
-            return DateChanged.InvokeAsync(Date);
+            await ValueChanged.InvokeAsync(Value);
+            EditContext.NotifyFieldChanged(FieldIdentifier);
         }
 
         protected override void OnInitialized()
         {
-            _time = DateTime.Now - DateTime.Today;
+            _time = Value.TimeOfDay;
+        }
+
+        protected override bool TryParseValueFromString(string value, out DateTime result, out string validationErrorMessage)
+        {
+            result = DateTime.Parse(value);
+            validationErrorMessage = null;
+            return true;
         }
     }
 }

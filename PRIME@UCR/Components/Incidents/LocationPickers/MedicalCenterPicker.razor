@@ -5,5 +5,7 @@
 
 <Loading IsLoading="_values == null">
     <DropDownMenu Data="_values" T="CentroMedico" Label="Centro médico" Value="@_selectedMedicalCenter" TextProperty="Nombre"
-                  ValueChanged="@((CentroMedico tab) => OnChangeMedicalCenter(tab))" /><br />
+                  DefaultText="Seleccione un centro médico"
+                  ValueExpression="() => _selectedMedicalCenter"
+                  ValueChanged="@((CentroMedico tab) => OnChangeMedicalCenter(tab))" />
 </Loading>

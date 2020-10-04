@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.EntityFrameworkCore.Internal;
+using PRIME_UCR.Application.Dtos.Incidents;
 using PRIME_UCR.Application.Services.Incidents;
 using PRIME_UCR.Components.Controls;
 using PRIME_UCR.Domain.Models;
@@ -35,9 +36,9 @@ namespace PRIME_UCR.Components.Incidents.LocationPickers
         // Check if everything has been loaded
         bool IsLoading()
         {
-            return _provinces == null || _selectedProvince == null ||
-                   _cantons == null || _selectedCanton == null ||
-                   _districts == null || _selectedDistrict == null;
+            return _provinces == null ||
+                   _cantons == null ||
+                   _districts == null;
         }
 
         async Task LoadProvinces()
@@ -47,21 +48,21 @@ namespace PRIME_UCR.Components.Incidents.LocationPickers
                 (await LocationService.GetProvincesByCountryNameAsync(Pais.DefaultCountry))
                 .ToList();
 
-            // Could throw invalid operation exception if list is empty,
-            // but this should only happen if there are countries in our DB with no provinces registered,
-            // which shouldn't happen.
-            _selectedProvince = _provinces.First();
+            _selectedProvince = null;
         }
 
         async Task Callback()
         {
-            var household = new Domicilio
-            {
-                DistritoId = _selectedDistrict.Id,
-                Direccion = _address,
-                Longitud = _longitude,
-                Latitud = _latitude
-            };
+
+            Domicilio household = null;
+            if (_selectedDistrict != null)
+                household = new Domicilio
+                {
+                    DistritoId = _selectedDistrict.Id,
+                    Direccion = _address,
+                    Longitud = _longitude,
+                    Latitud = _latitude
+                };
             await ValueChanged.InvokeAsync(household);
         }
 
@@ -75,11 +76,14 @@ namespace PRIME_UCR.Components.Incidents.LocationPickers
 
         async Task LoadCantons()
         {
-            _cantons =
-                (await LocationService.GetCantonsByProvinceNameAsync(_selectedProvince.Nombre))
-                .ToList();
+            if (_selectedProvince != null)
+                _cantons =
+                    (await LocationService.GetCantonsByProvinceNameAsync(_selectedProvince.Nombre))
+                    .ToList();
+            else
+                _cantons = new List<Canton>();
 
-            _selectedCanton = _cantons.First();
+            _selectedCanton = null;
         }
 
         async Task OnChangeCanton(Canton canton)
@@ -91,11 +95,14 @@ namespace PRIME_UCR.Components.Incidents.LocationPickers
 
         async Task LoadDistricts()
         {
-            _districts =
-                (await LocationService.GetDistrictsByCantonIdAsync(_selectedCanton.Id))
-                .ToList();
+            if (_selectedCanton != null)
+                _districts =
+                    (await LocationService.GetDistrictsByCantonIdAsync(_selectedCanton.Id))
+                    .ToList();
+            else
+                _districts = new List<Distrito>();
 
-            _selectedDistrict = _districts.First();
+            _selectedDistrict = null;
         }
 
         async Task OnChangeDistrict(Distrito district)
@@ -104,7 +111,7 @@ namespace PRIME_UCR.Components.Incidents.LocationPickers
             await Callback();
         }
 
-        private async Task LoadExistingValues()
+        public async Task LoadExistingValues()
         {
             if (Value is Domicilio household)
             {

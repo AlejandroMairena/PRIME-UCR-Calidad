@@ -1,8 +1,25 @@
-﻿<div class="form-group">
+﻿@inherits InputBase<DateTime>
+
+<div class="form-group">
     <label>@DateLabel</label>
-    <input class="form-control" type="date" @oninput="OnDateChanged"/>
+    <InputDate Value="@Value"
+               class="@($"form-control {CssClass}")"
+               ValueChanged="@((DateTime d) => OnDateChanged(d))"
+               ValueExpression="@(() => Value)"
+               min="@(DateTime.Today.ToString("yyyy-MM-dd"))" />
+    
+    <div class="invalid-feedback">
+        <ValidationMessage For="() => Value"></ValidationMessage>
+    </div>
 </div>
+
 <div class="form-group">
     <label>@TimeLabel</label>
-    <input class="form-control" type="time" @oninput="OnTimeChanged" value="@_time"/>
+    <input type="time" class="@($"form-control {CssClass}")"
+           value="@_time"
+           @oninput="(e => OnTimeChanged(e))"/>
+    
+    <div class="invalid-feedback">
+        <ValidationMessage For="@(() => Value)"></ValidationMessage>
+    </div>
 </div>
