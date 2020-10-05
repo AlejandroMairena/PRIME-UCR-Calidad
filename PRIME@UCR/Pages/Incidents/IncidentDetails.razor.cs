@@ -14,7 +14,7 @@ namespace PRIME_UCR.Pages.Incidents
         const DetailsTab DefaultTab = DetailsTab.Info;
         
         [Parameter]
-        public string Id { get; set; }
+        public string Code { get; set; }
 
         protected bool exists = true;
         
@@ -31,7 +31,7 @@ namespace PRIME_UCR.Pages.Incidents
 
         protected override async Task OnInitializedAsync()
         {
-            _incidentModel = await IncidentService.GetIncidentDetailsAsync(Id);
+            _incidentModel = await IncidentService.GetIncidentDetailsAsync(Code);
             if (_incidentModel == null)
                 exists = false;
         }

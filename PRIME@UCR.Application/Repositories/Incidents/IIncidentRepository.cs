@@ -3,8 +3,8 @@ using PRIME_UCR.Domain.Models;
 
 namespace PRIME_UCR.Application.Repositories.Incidents
 {
-    public interface IIncidentRepository : IGenericRepository<Incidente, string>
+    public interface IIncidentRepository : IGenericRepository<Incidente, int>
     {
-        Task<Incidente> GetWithDetailsAsync(string id);
+        Task<Incidente> GetWithDetailsAsync(string code);
     }
 }

@@ -15,7 +15,8 @@
     <DropDownMenu Data="@_dropdownValuesOrigin" Label="Tipo de origen" TextProperty="Item2"
                   Value="_selectedOriginType"
                   ValueChanged="@((Tuple<OriginType, string> o) => OnOriginTypeChange(o))"
-                  ValueExpression="() => _selectedOriginType" />
+                  ValueExpression="() => _selectedOriginType"
+                  UseValidation="false"/>
     @if (_selectedOriginType.Item1 == OriginType.Household)
     {
         <HouseholdPicker @ref="@_householdPicker" Value="@Origin" ValueChanged="@OnOriginChange"/>

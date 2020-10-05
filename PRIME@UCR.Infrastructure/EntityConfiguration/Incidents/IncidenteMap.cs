@@ -9,7 +9,7 @@ namespace PRIME_UCR.Infrastructure.EntityConfiguration.Incidents
         public void Configure(EntityTypeBuilder<Incidente> builder)
         {
             builder.ToTable("Incidente");
-            builder.HasKey("Codigo");
+            builder.HasKey("Id");
             builder
                 .HasOne(p => p.Origen)
                 .WithOne()
@@ -20,8 +20,8 @@ namespace PRIME_UCR.Infrastructure.EntityConfiguration.Incidents
                 .HasForeignKey<Incidente>(p => p.IdDestino);
             builder
                 .Property(p => p.Codigo)
-                .IsRequired()
-                .HasMaxLength(50);
+                .HasMaxLength(50)
+                .ValueGeneratedOnAdd();
             builder
                 .Property(p => p.TipoModalidad)
                 .HasColumnName("Modalidad");

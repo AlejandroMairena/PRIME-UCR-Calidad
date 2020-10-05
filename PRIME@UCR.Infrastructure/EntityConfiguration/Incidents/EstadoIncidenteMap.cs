@@ -10,7 +10,7 @@ namespace PRIME_UCR.Infrastructure.EntityConfiguration.Incidents
         {
             builder.ToTable("EstadoIncidente");
             
-            builder.HasKey(e => new {e.CodigoIncidente, e.NombreEstado});
+            builder.HasKey(e => new {e.IncidenteId, e.NombreEstado});
 
             builder
                 .HasOne(e => e.Estado)
@@ -20,7 +20,7 @@ namespace PRIME_UCR.Infrastructure.EntityConfiguration.Incidents
             builder
                 .HasOne(e => e.Incidente)
                 .WithMany(i => i.EstadoIncidentes)
-                .HasForeignKey(e => e.CodigoIncidente);
+                .HasForeignKey(e => e.IncidenteId);
 
             builder
                 .Property(e => e.FechaModificado)

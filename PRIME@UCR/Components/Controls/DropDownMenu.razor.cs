@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Net.Mime;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
+using Microsoft.EntityFrameworkCore;
 
 namespace PRIME_UCR.Components.Controls
 {
@@ -12,14 +13,6 @@ namespace PRIME_UCR.Components.Controls
     {
         [Parameter]
         public List<T> Data { get; set; }
-
-        protected override bool TryParseValueFromString(string value, out T result, out string validationErrorMessage)
-        {
-            var index = Int32.Parse(value);
-            result = index >= 0 ? Data[index] : default;
-            validationErrorMessage = null;
-            return true;
-        }
         
         [Parameter]
         public string TextProperty { get; set; }
@@ -30,14 +23,39 @@ namespace PRIME_UCR.Components.Controls
         [Parameter]
         public string DefaultText { get; set; }
 
+        [Parameter] public bool UseValidation { get; set; } = true;
+
         private int _index = -1;
         private string SelectedValue => _index.ToString();
 
-        async Task OnChangeEvent(string value)
+        public string ValidationCssClass
         {
-            _index = Int32.Parse(value);
+            get
+            {
+                if (UseValidation)
+                {
+                    return ValidationUtils.ToBootstrapValidationCss(CssClass);
+                }
+
+                return "";
+            }    
+        }
+
+
+        protected override bool TryParseValueFromString(string value, out T result, out string validationErrorMessage)
+        {
+            var index = Int32.Parse(value);
+            result = index >= 0 ? Data[index] : default;
+            validationErrorMessage = null;
+            return true;
+        }
+
+        async Task OnChangeEvent(ChangeEventArgs args)
+        {
+            _index = Int32.Parse((string)args.Value);
             Value = _index >= 0 ? Data[_index] : default;
             await ValueChanged.InvokeAsync(Value);
+            EditContext.NotifyFieldChanged(FieldIdentifier);
         }
 
         string GetText(T value)

@@ -35,6 +35,7 @@ namespace PRIME_UCR
             services.AddDbContext<ApplicationDbContext>(options =>
             {
                 options.LogTo(Console.WriteLine);
+                options.EnableSensitiveDataLogging();
                 options.UseSqlServer(Configuration.GetConnectionString("DevelopmentDbConnection"));
             });
             services.AddIdentity<Usuario, IdentityRole>()

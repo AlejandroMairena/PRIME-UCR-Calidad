@@ -54,10 +54,6 @@ namespace PRIME_UCR.Components.Incidents.LocationPickers
             }
         }
 
-        protected override async Task OnParametersSetAsync()
-        {
-        }
-
         protected override async Task OnInitializedAsync()
         {
             _values =

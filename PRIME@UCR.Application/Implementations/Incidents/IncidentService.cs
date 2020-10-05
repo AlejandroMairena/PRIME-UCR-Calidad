@@ -31,7 +31,7 @@ namespace PRIME_UCR.Application.Implementations.Incidents
             _locationRepository = locationRepository;
         }
 
-        public async Task<Incidente> GetIncidentAsync(string id)
+        public async Task<Incidente> GetIncidentAsync(int id)
         {
             return await _incidentRepository.GetByKeyAsync(id);
         }
@@ -45,32 +45,34 @@ namespace PRIME_UCR.Application.Implementations.Incidents
         {
             var entity = new Incidente
             {
-                Codigo = Guid.NewGuid().ToString(),
                 FechaHoraRegistro = DateTime.Now,
                 FechaHoraEstimada = model.EstimatedDateOfTransfer,
                 TipoModalidad = model.Mode.Tipo
             };
             
+            // insert before adding state to get auto generated code from DB
+            await _incidentRepository.InsertAsync(entity);
+            
             var state = new EstadoIncidente
             {
                 NombreEstado = IncidentStates.InCreationProcess.Nombre,
-                CodigoIncidente = entity.Codigo,
+                IncidenteId = entity.Id,
                 FechaModificado = DateTime.Now,
                 Activo = true
             };
 
-            await _incidentRepository.InsertAsync(entity);
             await _statesRepository.AddState(state);
             
             return entity;
         }
-        public async Task<IncidentDetailsModel> GetIncidentDetailsAsync(string id)
+        public async Task<IncidentDetailsModel> GetIncidentDetailsAsync(string code)
         {
-            var incident = await _incidentRepository.GetWithDetailsAsync(id);
+            var incident = await _incidentRepository.GetWithDetailsAsync(code);
             if (incident != null)
             {
-                var state = await _statesRepository.GetCurrentStateByIncidentId(id);
+                var state = await _statesRepository.GetCurrentStateByIncidentId(incident.Id);
                 var model = new IncidentDetailsModel(
+                    incident.Id,
                     incident.Codigo,
                     incident.TipoModalidad,
                     state.Nombre,
@@ -90,7 +92,7 @@ namespace PRIME_UCR.Application.Implementations.Incidents
 
         public async Task<IncidentDetailsModel> UpdateIncidentDetails(IncidentDetailsModel model)
         {
-            var incident = await _incidentRepository.GetByKeyAsync(model.Code);
+            var incident = await _incidentRepository.GetByKeyAsync(model.Id);
             bool modified = false;
             // update origin
             if (model.Origin != null)
@@ -124,7 +126,7 @@ namespace PRIME_UCR.Application.Implementations.Incidents
             {
                 var incidentState = new EstadoIncidente
                 {
-                    CodigoIncidente = incident.Codigo,
+                    IncidenteId = incident.Id,
                     NombreEstado = IncidentStates.Created.Nombre,
                     Activo = true,
                     FechaModificado = DateTime.Now
@@ -134,6 +136,7 @@ namespace PRIME_UCR.Application.Implementations.Incidents
             }
 
             var outputModel = new IncidentDetailsModel(
+                incident.Id,
                 incident.Codigo,
                 incident.TipoModalidad,
                 state,

@@ -20,18 +20,18 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Incidents
         {
             incidentState.Activo = true; // make sure it is inserted as active
             await _db.IncidentStates
-                .Where(state => state.CodigoIncidente == incidentState.CodigoIncidente)
+                .Where(state => state.IncidenteId == incidentState.IncidenteId)
                 .ForEachAsync(state => state.Activo = false);
             _db.IncidentStates.Add(incidentState);
             await _db.SaveChangesAsync();
         }
 
-        public async Task<Estado> GetCurrentStateByIncidentId(string incidentId)
+        public async Task<Estado> GetCurrentStateByIncidentId(int incidentId)
         {
             return await _db.IncidentStates
                 .Include(i => i.Estado)
                 .AsNoTracking()
-                .Where(i => i.CodigoIncidente == incidentId && i.Activo == true)
+                .Where(i => i.IncidenteId == incidentId && i.Activo == true)
                 .OrderByDescending(i => i.FechaModificado)
                 .Select(i => i.Estado)
                 .FirstOrDefaultAsync();

@@ -2,10 +2,9 @@
 
 <div class="form-group">
     <label>@DateLabel</label>
-    <InputDate Value="@Value"
-               class="@($"form-control {CssClass}")"
-               ValueChanged="@((DateTime d) => OnDateChanged(d))"
-               ValueExpression="@(() => Value)"
+    <input type="date" value="@Value.ToString("yyyy-MM-dd")"
+               class="@($"form-control {ValidationCssClass}")"
+               @onchange="OnDateChanged"
                min="@(DateTime.Today.ToString("yyyy-MM-dd"))" />
     
     <div class="invalid-feedback">
@@ -15,7 +14,7 @@
 
 <div class="form-group">
     <label>@TimeLabel</label>
-    <input type="time" class="@($"form-control {CssClass}")"
+    <input type="time" class="@($"form-control {ValidationCssClass}")"
            value="@_time"
            @oninput="(e => OnTimeChanged(e))"/>
     

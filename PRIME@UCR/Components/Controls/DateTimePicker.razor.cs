@@ -10,12 +10,15 @@ namespace PRIME_UCR.Components.Controls
         private TimeSpan _time; 
         [Parameter] public string DateLabel { get; set; }
         [Parameter] public string TimeLabel { get; set; }
+        private string ValidationCssClass => ValidationUtils.ToBootstrapValidationCss(CssClass);
 
-        Task OnDateChanged(DateTime d)
+        async Task OnDateChanged(ChangeEventArgs e)
         {
+            DateTime d = DateTime.Parse((string)e.Value);
             Value = d + _time;
 
-            return ValueChanged.InvokeAsync(Value);
+            await ValueChanged.InvokeAsync(Value);
+            EditContext.NotifyFieldChanged(FieldIdentifier);
         }
 
         async Task OnTimeChanged(ChangeEventArgs e)

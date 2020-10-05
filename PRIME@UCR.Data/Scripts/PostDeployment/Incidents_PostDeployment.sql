@@ -1,4 +1,8 @@
-﻿DELETE FROM EstadoIncidente
+﻿CREATE UNIQUE NONCLUSTERED INDEX idx_Incidente_Codigo
+ON Incidente(Codigo)
+WHERE Codigo IS NOT NULL
+
+DELETE FROM EstadoIncidente
 DELETE FROM Estado
 DELETE FROM Incidente
 DELETE FROM Unidad_De_Transporte
@@ -13,6 +17,7 @@ DELETE FROM Canton
 DELETE FROM Provincia
 DELETE FROM Pais
 
+DBCC CHECKIDENT ('Incidente', RESEED, 0)
 DBCC CHECKIDENT ('Canton', RESEED, 0)
 DBCC CHECKIDENT ('Centro_Medico', RESEED, 0)
 DBCC CHECKIDENT ('Distrito', RESEED, 0)
@@ -279,12 +284,12 @@ VALUES
     ('PHP999', 'Disponible', 'Aéreo');
 
 -- Incidente
-INSERT INTO Incidente (Codigo, MatriculaTrans, IdEspecialista, CedulaAdmin,
+INSERT INTO Incidente (MatriculaTrans, IdEspecialista, CedulaAdmin,
     CedulaTecnicoCoordinador, CedulaTecnicoRevisor, CodigoCita, IdOrigen, IdDestino,
     Modalidad, FechaHoraRegistro, FechaHoraEstimada)
 VALUES
-    ('TERR123', 'BPC087', 123, 111111111, 117222222, 1173333333, 1, 1, NULL, 'Terrestre', GETDATE(), GETDATE()),
-    ('AER123', 'PHP999', 456, 117111111, 117112222, 1171133333, 1, 2, NULL, 'Aéreo', GETDATE(), GETDATE());
+    ('BPC087', 123, 111111111, 117222222, 1173333333, 1, 1, NULL, 'Terrestre', GETDATE(), GETDATE()),
+    ('PHP999', 456, 117111111, 117112222, 1171133333, 1, 2, NULL, 'Aéreo', GETDATE(), GETDATE());
 
 -- Estado
 INSERT INTO Estado
@@ -305,6 +310,6 @@ VALUES
 -- EstadoIncidente
 INSERT INTO EstadoIncidente
 VALUES
-    ('TERR123', 'En proceso de creación', GETDATE(), 1),
-    ('AER123', 'En proceso de creación', GETDATE(), 1)
+    ('1', 'En proceso de creación', GETDATE(), 1),
+    ('2', 'En proceso de creación', GETDATE(), 1)
 
