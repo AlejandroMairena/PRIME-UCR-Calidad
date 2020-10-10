@@ -15,8 +15,8 @@ namespace PRIME_UCR.Infrastructure.EntityConfiguration.Multimedia
         {
             builder
                 .HasOne(p => p.Paciente)
-                .WithOne(p => p.Expediente);
-                //.HasForeignKey(p => p.CedPaciente); no lo acepta, revisar.  
+                .WithOne(p => p.Expediente)
+                .HasForeignKey<Expediente>(p => p.CedPaciente);
 
             builder
                 .HasOne(p => p.Medico)

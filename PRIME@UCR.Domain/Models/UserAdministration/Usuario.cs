@@ -5,8 +5,26 @@ using System.Text;
 
 namespace PRIME_UCR.Domain.Models.UserAdministration
 {
+    /**
+     * Class used to model table Usuario from database.
+     */
     public class Usuario : IdentityUser 
     {
-        public string CédulaPersona { get; set; }
+        /**
+        * Function:        Initialize each of the list.
+        */
+        public Usuario()
+        {
+            Perfiles = new List<Perfil>();
+        }
+
+        /*Identifier of the person that has the user*/
+        public string CedPersona { get; set; }
+
+        /*Object with the information of the person*/
+        public Persona Persona { get; set; }
+
+        /*List of profiles of the person*/
+        public List<Perfil> Perfiles { get; set; }
     }
 }
