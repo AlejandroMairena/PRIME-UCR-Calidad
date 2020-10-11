@@ -51,3 +51,24 @@
 {
     background-color: #00c0f3;
 }
+
+.counter-append
+{
+    background-color: red;
+    border: solid black 1px;
+    width: 26px;
+    height: 26px;
+    font-size: 12px;
+    text-align: center;
+    align-content: center;
+    /*display: inline;*/
+    border-radius: 50%;
+    top: 50%;
+    line-height: 2;
+
+    /*Posicionar apendice*/
+    position: relative;
+    left: 50px;
+    top: -16px;
+
+}

@@ -10,6 +10,8 @@
 
 
 @* MultimediaContentComponent*@
+<div>
+@* Boton Principal *@
 <div class="@divDDClass"> @* Div Contededor del Componente: Propiedades ligadas al codigo: class=@divDDClass *@
     <button class="btn btn-secondary dropdown-toggle m-button"
             type="button" id="dropdownMenuButton"
@@ -27,37 +29,97 @@
     @* Dropdown del boton *@
     <div class="@ddMenuClass" aria-labelledby="dropdownMenuButton">
         <div class="m-menu-div">
-            <BlazorInputFile.InputFile OnChange="HandleFileSelected"></BlazorInputFile.InputFile> @* Componente BlazorInputFile *@
-            @*<button type="button" class="btn btn-danger m-btn m-btn-rm">Eliminar</button>*@
+            <div class="row">
+                @* InputFileComponent *@
+                <div class="col">
+                    <BlazorInputFile.InputFile OnChange="HandleFileSelected"></BlazorInputFile.InputFile> @* Componente BlazorInputFile *@
+                </div>
+                @* Loading Wheel *@
+                <div class="col">
+
+                </div>
+                @* Camera Logo *@
+                <div class="col">
+                    <img src="https://img.icons8.com/metro/26/000000/camera.png" />
+                </div>
+                @* Audio Logo *@
+                <div class="col">
+                    <img src="https://img.icons8.com/metro/26/000000/microphone.png" />
+                </div>
+                @* Video Logo *@
+                <div class="col">
+                    <img src="https://img.icons8.com/metro/26/000000/video.png" />
+                </div>
+            </div>
+            
             @* Lista de Archivos asociados *@
             @if (!validFileType)
             {
                 <p style="color: red">Archivo invalido</p>
             }
-            @if (fileNames.Count > 0)
+            @if (multimediaContent.Count > 0)
             {
-                <hr />
-                @foreach(string name in fileNames)
+             
+                // Notificacion de cantidad de archivos adjuntos
+                @if (multimediaContent.Count == 1)
                 {
-                    <p>@name</p>
+                    <p>@multimediaContent.Count archivo adjunto</p>
                 }
+                else
+                {
+                    <p>@multimediaContent.Count archivos adjuntos</p>
+                }
+
+                <hr />
+
+                // Tabla de Contenido Multimedia Adjunto
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Tipo</th>
+                            <th scope="col">Fecha</th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var mcontent in multimediaContent)
+                        {
+                            <tr>
+                                <td>@mcontent.Nombre</td>
+                                <td>@mcontent.Tipo</td>
+                                <td>@mcontent.Fecha_Hora</td>
+                                <td><a href="#">Ver</a></td>
+                                <td><button type="button" class="btn btn-danger m-btn m-btn-rm">Eliminar</button></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
             }
         </div>
     </div>
 </div>
-
-
+@* File Counter Appendix*@
+@if (!open && multimediaContent.Count > 0)
+{
+    <div class="counter-append">
+        @multimediaContent.Count
+    </div>
+}
+</div>
 @code {
 
     [Parameter]
     public RenderFragment ChildContent { get; set; }
 
-    public List<string> fileNames;
+    public List<MultimediaContent> multimediaContent;
     public List<string> validTypeFiles;
 
     protected override void OnInitialized()
     {
-        fileNames = new List<string>();
+        multimediaContent = new List<MultimediaContent>();
         // Valid file types
         //.pdf, .doc, .docx, .xls, .txt, .mp3, .jpg, .png, .mp4, .wmv, .avi
         validTypeFiles = new List<string>() { "pdf", "doc", "docx", "xls", "txt", "mp3", "jpg", "png", "mp4", "wmv", "avi" };
@@ -107,7 +169,7 @@
         multimedia_content_service.AddFileAsync(mcontent);
         file_service.StoreFile(selected_file.Name, selected_file.Data);
         //encrypt_service.EncryptFile(file_service.FilePath,file.Name);
-        fileNames.Add(selected_file.Name);
+        multimediaContent.Add(mcontent);
     }
 
     bool ValidateFile(IFileListEntry file, List<string> validFileTypes)
