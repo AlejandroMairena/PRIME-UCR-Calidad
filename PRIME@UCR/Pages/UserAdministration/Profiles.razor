@@ -1,4 +1,6 @@
 ﻿@page "/user_administration/profiles"
+@using PRIME_UCR.Components.UserAdministration
+
 @attribute [Authorize]
 
 <div class="btn-group">
@@ -13,6 +15,5 @@
         <a class="dropdown-item" href="#">Perfil 3</a>
     </div>
 </div>
-@code {
 
-}
+<PermissionsComponent/>
