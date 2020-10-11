@@ -15,7 +15,13 @@ else
         <b>Nombre: </b> @list.Nombre
         <span style="color:dimgray">&emsp;&emsp;Tipo: </span> @list.Tipo
         <span style="color:dimgray">&emsp;&emsp;Id: </span> @list.Id
+        @if (@list.NombreImagen != null) {
+            <p>@list.NombreImagen</p>
+            @*<img src="@ImagePath" />*@
+        }
     </p>
     <p><span style="color:dimgray">Descripcion: </span> @list.Descripcion</p>
     
 }
+
+<LoadImageComponent @bind-list="@list"/>

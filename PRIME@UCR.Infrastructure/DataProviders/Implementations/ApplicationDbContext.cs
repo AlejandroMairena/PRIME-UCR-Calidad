@@ -8,6 +8,7 @@ using PRIME_UCR.Infrastructure.EntityConfiguration.Multimedia;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using PRIME_UCR.Domain.Models.UserAdministration;
 using PRIME_UCR.Infrastructure.EntityConfiguration.UserAdministration;
+using PRIME_UCR.Infrastructure.EntityConfiguration.CheckList;
 
 namespace PRIME_UCR.Infrastructure.DataProviders.Implementations
 {
@@ -40,10 +41,8 @@ namespace PRIME_UCR.Infrastructure.DataProviders.Implementations
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            builder.Entity<CheckList>(cl =>
-            {
-                cl.HasKey("Id");
-            });
+
+            builder.ApplyConfiguration(new CheckListMap());
             builder.ApplyConfiguration(new PaisMap());
             builder.ApplyConfiguration(new ProvinciaMap());
             builder.ApplyConfiguration(new DistritoMap());

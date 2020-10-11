@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using System.Linq;
+using System.IO;
+using Microsoft.AspNetCore.Components;
 
 namespace PRIME_UCR.Application.Implementations.CheckLists
 {
@@ -30,6 +32,15 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
         public async Task<CheckList> GetById(int id)
         {
             return await _repo.GetByKeyAsync(id);
+        }
+
+        // User Story PIG01IIC20-267 LG - Agregar imagen descriptiva a lista de chequeo
+        // Set NombreImagen from the list to imageName, and updates the database
+        public async Task<CheckList> SaveImage(string imageName, CheckList list)
+        {
+            list.NombreImagen = imageName;
+            await _repo.UpdateAsync(list);
+            return list;
         }
     }
 }
