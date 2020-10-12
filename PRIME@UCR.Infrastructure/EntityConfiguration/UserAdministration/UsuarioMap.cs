@@ -25,6 +25,10 @@ namespace PRIME_UCR.Infrastructure.EntityConfiguration.UserAdministration
                 .Property(p => p.Id)
                 .IsRequired();
             builder
+                .HasOne(p => p.Persona)
+                .WithOne(p => p.Usuario)
+                .HasForeignKey<Usuario>(p => p.CedPersona);
+            builder
                 .HasMany(p => p.Perfiles)
                 .WithMany(p => p.Usuarios)
                 .UsingEntity(p =>

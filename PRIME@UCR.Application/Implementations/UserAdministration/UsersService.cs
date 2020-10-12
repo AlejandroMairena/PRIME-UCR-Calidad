@@ -8,18 +8,18 @@ using System.Threading.Tasks;
 
 namespace PRIME_UCR.Application.Implementations.UserAdministration
 {
-    public class PermissionsService : IPermissionsService
+    public class UsersService : IUserService
     {
-        private readonly IPermisoRepository _permissionsRepository;
+        private readonly IUsuarioRepository _usuarioRepository;
 
-        public PermissionsService(IPermisoRepository permisoRepository)
+        public UsersService(IUsuarioRepository usuarioRepository)
         {
-            _permissionsRepository = permisoRepository;
+            _usuarioRepository = usuarioRepository;
         }
 
-        public async Task<IEnumerable<Permiso>> GetPermisos()
+        public async Task<IEnumerable<Usuario>> GetUsuarios()
         {
-            return await _permissionsRepository.GetAllAsync();
+            return await _usuarioRepository.GetAllAsync();
         }
     }
-}   
+}
