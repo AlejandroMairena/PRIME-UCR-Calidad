@@ -1,12 +1,27 @@
 ﻿@page "/dashboard"
-@attribute [Authorize]
+@*Example of policy based authorization in a page*@
+@attribute [Authorize(Policy = @AuthorizationPermissions.CanManageDashboard)]
+
 
 @layout MainLayout
 @using ChartJs.Blazor.Charts
+@using PRIME_UCR.Application.DTOs.UserAdministration;
 
-<h1>
-    Dashboard
-</h1>
+
+@*Example of policy based authorization in a piece of code*@
+<AuthorizeView Policy="@AuthorizationPermissions.CanManageDashboard">
+    <Authorized>
+        <h1>
+            Dashboard
+        </h1>
+    </Authorized>
+    <NotAuthorized>
+        <h1>
+            No dashboard
+        </h1>
+    </NotAuthorized>
+</AuthorizeView>
+
 <div class="row">
     <div class="col-md-4">
         <PieGraphComponent></PieGraphComponent>
