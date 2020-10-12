@@ -1,0 +1,28 @@
+﻿@inject AuthenticationStateProvider _authenticationStateProvider
+
+<p>
+    @GetMessageAsync().Result
+</p>
+
+@code
+{
+    [CascadingParameter]
+    private Task<AuthenticationState> _authenticationState { get; set; }
+
+    bool isAuthenticated = false;
+
+    private async Task<string> GetMessageAsync()
+    {
+        var result = (await _authenticationState).User;
+        if (result.Identity.IsAuthenticated)
+        {
+            return "Para acceder a esta página debe contar con los permisos necesarios.";
+        }
+        else
+        {
+            return "Para acceder a esta página debe registarse.";
+        }
+    }
+
+
+}
