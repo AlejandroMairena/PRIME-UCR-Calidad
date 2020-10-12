@@ -1,0 +1,22 @@
+﻿@using PRIME_UCR.Components.Controls
+
+<Loading IsLoading="ListProfiles == null">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Nombre del perfil</th>
+
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var profile in ListProfiles)
+            {
+                <tr>
+                    <th scope="row">@profile.NombrePerfil</th>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+</Loading>
