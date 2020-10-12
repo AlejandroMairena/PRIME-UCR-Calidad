@@ -29,6 +29,22 @@ button:disabled#BP_LC0.btn.btn-primary {
     background: rgba(22, 69, 103, 0.80);
 }
 
+a#a_LC1.btn.btn-outline-primary {
+    background: rgba(49, 169, 255, 0.80);
+    position: absolute;
+    top: 500px;
+    right: 20px;
+    color:white;
+}
+
+a#a_LC1.btn.btn-outline-primary {
+    background: rgba(49, 169, 255, 0.80);
+}
+
+a:disabled#a_LC1.btn.btn-outline-primary {
+    background: rgba(22, 69, 103, 0.80);
+}
+
 #Table_CL {
     background: white;
 }

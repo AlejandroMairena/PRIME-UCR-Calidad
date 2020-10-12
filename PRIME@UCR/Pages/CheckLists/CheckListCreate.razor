@@ -1,0 +1,82 @@
+﻿@page "/checklist/create"
+@using PRIME_UCR.Components.Controls
+@inherits CheckListCreateBase
+@* @layout CheckListLayout *@
+@* @attribute [Authorize(Roles = "coordinador tecnico medico")] *@
+@* @attribute [Authorize(Policy = "check-list")] *@
+@attribute [Authorize]
+
+<h1>Plantillas de listas de chequeo</h1>
+<hr />
+<div class="row">
+    <div class="col-lg-3 mb-4">
+        <h6>Listas de chequeo Exixtentes</h6> @* Mejorar diseño de interfaz*@
+        <div>
+            <ul class="ml-4" type="square"> @*ver lisatas de chequeo ya creadas*@
+                @if (lists != null && lists.Count() > 0)
+                {
+                    @foreach (var tempList in lists)
+                    {
+                        <li class="mt-2">
+                            <NavLink href='@string.Format("checklist/{0}", @tempList.Id)'>
+                                @tempList.Nombre
+                            </NavLink>
+                        </li>
+
+                    }
+                }
+            </ul>
+        </div>
+    </div>
+    <div class="col">
+        <div class="container">
+            <h1>Crear plantilla de lista de chequeo</h1>
+            <br />
+            @* to do: <EditForm> Crear lista de Chequeo*@
+            <label for="name">Nombre:<span style=" color:red">*&nbsp;&nbsp;&nbsp;&nbsp;</span></label>
+            @*<InputText id="name" @bind-Value="checkList.Nombre" style="width: 220px; height : 25px" />
+        <ValidationMessage For="@(() => checkList.Nombre)" />*@
+            <br />
+            <label for="description">Descripción: </label>
+            @*<InputTextArea id="description" @bind-Value="checkList.Descripcion" style="width: 220px; height : 50px" />*@
+            <br />
+            <label for="type">Tipo:<span style=" color:red">*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></label>
+            @*<InputSelect id="type" @bind-Value="checkList.Tipo" style="width: 220px; height : 25px">
+            <option value="" selected="selected" disabled>Seleccione el tipo</option>
+            <option value="Colocación equipo">Colocación equipo</option>
+            <option value="Retiro equipo">Retiro equipo</option>
+            <option value="Paciente en origen">Paciente en origen</option>
+            <option value="Paciente en destino">Paciente en destino</option>
+            <option value="Paciente en traslado">Paciente en traslado</option>
+        </InputSelect>*@
+            @*<ValidationMessage For="@(() => checkList.Tipo)" />*@
+            <br />
+            <label for="order">Orden:<span style=" color:red">*</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+            @*<InputNumber id="order" @bind-Value="checkList.Orden" style="width: 220px; height : 25px" />*@
+            <p style="color:red">* Campo requerido</p>
+            @**</EditForm>*@
+            <a class="btn btn-outline-primary" href='@string.Format("checklist")'>Guardar</a> @*to do: ir a la recien creada*@
+            <a class="btn btn-outline-secondary" href='@string.Format("checklist")'>Cancelar</a> @*to do: ir a la anterior*@
+        </div>
+        <br />
+    </div>
+</div>
+
+@code {
+
+}
+@* info de incidentes <EditForm Model="_model" OnValidSubmit="@Create">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <Loading IsLoading="_modes == null">
+            <div class="form-group">
+                <DropDownMenu Label="Modalidad" Data="_modes" @bind-Value="_model.Mode" TextProperty="Tipo" />
+            </div>
+            <DateTimePicker @bind-Date="@_model.EstimatedDateOfTransfer"
+                            DateLabel="Fecha estimada de traslado" TimeLabel="Hora estimada de traslado" />
+            <div class="text-center">
+                <a class="btn btn-outline-secondary" href="">Cancelar</a>
+                <button type="submit" class="btn btn-primary">Crear</button>
+            </div>
+        </Loading>
+    </EditForm>*@

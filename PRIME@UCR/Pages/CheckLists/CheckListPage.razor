@@ -6,6 +6,7 @@
 @attribute [Authorize]
 
 <h1> Plantillas de listas de chequeo </h1>
+<hr />
 <div>
     @if (lists == null)
     {
@@ -37,5 +38,7 @@
                 </tbody>
             </table>
         }
+        <a class="btn btn-outline-primary" href='@string.Format("checklist/create")' id="a_LC1">+</a>
     }
 </div>
+<br />

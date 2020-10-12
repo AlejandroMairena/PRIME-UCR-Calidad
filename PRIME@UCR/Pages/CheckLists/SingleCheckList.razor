@@ -3,25 +3,49 @@
 @* @layout CheckListLayout *@
 @attribute [Authorize]
 
-<h3 align="center"> Listas de Chequeo</h3>
-
+<h1 >Plantillas de listas de chequeo</h1>
+<hr />
 @if (list == null)
 {
     <p><em>Cargando lista de chequeo.</em></p>
 }
 else
 {
-    <p>
-        <b>Nombre: </b> @list.Nombre
-        <span style="color:dimgray">&emsp;&emsp;Tipo: </span> @list.Tipo
-        <span style="color:dimgray">&emsp;&emsp;Id: </span> @list.Id
-        @if (@list.NombreImagen != null) {
-            <p>@list.NombreImagen</p>
-            @*<img src="@ImagePath" />*@
-        }
-    </p>
-    <p><span style="color:dimgray">Descripcion: </span> @list.Descripcion</p>
-    
+    <div class="row">
+        <div class="col-lg-3 mb-4">
+            <h6>Listas de chequeo Exixtentes</h6> @* Mejorar diseño de interfaz*@
+            <div>
+                <ul class="ml-4" type="square">   @*ver lisatas de chequeo ya creadas*@
+                    @if (lists != null && lists.Count() > 0)
+                    {
+                        @foreach (var tempList in lists)
+                        {
+                            <li class="mt-2">
+                                <NavLink href='@string.Format("checklist/{0}", @tempList.Id)'>
+                                    @tempList.Nombre
+                                </NavLink>
+                            </li>
+
+                        }
+                    }
+                </ul>
+            </div>
+        </div>
+        <div class="col">
+            <p>
+                <b>Nombre: </b> @list.Nombre
+                <span style="color:dimgray">&emsp;&emsp;Tipo: </span> @list.Tipo
+                <span style="color:dimgray">&emsp;&emsp;Id: </span> @list.Id
+                @if (@list.NombreImagen != null)
+                {
+                <p>@list.NombreImagen</p>
+                @*<img src="@ImagePath" />*@
+            }
+                </p>
+                <p><span style="color:dimgray">Descripcion: </span> @list.Descripcion</p>
+            </div>
+    </div>
+    <br />
 }
 
 <LoadImageComponent @bind-list="@list"/>

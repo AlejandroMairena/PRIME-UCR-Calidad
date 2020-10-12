@@ -7,7 +7,7 @@
     </li>
 </ul>
 </div>
-
+@*
 <div>
     <ul class="ml-4"  type="square" >
         @if (lists != null && lists.Count() > 0)
@@ -24,7 +24,7 @@
         }
     </ul>
 </div>
-
+*@
     <CascadingValue Value="@lists" Name="lists">
         <CascadingValue Value="@IsModalOpened" Name="IsModalOpened">
             <CreateChecklistPopup OnlistsChange="Changelists" OnIsModalOpenedChange="ChangeIsModalOpened" />
