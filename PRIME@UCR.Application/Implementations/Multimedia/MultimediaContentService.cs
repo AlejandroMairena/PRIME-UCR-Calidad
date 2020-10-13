@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using PRIME_UCR.Application.Repositories.Multimedia;
 using PRIME_UCR.Application.Services.Multimedia;
+using System.Linq;
 
 namespace PRIME_UCR.Application.Implementations.Multimedia
 {
@@ -17,6 +18,7 @@ namespace PRIME_UCR.Application.Implementations.Multimedia
 
         public MultimediaContentService(IMultimediaContentRepository repository ) {
             this.repository = repository;
+            
         }
 
         public async Task AddFileAsync(MultimediaContent mcontent) {
@@ -36,11 +38,15 @@ namespace PRIME_UCR.Application.Implementations.Multimedia
             return multimedia_content; 
         }
 
-
-        /*    
-        public async Task UploadAsync(IFileListEntry file) { 
-        
+        public async Task<MultimediaContent> GetByID(int id)
+        {
+            return await repository.GetByKeyAsync(id);
         }
-        */      
+
+        public async Task<List<MultimediaContent>> GetByActionID(int actionID)
+        {
+            return (await repository.GetByConditionAsync(mc => mc.ID_accion == actionID)).ToList();
+        }
+
     }
 }

@@ -57,7 +57,7 @@
             {
                 <p style="color: red">Archivo invalido</p>
             }
-            @if (multimediaContent.Count > 0)
+            @if (multimediaContent != null && multimediaContent.Count > 0)
             {
              
                 // Notificacion de cantidad de archivos adjuntos
@@ -102,7 +102,7 @@
     </div>
 </div>
 @* File Counter Appendix*@
-@if (!open && multimediaContent.Count > 0)
+@if (!open && multimediaContent != null && multimediaContent.Count > 0)
 {
     <div class="counter-append">
         @multimediaContent.Count
@@ -113,17 +113,24 @@
 
     [Parameter]
     public RenderFragment ChildContent { get; set; }
-
+    [Parameter]
+    public int ActionID { get; set; }
     public List<MultimediaContent> multimediaContent;
     public List<string> validTypeFiles;
 
     protected override void OnInitialized()
     {
-        multimediaContent = new List<MultimediaContent>();
+        ActionID = 100;
         // Valid file types
         //.pdf, .doc, .docx, .xls, .txt, .mp3, .jpg, .png, .mp4, .wmv, .avi
         validTypeFiles = new List<string>() { "pdf", "doc", "docx", "xls", "txt", "mp3", "jpg", "png", "mp4", "wmv", "avi" };
     }
+
+    protected override async Task OnInitializedAsync()
+    {
+        multimediaContent = await multimedia_content_service.GetByActionID(ActionID);
+    }
+
 
     // Logica para abrir y cerrar el dropdown
     bool open = false;
@@ -164,7 +171,7 @@
             Descripcion = "prueba",
             Fecha_Hora = DateTime.Now,
             Tipo = selected_file.Type,
-            ID_accion = "1"
+            ID_accion = ActionID
         };
         multimedia_content_service.AddFileAsync(mcontent);
         file_service.StoreFile(selected_file.Name, selected_file.Data);
@@ -181,7 +188,7 @@
         foreach (string validType in validTypeFiles)
             if (type.Contains(validType)) return true;
 
-        return false; 
+        return false;
     }
 
 }

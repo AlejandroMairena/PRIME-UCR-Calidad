@@ -75,10 +75,6 @@ padding-left: 20px;
 padding-right: 20px;
 
 }
-.btn-danger {
-    background-color: #494949;
-    border-color: #494949;
-}
 .data_btn:hover {
     border-color: #fbc51a;
 }
@@ -86,7 +82,7 @@ padding-right: 20px;
     border: 10px;
 }
 .btn-secondary {
-    background-color: #494949;
+    background-color: #095290;
 }
     .btn-secondary:hover {
         background-color: #00c0f3;
