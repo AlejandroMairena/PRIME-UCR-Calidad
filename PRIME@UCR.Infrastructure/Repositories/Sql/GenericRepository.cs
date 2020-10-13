@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using PRIME_UCR.Application.Repositories;
 using PRIME_UCR.Infrastructure.DataProviders;
 using System;

@@ -1,0 +1,41 @@
+#MH_LC {
+    background: rgba(49, 169, 255, 0.80);
+    color: white;
+}
+
+#MB_LC {
+    background: rgba(229, 229, 229, 0.81);
+    padding-left: 16px;
+    padding-right: 16px;
+}
+
+#MC_LC {
+    align-content: flex-start;
+    padding-left: 16px;
+    padding-right: 16px;
+}
+
+button#BP_A_LC0.btn.btn-primary {
+    background: rgba(49, 169, 255, 0.80);
+}
+
+button#BP_LC0.btn.btn-primary {
+    background: rgba(49, 169, 255, 0.80);
+}
+
+button:disabled#BP_LC0.btn.btn-primary {
+    background: rgba(22, 69, 103, 0.80);
+}
+
+#Table_CL {
+    background: white;
+}
+
+.createLC > p {
+}
+/*
+        <link href="css/Checklist.css" rel="stylesheet" />
+    <div class="createLC">
+    <br />
+
+*/

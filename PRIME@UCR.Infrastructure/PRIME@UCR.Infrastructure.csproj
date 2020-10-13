@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
     <RootNamespace>PRIME_UCR.Infrastructure</RootNamespace>
+    <UserSecretsId>539038a1-5d3f-4f0a-94c1-5b4b15e2c02a</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,6 +14,10 @@
   <ItemGroup>
     <ProjectReference Include="..\PRIME@UCR.Application\PRIME@UCR.Application.csproj" />
     <ProjectReference Include="..\PRIME@UCR.Domain\PRIME@UCR.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="DataProviders\Implementations\EntityConfiguration\" />
   </ItemGroup>
 
 </Project>
