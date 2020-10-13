@@ -1,22 +1,8 @@
 ﻿@using PRIME_UCR.Components.Controls
+@using  PRIME_UCR.Domain.Models.UserAdministration
 
 <Loading IsLoading="ListProfiles == null">
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">Nombre del perfil</th>
 
-            </tr>
-        </thead>
-        <tbody>
+    <DropDownMenu Label="Perfiles" Data="ListProfiles" Value="selectedProfile" ValueChanged="@((Perfil perfil) => updateOtherTables(perfil))" TextProperty="NombrePerfil" />
 
-            @foreach (var profile in ListProfiles)
-            {
-                <tr>
-                    <th scope="row">@profile.NombrePerfil</th>
-                </tr>
-            }
-
-        </tbody>
-    </table>
 </Loading>

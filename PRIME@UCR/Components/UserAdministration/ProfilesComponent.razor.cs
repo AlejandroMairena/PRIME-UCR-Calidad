@@ -15,9 +15,22 @@ namespace PRIME_UCR.Components.UserAdministration
 
         public List<Perfil> ListProfiles { get; set; }
 
+        public Perfil selectedProfile { get; set; }
+
         protected override async Task OnInitializedAsync()
         {
             ListProfiles = (await profilesService.GetPerfiles()).ToList();
         }
+
+        private async Task updateOtherTables(Perfil newPerfil) 
+        {
+            selectedProfile = newPerfil;
+            if (newPerfil != null)
+            {
+                //actualizar las tablas
+            }
+            Console.WriteLine(newPerfil.NombrePerfil);            
+        }
+
     }
 }

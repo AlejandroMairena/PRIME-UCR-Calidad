@@ -2,20 +2,16 @@
 @using PRIME_UCR.Components.UserAdministration
 
 @attribute [Authorize]
+<link href="css/Profiles.css" rel="stylesheet" />
 
-<div class="btn-group">
-    <button class="btn btn-secondary btn-lg dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Lista de perfiles
-    </button>
-    <div class="dropdown-menu">
-
-
-        <a class="dropdown-item" href="#">Perfil 1</a>
-        <a class="dropdown-item" href="#">Perfil 2</a>
-        <a class="dropdown-item" href="#">Perfil 3</a>
+<ProfilesComponent/>
+<div class="row">
+    <div class="column">
+        <label>Usuarios</label>
+        <UsersComponent />
+    </div>
+    <div class="column">
+        <label>Permisos</label>
+        <PermissionsComponent />
     </div>
 </div>
-
-<UsersComponent />
-<PermissionsComponent/>
-<ProfilesComponent/>
