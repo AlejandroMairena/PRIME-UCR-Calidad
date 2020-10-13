@@ -13,22 +13,26 @@ else
 {
     <div class="row">
         <div class="col-lg-3 mb-4">
-            <h6>Listas de chequeo Existentes</h6> @* Mejorar diseño de interfaz*@
-            <div>
-                <ul class="ml-4" type="square">   @*ver lisatas de chequeo ya creadas*@
-                    @if (lists != null && lists.Count() > 0)
-                    {
-                        @foreach (var tempList in lists)
+            <div class="container">
+                <h6>Listas de chequeo Existentes</h6> @* Mejorar diseño de interfaz*@
+                <div>
+                    <ul class="ml-4" type="square">
+                        @*ver lisatas de chequeo ya creadas*@
+                        @if (lists != null && lists.Count() > 0)
                         {
-                            <li class="mt-2">
-                                <NavLink href='@string.Format("checklist/{0}", @tempList.Id)'>
-                                    @tempList.Nombre
-                                </NavLink>
-                            </li>
+                            @foreach (var tempList in lists)
+                            {
+                                <li class="mt-2">
+                                    <NavLink href='@string.Format("checklist/{0}", @tempList.Id)'>
+                                        @tempList.Nombre
+                                    </NavLink>
+                                </li>
 
+                            }
                         }
-                    }
-                </ul>
+                    </ul>
+                </div>
+                <a class="btn btn-outline-primary" href='@string.Format("checklist/create")' id="a_LC2">+</a>
             </div>
         </div>
         <div class="col">
@@ -36,7 +40,7 @@ else
                 <div class="input-group row">
                     <label for="checklistName" class="col-sm-2 col-form-label"><b>Nombre:</b></label>
                     <div class="col-sm-10">
-                        <input class="form-control-plaintext" type="text" id="checklistName" name="checklistName" @bind-value="list.Nombre" @onfocusout="Update"/>
+                        <input class="form-control-plaintext" type="text" id="checklistName" name="checklistName" @bind-value="list.Nombre" @onfocusout="Update" />
                     </div>
                 </div>
                 <div class="input-group row">
@@ -52,7 +56,7 @@ else
                     </div>
                     <label for="checklistOrder" class="col-sm-1 col-form-label"><span style="color:dimgray">Orden: </span></label>
                     <div class="col-sm-2">
-                        <input class="form-control-plaintext" type="number" id="checklistOrder" name="checklistOrder" @bind-value="list.Orden" @onfocusout="Update"/>
+                        <input class="form-control-plaintext" type="number" id="checklistOrder" name="checklistOrder" @bind-value="list.Orden" @onfocusout="Update" />
                     </div>
                     <label for="checklistId" class="col-sm-1 col-form-label"><span style="color:dimgray">Id: </span></label>
                     <span class="col-sm-3">
@@ -68,12 +72,11 @@ else
                 <div class="input-group row">
                     <label for="checklistDescription" class="col-sm-2 col-form-label"><span style="color:dimgray">Descripción: </span></label>
                     <div class="col-sm-10">
-                        <textarea class="form-control-plaintext" type="text" id="checklistDescription" name="checklistDescription" rows="2" @bind="list.Descripcion" @onfocusout="Update"/>
+                        <textarea class="form-control-plaintext" type="text" id="checklistDescription" name="checklistDescription" rows="2" @bind="list.Descripcion" @onfocusout="Update" />
                     </div>
                 </div>
+                <LoadImageComponent @bind-list="@list" />
             </div>
     </div>
     <br />
 }
-
-<LoadImageComponent @bind-list="@list"/>
