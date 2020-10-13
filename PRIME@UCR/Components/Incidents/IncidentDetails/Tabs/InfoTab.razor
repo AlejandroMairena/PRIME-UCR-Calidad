@@ -5,16 +5,21 @@
     <StatusMessage Message="Hay valores pendientes para finalizar la creación del incidente." Class="warning"/>
 }
 <ul class="list-group">
-    <ListItem Title="Id" Text="@DetailsModel.Code"/>
-    <ListItem Title="Estado" Text="@DetailsModel.CurrentState"/>
-    <ListItem Title="Modalidad" Text="@DetailsModel.Mode"/>
+    <ListItem Title="Identificación" Text="@DetailsModel.Code" />
+    <ListItem Title="Estado" Text="@DetailsModel.CurrentState" />
+    <ListItem Title="Modalidad" Text="@DetailsModel.Mode" />
     <ListItem Title="Fecha estimada del traslado"
               Text="@($"{DetailsModel.EstimatedDateOfTransfer.ToShortDateString()} - {DetailsModel.EstimatedDateOfTransfer.ToShortTimeString()}")" />
     <ListItem Title="Fecha de registro"
               Text="@($"{DetailsModel.RegistrationDate.ToShortDateString()} - {DetailsModel.RegistrationDate.ToShortTimeString()}")" />
+    <ListItem Title="Registrado por"
+              Text="@register" />
 </ul>
 
 @code {
     [Parameter]
     public IncidentDetailsModel DetailsModel { get; set; }
+
+    /*Hardcoded for visual testing. Story: PIG01IIC20-425, Subtask: PIG01IIC20-463*/
+    private String register = "Roberto";
 }

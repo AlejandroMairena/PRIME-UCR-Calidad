@@ -28,7 +28,7 @@ namespace PRIME_UCR.Domain.Models
         // public int? CodigoCita { get; set; }
         // public int? IdEspecialista { get; set; }
         //public Especialista Especialista {get; set;}
-        // public int? CedulaAdmin { set; get; }
+        public int? CedulaAdmin { set; get; }
         //public Administrador Administrador {get; set;}
         // public int? CedulaTecnicoCoordinador { get; set; }
         //public TecnicoCoordinador TecnicoCordinador {get; set;}

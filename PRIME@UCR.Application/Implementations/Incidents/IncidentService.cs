@@ -48,7 +48,8 @@ namespace PRIME_UCR.Application.Implementations.Incidents
                 Codigo = Guid.NewGuid().ToString(),
                 FechaHoraRegistro = DateTime.Now,
                 FechaHoraEstimada = model.EstimatedDateOfTransfer,
-                TipoModalidad = model.Mode.Tipo
+                TipoModalidad = model.Mode.Tipo,
+                CedulaAdmin = 117078207         //Hardcoded for testing the database. Story:PIG01IIC20-425, Subtask: PIG01IIC20-462 
             };
             
             var state = new EstadoIncidente
