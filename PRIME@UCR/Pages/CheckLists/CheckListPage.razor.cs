@@ -12,9 +12,17 @@ namespace PRIME_UCR.Pages.CheckLists
 {
     public class CheckListPageBase : ComponentBase
     {
-        [CascadingParameter(Name = "lists")]
         protected IEnumerable<CheckList> lists { get; set; }
 
         [Inject] protected ICheckListService MyService { get; set; }
+        protected override async Task OnInitializedAsync()
+        {
+            await RefreshModels();
+        }
+
+        protected async Task RefreshModels()
+        {
+            lists = await MyService.GetAll();
+        }
     }
 }

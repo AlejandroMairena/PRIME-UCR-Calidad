@@ -42,5 +42,10 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
             await _repo.UpdateAsync(list);
             return list;
         }
+        public async Task<CheckList> UpdateCheckList(CheckList list)
+        {
+            await _repo.UpdateAsync(list);
+            return list;
+        }
     }
 }

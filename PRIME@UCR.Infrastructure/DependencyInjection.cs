@@ -36,6 +36,8 @@ namespace PRIME_UCR.Infrastructure
             // multimedia
             services.AddTransient<IMultimediaContentRepository, MultimediaContentRepository>();
             services.AddTransient<IFileService, FileService>();
+            // temporary file service with no encryption
+            services.AddTransient<ITempFileServiceNoEncryption, TempFileServiceNoEncryption>();
             return services;
         }
     }

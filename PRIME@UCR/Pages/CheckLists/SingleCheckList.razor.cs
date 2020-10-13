@@ -14,7 +14,8 @@ namespace PRIME_UCR.Pages.CheckLists
         [Parameter]
         public int id { get; set; }
 
-        [CascadingParameter(Name = "lists")]
+        private bool isDisabled { get; set; } = true;
+
         protected IEnumerable<CheckList> lists { get; set; }
 
         public CheckList list { get; set; }
@@ -29,10 +30,16 @@ namespace PRIME_UCR.Pages.CheckLists
         protected async Task RefreshModels()
         {
             list = await MyService.GetById(id);
+            lists = await MyService.GetAll();
         }
 
         protected override async Task OnParametersSetAsync()
         {
+            await RefreshModels();
+        }
+        protected async Task Update()
+        {
+            await MyService.UpdateCheckList(list);
             await RefreshModels();
         }
     }
