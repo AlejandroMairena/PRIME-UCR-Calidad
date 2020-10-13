@@ -3,7 +3,9 @@
 <Loading IsLoading="ListPermissions == null">
     <table class="table">
         <thead>
+
             <tr>
+                <th scope="col"></th>
                 <th scope="col">Número permiso</th>
                 <th scope="col">Descripción de permiso</th>
 
@@ -13,10 +15,16 @@
 
             @foreach(var permission in ListPermissions) 
             {
-                <tr>
-                    <th scope="row">@permission.IDPermiso</th>
-                    <td>@permission.DescripciónPermiso</td>
-                </tr>
+            <tr>
+                <td>
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="customCheck @permission.IDPermiso" checked>
+                        <label class="custom-control-label" for="customCheck @permission.IDPermiso"></label>
+                    </div>
+                </td>
+                <th scope="row">@permission.IDPermiso</th>
+                <td>@permission.DescripciónPermiso</td>
+            </tr>
             }
         
         </tbody>
