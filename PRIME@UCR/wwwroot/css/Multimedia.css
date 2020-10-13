@@ -50,6 +50,10 @@
     background-color: #00c0f3;
     border-color: #00c0f3;
 }
+/*
+    Cambiar color del contador de archivos adjuntados para 
+    el boton de contenido multimedia para adjustarse al prototipo validado por el P.O
+*/
 
 .counter-append {
     background-color: #fbc51a;
