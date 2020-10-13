@@ -17,19 +17,25 @@
                       ValueChanged="@((Distrito d) => OnChangeDistrict(d))"/>
         <div class="form-group">
             <label>Dirección exacta</label>
-            <input type="text" class="form-control" value="@Value.Address" @oninput="@(async args => { Value.Address = (string) args.Value; await Callback(); })"/>
+            <InputText Value="@Value.Address"  
+                       ValueExpression ="() => Value.Address"
+                       @oninput="@(async args => { Value.Address = (string) args.Value; await Callback(); })"class="form-control"/>
         </div>
         <div class="form-row">
             <div class="col">
                 <div class="form-group">
                     <label>Longitud</label>
-                    <input type="number" value="@Value.Longitude" @oninput="@(async (args) => { Value.Longitude = Double.Parse((string) args.Value); await Callback(); })" class="form-control"/>
+                    <InputNumber Value="@Value.Longitude" 
+                                 ValueExpression="() => Value.Longitude"
+                                 @oninput="@(async (args) => { Value.Longitude = Double.Parse((string) args.Value); await Callback(); })"class="form-control"/>
                 </div>
             </div>
             <div class="col">
                 <div class="form-group">
                     <label>Latitud</label>
-                    <input type="number" value="@Value.Latitude" @oninput="@(async (args) => { Value.Latitude = Double.Parse((string) args.Value); await Callback(); })" class="form-control"/>
+                    <InputNumber Value="@Value.Latitude" 
+                                 ValueExpression=" () => Value.Latitude"
+                                 @oninput="@(async (args) => { Value.Latitude = Double.Parse((string) args.Value); await Callback(); })"class="form-control"/>
                 </div>
             </div>
         </div>

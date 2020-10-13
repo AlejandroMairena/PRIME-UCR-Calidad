@@ -1,0 +1,9 @@
+﻿@inherits InputBase<string>
+
+<div class="form-group">
+    <label>@Label</label>
+    <input class="@($"form-class {ValidationCssClass}")"
+           value="@Value"
+           @onchange="OnChangeEvent"/>
+            
+</div>

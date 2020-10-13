@@ -27,6 +27,16 @@ namespace PRIME_UCR.Validators.Incidents
             RuleFor(h => h.District)
                 .NotEmpty()
                 .WithMessage("Debe escoger un distrito.");
+
+            RuleFor(h => h.Longitude)
+                .NotEmpty()
+                .WithMessage("Debe digitar la longitud.");
+
+            RuleFor(h => h.Latitude)
+                .NotEmpty()
+                .WithMessage("Debe digitar la latidud.");
+
+
         }
     }
 }
