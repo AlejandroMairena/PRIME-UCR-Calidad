@@ -7,7 +7,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PRIME_UCR.Infrastructure.Repositories.Sql
+namespace PRIME_UCR.Infrastructure.Repositories.Sql.CheckList
 {
     class SqlCheckListRepository : GenericRepository<CheckList, int>, ICheckListRepository
     {

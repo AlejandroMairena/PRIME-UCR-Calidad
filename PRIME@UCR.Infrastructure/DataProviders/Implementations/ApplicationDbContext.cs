@@ -16,6 +16,7 @@ namespace PRIME_UCR.Infrastructure.DataProviders.Implementations
     {
         public IDbConnection DbConnection { get; set; }
         public DbSet<CheckList> CheckList { get; set; }
+        public DbSet<Item> Item { get; set; }
         public DbSet<Provincia> Provinces { get; set; }
         public DbSet<Pais> Countries { get; set; }
         public DbSet<Domicilio> HouseholdLocations { get; set; }

@@ -13,6 +13,7 @@ namespace PRIME_UCR.Infrastructure.DataProviders
 
         // dbsets
         DbSet<CheckList> CheckList { get; set; }
+        DbSet<CheckList> Item { get; set; }
         DbSet<Pais> Countries { get; set; }
         DbSet<Provincia> Provinces { get; set; }
         DbSet<Canton> Cantons { get; set; }
