@@ -23,17 +23,10 @@ namespace PRIME_UCR.Application.Implementations.Multimedia
 
         public async Task AddFileAsync(MultimediaContent mcontent) {
 
-            //abrir aqui el archivo que se desea adjuntar. 
-            //string path = "c:/ Temp / MM / "; //esto es un ejemplo
             await repository.InsertAsync(mcontent);
-
-            //return FillMultimediaContent(path); 
         }
 
         public MultimediaContent FillMultimediaContent(string patch) {
-
-            //aqui se llenarian los datos antes de guardarlo a la db. 
-
             MultimediaContent multimedia_content = new MultimediaContent();
             return multimedia_content; 
         }

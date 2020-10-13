@@ -35,9 +35,12 @@
                     <BlazorInputFile.InputFile OnChange="HandleFileSelected"></BlazorInputFile.InputFile> @* Componente BlazorInputFile *@
                 </div>
                 @* Loading Wheel *@
-                <div class="col">
-
-                </div>
+            <div class="col">
+                @if (uploading)
+                {
+                    <div class="mc-loader"></div>
+                }
+            </div>
                 @* Camera Logo *@
                 <div class="col">
                     <img class="data_btn" src="img/ico-foto-blanco.jpeg" />
@@ -118,12 +121,15 @@
     public List<MultimediaContent> multimediaContent;
     public List<string> validTypeFiles;
 
+    /* Loading Wheel*/
+    bool uploading = false;
+
     protected override void OnInitialized()
     {
-        ActionID = 100;
+        ActionID = 200;
         // Valid file types
         //.pdf, .doc, .docx, .xls, .txt, .mp3, .jpg, .png, .mp4, .wmv, .avi
-        validTypeFiles = new List<string>() { "pdf", "doc", "docx", "xls", "txt", "mp3", "jpg", "png", "mp4", "wmv", "avi" };
+        validTypeFiles = new List<string>() { "pdf", "doc", "docx", "xls", "txt", "mp3", "jpg", "jpeg", "png", "mp4", "wmv", "avi", "rar" };
     }
 
     protected override async Task OnInitializedAsync()
@@ -173,22 +179,36 @@
             Tipo = selected_file.Type,
             ID_accion = ActionID
         };
-        multimedia_content_service.AddFileAsync(mcontent);
-        file_service.StoreFile(selected_file.Name, selected_file.Data);
+        FileServices(mcontent);
         //encrypt_service.EncryptFile(file_service.FilePath,file.Name);
+    }
+
+    async void FileServices(MultimediaContent mcontent)
+    {
+        uploading = true;
+
+        Task addFileTask = multimedia_content_service.AddFileAsync(mcontent);
+        Task storeFileTask = file_service.StoreFile(selected_file.Name, selected_file.Data);
+
+        while (!addFileTask.IsCompleted && !storeFileTask.IsCompleted)
+            continue;
+
+        uploading = false;
         multimediaContent.Add(mcontent);
     }
 
+
     bool ValidateFile(IFileListEntry file, List<string> validFileTypes)
     {
-        if (file == null) return false;
+        //if (file == null) return false;
 
-        string type = file.Type;
+        //string type = file.Type;
 
-        foreach (string validType in validTypeFiles)
-            if (type.Contains(validType)) return true;
+        //foreach (string validType in validTypeFiles)
+        //    if (type.Contains(validType)) return true;
 
-        return false;
+        //return false;
+        return true;
     }
 
 }
