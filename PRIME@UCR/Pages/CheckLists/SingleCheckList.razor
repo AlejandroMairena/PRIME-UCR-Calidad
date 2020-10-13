@@ -2,6 +2,7 @@
 @inherits SingleCheckListBase
 @* @layout CheckListLayout *@
 @attribute [Authorize]
+<link href="css/Checklist.css" rel="stylesheet" />
 
 <h1 >Plantillas de listas de chequeo</h1>
 <hr />
@@ -63,13 +64,15 @@ else
                         <input class="form-control-plaintext" type="number" id="checklistId" name="checklistId" disabled="disabled" @bind-value="@list.Id" />
                     </span>
                 </div>
-                @if (@list.NombreImagen != null)
-                {
-                    <img src="@list.NombreImagen" width="50" height="50" />
-                }
-                @* User Story PIG01IIC20-267 LG - Agregar imagen descriptiva a lista de chequeo
-                Calls a component to upload images into the checklist*@
+                @*
+        @if (@list.NombreImagen != null)
+        {
+            <img src="@list.NombreImagen" width="50" height="50" />
+        }
+         User Story PIG01IIC20-267 LG - Agregar imagen descriptiva a lista de chequeo
+        Calls a component to upload images into the checklist
                 <LoadImageComponent @bind-list="@list" />
+                *@
             </p>
                 <div class="input-group row">
                     <label for="checklistDescription" class="col-sm-2 col-form-label"><span style="color:dimgray">Descripción: </span></label>

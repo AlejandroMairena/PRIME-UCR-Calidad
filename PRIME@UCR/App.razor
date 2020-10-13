@@ -1,7 +1,5 @@
 ﻿@using PRIME_UCR.Application.Services.CheckLists
 <CascadingAuthenticationState>
-    <CascadingValue Value="@Lists" Name="lists">
-    <CascadingValue Value="@Changelists" Name="Changelists" TValue="Action<IEnumerable<CheckList>>">
         <Router AppAssembly="@typeof(Program).Assembly">
             <Found Context="routeData">
                 <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
@@ -12,18 +10,7 @@
                 </LayoutView>
             </NotFound>
         </Router>
-    </CascadingValue>
-    </CascadingValue>
 </CascadingAuthenticationState>
 
 @code {
-
-    public IEnumerable<CheckList> Lists { get; set; }
-    
-    private void Changelists(IEnumerable<CheckList> newlists)
-    {
-        Lists = newlists;
-        StateHasChanged();
-    }
-
 }
