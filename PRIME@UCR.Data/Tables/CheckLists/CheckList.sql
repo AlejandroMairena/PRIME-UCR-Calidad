@@ -4,5 +4,6 @@
 	[Tipo]			NVARCHAR (20)		NOT NULL,
 	[Descripcion]	NVARCHAR (100)		NULL,
 	[Orden]			INT					NOT NULL,
+	[NombreImagen]	NVARCHAR (500)		DEFAULT 'defaultCheckList.png',
 	PRIMARY KEY CLUSTERED ([Id] ASC)
 )

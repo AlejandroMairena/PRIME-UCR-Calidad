@@ -11,5 +11,6 @@ namespace PRIME_UCR.Application.Services.CheckLists
         Task<IEnumerable<CheckList>> GetAll();
         Task<CheckList> InsertCheckList(CheckList list);
         Task<CheckList> GetById(int id);
+        Task<CheckList> SaveImage(string imageName, CheckList list);
     }
 }

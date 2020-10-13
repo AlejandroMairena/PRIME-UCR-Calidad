@@ -14,11 +14,11 @@
                         <p align="center">
                             <br />
                             <label for="name">Nombre:<span style=" color:red">*&nbsp;&nbsp;&nbsp;&nbsp;</span></label>
-                            <InputText id="name" @bind-Value="checkList.Nombre" style="width: 226px; height : 25px" />
+                            <InputText id="name" @bind-Value="checkList.Nombre" style="width: 220px; height : 25px" />
                             <ValidationMessage For="@(() => checkList.Nombre)" />
                             <br />
                             <label for="description">Descripción: </label>
-                            <InputTextArea id="description" @bind-Value="checkList.Descripcion" style="width: 224px; height : 50px" />
+                            <InputTextArea id="description" @bind-Value="checkList.Descripcion" style="width: 220px; height : 50px" />
                             <br />
                             <label for="type">Tipo:<span style=" color:red">*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></label>
                             <InputSelect id="type" @bind-Value="checkList.Tipo" style="width: 220px; height : 25px">
@@ -31,7 +31,7 @@
                             </InputSelect>
                             <ValidationMessage For="@(() => checkList.Tipo)" />
                             <br />
-                            <label for="order">Orden: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                            <label for="order">Orden:<span style=" color:red">*</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
                             <InputNumber id="order" @bind-Value="checkList.Orden" style="width: 220px; height : 25px" />
                         </p>
                     </div>
