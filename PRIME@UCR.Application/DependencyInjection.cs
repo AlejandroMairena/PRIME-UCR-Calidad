@@ -10,6 +10,7 @@ using PRIME_UCR.Application.Implementations.Multimedia;
 using PRIME_UCR.Application.Implementations.UserAdministration;
 using PRIME_UCR.Application.Services.UserAdministration;
 
+
 namespace PRIME_UCR.Application
 {
     public static class DependencyInjection
@@ -18,6 +19,7 @@ namespace PRIME_UCR.Application
         {
             // services
             services.AddTransient<IPermissionsService, PermissionsService>();
+            services.AddTransient<IUserService, UsersService>();
             services.AddTransient<ICheckListService, CheckListService>();
             services.AddTransient<IIncidentService, IncidentService>();
             services.AddTransient<ILocationService, LocationService>();

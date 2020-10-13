@@ -1,0 +1,26 @@
+﻿@using PRIME_UCR.Components.Controls
+
+<Loading IsLoading="ListUsers == null">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Identificador de usuario</th>
+                <th scope="col">Nombre de usuario</th>
+                <th scope="col">Número de cédula</th>
+
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var user in ListUsers)
+            {
+            <tr>
+                <th scope="row">@user.Id</th>
+                <td>@user.UserName</td>
+                <td>@user.CedPersona</td>
+            </tr>
+            }
+
+        </tbody>
+    </table>
+</Loading>
