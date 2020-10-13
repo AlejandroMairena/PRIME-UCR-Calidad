@@ -13,8 +13,11 @@ namespace PRIME_UCR.Application.Services.Multimedia
     public interface IMultimediaContentService {
 
         Task AddFileAsync(MultimediaContent mcontent);
+        Task<MultimediaContent> GetByID(int id);
 
-        /*
+        Task<List<MultimediaContent>> GetByActionID(int actionID);
+
+        /*4
         Task UploadAsync(IFileListEntry file); 
 
         */
