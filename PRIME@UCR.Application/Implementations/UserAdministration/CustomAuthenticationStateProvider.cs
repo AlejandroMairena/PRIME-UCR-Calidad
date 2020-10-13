@@ -10,6 +10,7 @@ using PRIME_UCR.Application.DTOs.UserAdministration;
 using Microsoft.AspNetCore.Identity;
 using Blazored.SessionStorage;
 using PRIME_UCR.Application.Services.UserAdministration;
+using PRIME_UCR.Application.Repositories.UserAdministration;
 
 namespace PRIME_UCR.Application.Implementations.UserAdministration
 {
@@ -28,13 +29,16 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
 
         private readonly IPersonService PersonService;
 
-        public CustomAuthenticationStateProvider(SignInManager<Usuario> _signInManager, UserManager<Usuario> _userManager, ISessionStorageService _sessionStorageService, IPrimeAuthorizationService _primeAuthorizationService, IPersonService _personService)
+        private readonly IUserService UserService;
+
+        public CustomAuthenticationStateProvider(SignInManager<Usuario> _signInManager, UserManager<Usuario> _userManager, ISessionStorageService _sessionStorageService, IPrimeAuthorizationService _primeAuthorizationService, IPersonService _personService, IUserService _userService)
         {
             SignInManager = _signInManager;
             UserManager = _userManager;
             SessionStorageService = _sessionStorageService;
             PrimeAuthorizarionService = _primeAuthorizationService;
             PersonService = _personService;
+            UserService = _userService;
         }
 
         /*
@@ -112,7 +116,9 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
 
                 if (loginResult.Succeeded)
                 {
-                    userToCheck.Persona = await PersonService.getPersonByIdAsync(userToCheck.CedPersona);   
+                    //TODO: Check other tables for conflicts with persona
+                   // userToCheck = await UserService.getUsuarioWithDetails(userToCheck.Id);
+                   // userToCheck.Persona = await PersonService.getPersonByIdAsync(userToCheck.CedPersona);   
                     identity = GetClaimIdentity(userToCheck);
                 } else
                 {

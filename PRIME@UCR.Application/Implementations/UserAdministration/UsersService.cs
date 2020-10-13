@@ -21,5 +21,11 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
         {
             return await _usuarioRepository.GetAllAsync();
         }
+
+        public async Task<Usuario> getUsuarioWithDetails(string id)
+        {
+            return await _usuarioRepository.GetWithDetailsAsync(id);
+
+        }
     }
 }

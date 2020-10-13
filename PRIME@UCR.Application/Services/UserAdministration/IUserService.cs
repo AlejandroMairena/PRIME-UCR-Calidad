@@ -9,5 +9,7 @@ namespace PRIME_UCR.Application.Services.UserAdministration
     public interface IUserService
     {
         Task<IEnumerable<Usuario>>GetUsuarios() ;
+
+        Task<Usuario> getUsuarioWithDetails(string id);
     }
 }
