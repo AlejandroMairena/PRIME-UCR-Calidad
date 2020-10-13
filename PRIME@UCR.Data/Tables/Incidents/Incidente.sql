@@ -1,7 +1,6 @@
 ﻿CREATE TABLE [dbo].[Incidente]
 (
-    Id                       INT         IDENTITY(1, 1) ,
-    Codigo                   VARCHAR(50) NULL,
+    Codigo                   VARCHAR(50) NOT NULL DEFAULT('TEMP'),
     MatriculaTrans           VARCHAR(30) NULL,
     IdEspecialista           INT         NULL, --****
     CedulaAdmin              INT         NULL, --****
@@ -14,7 +13,7 @@
     -- TODO: remove when union class is implemented
     FechaHoraRegistro        DATETIME    NOT NULL,
     FechaHoraEstimada        DATETIME    NOT NULL,
-    PRIMARY KEY (Id),
+    PRIMARY KEY (Codigo),
     FOREIGN KEY (Modalidad) REFERENCES Modalidad (Tipo),
     FOREIGN KEY (IdDestino) REFERENCES Ubicacion (Id),
     FOREIGN KEY (IdOrigen) REFERENCES Ubicacion (Id),

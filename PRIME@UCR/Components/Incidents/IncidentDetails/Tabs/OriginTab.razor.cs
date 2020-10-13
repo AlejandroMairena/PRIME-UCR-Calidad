@@ -22,6 +22,7 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
         // Selected options
         private Tuple<OriginType, string> _selectedOriginType;
         private OriginModel _model = new OriginModel();
+        private HouseholdModel _householdModel = new HouseholdModel();
         private string _errorMessage = "";
 
         [Parameter]
@@ -52,7 +53,23 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
         {
             _model.Origin = origin;
         }
-        
+
+        private void OnHouseholdChange(HouseholdModel household)
+        {
+            if (household != null)
+            {
+                _model.Origin = new Domicilio
+                {
+                    Direccion = household.Address,
+                    DistritoId = household.District.Id,
+                    Longitud = household.Longitude,
+                    Latitud = household.Latitude
+                };
+            }
+            else
+                _model.Origin = null;
+        }
+
         private async Task Save()
         {
             if (_model.Origin is Domicilio household &&

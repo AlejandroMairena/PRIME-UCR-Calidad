@@ -1,8 +1,4 @@
-﻿CREATE UNIQUE NONCLUSTERED INDEX idx_Incidente_Codigo
-ON Incidente(Codigo)
-WHERE Codigo IS NOT NULL
-
-DELETE FROM EstadoIncidente
+﻿DELETE FROM EstadoIncidente
 DELETE FROM Estado
 DELETE FROM Incidente
 DELETE FROM Unidad_De_Transporte
@@ -17,7 +13,6 @@ DELETE FROM Canton
 DELETE FROM Provincia
 DELETE FROM Pais
 
-DBCC CHECKIDENT ('Incidente', RESEED, 0)
 DBCC CHECKIDENT ('Canton', RESEED, 0)
 DBCC CHECKIDENT ('Centro_Medico', RESEED, 0)
 DBCC CHECKIDENT ('Distrito', RESEED, 0)
@@ -310,6 +305,30 @@ VALUES
 -- EstadoIncidente
 INSERT INTO EstadoIncidente
 VALUES
-    ('1', 'En proceso de creación', GETDATE(), 1),
-    ('2', 'En proceso de creación', GETDATE(), 1)
+(
+	RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) + 
+	'-' +
+	RIGHT(REPLICATE('0', 2) + CAST(MONTH(GETDATE()) AS varchar(10)), 2) + 
+	'-' +
+	RIGHT(REPLICATE('0', 2) + CAST(DAY(GETDATE()) AS varchar(10)), 2) + 
+	'-' +
+	RIGHT(REPLICATE('0', 6) + '1', 6) + 
+	'-' +
+	'IT' +
+	'-' +
+	'TER', 'En proceso de creación', GETDATE(), 1
+),
+(
+	RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) + 
+	'-' +
+	RIGHT(REPLICATE('0', 2) + CAST(MONTH(GETDATE()) AS varchar(10)), 2) + 
+	'-' +
+	RIGHT(REPLICATE('0', 2) + CAST(DAY(GETDATE()) AS varchar(10)), 2) + 
+	'-' +
+	RIGHT(REPLICATE('0', 6) + '2', 6) + 
+	'-' +
+	'IT' +
+	'-' +
+	'AER', 'En proceso de creación', GETDATE(), 1
+)
 

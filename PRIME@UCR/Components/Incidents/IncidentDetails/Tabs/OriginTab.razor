@@ -10,7 +10,7 @@
 }
 <StatusMessage Message="@_errorMessage" Class="danger"/>
 <EditForm Model="_model" OnValidSubmit="@Save">
-    <DataAnnotationsValidator />
+    <FluentValidationValidator />
     <ValidationSummary />
     <DropDownMenu Data="@_dropdownValuesOrigin" Label="Tipo de origen" TextProperty="Item2"
                   Value="_selectedOriginType"
@@ -19,7 +19,9 @@
                   UseValidation="false"/>
     @if (_selectedOriginType.Item1 == OriginType.Household)
     {
-        <HouseholdPicker @ref="@_householdPicker" Value="@Origin" ValueChanged="@OnOriginChange"/>
+        <HouseholdPicker @ref="@_householdPicker" Value="@_householdModel"
+                          ValueChanged="@((HouseholdModel h) => OnHouseholdChange(h))"
+                          ValueExpression="@(() => _householdModel)"/>
     }
     else if (_selectedOriginType.Item1 == OriginType.International)
     {

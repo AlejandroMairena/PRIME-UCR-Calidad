@@ -8,7 +8,7 @@ namespace PRIME_UCR.Application.Services.Incidents
 {
     public interface IIncidentService
     {
-        Task<Incidente> GetIncidentAsync(int id);
+        Task<Incidente> GetIncidentAsync(string code);
         Task<IEnumerable<Modalidad>> GetTransportModesAsync();
         Task<Incidente> CreateIncident(IncidentModel model);
         Task<IncidentDetailsModel> GetIncidentDetailsAsync(string code);

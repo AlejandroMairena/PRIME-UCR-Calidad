@@ -6,7 +6,7 @@
 <Loading IsLoading="_modes == null">
     <div class="col-lg-6 col-md-8">
         <EditForm EditContext="_context" OnValidSubmit="@Create">
-            <DataAnnotationsValidator/>
+            <FluentValidationValidator/>
             <div class="form-group">
                 <DropDownMenu Label="Modalidad" Data="_modes" @bind-Value="_model.Mode"
                               TextProperty="Tipo"

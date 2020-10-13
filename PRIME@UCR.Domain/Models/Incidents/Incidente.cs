@@ -13,7 +13,6 @@ namespace PRIME_UCR.Domain.Models
             EstadoIncidentes = new List<EstadoIncidente>();
         }
 
-        public int Id { get; set; }
         public string Codigo { get; set; }
         public List<EstadoIncidente> EstadoIncidentes { get; private set; }
         public DateTime FechaHoraEstimada { get; set; } // temp

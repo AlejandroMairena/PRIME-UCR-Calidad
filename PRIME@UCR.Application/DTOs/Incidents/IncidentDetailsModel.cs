@@ -8,7 +8,6 @@ namespace PRIME_UCR.Application.Dtos.Incidents
     public class IncidentDetailsModel
     {
         public IncidentDetailsModel(
-            int id,
             string code,
             string mode,
             string currentState,
@@ -17,7 +16,6 @@ namespace PRIME_UCR.Application.Dtos.Incidents
             DateTime registrationDate,
             DateTime estimatedDateOfTransfer)
         {
-            Id = id;
             Code = code;
             Mode = mode;
             CurrentState = currentState;
@@ -27,14 +25,10 @@ namespace PRIME_UCR.Application.Dtos.Incidents
             EstimatedDateOfTransfer = estimatedDateOfTransfer;
         }
 
-        public int Id { get; }
-        [Required]
         public string Code { get; }
 
-        [Required]
         public string Mode { get; }
         
-        [Required]
         public string CurrentState { get; }
 
         public bool Completed { get; }
@@ -45,10 +39,8 @@ namespace PRIME_UCR.Application.Dtos.Incidents
         
         public DateTime EstimatedDateOfTransfer { get; }
 
-        [Required]
         public Ubicacion Origin { get; set; }
         
-        [Required]
         public Ubicacion Destination { get; set; }
     }
 }

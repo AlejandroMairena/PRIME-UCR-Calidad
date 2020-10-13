@@ -1,43 +1,37 @@
 ﻿@using PRIME_UCR.Components.Controls
+@inherits InputBase<HouseholdModel>
 
 <Loading IsLoading="@IsLoading()">
-    <DropDownMenu Data="@_provinces" Label="Provincia" Value="@_selectedProvince" TextProperty="Nombre"
-                  DefaultText="Seleccione una provincia"
-                  ValueExpression="() => _selectedProvince"
-                  ValueChanged="@((Provincia p) => OnChangeProvince(p))"/>
-    <DropDownMenu Data="@_cantons" Label="Cantón" Value="@_selectedCanton" TextProperty="Nombre"
-                  DefaultText="Seleccione un cantón"
-                  ValueExpression="() => _selectedCanton"
-                  ValueChanged="@((Canton c) => OnChangeCanton(c))"/>
-    <DropDownMenu Data="@_districts" Label="Distrito" Value="@_selectedDistrict" TextProperty="Nombre"
-                  DefaultText="Seleccione un distrito"
-                  ValueExpression="() => _selectedDistrict"
-                  ValueChanged="@((Distrito d) => OnChangeDistrict(d))"/>
-    <div class="form-group">
-        <label>Dirección exacta</label>
-        <input type="text" class="form-control" value="@_address" @oninput="@(async (args) => {
-                                                                                   _address = (string) args.Value;
-                                                                                   await Callback();
-                                                                             })"/>
-    </div>
-    <div class="form-row">
-        <div class="col">
-            <div class="form-group">
-                <label>Longitud</label>
-                <input type="number" value="@_longitude" @oninput="@(async (args) => {
-                                                                     _longitude = Double.Parse((string) args.Value);
-                                                                     await Callback();
-                                                               })" class="form-control"/>
+    <EditForm Model="Value">
+        <DropDownMenu Data="@_provinces" Label="Provincia" Value="@Value.Province" TextProperty="Nombre"
+                      DefaultText="Seleccione una provincia"
+                      ValueExpression="() => Value.Province"
+                      ValueChanged="@((Provincia p) => OnChangeProvince(p))"/>
+        <DropDownMenu Data="@_cantons" Label="Cantón" Value="@Value.Canton" TextProperty="Nombre"
+                      DefaultText="Seleccione un cantón"
+                      ValueExpression="() => Value.Canton"
+                      ValueChanged="@((Canton c) => OnChangeCanton(c))"/>
+        <DropDownMenu Data="@_districts" Label="Distrito" Value="@Value.District" TextProperty="Nombre"
+                      DefaultText="Seleccione un distrito"
+                      ValueExpression="() => Value.District"
+                      ValueChanged="@((Distrito d) => OnChangeDistrict(d))"/>
+        <div class="form-group">
+            <label>Dirección exacta</label>
+            <input type="text" class="form-control" value="@Value.Address" @oninput="@(async args => { Value.Address = (string) args.Value; await Callback(); })"/>
+        </div>
+        <div class="form-row">
+            <div class="col">
+                <div class="form-group">
+                    <label>Longitud</label>
+                    <input type="number" value="@Value.Longitude" @oninput="@(async (args) => { Value.Longitude = Double.Parse((string) args.Value); await Callback(); })" class="form-control"/>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label>Latitud</label>
+                    <input type="number" value="@Value.Latitude" @oninput="@(async (args) => { Value.Latitude = Double.Parse((string) args.Value); await Callback(); })" class="form-control"/>
+                </div>
             </div>
         </div>
-        <div class="col">
-            <div class="form-group">
-                <label>Latitud</label>
-                <input type="number" value="@_latitude" @oninput="@(async (args) => {
-                                                                     _latitude = Double.Parse((string) args.Value);
-                                                                     await Callback();
-                                                               })" class="form-control"/>
-            </div>
-        </div>
-    </div>
+    </EditForm>
 </Loading>

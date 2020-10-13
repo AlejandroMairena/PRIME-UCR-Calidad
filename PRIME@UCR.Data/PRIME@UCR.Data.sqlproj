@@ -65,6 +65,7 @@
     <Folder Include="Tables\" />
     <Folder Include="Triggers" />
     <Folder Include="StoredProcedures" />
+    <Folder Include="StoredProcedures\Incidents\" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\CheckLists\CheckList.sql" />
@@ -107,7 +108,7 @@
     <Build Include="Tables\UserAdministration\TienePerfil.sql" />
     <Build Include="Tables\UserAdministration\Usuario.sql" />
     <Build Include="Triggers\InsertarIncidente.sql" />
-    <Build Include="StoredProcedures\SiguienteConsecutivoIncidente.sql" />
+    <Build Include="StoredProcedures\Incidents\InsertarNuevoIncidente.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Scripts\PostDeployment\Identity_PostDeployment.sql" />

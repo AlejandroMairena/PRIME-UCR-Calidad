@@ -15,128 +15,103 @@ namespace PRIME_UCR.Components.Incidents.LocationPickers
     {
         [Inject]
         public ILocationService LocationService { get; set; }
-        
-        [Parameter]
-        public Ubicacion Value { get; set; }
-        
-        [Parameter]
-        public EventCallback<Ubicacion> ValueChanged { get; set; }
 
         private List<Provincia> _provinces;
         private List<Canton> _cantons;
         private List<Distrito> _districts;
 
-        private Provincia _selectedProvince;
-        private Canton _selectedCanton;
-        private Distrito _selectedDistrict;
-        private string _address;
-        private double _longitude;
-        private double _latitude;
+        protected override bool TryParseValueFromString(string value, out HouseholdModel result, out string validationErrorMessage)
+        {
+            result = Value;
+            validationErrorMessage = "";
+            return true;
+        }
 
         // Check if everything has been loaded
         bool IsLoading()
         {
-            return _provinces == null ||
-                   _cantons == null ||
-                   _districts == null;
+            return _provinces == null
+                   || _cantons == null
+                   || _districts == null;
         }
 
-        async Task LoadProvinces()
+        async Task Callback()
+        {
+            if (Value != null && Value.District != null)
+                await ValueChanged.InvokeAsync(Value);
+            else
+                await ValueChanged.InvokeAsync(null);
+            EditContext.NotifyFieldChanged(FieldIdentifier);
+        }
+
+        async Task LoadProvinces(bool firstLoad)
         {
             // get options
             _provinces =
                 (await LocationService.GetProvincesByCountryNameAsync(Pais.DefaultCountry))
                 .ToList();
 
-            _selectedProvince = null;
-        }
-
-        async Task Callback()
-        {
-
-            Domicilio household = null;
-            if (_selectedDistrict != null)
-                household = new Domicilio
-                {
-                    DistritoId = _selectedDistrict.Id,
-                    Direccion = _address,
-                    Longitud = _longitude,
-                    Latitud = _latitude
-                };
-            await ValueChanged.InvokeAsync(household);
+            if (!firstLoad)
+                Value.Province = null;
         }
 
         async Task OnChangeProvince(Provincia province)
         {
-            _selectedProvince = province;
-            await LoadCantons();
-            await LoadDistricts();
-            await Callback();
+            Value.Province = province;
+            await LoadCantons(false);
+            await LoadDistricts(false);
         }
 
-        async Task LoadCantons()
+        async Task LoadCantons(bool firstLoad)
         {
-            if (_selectedProvince != null)
+            if (Value.Province != null)
                 _cantons =
-                    (await LocationService.GetCantonsByProvinceNameAsync(_selectedProvince.Nombre))
+                    (await LocationService.GetCantonsByProvinceNameAsync(Value.Province.Nombre))
                     .ToList();
             else
                 _cantons = new List<Canton>();
 
-            _selectedCanton = null;
+            if (!firstLoad)
+                Value.Canton = null;
         }
 
         async Task OnChangeCanton(Canton canton)
         {
-            _selectedCanton = canton;
-            await LoadDistricts();
+            Value.Canton = canton;
+            await LoadDistricts(false);
             await Callback();
         }
 
-        async Task LoadDistricts()
+        async Task LoadDistricts(bool firstLoad)
         {
-            if (_selectedCanton != null)
+            if (Value.Canton != null)
                 _districts =
-                    (await LocationService.GetDistrictsByCantonIdAsync(_selectedCanton.Id))
+                    (await LocationService.GetDistrictsByCantonIdAsync(Value.Canton.Id))
                     .ToList();
             else
                 _districts = new List<Distrito>();
 
-            _selectedDistrict = null;
+            if (!firstLoad)
+                Value.District = null;
         }
 
         async Task OnChangeDistrict(Distrito district)
         {
-            _selectedDistrict = district;
+            Value.District = district;
             await Callback();
         }
 
         public async Task LoadExistingValues()
         {
-            if (Value is Domicilio household)
-            {
-                var location = await LocationService.GetLocationByDistrictId(household.DistritoId);
-                await LoadProvinces();
-                _selectedProvince = location.Province;
-                await LoadCantons();
-                _selectedCanton = location.Canton;
-                await LoadDistricts();
-                _selectedDistrict = location.District;
-                _address = household.Direccion;
-                _longitude = household.Longitud;
-                _latitude = household.Latitud;
-            }
-            else
-            {
-                await LoadProvinces();
-                await LoadCantons();
-                await LoadDistricts();
-                await Callback();
-            }
+            await LoadProvinces(true);
+            await LoadCantons(true);
+            await LoadDistricts(true);
         }
         
         protected override async Task OnInitializedAsync()
         {
+            if (Value == null)
+                throw new ArgumentNullException("Value", "Value argument cannot be null.");
             await LoadExistingValues();
         }
     }

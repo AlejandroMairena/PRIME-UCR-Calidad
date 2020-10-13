@@ -13,6 +13,7 @@ using PRIME_UCR.Domain.Models.UserAdministration;
 using Microsoft.AspNetCore.Components.Authorization;
 using PRIME_UCR.Application.Implementations.UserAdministration;
 using Blazored.SessionStorage;
+using PRIME_UCR.Validators;
 
 namespace PRIME_UCR
 {
@@ -38,13 +39,16 @@ namespace PRIME_UCR
                 options.EnableSensitiveDataLogging();
                 options.UseSqlServer(Configuration.GetConnectionString("DevelopmentDbConnection"));
             });
+            
             services.AddIdentity<Usuario, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
-            services.AddBlazoredSessionStorage();
             services.AddScoped<AuthenticationStateProvider,CustomAuthenticationStateProvider>();
+            
+            services.AddBlazoredSessionStorage();
 
             services.AddApplicationLayer();
             services.AddInfrastructureLayer();
+            services.AddValidators();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

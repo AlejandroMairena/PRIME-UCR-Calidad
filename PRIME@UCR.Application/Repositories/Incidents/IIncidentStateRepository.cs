@@ -6,6 +6,6 @@ namespace PRIME_UCR.Application.Repositories.Incidents
     public interface IIncidentStateRepository
     {
         Task AddState(EstadoIncidente incidentState);
-        Task<Estado> GetCurrentStateByIncidentId(int incidentId);
+        Task<Estado> GetCurrentStateByIncidentId(string incidentCode);
     }
 }

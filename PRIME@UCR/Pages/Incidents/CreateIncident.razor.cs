@@ -51,6 +51,7 @@ namespace PRIME_UCR.Pages.Incidents
             _context.OnFieldChanged += HandleFieldChanged;
         }
 
+        // used to toggle submit button disabled attribute
         private void HandleFieldChanged(object sender, FieldChangedEventArgs e)
         {
             isFormValid = _context.Validate();
