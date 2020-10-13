@@ -26,12 +26,15 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
 
         private readonly IPrimeAuthorizationService PrimeAuthorizarionService;
 
-        public CustomAuthenticationStateProvider(SignInManager<Usuario> _signInManager, UserManager<Usuario> _userManager, ISessionStorageService _sessionStorageService, IPrimeAuthorizationService _primeAuthorizationService)
+        private readonly IPersonService PersonService;
+
+        public CustomAuthenticationStateProvider(SignInManager<Usuario> _signInManager, UserManager<Usuario> _userManager, ISessionStorageService _sessionStorageService, IPrimeAuthorizationService _primeAuthorizationService, IPersonService _personService)
         {
             SignInManager = _signInManager;
             UserManager = _userManager;
             SessionStorageService = _sessionStorageService;
             PrimeAuthorizarionService = _primeAuthorizationService;
+            PersonService = _personService;
         }
 
         /*
@@ -109,6 +112,7 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
 
                 if (loginResult.Succeeded)
                 {
+                    userToCheck.Persona = await PersonService.getPersonByIdAsync(userToCheck.CedPersona);   
                     identity = GetClaimIdentity(userToCheck);
                 } else
                 {

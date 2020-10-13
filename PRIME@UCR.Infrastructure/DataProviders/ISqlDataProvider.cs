@@ -29,6 +29,7 @@ namespace PRIME_UCR.Infrastructure.DataProviders
         DbSet<Incidente> Incidents { get; set; }
 
         DbSet<Usuario> Usuarios {get; set;}
+        DbSet<Persona> People { get; set; }
 
         DbSet<MultimediaContent> Multimedia_Contents { get; set; }
         DbSet<T> Set<T>() where T : class;

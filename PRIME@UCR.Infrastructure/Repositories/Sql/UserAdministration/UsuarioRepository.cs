@@ -11,6 +11,7 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
     {
         public UsuarioRepository(ISqlDataProvider dataProvider) : base(dataProvider)
         {
+            
         }
     }
 }
