@@ -43,7 +43,7 @@
             DECLARE @next_id int;
             DECLARE @mod char(10);
             
-            SELECT TOP 1 @id = MAX(CAST(SUBSTRING(i.Codigo, 12, 6) as int))
+            SELECT TOP 1 @id = MAX(CAST(SUBSTRING(i.Codigo, 12, 4) as int))
             FROM Incidente i
             WHERE YEAR(i.FechaHoraRegistro) = YEAR(GETDATE());
 
@@ -69,7 +69,7 @@
 				'-' +
 				RIGHT(REPLICATE('0', 2) + CAST(DAY(@FechaHoraRegistro) AS varchar(10)), 2) + 
 				'-' +
-				RIGHT(REPLICATE('0', 6) + CAST(@next_id AS varchar(10)), 6) + 
+				RIGHT(REPLICATE('0', 4) + CAST(@next_id AS varchar(10)), 4) + 
 				'-' +
 				'IT' +
 				'-' +

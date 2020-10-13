@@ -312,7 +312,7 @@ VALUES
 	'-' +
 	RIGHT(REPLICATE('0', 2) + CAST(DAY(GETDATE()) AS varchar(10)), 2) + 
 	'-' +
-	RIGHT(REPLICATE('0', 6) + '1', 6) + 
+	RIGHT(REPLICATE('0', 4) + '1', 4) + 
 	'-' +
 	'IT' +
 	'-' +
@@ -325,7 +325,7 @@ VALUES
 	'-' +
 	RIGHT(REPLICATE('0', 2) + CAST(DAY(GETDATE()) AS varchar(10)), 2) + 
 	'-' +
-	RIGHT(REPLICATE('0', 6) + '2', 6) + 
+	RIGHT(REPLICATE('0', 4) + '2', 4) + 
 	'-' +
 	'IT' +
 	'-' +
