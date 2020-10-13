@@ -56,8 +56,9 @@
 */
 
 .counter-append {
-    background-color: #fbc51a;
-    border: solid #fbc51a 1px;
+    color: white;
+    background-color: rgb(238,64,55);
+    border: solid #fbc51a 0px;
     width: 26px;
     height: 26px;
     font-size: 12px;
@@ -84,6 +85,8 @@ padding-right: 20px;
 }
 .data_btn {
     border: 10px;
+    width: 50px;
+    height: auto;
 }
 .btn-secondary {
     background-color: #095290;
@@ -110,4 +113,7 @@ p {
 input#file-upload-button {
     color:white;
 
+}
+button.btn.btn-danger.m-btn.m-btn-rm {
+    background-color: rgb(238,64,55);
 }
