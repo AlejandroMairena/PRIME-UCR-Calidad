@@ -1,5 +1,7 @@
 ﻿using PRIME_UCR.Application.Repositories;
+using PRIME_UCR.Application.Repositories.CheckLists;
 using PRIME_UCR.Domain.Models;
+using PRIME_UCR.Domain.Models.CheckLists;
 using PRIME_UCR.Infrastructure.DataProviders;
 using System;
 using System.Collections.Generic;
@@ -7,7 +9,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PRIME_UCR.Infrastructure.Repositories.Sql.CheckList
+namespace PRIME_UCR.Infrastructure.Repositories.Sql.CheckLists
 {
     class SqlCheckListRepository : GenericRepository<CheckList, int>, ICheckListRepository
     {

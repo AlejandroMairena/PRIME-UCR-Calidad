@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using System.Linq;
 using System.IO;
 using Microsoft.AspNetCore.Components;
+using PRIME_UCR.Application.Repositories.CheckLists;
+using PRIME_UCR.Domain.Models.CheckLists;
 
 namespace PRIME_UCR.Application.Implementations.CheckLists
 {

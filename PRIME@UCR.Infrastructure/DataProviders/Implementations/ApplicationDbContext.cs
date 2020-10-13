@@ -8,7 +8,8 @@ using PRIME_UCR.Infrastructure.EntityConfiguration.Multimedia;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using PRIME_UCR.Domain.Models.UserAdministration;
 using PRIME_UCR.Infrastructure.EntityConfiguration.UserAdministration;
-using PRIME_UCR.Infrastructure.EntityConfiguration.CheckList;
+using PRIME_UCR.Infrastructure.EntityConfiguration.CheckLists;
+using PRIME_UCR.Domain.Models.CheckLists;
 
 namespace PRIME_UCR.Infrastructure.DataProviders.Implementations
 {

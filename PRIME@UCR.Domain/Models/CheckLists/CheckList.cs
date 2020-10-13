@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace PRIME_UCR.Domain.Models
+namespace PRIME_UCR.Domain.Models.CheckLists
 {
     public class CheckList
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace PRIME_UCR.Domain.Models.CheckList
+namespace PRIME_UCR.Domain.Models.CheckLists
 {
     public class Item
     {
@@ -12,9 +12,11 @@ namespace PRIME_UCR.Domain.Models.CheckList
         public string Descripcion { get; set; }
         public int Orden { get; set; }
         public string NombreImagen { get; set; }
-        public int IDSuperItem { get; set; }
-        public int IDLista { get; set; }
+        public int IDSuperItem { get; set; }    // fk-Item
+        public int IDLista { get; set; }        // fk-CheckList
+
         public CheckList Checklist { get; set; }
+        public List<Item> SubItems { get; set; }
 
         public override bool Equals(object obj)
         {
@@ -24,6 +26,10 @@ namespace PRIME_UCR.Domain.Models.CheckList
                        IDLista == i.IDLista;
 
             return false;
+        }
+        public Item()
+        {
+            SubItems = new List<Item>();
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using PRIME_UCR.Domain.Models;
+using PRIME_UCR.Domain.Models.CheckLists;
 using System;
 using System.Collections.Generic;
 using System.Text;

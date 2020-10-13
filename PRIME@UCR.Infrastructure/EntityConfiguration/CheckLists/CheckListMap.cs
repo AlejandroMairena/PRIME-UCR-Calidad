@@ -1,13 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PRIME_UCR.Domain.Models;
+using PRIME_UCR.Domain.Models.CheckLists;
 
-namespace PRIME_UCR.Infrastructure.EntityConfiguration.CheckList
+namespace PRIME_UCR.Infrastructure.EntityConfiguration.CheckLists
 {
-    public class CheckListMap : IEntityTypeConfiguration<PRIME_UCR.Domain.Models.CheckList>
+    public class CheckListMap : IEntityTypeConfiguration<CheckList>
     {
         // User Story PIG01IIC20-267 LG - Agregar imagen descriptiva a lista de chequeo
-        public void Configure(EntityTypeBuilder<PRIME_UCR.Domain.Models.CheckList> builder)
+        public void Configure(EntityTypeBuilder<CheckList> builder)
         {
             builder.ToTable("CheckList");
             builder.HasKey("Id");
