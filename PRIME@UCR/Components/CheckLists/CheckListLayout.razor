@@ -1,0 +1,29 @@
+﻿@inherits LayoutComponentBase
+
+<div class="sidebar">
+    <CascadingValue Value="@lists" Name="lists">
+        <CheckListNavMenu OnlistsChange="Changelists" />
+    </CascadingValue>
+</div>
+
+<div class="main">
+    <div class="top-row px-4">
+        <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
+    </div>
+
+    <div>
+        <CascadingValue Value="@lists" Name="lists">
+            @Body
+        </CascadingValue>
+    </div>
+</div>
+
+@code{
+    public IEnumerable<CheckList> lists { get; set; }
+
+    private void Changelists(IEnumerable<CheckList> newlists)
+    {
+        lists = newlists;
+        StateHasChanged();
+    }
+}

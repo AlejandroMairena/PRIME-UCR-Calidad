@@ -1,0 +1,20 @@
+﻿<h3> Información general de incidentes</h3>
+<br />
+@if (!DetailsModel.Completed)
+{
+    <StatusMessage Message="Hay valores pendientes para finalizar la creación del incidente." Class="warning"/>
+}
+<ul class="list-group">
+    <ListItem Title="Id" Text="@DetailsModel.Code"/>
+    <ListItem Title="Estado" Text="@DetailsModel.CurrentState"/>
+    <ListItem Title="Modalidad" Text="@DetailsModel.Mode"/>
+    <ListItem Title="Fecha estimada del traslado"
+              Text="@($"{DetailsModel.EstimatedDateOfTransfer.ToShortDateString()} - {DetailsModel.EstimatedDateOfTransfer.ToShortTimeString()}")" />
+    <ListItem Title="Fecha de registro"
+              Text="@($"{DetailsModel.RegistrationDate.ToShortDateString()} - {DetailsModel.RegistrationDate.ToShortTimeString()}")" />
+</ul>
+
+@code {
+    [Parameter]
+    public IncidentDetailsModel DetailsModel { get; set; }
+}

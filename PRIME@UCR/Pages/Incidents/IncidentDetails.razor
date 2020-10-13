@@ -1,0 +1,27 @@
+﻿@page "/incidents/{Id}"
+@using PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
+@using PRIME_UCR.Components.Incidents.IncidentDetails
+@using PRIME_UCR.Components.Controls
+@inject NavigationManager NavigationManager
+@inject IIncidentService IncidentService
+
+<h1>Detalles del incidente</h1>
+<hr />
+@if (exists)
+{
+    <Loading IsLoading="_incidentModel == null">
+        <div class="row">
+            <div class="col-lg-3 mb-4">
+                <TabMenu Tabs="_tabs" DefaultTab="DefaultTab" IsVertical="true" @bind-Value="_activeTab"/>
+            </div> 
+            <div class="col">
+                <ActiveTab Active="@_activeTab" Incident="_incidentModel" OnSave="@Save"/>
+            </div>
+        </div>
+    </Loading>
+}
+else
+{
+    <h4 class="text-danger">No se encontró el incidente solicitado.</h4>
+}
+<br/>

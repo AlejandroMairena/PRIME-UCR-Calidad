@@ -1,20 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Data;
 using Microsoft.EntityFrameworkCore;
 using PRIME_UCR.Domain.Models;
 using System.Threading.Tasks;
+using PRIME_UCR.Domain.Models.Incidents;
 
 namespace PRIME_UCR.Infrastructure.DataProviders
 {
     public interface ISqlDataProvider
     {
-        DbSet<Acciones> Acciones { get; set;  }
-        DbSet<MultimediaContent> Multimedia_Contents { get; set;  }
-        DbSet<Cita> Citas { get; set;  }
+        IDbConnection DbConnection { get; set; }
+
+        // dbsets
+        DbSet<CheckList> CheckList { get; set; }
+        DbSet<Pais> Countries { get; set; }
+        DbSet<Provincia> Provinces { get; set; }
+        DbSet<Canton> Cantons { get; set; }
+        DbSet<Distrito> Districts { get; set; }
+        DbSet<Ubicacion> Locations { get; set; }
+        DbSet<Domicilio> HouseholdLocations { get; set; }
+        DbSet<Internacional> InternationalLocations { get; set; }
+        DbSet<CentroMedico> MedicalCenters { get; set; }
+        DbSet<CentroUbicacion> MedicalCenterLocations { get; set; }
+        DbSet<Modalidad> Modes { get; set; }
+        DbSet<UnidadDeTransporte> TransportUnits { get; set; }
+        DbSet<Estado> States { get; set; }
+        DbSet<EstadoIncidente> IncidentStates { get; set; }
+        DbSet<Incidente> Incidents { get; set; }
+
+        DbSet<MultimediaContent> Multimedia_Contents { get; set; }
         DbSet<T> Set<T>() where T : class;
-        Task<int> SaveChangesAsync();
-
-
+        Task<int> SaveChangesAsync();     
     }
 }

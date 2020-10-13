@@ -1,28 +1,59 @@
-﻿using System.Data;
+using System.Data;
 using Microsoft.EntityFrameworkCore;
 using PRIME_UCR.Domain.Models;
 using System.Threading.Tasks;
+using PRIME_UCR.Domain.Models.Incidents;
+using PRIME_UCR.Infrastructure.EntityConfiguration.Incidents;
 using PRIME_UCR.Infrastructure.DataProviders.Implementations.EntityConfiguration.Multimedia;
 
 namespace PRIME_UCR.Infrastructure.DataProviders.Implementations
 {
     public sealed class ApplicationDbContext : DbContext, ISqlDataProvider
     {
+        public DbSet<CheckList> CheckList { get; set; }
         public IDbConnection DbConnection { get; set; }
-        public DbSet<Acciones> Acciones { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
-        public DbSet<MultimediaContent> Multimedia_Contents { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
-        public DbSet<Cita> Citas { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
-
+        public DbSet<Provincia> Provinces { get; set; }
+        public DbSet<Pais> Countries { get; set; }
+        public DbSet<Domicilio> HouseholdLocations { get; set; }
+        public DbSet<Internacional> InternationalLocations { get; set; }
+        public DbSet<CentroMedico> MedicalCenters { get; set; }
+        public DbSet<CentroUbicacion> MedicalCenterLocations { get; set; }
+        public DbSet<Modalidad> Modes { get; set; }
+        public DbSet<UnidadDeTransporte> TransportUnits { get; set; }
+        public DbSet<Estado> States { get; set; }
+        public DbSet<EstadoIncidente> IncidentStates { get; set; }
+        public DbSet<Incidente> Incidents { get; set; }
+        public DbSet<Canton> Cantons { get; set; }
+        public DbSet<Distrito> Districts { get; set; }
+        public DbSet<Ubicacion> Locations { get; set; }
+        public DbSet<MultimediaContent> Multimedia_Contents { get; set; }
         public ApplicationDbContext(DbContextOptions options) : base(options)
         {
-            //DbConnection = Database.GetDbConnection();
+            DbConnection = Database.GetDbConnection();
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.ApplyConfiguration(new MultimediaContentMap()); 
-            builder.ApplyConfiguration(new AccionesMap());
-            builder.ApplyConfiguration(new CitaMap());
+            base.OnModelCreating(builder);
+            builder.Entity<CheckList>(cl =>
+            {
+                cl.HasKey("Id");
+            });
+            builder.ApplyConfiguration(new PaisMap());
+            builder.ApplyConfiguration(new ProvinciaMap());
+            builder.ApplyConfiguration(new DistritoMap());
+            builder.ApplyConfiguration(new CantonMap());
+            builder.ApplyConfiguration(new CentroMedicoMap());
+            builder.ApplyConfiguration(new CentroUbicacionMap());
+            builder.ApplyConfiguration(new DomicilioMap());
+            builder.ApplyConfiguration(new IncidenteMap());
+            builder.ApplyConfiguration(new ModalidadMap());
+            builder.ApplyConfiguration(new InternacionalMap());
+            builder.ApplyConfiguration(new UbicacionMap());
+            builder.ApplyConfiguration(new UnidadDeTransporteMap());
+            builder.ApplyConfiguration(new EstadoMap());
+            builder.ApplyConfiguration(new EstadoIncidenteMap());
+            builder.ApplyConfiguration(new MultimediaContentMap());
         }
 
         public Task<int> SaveChangesAsync()
