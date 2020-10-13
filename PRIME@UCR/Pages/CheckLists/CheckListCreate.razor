@@ -10,7 +10,7 @@
 <hr />
 <div class="row">
     <div class="col-lg-3 mb-4">
-        <h6>Listas de chequeo Exixtentes</h6> @* Mejorar diseño de interfaz*@
+        <h6>Listas de chequeo Existentes</h6> @* Mejorar diseño de interfaz*@
         <div>
             <ul class="ml-4" type="square"> @*ver lisatas de chequeo ya creadas*@
                 @if (lists != null && lists.Count() > 0)
@@ -55,8 +55,10 @@
             @*<InputNumber id="order" @bind-Value="checkList.Orden" style="width: 220px; height : 25px" />*@
             <p style="color:red">* Campo requerido</p>
             @**</EditForm>*@
-            <a class="btn btn-outline-primary" href='@string.Format("checklist")'>Guardar</a> @*to do: ir a la recien creada*@
-            <a class="btn btn-outline-secondary" href='@string.Format("checklist")'>Cancelar</a> @*to do: ir a la anterior*@
+        <div align="center">
+            <a class="btn btn-outline-primary" href='@string.Format("checklist")' id="a_LC0">Guardar</a> @*to do: ir a la recien creada //  disabled="@formInvalid*@
+            <a class="btn btn-outline-secondary" href='@string.Format("checklist")' id="a_LC3" >Cancelar</a> @*to do: ir a la anterior //  @onclick="e => IsModalOpened = false"*@
+        </div>
         </div>
         <br />
     </div>
