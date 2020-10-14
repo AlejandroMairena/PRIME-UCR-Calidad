@@ -4,8 +4,8 @@
 <div class="form-group">
     <label>@Label</label>
     <select class="@($"custom-select {ValidationCssClass}")"
-                 value="@SelectedValue"
-                 @onchange="OnChangeEvent">
+            value="@SelectedValue"
+            @onchange="OnChangeEvent">
         @if (!String.IsNullOrEmpty(DefaultText))
         {
             <option value="@(-1)" selected>@DefaultText</option>

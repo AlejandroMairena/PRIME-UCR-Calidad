@@ -2,8 +2,11 @@
 
 <div class="form-group">
     <label>@Label</label>
-    <input class="@($"form-class {ValidationCssClass}")"
-           value="@Value"
-           @onchange="OnChangeEvent"/>
-            
+    <input class="@($"form-control {ValidationCssClass}")"
+           value="@_value"
+           @oninput="OnChangeEvent"/>
+
+    <div class="invalid-feedback">
+        <ValidationMessage For="@(() => Value)"></ValidationMessage>
+    </div>
 </div>

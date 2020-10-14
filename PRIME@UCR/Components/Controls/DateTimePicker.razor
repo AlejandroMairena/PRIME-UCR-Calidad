@@ -6,10 +6,6 @@
                class="@($"form-control {ValidationCssClass}")"
                @onchange="OnDateChanged"
                min="@(DateTime.Today.ToString("yyyy-MM-dd"))" />
-    
-    <div class="invalid-feedback">
-        <ValidationMessage For="() => Value"></ValidationMessage>
-    </div>
 </div>
 
 <div class="form-group">
@@ -17,8 +13,4 @@
     <input type="time" class="@($"form-control {ValidationCssClass}")"
            value="@_time"
            @oninput="(e => OnTimeChanged(e))"/>
-    
-    <div class="invalid-feedback">
-        <ValidationMessage For="@(() => Value)"></ValidationMessage>
-    </div>
 </div>

@@ -23,7 +23,7 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
         private Tuple<OriginType, string> _selectedOriginType;
         private OriginModel _model = new OriginModel();
         private HouseholdModel _householdModel = new HouseholdModel();
-        private string _errorMessage = "";
+        private string _statusMessage = "";
 
         [Parameter]
         public Ubicacion Origin { get; set; }
@@ -45,7 +45,7 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
 
         private void OnOriginTypeChange(Tuple<OriginType, string> type)
         {
-            _errorMessage = "";
+            _statusMessage = "";
             _selectedOriginType = type;
         }
 
@@ -72,14 +72,7 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
 
         private async Task Save()
         {
-            if (_model.Origin is Domicilio household &&
-                (String.IsNullOrEmpty(household.Direccion) || household.Direccion.Length > 150))
-            {
-                _errorMessage = "La dirección es obligatoria y no debe exceder 150 caracteres.";
-                return;
-            }
-
-            _errorMessage = "";
+            _statusMessage = "Se guardaron los cambios exitosamente.";
             await OnSave.InvokeAsync(_model);
         }
 

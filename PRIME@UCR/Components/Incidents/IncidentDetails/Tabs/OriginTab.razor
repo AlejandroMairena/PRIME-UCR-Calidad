@@ -8,7 +8,7 @@
 {
     <StatusMessage Message="Este valor está pendiente para finalizar la creación del incidente." Class="warning"/>
 }
-<StatusMessage Message="@_errorMessage" Class="danger"/>
+<StatusMessage Message="@_statusMessage" Class="success"/>
 <EditForm Model="_model" OnValidSubmit="@Save">
     <FluentValidationValidator />
     <ValidationSummary />
