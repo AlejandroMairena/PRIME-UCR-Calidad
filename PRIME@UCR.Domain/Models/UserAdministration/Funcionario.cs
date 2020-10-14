@@ -9,7 +9,11 @@ namespace PRIME_UCR.Domain.Models.UserAdministration
      */
     public class Funcionario : Persona
     {
+        public Funcionario()
+        {
+            PerfilesDelFuncionario = new List<TienePerfil>();
+        }
         /*List of profiles for which the Funcionario is part*/
-        public List<Perfil> Perfiles { get; set; }
+        public List<TienePerfil> PerfilesDelFuncionario { get; set; }
     }
 }

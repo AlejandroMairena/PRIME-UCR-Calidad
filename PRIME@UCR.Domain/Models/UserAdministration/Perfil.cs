@@ -14,21 +14,21 @@ namespace PRIME_UCR.Domain.Models.UserAdministration
          */
         public Perfil()
         {
-            Permisos = new List<Permiso>();
-            Usuarios = new List<Usuario>();
-            Funcionarios = new List<Funcionario>();
+            PerfilesYPermisos = new List<Permite>();
+            UsuariosYPerfiles = new List<Pertenece>();
+            FuncionariosYPerfiles = new List<TienePerfil>();
         }
 
         /*String to store the name of the profile*/
         public string NombrePerfil { get; set; }
 
         /*List of permissions for the profile*/
-        public List<Permiso> Permisos { get; set; }
+        public List<Permite> PerfilesYPermisos { get; set; }
 
         /*List of users that have the profile*/
-        public List<Usuario> Usuarios { get; set; }
+        public List<Pertenece> UsuariosYPerfiles { get; set; }
 
         /*List of functionaries that have the profile*/
-        public List<Funcionario> Funcionarios { get; set; }
+        public List<TienePerfil> FuncionariosYPerfiles { get; set; }
     }
 }

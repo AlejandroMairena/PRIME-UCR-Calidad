@@ -14,7 +14,7 @@ namespace PRIME_UCR.Domain.Models.UserAdministration
          */
         public Permiso()
         {
-            Perfiles = new List<Perfil>();
+            PerfilesYPermisos = new List<Permite>();
         }
 
         /*Identifier of the permission*/
@@ -24,6 +24,6 @@ namespace PRIME_UCR.Domain.Models.UserAdministration
         public string DescripciónPermiso { get; set; }
 
         /*List of the profile that shares the permission*/
-        public List<Perfil> Perfiles { get; set; }
+        public List<Permite> PerfilesYPermisos { get; set; }
     }
 }

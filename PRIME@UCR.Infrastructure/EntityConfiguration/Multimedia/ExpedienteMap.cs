@@ -13,10 +13,10 @@ namespace PRIME_UCR.Infrastructure.EntityConfiguration.Multimedia
     {
         public void Configure(EntityTypeBuilder<Expediente> builder)
         {
-            builder
+           /* builder
                 .HasOne(p => p.Paciente)
                 .WithOne(p => p.Expediente)
-                .HasForeignKey<Expediente>(p => p.CedPaciente);
+                .HasForeignKey<Expediente>(p => p.CedPaciente);*/
 
             builder
                 .HasOne(p => p.Medico)

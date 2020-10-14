@@ -27,17 +27,19 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
 
         private readonly IPrimeAuthorizationService PrimeAuthorizarionService;
 
-        private readonly IPersonService PersonService;
-
         private readonly IUserService UserService;
 
-        public CustomAuthenticationStateProvider(SignInManager<Usuario> _signInManager, UserManager<Usuario> _userManager, ISessionStorageService _sessionStorageService, IPrimeAuthorizationService _primeAuthorizationService, IPersonService _personService, IUserService _userService)
+        public CustomAuthenticationStateProvider(
+            SignInManager<Usuario> _signInManager, 
+            UserManager<Usuario> _userManager, 
+            ISessionStorageService _sessionStorageService, 
+            IPrimeAuthorizationService _primeAuthorizationService, 
+            IUserService _userService)
         {
             SignInManager = _signInManager;
             UserManager = _userManager;
             SessionStorageService = _sessionStorageService;
             PrimeAuthorizarionService = _primeAuthorizationService;
-            PersonService = _personService;
             UserService = _userService;
         }
 
@@ -108,7 +110,7 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
         {
             var userToCheck = await UserManager.FindByEmailAsync(logInInfo.Correo);
 
-            ClaimsIdentity identity = new ClaimsIdentity();
+            ClaimsIdentity identity;
             
             if(userToCheck != null)
             {
@@ -117,7 +119,7 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
                 if (loginResult.Succeeded)
                 {
                     //TODO: Check other tables for conflicts with persona
-                   // userToCheck = await UserService.getUsuarioWithDetails(userToCheck.Id);
+                    userToCheck = await UserService.getUsuarioWithDetails(userToCheck.Id);
                    // userToCheck.Persona = await PersonService.getPersonByIdAsync(userToCheck.CedPersona);   
                     identity = GetClaimIdentity(userToCheck);
                 } else

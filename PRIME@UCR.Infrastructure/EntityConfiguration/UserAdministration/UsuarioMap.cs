@@ -26,15 +26,11 @@ namespace PRIME_UCR.Infrastructure.EntityConfiguration.UserAdministration
                 .IsRequired();
             builder
                 .HasOne(p => p.Persona)
-                .WithOne(p => p.Usuario)
+                .WithOne()
                 .HasForeignKey<Usuario>(p => p.CedPersona);
             builder
-                .HasMany(p => p.Perfiles)
-                .WithMany(p => p.Usuarios)
-                .UsingEntity(p =>
-                {
-                    p.ToTable("Pertenece");
-                });
+                .HasMany(p => p.UsuariosYPerfiles)
+                .WithOne(p => p.Usuario);
         }
     }
 }

@@ -19,9 +19,9 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
         public async Task<Usuario> GetWithDetailsAsync(string id)
         {
             return await _db.Usuarios
-                //.Include(u => u.Persona)
-                .Include(u => u.Perfiles)
-                .FirstOrDefaultAsync(u => u.Id == id);
+                .Include(u => u.UsuariosYPerfiles)
+                .Include(u => u.Persona)
+                .FirstAsync(u => u.Id == id);
             /*
             return await _db.Incidents
                 .Include(i => i.Origen)

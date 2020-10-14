@@ -27,21 +27,15 @@ namespace PRIME_UCR.Domain.Models.UserAdministration
         public string PrimerApellido { get; set; }
 
         /*String that store the second last name of the person*/
-        public string SegundoApellido { get; set; }
+        public string? SegundoApellido { get; set; }
 
         /*Character that store the sex of the person*/
-        public char Sexo { get; set; }
+        public char? Sexo { get; set; }
 
         /*Variable that store the birth date of the person*/
-        public DateTime FechaNacimiento { get; set; }
+        public DateTime? FechaNacimiento { get; set; }
 
         /*List of phone numbers of the person*/
         public List<NúmeroTeléfono> NumerosTelefono { get; set; }
-
-        /*String that store the identifier of the user of the person*/
-        public string IdUsuario { get; set; }
-
-        /*Object that store the user of the person*/
-        public Usuario Usuario { get; set; }
     }
 }

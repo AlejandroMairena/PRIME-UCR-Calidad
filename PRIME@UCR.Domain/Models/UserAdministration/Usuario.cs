@@ -15,7 +15,7 @@ namespace PRIME_UCR.Domain.Models.UserAdministration
         */
         public Usuario()
         {
-            Perfiles = new List<Perfil>();
+            UsuariosYPerfiles = new List<Pertenece>();
         }
 
         /*Identifier of the person that has the user*/
@@ -25,6 +25,6 @@ namespace PRIME_UCR.Domain.Models.UserAdministration
         public Persona Persona { get; set; }
 
         /*List of profiles of the person*/
-        public List<Perfil> Perfiles { get; set; }
+        public List<Pertenece> UsuariosYPerfiles { get; set; }
     }
 }

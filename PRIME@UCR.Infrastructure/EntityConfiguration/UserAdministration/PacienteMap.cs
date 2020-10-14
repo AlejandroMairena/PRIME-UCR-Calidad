@@ -20,12 +20,12 @@ namespace PRIME_UCR.Infrastructure.EntityConfiguration.UserAdministration
             builder.ToTable("Paciente");
             builder
                 .Property(p => p.Cédula)
-                .HasColumnName("CédulaPersona")
+                .HasColumnName("Cédula")
                 .IsRequired();
-            builder
+            /*builder
                 .HasOne(p => p.Expediente)
                 .WithOne(p => p.Paciente)
-                .HasForeignKey<Paciente>(p => p.NumExpediente);
+                .HasForeignKey<Paciente>(p => p.NumExpediente);*/
         }
     }
 }

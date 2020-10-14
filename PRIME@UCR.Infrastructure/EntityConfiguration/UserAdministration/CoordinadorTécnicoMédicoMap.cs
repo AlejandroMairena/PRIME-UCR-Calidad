@@ -19,7 +19,7 @@ namespace PRIME_UCR.Infrastructure.EntityConfiguration.UserAdministration
             builder.ToTable("CoordinadorTécnicoMédico");
             builder
                 .Property(p => p.Cédula)
-                .HasColumnName("CédulaCoordinadorTécnicoMédico")
+                .HasColumnName("Cédula")
                 .IsRequired();
         }
     }
