@@ -17,21 +17,24 @@ else
             <div class="container">
                 <h6>Listas de chequeo Existentes</h6> @* Mejorar diseño de interfaz*@
                 <div>
-                    <ul class="ml-4" type="square">
-                        @*ver lisatas de chequeo ya creadas*@
-                        @if (lists != null && lists.Count() > 0)
-                        {
+                    <ul class="nav nav-pills flex-column">@*<ul class="ml-4" type="square">*@
+                        <li class="nav-item">@*ver lisatas de chequeo ya creadas*@
+                            
+                            @if (lists !=null && lists.Count()>
+                            0)
+                            {
                             @foreach (var tempList in lists)
                             {
-                                <li class="mt-2">
-                                    <NavLink href='@string.Format("checklist/{0}", @tempList.Id)'>
-                                        @tempList.Nombre
-                                    </NavLink>
-                                </li>
+                        <li class="mt-2">
+                            <a href='@string.Format("checklist/{0}", @tempList.Id)' class="nav-link" id="a_LC4">
+                              •  @tempList.Nombre
+                            </a> @*<NavLink></NavLink>*@
+                        </li>
 
+                             }
                             }
-                        }
-                    </ul>
+                            </li>
+                        </ul>
                 </div>
                 <a class="btn btn-outline-primary" href='@string.Format("checklist/create")' id="a_LC2">+</a>
             </div>
