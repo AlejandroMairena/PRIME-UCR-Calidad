@@ -16,24 +16,27 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
 
     public class CheckListService : ICheckListService
     {
-        private readonly ICheckListRepository _repo;
-        public CheckListService(ICheckListRepository repo) 
+        private readonly ICheckListRepository _checklistRepository;
+        private readonly IItemRepository _itemRepository;
+
+        public CheckListService(ICheckListRepository checklistRepository, IItemRepository itemRepository)
         {
-            _repo = repo;
+            _checklistRepository = checklistRepository;
+            _itemRepository = itemRepository;
         }
         public async Task<IEnumerable<CheckList>> GetAll()
         {
-            IEnumerable<CheckList> lists = await _repo.GetAllAsync();
+            IEnumerable<CheckList> lists = await _checklistRepository.GetAllAsync();
             return lists.OrderBy(checklist => checklist.Orden);
         }
         public async Task<CheckList> InsertCheckList(CheckList list) 
         {
-            return await _repo.InsertAsync(list);
+            return await _checklistRepository.InsertAsync(list);
         }
 
         public async Task<CheckList> GetById(int id)
         {
-            return await _repo.GetByKeyAsync(id);
+            return await _checklistRepository.GetByKeyAsync(id);
         }
 
         // User Story PIG01IIC20-267 LG - Agregar imagen descriptiva a lista de chequeo
@@ -41,13 +44,19 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
         public async Task<CheckList> SaveImage(string imageName, CheckList list)
         {
             list.NombreImagen = imageName;
-            await _repo.UpdateAsync(list);
+            await _checklistRepository.UpdateAsync(list);
             return list;
         }
         public async Task<CheckList> UpdateCheckList(CheckList list)
         {
-            await _repo.UpdateAsync(list);
+            await _checklistRepository.UpdateAsync(list);
             return list;
         }
+
+        public async Task<Item> InsertCheckListItem(Item item)
+        {
+            return await _itemRepository.InsertAsync(item);
+        }
+
     }
 }

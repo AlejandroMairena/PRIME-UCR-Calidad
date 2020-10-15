@@ -19,22 +19,22 @@ else
                 <div>
                     <ul class="nav nav-pills flex-column">@*<ul class="ml-4" type="square">*@
                         <li class="nav-item">@*ver lisatas de chequeo ya creadas*@
-                            
-                            @if (lists !=null && lists.Count()>
-                            0)
+                            @if (lists !=null && lists.Count()>0)
                             {
-                            @foreach (var tempList in lists)
-                            {
-                        <li class="mt-2">
-                            <a href='@string.Format("checklist/{0}", @tempList.Id)' class="nav-link" id="a_LC4">
-                              •  @tempList.Nombre
-                            </a> @*<NavLink></NavLink>*@
-                        </li>
-
-                             }
+                                @foreach (var tempList in lists)
+                                {
+                                    <li class="mt-2">
+                                    <NavLink class="nav-link" href='@string.Format("checklist/{0}", @tempList.Id)'>
+                                        <span aria-hidden="true"></span> @tempList.Nombre
+                                    </NavLink>
+                                        @*<a href='@string.Format("checklist/{0}", @tempList.Id)' class="nav-link" id="a_LC4">
+                                          •  @tempList.Nombre
+                                        </a> @*<NavLink></NavLink>*@
+                                    </li>
+                                }
                             }
-                            </li>
-                        </ul>
+                        </li>
+                    </ul>
                 </div>
                 <a class="btn btn-outline-primary" href='@string.Format("checklist/create")' id="a_LC2">+</a>
             </div>
@@ -76,6 +76,7 @@ else
         Calls a component to upload images into the checklist
                 <LoadImageComponent @bind-list="@list" />
                 *@
+            <a class="btn btn-outline-primary" href='@string.Format("checklist/createItem")'>+ Crear Item</a>
             </p>
                 <div class="input-group row">
                     <label for="checklistDescription" class="col-sm-2 col-form-label"><span style="color:dimgray">Descripción: </span></label>
