@@ -16,7 +16,10 @@ namespace PRIME_UCR.Domain.Models.CheckLists
         public int IDLista { get; set; }        // fk-CheckList
 
         public CheckList Checklist { get; set; }
+
+        // List of subitems in this item
         public List<Item> SubItems { get; set; }
+        public Item ItemList { get; set; } // parent item
 
         public override bool Equals(object obj)
         {

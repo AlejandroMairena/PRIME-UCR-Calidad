@@ -16,6 +16,8 @@ namespace PRIME_UCR.Domain.Models.CheckLists
         public string Descripcion { get; set; }
         public int Orden { get; set; }
         public string NombreImagen { get; set; }
+
+        // List of items in this checklist
         public List<Item> Items { get; set; }
     }
 }

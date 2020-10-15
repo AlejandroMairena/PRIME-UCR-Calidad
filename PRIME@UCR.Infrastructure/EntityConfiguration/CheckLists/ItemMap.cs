@@ -16,6 +16,15 @@ namespace PRIME_UCR.Infrastructure.EntityConfiguration.CheckLists
             builder
                 .Property(p => p.NombreImagen)
                 .HasDefaultValue("defaultCheckList.png");
+            builder
+                .HasOne(p => p.Checklist)
+                .WithMany(p => p.Items)
+                .HasForeignKey(p => p.IDLista)
+                .OnDelete(DeleteBehavior.Cascade);
+            builder
+                .HasOne(p => p.ItemList)
+                .WithMany(p => p.SubItems)
+                .HasForeignKey(p => p.IDSuperItem);
         }
     }
 }
