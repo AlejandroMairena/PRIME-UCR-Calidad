@@ -1,4 +1,5 @@
 ﻿using PRIME_UCR.Domain.Models;
+using PRIME_UCR.Domain.Models.CheckLists;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -12,5 +13,6 @@ namespace PRIME_UCR.Application.Services.CheckLists
         Task<CheckList> InsertCheckList(CheckList list);
         Task<CheckList> GetById(int id);
         Task<CheckList> SaveImage(string imageName, CheckList list);
+        Task<CheckList> UpdateCheckList(CheckList list);
     }
 }

@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using System.Linq;
 using System.IO;
 using Microsoft.AspNetCore.Components;
+using PRIME_UCR.Application.Repositories.CheckLists;
+using PRIME_UCR.Domain.Models.CheckLists;
 
 namespace PRIME_UCR.Application.Implementations.CheckLists
 {
@@ -39,6 +41,11 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
         public async Task<CheckList> SaveImage(string imageName, CheckList list)
         {
             list.NombreImagen = imageName;
+            await _repo.UpdateAsync(list);
+            return list;
+        }
+        public async Task<CheckList> UpdateCheckList(CheckList list)
+        {
             await _repo.UpdateAsync(list);
             return list;
         }

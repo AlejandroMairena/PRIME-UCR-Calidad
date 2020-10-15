@@ -10,45 +10,35 @@
 <div>
     @if (lists == null)
     {
-        <p><em class="nav-link">No se ha creado ninguna lista, presione el boton Crear Lista de Chequeo para crear una.</em></p>
-    }
-    else
+     <p><em class="nav-link">Cargando listas de chequeo.</em></p>
+    } else
     {
-
         if (lists.Count() == 0)
         {
             <p><em class="nav-link">No se ha creado ninguna lista, presione el boton Crear Lista de Chequeo para crear una.</em></p>
         }
-        else
-        {
-            <div class="container">
-                <table class="table" id="Table_CL">
-                    <thead>
-                        <tr>
-                            <th>Nombre</th>
-                            <th>Tipo</th>
-                            <th>Descripción</th>
-                            <th>Orden</th>
-                            <th>Id</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var tempList in lists)
-                        {
+        else { 
+            <table class="table" id="Table_CL">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Tipo</th>
+                        <th>Descripción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var tempList in lists)
+                    {
                         <tr class="nav-item px-3" style="transform: rotate(0);">
                             <th scope="row"><a href='@string.Format("checklist/{0}", @tempList.Id)' class="stretched-link">@tempList.Nombre</a></th>
-                            <td>@tempList.Tipo</td>
-                            <td>@tempList.Descripcion</td>
-                            <th>@tempList.Orden</th>
-                            <th>@tempList.Id</th>
+                                <td>@tempList.Tipo</td>
+                                <td>@tempList.Descripcion</td>
                         </tr>
-                        }
-                    </tbody>
-                </table>
-                <a class="btn btn-outline-primary" href='@string.Format("checklist/create")' id="a_LC1">+</a>
-            </div>
+                    }
+                </tbody>
+            </table>
         }
-
+        <a class="btn btn-outline-primary" href='@string.Format("checklist/create")' id="a_LC1">+</a>
     }
 </div>
 <br />

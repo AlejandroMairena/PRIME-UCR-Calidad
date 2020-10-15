@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using PRIME_UCR.Application.Services.CheckLists;
 using PRIME_UCR.Components.CheckLists;
 using Microsoft.AspNetCore.Components.Forms;
+using PRIME_UCR.Domain.Models.CheckLists;
 
 namespace PRIME_UCR.Pages.CheckLists
 {
@@ -14,7 +15,8 @@ namespace PRIME_UCR.Pages.CheckLists
         [Parameter]
         public int id { get; set; }
 
-        [CascadingParameter(Name = "lists")]
+        private bool isDisabled { get; set; } = true;
+
         protected IEnumerable<CheckList> lists { get; set; }
 
         public CheckList list { get; set; }
@@ -29,10 +31,16 @@ namespace PRIME_UCR.Pages.CheckLists
         protected async Task RefreshModels()
         {
             list = await MyService.GetById(id);
+            lists = await MyService.GetAll();
         }
 
         protected override async Task OnParametersSetAsync()
         {
+            await RefreshModels();
+        }
+        protected async Task Update()
+        {
+            await MyService.UpdateCheckList(list);
             await RefreshModels();
         }
     }

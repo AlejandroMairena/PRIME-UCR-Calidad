@@ -7,6 +7,7 @@ using PRIME_UCR.Application.Services.Multimedia;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
 using BlazorInputFile;
+using PRIME_UCR.Domain.Models.CheckLists;
 
 namespace PRIME_UCR.Components.CheckLists
 {

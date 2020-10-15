@@ -37,20 +37,47 @@ else
         </div>
         <div class="col">
             <p>
-                <b>Nombre: </b> @list.Nombre
-                <span style="color:dimgray">&emsp;&emsp;Tipo: </span> @list.Tipo
-                <span style="color:dimgray">&emsp;&emsp;Id: </span> @list.Id
+                <div class="input-group row">
+                    <label for="checklistName" class="col-sm-2 col-form-label"><b>Nombre:</b></label>
+                    <div class="col-sm-10">
+                        <input class="form-control-plaintext" type="text" id="checklistName" name="checklistName" @bind-value="list.Nombre" @onfocusout="Update" />
+                    </div>
+                </div>
+                <div class="input-group row">
+                    <label for="checklistType" class="col-sm-1 col-form-label"><span style="color:dimgray">Tipo: </span></label>
+                    <div class="col-sm-4">
+                        <select class="form-control-plaintext" id="checklistType" @bind="list.Tipo" @onfocusout="Update">
+                            <option value="Colocación equipo">Colocación equipo</option>
+                            <option value="Retiro equipo">Retiro equipo</option>
+                            <option value="Paciente en origen">Paciente en origen</option>
+                            <option value="Paciente en destino">Paciente en destino</option>
+                            <option value="Paciente en traslado">Paciente en traslado</option>
+                        </select>
+                    </div>
+                    <label for="checklistOrder" class="col-sm-1 col-form-label"><span style="color:dimgray">Orden: </span></label>
+                    <div class="col-sm-2">
+                        <input class="form-control-plaintext" type="number" id="checklistOrder" name="checklistOrder" @bind-value="list.Orden" @onfocusout="Update" />
+                    </div>
+                    <label for="checklistId" class="col-sm-1 col-form-label"><span style="color:dimgray">Id: </span></label>
+                    <span class="col-sm-3">
+                        <input class="form-control-plaintext" type="number" id="checklistId" name="checklistId" disabled="disabled" @bind-value="@list.Id" />
+                    </span>
+                </div>
                 @if (@list.NombreImagen != null)
                 {
-                    <img src="@list.NombreImagen" width="50" height="50"/>
+                    <img src="@list.NombreImagen" width="50" height="50" />
                 }
+                @* User Story PIG01IIC20-267 LG - Agregar imagen descriptiva a lista de chequeo
+                Calls a component to upload images into the checklist*@
+                <LoadImageComponent @bind-list="@list" />
             </p>
-                <p><span style="color:dimgray">Descripcion: </span> @list.Descripcion</p>
+                <div class="input-group row">
+                    <label for="checklistDescription" class="col-sm-2 col-form-label"><span style="color:dimgray">Descripción: </span></label>
+                    <div class="col-sm-10">
+                        <textarea class="form-control-plaintext" type="text" id="checklistDescription" name="checklistDescription" rows="2" @bind="list.Descripcion" @onfocusout="Update" />
+                    </div>
+                </div>
             </div>
     </div>
     <br />
 }
-
-@* User Story PIG01IIC20-267 LG - Agregar imagen descriptiva a lista de chequeo
-Calls a component to upload images into the checklist*@
-<LoadImageComponent @bind-list="@list"/>

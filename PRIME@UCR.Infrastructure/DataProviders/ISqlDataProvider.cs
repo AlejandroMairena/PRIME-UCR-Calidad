@@ -4,6 +4,7 @@ using PRIME_UCR.Domain.Models;
 using System.Threading.Tasks;
 using PRIME_UCR.Domain.Models.Incidents;
 using PRIME_UCR.Domain.Models.UserAdministration;
+using PRIME_UCR.Domain.Models.CheckLists;
 
 namespace PRIME_UCR.Infrastructure.DataProviders
 {
@@ -13,6 +14,7 @@ namespace PRIME_UCR.Infrastructure.DataProviders
 
         // dbsets
         DbSet<CheckList> CheckList { get; set; }
+        DbSet<Item> Item { get; set; }
         DbSet<Pais> Countries { get; set; }
         DbSet<Provincia> Provinces { get; set; }
         DbSet<Canton> Cantons { get; set; }
