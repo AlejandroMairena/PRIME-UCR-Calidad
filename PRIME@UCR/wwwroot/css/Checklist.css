@@ -98,6 +98,15 @@ a:disabled#a_LC2.btn.btn-outline-primary {
 a:active#a_LC2.btn.btn-outline-primary {
     background: rgba(22, 69, 103, 0.80);
 }
+/*a for single  checklist */
+a#a_LC4.nav-link {
+
+}
+
+a:active#a_LC4.nav-link {
+    background: #007BFF;
+    color: white;
+}
 
 /* table to see all checklist*/
 #Table_CL {

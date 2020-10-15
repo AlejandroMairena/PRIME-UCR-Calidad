@@ -4,6 +4,7 @@
 @* @attribute [Authorize(Roles = "coordinador tecnico medico")] *@
 @* @attribute [Authorize(Policy = "check-list")] *@
 @attribute [Authorize]
+<link href="css/Checklist.css" rel="stylesheet" />
 
 <h1> Plantillas de listas de chequeo </h1>
 <hr />
@@ -15,7 +16,7 @@
     {
         if (lists.Count() == 0)
         {
-            <p><em class="nav-link">No se ha creado ninguna lista, presione el boton Crear Lista de Chequeo para crear una.</em></p>
+            <p><em class="nav-link">No se ha creado ninguna lista, presione el boton + para crear una.</em></p>
         }
         else { 
             <table class="table" id="Table_CL">
