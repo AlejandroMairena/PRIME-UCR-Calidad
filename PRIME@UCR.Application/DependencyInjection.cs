@@ -19,6 +19,7 @@ namespace PRIME_UCR.Application
         {
             // services
             services.AddTransient<IPermissionsService, PermissionsService>();
+            services.AddTransient<IProfilesService, ProfilesService>();
             services.AddTransient<IUserService, UsersService>();
             services.AddTransient<ICheckListService, CheckListService>();
             services.AddTransient<IIncidentService, IncidentService>();
