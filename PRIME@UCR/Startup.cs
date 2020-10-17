@@ -12,6 +12,9 @@ using PRIME_UCR.Domain.Models.UserAdministration;
 using Microsoft.AspNetCore.Components.Authorization;
 using PRIME_UCR.Application.Implementations.UserAdministration;
 using Blazored.SessionStorage;
+using PRIME_UCR.Application.DTOs.UserAdministration;
+using System;
+using System.Linq;
 
 namespace PRIME_UCR
 {
@@ -43,68 +46,11 @@ namespace PRIME_UCR
 
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("CanDoAnything", policy =>
-                     policy.RequireClaim("CanDoAnything", "true"));
-
-                options.AddPolicy("CanManageUsers", policy =>
-                     policy.RequireClaim("CanManageUsers", "true"));
-
-                options.AddPolicy("CanAccessEverythingExceptMedicalData", policy =>
-                     policy.RequireClaim("CanAccessEverythingExceptMedicalData", "true"));
-
-                options.AddPolicy("CanAccessIncidentsFromAnMedicalRecordInReadMode", policy =>
-                     policy.RequireClaim("CanAccessIncidentsFromAnMedicalRecordInReadMode", "true"));
-
-                options.AddPolicy("CanAccessIncidentsOfHisPatients", policy =>
-                     policy.RequireClaim("CanAccessIncidentsOfHisPatients", "true"));
-
-                options.AddPolicy("CanAssignAllStepsOfAIncidents", policy =>
-                     policy.RequireClaim("CanAssignAllStepsOfAIncidents", "true"));
-
-                options.AddPolicy("CanAssignPostCreationStepsOfIncidentsAssignedToHim", policy =>
-                     policy.RequireClaim("CanAssignPostCreationStepsOfIncidentsAssignedToHim", "true"));
-
-                options.AddPolicy("CanAttachMultimediaInChecklistOfHisPatients", policy =>
-                     policy.RequireClaim("CanAttachMultimediaInChecklistOfHisPatients", "true"));
-
-                options.AddPolicy("CanCreateCheckList", policy =>
-                     policy.RequireClaim("CanCreateCheckList", "true"));
-
-                options.AddPolicy("CanManageAllIncidents", policy =>
-                     policy.RequireClaim("CanManageAllIncidents", "true"));
-
-                options.AddPolicy("CanManageAllMedicalRecords", policy =>
-                     policy.RequireClaim("CanManageAllMedicalRecords", "true"));
-
-                options.AddPolicy("CanManageCheckListOfAnIncidentsAssignedToHim", policy =>
-                     policy.RequireClaim("CanManageCheckListOfAnIncidentsAssignedToHim", "true"));
-
-                options.AddPolicy("CanManageDashboard", policy =>
-                     policy.RequireClaim("CanManageDashboard", "true"));
-
-                options.AddPolicy("CanManageIncidentsAssignedToHim", policy =>
-                     policy.RequireClaim("CanManageIncidentsAssignedToHim", "true"));
-
-                options.AddPolicy("CanManageMedicalRecordsOfHisPatients", policy =>
-                     policy.RequireClaim("CanManageMedicalRecordsOfHisPatients", "true")); 
-
-                options.AddPolicy("CanOnlyRegisterAnIncident", policy =>
-                     policy.RequireClaim("CanOnlyRegisterAnIncident", "true"));
-
-                options.AddPolicy("CanSeeAllInfoOfAnIncidentInReadMode", policy =>
-                     policy.RequireClaim("CanSeeAllInfoOfAnIncidentInReadMode", "true"));
-
-                options.AddPolicy("CanSeeMedicalRecordsFromIncidentsInReadMode", policy =>
-                     policy.RequireClaim("CanSeeMedicalRecordsFromIncidentsInReadMode", "true"));
-
-                options.AddPolicy("CanSeeMedicalRecordsInReadMode", policy =>
-                     policy.RequireClaim("CanSeeMedicalRecordsInReadMode", "true"));
-
-                options.AddPolicy("CanSeeMedicalRecordsOfHisPatients", policy =>
-                     policy.RequireClaim("CanSeeMedicalRecordsOfHisPatients", "true"));
-
-                options.AddPolicy("CanSeeMedicalRecordsOfPatientsAssignedToHim", policy =>
-                    policy.RequireClaim("CanSeeMedicalRecordsOfPatientsAssignedToHim", "true"));
+                foreach(var permission in Enum.GetValues(typeof(AuthorizationPermissions)).Cast<AuthorizationPermissions>())
+                {
+                    options.AddPolicy(permission.ToString(), policy =>
+                        policy.RequireClaim(permission.ToString(), "true"));
+                }
             });
 
         }

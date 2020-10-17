@@ -21,5 +21,10 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
         {
             return await _profilesRepository.GetAllAsync();
         }
+
+        public async Task<List<Perfil>> GetPerfilesWithDetailsAsync()
+        {
+            return await _profilesRepository.GetPerfilesWithDetailsAsync();
+        }
     }
 }

@@ -11,5 +11,7 @@ namespace PRIME_UCR.Application.Services.UserAdministration
         Task<IEnumerable<Usuario>>GetUsuarios() ;
 
         Task<Usuario> getUsuarioWithDetails(string id);
+
+        Task<Persona> getPersonWithDetailstAsync(string email);
     }
 }

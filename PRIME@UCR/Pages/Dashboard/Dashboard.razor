@@ -1,15 +1,16 @@
 ﻿@page "/dashboard"
 @*Example of policy based authorization in a page*@
-@attribute [Authorize(Policy = @AuthorizationPermissions.CanManageDashboard)]
 
+@attribute [HasPermission(AuthorizationPermissions.CanManageDashboard)]
 
 @layout MainLayout
 @using ChartJs.Blazor.Charts
 @using PRIME_UCR.Application.DTOs.UserAdministration;
-
+@using PRIME_UCR.Application.Implementations.UserAdministration;
 
 @*Example of policy based authorization in a piece of code*@
-<AuthorizeView Policy="@AuthorizationPermissions.CanManageDashboard">
+
+<AuthorizeView Policy="@AuthorizationPermissions.CanManageDashboard.ToString()">
     <Authorized>
         <h1>
             Dashboard
@@ -21,6 +22,7 @@
         </h1>
     </NotAuthorized>
 </AuthorizeView>
+
 
 <div class="row">
     <div class="col-md-4">
@@ -35,4 +37,3 @@
 
     @*<LineGraphComponent></LineGraphComponent>*@
 </div>
-
