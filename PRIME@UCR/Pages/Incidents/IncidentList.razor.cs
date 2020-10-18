@@ -11,7 +11,12 @@ namespace PRIME_UCR.Pages.Incidents
 {
     public partial class IncidentList
     {
+        private const string CreateIncidentUrl = "/incidents/create";
+
         private bool exists = false;
+
+        [Inject]
+        private NavigationManager NavManager { get; set; }
 
         private SampleData[] data;
         protected override async Task OnInitializedAsync()
@@ -25,6 +30,12 @@ namespace PRIME_UCR.Pages.Incidents
             public int? id { get; set; }
             public string full_name { get; set; }
         }
+
+        void Redirect()
+        {
+            NavManager.NavigateTo($"{CreateIncidentUrl}");
+        }
+ 
     }
 
 }

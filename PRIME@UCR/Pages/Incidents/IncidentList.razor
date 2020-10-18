@@ -30,10 +30,18 @@
 
 </Table>
 
+<style>
+    .app-fab--absolute {
+        position: fixed;
+        bottom: 1rem;
+        right: 1rem;
+    }
+</style>
+
+<MatFAB Icon="@MatIconNames.Add" OnClick="@(_ => Redirect())"></MatFAB>
+
 
 @code{
     // TODO: Move this line to IncidentList.razor.cs
     private ITable<SampleData> Table;
 }
-
-
