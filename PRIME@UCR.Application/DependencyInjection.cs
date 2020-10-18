@@ -16,7 +16,10 @@ namespace PRIME_UCR.Application
         {
             // services
 
+            // CheckList services
             services.AddTransient<ICheckListService, CheckListService>();
+            services.AddTransient<IItemService, ItemService>();
+
             services.AddTransient<IIncidentService, IncidentService>();
             services.AddTransient<ILocationService, LocationService>();
             services.AddTransient<IMultimediaContentService, MultimediaContentService>();

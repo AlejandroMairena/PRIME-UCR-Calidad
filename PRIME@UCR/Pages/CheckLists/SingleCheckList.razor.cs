@@ -21,7 +21,9 @@ namespace PRIME_UCR.Pages.CheckLists
 
         public CheckList list { get; set; }
 
-        [Inject] protected ICheckListService MyService { get; set; }
+        [Inject] protected ICheckListService MyCheckListService { get; set; }
+
+        [Inject] protected IItemService MyItemService { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
@@ -30,8 +32,8 @@ namespace PRIME_UCR.Pages.CheckLists
 
         protected async Task RefreshModels()
         {
-            list = await MyService.GetById(id);
-            lists = await MyService.GetAll();
+            list = await MyCheckListService.GetById(id);
+            lists = await MyCheckListService.GetAll();
         }
 
         protected override async Task OnParametersSetAsync()
@@ -40,7 +42,7 @@ namespace PRIME_UCR.Pages.CheckLists
         }
         protected async Task Update()
         {
-            await MyService.UpdateCheckList(list);
+            await MyCheckListService.UpdateCheckList(list);
             await RefreshModels();
         }
     }
