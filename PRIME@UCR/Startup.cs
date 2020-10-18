@@ -12,6 +12,9 @@ using PRIME_UCR.Domain.Models.UserAdministration;
 using Microsoft.AspNetCore.Components.Authorization;
 using PRIME_UCR.Application.Implementations.UserAdministration;
 using Blazored.SessionStorage;
+using PRIME_UCR.Application.DTOs.UserAdministration;
+using System;
+using System.Linq;
 
 namespace PRIME_UCR
 {
@@ -33,15 +36,23 @@ namespace PRIME_UCR
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DevelopmentDbConnection")));
-            //services.AddDefaultIdentity<Usuario>();
             services.AddIdentity<Usuario, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
-            //services.AddIdentity<Usuario>();
             services.AddBlazoredSessionStorage();
             services.AddScoped<AuthenticationStateProvider,CustomAuthenticationStateProvider>();
 
             services.AddApplicationLayer();
             services.AddInfrastructureLayer();
+
+            services.AddAuthorization(options =>
+            {
+                foreach(var permission in Enum.GetValues(typeof(AuthorizationPermissions)).Cast<AuthorizationPermissions>())
+                {
+                    options.AddPolicy(permission.ToString(), policy =>
+                        policy.RequireClaim(permission.ToString(), "true"));
+                }
+            });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

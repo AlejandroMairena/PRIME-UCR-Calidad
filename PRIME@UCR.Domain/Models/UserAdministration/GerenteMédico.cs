@@ -4,8 +4,10 @@ using System.Text;
 
 namespace PRIME_UCR.Domain.Models.UserAdministration
 {
-    public class GerenteMédico
+    /**
+     * Class used to model table GerenteMédico from database.
+     */
+    public class GerenteMédico : Funcionario
     {
-        public string CédulaGerenteMédico { get; set; }
     }
 }

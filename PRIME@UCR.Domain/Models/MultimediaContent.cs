@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Net.NetworkInformation;
 using System.Text;
 
@@ -7,6 +8,7 @@ namespace PRIME_UCR.Domain.Models
 {
     public class MultimediaContent
     {
+        [Key]
         public int ID { get; set; }
 
         public string Nombre { get; set; }
