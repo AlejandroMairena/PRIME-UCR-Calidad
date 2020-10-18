@@ -87,14 +87,65 @@ else
                 <br />
                 <br />
                 <div id="Body_LC">
-                        @*Item example*@
-                    <p2>
-                        <b>Nombre :&nbsp;</b>Cabeza &nbsp; Orden:  1<br />
-                        <span style="color:grey">Descripción:</span> Implementos para proteger la cabeza
-                    </p2>
-                        <hr />
-                        <button class="btn-secondary" id="BS_LC6"> + </button>
+                    @*Item example*@
+                    @if (items == null)
+                    {
+                        <p>Cargando items.</p>
+                    }
+                    else
+                    {
+                        if (items.Count() == 0)
+                        {
+                            <p>No se ha creado ningun item para esta lista de chequeo. Presione el boton de crear item para agregarle un item.</p>
+                        }
+                        else
+                        {
+                            @foreach (var itemInList in items) 
+                            { 
+                                <p>
+                                    <b>Nombre:</b> @itemInList.Nombre &nbsp; Orden: @itemInList.Orden<br />
+                                    <span style="color:grey">Descripción:</span> @itemInList.Descripcion
+                                </p>
+                            }
+                        }
+                    }
+                    <hr />
+                    @if (createItem == false)
+                    {
+                        <button class="btn-secondary" id="BS_LC6" @onclick="StartNewItemCreation"> + </button>
                         <a>Crear ítem</a>
+                    }
+                    else
+                    {
+                        <div class="container">
+                            <h5>Crear item de lista de chequeo</h5>
+                            <br />
+                            <EditForm EditContext="@editContext" OnValidSubmit="@HandleValidSubmit">
+                                @* to do: <EditForm> Crear lista de Chequeo*@
+                                <label for="name">Nombre:<span style=" color:red">*&nbsp;&nbsp;&nbsp;&nbsp;</span></label>
+                                <InputText id="name" @bind-Value="tempItem.Nombre" class="form-control" />
+                                <ValidationMessage For="@(() => tempItem.Nombre)" />
+                                <br />
+                                <label for="description">Descripción: </label>
+                                <InputTextArea id="description" @bind-Value="tempItem.Descripcion" class="form-control" />
+                                <br />
+                                <div class="form-row">
+                                    <div class="col-6">
+                                        <label for="order">Orden:<span style=" color:red">*</span></label>
+                                        <InputNumber id="order" @bind-Value="tempItem.Orden" class="form-control" />
+                                    </div>
+                                </div>
+                                <br />
+                                <p style="color:red">* Campo requerido</p>
+
+                                <div align="center">
+                                    <button type="submit" class="btn btn-primary" disabled="@formInvalid" id="BP_LC0">Guardar Lista</button> @*to do: ir a la recien creada *@
+                                    <a class="btn btn-outline-secondary" @onclick="Dispose" id="a_LC3">Cancelar</a> @*to do: ir a la anterior  *@
+                                </div>
+                            </EditForm>
+                        </div>
+                        <br />
+                    }
                 </div>
             </div>
         </div>

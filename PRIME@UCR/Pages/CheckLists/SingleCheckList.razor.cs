@@ -7,6 +7,7 @@ using PRIME_UCR.Application.Services.CheckLists;
 using PRIME_UCR.Components.CheckLists;
 using Microsoft.AspNetCore.Components.Forms;
 using PRIME_UCR.Domain.Models.CheckLists;
+using System.Linq;
 
 namespace PRIME_UCR.Pages.CheckLists
 {
@@ -17,9 +18,18 @@ namespace PRIME_UCR.Pages.CheckLists
 
         private bool isDisabled { get; set; } = true;
 
+        protected bool createItem { get; set; } = false;
+
         protected IEnumerable<CheckList> lists { get; set; }
 
+        protected IEnumerable<Item> items { get; set; }
+
         public CheckList list { get; set; }
+
+        protected Item tempItem;
+
+        protected bool formInvalid = true;
+        protected EditContext editContext;
 
         [Inject] protected ICheckListService MyCheckListService { get; set; }
 
@@ -34,6 +44,45 @@ namespace PRIME_UCR.Pages.CheckLists
         {
             list = await MyCheckListService.GetById(id);
             lists = await MyCheckListService.GetAll();
+            items = await MyItemService.GetAll();
+        }
+
+        protected void HandleFieldChanged(object sender, FieldChangedEventArgs e)
+        {
+            if (tempItem.Nombre != null)
+            {
+                formInvalid = !editContext.Validate();
+            }
+        }
+
+        public void Dispose()
+        {
+            editContext.OnFieldChanged -= HandleFieldChanged;
+            createItem = false;
+            StateHasChanged();
+        }
+
+        protected async Task AddCheckListItem(Item item)
+        {
+            await MyItemService.InsertItem(item);
+            createItem = false;
+            await RefreshModels();
+            StateHasChanged();
+        }
+
+        protected void StartNewItemCreation() {
+            createItem = true;
+            tempItem = new Item();
+            tempItem.IDLista = id;
+            tempItem.Orden = items.Count() + 1;
+            editContext = new EditContext(tempItem);
+            editContext.OnFieldChanged += HandleFieldChanged;
+            StateHasChanged();
+        }
+
+        protected async Task HandleValidSubmit()
+        {
+            await AddCheckListItem(tempItem);
         }
 
         protected override async Task OnParametersSetAsync()

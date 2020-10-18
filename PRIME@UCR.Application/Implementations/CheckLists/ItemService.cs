@@ -37,7 +37,7 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
 
         public async Task<Item> SaveImage(string imageName, Item item)
         {
-            item.NombreImagen = imageName;
+            item.ImagenDescriptiva = imageName;
             await _repo.UpdateAsync(item);
             return item;
         }
