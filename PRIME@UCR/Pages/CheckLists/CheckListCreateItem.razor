@@ -18,8 +18,8 @@
 <h1>Plantillas de listas de chequeo</h1>
 <hr />
 <div class="row">
-    <div class="col-lg-3 mb-4">
-        <div class="container">
+    <div class="col-lg-3 mb-4" >@*id="colALL_LC"*@
+        <div class="container" >@*id="contAll_LC"*@
             <h6>Listas de chequeo Existentes</h6> @* Mejorar diseño de interfaz*@
             <div>
                 <ul class="nav nav-pills flex-column">
@@ -29,19 +29,21 @@
 
                         @if (lists != null && lists.Count() > 0)
                         {
-            @foreach (var tempList in lists)
-            {
-<li class="mt-2">
-    <a href='@string.Format("checklist/{0}", @tempList.Id)' class="nav-link" id="a_LC4">
-        •  @tempList.Nombre
-    </a>
-</li>
-}}
+                            @foreach (var tempList in lists)
+                            {
+                            <li class="mt-2">
+                                <NavLink href='@string.Format("checklist/{0}", @tempList.Id)' class="nav-link" id="a_LC4">
+                                    •  @tempList.Nombre
+                                </NavLink>
+                            </li>
+
+                        }
+                        }
                         </li>
                     </ul>
                 </div>
             </div>
-        </div>
+            </div>
 
         @*
             Story: PIG01IIC20-309
