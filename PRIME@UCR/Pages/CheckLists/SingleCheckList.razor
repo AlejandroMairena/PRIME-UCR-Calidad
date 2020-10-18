@@ -103,7 +103,7 @@ else
                             @foreach (var itemInList in items) 
                             { 
                                 <p>
-                                    <b>Nombre:</b> @itemInList.Nombre &nbsp; Orden: @itemInList.Orden<br />
+                                    <b>Nombre:</b> @itemInList.Nombre<br />
                                     <span style="color:grey">Descripción:</span> @itemInList.Descripcion
                                 </p>
                             }
@@ -139,7 +139,7 @@ else
                                 <p style="color:red">* Campo requerido</p>
 
                                 <div align="center">
-                                    <button type="submit" class="btn btn-primary" disabled="@formInvalid" id="BP_LC0">Guardar Lista</button> @*to do: ir a la recien creada *@
+                                    <button type="submit" class="btn btn-primary" disabled="@formInvalid" id="BP_LC0">Guardar Item</button> @*to do: ir a la recien creada *@
                                     <a class="btn btn-outline-secondary" @onclick="Dispose" id="a_LC3">Cancelar</a> @*to do: ir a la anterior  *@
                                 </div>
                             </EditForm>
