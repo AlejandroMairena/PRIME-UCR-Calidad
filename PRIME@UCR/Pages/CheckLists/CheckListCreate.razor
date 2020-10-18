@@ -7,11 +7,11 @@
 @attribute [Authorize]
 <link href="css/Checklist.css" rel="stylesheet" />
 
-<h1>Plantillas de listas de chequeo</h1>
+<h3>Plantillas de listas de chequeo</h3>
 <hr />
 <div class="row">
-    <div class="col-lg-3 mb-4">
-        <div class="container">
+    <div class="col-lg-3 mb-4" >@*id="colALL_LC"*@
+        <div class="container" >@*id="contAll_LC"*@
             <h6>Listas de chequeo Existentes</h6> @* Mejorar diseño de interfaz*@
             <div>
                 <ul class="nav nav-pills flex-column">
@@ -24,9 +24,9 @@
                             @foreach (var tempList in lists)
                             {
                             <li class="mt-2">
-                                <a href='@string.Format("checklist/{0}", @tempList.Id)' class="nav-link" id="a_LC4">
+                                <NavLink href='@string.Format("checklist/{0}", @tempList.Id)' class="nav-link" id="a_LC4">
                                     •  @tempList.Nombre
-                                </a>
+                                </NavLink>
                             </li>
 
                         }
@@ -44,7 +44,7 @@
             *@
             <div class="col">
                 <div class="container">
-                    <h3>Crear plantilla de lista de chequeo</h3>
+                    <h5>Crear plantilla de lista de chequeo</h5>
                     <br />
                     <EditForm EditContext="@editContext" OnValidSubmit="@HandleValidSubmit">
                         @* to do: <EditForm> Crear lista de Chequeo*@
@@ -77,7 +77,7 @@
                         <p style="color:red">* Campo requerido</p>
 
                         <div align="center">
-                            <button type="submit" class="btn btn-primary" disabled="@formInvalid" id="BP_LC0">Guardar Lista</button> @*to do: ir a la recien creada *@
+                            <button type="submit" class="btn btn-primary" disabled="@formInvalid" id="BP_LC0">Guardar</button> @*to do: ir a la recien creada *@
                             <a class="btn btn-outline-secondary" href='@string.Format("checklist")' id="a_LC3">Cancelar</a> @*to do: ir a la anterior  *@
                         </div>
                     </EditForm>
