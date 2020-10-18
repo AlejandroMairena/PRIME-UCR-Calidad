@@ -1,39 +1,39 @@
 ﻿@page "/incidents/ListaIncidentes"
+@using BlazorTable
 @attribute [Authorize]
 
 
 <h3>Lista de Incidentes</h3>
+
 <hr />
-<section>
-    <table class="table table-bordered table-striped">
-        <thead>
-            <tr>
-                <th>Código Incidente</th>
-                <th>Cédula Paciente</th>
-                <th>Nombre Paciente</th>
-                <th>Fecha Registro</th>
-                <th>Hora Registro</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Placeholder</td>
-                <td>Placeholder</td>
-                <td>Placeholder</td>
-                <td>Placeholder</td>
-                <td>Placeholder</td>
-            </tr>
-            <tr>
-                <td>Placeholder</td>
-                <td>Placeholder</td>
-                <td>Placeholder</td>
-                <td>Placeholder</td>
-                <td>Placeholder</td>
-            </tr>
-        </tbody>
-    </table>
-</section>
+
+<Table TableItem="SampleData" Items="data" PageSize="15" @ref="Table" ColumnReorder="true">
+    <Column TableItem="SampleData" Title="Código" Field="@(x => x.id)" Sortable="true" Filterable="true" Width="20%" DefaultSortColumn="true" />
+    <Column TableItem="SampleData" Title="Cédula Paciente" Field="@(x => x.full_name)" Sortable="true" Filterable="true" Width="20%" />
+    <Column TableItem="SampleData" Title="Nombre Paciente" Field="@(x => x.full_name)" Sortable="true" Filterable="true" Width="20%" />
+    <Column TableItem="SampleData" Title="Fecha Registro" Field="@(x => x.full_name)" Sortable="true" Filterable="true" Width="20%" />
+    <Column TableItem="SampleData" Title="Hora Registro" Field="@(x => x.full_name)" Sortable="true" Filterable="true" Width="20%" />
+
+    @if (exists)
+    {
+
+    }
+    else
+    {
+        <EmptyDataTemplate>
+            <div class="text-center">
+                No se encontraron incidentes aprobados para mostrar.
+            </div>
+        </EmptyDataTemplate>
+        <Pager ShowPageNumber="true" ShowTotalCount="true" />
+    }
+
+</Table>
 
 
+@code{
+    // TODO: Move this line to IncidentList.razor.cs
+    private ITable<SampleData> Table;
+}
 
 
