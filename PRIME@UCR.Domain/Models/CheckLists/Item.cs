@@ -8,12 +8,11 @@ namespace PRIME_UCR.Domain.Models.CheckLists
     {
         public int Id { get; set; }
         public string Nombre { get; set; }
-        public string Tipo { get; set; }
         public string Descripcion { get; set; }
         public int Orden { get; set; }
-        public string NombreImagen { get; set; }
-        public int IDSuperItem { get; set; }    // fk-Item
-        public int IDLista { get; set; }        // fk-CheckList
+        public string ImagenDescriptiva { get; set; }
+        public int? IDSuperItem { get; set; }    // fk-Item
+        public int? IDLista { get; set; }        // fk-CheckList
 
         public CheckList Checklist { get; set; }
 

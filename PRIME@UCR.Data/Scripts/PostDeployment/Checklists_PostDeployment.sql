@@ -1,1 +1,2 @@
 ﻿DELETE FROM CheckList
+DELETE FROM Item
