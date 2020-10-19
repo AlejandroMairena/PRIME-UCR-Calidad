@@ -21,13 +21,16 @@ namespace PRIME_UCR.Components.Incidents.LocationPickers
         
         private CentroMedico _selectedMedicalCenter;
 
+        private int _bedNumber;
+
         private List<CentroMedico> _values;
 
         async Task Callback()
         {
             var location = new CentroUbicacion
             {
-                CentroMedicoId = _selectedMedicalCenter.Id
+                CentroMedicoId = _selectedMedicalCenter.Id,
+                NumeroCama = _bedNumber
             };
             await ValueChanged.InvokeAsync(location);
         }
@@ -48,6 +51,7 @@ namespace PRIME_UCR.Components.Incidents.LocationPickers
             if (Value is CentroUbicacion location)
             {
                 _selectedMedicalCenter = _values.First(mc => mc.Id == location.CentroMedicoId);
+                _bedNumber = location.NumeroCama;
             }
             else
             {
