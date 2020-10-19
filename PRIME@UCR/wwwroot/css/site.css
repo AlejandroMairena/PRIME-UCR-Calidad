@@ -14,13 +14,31 @@ a, .btn-link {
     color: #0366d6;
 }
 
-/*.btn-primary {*/
-/*    background: #FFFFFF;*/
-/*    height: 100%;*/
-/*    margin-top: 0;*/
-/*    z-index: 2;*/
-/*    position: relative;*/
-/*}*/
+.btn-primary {
+    background: #095290;
+    height: 100%;
+    margin-top: 0;
+    z-index: 2;
+    position: relative;
+}
+
+    .btn-primary:hover {
+        background: #00c0f3;
+    }
+
+.btn-secondary {
+    background: #676766;
+    height: 100%;
+    opacity: 0.5;
+    margin-top: 0;
+    z-index: 2;
+    position: relative;
+}
+
+    .btn-secondary:hover {
+        background: #303030;
+    }
+
 
 app {
     display: flex;
