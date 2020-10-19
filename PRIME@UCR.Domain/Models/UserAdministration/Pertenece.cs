@@ -6,8 +6,10 @@ namespace PRIME_UCR.Domain.Models.UserAdministration
 {
     public class Pertenece
     {
-        public string CédulaPersona { get; set; }
-        public string CorreoUsuario { get; set; }
-        public string NombrePerfil { get; set; }
+        public string IDUsuario { get; set; }
+        public Usuario Usuario { get; set; }
+
+        public string IDPerfil { get; set; }
+        public Perfil Perfil { get; set; }
     }
 }

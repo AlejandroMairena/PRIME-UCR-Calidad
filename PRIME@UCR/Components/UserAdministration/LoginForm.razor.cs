@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using PRIME_UCR.Application.Implementations.UserAdministration;
+using PRIME_UCR.Application.DTOs.UserAdministration;
 using PRIME_UCR.Domain.Models.UserAdministration;
 using System;
 using System.Collections.Generic;
@@ -15,11 +16,13 @@ namespace PRIME_UCR.Components.UserAdministration
         [Inject]
         public AuthenticationStateProvider MyAuthenticationStateProvider { get; set; }
 
-        public Usuario usuario { get; set; }
+        public LogInModel logInInfo;
+
+        string invalidUser = "hide";
 
         protected override void OnInitialized()
         {
-            usuario = new Usuario();
+            logInInfo = new LogInModel();
             base.OnInitialized();
         }
 
@@ -27,9 +30,14 @@ namespace PRIME_UCR.Components.UserAdministration
         {
             //DB
             // var authResult = await SignInManager.PasswordSignInAsync(usuario.Email, usuario.PasswordHash, true, true);
-            var result = await ((CustomAuthenticationStateProvider)MyAuthenticationStateProvider).AuthenticateLogin(usuario);
+            var result = await ((CustomAuthenticationStateProvider)MyAuthenticationStateProvider).AuthenticateLogin(logInInfo);
 
-            await sessionStorage.SetItemAsync("emailAddress",usuario.Email);
+            if(result == false)
+            {
+                invalidUser = "show";
+            }
+
+            await sessionStorage.SetItemAsync("emailAddress",logInInfo.Correo);
 
             return await Task.FromResult(result);
         }

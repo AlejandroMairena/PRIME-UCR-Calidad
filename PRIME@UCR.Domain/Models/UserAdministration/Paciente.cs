@@ -4,8 +4,15 @@ using System.Text;
 
 namespace PRIME_UCR.Domain.Models.UserAdministration
 {
-    public class Paciente
+    /**
+     * Class used to model table Paciente from database.
+     */
+    public class Paciente : Persona
     {
-        public string CédulaPaciente { get; set; }
+        /*Foreign key to indicate the identifier of the medical record of a patient*//*
+        public int NumExpediente { get; set; }
+
+        *//*Object to store the medical record of the patient*//*
+        public Expediente Expediente { get; set; }*/
     }
 }

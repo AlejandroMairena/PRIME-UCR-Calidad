@@ -1,7 +1,7 @@
 ﻿CREATE TABLE [dbo].[Funcionario]
 (
-	CédulaFuncionario		nvarchar(12)		NOT NULL,
-	primary key (CédulaFuncionario),
-	foreign key (CédulaFuncionario)
+	Cédula		nvarchar(12)		NOT NULL,
+	primary key (Cédula),
+	foreign key (Cédula)
 		references	Persona(Cédula)
 );
