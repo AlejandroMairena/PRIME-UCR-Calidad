@@ -5,5 +5,15 @@
 
 <Loading IsLoading="_values == null">
     <DropDownMenu Data="_values" T="CentroMedico" Label="Centro médico" Value="@_selectedMedicalCenter" TextProperty="Nombre"
-                  ValueChanged="@((CentroMedico tab) => OnChangeMedicalCenter(tab))" /><br />
+                  ValueChanged="@((CentroMedico tab) => OnChangeMedicalCenter(tab))" />
+
+    @if (_selectedMedicalCenter != null)
+    {
+        <label>Número de cama</label>
+        <input type="number" value="@_bedNumber" @oninput="@(async (args) => {
+                                                             int.TryParse((string) args.Value, out _bedNumber);
+                                                             await Callback();
+                                                            })" class="form-control" min="0"  />
+                                                            <br />
+    }
 </Loading>

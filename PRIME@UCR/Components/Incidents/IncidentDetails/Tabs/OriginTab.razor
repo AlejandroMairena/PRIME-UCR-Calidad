@@ -26,13 +26,13 @@
     <div class="text-center">
         @if (Origin != null && Origin.Equals(_model.Origin))
         {
-            <button disabled class="btn btn-outline-secondary">Cancelar</button>
             <button disabled type="submit" class="btn btn-primary">Guardar</button>
+            <button disabled class="btn btn-outline-secondary">Cancelar</button>
         }
         else
         {
-            <button @onclick:preventDefault @onclick="@LoadExistingValues" class="btn btn-outline-secondary ">Cancelar</button>
             <button type="submit" class="btn btn-primary">Guardar</button>
+            <button @onclick:preventDefault @onclick="@LoadExistingValues" class="btn btn-outline-secondary ">Cancelar</button>
         }
     </div>
 </EditForm>
