@@ -21,7 +21,7 @@
     }
     else
     { 
-        <MedicalCenterPicker Value="@Origin" ValueChanged="@OnOriginChange"/>
+        <MedicalCenterPicker Value="@Origin" LocationContext="origen" ValueChanged="@OnOriginChange"/>
     }
     <div class="text-center">
         @if (Origin != null && Origin.Equals(_model.Origin))

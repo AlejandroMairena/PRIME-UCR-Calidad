@@ -15,7 +15,7 @@
               Text="@($"{DetailsModel.EstimatedDateOfTransfer.ToShortDateString()} - {DetailsModel.EstimatedDateOfTransfer.ToShortTimeString()}")" />
     <ListItem Title="Fecha de registro"
               Text="@($"{DetailsModel.RegistrationDate.ToShortDateString()} - {DetailsModel.RegistrationDate.ToShortTimeString()}")" />
-    <ListItem Title="Registrado por"
+    <ListItem Title="Creado por"
               Text="@register" />
 </ul>
 
@@ -31,6 +31,6 @@
     protected override async Task OnInitializedAsync()
     {
         Persona person = await personService.getPersonByIdAsync(DetailsModel.AdminId.ToString());
-        register = person.Nombre;
+        register = person.Nombre+" "+person.PrimerApellido+" "+person.SegundoApellido;
     }
 }

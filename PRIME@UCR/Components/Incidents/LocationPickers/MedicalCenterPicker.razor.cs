@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using PRIME_UCR.Application.Services.Incidents;
 using PRIME_UCR.Domain.Models;
+using PRIME_UCR.Domain.Models.UserAdministration;
 
 namespace PRIME_UCR.Components.Incidents.LocationPickers
 {
@@ -15,15 +16,24 @@ namespace PRIME_UCR.Components.Incidents.LocationPickers
         
         [Parameter]
         public Ubicacion Value { get; set; }
+
+        [Parameter]
+        public String LocationContext { get; set; } 
         
         [Parameter]
         public EventCallback<Ubicacion> ValueChanged { get; set; }
         
         private CentroMedico _selectedMedicalCenter;
 
+        private Médico _selectedDoctor;
+
+        private String doctorForLabel;
+
         private int _bedNumber;
 
         private List<CentroMedico> _values;
+
+        private List<Médico> _doctors;
 
         async Task Callback()
         {
@@ -41,12 +51,20 @@ namespace PRIME_UCR.Components.Incidents.LocationPickers
 
             await Callback();
         }
-        
+        async Task OnChangeDoctor(Médico doctor)
+        {
+            _selectedDoctor = doctor;
+
+            await Callback();
+        }
+
         protected override async Task OnInitializedAsync()
         {
             _values =
                 (await LocationService.GetAllMedicalCentersAsync())
                 .ToList();
+            _doctors = new List<Médico>() { new Médico(), new Médico() }; //Hardcoded to show 2 options on display
+            doctorForLabel = "Médico de " + LocationContext;
 
             if (Value is CentroUbicacion location)
             {
