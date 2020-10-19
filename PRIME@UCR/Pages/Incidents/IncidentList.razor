@@ -2,46 +2,25 @@
 @using BlazorTable
 @attribute [Authorize]
 
-
 <h3>Lista de Incidentes</h3>
 
-<hr />
+<Loading IsLoading="incidentsList == null">
+    <Table TableItem="Incidente" Items="incidentsList" PageSize="15" @ref="Table" ColumnReorder="true">
+        <Column TableItem="Incidente" Title="Código" Field="@(x => x.Codigo)" Sortable="true" Filterable="true" Width="20%" DefaultSortColumn="true" />
+        @*<Column TableItem="Incidente" Title="Cédula Paciente" Field="@(x => x.Ced)" Sortable="true" Filterable="true" Width="20%" />*@
+        @*<Column TableItem="Incidente" Title="Nombre Paciente" Field="@(x => x.Nombre)" Sortable="true" Filterable="true" Width="20%" />*@
+        <Column TableItem="Incidente" Title="Fecha Registro" Field="@(x => x.FechaHoraRegistro.Date)" Sortable="true" Filterable="true" Width="20%" />
+        <Column TableItem="Incidente" Title="Hora Registro" Field="@(x => x.FechaHoraRegistro.TimeOfDay)" Sortable="true" Filterable="true" Width="20%" />
 
-<Table TableItem="SampleData" Items="data" PageSize="15" @ref="Table" ColumnReorder="true">
-    <Column TableItem="SampleData" Title="Código" Field="@(x => x.id)" Sortable="true" Filterable="true" Width="20%" DefaultSortColumn="true" />
-    <Column TableItem="SampleData" Title="Cédula Paciente" Field="@(x => x.full_name)" Sortable="true" Filterable="true" Width="20%" />
-    <Column TableItem="SampleData" Title="Nombre Paciente" Field="@(x => x.full_name)" Sortable="true" Filterable="true" Width="20%" />
-    <Column TableItem="SampleData" Title="Fecha Registro" Field="@(x => x.full_name)" Sortable="true" Filterable="true" Width="20%" />
-    <Column TableItem="SampleData" Title="Hora Registro" Field="@(x => x.full_name)" Sortable="true" Filterable="true" Width="20%" />
-
-    @if (exists)
-    {
-
-    }
-    else
-    {
         <EmptyDataTemplate>
             <div class="text-center">
-                No se encontraron incidentes aprobados para mostrar.
+                No se encontraron incidentes registrados.
             </div>
         </EmptyDataTemplate>
         <Pager ShowPageNumber="true" ShowTotalCount="true" />
-    }
 
-</Table>
-
-<style>
-    .app-fab--absolute {
-        position: fixed;
-        bottom: 1rem;
-        right: 1rem;
-    }
-</style>
-
-<MatFAB Icon="@MatIconNames.Add" OnClick="@(_ => Redirect())"></MatFAB>
+    </Table>
+</Loading>
+    <MatFAB Icon="@MatIconNames.Add" Class="app-fab--absolute" OnClick="@(_ => Redirect())"></MatFAB>
 
 
-@code{
-    // TODO: Move this line to IncidentList.razor.cs
-    private ITable<SampleData> Table;
-}
