@@ -9,6 +9,7 @@ using PRIME_UCR.Application.Services.Incidents;
 using PRIME_UCR.Domain.Constants;
 using PRIME_UCR.Domain.Models;
 using PRIME_UCR.Domain.Models.Incidents;
+using PRIME_UCR.Domain.Models.UserAdministration;
 
 namespace PRIME_UCR.Application.Implementations.Incidents
 {
@@ -43,13 +44,15 @@ namespace PRIME_UCR.Application.Implementations.Incidents
 
         public async Task<Incidente> CreateIncident(IncidentModel model)
         {
+            //var emailUser = (await authenticationState).User.Identity.Name;
+            //Persona person = await userService.getPPersonWithDetailstAsync(emailUser);
             var entity = new Incidente
             {
                 Codigo = Guid.NewGuid().ToString(),
                 FechaHoraRegistro = DateTime.Now,
                 FechaHoraEstimada = model.EstimatedDateOfTransfer,
                 TipoModalidad = model.Mode.Tipo,
-                CedulaAdmin = 117078207         //Hardcoded for testing the database. Story:PIG01IIC20-425, Subtask: PIG01IIC20-462 
+                CedulaAdmin = 117078207         // CedulaAdmin = person.cedula 
             };
             
             var state = new EstadoIncidente
@@ -78,7 +81,8 @@ namespace PRIME_UCR.Application.Implementations.Incidents
                     incident.IsCompleted(),
                     incident.IsModifiable(state),
                     incident.FechaHoraRegistro,
-                    incident.FechaHoraEstimada
+                    incident.FechaHoraEstimada,
+                    incident.CedulaAdmin
                 );
                 model.Origin = incident.Origen;
                 model.Destination = incident.Destino;
@@ -141,7 +145,8 @@ namespace PRIME_UCR.Application.Implementations.Incidents
                 incident.IsCompleted(),
                 model.Modifiable,
                 incident.FechaHoraRegistro,
-                incident.FechaHoraEstimada
+                incident.FechaHoraEstimada,
+                incident.CedulaAdmin
             );
             outputModel.Origin = incident.Origen;
             outputModel.Destination = incident.Destino;

@@ -14,7 +14,8 @@ namespace PRIME_UCR.Application.Dtos.Incidents
             bool completed,
             bool modifiable,
             DateTime registrationDate,
-            DateTime estimatedDateOfTransfer)
+            DateTime estimatedDateOfTransfer,
+            int adminId)
         {
             Code = code;
             Mode = mode;
@@ -23,6 +24,7 @@ namespace PRIME_UCR.Application.Dtos.Incidents
             Modifiable = modifiable;
             RegistrationDate = registrationDate;
             EstimatedDateOfTransfer = estimatedDateOfTransfer;
+            AdminId = adminId;
         }
 
         [Required]
@@ -33,6 +35,9 @@ namespace PRIME_UCR.Application.Dtos.Incidents
         
         [Required]
         public string CurrentState { get; }
+
+        [Required]
+        public int AdminId { get; }
 
         public bool Completed { get; }
 
