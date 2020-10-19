@@ -1,19 +1,8 @@
-﻿.column {
-    float: left;
-    padding: 10px;
-    column-gap: 40px;
-    background-color: white;
-    width: 50%;
-}
-
-.row:after {
-    content: "";
-    display: table;
-}
-
+﻿
 .wrapper {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-auto-rows: minmax(100px, auto);
-    background-color: white;
+    grid-gap: 20px;
+    padding-bottom: 20px;
 }
