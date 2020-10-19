@@ -148,5 +148,10 @@ namespace PRIME_UCR.Application.Implementations.Incidents
             
             return outputModel;
         }
+
+        public async Task<IEnumerable<Incidente>> GetAllAsync()
+        {
+            return await _incidentRepository.GetAllAsync();
+        }
     }
 }
