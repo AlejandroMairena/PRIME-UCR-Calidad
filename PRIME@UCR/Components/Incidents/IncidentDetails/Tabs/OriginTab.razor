@@ -9,38 +9,24 @@
     <StatusMessage Message="Este valor está pendiente para finalizar la creación del incidente." Class="warning"/>
 }
 <StatusMessage Message="@_statusMessage" Class="success"/>
-<EditForm Model="_model" OnValidSubmit="@Save">
-    <FluentValidationValidator />
-    <ValidationSummary />
+<EditForm Model="_selectedOriginType">
     <DropDownMenu Data="@_dropdownValuesOrigin" Label="Tipo de origen" TextProperty="Item2"
                   Value="_selectedOriginType"
                   ValueChanged="@((Tuple<OriginType, string> o) => OnOriginTypeChange(o))"
                   ValueExpression="() => _selectedOriginType"
                   UseValidation="false"/>
-    @if (_selectedOriginType.Item1 == OriginType.Household)
-    {
-        <HouseholdPicker @ref="@_householdPicker" Value="@_householdModel"
-                          ValueChanged="@((HouseholdModel h) => OnHouseholdChange(h))"
-                          ValueExpression="@(() => _householdModel)"/>
-    }
-    else if (_selectedOriginType.Item1 == OriginType.International)
-    {
-        <InternationalPicker @ref="@_intlPicker" Value="@Origin" ValueChanged="@OnOriginChange" />
-    }
-    else //hospital
-    { 
-        <MedicalCenterPicker @ref="@_medicalCenterPicker" Value="@Origin" ValueChanged="@OnOriginChange"/>
-    }
-    <div class="text-center">
-        @if (Origin != null && Origin.Equals(_model.Origin))
-        {
-            <button disabled class="btn btn-outline-secondary">Cancelar</button>
-            <button disabled type="submit" class="btn btn-primary">Guardar</button>
-        }
-        else
-        {
-            <button @onclick:preventDefault @onclick="@(() => LoadExistingValues(false))" class="btn btn-outline-secondary ">Cancelar</button>
-            <button type="submit" class="btn btn-primary">Guardar</button>
-        }
-    </div>
 </EditForm>
+@if (_selectedOriginType.Item1 == OriginType.Household)
+{
+    <HouseholdPicker Value="@_householdModel"
+                     OnSave="OnHouseholdSave"
+                     OnDiscard="LoadExistingValues"/>
+}
+else if (_selectedOriginType.Item1 == OriginType.International)
+{
+    <InternationalPicker Value="@Origin" ValueChanged="@OnOriginChange" />
+}
+else //hospital
+{ 
+    <MedicalCenterPicker Value="@Origin" ValueChanged="@OnOriginChange"/>
+}

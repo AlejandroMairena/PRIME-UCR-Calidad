@@ -7,18 +7,11 @@
     <div class="col-lg-6 col-md-8">
         <EditForm EditContext="_context" OnValidSubmit="@Create">
             <FluentValidationValidator/>
-            <div class="form-group">
-                <DropDownMenu Label="Modalidad" Data="_modes" @bind-Value="_model.Mode"
-                              TextProperty="Tipo"
-                              DefaultText="Seleccione una modalidad de traslado"/>
-
-                <ValidationMessage For="() => _model.Mode" />
-            </div>
-            <div class="form-group">
-                <DateTimePicker @bind-Value="@_model.EstimatedDateOfTransfer"
-                                 DateLabel="Fecha estimada de traslado" TimeLabel="Hora estimada de traslado"/>
-                <ValidationMessage For="() => _model.EstimatedDateOfTransfer" />
-            </div>
+            <DropDownMenu Label="Modalidad" Data="_modes" @bind-Value="_model.Mode"
+                          TextProperty="Tipo"
+                          DefaultText="Seleccione una modalidad de traslado"/>
+            <DateTimePicker @bind-Value="@_model.EstimatedDateOfTransfer"
+                             DateLabel="Fecha estimada de traslado" TimeLabel="Hora estimada de traslado"/>
             @if (isFormValid)
             {
                 <button type="submit" class="btn btn-primary">Crear</button>

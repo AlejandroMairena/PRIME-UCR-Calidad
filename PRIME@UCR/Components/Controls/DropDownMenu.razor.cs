@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Net.Mime;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.EntityFrameworkCore;
 
 namespace PRIME_UCR.Components.Controls
@@ -14,14 +15,11 @@ namespace PRIME_UCR.Components.Controls
         [Parameter]
         public List<T> Data { get; set; }
         
-        [Parameter]
-        public string TextProperty { get; set; }
+        [Parameter] public string TextProperty { get; set; }
 
-        [Parameter]
-        public string Label { get; set; }
+        [Parameter] public string Label { get; set; }
         
-        [Parameter]
-        public string DefaultText { get; set; }
+        [Parameter] public string DefaultText { get; set; }
 
         [Parameter] public bool UseValidation { get; set; } = true;
 
@@ -55,7 +53,8 @@ namespace PRIME_UCR.Components.Controls
             _index = Int32.Parse((string)args.Value);
             Value = _index >= 0 ? Data[_index] : default;
             await ValueChanged.InvokeAsync(Value);
-            EditContext.NotifyFieldChanged(FieldIdentifier);
+            if (UseValidation)
+                EditContext.NotifyFieldChanged(FieldIdentifier);
         }
 
         string GetText(T value)

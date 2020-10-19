@@ -12,37 +12,26 @@ using PRIME_UCR.Domain.Models;
 
 namespace PRIME_UCR.Components.Incidents.LocationPickers
 {
-    public partial class HouseholdPicker
+    public partial class HouseholdPicker : IDisposable
     {
-        [Inject]
-        public ILocationService LocationService { get; set; }
+        [Inject] public ILocationService LocationService { get; set; }
+        [Parameter] public HouseholdModel Value { get; set; }
+        [Parameter] public EventCallback<HouseholdModel> OnSave { get; set; }
+        [Parameter] public EventCallback OnDiscard { get; set; }
 
         private List<Provincia> _provinces;
         private List<Canton> _cantons;
         private List<Distrito> _districts;
-
-        protected override bool TryParseValueFromString(string value, out HouseholdModel result, out string validationErrorMessage)
-        {
-            result = Value;
-            validationErrorMessage = "";
-            return true;
-        }
-
+        private bool _saveButtonEnabled = false;
+        private EditContext _context;
+        private HouseholdModel _initialValue;
+        
         // Check if everything has been loaded
         bool IsLoading()
         {
             return _provinces == null
                    || _cantons == null
                    || _districts == null;
-        }
-
-        async Task Callback()
-        {
-            if (Value != null && Value.District != null)
-                await ValueChanged.InvokeAsync(Value);
-            else
-                await ValueChanged.InvokeAsync(null);
-            EditContext.NotifyFieldChanged(FieldIdentifier);
         }
 
         async Task LoadProvinces(bool firstLoad)
@@ -80,7 +69,6 @@ namespace PRIME_UCR.Components.Incidents.LocationPickers
         {
             Value.Canton = canton;
             await LoadDistricts(false);
-            await Callback();
         }
 
         async Task LoadDistricts(bool firstLoad)
@@ -96,10 +84,24 @@ namespace PRIME_UCR.Components.Incidents.LocationPickers
                 Value.District = null;
         }
 
-        async Task OnChangeDistrict(Distrito district)
+        void OnChangeDistrict(Distrito district)
         {
             Value.District = district;
-            await Callback();
+        }
+
+        void OnChangeAddress(string address)
+        {
+            Value.Address = address;
+        }
+
+        void OnChangeLongitude(double? newLongitude)
+        {
+            Value.Longitude = newLongitude;
+        }
+        
+        void OnChangeLatitude(double? newLatitude)
+        {
+            Value.Latitude = newLatitude;
         }
 
         public async Task LoadExistingValues()
@@ -108,12 +110,47 @@ namespace PRIME_UCR.Components.Incidents.LocationPickers
             await LoadCantons(true);
             await LoadDistricts(true);
         }
-        
-        protected override async Task OnInitializedAsync()
+
+        private async Task Submit()
         {
+            await OnSave.InvokeAsync(Value);
+        }
+
+        private async Task Discard()
+        {
+            Value = _initialValue.Clone();
+            await LoadExistingValues();
+            _context.OnFieldChanged -= HandleFieldChanged;
+            _context = new EditContext(Value);
+            _context.OnFieldChanged += HandleFieldChanged;
+            _saveButtonEnabled = _context.IsModified();
+        }
+
+        protected override void OnParametersSet()
+        {
+            base.OnParametersSet();
+            _initialValue = Value.Clone();
             if (Value == null)
                 throw new ArgumentNullException("Value", "Value argument cannot be null.");
+        }
+
+        protected override async Task OnInitializedAsync()
+        {
             await LoadExistingValues();
+            _context = new EditContext(Value);
+            _context.OnFieldChanged += HandleFieldChanged;
+        }
+
+        // used to toggle submit button disabled attribute
+        private void HandleFieldChanged(object sender, FieldChangedEventArgs e)
+        {
+            _saveButtonEnabled = _context.IsModified();
+            StateHasChanged();
+        }
+
+        public void Dispose()
+        {
+            _context.OnFieldChanged -= HandleFieldChanged;
         }
     }
 }

@@ -1,47 +1,53 @@
 ﻿@using PRIME_UCR.Components.Controls
-@inherits InputBase<HouseholdModel>
 
 <Loading IsLoading="@IsLoading()">
-    <EditForm Model="Value">
-       <FluentValidationValidator />
+    <EditForm EditContext="_context" OnValidSubmit="Submit">
+        <FluentValidationValidator />
         <DropDownMenu Data="@_provinces" Label="Provincia" Value="@Value.Province" TextProperty="Nombre"
                       DefaultText="Seleccione una provincia"
                       ValueExpression="() => Value.Province"
                       ValueChanged="@((Provincia p) => OnChangeProvince(p))"/>
-       <ValidationMessage For="() => Value.Province" />
         <DropDownMenu Data="@_cantons" Label="Cantón" Value="@Value.Canton" TextProperty="Nombre"
                       DefaultText="Seleccione un cantón"
                       ValueExpression="() => Value.Canton"
                       ValueChanged="@((Canton c) => OnChangeCanton(c))"/>
-       <ValidationMessage For="() => Value.Canton" />
         <DropDownMenu Data="@_districts" Label="Distrito" Value="@Value.District" TextProperty="Nombre"
                       DefaultText="Seleccione un distrito"
                       ValueExpression="() => Value.District"
                       ValueChanged="@((Distrito d) => OnChangeDistrict(d))"/>
-       <ValidationMessage For="() => Value.District" />
        <TextBox
            Label="Dirección Exacta"
-           Value="Value.Address"
+           Value="@Value.Address"
            ValueExpression="() => Value.Address"
-           ValueChanged="@(async text => { Value.Address = text; await Callback(); })"/>
-       <ValidationMessage For="() => Value.Address" />
+           ValueChanged="(string a) => OnChangeAddress(a)"/>
        <div class="form-row">
+           <div class="col">
+               <NumberInput
+                   Label="Longitud"
+                   Value="@Value.Longitude"
+                   ValueExpression="@(() => Value.Longitude)"
+                   ValueChanged="@((double? l) => OnChangeLongitude(l))"/>
+           </div>
             <div class="col">
-                <div class="form-group">
-                    <label>Longitud</label>
-                    <InputNumber Value="@Value.Longitude"
-                                 ValueExpression="() => Value.Longitude"
-                                 @oninput="@(async (args) => { Value.Longitude = Double.Parse((string) args.Value); await Callback(); })"class="form-control"/>
-                </div>
+               <NumberInput
+                   Label="Longitud"
+                   Value="@Value.Latitude"
+                   ValueExpression="@(() => Value.Latitude)"
+                   ValueChanged="@((double? l) => OnChangeLatitude(l))"/>
             </div>
-            <div class="col">
-                <div class="form-group">
-                    <label>Latitud</label>
-                    <InputNumber Value="@Value.Latitude"
-                                 ValueExpression="() => Value.Latitude"
-                                 @oninput="@(async (args) => { Value.Latitude = Double.Parse((string) args.Value); await Callback(); })"class="form-control"/>
-                </div>
-            </div>
+        </div>
+        <div class="text-center">
+            @if (!_saveButtonEnabled)
+            {
+                <button disabled class="btn btn-secondary">Descartar</button>
+                <button disabled type="submit" class="btn btn-primary">Guardar</button>
+            }
+            else
+            {
+                <button @onclick:preventDefault
+                    @onclick="@Discard" class="btn btn-secondary">Descartar</button>
+                <button type="submit" class="btn btn-primary">Guardar</button>
+            }
         </div>
     </EditForm>
 </Loading>

@@ -35,8 +35,6 @@ namespace PRIME_UCR.Validators.Incidents
             RuleFor(h => h.Latitude)
                 .NotEmpty()
                 .WithMessage("Debe digitar la latidud.");
-
-
         }
     }
 }
