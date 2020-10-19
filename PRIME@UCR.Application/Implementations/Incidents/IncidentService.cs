@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Components.Authorization;
 using PRIME_UCR.Application.Dtos;
 using PRIME_UCR.Application.Dtos.Incidents;
 using PRIME_UCR.Application.Repositories;
 using PRIME_UCR.Application.Repositories.Incidents;
 using PRIME_UCR.Application.Services.Incidents;
+using PRIME_UCR.Application.Services.UserAdministration;
 using PRIME_UCR.Domain.Constants;
 using PRIME_UCR.Domain.Models;
 using PRIME_UCR.Domain.Models.Incidents;
@@ -19,6 +21,7 @@ namespace PRIME_UCR.Application.Implementations.Incidents
         private readonly IModesRepository _modesRepository;
         private readonly IIncidentStateRepository _statesRepository;
         private readonly ILocationRepository _locationRepository;
+
 
         public IncidentService(
             IIncidentRepository incidentRepository,
@@ -42,17 +45,15 @@ namespace PRIME_UCR.Application.Implementations.Incidents
             return await _modesRepository.GetAllAsync();
         }
 
-        public async Task<Incidente> CreateIncident(IncidentModel model)
+        public async Task<Incidente> CreateIncident(IncidentModel model, Persona person)
         {
-            //var emailUser = (await authenticationState).User.Identity.Name;
-            //Persona person = await userService.getPPersonWithDetailstAsync(emailUser);
             var entity = new Incidente
             {
                 Codigo = Guid.NewGuid().ToString(),
                 FechaHoraRegistro = DateTime.Now,
                 FechaHoraEstimada = model.EstimatedDateOfTransfer,
                 TipoModalidad = model.Mode.Tipo,
-                CedulaAdmin = 117078207         // CedulaAdmin = person.cedula 
+                CedulaAdmin = int.Parse(person.Cédula)
             };
             
             var state = new EstadoIncidente
