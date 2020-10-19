@@ -4,12 +4,15 @@
 @attribute [Authorize]
 <link href="css/Profiles.css" rel="stylesheet" />
 
+
 <br />
 <h3> Modificación de Permisos y Perfiles </h3>
 <br />
 
 <h5>Perfiles</h5>
-<ProfilesComponent />
+<ProfilesComponent @bind-Value="profile"/>
+
+
 
 <div class="wrapper">
     <div style="background-color: white;padding-left: 10px;padding-right: 10px;">
@@ -20,6 +23,7 @@
     <div style="background-color:white;padding-left: 10px;padding-right: 10px;">
         <br />
         <h5>Permisos</h5>
-        <PermissionsComponent />
+        <PermissionsComponent @bind-Value="profile"/>
     </div>
+
 </div>

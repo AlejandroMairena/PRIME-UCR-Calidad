@@ -6,32 +6,59 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using PRIME_UCR.Application.DTOs.UserAdministration;
 
 namespace PRIME_UCR.Components.UserAdministration
 {
     public partial class PermissionsComponent
     {
-        
+
         [Inject]
         public IPermissionsService permissionsService { get; set; }
 
         [Inject]
-        public IUserService userService { get; set; }
+        public IProfilesService profileService { get; set; }
 
         public List<Permiso> ListPermissions { get; set; }
 
-       
-        private Persona person;
+        private List<Permiso> ListPermissionsPerProfile { get; set; }
 
-        [CascadingParameter]
-        private Task<AuthenticationState> authenticationState { get; set; }
+        [Parameter]
+        public ProfileModel Value { get; set; }
+
+        [Parameter]
+        public EventCallback<ProfileModel> ValueChanged { get; set; }
+
+        protected override void OnInitialized()
+        {
+            ListPermissions = new List<Permiso>();
+            ListPermissionsPerProfile = new List<Permiso>();
+        }
 
         protected override async Task OnInitializedAsync()
         {
             ListPermissions = (await permissionsService.GetPermisos()).ToList();
-            var emailUser = (await authenticationState).User.Identity.Name;
-            person = await userService.getPersonWithDetailstAsync(emailUser);
         }
 
+        protected override async Task OnParametersSetAsync()
+        {
+            var ListProfiles = await profileService.GetPerfilesWithDetailsAsync();
+            var profile = (ListProfiles.Find(p => p.NombrePerfil == Value.ProfileName));
+            ListPermissionsPerProfile.Clear();
+            foreach(var permission in profile.PerfilesYPermisos)
+            {
+                ListPermissionsPerProfile.Add(permission.Permiso);
+            }
+            Value.PermissionsList = ListPermissionsPerProfile;
+        }
+
+        private bool check(int idPermission)
+        {
+            if(ListPermissionsPerProfile.Count != 0)
+            {
+                return (ListPermissionsPerProfile.Find(p => p.IDPermiso == idPermission) == null) ? false : true;
+            }
+            return false;
+        }
     }
 }

@@ -22,6 +22,7 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
             return _db.Profiles
                 .Include(p => p.FuncionariosYPerfiles)
                 .Include(p => p.PerfilesYPermisos)
+                .ThenInclude(p => p.Permiso)
                 .Include(p => p.UsuariosYPerfiles)
                 .ToListAsync();
         }

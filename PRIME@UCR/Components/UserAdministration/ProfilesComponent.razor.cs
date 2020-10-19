@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using PRIME_UCR.Application.DTOs.UserAdministration;
 using PRIME_UCR.Application.Services.UserAdministration;
 using PRIME_UCR.Domain.Models.UserAdministration;
 using System;
@@ -17,11 +18,18 @@ namespace PRIME_UCR.Components.UserAdministration
 
         public Perfil selectedProfile { get; set; }
 
+        [Parameter]
+        public ProfileModel Value { get; set; }
+
+        [Parameter]
+        public EventCallback<ProfileModel> ValueChanged { get; set; }
+
         protected override async Task OnInitializedAsync()
         {
             ListProfiles = (await profilesService.GetPerfiles()).ToList();
         }
 
+        
         private async Task updateOtherTables(Perfil newPerfil) 
         {
             selectedProfile = newPerfil;
@@ -29,7 +37,8 @@ namespace PRIME_UCR.Components.UserAdministration
             {
                 //actualizar las tablas
             }
-            Console.WriteLine(newPerfil.NombrePerfil);            
+            Value.ProfileName = newPerfil.NombrePerfil;
+            await ValueChanged.InvokeAsync(Value);
         }
 
     }
