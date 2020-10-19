@@ -20,6 +20,7 @@ namespace PRIME_UCR.Components.UserAdministration
 
         public List<Permiso> ListPermissions { get; set; }
 
+       
         private Persona person;
 
         [CascadingParameter]

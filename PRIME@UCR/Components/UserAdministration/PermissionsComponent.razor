@@ -1,32 +1,25 @@
 ﻿@using PRIME_UCR.Components.Controls
+@using BlazorTable
+@using PRIME_UCR.Domain.Models.UserAdministration;
 
 <Loading IsLoading="ListPermissions == null">
-    <table class="table">
-        <thead>
 
-            <tr>
-                <th scope="col"></th>
-                <th scope="col">Número permiso</th>
-                <th scope="col">Descripción de permiso</th>
-
-            </tr>
-        </thead>
-        <tbody>
-
-            @foreach(var permission in ListPermissions) 
-            {
-            <tr>
-                <td>
-                    <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="customCheck @permission.IDPermiso" checked>
-                        <label class="custom-control-label" for="customCheck @permission.IDPermiso"></label>
+    <Table TableItem="Permiso" Items="ListPermissions" PageSize="12" >
+        <Column TableItem="Permiso" Title="" Field="@(x => x.IDPermiso)"  Width="1%">
+            <Template>
+                <center>
+                    <div class="custom-control custom-checkbox" >
+                            <input type="checkbox" class="custom-control-input" id="customCheck @context.IDPermiso" checked>
+                            <label class="custom-control-label" for="customCheck @context.IDPermiso"></label>
                     </div>
-                </td>
-                <th scope="row">@permission.IDPermiso</th>
-                <td>@permission.DescripciónPermiso</td>
-            </tr>
-            }
-        
-        </tbody>
-    </table>
+                </center>
+            </Template>
+        </Column>
+
+        <Column TableItem="Permiso" Title="Número de permiso" Field="@(x => x.IDPermiso)"  Width="14%"  />
+        <Column TableItem="Permiso" Title="Descripción de permiso" Field="@(x => x.DescripciónPermiso)" Width="35%"/>
+       
+        <Pager ShowPageNumber="true" ShowTotalCount="true" ShowPageSizes="true" />
+    </Table>
+
 </Loading>

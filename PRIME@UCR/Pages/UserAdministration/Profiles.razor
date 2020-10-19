@@ -4,13 +4,25 @@
 @attribute [Authorize]
 <link href="css/Profiles.css" rel="stylesheet" />
 
-<ProfilesComponent/>
-<div class="row">
-    <div class="column">
+<ProfilesComponent />
+@*<div class="row">
+        <div class="column">
+            <label>Usuarios</label>
+            <UsersComponent />
+        </div>
+        <div class="column">
+            <label>Permisos</label>
+            <PermissionsComponent />
+        </div>
+    </div>
+*@
+
+<div class="wrapper">
+    <div>
         <label>Usuarios</label>
         <UsersComponent />
     </div>
-    <div class="column">
+    <div>
         <label>Permisos</label>
         <PermissionsComponent />
     </div>
