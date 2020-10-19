@@ -1,14 +1,18 @@
 ﻿@page "/logout"
+@inject IJSRuntime JSRuntime 
 @using PRIME_UCR.Application.Implementations.UserAdministration
 
 @code {
     [Inject] public AuthenticationStateProvider authProvider { get; set; }
     [Inject] public NavigationManager navManager { get; set; }
-    
+
     protected override async Task OnInitializedAsync()
     {
-        var customAuth = (CustomAuthenticationStateProvider) authProvider;
-        await customAuth.Logout();
+        if (await JSRuntime.InvokeAsync<bool>("confirm", "Está seguro que desea cerrar sesión?"))
+        {
+            var customAuth = (CustomAuthenticationStateProvider)authProvider;
+            await customAuth.Logout();
+        }
         navManager.NavigateTo("");
     }
 

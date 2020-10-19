@@ -258,11 +258,11 @@ VALUES
     (3, 48, 23, 'Hospital CEACO');
 
 -- Centro_Ubicacion
-INSERT INTO Centro_Ubicacion (Id, IdCentro)
+INSERT INTO Centro_Ubicacion (Id, IdCentro, NumeroCama)
 VALUES 
-    (6, 1),
-    (7, 2),
-    (8, 3);
+    (6, 1, 15),
+    (7, 2, 6),
+    (8, 3, 12);
 
 -- Modalidad 
 INSERT INTO Modalidad (Tipo)

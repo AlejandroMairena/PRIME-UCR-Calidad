@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace PRIME_UCR.Domain.Models
 {
     public class Cita
     {
+        [Key]
         public string IDCita { get; set; }
 
         public DateTime FechaHoraCreacion { get; set; }
