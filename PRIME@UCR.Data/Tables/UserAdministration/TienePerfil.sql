@@ -6,5 +6,5 @@
 	foreign key(NombrePerfil)
 		references Perfil(NombrePerfil),
 	foreign key(CédulaFuncionario)
-		references Funcionario(CédulaFuncionario)
+		references Funcionario(Cédula)
 );

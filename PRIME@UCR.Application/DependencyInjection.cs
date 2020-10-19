@@ -26,6 +26,8 @@ namespace PRIME_UCR.Application
             services.AddTransient<ILocationService, LocationService>();
             services.AddTransient<IMultimediaContentService, MultimediaContentService>();
             services.AddTransient<IEncryptionService, EncryptionService>();
+            services.AddScoped<IPrimeAuthorizationService, PrimeAuthorizationService>();
+            services.AddScoped<IPersonService, PersonService>();
             return services;
         }
     }

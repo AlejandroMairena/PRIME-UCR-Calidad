@@ -19,15 +19,11 @@ namespace PRIME_UCR.Infrastructure.EntityConfiguration.UserAdministration
             builder.ToTable("Funcionario");
             builder
                 .Property(p => p.Cédula)
-                .HasColumnName("CédulaFuncionario")
+                .HasColumnName("Cédula")
                 .IsRequired();
             builder
-                .HasMany(p => p.Perfiles)
-                .WithMany(p => p.Funcionarios)
-                .UsingEntity(p => 
-                {
-                    p.ToTable("TienePerfil");
-                });
+                .HasMany(p => p.PerfilesDelFuncionario)
+                .WithOne(p => p.Funcionario);
         }
     }
 }

@@ -14,7 +14,7 @@ namespace PRIME_UCR.Infrastructure.DataProviders.Implementations
     public sealed class ApplicationDbContext : IdentityDbContext, ISqlDataProvider
     {
         public IDbConnection DbConnection { get; set; }
-        public DbSet<CheckList> CheckList { get; set; }        
+        public DbSet<CheckList> CheckList { get; set; }
         public DbSet<Provincia> Provinces { get; set; }
         public DbSet<Pais> Countries { get; set; }
         public DbSet<Domicilio> HouseholdLocations { get; set; }
@@ -30,7 +30,8 @@ namespace PRIME_UCR.Infrastructure.DataProviders.Implementations
         public DbSet<Distrito> Districts { get; set; }
         public DbSet<Ubicacion> Locations { get; set; }
         public DbSet<MultimediaContent> Multimedia_Contents { get; set; }
-        public DbSet<Usuario> Usuarios { get ; set ; }
+
+        public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<Administrador> Adminstrators { get; set; }
         public DbSet<AdministradorCentroDeControl> AdministratorsControlCenter { get; set; }
         public DbSet<CoordinadorTécnicoMédico> MedicalTechnicians { get; set; }
@@ -43,6 +44,9 @@ namespace PRIME_UCR.Infrastructure.DataProviders.Implementations
         public DbSet<Perfil> Profiles { get; set; }
         public DbSet<Permiso> Permissions { get; set; }
         public DbSet<Persona> People { get; set; }
+        public DbSet<Pertenece> BelongsTo { get; set; }
+        public DbSet<TienePerfil> HasProfile { get; set; }
+        public DbSet<Permite> HasPermissionOf { get; set; }
 
         public ApplicationDbContext(DbContextOptions options) : base(options)
         {
@@ -84,7 +88,9 @@ namespace PRIME_UCR.Infrastructure.DataProviders.Implementations
             builder.ApplyConfiguration(new PerfilMap());
             builder.ApplyConfiguration(new PermisoMap());
             builder.ApplyConfiguration(new PersonaMap());
-
+            builder.ApplyConfiguration(new PerteneceMap());
+            builder.ApplyConfiguration(new PermiteMap());
+            builder.ApplyConfiguration(new TienePerfilMap());
         }
 
         public Task<int> SaveChangesAsync()

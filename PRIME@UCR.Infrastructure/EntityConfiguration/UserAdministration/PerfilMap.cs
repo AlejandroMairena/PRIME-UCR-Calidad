@@ -23,26 +23,14 @@ namespace PRIME_UCR.Infrastructure.EntityConfiguration.UserAdministration
                 .HasMaxLength(60);
             builder.HasKey("NombrePerfil");
             builder
-                .HasMany(p => p.Permisos)
-                .WithMany(p => p.Perfiles)
-                .UsingEntity(p =>
-                {
-                    p.ToTable("Permite");
-                });
+                .HasMany(p => p.PerfilesYPermisos)
+                .WithOne(p => p.Perfil);
             builder
-                .HasMany(p => p.Usuarios)
-                .WithMany(p => p.Perfiles)
-                .UsingEntity(p =>
-                {
-                    p.ToTable("Pertenece");
-                });
+                .HasMany(p => p.UsuariosYPerfiles)
+                .WithOne(p => p.Perfil);
             builder
-                .HasMany(p => p.Funcionarios)
-                .WithMany(p => p.Perfiles)
-                .UsingEntity(p =>
-                {
-                    p.ToTable("TienePerfil");
-                });
+                .HasMany(p => p.FuncionariosYPerfiles)
+                .WithOne(p => p.Perfil);
         }
     }
 }

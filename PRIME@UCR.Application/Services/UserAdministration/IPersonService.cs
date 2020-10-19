@@ -6,12 +6,8 @@ using System.Threading.Tasks;
 
 namespace PRIME_UCR.Application.Services.UserAdministration
 {
-    public interface IUserService
+    public interface IPersonService
     {
-        Task<IEnumerable<Usuario>>GetUsuarios() ;
-
-        Task<Usuario> getUsuarioWithDetails(string id);
-
-        Task<Persona> getPersonWithDetailstAsync(string email);
+        Task<Persona> getPersonByIdAsync(string id);
     }
 }

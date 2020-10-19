@@ -19,34 +19,35 @@ namespace PRIME_UCR.Infrastructure.EntityConfiguration.UserAdministration
             builder.ToTable("Persona");
             builder
                 .Property(p => p.Cédula)
+                .HasColumnName("Cédula")
                 .IsRequired()
                 .HasMaxLength(12);
-            builder.HasKey("Cédula");
+            builder.HasKey(p => p.Cédula);
             builder
                 .Property(p => p.Nombre)
+                .HasColumnName("Nombre")
                 .IsRequired()
                 .HasMaxLength(20);
             builder
                 .Property(p => p.PrimerApellido)
+                .HasColumnName("PrimerApellido")
                 .IsRequired()
                 .HasMaxLength(20);
             builder
                 .Property(p => p.SegundoApellido)
+                .HasColumnName("SegundoApellido")
                 .HasMaxLength(20);
             builder
                 .Property(p => p.Sexo)
+                .HasColumnName("Sexo")
                 .HasMaxLength(1);
             builder
                 .Property(p => p.FechaNacimiento)
+                .HasColumnName("FechaNacimiento")
                 .HasColumnType("Date");
             builder
                 .HasMany(p => p.NumerosTelefono)
-                .WithOne(p => p.Persona)
-                .HasForeignKey(p => p.CedPersona);
-            builder
-                .HasOne(p => p.Usuario)
-                .WithOne(p => p.Persona)
-                .HasForeignKey<Persona>(p => p.IdUsuario);
+                .WithOne(p => p.Persona);
         }
     }
 }

@@ -27,12 +27,8 @@ namespace PRIME_UCR.Infrastructure.EntityConfiguration.UserAdministration
                 .HasColumnName("Descripción_Permiso")
                 .HasMaxLength(100);
             builder
-                .HasMany(p => p.Perfiles)
-                .WithMany(p => p.Permisos)
-                .UsingEntity(p => 
-                { 
-                    p.ToTable("Permite");
-                });
+                .HasMany(p => p.PerfilesYPermisos)
+                .WithOne(p => p.Permiso);
         }
     }
 }

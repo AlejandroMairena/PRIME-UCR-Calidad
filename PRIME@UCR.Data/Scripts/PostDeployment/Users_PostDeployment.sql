@@ -18,14 +18,14 @@ INSERT INTO AspNetUsers
 VALUES
     ('ba4d8abf-4eaa-41c3-bbec-d1614bd5277e','admin@admin.com','ADMIN@ADMIN.COM','admin@admin.com','ADMIN@ADMIN.COM','false','AQAAAAEAACcQAAAAEOMAG8dzBZIAIQ5cNqg4ej4WQ/m+lq2JEjiK/LX/8dampRmacvkfImYHLEnsXyBTEQ==','P6SGRZZKE3CLKRVQHAGRBJ52XYJP3G2D','26ceb620-5db9-4876-8345-50ef99d7c851',NULL,0,0,NULL,1,0)
     
-INSERT INTO Persona (Cédula, Nombre, PrimerApellido)
-VALUES ('12345678', 'Admin', 'Admin');
+INSERT INTO Persona (Cédula, Nombre, PrimerApellido, FechaNacimiento)
+VALUES ('12345678', 'Admin', 'Admin','2020-10-10');
 
 INSERT INTO Usuario (Id, CédulaPersona)
 VALUES
-    ('ba4d8abf-4eaa-41c3-bbec-d1614bd5277e', '12345678')
+    ('ba4d8abf-4eaa-41c3-bbec-d1614bd5277e', '12345678');
 
-INSERT INTO Funcionario (CédulaFuncionario)
+INSERT INTO Funcionario (Cédula)
 VALUES ('12345678');
 
 INSERT INTO Permiso (IdPermiso, Descripción_Permiso)
