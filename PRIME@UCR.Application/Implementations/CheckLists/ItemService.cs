@@ -23,7 +23,7 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
         public async Task<IEnumerable<Item>> GetAll()
         {
             IEnumerable<Item> items = await _repo.GetAllAsync();
-            return items.OrderBy(checklist => checklist.Orden);
+            return items.OrderBy(item => item.Orden);
         }
         public async Task<Item> InsertItem(Item item)
         {
@@ -33,6 +33,12 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
         public async Task<Item> GetById(int id)
         {
             return await _repo.GetByKeyAsync(id);
+        }
+
+        public async Task<IEnumerable<Item>> GetByCheckListId(int checkListId)
+        {
+            IEnumerable<Item> items = await _repo.GetByCheckListId(checkListId);
+            return items.OrderBy(item => item.Orden);
         }
 
         public async Task<Item> SaveImage(string imageName, Item item)

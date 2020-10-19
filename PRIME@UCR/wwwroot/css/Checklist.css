@@ -118,36 +118,6 @@ a:hover#a_LC4.nav-link {
     background: white;
 }
 
-/* Modify checklist*/
-input#checklistName { /*Name checklist*/
-    background: white;
-    border-radius: 5px;
-    padding: inherit;
-}
-
-select#checklistType { /*Tipe checklist*/
-    background: white;
-    border-radius: 5px;
-    padding: inherit;
-}
-/*
-input#checklistId {  identify checklist
-    background: white;
-    border-radius: 5px;
-    padding: inherit;
-}*/
-
-input#checklistOrder { /*Order checklisy*/
-    background: white;
-    border-radius: 5px;
-    padding: inherit;
-}
-
-textarea#checklistDescription {
-    background: white;/*Description checklist*/
-    border-radius: 5px;
-    padding: inherit;
-}
 /*View all checklist created*/
 .container#contAll_LC{
     padding-top: 16px;
@@ -171,5 +141,4 @@ button#BS_LC6.btn-secondary {
     padding: 10px;
     border-radius: 5px;
     position: relative;
-}
 }

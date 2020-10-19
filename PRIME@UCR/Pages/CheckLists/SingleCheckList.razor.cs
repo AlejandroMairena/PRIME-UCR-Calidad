@@ -44,7 +44,7 @@ namespace PRIME_UCR.Pages.CheckLists
         {
             list = await MyCheckListService.GetById(id);
             lists = await MyCheckListService.GetAll();
-            items = await MyItemService.GetAll();
+            items = await MyItemService.GetByCheckListId(id);
         }
 
         protected void HandleFieldChanged(object sender, FieldChangedEventArgs e)

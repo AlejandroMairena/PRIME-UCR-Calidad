@@ -21,5 +21,10 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.CheckLists
         {
             return await this.GetByConditionAsync(itemModel => itemModel.Nombre == name);
         }
+
+        public async Task<IEnumerable<Item>> GetByCheckListId(int checkListId)
+        {
+            return await this.GetByConditionAsync(itemModel => itemModel.IDLista == checkListId);
+        }
     }
 }

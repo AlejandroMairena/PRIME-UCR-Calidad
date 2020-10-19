@@ -1,6 +1,5 @@
 ﻿@page "/checklist/{id:int}"
 @inherits SingleCheckListBase
-@* @layout CheckListLayout *@
 @attribute [Authorize]
 <link href="css/Checklist.css" rel="stylesheet" />
 
@@ -13,28 +12,25 @@
 else
 {
     <div class="row">
-        <div class="col-lg-3 mb-4" >@*id="colALL_LC"*@
-            <div class="container" >@*id="contAll_LC"*@
-                <h6>Listas de chequeo Existentes</h6> @* Mejorar diseño de interfaz*@
+        <div class="col-lg-3 mb-4" >
+            <div class="container" >
+                <h6>Listas de chequeo existentes</h6>
                 <div>
-                    <ul class="nav nav-pills flex-column">@*<ul class="ml-4" type="square">*@
-                        <li class="nav-item">@*ver lisatas de chequeo ya creadas*@
-                            
-                            @if (lists !=null && lists.Count()>
-                            0)
+                    <ul class="nav nav-pills flex-column">
+                        <li class="nav-item">
+                            @if (lists != null && lists.Count() > 0)
                             {
-                            @foreach (var tempList in lists)
-                            {
-                        <li class="mt-2">
-                            <NavLink  href='@string.Format("checklist/{0}", @tempList.Id)' class="nav-link" id="a_LC4">
-                              •  @tempList.Nombre
-                            </NavLink>
-                        </li>
-
-                             }
+                                @foreach (var tempList in lists)
+                                {
+                                    <li class="mt-2">
+                                        <NavLink  href='@string.Format("checklist/{0}", @tempList.Id)' class="nav-link" id="a_LC4">
+                                            @tempList.Nombre
+                                        </NavLink>
+                                    </li>
+                                }
                             }
-                            </li>
-                        </ul>
+                         </li>
+                     </ul>
                 </div>
                 <a class="btn btn-outline-primary" href='@string.Format("checklist/create")' id="a_LC2">+</a>
             </div>
@@ -45,13 +41,21 @@ else
                     <div class="input-group row">
                         <label for="checklistName" class="col-sm-2 col-form-label"><b>Nombre:</b></label>
                         <div class="col-sm-10">
-                            <input class="form-control-plaintext" type="text" id="checklistName" name="checklistName" @bind-value="list.Nombre" @onfocusout="Update" />
+                            <input class="form-control" type="text" id="checklistName" name="checklistName" @bind-value="list.Nombre" @onfocusout="Update" />
                         </div>
                     </div>
+                    <br />
+                    <div class="input-group row">
+                        <label for="checklistDescription" class="col-sm-2 col-form-label"><span style="color:dimgray">Descripción: </span></label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" type="text" id="checklistDescription" name="checklistDescription" rows="2" @bind="list.Descripcion" @onfocusout="Update" />
+                        </div>
+                    </div>
+                    <br />
                     <div class="input-group row">
                         <label for="checklistType" class="col-sm-1 col-form-label"><span style="color:dimgray">Tipo: </span></label>
                         <div class="col-sm-4">
-                            <select class="form-control-plaintext" id="checklistType" @bind="list.Tipo" @onfocusout="Update">
+                            <select class="form-control" id="checklistType" @bind="list.Tipo" @onfocusout="Update">
                                 <option value="Colocación equipo">Colocación equipo</option>
                                 <option value="Retiro equipo">Retiro equipo</option>
                                 <option value="Paciente en origen">Paciente en origen</option>
@@ -61,33 +65,26 @@ else
                         </div>
                         <label for="checklistOrder" class="col-sm-1 col-form-label"><span style="color:dimgray">Orden: </span></label>
                         <div class="col-sm-2">
-                            <input class="form-control-plaintext" type="number" id="checklistOrder" name="checklistOrder" @bind-value="list.Orden" @onfocusout="Update" />
+                            <input class="form-control" type="number" id="checklistOrder" name="checklistOrder" @bind-value="list.Orden" @onfocusout="Update" />
                         </div>
                         <label for="checklistId" class="col-sm-1 col-form-label"><span style="color:dimgray">Id: </span></label>
                         <span class="col-sm-3">
-                            <input class="form-control-plaintext" type="number" id="checklistId" name="checklistId" disabled="disabled" @bind-value="@list.Id" />
+                            <input class="form-control" type="number" id="checklistId" name="checklistId" disabled="disabled" @bind-value="@list.Id" />
                         </span>
                     </div>
                     @*
-            @if (@list.NombreImagen != null)
-            {
-                <img src="@list.NombreImagen" width="50" height="50" />
-            }
-             User Story PIG01IIC20-267 LG - Agregar imagen descriptiva a lista de chequeo
-            Calls a component to upload images into the checklist
-                    <LoadImageComponent @bind-list="@list" />
+        @if (@list.NombreImagen != null)
+        {
+            <img src="@list.NombreImagen" width="50" height="50" />
+        }
+         User Story PIG01IIC20-267 LG - Agregar imagen descriptiva a lista de chequeo
+        Calls a component to upload images into the checklist
+                <LoadImageComponent @bind-list="@list" />
                     *@
                 </p>
-                <div class="input-group row">
-                    <label for="checklistDescription" class="col-sm-2 col-form-label"><span style="color:dimgray">Descripción: </span></label>
-                    <div class="col-sm-10">
-                        <textarea class="form-control-plaintext" type="text" id="checklistDescription" name="checklistDescription" rows="2" @bind="list.Descripcion" @onfocusout="Update" />
-                    </div>
-                </div>
                 <br />
                 <br />
                 <div id="Body_LC">
-                    @*Item example*@
                     @if (items == null)
                     {
                         <p>Cargando items.</p>
@@ -96,7 +93,7 @@ else
                     {
                         if (items.Count() == 0)
                         {
-                            <p>No se ha creado ningun item para esta lista de chequeo. Presione el boton de crear item para agregarle un item.</p>
+                            <p>No se ha creado ningun item para esta lista de chequeo. Presione el botón de crear item para agregarle un item.</p>
                         }
                         else
                         {
@@ -112,16 +109,13 @@ else
                     <hr />
                     @if (createItem == false)
                     {
-                        <button class="btn-secondary" id="BS_LC6" @onclick="StartNewItemCreation"> + </button>
-                        <a>Crear ítem</a>
+                        <button class="btn-primary" @onclick="StartNewItemCreation">Crear ítem</button>
                     }
                     else
                     {
                         <div class="container">
-                            <h5>Crear item de lista de chequeo</h5>
                             <br />
                             <EditForm EditContext="@editContext" OnValidSubmit="@HandleValidSubmit">
-                                @* to do: <EditForm> Crear lista de Chequeo*@
                                 <label for="name">Nombre:<span style=" color:red">*&nbsp;&nbsp;&nbsp;&nbsp;</span></label>
                                 <InputText id="name" @bind-Value="tempItem.Nombre" class="form-control" />
                                 <ValidationMessage For="@(() => tempItem.Nombre)" />
@@ -139,8 +133,8 @@ else
                                 <p style="color:red">* Campo requerido</p>
 
                                 <div align="center">
-                                    <button type="submit" class="btn btn-primary" disabled="@formInvalid" id="BP_LC0">Guardar Item</button> @*to do: ir a la recien creada *@
-                                    <a class="btn btn-outline-secondary" @onclick="Dispose" id="a_LC3">Cancelar</a> @*to do: ir a la anterior  *@
+                                    <button type="submit" class="btn btn-primary" disabled="@formInvalid" id="BP_LC0">Guardar Item</button> 
+                                    <a class="btn btn-outline-secondary" @onclick="Dispose" id="a_LC3">Cancelar</a> 
                                 </div>
                             </EditForm>
                         </div>
