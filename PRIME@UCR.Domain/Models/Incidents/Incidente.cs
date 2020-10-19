@@ -1,6 +1,7 @@
 ﻿using PRIME_UCR.Domain.Models.Incidents;
 using System;
 using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using PRIME_UCR.Domain.Constants;
 
 namespace PRIME_UCR.Domain.Models

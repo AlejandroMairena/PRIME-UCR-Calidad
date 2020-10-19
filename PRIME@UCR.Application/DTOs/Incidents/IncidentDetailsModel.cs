@@ -25,13 +25,10 @@ namespace PRIME_UCR.Application.Dtos.Incidents
             EstimatedDateOfTransfer = estimatedDateOfTransfer;
         }
 
-        [Required]
         public string Code { get; }
 
-        [Required]
         public string Mode { get; }
         
-        [Required]
         public string CurrentState { get; }
 
         public bool Completed { get; }
@@ -42,10 +39,8 @@ namespace PRIME_UCR.Application.Dtos.Incidents
         
         public DateTime EstimatedDateOfTransfer { get; }
 
-        [Required]
         public Ubicacion Origin { get; set; }
         
-        [Required]
         public Ubicacion Destination { get; set; }
     }
 }

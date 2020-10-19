@@ -1,0 +1,27 @@
+﻿using System;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Components;
+
+namespace PRIME_UCR.Components.Controls
+{
+    public partial class GenericInput<TValue>
+    {
+        [Parameter] public string Label { get; set; }
+
+        protected string _type = "text";
+
+        public string ValidationCssClass => ValidationUtils.ToBootstrapValidationCss(CssClass);
+
+        protected override bool TryParseValueFromString(string value, out TValue result, out string validationErrorMessage)
+        {
+            result = Value;
+            validationErrorMessage = "";
+            return true;
+        }
+
+        protected virtual Task OnChangeEvent(ChangeEventArgs e)
+        {
+            throw new NotImplementedException("Must override OnChangeEvent");
+        }
+    }
+}

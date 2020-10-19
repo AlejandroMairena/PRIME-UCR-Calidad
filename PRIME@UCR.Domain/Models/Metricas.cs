@@ -1,11 +1,14 @@
-﻿using System;
+﻿using PRIME_UCR.Domain.Models.UserAdministration;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace PRIME_UCR.Domain.Models
 {
     public class Metricas
     {
+        [Key]
         public string ID { get; set; }
         public string IDCita { get; set; } //fk-cita
         public decimal Presion { get; set; }
@@ -15,7 +18,7 @@ namespace PRIME_UCR.Domain.Models
 
         public Cita Cita { get; set; }
 
-        public Medico Medico { get; set; }
+        public Médico Medico { get; set; }
 
         public Expediente Expediente { get; set; }
     }

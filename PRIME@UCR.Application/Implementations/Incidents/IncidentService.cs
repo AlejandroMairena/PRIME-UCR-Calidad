@@ -31,9 +31,9 @@ namespace PRIME_UCR.Application.Implementations.Incidents
             _locationRepository = locationRepository;
         }
 
-        public async Task<Incidente> GetIncidentAsync(string id)
+        public async Task<Incidente> GetIncidentAsync(string code)
         {
-            return await _incidentRepository.GetByKeyAsync(id);
+            return await _incidentRepository.GetByKeyAsync(code);
         }
 
         public async Task<IEnumerable<Modalidad>> GetTransportModesAsync()
@@ -45,11 +45,13 @@ namespace PRIME_UCR.Application.Implementations.Incidents
         {
             var entity = new Incidente
             {
-                Codigo = Guid.NewGuid().ToString(),
                 FechaHoraRegistro = DateTime.Now,
                 FechaHoraEstimada = model.EstimatedDateOfTransfer,
                 TipoModalidad = model.Mode.Tipo
             };
+            
+            // insert before adding state to get auto generated code from DB
+            await _incidentRepository.InsertAsync(entity);
             
             var state = new EstadoIncidente
             {
@@ -59,17 +61,16 @@ namespace PRIME_UCR.Application.Implementations.Incidents
                 Activo = true
             };
 
-            await _incidentRepository.InsertAsync(entity);
             await _statesRepository.AddState(state);
             
             return entity;
         }
-        public async Task<IncidentDetailsModel> GetIncidentDetailsAsync(string id)
+        public async Task<IncidentDetailsModel> GetIncidentDetailsAsync(string code)
         {
-            var incident = await _incidentRepository.GetWithDetailsAsync(id);
+            var incident = await _incidentRepository.GetWithDetailsAsync(code);
             if (incident != null)
             {
-                var state = await _statesRepository.GetCurrentStateByIncidentId(id);
+                var state = await _statesRepository.GetCurrentStateByIncidentId(incident.Codigo);
                 var model = new IncidentDetailsModel(
                     incident.Codigo,
                     incident.TipoModalidad,
@@ -115,7 +116,7 @@ namespace PRIME_UCR.Application.Implementations.Incidents
                 }
             }
 
-            if (modified) // TODO: check crash with PK violation when updating Origin (international) when there are no chanegs
+            if (modified)
                 await _incidentRepository.UpdateAsync(incident);
 
             var state = model.CurrentState;

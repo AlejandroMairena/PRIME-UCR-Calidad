@@ -1,18 +1,26 @@
 @typeparam T
+@inherits InputBase<T>
 
 <div class="form-group">
     <label>@Label</label>
-    <select @onchange="OnChangeEvent" class="custom-select">
-        @foreach (var value in Data.Select((v, i) => new { v, i }))
+    <select class="@($"custom-select {ValidationCssClass}")"
+            value="@SelectedValue"
+            @onchange="OnChangeEvent">
+        @if (!String.IsNullOrEmpty(DefaultText))
         {
-            @if (value.i == _index)
+            <option value="@(-1)" selected>@DefaultText</option>
+        }
+        @for (int i = 0; i < Data.Count; ++i)
+        {
+            @if (i == _index)
             {
-                <option selected value="@value.i">@GetText(value.v)</option>
+                <option selected value="@i">@GetText(Data[i])</option>
             }
             else
             {
-                <option value="@value.i">@GetText(value.v)</option>
+                <option value="@i">@GetText(Data[i])</option>
             }
         }
     </select>
+    <ValidationMessage For="ValueExpression" />
 </div>

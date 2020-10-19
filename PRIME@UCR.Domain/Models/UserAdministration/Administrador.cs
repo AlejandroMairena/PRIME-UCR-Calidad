@@ -4,8 +4,10 @@ using System.Text;
 
 namespace PRIME_UCR.Domain.Models.UserAdministration
 {
-    public class Administrador
+    /**
+     * Class used to model table Administrador from database.
+     */
+    public class Administrador : Funcionario
     {
-        public string CédulaFuncionario { get; set; }     
     }
 }

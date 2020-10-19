@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using PRIME_UCR.Application.Repositories;
+using PRIME_UCR.Domain.Models.UserAdministration;
 using PRIME_UCR.Infrastructure.DataProviders;
 using System;
 using System.Collections.Generic;

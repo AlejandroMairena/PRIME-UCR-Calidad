@@ -1,5 +1,5 @@
 ﻿CREATE TABLE [dbo].[Perfil]
 (
-	NombrePerfil	nvarchar(40),
+	NombrePerfil	nvarchar(60),
 	primary key(NombrePerfil)
 );
