@@ -4,9 +4,10 @@ using System.Text;
 
 namespace PRIME_UCR.Domain.Models.UserAdministration
 {
-    public class CoordinadorTécnicoMédico
+    /**
+     * Class used to model table CoordinadorTécnicoMédico from database.
+     */
+    public class CoordinadorTécnicoMédico : Funcionario
     {
-        public string CédulaFuncionario { get; set; }
-
     }
 }

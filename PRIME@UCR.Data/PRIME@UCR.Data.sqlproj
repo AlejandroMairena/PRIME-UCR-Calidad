@@ -58,11 +58,12 @@
     <Folder Include="Properties" />
     <Folder Include="Scripts" />
     <Folder Include="Scripts\PostDeployment" />
+    <Folder Include="Tables\" />
     <Folder Include="Tables\Incidents" />
     <Folder Include="Tables\UserEntityCore" />
     <Folder Include="Tables\UserAdministration" />
     <Folder Include="Tables\CheckLists" />
-    <Folder Include="Tables\" />
+    <Folder Include="Tables\Appointments" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\CheckLists\CheckList.sql" />
@@ -104,12 +105,19 @@
     <Build Include="Tables\UserAdministration\Pertenece.sql" />
     <Build Include="Tables\UserAdministration\TienePerfil.sql" />
     <Build Include="Tables\UserAdministration\Usuario.sql" />
+    <Build Include="Tables\Appointments\Cita.sql" />
+    <Build Include="Tables\Appointments\Metricas.sql" />
+    <Build Include="Tables\Appointments\MetricasCitaMedica.sql" />
+    <Build Include="Tables\Appointments\MetricasIncidentes.sql" />
+    <Build Include="Tables\Appointments\Accion.sql" />
+    <Build Include="Tables\Appointments\TipoAccion.sql" />
   </ItemGroup>
   <ItemGroup>
+    <PostDeploy Include="Scripts\Script.PostDeployment.sql" />
     <None Include="Scripts\PostDeployment\Identity_PostDeployment.sql" />
     <None Include="Scripts\PostDeployment\Incidents_PostDeployment.sql" />
     <None Include="Scripts\PostDeployment\Checklists_PostDeployment.sql" />
     <None Include="Scripts\PostDeployment\Users_PostDeployment.sql" />
-    <PostDeploy Include="Scripts\Script.PostDeployment.sql" />
+    <None Include="Scripts\PostDeployment\Appointments_PostDeployment.sql" />
   </ItemGroup>
 </Project>

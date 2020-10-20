@@ -3,12 +3,14 @@ using PRIME_UCR.Application.Implementations.Multimedia;
 using PRIME_UCR.Application.Repositories;
 using PRIME_UCR.Application.Repositories.Incidents;
 using PRIME_UCR.Application.Repositories.Multimedia;
+using PRIME_UCR.Application.Repositories.UserAdministration;
 using PRIME_UCR.Application.Services.Multimedia;
 using PRIME_UCR.Infrastructure.DataProviders;
 using PRIME_UCR.Infrastructure.DataProviders.Implementations;
 using PRIME_UCR.Infrastructure.Repositories.Sql;
 using PRIME_UCR.Infrastructure.Repositories.Sql.Incidents;
 using PRIME_UCR.Infrastructure.Repositories.Sql.Multimedia;
+using PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration;
 
 namespace PRIME_UCR.Infrastructure
 {
@@ -36,6 +38,22 @@ namespace PRIME_UCR.Infrastructure
             // multimedia
             services.AddTransient<IMultimediaContentRepository, MultimediaContentRepository>();
             services.AddTransient<IFileService, FileService>();
+
+            // user administration repositories
+            services.AddTransient<IAdministradorRepository, AdministradorRepository>();
+            services.AddTransient<IAdministradorCentroDeControlRepository, AdministradorCentroDeControlRepository>();
+            services.AddTransient<ICoordinadorTécnicoMédicoRepository, CoordinadorTécnicoMédicoRepository>();
+            services.AddTransient<IEspecialistaTécnicoMédicoRepository, EspecialistaTécnicoMédicoRepository>();
+            services.AddTransient<IFuncionarioRepository, FuncionarioRepository>();
+            services.AddTransient<IGerenteMédicoRepository, GerenteMédicoRepository>();
+            services.AddTransient<IMédicoRepository, MédicoRepository>();
+            services.AddTransient<INúmeroTeléfonoRepository, NúmeroTeléfonoRepository>();
+            services.AddTransient<IPacienteRepository, PacienteRepository>();
+            services.AddTransient<IPerfilRepository, PerfilRepository>();
+            services.AddTransient<IPermisoRepository, PermisoRepository>();
+            services.AddTransient<IPersonaRepository, PersonaRepository>();
+            services.AddTransient<IUsuarioRepository, UsuarioRepository>();
+
             return services;
         }
     }

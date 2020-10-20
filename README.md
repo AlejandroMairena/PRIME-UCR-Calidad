@@ -1,5 +1,13 @@
-# Prime@UCR
+# Universidad de Costa Rica
 
+## README.MD
+
+# PRIME@UCR
+
+#### Version 1.0
+  
+  
+    
 ## Tabla de contenidos 
 
 [TOC]
@@ -252,11 +260,14 @@ Para el control de los procedimientos durante los traslados de pacientes se debe
 
 3. **Interacción con procesos para incidentes:** Como coordinador técnico médico debo tener alguna forma de almacenar listas de chequeo que se usan solo en ocasiones específicas y que los especialistas técnico médicos tengan acceso a estas.
 
-### Drim Team
+#### Drim Team
 
 Para la gestión de envío de información en tiempo real por los miembros del equipo PRIME al centro de contro se debe permitir que para cada una de las actividades de las listas de chequeo de los procesos, se pueda enviar información por medio de texto, imágenes, vídeo y voz.
+
 1. **Administración de Contenido Multimedia:**  Este Epic está relacionado a la acceso, visualización y almacenamiento seguro del contentido multimedia.
+
 2. **Adjuntar Contenido Multimedia:** Este está epic relacionado a poder adjuntar contenido, ya sea imagen, texto, video o audio, a las listas de chequeo, o a una cita.
+
 3. **Administración de Expedientes:** Este epic está relacionado a la creación de expedientes, así como la distribución de la información que tiene cada funcionario en referencia a sus permisos. 
  
 
@@ -297,15 +308,15 @@ El programa en su pantalla de inicio le muestra al usuario solamente un menú la
 
 - La aplicación debe seguir todos los lineamientos del Manual de Identidad Visual de la Universidad de Costa Rica.
 
-##### Legados/
+##### Legados/Control de procedimientos
 
-En la pantalla de registro de listas de chequeo se puede ver cada lista junto a detalles de la misma en orden descendiente, además de enlaces directos en el menú lateral para una búsqueda más veloz de la lista deseada.  
+- En la pantalla de registro de listas de chequeo se puede ver cada lista junto a detalles de la misma en orden descendiente, además de enlaces directos en el menú lateral para una búsqueda más veloz de la lista deseada.  
 
-Para crear una lista se clickea el botón “Crear lista de chequeo” en el menú lateral de la pantalla, esto abrirá una ventana titulada “Crear plantilla de lista de chequeo” (definición previamente explicada en el apartado “Definiciones, acrónimos y abreviaciones”), en esta se ven las características principales de la lista marcadas en un cuadro blanco en el centro de la ventana y marcadas con un asterisco las que son fundamentales, la leyenda del asterisco también se muestra en la parte inferior; el botón de guardar lista está inhabilitado hasta que la ventanas necesarias, Nombre y Tipo, sean correctamente llenadas y esto se ve reflejado en el color del mismo que se hace más intenso y diferenciable cuando se encuentra habilitado, además de tener la opción de cancelar la creación si así lo desea.  
+- Para crear una lista se clickea el botón “Crear lista de chequeo” en el menú lateral de la pantalla, esto abrirá una ventana titulada “Crear plantilla de lista de chequeo” (definición previamente explicada en el apartado “Definiciones, acrónimos y abreviaciones”), en esta se ven las características principales de la lista marcadas en un cuadro blanco en el centro de la ventana y marcadas con un asterisco las que son fundamentales, la leyenda del asterisco también se muestra en la parte inferior; el botón de guardar lista está inhabilitado hasta que la ventanas necesarias, Nombre y Tipo, sean correctamente llenadas y esto se ve reflejado en el color del mismo que se hace más intenso y diferenciable cuando se encuentra habilitado, además de tener la opción de cancelar la creación si así lo desea.  
 
-Al crear una lista esta se ve inmediatamente reflejada en la pantalla de listas de chequeo.  
+- Al crear una lista esta se ve inmediatamente reflejada en la pantalla de listas de chequeo.  
 
-### Drim Team/Contenido Multimedia-Expedientes
+#### Drim Team/Contenido Multimedia-Expedientes
 
 -Cuando hay algún error a la hora de subir un archivo, se le debe dar retroalimentación al usuario para que decida si quiere intentarlo de nuevo.
 -El usuario debe poder subir archivos de tipo .pdf, .doc, .docx, .xls, .txt, .mp3, .jpg, .png, .mp4, .wmv, .avi.
