@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[Permite]
 (
-	NombrePerfil			nvarchar(40)	NOT NULL,
+	NombrePerfil			nvarchar(60)	NOT NULL,
 	IdPermiso				int				NOT NULL,
 	primary key (NombrePerfil, IdPermiso),
 	foreign key (NombrePerfil)

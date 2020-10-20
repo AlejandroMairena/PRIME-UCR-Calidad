@@ -4,8 +4,16 @@ using System.Text;
 
 namespace PRIME_UCR.Domain.Models.UserAdministration
 {
-    public class Funcionario
+    /**
+     * Class used to model table Funcionario from database.
+     */
+    public class Funcionario : Persona
     {
-        public string CédulaFuncionario { get; set; }
+        public Funcionario()
+        {
+            PerfilesDelFuncionario = new List<TienePerfil>();
+        }
+        /*List of profiles for which the Funcionario is part*/
+        public List<TienePerfil> PerfilesDelFuncionario { get; set; }
     }
 }

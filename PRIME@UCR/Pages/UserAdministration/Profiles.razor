@@ -1,0 +1,17 @@
+﻿@page "/user_administration/profiles"
+@using PRIME_UCR.Components.UserAdministration
+
+@attribute [Authorize]
+<link href="css/Profiles.css" rel="stylesheet" />
+
+<ProfilesComponent/>
+<div class="row">
+    <div class="column">
+        <label>Usuarios</label>
+        <UsersComponent />
+    </div>
+    <div class="column">
+        <label>Permisos</label>
+        <PermissionsComponent />
+    </div>
+</div>
