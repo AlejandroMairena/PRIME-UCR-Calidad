@@ -15,11 +15,7 @@ namespace PRIME_UCR.Application
         public static IServiceCollection AddApplicationLayer(this IServiceCollection services)
         {
             // services
-
-            // CheckList services
             services.AddTransient<ICheckListService, CheckListService>();
-            services.AddTransient<IItemService, ItemService>();
-
             services.AddTransient<IIncidentService, IncidentService>();
             services.AddTransient<ILocationService, LocationService>();
             services.AddTransient<IMultimediaContentService, MultimediaContentService>();
