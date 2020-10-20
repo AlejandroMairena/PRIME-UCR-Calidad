@@ -20,6 +20,8 @@ namespace PRIME_UCR.Components.UserAdministration
 
         string invalidUser = "hide";
 
+        bool isBusy = false;
+
         protected override void OnInitialized()
         {
             logInInfo = new LogInModel();
@@ -28,6 +30,8 @@ namespace PRIME_UCR.Components.UserAdministration
 
         private async Task<bool> ValidateUser()
         {
+            isBusy = true;
+            await Task.Delay(1000); //Testing loading indicator
             //DB
             // var authResult = await SignInManager.PasswordSignInAsync(usuario.Email, usuario.PasswordHash, true, true);
             var result = await ((CustomAuthenticationStateProvider)MyAuthenticationStateProvider).AuthenticateLogin(logInInfo);
@@ -39,6 +43,7 @@ namespace PRIME_UCR.Components.UserAdministration
 
             await sessionStorage.SetItemAsync("emailAddress",logInInfo.Correo);
 
+            isBusy = false;
             return await Task.FromResult(result);
         }
         
