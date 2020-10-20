@@ -33,7 +33,6 @@ namespace PRIME_UCR.Pages.CheckLists
 
         [Inject] protected ICheckListService MyCheckListService { get; set; }
 
-        [Inject] protected IItemService MyItemService { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
@@ -44,7 +43,7 @@ namespace PRIME_UCR.Pages.CheckLists
         {
             list = await MyCheckListService.GetById(id);
             lists = await MyCheckListService.GetAll();
-            items = await MyItemService.GetByCheckListId(id);
+            items = await MyCheckListService.GetItemsByCheckListId(id);
         }
 
         protected void HandleFieldChanged(object sender, FieldChangedEventArgs e)
@@ -64,17 +63,30 @@ namespace PRIME_UCR.Pages.CheckLists
 
         protected async Task AddCheckListItem(Item item)
         {
-            await MyItemService.InsertItem(item);
+            await MyCheckListService.InsertCheckListItem(item);
             createItem = false;
             await RefreshModels();
             StateHasChanged();
         }
 
-        protected void StartNewItemCreation() {
+        protected void StartNewItemCreation() 
+        {
             createItem = true;
             tempItem = new Item();
             tempItem.IDLista = id;
             tempItem.Orden = items.Count() + 1;
+            editContext = new EditContext(tempItem);
+            editContext.OnFieldChanged += HandleFieldChanged;
+            StateHasChanged();
+        }
+
+        protected void CreateSubItem(int itemId)
+        {
+            createItem = true;
+            tempItem = new Item();
+            tempItem.IDLista = id;
+            tempItem.IDSuperItem = itemId;
+            // Get the order from ?
             editContext = new EditContext(tempItem);
             editContext.OnFieldChanged += HandleFieldChanged;
             StateHasChanged();
