@@ -14,13 +14,13 @@ a, .btn-link {
     color: #0366d6;
 }
 
-.btn-primary {
-    background: #FFFFFF;
-    height: 100%;
-    margin-top: 0;
-    z-index: 2;
-    position: relative;
-}
+/*.btn-primary {*/
+/*    background: #FFFFFF;*/
+/*    height: 100%;*/
+/*    margin-top: 0;*/
+/*    z-index: 2;*/
+/*    position: relative;*/
+/*}*/
 
 app {
     position: relative;

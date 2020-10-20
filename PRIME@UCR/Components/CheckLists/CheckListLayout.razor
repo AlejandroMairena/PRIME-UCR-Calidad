@@ -1,16 +1,19 @@
 ﻿@inherits LayoutComponentBase
 
-<div class="sidebar">
-    <CascadingValue Value="@lists" Name="lists">
-        <CheckListNavMenu OnlistsChange="Changelists" />
-    </CascadingValue>
+<div class="sidebar navbar-light text-white background-image:blue">
+    <AuthorizeView>
+        <Authorized>
+            <CascadingValue Value="@lists" Name="lists">
+                <CheckListNavMenu OnlistsChange="Changelists" />
+            </CascadingValue>
+        </Authorized>
+        <NotAuthorized>
+            <LoginForm />
+        </NotAuthorized>
+    </AuthorizeView>
 </div>
 
 <div class="main">
-    <div class="top-row px-4">
-        <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
-    </div>
-
     <div>
         <CascadingValue Value="@lists" Name="lists">
             @Body

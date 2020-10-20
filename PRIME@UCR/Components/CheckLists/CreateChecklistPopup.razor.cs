@@ -16,8 +16,8 @@ namespace PRIME_UCR.Components.CheckLists
         [CascadingParameter(Name = "IsModalOpened")]
         public bool IsModalOpened { get; set; }
 
-        [CascadingParameter(Name = "lists")]
-        protected IEnumerable<CheckList> lists { get; set; }
+        [Parameter]
+        public IEnumerable<CheckList> lists { get; set; }
 
         [Parameter]
         public Action<IEnumerable<CheckList>> OnlistsChange { get; set; }
@@ -26,6 +26,8 @@ namespace PRIME_UCR.Components.CheckLists
         public Action<bool> OnIsModalOpenedChange { get; set; }
 
         [Inject] protected ICheckListService MyService { get; set; }
+        [Inject]
+        public NavigationManager NavManager { get; set; }
 
         protected CheckList checkList = new CheckList();
 
@@ -92,7 +94,7 @@ namespace PRIME_UCR.Components.CheckLists
 
         protected void Changelists()
         {
-            OnlistsChange?.Invoke(lists);
+            OnlistsChange.Invoke(lists);
         }
 
         protected void ChangeIsModalOpened()

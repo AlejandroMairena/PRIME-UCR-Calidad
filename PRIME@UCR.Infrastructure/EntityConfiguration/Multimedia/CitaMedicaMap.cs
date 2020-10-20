@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 
 
-namespace PRIME_UCR.Infrastructure.DataProviders.Implementations.EntityConfiguration.Multimedia
+namespace PRIME_UCR.Infrastructure.EntityConfiguration.Multimedia
 {
     class CitaMedicaMap : IEntityTypeConfiguration<CitaMedica>
     {

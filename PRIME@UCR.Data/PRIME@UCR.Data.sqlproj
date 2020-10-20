@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -56,29 +56,60 @@
   <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
   <ItemGroup>
     <Folder Include="Properties" />
-    <Folder Include="Tables" />
     <Folder Include="Scripts" />
     <Folder Include="Scripts\PostDeployment" />
+    <Folder Include="Tables\Incidents" />
+    <Folder Include="Tables\UserEntityCore" />
+    <Folder Include="Tables\UserAdministration" />
+    <Folder Include="Tables\CheckLists" />
+    <Folder Include="Tables\" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="CheckList.sql" />
-    <Build Include="Tables\Canton.sql" />
-    <Build Include="Tables\Centro_Medico.sql" />
-    <Build Include="Tables\Centro_Ubicacion.sql" />
-    <Build Include="Tables\Distrito.sql" />
-    <Build Include="Tables\Domicilio.sql" />
-    <Build Include="Tables\Incidente.sql" />
-    <Build Include="Tables\Modalidad.sql" />
-    <Build Include="Tables\Pais.sql" />
+    <Build Include="Tables\CheckLists\CheckList.sql" />
+    <Build Include="Tables\Incidents\Pais.sql" />
+    <Build Include="Tables\Incidents\Provincia.sql" />
+    <Build Include="Tables\Incidents\Canton.sql" />
+    <Build Include="Tables\Incidents\Distrito.sql" />
+    <Build Include="Tables\Incidents\Ubicacion.sql" />
+    <Build Include="Tables\Incidents\Domicilio.sql" />
+    <Build Include="Tables\Incidents\Internacional.sql" />
+    <Build Include="Tables\Incidents\Centro_Medico.sql" />
+    <Build Include="Tables\Incidents\Centro_Ubicacion.sql" />
+    <Build Include="Tables\Incidents\Modalidad.sql" />
+    <Build Include="Tables\Incidents\Incidente.sql" />
+    <Build Include="Tables\Incidents\Estado.sql" />
+    <Build Include="Tables\Incidents\EstadoIncidente.sql" />
+    <Build Include="Tables\Incidents\Unidad_De_Transporte.sql" />
+    <Build Include="Tables\Incidents\MultimediaContent.sql" />
+    <Build Include="Tables\UserEntityCore\AspNetRoles.sql" />
+    <Build Include="Tables\UserEntityCore\AspNetUsers.sql" />
+    <Build Include="Tables\UserEntityCore\AspNetRoleClaims.sql" />
+    <Build Include="Tables\UserEntityCore\AspNetUserClaims.sql" />
+    <Build Include="Tables\UserEntityCore\AspNetUserLogins.sql" />
+    <Build Include="Tables\UserEntityCore\AspNetUserRoles.sql" />
+    <Build Include="Tables\UserEntityCore\AspNetUserTokens.sql" />
+    <Build Include="Tables\UserAdministration\Administrador.sql" />
+    <Build Include="Tables\UserAdministration\AdministradorCentroDeControl.sql" />
+    <Build Include="Tables\UserAdministration\CoordinadorTécnicoMédico.sql" />
+    <Build Include="Tables\UserAdministration\EspecialistaTécnicoMédico.sql" />
+    <Build Include="Tables\UserAdministration\Funcionario.sql" />
+    <Build Include="Tables\UserAdministration\GerenteMédico.sql" />
+    <Build Include="Tables\UserAdministration\Médico.sql" />
+    <Build Include="Tables\UserAdministration\NúmeroTeléfono.sql" />
+    <Build Include="Tables\UserAdministration\Paciente.sql" />
+    <Build Include="Tables\UserAdministration\Perfil.sql" />
+    <Build Include="Tables\UserAdministration\Permiso.sql" />
+    <Build Include="Tables\UserAdministration\Permite.sql" />
+    <Build Include="Tables\UserAdministration\Persona.sql" />
+    <Build Include="Tables\UserAdministration\Pertenece.sql" />
+    <Build Include="Tables\UserAdministration\TienePerfil.sql" />
+    <Build Include="Tables\UserAdministration\Usuario.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Scripts\PostDeployment\Identity_PostDeployment.sql" />
     <None Include="Scripts\PostDeployment\Incidents_PostDeployment.sql" />
-    <Build Include="Tables\Estado.sql" />
-    <Build Include="Tables\EstadoIncidente.sql" />
-  </ItemGroup>
-  <ItemGroup>
-    <Build Include="Tables\Internacional.sql" />
-    <Build Include="Tables\Provincia.sql" />
-    <Build Include="Tables\Ubicacion.sql" />
-    <Build Include="Tables\Unidad_De_Transporte.sql" />
-	<Build Include="Tables\MultimediaContent.sql" />	  
+    <None Include="Scripts\PostDeployment\Checklists_PostDeployment.sql" />
+    <None Include="Scripts\PostDeployment\Users_PostDeployment.sql" />
+    <PostDeploy Include="Scripts\Script.PostDeployment.sql" />
   </ItemGroup>
 </Project>
