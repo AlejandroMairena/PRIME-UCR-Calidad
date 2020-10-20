@@ -97,16 +97,22 @@ else
                         }
                         else
                         {
-                            @foreach (var itemInList in items) 
-                            { 
-                                <p>
-                                    <b>Nombre:</b> @itemInList.Nombre<br />
-                                    <span style="color:grey">Descripción:</span> @itemInList.Descripcion
-                                </p>
+                            <table class="table table-hover">
+                                <thead>
+                                </thead>
+                                <tbody>
+                            @foreach (var itemInList in items)
+                            {
+                                <tr>
+                                    <th scope="row"> @itemInList.Nombre</th>
+                                    <td> @itemInList.Descripcion </td>
+                                    <td>Tres puntos</td>
+                                </tr>
                             }
+                                </tbody>
+                            </table>
                         }
                     }
-                    <hr />
                     @if (createItem == false)
                     {
                         <button class="btn-primary" @onclick="StartNewItemCreation">Crear ítem</button>
@@ -133,8 +139,8 @@ else
                                 <p style="color:red">* Campo requerido</p>
 
                                 <div align="center">
-                                    <button type="submit" class="btn btn-primary" disabled="@formInvalid" id="BP_LC0">Guardar Item</button> 
-                                    <a class="btn btn-outline-secondary" @onclick="Dispose" id="a_LC3">Cancelar</a> 
+                                    <button type="submit" class="btn btn-primary" disabled="@formInvalid" id="BP_LC0">Guardar Item</button>
+                                    <a class="btn btn-outline-secondary" @onclick="Dispose" id="a_LC3">Cancelar</a>
                                 </div>
                             </EditForm>
                         </div>
