@@ -1,0 +1,67 @@
+﻿@page "/checklist/toInstance"
+@inherits CheckListToInstanceBase
+@* @layout CheckListLayout *@
+@* @attribute [Authorize(Roles = "coordinador tecnico medico")] *@
+@* @attribute [Authorize(Policy = "check-list")] *@
+@attribute [Authorize]
+<link href="css/Checklist.css" rel="stylesheet" />
+
+<h1> Listas de chequeo para instanciar en un incidente</h1>
+<hr />
+<div>
+    @if (lists == null)
+    {
+        <p><em class="nav-link">Cargando listas de chequeo.</em></p>
+    }
+    else
+    { <div></div>
+        if (lists.Count() == 0)
+        {
+            <p><em class="nav-link">No se ha creado ninguna lista, presione el boton + para crear una.</em></p>
+        }
+        else
+        {
+            <p>Marque con un check las listas que de desea asignar a este incidente de traslado</p>
+            <h4>Listas de chequeo existentes</h4>
+            <table class="table" id="Table_CL">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Tipo</th>
+                        <th>Descripción</th>
+                        <th>&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var tempList in lists)
+                    {
+                    <tr class="nav-item px-3" style="transform: rotate(0);">
+                        
+                        <th scope="row">
+                            <a href='@string.Format("checklist/{0}", @tempList.Id)' class="stretched-link">@tempList.Nombre</a>
+                        </th>
+                        <td>@tempList.Tipo</td>
+                        <td>@tempList.Descripcion</td>
+                        <td><input type="checkbox" class="focus">@*checked="checked"*@&nbsp;</td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+            <hr />
+            <h4>Plantillas de listas de chequeo asignadas a el incidente</h4>
+            <table class="table" id="Table_CL">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Tipo</th>
+                        <th>Descripción</th>
+                    </tr>
+                </thead>
+                @*listas de chequeo elegidas*@
+                <tbody>
+                </tbody>
+            </table>
+        }
+    }
+</div>
+<br />
