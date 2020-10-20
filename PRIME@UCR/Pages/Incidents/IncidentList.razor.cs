@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BlazorTable;
+using MatBlazor;
 using Microsoft.AspNetCore.Components;
 using Microsoft.EntityFrameworkCore;
 using PRIME_UCR.Application.Dtos.Incidents;
@@ -32,6 +33,12 @@ namespace PRIME_UCR.Pages.Incidents
             incidentsList = (await IncidentService.GetAllAsync()).ToList();
 
         }
+
+        MatTheme AddButtonTheme = new MatTheme()
+        {
+            Primary = "white",
+            Secondary = "#095290"
+        };
 
 
         void Redirect()
