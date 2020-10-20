@@ -23,7 +23,6 @@ a, .btn-link {
 /*}*/
 
 app {
-    position: relative;
     display: flex;
     flex-direction: column;
 }
@@ -85,7 +84,7 @@ app {
         .sidebar .nav-item a {
             color: #d7d7d7;
             border-radius: 4px;
-            height: 3rem;
+            height: auto;
             align-items: center;
         }
 
@@ -199,7 +198,8 @@ app {
     color: white;
 }
 .footer-page {
-
+    width: 100%;
+    bottom: 0px;
 }
 .footer-links {
     height: 170px;

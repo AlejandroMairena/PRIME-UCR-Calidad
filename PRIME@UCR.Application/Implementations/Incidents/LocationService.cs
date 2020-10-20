@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using PRIME_UCR.Application.Dtos;
+using PRIME_UCR.Application.Dtos.Incidents;
 using PRIME_UCR.Application.Repositories.Incidents;
 using PRIME_UCR.Application.Services.Incidents;
 using PRIME_UCR.Domain.Models;
@@ -27,6 +28,11 @@ namespace PRIME_UCR.Application.Implementations.Incidents
             _cantonRepository = cantonRepository;
             _districtRepository = districtRepository;
             _medicalCenterRepository = medicalCenterRepository;
+        }
+
+        public async Task<Pais> GetCountryByName(string name)
+        {
+            return await _countryRepository.GetByKeyAsync(name);
         }
 
         public async Task<IEnumerable<CentroMedico>> GetAllMedicalCentersAsync()

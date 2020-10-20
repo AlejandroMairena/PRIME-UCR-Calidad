@@ -2,22 +2,25 @@
 @using PRIME_UCR.Components.Controls
 @attribute [Authorize]
 
-<div class="container">
-    <h1>Crear incidente</h1>
-    <EditForm Model="_model" OnValidSubmit="@Create" >
-        <DataAnnotationsValidator />
-        <ValidationSummary />
-        <Loading IsLoading="_modes == null">
-            <div class="form-group">
-                <DropDownMenu Label="Modalidad" Data="_modes" @bind-Value="_model.Mode" TextProperty="Tipo"/>
-            </div>
-            <DateTimePicker @bind-Date="@_model.EstimatedDateOfTransfer"
+<h1>Crear incidente</h1>
+<Loading IsLoading="_modes == null">
+    <div class="col-lg-6 col-md-8">
+        <EditForm EditContext="_context" OnValidSubmit="@Create">
+            <FluentValidationValidator/>
+            <DropDownMenu Label="Modalidad" Data="_modes" @bind-Value="_model.Mode"
+                          TextProperty="Tipo"
+                          DefaultText="Seleccione una modalidad de traslado"/>
+            <DateTimePicker @bind-Value="@_model.EstimatedDateOfTransfer"
                              DateLabel="Fecha estimada de traslado" TimeLabel="Hora estimada de traslado"/>
-            <div class="text-center">
-                <a class="btn btn-outline-secondary" href="">Cancelar</a>
+            @if (isFormValid)
+            {
                 <button type="submit" class="btn btn-primary">Crear</button>
-            </div>
-        </Loading>
-    </EditForm>
-</div>
+            }
+            else
+            {
+                <button type="submit" class="btn btn-secondary" disabled>Crear</button>
+            }
+        </EditForm>
+    </div>
+</Loading>
 <br/>

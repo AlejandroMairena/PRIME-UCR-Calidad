@@ -258,11 +258,11 @@ VALUES
     (3, 48, 23, 'Hospital CEACO');
 
 -- Centro_Ubicacion
-INSERT INTO Centro_Ubicacion (Id, IdCentro)
+INSERT INTO Centro_Ubicacion (Id, IdCentro, NumeroCama)
 VALUES 
-    (6, 1),
-    (7, 2),
-    (8, 3);
+    (6, 1, 15),
+    (7, 2, 6),
+    (8, 3, 12);
 
 -- Modalidad 
 INSERT INTO Modalidad (Tipo)
@@ -279,12 +279,12 @@ VALUES
     ('PHP999', 'Disponible', 'Aéreo');
 
 -- Incidente
-INSERT INTO Incidente (Codigo, MatriculaTrans, IdEspecialista, CedulaAdmin,
+INSERT INTO Incidente (MatriculaTrans, IdEspecialista, CedulaAdmin,
     CedulaTecnicoCoordinador, CedulaTecnicoRevisor, CodigoCita, IdOrigen, IdDestino,
     Modalidad, FechaHoraRegistro, FechaHoraEstimada)
 VALUES
-    ('TERR123', 'BPC087', 123, 111111111, 117222222, 1173333333, 1, 1, NULL, 'Terrestre', GETDATE(), GETDATE()),
-    ('AER123', 'PHP999', 456, 117111111, 117112222, 1171133333, 1, 2, NULL, 'Aéreo', GETDATE(), GETDATE());
+    ('BPC087', 123, 111111111, 117222222, 1173333333, 1, 1, NULL, 'Terrestre', GETDATE(), GETDATE()),
+    ('PHP999', 456, 117111111, 117112222, 1171133333, 1, 2, NULL, 'Aéreo', GETDATE(), GETDATE());
 
 -- Estado
 INSERT INTO Estado
@@ -305,6 +305,30 @@ VALUES
 -- EstadoIncidente
 INSERT INTO EstadoIncidente
 VALUES
-    ('TERR123', 'En proceso de creación', GETDATE(), 1),
-    ('AER123', 'En proceso de creación', GETDATE(), 1)
+(
+	RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) + 
+	'-' +
+	RIGHT(REPLICATE('0', 2) + CAST(MONTH(GETDATE()) AS varchar(10)), 2) + 
+	'-' +
+	RIGHT(REPLICATE('0', 2) + CAST(DAY(GETDATE()) AS varchar(10)), 2) + 
+	'-' +
+	RIGHT(REPLICATE('0', 4) + '1', 4) + 
+	'-' +
+	'IT' +
+	'-' +
+	'TER', 'En proceso de creación', GETDATE(), 1
+),
+(
+	RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) + 
+	'-' +
+	RIGHT(REPLICATE('0', 2) + CAST(MONTH(GETDATE()) AS varchar(10)), 2) + 
+	'-' +
+	RIGHT(REPLICATE('0', 2) + CAST(DAY(GETDATE()) AS varchar(10)), 2) + 
+	'-' +
+	RIGHT(REPLICATE('0', 4) + '2', 4) + 
+	'-' +
+	'IT' +
+	'-' +
+	'AER', 'En proceso de creación', GETDATE(), 1
+)
 

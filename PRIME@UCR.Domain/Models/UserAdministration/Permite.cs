@@ -6,7 +6,10 @@ namespace PRIME_UCR.Domain.Models.UserAdministration
 {
     public class Permite
     {
-        public string NombrePerfil { get; set; }
+        public string IDPerfil { get; set; }
+        public Perfil Perfil { get; set; }
+
         public int IDPermiso { get; set; }
+        public Permiso Permiso { get; set; }
     }
 }

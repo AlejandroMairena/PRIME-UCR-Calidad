@@ -3,134 +3,154 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.EntityFrameworkCore.Internal;
+using PRIME_UCR.Application.Dtos.Incidents;
 using PRIME_UCR.Application.Services.Incidents;
 using PRIME_UCR.Components.Controls;
 using PRIME_UCR.Domain.Models;
 
 namespace PRIME_UCR.Components.Incidents.LocationPickers
 {
-    public partial class HouseholdPicker
+    public partial class HouseholdPicker : IDisposable
     {
-        [Inject]
-        public ILocationService LocationService { get; set; }
-        
-        [Parameter]
-        public Ubicacion Value { get; set; }
-        
-        [Parameter]
-        public EventCallback<Ubicacion> ValueChanged { get; set; }
+        [Inject] public ILocationService LocationService { get; set; }
+        [Parameter] public HouseholdModel Value { get; set; }
+        [Parameter] public EventCallback<HouseholdModel> OnSave { get; set; }
+        [Parameter] public EventCallback OnDiscard { get; set; }
 
         private List<Provincia> _provinces;
         private List<Canton> _cantons;
         private List<Distrito> _districts;
-
-        private Provincia _selectedProvince;
-        private Canton _selectedCanton;
-        private Distrito _selectedDistrict;
-        private string _address;
-        private double _longitude;
-        private double _latitude;
-
+        private bool _saveButtonEnabled = false;
+        private EditContext _context;
+        private HouseholdModel _initialValue;
+        
         // Check if everything has been loaded
         bool IsLoading()
         {
-            return _provinces == null || _selectedProvince == null ||
-                   _cantons == null || _selectedCanton == null ||
-                   _districts == null || _selectedDistrict == null;
+            return _provinces == null
+                   || _cantons == null
+                   || _districts == null;
         }
 
-        async Task LoadProvinces()
+        async Task LoadProvinces(bool firstLoad)
         {
             // get options
             _provinces =
                 (await LocationService.GetProvincesByCountryNameAsync(Pais.DefaultCountry))
                 .ToList();
 
-            // Could throw invalid operation exception if list is empty,
-            // but this should only happen if there are countries in our DB with no provinces registered,
-            // which shouldn't happen.
-            _selectedProvince = _provinces.First();
-        }
-
-        async Task Callback()
-        {
-            var household = new Domicilio
-            {
-                DistritoId = _selectedDistrict.Id,
-                Direccion = _address,
-                Longitud = _longitude,
-                Latitud = _latitude
-            };
-            await ValueChanged.InvokeAsync(household);
+            if (!firstLoad)
+                Value.Province = null;
         }
 
         async Task OnChangeProvince(Provincia province)
         {
-            _selectedProvince = province;
-            await LoadCantons();
-            await LoadDistricts();
-            await Callback();
+            Value.Province = province;
+            await LoadCantons(false);
+            await LoadDistricts(false);
         }
 
-        async Task LoadCantons()
+        async Task LoadCantons(bool firstLoad)
         {
-            _cantons =
-                (await LocationService.GetCantonsByProvinceNameAsync(_selectedProvince.Nombre))
-                .ToList();
+            if (Value.Province != null)
+                _cantons =
+                    (await LocationService.GetCantonsByProvinceNameAsync(Value.Province.Nombre))
+                    .ToList();
+            else
+                _cantons = new List<Canton>();
 
-            _selectedCanton = _cantons.First();
+            if (!firstLoad)
+                Value.Canton = null;
         }
 
         async Task OnChangeCanton(Canton canton)
         {
-            _selectedCanton = canton;
-            await LoadDistricts();
-            await Callback();
+            Value.Canton = canton;
+            await LoadDistricts(false);
         }
 
-        async Task LoadDistricts()
+        async Task LoadDistricts(bool firstLoad)
         {
-            _districts =
-                (await LocationService.GetDistrictsByCantonIdAsync(_selectedCanton.Id))
-                .ToList();
-
-            _selectedDistrict = _districts.First();
-        }
-
-        async Task OnChangeDistrict(Distrito district)
-        {
-            _selectedDistrict = district;
-            await Callback();
-        }
-
-        private async Task LoadExistingValues()
-        {
-            if (Value is Domicilio household)
-            {
-                var location = await LocationService.GetLocationByDistrictId(household.DistritoId);
-                await LoadProvinces();
-                _selectedProvince = location.Province;
-                await LoadCantons();
-                _selectedCanton = location.Canton;
-                await LoadDistricts();
-                _selectedDistrict = location.District;
-                _address = household.Direccion;
-                _longitude = household.Longitud;
-                _latitude = household.Latitud;
-            }
+            if (Value.Canton != null)
+                _districts =
+                    (await LocationService.GetDistrictsByCantonIdAsync(Value.Canton.Id))
+                    .ToList();
             else
-            {
-                await LoadProvinces();
-                await LoadCantons();
-                await LoadDistricts();
-                await Callback();
-            }
+                _districts = new List<Distrito>();
+
+            if (!firstLoad)
+                Value.District = null;
+        }
+
+        void OnChangeDistrict(Distrito district)
+        {
+            Value.District = district;
+        }
+
+        void OnChangeAddress(string address)
+        {
+            Value.Address = address;
+        }
+
+        void OnChangeLongitude(double? newLongitude)
+        {
+            Value.Longitude = newLongitude;
         }
         
+        void OnChangeLatitude(double? newLatitude)
+        {
+            Value.Latitude = newLatitude;
+        }
+
+        public async Task LoadExistingValues()
+        {
+            await LoadProvinces(true);
+            await LoadCantons(true);
+            await LoadDistricts(true);
+        }
+
+        private async Task Submit()
+        {
+            await OnSave.InvokeAsync(Value);
+        }
+
+        private async Task Discard()
+        {
+            Value = _initialValue.Clone();
+            await LoadExistingValues();
+            _context.OnFieldChanged -= HandleFieldChanged;
+            _context = new EditContext(Value);
+            _context.OnFieldChanged += HandleFieldChanged;
+            _saveButtonEnabled = _context.IsModified();
+        }
+
+        protected override void OnParametersSet()
+        {
+            base.OnParametersSet();
+            _initialValue = Value.Clone();
+            if (Value == null)
+                throw new ArgumentNullException("Value", "Value argument cannot be null.");
+        }
+
         protected override async Task OnInitializedAsync()
         {
             await LoadExistingValues();
+            _context = new EditContext(Value);
+            _context.OnFieldChanged += HandleFieldChanged;
+        }
+
+        // used to toggle submit button disabled attribute
+        private void HandleFieldChanged(object sender, FieldChangedEventArgs e)
+        {
+            _saveButtonEnabled = _context.IsModified();
+            StateHasChanged();
+        }
+
+        public void Dispose()
+        {
+            _context.OnFieldChanged -= HandleFieldChanged;
         }
     }
 }

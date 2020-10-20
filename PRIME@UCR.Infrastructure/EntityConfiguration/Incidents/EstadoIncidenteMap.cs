@@ -10,7 +10,7 @@ namespace PRIME_UCR.Infrastructure.EntityConfiguration.Incidents
         {
             builder.ToTable("EstadoIncidente");
             
-            builder.HasKey(e => new {e.CodigoIncidente, e.NombreEstado});
+            builder.HasKey(e => new {IncidenteId = e.CodigoIncidente, e.NombreEstado});
 
             builder
                 .HasOne(e => e.Estado)

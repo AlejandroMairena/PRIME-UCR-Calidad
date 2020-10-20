@@ -5,10 +5,6 @@ namespace PRIME_UCR.Domain.Models
 {
     public class CentroMedico
     {
-
-        public CentroMedico() {
-            UbicacionIncidentes = new List<CentroUbicacion>();
-        }
         public int Id { get; set; }
         public int UbicadoEn { get; set; }
         public Distrito Distrito { get; set; }
@@ -17,13 +13,14 @@ namespace PRIME_UCR.Domain.Models
         public string Nombre { get; set; }
         public List<CentroUbicacion> UbicacionIncidentes { get; set; }
         
+
+        public CentroMedico() {
+            UbicacionIncidentes = new List<CentroUbicacion>();
+        }
+
         protected bool Equals(CentroMedico other)
         {
-            return Id == other.Id &&
-                   UbicadoEn == other.UbicadoEn &&
-                   Longitud.Equals(other.Longitud) &&
-                   Latitud.Equals(other.Latitud) &&
-                   Nombre == other.Nombre;
+            return Id == other.Id && UbicadoEn == other.UbicadoEn && Longitud.Equals(other.Longitud) && Latitud.Equals(other.Latitud) && Nombre == other.Nombre;
         }
 
         public override bool Equals(object obj)
@@ -33,5 +30,11 @@ namespace PRIME_UCR.Domain.Models
             if (obj.GetType() != this.GetType()) return false;
             return Equals((CentroMedico) obj);
         }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Id, UbicadoEn, Longitud, Latitud, Nombre);
+        }
+
     }
 }

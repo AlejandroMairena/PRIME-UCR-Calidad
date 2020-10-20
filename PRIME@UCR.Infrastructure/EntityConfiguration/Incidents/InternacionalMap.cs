@@ -14,9 +14,6 @@ namespace PRIME_UCR.Infrastructure.EntityConfiguration.Incidents
                 .HasOne(p => p.Pais)
                 .WithMany(p => p.PaisUbicaciones)
                 .HasForeignKey(p => p.NombrePais);
-            builder
-                .Property(p => p.Id)
-                .IsRequired();
         }
 
     }
