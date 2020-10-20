@@ -104,6 +104,7 @@
     <Build Include="Tables\UserAdministration\Pertenece.sql" />
     <Build Include="Tables\UserAdministration\TienePerfil.sql" />
     <Build Include="Tables\UserAdministration\Usuario.sql" />
+    <Build Include="Tables\Incidents\Trabaja_En.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Scripts\PostDeployment\Identity_PostDeployment.sql" />

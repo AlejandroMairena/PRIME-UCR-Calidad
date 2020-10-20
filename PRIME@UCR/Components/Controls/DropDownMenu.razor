@@ -7,7 +7,23 @@
         {
             @if (value.i == _index)
             {
-                <option selected value="@value.i">@GetText(value.v)</option>
+                @if (TextExpression != null && TextProperty != null)
+                {
+                    throw new System.InvalidOperationException("Only select one option of: TextProperty or TextExpression ");
+
+                }
+                else if (TextExpression != null)
+                {
+                    <option selected value="@value.v">@(TextExpression(Data[value.i]))</option>            
+                }
+                else if (TextProperty != null)
+                {
+                    <option selected value="@value.i">@GetText(value.v)</option>
+                }
+                else
+                {
+                    throw new System.InvalidOperationException("There must be an option: TextProperty or TextExpression");
+                }
             }
             else
             {

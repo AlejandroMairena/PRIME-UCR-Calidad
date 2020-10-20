@@ -9,7 +9,7 @@ using PRIME_UCR.Application.Services.Multimedia;
 using PRIME_UCR.Application.Implementations.Multimedia;
 using PRIME_UCR.Application.Implementations.UserAdministration;
 using PRIME_UCR.Application.Services.UserAdministration;
-
+using PRIME_UCR.Application.Repositories.Incidents;
 
 namespace PRIME_UCR.Application
 {

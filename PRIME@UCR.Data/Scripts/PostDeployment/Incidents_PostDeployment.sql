@@ -3,7 +3,6 @@ DELETE FROM Estado
 DELETE FROM Incidente
 DELETE FROM Unidad_De_Transporte
 DELETE FROM Modalidad
-DELETE FROM Centro_Ubicacion
 DELETE FROM Centro_Medico
 DELETE FROM Internacional
 DELETE FROM Domicilio
@@ -235,6 +234,7 @@ INSERT INTO Ubicacion DEFAULT VALUES
 INSERT INTO Ubicacion DEFAULT VALUES
 INSERT INTO Ubicacion DEFAULT VALUES
 INSERT INTO Ubicacion DEFAULT VALUES
+INSERT INTO Ubicacion DEFAULT VALUES
 
 -- Domicilio
 INSERT INTO Domicilio (Id, Direccion, DistritoId, Latitud, Longitud)
@@ -258,11 +258,20 @@ VALUES
     (3, 48, 23, 'Hospital CEACO');
 
 -- Centro_Ubicacion
-INSERT INTO Centro_Ubicacion (Id, IdCentro, NumeroCama)
+INSERT INTO Centro_Ubicacion (Id, IdCentro, NumeroCama, CédulaMédico)
 VALUES 
-    (6, 1, 15),
-    (7, 2, 6),
-    (8, 3, 12);
+    (6, 1, 15, '11111111'),
+    (7, 2, 6, '11111111'),
+    (8, 3, 12, '22222222'),
+    (9, 4, 25, '22222222');
+
+-- Trabaja_En
+INSERT INTO Trabaja_En(CédulaMédico, CentroMedicoId)
+VALUES
+    ('11111111', 1),
+    ('11111111', 2),
+    ('22222222', 3),
+    ('22222222', 4);
 
 -- Modalidad 
 INSERT INTO Modalidad (Tipo)

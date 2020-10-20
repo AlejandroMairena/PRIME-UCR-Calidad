@@ -17,7 +17,9 @@ namespace PRIME_UCR.Components.Controls
         
         [Parameter]
         public string TextProperty { get; set; }
-        
+        [Parameter]
+        public Func<T, string> TextExpression { get; set; }
+
         [Parameter]
         public EventCallback<T> ValueChanged { get; set; }
 
