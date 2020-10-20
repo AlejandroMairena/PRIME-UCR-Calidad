@@ -17,7 +17,7 @@ else
     <div class="row">
         <div class="col-lg-3 mb-4" >
             <div class="container" >
-                <h6>Listas de chequeo existentes</h6>
+                <h6>Listas de chequeo: <a class="btn btn-outline-primary" href='@string.Format("checklist/create")' id="a_LC2" data-toggle="tooltip" title="Crear Lista de chequeo">+</a></h6>
                 <div>
                     <ul class="nav nav-pills flex-column">
                         <li class="nav-item">
@@ -35,19 +35,19 @@ else
                          </li>
                      </ul>
                 </div>
-                <a class="btn btn-outline-primary" href='@string.Format("checklist/create")' id="a_LC2">+</a>
+                
             </div>
         </div>
-        <div class="col">
-            <div class="container">
+        <div class="col" >
+            <div class="container" id="contAll_LC">
                 <div id="def_LC">
                     <p>
                         <div class="input-group row">
                             <label for="checklistName" class="col-sm-2 col-form-label"><b>Nombre:</b></label>
-                            <div class="col-sm-8">
+                            <div class="col-sm-9">
                                 <input class="form-control" type="text" id="checklistName" name="checklistName" @bind-value="list.Nombre" @onfocusout="Update" />
                             </div>
-                            <div class="col-sm-2">
+                            <div class="col-sm-1">
                                 @*
                          User Story PIG01IIC20-267 LG - Agregar imagen descriptiva a lista de chequeo
                         Calls a component to upload images into the checklist
@@ -110,28 +110,28 @@ else
                                         @foreach (var itemInList in items)
                                         {
                                             <tr>
-                                                <td>
+                                                <td class="align-middle">
                                                     <p>
                                                         <img src="@itemInList.ImagenDescriptiva" width="50" height="50" />
 
                                                     </p>
                                                 </td>
-                                                <th scope="row"> @itemInList.Nombre</th>
-                                                <td> @itemInList.Descripcion </td>
-                                                <td>Temp idItem = @itemInList.Id</td>
+                                                <th scope="row" class="align-middle"> @itemInList.Nombre</th>
+                                                <td class="align-middle"> @itemInList.Descripcion </td>
+                                                <td class="align-middle">Temp idItem = @itemInList.Id</td>
                                                 @if (itemInList.IDSuperItem != null)
                                                 {
                                                     <td>Temp idSuperItem = @itemInList.IDSuperItem</td>
                                                 }
-                                                <td>
+                                                <td class="align-middle">
                                                     @* <button type="button" class="btn btn-primary"  id="Menu_LC" @onclick="() => CreateSubItem(itemInList.Id)"></button>*@
-                                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                                                        <span class="caret"></span>
+                                                    <button type="button" class="btn btn-default " data-toggle="dropdown">
+                                                        ⋮<span class="caret"></span>
                                                         <span class="sr-only">Desplegar menú</span>
                                                     </button>
 
                                                     <ul class="dropdown-menu" role="menu">
-                                                        <li><a class="dropdown-item" @onclick="() => CreateSubItem(itemInList.Id)">Agregar Subítem</a></li>
+                                                        <li><button class="dropdown-item" @onclick="() => CreateSubItem(itemInList.Id)">Agregar Subítem</button></li>
                                                         @*<li><button type="button" id="Menu_LC">Agregar Imagen</button></li>*@
                                                     </ul>
                                                 </td>

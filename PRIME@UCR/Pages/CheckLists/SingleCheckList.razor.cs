@@ -65,6 +65,7 @@ namespace PRIME_UCR.Pages.CheckLists
         {
             await MyCheckListService.InsertCheckListItem(item);
             createItem = false;
+            formInvalid = true;
             await RefreshModels();
             StateHasChanged();
         }

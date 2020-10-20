@@ -16,6 +16,7 @@ button:active#BP_LC0.btn.btn-primary {
 
 button:disabled#BP_LC0.btn.btn-primary {
     background: #676766;
+    border-color: black;
 }
 
 /*a for save checklist */
@@ -73,19 +74,15 @@ a:disabled#a_LC1.btn.btn-outline-primary {
 a#a_LC2.btn.btn-outline-primary {
     background: #095290;
     position: absolute;
-    top: 400px;
-    right: 0px;
-    left: auto;
-    /*position: relative;
-    top: 300px;
-    right: 100px;
-    left: 100px;*/
     color: white;
     border-radius: 1.0rem;
-    padding-top: 4px;
-    padding-left: 10px;
-    padding-right: 10px;
-    padding-bottom: 4px;
+    padding-top: 0px;
+    padding-left: 6px;
+    padding-right: 6px;
+    padding-bottom: 0px;
+    margin-left: 45px;
+    border-color: black;
+}
 }
 
 a:hover#a_LC2.btn.btn-outline-primary {
@@ -192,16 +189,19 @@ textarea#checklistDescription {
 /*View all checklist created*/
 .container#contAll_LC {
     padding-top: 16px;
+    background: lightgrey;
+    border-radius: 5px;
+    padding-bottom: 16px;
 }
 
 .col-lg-3.mb-4#colALL_LC {
-    background: white;
+    background: dimgrey;
     border-radius: 5px;
 }
 
 /*definition of a single checklist*/
 #def_LC {
-    background: #00c0f3;
+    background: lightgrey;
     border-radius: 5px;
     padding-bottom: 10px;
     padding-left: 10px;
