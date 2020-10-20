@@ -20,6 +20,17 @@ namespace PRIME_UCR.Pages.CheckLists
 
         protected bool createItem { get; set; } = false;
 
+        protected bool showItemChangeComponent = false;
+        protected string divDDClass = "dropdown";
+        protected string ddMenuClass = "dropdown-menu";
+
+        protected void toggleItemChangeComponent()
+        {
+            divDDClass = showItemChangeComponent ? "dropdown" : "dropdown show";
+            ddMenuClass = showItemChangeComponent ? "dropdown-menu" : "dropdown-menu show";
+            showItemChangeComponent = !showItemChangeComponent;
+        }
+
         protected IEnumerable<CheckList> lists { get; set; }
 
         protected IEnumerable<Item> items { get; set; }

@@ -2,7 +2,7 @@
 (
 	[Id] INT IDENTITY (1, 1) NOT NULL,
     [Nombre ] NVARCHAR(150) NOT NULL, 
-    [ImagenDescriptiva] NVARCHAR(MAX) NOT NULL DEFAULT 'defaultCheckList.png', 
+    [ImagenDescriptiva] NVARCHAR(MAX) NOT NULL DEFAULT '/images/defaultCheckList.svg', 
     [Descripcion ] NVARCHAR(150) NULL, 
     [Orden ] INT NOT NULL, 
     [IDSuperItem] INT NULL, 

@@ -18,7 +18,6 @@ namespace PRIME_UCR.Components.CheckLists
     {
         protected string lastFile = "";
         protected string dropClass = "";
-        List<string> acceptedFileTypes = new List<string>() { "image/png", "image/jpeg", "image/gif", "image/jpg" };
 
         protected void HandleDragEnter()
         {

@@ -1,27 +1,18 @@
 ﻿@inherits LoadImageComponentBase
 <link href="css/Checklist.css" rel="stylesheet" />
 
-<div class="form-row">
-    <div class="col-6">
-        <div class="dropzone @dropClass rounded">
-            <InputFile id="fileInput" title=""
-                       OnChange="HandleSelectedImage"
-                       accept="image/png,image/gif,image/jpeg,image/jpg"
-                       @ondragenter="HandleDragEnter"
-                       @ondragleave="HandleDragLeave" />
-            @if (lastFile == "")
-            {
-                <p>Inserte una imagen</p>
-            }
-            else
-            {
-                <p>@lastFile</p>
-            }
-        </div>
-    </div>
-
-
-    <div class="col-6">
-        <img src="@list.ImagenDescriptiva" width="50" height="50" />
-    </div>
+<div class="dropzone @dropClass rounded">
+    <InputFile id="fileInput" title=""
+                OnChange="HandleSelectedImage"
+                accept=".png,.gif,.jpeg,.jpg,.svg"
+                @ondragenter="HandleDragEnter"
+                @ondragleave="HandleDragLeave" />
+    @if (lastFile == "")
+    {
+        <p>Inserte una imagen</p>
+    }
+    else
+    {
+        <p>@lastFile</p>
+    }
 </div>

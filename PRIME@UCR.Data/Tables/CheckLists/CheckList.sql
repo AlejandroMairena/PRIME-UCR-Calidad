@@ -4,6 +4,6 @@
 	[Tipo]			NVARCHAR (20)		NOT NULL,
 	[Descripcion]	NVARCHAR (200)		NULL,
 	[Orden]			INT					NOT NULL,
-	[ImagenDescriptiva]	NVARCHAR (MAX)		DEFAULT 'defaultCheckList.png',
+	[ImagenDescriptiva]	NVARCHAR (MAX)		DEFAULT '/images/defaultCheckList.svg',
 	PRIMARY KEY CLUSTERED ([Id] ASC)
 )

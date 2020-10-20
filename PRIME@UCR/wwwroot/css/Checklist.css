@@ -251,3 +251,11 @@ button#Menu_LC { /*.btn.btn-primary*/
 .dropzone-drag {
     background-color: lightblue;
 }
+
+.customLoadImage {
+    border: 0;
+    padding: 0;
+    margin: 0;
+    transform: translate3d(-110px, 56px, 0px);
+    will-change: transform;
+}

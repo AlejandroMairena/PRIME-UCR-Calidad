@@ -75,7 +75,15 @@
                         </div>
                         <br />
                         <label>Imagen:</label>
-                        <LoadImageComponent @bind-list="checkList"/>
+
+                        <div class="form-row">
+                            <div class="col-6">
+                                <LoadImageComponent @bind-list="checkList" />
+                            </div>
+                            <div class="col-6">
+                                <img src="@checkList.ImagenDescriptiva" width="50" height="50" />
+                            </div>
+                        </div>
                         <br />
                         <p style="color:red">* Campo requerido</p>
 

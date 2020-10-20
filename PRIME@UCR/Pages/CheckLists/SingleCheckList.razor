@@ -1,7 +1,4 @@
-﻿
-
-
-@page "/checklist/{id:int}"
+﻿@page "/checklist/{id:int}"
 @inherits SingleCheckListBase
 @attribute [Authorize]
 <link href="css/Checklist.css" rel="stylesheet" />
@@ -48,11 +45,18 @@ else
                                 <input class="form-control" type="text" id="checklistName" name="checklistName" @bind-value="list.Nombre" @onfocusout="Update" />
                             </div>
                             <div class="col-sm-1">
-                                @*
-                         User Story PIG01IIC20-267 LG - Agregar imagen descriptiva a lista de chequeo
-                        Calls a component to upload images into the checklist
-                        <LoadImageComponent @bind-list="@list" />*@
-                                <img src="@list.ImagenDescriptiva" width="50" height="50" />
+                                <div class="@divDDClass">
+                                    <button class="none"
+                                            type="button" id="dropdownMenuButton"
+                                            data-toggle="dropdown" aria-haspopup="true"
+                                            aria-expanded="@showItemChangeComponent"
+                                            @onclick="toggleItemChangeComponent">
+                                        <img src="@list.ImagenDescriptiva" width="50" height="50" data-toggle="tooltip" title="Cambiar imagen" />
+                                    </button>
+                                    <div class="@ddMenuClass customLoadImage" aria-labelledby="dropdownMenuButton">
+                                         <LoadImageComponent @bind-list="list" />
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <br />
