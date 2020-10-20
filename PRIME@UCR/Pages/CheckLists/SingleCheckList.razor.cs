@@ -69,11 +69,24 @@ namespace PRIME_UCR.Pages.CheckLists
             StateHasChanged();
         }
 
-        protected void StartNewItemCreation() {
+        protected void StartNewItemCreation() 
+        {
             createItem = true;
             tempItem = new Item();
             tempItem.IDLista = id;
             tempItem.Orden = items.Count() + 1;
+            editContext = new EditContext(tempItem);
+            editContext.OnFieldChanged += HandleFieldChanged;
+            StateHasChanged();
+        }
+
+        protected void CreateSubItem(int itemId)
+        {
+            createItem = true;
+            tempItem = new Item();
+            tempItem.IDLista = id;
+            tempItem.IDSuperItem = itemId;
+            // Get the order from ?
             editContext = new EditContext(tempItem);
             editContext.OnFieldChanged += HandleFieldChanged;
             StateHasChanged();
