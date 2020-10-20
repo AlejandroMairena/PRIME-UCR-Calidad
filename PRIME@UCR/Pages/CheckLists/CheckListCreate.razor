@@ -29,9 +29,9 @@
                                 </NavLink>
                             </li>
 
+                            }
                         }
-                        }
-                        </li>
+                    </li>
                     </ul>
                 </div>
             </div>
@@ -73,6 +73,9 @@
                                 <InputNumber id="order" @bind-Value="checkList.Orden" class="form-control" />
                             </div>
                         </div>
+                        <br />
+                        <label>Imagen:</label>
+                        <LoadImageComponent @bind-list="checkList"/>
                         <br />
                         <p style="color:red">* Campo requerido</p>
 

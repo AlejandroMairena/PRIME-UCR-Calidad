@@ -41,12 +41,6 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
             return items.OrderBy(item => item.Orden);
         }
 
-        public async Task<Item> SaveImage(string imageName, Item item)
-        {
-            item.ImagenDescriptiva = imageName;
-            await _repo.UpdateAsync(item);
-            return item;
-        }
         public async Task<Item> UpdateItem(Item item)
         {
             await _repo.UpdateAsync(item);

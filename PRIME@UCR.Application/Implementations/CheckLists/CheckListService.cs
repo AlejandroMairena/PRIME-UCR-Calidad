@@ -39,14 +39,6 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
             return await _checklistRepository.GetByKeyAsync(id);
         }
 
-        // User Story PIG01IIC20-267 LG - Agregar imagen descriptiva a lista de chequeo
-        // Set NombreImagen from the list to imageName, and updates the database
-        public async Task<CheckList> SaveImage(string imageName, CheckList list)
-        {
-            list.NombreImagen = imageName;
-            await _checklistRepository.UpdateAsync(list);
-            return list;
-        }
         public async Task<CheckList> UpdateCheckList(CheckList list)
         {
             await _checklistRepository.UpdateAsync(list);

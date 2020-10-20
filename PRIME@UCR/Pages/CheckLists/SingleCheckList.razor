@@ -1,4 +1,7 @@
-﻿@page "/checklist/{id:int}"
+﻿
+
+
+@page "/checklist/{id:int}"
 @inherits SingleCheckListBase
 @attribute [Authorize]
 <link href="css/Checklist.css" rel="stylesheet" />
@@ -40,8 +43,15 @@ else
                 <p>
                     <div class="input-group row">
                         <label for="checklistName" class="col-sm-2 col-form-label"><b>Nombre:</b></label>
-                        <div class="col-sm-10">
+                        <div class="col-sm-8">
                             <input class="form-control" type="text" id="checklistName" name="checklistName" @bind-value="list.Nombre" @onfocusout="Update" />
+                        </div>
+                        <div class="col-sm-2">
+                            @*
+                             User Story PIG01IIC20-267 LG - Agregar imagen descriptiva a lista de chequeo
+                            Calls a component to upload images into the checklist
+                            <LoadImageComponent @bind-list="@list" />*@
+                            <img src="@list.ImagenDescriptiva" width="50" height="50" />
                         </div>
                     </div>
                     <br />
@@ -72,15 +82,8 @@ else
                             <input class="form-control" type="number" id="checklistId" name="checklistId" disabled="disabled" @bind-value="@list.Id" />
                         </span>
                     </div>
-                    @*
-        @if (@list.NombreImagen != null)
-        {
-            <img src="@list.NombreImagen" width="50" height="50" />
-        }
-         User Story PIG01IIC20-267 LG - Agregar imagen descriptiva a lista de chequeo
-        Calls a component to upload images into the checklist
-                <LoadImageComponent @bind-list="@list" />
-                    *@
+
+
                 </p>
                 <br />
                 <br />
@@ -93,13 +96,14 @@ else
                     {
                         if (items.Count() == 0)
                         {
-                            <p>No se ha creado ningun item para esta lista de chequeo. Presione el botón de crear item para agregarle un item.</p>
+                            <p>No se ha creado ningún item para esta lista de chequeo. Presione el botón de crear item para agregarle un item.</p>
                         }
                         else
                         {
                             @foreach (var itemInList in items) 
                             { 
                                 <p>
+                                    <img src="@itemInList.ImagenDescriptiva" width="50" height="50" />
                                     <b>Nombre:</b> @itemInList.Nombre<br />
                                     <span style="color:grey">Descripción:</span> @itemInList.Descripcion
                                 </p>
@@ -130,11 +134,13 @@ else
                                     </div>
                                 </div>
                                 <br />
+                                <label>Imagen:</label>
+                                <br />
                                 <p style="color:red">* Campo requerido</p>
 
                                 <div align="center">
-                                    <button type="submit" class="btn btn-primary" disabled="@formInvalid" id="BP_LC0">Guardar Item</button> 
-                                    <a class="btn btn-outline-secondary" @onclick="Dispose" id="a_LC3">Cancelar</a> 
+                                    <button type="submit" class="btn btn-primary" disabled="@formInvalid" id="BP_LC0">Guardar Item</button>
+                                    <a class="btn btn-outline-secondary" @onclick="Dispose" id="a_LC3">Cancelar</a>
                                 </div>
                             </EditForm>
                         </div>

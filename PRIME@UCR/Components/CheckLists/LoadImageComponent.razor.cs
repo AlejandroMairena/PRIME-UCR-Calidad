@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using System.IO;
 using BlazorInputFile;
 using PRIME_UCR.Domain.Models.CheckLists;
+using System.Collections.Generic;
 
 namespace PRIME_UCR.Components.CheckLists
 {
@@ -15,8 +16,19 @@ namespace PRIME_UCR.Components.CheckLists
     // This component allows the user to upload an image into a checklist
     public class LoadImageComponentBase : ComponentBase
     {
-        [Parameter]
-        public RenderFragment ChildContent { get; set; }
+        protected string lastFile = "";
+        protected string dropClass = "";
+        List<string> acceptedFileTypes = new List<string>() { "image/png", "image/jpeg", "image/gif", "image/jpg" };
+
+        protected void HandleDragEnter()
+        {
+            dropClass = "dropzone-drag";
+        }
+
+        protected void HandleDragLeave()
+        {
+            dropClass = "";
+        }
 
         // User Story PIG01IIC20-267 LG - Agregar imagen descriptiva a lista de chequeo
         // Shares the data from a checklist with its parent component
@@ -38,22 +50,7 @@ namespace PRIME_UCR.Components.CheckLists
         // Updates the data from the checklist to its parent component
         protected Task OnlistChanged()
         {
-            list = list;
             return listChanged.InvokeAsync(list);
-        }
-
-        protected bool open = false;
-        protected string divDDClass = "dropdown";
-        protected string ddMenuClass = "dropdown-menu";
-
-        // User Story PIG01IIC20-267 LG - Agregar imagen descriptiva a lista de chequeo
-        // Opens the dropdown menu for the upload file option
-        public void Open()
-        {
-            divDDClass = open ? "dropdown" : "dropdown show";
-            ddMenuClass = open ? "dropdown-menu" : "dropdown-menu show";
-
-            open = !open;
         }
 
         // User Story PIG01IIC20-267 LG - Agregar imagen descriptiva a lista de chequeo
@@ -61,15 +58,19 @@ namespace PRIME_UCR.Components.CheckLists
         // @param files: list of files uploaded by the user, it only contains 1 .png or .jpg file
         protected async Task HandleSelectedImage(IFileListEntry[] files)
         {
+            dropClass = "";
+
             IFileListEntry file = files.FirstOrDefault();
+            lastFile = file.Name;
             //string filePath = Path.Combine(file_service.FilePath, file.Name);
             string filePath = "/images/" + file.Name;
             //byte[] pathEncrypted = encrypt_service.Encrypt(filePath);
             //string pathEncryptedString = System.Text.Encoding.UTF8.GetString(pathEncrypted);
-            // Saves the name of the file into the correconding checklist entry in the database
-            list = await checklist_service.SaveImage(filePath, list);
             // stores the file (without encrypting it) in the /wwwroot/images directory)
+
             await file_service.StoreFile(file.Name, file.Data);
+            // Saves the name of the file into the correconding checklist entry in the database
+            list.ImagenDescriptiva = filePath;
             await OnlistChanged();
         }
     }
