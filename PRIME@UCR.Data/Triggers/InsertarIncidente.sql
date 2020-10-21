@@ -14,8 +14,6 @@
 		DECLARE @IdOrigen int;
 		DECLARE @IdDestino int;
 		DECLARE @Modalidad varchar(30);
-		DECLARE @FechaHoraRegistro datetime;
-		DECLARE @FechaHoraEstimada datetime;
 		DECLARE ptr CURSOR FOR
 			SELECT *
 			FROM inserted;
@@ -32,9 +30,7 @@
 			@CodigoCita,
 			@IdOrigen,
 			@IdDestino,
-			@Modalidad,
-			@FechaHoraRegistro,
-			@FechaHoraEstimada
+			@Modalidad
 
 		WHILE @@FETCH_STATUS = 0
 		BEGIN
@@ -42,10 +38,15 @@
             DECLARE @id int;
             DECLARE @next_id int;
             DECLARE @mod char(10);
+			DECLARE @fecha datetime;
+
+			SELECT @fecha = FechaHoraCreacion
+			FROM Cita
+			WHERE Id = @CodigoCita
             
             SELECT TOP 1 @id = MAX(CAST(SUBSTRING(i.Codigo, 12, 4) as int))
             FROM Incidente i
-            WHERE YEAR(i.FechaHoraRegistro) = YEAR(GETDATE());
+            WHERE YEAR(@fecha) = YEAR(GETDATE());
 
 
             IF @id IS NULL
@@ -63,11 +64,11 @@
 			-- build code
 			DECLARE @code varchar(50);
 			SET @code =
-				RIGHT(REPLICATE('0', 4) + CAST(YEAR(@FechaHoraRegistro) AS varchar(10)), 4) + 
+				RIGHT(REPLICATE('0', 4) + CAST(YEAR(@fecha) AS varchar(10)), 4) + 
 				'-' +
-				RIGHT(REPLICATE('0', 2) + CAST(MONTH(@FechaHoraRegistro) AS varchar(10)), 2) + 
+				RIGHT(REPLICATE('0', 2) + CAST(MONTH(@fecha) AS varchar(10)), 2) + 
 				'-' +
-				RIGHT(REPLICATE('0', 2) + CAST(DAY(@FechaHoraRegistro) AS varchar(10)), 2) + 
+				RIGHT(REPLICATE('0', 2) + CAST(DAY(@fecha) AS varchar(10)), 2) + 
 				'-' +
 				RIGHT(REPLICATE('0', 4) + CAST(@next_id AS varchar(10)), 4) + 
 				'-' +
@@ -88,9 +89,7 @@
                 @CodigoCita,
                 @IdOrigen,
                 @IdDestino,
-                @Modalidad,
-                @FechaHoraRegistro,
-                @FechaHoraEstimada
+                @Modalidad
             )
 
 			COMMIT
@@ -105,9 +104,7 @@
 				@CodigoCita,
 				@IdOrigen,
 				@IdDestino,
-				@Modalidad,
-				@FechaHoraRegistro,
-				@FechaHoraEstimada
+				@Modalidad
 		END
 
 		CLOSE ptr

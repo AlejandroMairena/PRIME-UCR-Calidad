@@ -9,8 +9,8 @@
         <Column TableItem="Incidente" Title="Código" Field="@(x => x.Codigo)" Sortable="true" Filterable="true" Width="20%" DefaultSortColumn="true" />
         @*<Column TableItem="Incidente" Title="Cédula Paciente" Field="@(x => x.Ced)" Sortable="true" Filterable="true" Width="20%" />*@
         @*<Column TableItem="Incidente" Title="Nombre Paciente" Field="@(x => x.Nombre)" Sortable="true" Filterable="true" Width="20%" />*@
-        <Column TableItem="Incidente" Title="Fecha Registro" Field="@(x => x.FechaHoraRegistro.Date)" Sortable="true" Filterable="true" Width="20%" />
-        <Column TableItem="Incidente" Title="Hora Registro" Field="@(x => x.FechaHoraRegistro.TimeOfDay)" Sortable="true" Filterable="true" Width="20%" />
+        <Column TableItem="Incidente" Title="Fecha Registro" Field="@(x => x.Cita.FechaHoraCreacion.Date)" Sortable="true" Filterable="true" Width="20%" />
+        <Column TableItem="Incidente" Title="Hora Registro" Field="@(x => x.Cita.FechaHoraCreacion.TimeOfDay)" Sortable="true" Filterable="true" Width="20%" />
 
         <EmptyDataTemplate>
             <div class="text-center">

@@ -290,10 +290,10 @@ VALUES
 -- Incidente
 INSERT INTO Incidente (MatriculaTrans, IdEspecialista, CedulaAdmin,
     CedulaTecnicoCoordinador, CedulaTecnicoRevisor, CodigoCita, IdOrigen, IdDestino,
-    Modalidad, FechaHoraRegistro, FechaHoraEstimada)
+    Modalidad)
 VALUES
-    ('BPC087', 123, '12345678', 117222222, 1173333333, 1, 1, NULL, 'Terrestre', GETDATE(), GETDATE()),
-    ('PHP999', 456, '12345678', 117112222, 1171133333, 1, 2, NULL, 'Aéreo', GETDATE(), GETDATE());
+    ('BPC087', 123, '12345678', 117222222, 1173333333, 1, 1, NULL, 'Terrestre'),
+    ('PHP999', 456, '12345678', 117112222, 1171133333, 2, 2, NULL, 'Aéreo');
 
 -- Estado
 INSERT INTO Estado

@@ -19,3 +19,8 @@ VALUES
 	('Diagnóstico', 1, 0),
 	('Recetas médicas', 1, 0),
 	('Referencia a especialista', 1, 0)
+
+INSERT INTO Cita (FechaHoraCreacion, FechaHoraEstimada)
+VALUES
+	(GETDATE(), GETDATE()),
+	(GETDATE(), GETDATE())
