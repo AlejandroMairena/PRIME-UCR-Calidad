@@ -16,7 +16,7 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
 
         protected override async Task OnInitializedAsync()
         {
-            Persona person = await PersonService.getPersonByIdAsync(DetailsModel.AdminId);
+            Persona person = await PersonService.GetPersonByIdAsync(DetailsModel.AdminId);
             _register = person.Nombre+" "+person.PrimerApellido+" "+person.SegundoApellido;
         }
     }

@@ -11,9 +11,9 @@ namespace PRIME_UCR.Application.Services.Incidents
     {
         Task<Incidente> GetIncidentAsync(string code);
         Task<IEnumerable<Modalidad>> GetTransportModesAsync();
-        Task<Incidente> CreateIncident(IncidentModel model, Persona person);
+        Task<Incidente> CreateIncidentAsync(IncidentModel model, Persona person);
         Task<IncidentDetailsModel> GetIncidentDetailsAsync(string code);
-        Task<IncidentDetailsModel> UpdateIncidentDetails(IncidentDetailsModel model);
+        Task<IncidentDetailsModel> UpdateIncidentDetailsAsync(IncidentDetailsModel model);
         Task<IEnumerable<Incidente>> GetAllAsync();
     }
 }
