@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Components.Authorization;
 using PRIME_UCR.Application.Dtos;
 using PRIME_UCR.Application.Dtos.Incidents;
 using PRIME_UCR.Application.Repositories;
 using PRIME_UCR.Application.Repositories.Incidents;
 using PRIME_UCR.Application.Services.Incidents;
+using PRIME_UCR.Application.Services.UserAdministration;
 using PRIME_UCR.Domain.Constants;
 using PRIME_UCR.Domain.Models;
 using PRIME_UCR.Domain.Models.Incidents;
+using PRIME_UCR.Domain.Models.UserAdministration;
 
 namespace PRIME_UCR.Application.Implementations.Incidents
 {
@@ -18,6 +21,7 @@ namespace PRIME_UCR.Application.Implementations.Incidents
         private readonly IModesRepository _modesRepository;
         private readonly IIncidentStateRepository _statesRepository;
         private readonly ILocationRepository _locationRepository;
+
 
         public IncidentService(
             IIncidentRepository incidentRepository,
@@ -41,13 +45,14 @@ namespace PRIME_UCR.Application.Implementations.Incidents
             return await _modesRepository.GetAllAsync();
         }
 
-        public async Task<Incidente> CreateIncident(IncidentModel model)
+        public async Task<Incidente> CreateIncident(IncidentModel model, Persona person)
         {
             var entity = new Incidente
             {
                 FechaHoraRegistro = DateTime.Now,
                 FechaHoraEstimada = model.EstimatedDateOfTransfer,
-                TipoModalidad = model.Mode.Tipo
+                TipoModalidad = model.Mode.Tipo,
+                CedulaAdmin = person.Cédula
             };
             
             // insert before adding state to get auto generated code from DB
@@ -78,7 +83,8 @@ namespace PRIME_UCR.Application.Implementations.Incidents
                     incident.IsCompleted(),
                     incident.IsModifiable(state),
                     incident.FechaHoraRegistro,
-                    incident.FechaHoraEstimada
+                    incident.FechaHoraEstimada,
+                    incident.CedulaAdmin
                 );
                 model.Origin = incident.Origen;
                 model.Destination = incident.Destino;
@@ -141,7 +147,8 @@ namespace PRIME_UCR.Application.Implementations.Incidents
                 incident.IsCompleted(),
                 model.Modifiable,
                 incident.FechaHoraRegistro,
-                incident.FechaHoraEstimada
+                incident.FechaHoraEstimada,
+                incident.CedulaAdmin
             );
             outputModel.Origin = incident.Origen;
             outputModel.Destination = incident.Destino;

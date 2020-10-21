@@ -12,15 +12,11 @@ namespace PRIME_UCR.Components.Controls
 {
     public partial class DropDownMenu<T>
     {
-        [Parameter]
-        public List<T> Data { get; set; }
-        
+        [Parameter] public List<T> Data { get; set; }
         [Parameter] public string TextProperty { get; set; }
-
+        [Parameter] public Func<T, string> TextExpression { get; set; }
         [Parameter] public string Label { get; set; }
-        
         [Parameter] public string DefaultText { get; set; }
-
         [Parameter] public bool UseValidation { get; set; } = true;
 
         private int _index = -1;

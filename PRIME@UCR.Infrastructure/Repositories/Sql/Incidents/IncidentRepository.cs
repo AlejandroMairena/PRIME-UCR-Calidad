@@ -23,9 +23,13 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Incidents
                 // raw sql
                 using (var cmd = _db.DbConnection.CreateCommand())
                 {
-                    cmd.Connection.Open();
+                    if (cmd.Connection.State == ConnectionState.Closed)
+                    {
+                        cmd.Connection.Open();
+                    }
+                    
                     cmd.CommandText =
-                        $"EXECUTE dbo.InsertarNuevoIncidente NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '{model.TipoModalidad}', '{model.FechaHoraRegistro.ToString("yyyy-MM-ddThh:mm:ss")}', '{model.FechaHoraEstimada.ToString("yyyy-MM-ddThh:mm:ss")}'";
+                        $"EXECUTE dbo.InsertarNuevoIncidente NULL, NULL, {model.CedulaAdmin}, NULL, NULL, NULL, NULL, NULL, '{model.TipoModalidad}', '{model.FechaHoraRegistro.ToString("yyyy-MM-ddThh:mm:ss")}', '{model.FechaHoraEstimada.ToString("yyyy-MM-ddThh:mm:ss")}'";
               
                     model.Codigo = cmd.ExecuteScalar() // returns a string
                         .ToString();

@@ -10,7 +10,7 @@
 <EditForm Model="_model" OnValidSubmit="Save">
     <DataAnnotationsValidator/>
     <ValidationSummary/>
-    <MedicalCenterPicker Value="@Destination" ValueChanged="@OnDestinationChange"/>
+    <MedicalCenterPicker Value="@Destination" IsOrigin="@false" ValueChanged="@OnDestinationChange"/>
     <div class="text-center">
         @if (Destination != null && Destination.Equals(_model.Destination))
         {

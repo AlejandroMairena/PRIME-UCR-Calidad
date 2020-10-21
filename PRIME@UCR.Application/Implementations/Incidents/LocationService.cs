@@ -5,6 +5,8 @@ using PRIME_UCR.Application.Dtos.Incidents;
 using PRIME_UCR.Application.Repositories.Incidents;
 using PRIME_UCR.Application.Services.Incidents;
 using PRIME_UCR.Domain.Models;
+using PRIME_UCR.Domain.Models.UserAdministration;
+using System.Linq;
 
 namespace PRIME_UCR.Application.Implementations.Incidents
 {
@@ -15,19 +17,27 @@ namespace PRIME_UCR.Application.Implementations.Incidents
         private readonly ICantonRepository _cantonRepository;
         private readonly IDistrictRepository _districtRepository;
         private readonly IMedicalCenterRepository _medicalCenterRepository;
+        private readonly IWorksOnMedicalCenterRepository _worksOnMedicalCenterRepository;
 
         public LocationService(
             ICountryRepository countryRepository,
             IProvinceRepository provinceRepository,
             ICantonRepository cantonRepository,
             IDistrictRepository districtRepository,
-            IMedicalCenterRepository medicalCenterRepository)
+            IMedicalCenterRepository medicalCenterRepository,
+            IWorksOnMedicalCenterRepository worksOnMedicalCenterRepository)
         {
             _countryRepository = countryRepository;
             _provinceRepository = provinceRepository;
             _cantonRepository = cantonRepository;
             _districtRepository = districtRepository;
             _medicalCenterRepository = medicalCenterRepository;
+            _worksOnMedicalCenterRepository = worksOnMedicalCenterRepository;
+        }
+
+        public async Task<IEnumerable<TrabajaEn>> GetAllDoctorsByMedicalCenter(int medicalCenterId)
+        {
+            return await _worksOnMedicalCenterRepository.GetAllDoctorsbyMedicalCenterId(medicalCenterId);
         }
 
         public async Task<Pais> GetCountryByName(string name)

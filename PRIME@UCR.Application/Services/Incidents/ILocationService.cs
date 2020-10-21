@@ -3,11 +3,14 @@ using System.Threading.Tasks;
 using PRIME_UCR.Application.Dtos;
 using PRIME_UCR.Application.Dtos.Incidents;
 using PRIME_UCR.Domain.Models;
+using PRIME_UCR.Domain.Models.UserAdministration;
+
 
 namespace PRIME_UCR.Application.Services.Incidents
 {
     public interface ILocationService
     {
+        Task<IEnumerable<TrabajaEn>> GetAllDoctorsByMedicalCenter(int medicalCenterId);
         Task<Pais> GetCountryByName(string name);
         Task<IEnumerable<CentroMedico>> GetAllMedicalCentersAsync();
         Task<LocationModel> GetLocationByDistrictId(int districtId);
