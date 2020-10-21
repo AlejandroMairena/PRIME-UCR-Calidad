@@ -1,6 +1,7 @@
 ﻿CREATE TABLE [dbo].[Incidente]
 (
     Codigo                   VARCHAR(50) NOT NULL DEFAULT('TEMP'),
+--     CitaId                   INT         NULL,
     MatriculaTrans           VARCHAR(30) NULL,
     IdEspecialista           INT         NULL, --****
     CedulaAdmin              INT         NULL, --****
@@ -18,4 +19,5 @@
     FOREIGN KEY (IdDestino) REFERENCES Ubicacion (Id),
     FOREIGN KEY (IdOrigen) REFERENCES Ubicacion (Id),
     FOREIGN KEY (MatriculaTrans) REFERENCES Unidad_De_Transporte (Matricula),
+--     FOREIGN KEY (CitaId) REFERENCES Cita(Id)
 )

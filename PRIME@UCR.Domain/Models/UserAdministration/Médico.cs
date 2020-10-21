@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PRIME_UCR.Domain.Models.MedicalRecords;
+using System;
 using System.Collections.Generic;
 using System.Text;
 

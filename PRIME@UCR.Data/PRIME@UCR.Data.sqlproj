@@ -58,6 +58,7 @@
     <Folder Include="Properties" />
     <Folder Include="Scripts" />
     <Folder Include="Scripts\PostDeployment" />
+    <Folder Include="Tables\" />
     <Folder Include="Tables\Incidents" />
     <Folder Include="Tables\UserEntityCore" />
     <Folder Include="Tables\UserAdministration" />
@@ -66,6 +67,8 @@
     <Folder Include="Triggers" />
     <Folder Include="StoredProcedures" />
     <Folder Include="StoredProcedures\Incidents\" />
+    <Folder Include="Tables\Appointments" />
+    <Folder Include="Tables\MedicalRecords" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\CheckLists\CheckList.sql" />
@@ -109,12 +112,20 @@
     <Build Include="Tables\UserAdministration\Usuario.sql" />
     <Build Include="Triggers\InsertarIncidente.sql" />
     <Build Include="StoredProcedures\Incidents\InsertarNuevoIncidente.sql" />
+    <Build Include="Tables\Appointments\Cita.sql" />
+    <Build Include="Tables\Appointments\Metricas.sql" />
+    <Build Include="Tables\Appointments\MetricasCitaMedica.sql" />
+    <Build Include="Tables\Appointments\MetricasIncidentes.sql" />
+    <Build Include="Tables\Appointments\Accion.sql" />
+    <Build Include="Tables\Appointments\TipoAccion.sql" />
+    <Build Include="Tables\MedicalRecords\Expediente.sql" />
   </ItemGroup>
   <ItemGroup>
+    <PostDeploy Include="Scripts\Script.PostDeployment.sql" />
     <None Include="Scripts\PostDeployment\Identity_PostDeployment.sql" />
     <None Include="Scripts\PostDeployment\Incidents_PostDeployment.sql" />
     <None Include="Scripts\PostDeployment\Checklists_PostDeployment.sql" />
     <None Include="Scripts\PostDeployment\Users_PostDeployment.sql" />
-    <PostDeploy Include="Scripts\Script.PostDeployment.sql" />
+    <None Include="Scripts\PostDeployment\Appointments_PostDeployment.sql" />
   </ItemGroup>
 </Project>
