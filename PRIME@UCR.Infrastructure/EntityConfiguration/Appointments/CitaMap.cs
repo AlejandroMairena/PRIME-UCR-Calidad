@@ -12,20 +12,12 @@ namespace PRIME_UCR.Infrastructure.EntityConfiguration.Multimedia
         void IEntityTypeConfiguration<Cita>.Configure(EntityTypeBuilder<Cita> builder)
         {
             builder
-                .Property(p => p.IDCita)
-                .IsRequired()
-                .HasMaxLength(50);
+                .HasKey("Id");
 
             builder
-                .Property(p => p.FechaHoraCreacion);
-            //es tipo date_time, no se que restricciones se le podrian poner. 
-
-            builder
-                .Property(p => p.FechaHoraEstimada);
-
-            builder.HasKey(p => p.IDCita); 
-
-
+                .HasOne(c => c.Expediente)
+                .WithMany(e => e.Citas)
+                .HasForeignKey(c => c.IdExpediente);
         }
     }
 }

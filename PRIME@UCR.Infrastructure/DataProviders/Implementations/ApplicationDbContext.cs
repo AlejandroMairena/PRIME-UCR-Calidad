@@ -8,6 +8,9 @@ using PRIME_UCR.Infrastructure.EntityConfiguration.Multimedia;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using PRIME_UCR.Domain.Models.UserAdministration;
 using PRIME_UCR.Infrastructure.EntityConfiguration.UserAdministration;
+using PRIME_UCR.Infrastructure.EntityConfiguration.MedicalRecords;
+using PRIME_UCR.Domain.Models.Appointments;
+using PRIME_UCR.Infrastructure.EntityConfiguration.Appointments;
 
 namespace PRIME_UCR.Infrastructure.DataProviders.Implementations
 {
@@ -93,6 +96,13 @@ namespace PRIME_UCR.Infrastructure.DataProviders.Implementations
             builder.ApplyConfiguration(new PerteneceMap());
             builder.ApplyConfiguration(new PermiteMap());
             builder.ApplyConfiguration(new TienePerfilMap());
+            builder.ApplyConfiguration(new ExpedienteMap());
+            builder.ApplyConfiguration(new CitaMap());
+            builder.ApplyConfiguration(new AccionMap());
+            builder.ApplyConfiguration(new TipoAccionMap());
+            builder.ApplyConfiguration(new MetricasMap());
+            builder.ApplyConfiguration(new MetricasIncidenteMap());
+            builder.ApplyConfiguration(new MetricasCitaMedicaMap());
         }
 
         public Task<int> SaveChangesAsync()
