@@ -29,6 +29,7 @@ namespace PRIME_UCR.Application
             services.AddScoped<IPrimeAuthorizationService, PrimeAuthorizationService>();
             services.AddScoped<IPersonService, PersonService>();
             services.AddTransient<IPermiteService, PermiteService>();
+            services.AddTransient<IPerteneceService, PerteneceService>();
             return services;
         }
     }

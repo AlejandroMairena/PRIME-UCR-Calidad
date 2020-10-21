@@ -54,6 +54,7 @@ namespace PRIME_UCR.Infrastructure
             services.AddTransient<IPersonaRepository, PersonaRepository>();
             services.AddTransient<IUsuarioRepository, UsuarioRepository>();
             services.AddTransient<IPermiteRepository, PermiteRepository>();
+            services.AddTransient<IPerteneceRepository, PerteneceRepository>();
 
             return services;
         }

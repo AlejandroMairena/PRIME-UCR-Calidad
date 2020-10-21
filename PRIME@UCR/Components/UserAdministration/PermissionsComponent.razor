@@ -10,7 +10,7 @@
                 <Template Context="checkbox">
                     <center>
                         <div class="custom-control custom-checkbox" >
-                            <input class="custom-control-input" type="checkbox" id="customCheck @checkbox.IDPermiso" checked="@Value.CheckedPermissions[checkbox.IDPermiso-1]" @onclick="((MouseEventArgs b) => update_profile(checkbox.IDPermiso))" />
+                            <input class="custom-control-input" type="checkbox" id="customCheck @checkbox.IDPermiso" checked="@Value.CheckedPermissions[checkbox.IDPermiso-1]" @onchange="((ChangeEventArgs c) => update_profile(checkbox.IDPermiso,c))" />
                             <label class="custom-control-label" for="customCheck @checkbox.IDPermiso"></label>
                         </div>
                     </center>

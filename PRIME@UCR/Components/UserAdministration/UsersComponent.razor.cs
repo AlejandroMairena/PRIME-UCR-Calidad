@@ -17,6 +17,9 @@ namespace PRIME_UCR.Components.UserAdministration
         [Inject]
         public IProfilesService profileService { get; set; }
 
+        [Inject]
+        public IPerteneceService perteneceService { get; set; }
+
         public List<Usuario> ListUsers { get; set; }
 
         private List<Persona> ListUsersPerProfile { get; set; }
@@ -38,26 +41,22 @@ namespace PRIME_UCR.Components.UserAdministration
             ListUsers = (await userService.GetUsuarios()).ToList();
         }
 
-        protected override async Task OnParametersSetAsync()
+        protected async Task update_profile(string IdUser, ChangeEventArgs e)
         {
-            var ListProfilesAndUsers = await profileService.GetPerfilesWithDetailsAsync();
-            var profile = (ListProfilesAndUsers.Find(p => p.NombrePerfil == Value.ProfileName));
-            ListUsersPerProfile.Clear();
-            foreach (var users in profile.UsuariosYPerfiles)
+            if (Value.PermissionsList != null)
             {
-                var person = await userService.getPersonWithDetailstAsync(users.Usuario.Email);
-                ListUsersPerProfile.Add(person);
+                var User = (ListUsers.Find(p => p.Id == IdUser));
+                if ((bool)e.Value)
+                {
+                    Value.UserLists.Add(User);
+                    await perteneceService.InsertUserOfProfileAsync(User.Id, Value.ProfileName);
+                }
+                else
+                {
+                    Value.UserLists.Remove(User);
+                    await perteneceService.DeleteUserOfProfileAsync(User.Id, Value.ProfileName);
+                }
             }
-            Value.UserLists = ListUsersPerProfile;
-        }
-
-        private bool check(string cedPerson)
-        {
-            if (ListUsersPerProfile.Count != 0)
-            {
-                return (ListUsersPerProfile.Find(p => p.Cédula == cedPerson) == null) ? false : true;
-            }
-            return false;
         }
 
     }

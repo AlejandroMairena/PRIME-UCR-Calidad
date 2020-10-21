@@ -9,11 +9,11 @@ namespace PRIME_UCR.Application.DTOs.UserAdministration
     {
         public string ProfileName { get; set; }
 
-        public List<bool> CheckedUsers { get; set; }
+        public List<Tuple<string,bool>> CheckedUsers { get; set; }
 
         public List<bool> CheckedPermissions { get; set; }
 
-        public List<Persona> UserLists { get; set; }
+        public List<Usuario> UserLists { get; set; }
 
         public List<Permiso> PermissionsList { get; set; }
     }

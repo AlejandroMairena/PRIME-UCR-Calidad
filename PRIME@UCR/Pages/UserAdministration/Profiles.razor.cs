@@ -16,7 +16,7 @@ namespace PRIME_UCR.Pages.UserAdministration
 
         public ProfileModel profile;
 
-        protected override void OnInitialized()
+        protected override async Task OnInitializedAsync()
         {
             profile = new ProfileModel();
             profile.ProfileName = "Administrador";            
@@ -32,9 +32,12 @@ namespace PRIME_UCR.Pages.UserAdministration
                     profile.CheckedPermissions.Add(false);
                 }
             }
-            profile.CheckedUsers = new List<bool>();
+            profile.CheckedUsers = new List<Tuple<string,bool>>();
+            var profilesList =  await profilesService.GetPerfilesWithDetailsAsync();
+            var user = profilesList[0].UsuariosYPerfiles;
+            profile.CheckedUsers.Add(new Tuple<string, bool>(user[0].IDUsuario, true));
             profile.PermissionsList = new List<Permiso>();
-            profile.UserLists = new List<Persona>();
+            profile.UserLists = new List<Usuario>();
         }
 
     }

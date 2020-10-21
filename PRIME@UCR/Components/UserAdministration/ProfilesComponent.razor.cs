@@ -5,6 +5,7 @@ using PRIME_UCR.Domain.Models.UserAdministration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace PRIME_UCR.Components.UserAdministration
@@ -17,8 +18,10 @@ namespace PRIME_UCR.Components.UserAdministration
         [Inject]
         public IPermissionsService permissionsService { get; set; }
 
-        public List<Perfil> ListProfiles { get; set; }
+        [Inject]
+        public IUserService userService { get; set; }
 
+        public List<Perfil> ListProfiles { get; set; }
 
         [Parameter]
         public ProfileModel Value { get; set; }
@@ -47,6 +50,10 @@ namespace PRIME_UCR.Components.UserAdministration
             {
                 Value.PermissionsList.Add(permission.Permiso);
             }
+            foreach(var user in profile.UsuariosYPerfiles)
+            {
+                Value.UserLists.Add(user.Usuario);
+            }
 
             Value.CheckedPermissions = new List<bool>();
             var permisssionsList = (await permissionsService.GetPermisos()).ToList();
@@ -54,6 +61,14 @@ namespace PRIME_UCR.Components.UserAdministration
             {
                 var permissionChecked = Value.PermissionsList.Find(p => permission.IDPermiso == p.IDPermiso) == null ? false : true;
                 Value.CheckedPermissions.Add(permissionChecked);
+            }
+
+            Value.CheckedUsers = new List<Tuple<string, bool>>();
+            var usersList = (await userService.GetUsuarios()).ToList();
+            foreach(var user in usersList)
+            {
+                var userChecked = Value.UserLists.Find(p => p.Id == user.Id) == null ? false : true;
+                Value.CheckedUsers.Add(new Tuple<string, bool>(user.Id, userChecked));
             }
             await ValueChanged.InvokeAsync(Value);
         }
