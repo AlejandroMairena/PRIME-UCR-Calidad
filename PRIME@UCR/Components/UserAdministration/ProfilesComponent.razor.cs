@@ -50,6 +50,7 @@ namespace PRIME_UCR.Components.UserAdministration
             {
                 Value.PermissionsList.Add(permission.Permiso);
             }
+            Value.UserLists.Clear();
             foreach(var user in profile.UsuariosYPerfiles)
             {
                 Value.UserLists.Add(user.Usuario);
