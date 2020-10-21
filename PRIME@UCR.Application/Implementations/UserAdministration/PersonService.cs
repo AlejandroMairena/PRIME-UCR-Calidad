@@ -18,7 +18,7 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
             PersonRepository = _personaRepository;
         }
 
-        public async Task<Persona> getPersonByIdAsync(string id)
+        public async Task<Persona> GetPersonByIdAsync(string id)
         {
             return await PersonRepository.GetByKeyPersonaAsync(id);
         }

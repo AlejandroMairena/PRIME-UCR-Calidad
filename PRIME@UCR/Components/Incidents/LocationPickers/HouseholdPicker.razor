@@ -1,37 +1,40 @@
 ﻿@using PRIME_UCR.Components.Controls
 
 <Loading IsLoading="@IsLoading()">
-    <DropDownMenu Data="@_provinces" Label="Provincia" Value="@_selectedProvince" TextProperty="Nombre"
-                  ValueChanged="@((Provincia p) => OnChangeProvince(p))"/>
-    <DropDownMenu Data="@_cantons" Label="Cantón" Value="@_selectedCanton" TextProperty="Nombre"
-                  ValueChanged="@((Canton c) => OnChangeCanton(c))"/>
-    <DropDownMenu Data="@_districts" Label="Distrito" Value="@_selectedDistrict" TextProperty="Nombre"
-                  ValueChanged="@((Distrito d) => OnChangeDistrict(d))"/>
-    <div class="form-group">
-        <label>Dirección exacta</label>
-        <input type="text" class="form-control" value="@_address" @oninput="@(async (args) => {
-                                                                                   _address = (string) args.Value;
-                                                                                   await Callback();
-                                                                             })"/>
-    </div>
-    <div class="form-row">
-        <div class="col">
-            <div class="form-group">
-                <label>Longitud</label>
-                <input type="number" value="@_longitude" @oninput="@(async (args) => {
-                                                                     _longitude = Double.Parse((string) args.Value);
-                                                                     await Callback();
-                                                               })" class="form-control"/>
+    <EditForm EditContext="_context" OnValidSubmit="Submit">
+        <FluentValidationValidator />
+        <DropDownMenu Data="@_provinces" Label="Provincia" Value="@Value.Province" TextProperty="Nombre"
+                      DefaultText="Seleccione una provincia"
+                      ValueExpression="() => Value.Province"
+                      ValueChanged="@((Provincia p) => OnChangeProvince(p))"/>
+        <DropDownMenu Data="@_cantons" Label="Cantón" Value="@Value.Canton" TextProperty="Nombre"
+                      DefaultText="Seleccione un cantón"
+                      ValueExpression="() => Value.Canton"
+                      ValueChanged="@((Canton c) => OnChangeCanton(c))"/>
+        <DropDownMenu Data="@_districts" Label="Distrito"
+                      TextProperty="Nombre"
+                      DefaultText="Seleccione un distrito"
+                      @bind-Value="Value.District" />
+       <TextBox Label="Dirección Exacta" @bind-Value="@Value.Address" />
+       <div class="form-row">
+           <div class="col">
+               <NumberInput Label="Longitud" @bind-Value="@Value.Longitude" />
+           </div>
+            <div class="col">
+               <NumberInput Label="Longitud" @bind-Value="@Value.Latitude" />
             </div>
         </div>
-        <div class="col">
-            <div class="form-group">
-                <label>Latitud</label>
-                <input type="number" value="@_latitude" @oninput="@(async (args) => {
-                                                                     _latitude = Double.Parse((string) args.Value);
-                                                                     await Callback();
-                                                               })" class="form-control"/>
-            </div>
+        <div class="text-center">
+            @if (!_saveButtonEnabled)
+            {
+                <button disabled class="btn btn-outline-secondary">Descartar</button>
+                <button disabled type="submit" class="btn btn-primary">Guardar</button>
+            }
+            else
+            {
+                <button role="button" @onclick:preventDefault @onclick="@Discard" class="btn btn-outline-secondary">Descartar</button>
+                <button type="submit" class="btn btn-primary">Guardar</button>
+            }
         </div>
-    </div>
+    </EditForm>
 </Loading>

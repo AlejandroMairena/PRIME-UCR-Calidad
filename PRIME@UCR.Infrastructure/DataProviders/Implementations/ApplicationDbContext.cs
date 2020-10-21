@@ -24,6 +24,7 @@ namespace PRIME_UCR.Infrastructure.DataProviders.Implementations
         public DbSet<Internacional> InternationalLocations { get; set; }
         public DbSet<CentroMedico> MedicalCenters { get; set; }
         public DbSet<CentroUbicacion> MedicalCenterLocations { get; set; }
+        public DbSet<TrabajaEn> WorksOn { get; set; }
         public DbSet<Modalidad> Modes { get; set; }
         public DbSet<UnidadDeTransporte> TransportUnits { get; set; }
         public DbSet<Estado> States { get; set; }
@@ -69,6 +70,7 @@ namespace PRIME_UCR.Infrastructure.DataProviders.Implementations
             builder.ApplyConfiguration(new CantonMap());
             builder.ApplyConfiguration(new CentroMedicoMap());
             builder.ApplyConfiguration(new CentroUbicacionMap());
+            builder.ApplyConfiguration(new TrabajaEnMap());
             builder.ApplyConfiguration(new DomicilioMap());
             builder.ApplyConfiguration(new IncidenteMap());
             builder.ApplyConfiguration(new ModalidadMap());

@@ -1,6 +1,6 @@
 ﻿using PRIME_UCR.Domain.Models;
 
-namespace PRIME_UCR.Application.Dtos
+namespace PRIME_UCR.Application.Dtos.Incidents
 {
     public class LocationModel
     {

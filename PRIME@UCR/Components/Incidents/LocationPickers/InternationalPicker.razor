@@ -1,7 +1,23 @@
 ﻿@using PRIME_UCR.Components.Controls
 @using Microsoft.EntityFrameworkCore
+@implements IDisposable
 
 <Loading IsLoading="_values == null">
-    <DropDownMenu Data="@_values" T="Pais" Label="País" Value="_international.Pais" TextProperty="Nombre"
-                  ValueChanged="@((Pais c) => OnCountryChange(c))"/> 
+    <EditForm EditContext="_context" OnValidSubmit="Submit">
+        <DropDownMenu Data="@_values" T="Pais" Label="País" TextProperty="Nombre"
+                      DefaultText="Seleccione un país"
+                      @bind-Value="@Value.Country" />
+        <div class="text-center">
+            @if (!_saveButtonEnabled)
+            {
+                <button disabled class="btn btn-outline-secondary">Descartar</button>
+                <button disabled type="submit" class="btn btn-primary">Guardar</button>
+            }
+            else
+            {
+                <button role="button" @onclick:preventDefault @onclick="@Discard" class="btn btn-outline-secondary">Descartar</button>
+                <button type="submit" class="btn btn-primary">Guardar</button>
+            }
+        </div>
+    </EditForm>
 </Loading>

@@ -7,9 +7,9 @@ using System.Text;
 
 namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
 {
-    public class MédicoRepository : GenericRepository<Médico, string>, IMédicoRepository
+    public class DoctorRepository : GenericRepository<Médico, string>, IDoctorRepository
     {
-        public MédicoRepository(ISqlDataProvider dataProvider) : base(dataProvider)
+        public DoctorRepository(ISqlDataProvider dataProvider) : base(dataProvider)
         {
         }
     }
