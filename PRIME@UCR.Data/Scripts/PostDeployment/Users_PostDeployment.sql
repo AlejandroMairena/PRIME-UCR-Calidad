@@ -42,6 +42,10 @@ VALUES
 ('11111111'),
 ('22222222');
 
+INSERT INTO AdministradorCentroDeControl(Cédula)
+VALUES
+('12345678');
+
 INSERT INTO Permiso (IdPermiso, Descripción_Permiso)
 VALUES
     -- Administrador

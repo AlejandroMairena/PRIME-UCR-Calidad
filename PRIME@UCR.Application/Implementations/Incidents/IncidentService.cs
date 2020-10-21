@@ -49,14 +49,12 @@ namespace PRIME_UCR.Application.Implementations.Incidents
         {
             var entity = new Incidente
             {
-                FechaHoraRegistro = DateTime.Now,
-                FechaHoraEstimada = model.EstimatedDateOfTransfer,
                 TipoModalidad = model.Mode.Tipo,
                 CedulaAdmin = person.Cédula
             };
             
             // insert before adding state to get auto generated code from DB
-            await _incidentRepository.InsertAsync(entity);
+            await _incidentRepository.InsertAsync(entity, model.EstimatedDateOfTransfer);
             
             var state = new EstadoIncidente
             {
@@ -82,8 +80,8 @@ namespace PRIME_UCR.Application.Implementations.Incidents
                     state.Nombre,
                     incident.IsCompleted(),
                     incident.IsModifiable(state),
-                    incident.FechaHoraRegistro,
-                    incident.FechaHoraEstimada,
+                    incident.Cita.FechaHoraCreacion,
+                    incident.Cita.FechaHoraEstimada,
                     incident.CedulaAdmin
                 );
                 model.Origin = incident.Origen;
@@ -146,8 +144,8 @@ namespace PRIME_UCR.Application.Implementations.Incidents
                 state,
                 incident.IsCompleted(),
                 model.Modifiable,
-                incident.FechaHoraRegistro,
-                incident.FechaHoraEstimada,
+                incident.Cita.FechaHoraCreacion,
+                incident.Cita.FechaHoraEstimada,
                 incident.CedulaAdmin
             );
             outputModel.Origin = incident.Origen;

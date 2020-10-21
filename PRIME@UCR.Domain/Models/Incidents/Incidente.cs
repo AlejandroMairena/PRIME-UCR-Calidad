@@ -15,8 +15,6 @@ namespace PRIME_UCR.Domain.Models
 
         public string Codigo { get; set; }
         public List<EstadoIncidente> EstadoIncidentes { get; private set; }
-        public DateTime FechaHoraEstimada { get; set; } // temp
-        public DateTime FechaHoraRegistro { get; set; }
         public int? IdOrigen { get; set; }
         public Ubicacion Origen {get; set;}
         public int? IdDestino { get; set; }
@@ -26,7 +24,8 @@ namespace PRIME_UCR.Domain.Models
         public string MatriculaTrans { get; set; }
         public UnidadDeTransporte UnidadDeTransporte {get; set;}
         
-        // public int? CodigoCita { get; set; }
+        public int CodigoCita { get; set; }
+        public Cita Cita { get; set; }
         // public int? IdEspecialista { get; set; }
         //public Especialista Especialista {get; set;}
         public string CedulaAdmin { set; get; }
