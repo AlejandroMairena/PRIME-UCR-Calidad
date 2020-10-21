@@ -45,7 +45,7 @@ namespace PRIME_UCR.Application.Implementations.Incidents
             return await _modesRepository.GetAllAsync();
         }
 
-        public async Task<Incidente> CreateIncident(IncidentModel model, Persona person)
+        public async Task<Incidente> CreateIncidentAsync(IncidentModel model, Persona person)
         {
             var entity = new Incidente
             {
@@ -93,7 +93,7 @@ namespace PRIME_UCR.Application.Implementations.Incidents
             return null;
         }
 
-        public async Task<IncidentDetailsModel> UpdateIncidentDetails(IncidentDetailsModel model)
+        public async Task<IncidentDetailsModel> UpdateIncidentDetailsAsync(IncidentDetailsModel model)
         {
             var incident = await _incidentRepository.GetByKeyAsync(model.Code);
             bool modified = false;

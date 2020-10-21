@@ -35,7 +35,6 @@ namespace PRIME_UCR.Infrastructure
             services.AddTransient<IIncidentRepository, IncidentRepository>();
             services.AddTransient<IIncidentStateRepository, IncidentStateRepository>();
             services.AddTransient<ILocationRepository, LocationRepository>();
-            services.AddTransient<IWorksOnMedicalCenterRepository, WorksOnMedicalCenterRepository>();
             // multimedia
             services.AddTransient<IMultimediaContentRepository, MultimediaContentRepository>();
             services.AddTransient<IFileService, FileService>();
@@ -47,7 +46,7 @@ namespace PRIME_UCR.Infrastructure
             services.AddTransient<IEspecialistaTécnicoMédicoRepository, EspecialistaTécnicoMédicoRepository>();
             services.AddTransient<IFuncionarioRepository, FuncionarioRepository>();
             services.AddTransient<IGerenteMédicoRepository, GerenteMédicoRepository>();
-            services.AddTransient<IMédicoRepository, MédicoRepository>();
+            services.AddTransient<IDoctorRepository, DoctorRepository>();
             services.AddTransient<INúmeroTeléfonoRepository, NúmeroTeléfonoRepository>();
             services.AddTransient<IPacienteRepository, PacienteRepository>();
             services.AddTransient<IPerfilRepository, PerfilRepository>();

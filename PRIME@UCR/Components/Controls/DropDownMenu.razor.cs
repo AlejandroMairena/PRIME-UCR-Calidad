@@ -55,12 +55,22 @@ namespace PRIME_UCR.Components.Controls
 
         string GetText(T value)
         {
-            if (String.IsNullOrEmpty(TextProperty))
+            if (TextExpression != null && TextProperty != null)
             {
-                return value.ToString();
+                throw new InvalidOperationException("Only select one option of: TextProperty or TextExpression ");
+            }
+            if (TextExpression != null)
+            {
+                return TextExpression(value);
+            }
+
+            if (TextProperty != null)
+            {
+                return (string) typeof(T).GetProperty(TextProperty)?.GetValue(value);
             }
             
-            return (string) typeof(T).GetProperty(TextProperty)?.GetValue(value);
+            // default value
+            return value.ToString();
         }
 
         protected override void OnParametersSet()
