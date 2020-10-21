@@ -15,17 +15,22 @@ namespace PRIME_UCR.Components.Incidents.LocationPickers
         [Inject]
         public ILocationService LocationService { get; set; }
         
-        [Parameter]
-        public Ubicacion Value { get; set; }
+        [Parameter] public Ubicacion Value { get; set; }
 
-        [Parameter]
-        public string LocationContext { get; set; } 
+        [Parameter] public bool IsOrigin { get; set; } 
+        public string LocationContext
+        {
+            get
+            {
+                if (IsOrigin)
+                    return "origen";
+                return "destino";
+            }
+        }
         
-        [Parameter]
-        public EventCallback<Ubicacion> ValueChanged { get; set; }
+        [Parameter] public EventCallback<Ubicacion> ValueChanged { get; set; }
 
-        [Inject]
-        public IPersonService personService { get; set; }
+        [Inject] public IPersonService personService { get; set; }
 
         private CentroMedico _selectedMedicalCenter;
 
@@ -44,12 +49,14 @@ namespace PRIME_UCR.Components.Incidents.LocationPickers
 
         async Task Callback()
         {
-            var location = new CentroUbicacion
-            {
-                CentroMedicoId = _selectedMedicalCenter.Id,
-                NumeroCama = _bedNumber,
-                CedulaMedico = _selectedDoctor.Cédula
-            };
+            CentroUbicacion location = null;
+            if (_selectedMedicalCenter != null)
+                location = new CentroUbicacion
+                {
+                    CentroMedicoId = _selectedMedicalCenter.Id,
+                    NumeroCama = _bedNumber,
+                    CedulaMedico = _selectedDoctor.CÃ©dula
+                };
             await ValueChanged.InvokeAsync(location);
         }
 
@@ -59,16 +66,16 @@ namespace PRIME_UCR.Components.Incidents.LocationPickers
             List<Persona> _doctorsTmp = new List<Persona>();
             foreach (TrabajaEn doc in _doctorsOfMedicalCenters)
             {
-                person = await personService.getPersonByIdAsync(doc.CédulaMédico);
+                person = await personService.getPersonByIdAsync(doc.CÃ©dulaMÃ©dico);
                 _doctorsTmp.Add(person);
             }
-             return _doctorsTmp;
+            return _doctorsTmp;
         }
 
         async Task OnChangeMedicalCenter(CentroMedico medicalCenter)
         {
             _selectedMedicalCenter = medicalCenter;
-            _doctorsOfMedicalCenters = (await LocationService.GetAllDoctorsbyMedicalCenter(_selectedMedicalCenter.Id))
+            _doctorsOfMedicalCenters = (await LocationService.GetAllDoctorsByMedicalCenter(_selectedMedicalCenter.Id))
             .ToList();
             _doctors = (await getDoctorsNames()).ToList();
             await Callback();
@@ -85,11 +92,17 @@ namespace PRIME_UCR.Components.Incidents.LocationPickers
                 (await LocationService.GetAllMedicalCentersAsync())
                 .ToList();
 
-            _doctorsOfMedicalCenters = (await LocationService.GetAllDoctorsbyMedicalCenter(_values.First().Id))
-            .ToList();
+            _doctorsOfMedicalCenters =
+                (await LocationService.GetAllDoctorsByMedicalCenter(_values.First().Id))
+                .ToList();
             _doctors = (await getDoctorsNames()).ToList();
-            doctorForLabel = "Médico de " + LocationContext;
+            doctorForLabel = "MÃ©dico de " + LocationContext;
+            
+            await LoadExistingValues();
+        }
 
+        public async Task LoadExistingValues()
+        {
             if (Value is CentroUbicacion location)
             {
                 _selectedMedicalCenter = _values.First(mc => mc.Id == location.CentroMedicoId);
@@ -98,11 +111,10 @@ namespace PRIME_UCR.Components.Incidents.LocationPickers
             }
             else
             {
-                _selectedMedicalCenter = _values.First();
-                _selectedDoctor = _doctors.First();
+                _selectedMedicalCenter = null;
+                _selectedDoctor = null;
                 await Callback();
             }
-
         }
     }
 }

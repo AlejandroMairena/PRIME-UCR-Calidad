@@ -1,34 +1,41 @@
 @typeparam T
+@inherits InputBase<T>
 
 <div class="form-group">
     <label>@Label</label>
-    <select @onchange="OnChangeEvent" class="custom-select">
-        @foreach (var value in Data.Select((v, i) => new { v, i }))
+    <select class="@($"custom-select {ValidationCssClass}")"
+            value="@SelectedValue"
+            @onchange="OnChangeEvent">
+        @if (!String.IsNullOrEmpty(DefaultText))
         {
-            @if (value.i == _index)
+            <option value="@(-1)" selected>@DefaultText</option>
+        }
+        @for (int i = 0; i < Data.Count; ++i)
+        {
+            @if (i == _index)
             {
                 @if (TextExpression != null && TextProperty != null)
                 {
-                    throw new System.InvalidOperationException("Only select one option of: TextProperty or TextExpression ");
-
+                    throw new InvalidOperationException("Only select one option of: TextProperty or TextExpression ");
                 }
-                else if (TextExpression != null)
+                if (TextExpression != null)
                 {
-                    <option selected value="@value.v">@(TextExpression(Data[value.i]))</option>            
+                    <option selected value="@i">@(TextExpression(Data[i]))</option>
                 }
                 else if (TextProperty != null)
                 {
-                    <option selected value="@value.i">@GetText(value.v)</option>
+                    <option selected value="@i">@GetText(Data[i])</option>
                 }
                 else
                 {
-                    throw new System.InvalidOperationException("There must be an option: TextProperty or TextExpression");
+                    throw new InvalidOperationException("There must be an option: TextProperty or TextExpression");
                 }
             }
             else
             {
-                <option value="@value.i">@GetText(value.v)</option>
+                <option value="@i">@GetText(Data[i])</option>
             }
         }
     </select>
+    <ValidationMessage For="ValueExpression" />
 </div>

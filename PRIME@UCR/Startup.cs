@@ -1,3 +1,4 @@
+using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -12,8 +13,8 @@ using PRIME_UCR.Domain.Models.UserAdministration;
 using Microsoft.AspNetCore.Components.Authorization;
 using PRIME_UCR.Application.Implementations.UserAdministration;
 using Blazored.SessionStorage;
+using PRIME_UCR.Validators;
 using PRIME_UCR.Application.DTOs.UserAdministration;
-using System;
 using System.Linq;
 
 namespace PRIME_UCR
@@ -35,14 +36,21 @@ namespace PRIME_UCR
             services.AddServerSideBlazor();
 
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DevelopmentDbConnection")));
+            {
+                options.LogTo(Console.WriteLine);
+                options.EnableSensitiveDataLogging();
+                options.UseSqlServer(Configuration.GetConnectionString("DevelopmentDbConnection"));
+            });
+            
             services.AddIdentity<Usuario, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+            
             services.AddBlazoredSessionStorage();
             services.AddScoped<AuthenticationStateProvider,CustomAuthenticationStateProvider>();
 
             services.AddApplicationLayer();
             services.AddInfrastructureLayer();
+            services.AddValidators();
 
             services.AddAuthorization(options =>
             {

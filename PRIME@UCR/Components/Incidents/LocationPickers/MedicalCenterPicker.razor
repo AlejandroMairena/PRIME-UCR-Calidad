@@ -6,15 +6,15 @@
 
 <Loading IsLoading="_values == null">
     <DropDownMenu Data="_values" T="CentroMedico" Label="Centro médico" Value="@_selectedMedicalCenter" TextProperty="Nombre"
+                  DefaultText="Seleccione un centro médico"
+                  ValueExpression="() => _selectedMedicalCenter"
                   ValueChanged="@((CentroMedico tab) => OnChangeMedicalCenter(tab))" />
-
     <label>Número de cama</label>
-                    <input type="number" value="@_bedNumber" @oninput="@(async (args) => {
-                                                             int.TryParse((string) args.Value, out _bedNumber);
-                                                             await Callback();
-                                                            })" class="form-control" min="0" /><br />
-
-     <DropDownMenu Data="_doctors" T="Persona" Label="@doctorForLabel" Value="@_selectedDoctor" 
-                   TextExpression="@((Persona p) => { return p.Nombre +' '+p.PrimerApellido+' '+p.SegundoApellido; })"
-                                                      ValueChanged="@((Persona tab) => OnChangeDoctor(tab))" />
+    <input type="number" value="@_bedNumber" @oninput="@(async (args) => {
+                                             int.TryParse((string) args.Value, out _bedNumber);
+                                             await Callback();
+                                            })" class="form-control" min="0" /><br />
+    <DropDownMenu Data="_doctors" T="Persona" Label="@doctorForLabel" Value="@_selectedDoctor" 
+                  TextExpression="@((Persona p) => { return p.Nombre +' '+p.PrimerApellido+' '+p.SegundoApellido; })"
+                  ValueChanged="@((Persona tab) => OnChangeDoctor(tab))" />
 </Loading>

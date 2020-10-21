@@ -9,10 +9,11 @@ namespace PRIME_UCR.Application.Services.Incidents
 {
     public interface IIncidentService
     {
-        Task<Incidente> GetIncidentAsync(string id);
+        Task<Incidente> GetIncidentAsync(string code);
         Task<IEnumerable<Modalidad>> GetTransportModesAsync();
         Task<Incidente> CreateIncident(IncidentModel model, Persona person);
-        Task<IncidentDetailsModel> GetIncidentDetailsAsync(string id);
+        Task<IncidentDetailsModel> GetIncidentDetailsAsync(string code);
         Task<IncidentDetailsModel> UpdateIncidentDetails(IncidentDetailsModel model);
+        Task<IEnumerable<Incidente>> GetAllAsync();
     }
 }

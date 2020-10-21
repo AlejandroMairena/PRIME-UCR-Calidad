@@ -23,15 +23,37 @@ namespace PRIME_UCR.Components.Incidents.LocationPickers
 
         private List<Pais> _values;
 
-        private Internacional _international;
+        private Pais _country;
         
         async Task OnCountryChange(Pais country)
         {
-            _international = new Internacional()
+            _country = country;
+            await Callback();
+        }
+
+        async Task Callback()
+        {
+            Internacional intl = null;
+            if (_country != null)
+                intl = new Internacional
+                {
+                    NombrePais = _country.Nombre,
+                };
+            await ValueChanged.InvokeAsync(intl);
+        }
+
+        public async Task LoadExistingValues()
+        {
+            if (Value is Internacional intl)
             {
-                NombrePais = country.Nombre,
-            };
-            await ValueChanged.InvokeAsync(_international);
+                // get strongly typed obj instead of only having FK
+                _country = _values.First(p => p.Nombre == intl.NombrePais);
+            }
+            else
+            {
+                _country = null;
+                await Callback();
+            }
         }
 
         protected override async Task OnInitializedAsync()
@@ -40,23 +62,7 @@ namespace PRIME_UCR.Components.Incidents.LocationPickers
                 .Where(c => c.Nombre != Pais.DefaultCountry)
                 .ToList();
             
-            if (Value is Internacional intl)
-            {
-                _international = intl;
-                // get strongly typed obj instead of only having FK
-                _international.Pais = _values.First(p => p.Nombre == intl.NombrePais);
-            }
-            else
-            {
-                var country = _values.First();
-                _international = new Internacional
-                {
-                    NombrePais = country.Nombre,
-                    Pais = country
-                };
-            }
-            
-            await ValueChanged.InvokeAsync(_international);
+            await LoadExistingValues();
         }
     }
 }

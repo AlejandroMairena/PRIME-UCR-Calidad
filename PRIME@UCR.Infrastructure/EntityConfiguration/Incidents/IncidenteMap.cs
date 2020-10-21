@@ -20,8 +20,8 @@ namespace PRIME_UCR.Infrastructure.EntityConfiguration.Incidents
                 .HasForeignKey<Incidente>(p => p.IdDestino);
             builder
                 .Property(p => p.Codigo)
-                .IsRequired()
-                .HasMaxLength(50);
+                .HasMaxLength(50)
+                .HasDefaultValueSql();
             builder
                 .Property(p => p.TipoModalidad)
                 .HasColumnName("Modalidad");

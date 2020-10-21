@@ -1,45 +1,53 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using PRIME_UCR.Application.Dtos.Incidents;
+using PRIME_UCR.Application.Services.Incidents;
 using PRIME_UCR.Components.Controls;
+using PRIME_UCR.Components.Incidents.LocationPickers;
 using PRIME_UCR.Domain.Models;
 
 namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
 {
-    //Enum with the options for selects
+    // Enum with the options for available origin types
     enum OriginType
     {
+        [Description("Domicilio")]
         Household,
+        [Description("Internacional")]
         International,
+        [Description("Centro médico")]
         MedicalCenter
     }
 
     public partial class OriginTab
     {
         // Selected options
-        private Tuple<OriginType, string> _selectedOriginType = Tuple.Create(OriginType.Household, "Domicilio");
+        private Tuple<OriginType, string> _selectedOriginType;
         private OriginModel _model = new OriginModel();
-        private string _errorMessage = "";
+        private HouseholdModel _householdModel = new HouseholdModel();
+        private string _statusMessage = "";
 
-        [Parameter]
-        public Ubicacion Origin { get; set; }
+        [Inject] private ILocationService LocationService { get; set; }
+        [Parameter] public Ubicacion Origin { get; set; }
+        [Parameter] public EventCallback<OriginModel> OnSave { get; set; }
 
-        [Parameter]
-        public EventCallback<OriginModel> OnSave { get; set; }
+        private InternationalPicker _intlPicker;
+        private MedicalCenterPicker _medicalCenterPicker;
         
         // Lists of options
         private readonly List<Tuple<OriginType, string>> _dropdownValuesOrigin = new List<Tuple<OriginType, string>>
         {
-            Tuple.Create(OriginType.Household, "Domicilio"),
-            Tuple.Create(OriginType.International, "Internacional"),
-            Tuple.Create(OriginType.MedicalCenter, "Centro médico")
+            Tuple.Create(OriginType.Household, EnumUtils.GetDescription(OriginType.Household)),
+            Tuple.Create(OriginType.International, EnumUtils.GetDescription(OriginType.International)),
+            Tuple.Create(OriginType.MedicalCenter, EnumUtils.GetDescription(OriginType.MedicalCenter))
         };
 
         private void OnOriginTypeChange(Tuple<OriginType, string> type)
         {
-            _errorMessage = "";
+            _statusMessage = "";
             _selectedOriginType = type;
         }
 
@@ -47,35 +55,68 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
         {
             _model.Origin = origin;
         }
-        
-        private async Task Save()
+
+        private async Task OnHouseholdSave(HouseholdModel household)
         {
-            if (_model.Origin is Domicilio household &&
-                (String.IsNullOrEmpty(household.Direccion) || household.Direccion.Length > 150))
+            if (household.Longitude != null && household.Latitude != null)
             {
-                _errorMessage = "La dirección es obligatoria y no debe exceder 150 caracteres.";
-                return;
+                _model.Origin = new Domicilio
+                {
+                    Direccion = household.Address,
+                    DistritoId = household.District.Id,
+                    Longitud = (double) household.Longitude,
+                    Latitud = (double) household.Latitude
+                };
+            }
+            else
+            {
+                throw new ApplicationException("Household picker shouldn't return null longitude or latitude");                    
             }
 
-            _errorMessage = "";
+            await Save();
+        }
+
+        private async Task Save()
+        {
+            _statusMessage = "Se guardaron los cambios exitosamente.";
             await OnSave.InvokeAsync(_model);
         }
 
-        private void LoadExistingValues()
+        private async Task LoadExistingValues()
         {
-            if (Origin is Domicilio)
+            if (Origin is Domicilio d)
+            {
                 _selectedOriginType = _dropdownValuesOrigin[0];
+                var location = await LocationService.GetLocationByDistrictId(d.DistritoId);
+                _householdModel = new HouseholdModel
+                {
+                    Province = location.Province,
+                    Canton = location.Canton,
+                    District = location.District,
+                    Address = d.Direccion,
+                    Longitude = d.Longitud,
+                    Latitude = d.Latitud
+                };
+            }
             else if (Origin is Internacional)
+            {
                 _selectedOriginType = _dropdownValuesOrigin[1];
+                await _intlPicker.LoadExistingValues();
+            }
             else if (Origin is CentroUbicacion)
+            {
                 _selectedOriginType = _dropdownValuesOrigin[2];
+                await _medicalCenterPicker.LoadExistingValues();
+            }
+            else
+                _selectedOriginType = _dropdownValuesOrigin[0]; // default
             
             _model.Origin = Origin;
         }
 
-        protected override void OnInitialized()
+        protected override async Task OnInitializedAsync()
         {
-            LoadExistingValues();
+            await LoadExistingValues();
         }
     }
     

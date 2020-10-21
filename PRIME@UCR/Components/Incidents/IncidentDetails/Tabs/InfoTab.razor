@@ -8,7 +8,7 @@
     <StatusMessage Message="Hay valores pendientes para finalizar la creación del incidente." Class="warning" />
 }
 <ul class="list-group">
-    <ListItem Title="Identificación" Text="@DetailsModel.Code" />
+    <ListItem Title="Identificador" Text="@DetailsModel.Code"/>
     <ListItem Title="Estado" Text="@DetailsModel.CurrentState" />
     <ListItem Title="Modalidad" Text="@DetailsModel.Mode" />
     <ListItem Title="Fecha estimada del traslado"
@@ -16,21 +16,5 @@
     <ListItem Title="Fecha de registro"
               Text="@($"{DetailsModel.RegistrationDate.ToShortDateString()} - {DetailsModel.RegistrationDate.ToShortTimeString()}")" />
     <ListItem Title="Creado por"
-              Text="@register" />
+              Text="@_register" />
 </ul>
-
-@code {
-    [Parameter]
-    public IncidentDetailsModel DetailsModel { get; set; }
-
-    [Inject]
-    public IPersonService personService { get; set; }
-
-    private String register;
-
-    protected override async Task OnInitializedAsync()
-    {
-        Persona person = await personService.getPersonByIdAsync(DetailsModel.AdminId.ToString());
-        register = person.Nombre+" "+person.PrimerApellido+" "+person.SegundoApellido;
-    }
-}
