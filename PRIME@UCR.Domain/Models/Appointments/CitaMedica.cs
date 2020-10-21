@@ -1,4 +1,5 @@
-﻿using PRIME_UCR.Domain.Models.UserAdministration;
+﻿using PRIME_UCR.Domain.Models.MedicalRecords;
+using PRIME_UCR.Domain.Models.UserAdministration;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
