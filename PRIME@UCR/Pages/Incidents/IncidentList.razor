@@ -6,12 +6,16 @@
 
 <Loading IsLoading="incidentsList == null">
     <Table TableItem="Incidente" Items="incidentsList" PageSize="15" @ref="Table" ColumnReorder="true">
-        <Column TableItem="Incidente" Title="Código" Field="@(x => x.Codigo)" Width="20%" DefaultSortColumn="true" />
+        <Column TableItem="Incidente" Title="Código" Field="@(x => x.Codigo)" Width="20%" DefaultSortColumn="true" >
+            <Template>
+                <a href="/incidents/@context.Codigo">@context.Codigo</a> 
+            </Template>
+        </Column>
         <Column TableItem="Incidente" Title="Fecha y Hora Registro" Field="@(x => x.FechaHoraRegistro)" Width="20%" />
-        <Column TableItem="Incidente" Title="Estado" Field="@(x => x.EstadoIncidentes.)" Width="20%" />
+        <Column TableItem="Incidente" Title="Estado" Field="@(x => x.EstadoIncidentes.Last().Estado)" Width="20%" />
         <Column TableItem="Incidente" Title="Modalidad" Field="@(x => x.TipoModalidad)" Width="20%" />
-        <Column TableItem="Incidente" Title="Origen" Field="@(x => x.Origen)" Width="20%" />
-        <Column TableItem="Incidente" Title="Destino" Field="@(x => x.Destino)" Width="20%" />
+        <Column TableItem="Incidente" Title="Origen" Field="@(x => x.Origen.Id)" Width="20%" />
+        <Column TableItem="Incidente" Title="Destino" Field="@(x => x.Destino.Id)" Width="20%" />
 
 
 

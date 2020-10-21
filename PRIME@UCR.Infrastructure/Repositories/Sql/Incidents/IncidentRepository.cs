@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
@@ -41,6 +42,16 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Incidents
                 .Include(i => i.Origen)
                 .Include(i => i.Destino)
                 .FirstOrDefaultAsync(i => i.Codigo == code);
+        }
+
+        public new async Task<IEnumerable<Incidente>> GetAllAsync()
+        {
+            return await _db.Incidents
+                .Include(i => i.Origen)
+                .Include(i => i.Destino)
+                .Include(i => i.EstadoIncidentes)
+                .AsNoTracking()
+                .ToListAsync();
         }
     }
 }
