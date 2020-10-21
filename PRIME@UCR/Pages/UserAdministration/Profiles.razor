@@ -13,17 +13,18 @@
 <ProfilesComponent @bind-Value="profile"/>
 
 
+<Loading IsLoading="profile.ProfileName == null">
+    <div class="wrapper">
+        <div style="background-color: white;padding-left: 10px;padding-right: 10px;">
+            <br />
+            <h5>Usuarios</h5>
+            <UsersComponent  @bind-Value="profile"/>
+        </div>
+        <div style="background-color:white;padding-left: 10px;padding-right: 10px;">
+            <br />
+            <h5>Permisos</h5>
+            <PermissionsComponent @bind-Value="profile"/>
+        </div>
 
-<div class="wrapper">
-    <div style="background-color: white;padding-left: 10px;padding-right: 10px;">
-        <br />
-        <h5>Usuarios</h5>
-        <UsersComponent  @bind-Value="profile"/>
     </div>
-    <div style="background-color:white;padding-left: 10px;padding-right: 10px;">
-        <br />
-        <h5>Permisos</h5>
-        <PermissionsComponent @bind-Value="profile"/>
-    </div>
-
-</div>
+</Loading>

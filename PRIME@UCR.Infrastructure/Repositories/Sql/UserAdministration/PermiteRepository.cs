@@ -36,15 +36,28 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
                     
                 }
             });
-
-
-/*
-            var tuple = await _db.HasPermissionOf.FindAsync(idProfile, idPermission);
-            if(tuple != null)
+        }
+        public async Task InsertPermissionAsync(string idProfile, int idPermission)
+        {
+            await Task.Run(() =>
             {
-                _db.HasPermissionOf.Remove(tuple);
-            }
-            await _db.SaveChangesAsync();*/
+                using (var cmd = _db.DbConnection.CreateCommand())
+                {
+                    while (cmd.Connection.State != System.Data.ConnectionState.Open)
+                    {
+                        cmd.Connection.Open();
+                    }
+                    if (cmd.Connection.State == System.Data.ConnectionState.Open)
+                    {
+                        cmd.CommandText =
+                            $"EXECUTE dbo.InsertPermissionToProfile @idPermission='{idPermission}', @idProfile='{idProfile}'";
+
+                        cmd.ExecuteNonQuery();
+                    }
+
+                }
+            });
+
         }
     }
 }

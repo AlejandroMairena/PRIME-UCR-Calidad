@@ -4,22 +4,22 @@
 
 <Loading IsLoading="ListPermissions == null">
 
-    <Table TableItem="Permiso" Items="ListPermissions" PageSize="12" >
-        <Column TableItem="Permiso" Title="" Field="@(x => x.IDPermiso)"  Width="1%">
-            <Template>
-                <center>
-                    <div class="custom-control custom-checkbox" >
-                            <input type="checkbox" class="custom-control-input" id="customCheck @context.IDPermiso" checked="@check(context.IDPermiso)" onclick="@update_profile(context.IDPermiso)">
-                            <label class="custom-control-label" for="customCheck @context.IDPermiso"></label>
-                    </div>
-                </center>
-            </Template>
-        </Column>
-
-        <Column TableItem="Permiso" Title="Número de permiso" Field="@(x => x.IDPermiso)"  Width="14%"  />
-        <Column TableItem="Permiso" Title="Descripción de permiso" Field="@(x => x.DescripciónPermiso)" Width="35%"/>
+    <EditForm Model="Value">
+        <Table TableItem="Permiso" Items="ListPermissions" PageSize="12" >
+            <Column TableItem="Permiso" Title="" Field="@(x => x.IDPermiso)"  Width="1%">
+                <Template Context="checkbox">
+                    <center>
+                        <div class="custom-control custom-checkbox" >
+                            <input class="custom-control-input" type="checkbox" id="customCheck @checkbox.IDPermiso" checked="@Value.CheckedPermissions[checkbox.IDPermiso-1]" @onclick="((MouseEventArgs b) => update_profile(checkbox.IDPermiso))" />
+                            <label class="custom-control-label" for="customCheck @checkbox.IDPermiso"></label>
+                        </div>
+                    </center>
+                </Template>
+            </Column>
+            <Column TableItem="Permiso" Title="Número de permiso" Field="@(x => x.IDPermiso)"  Width="14%"  />
+            <Column TableItem="Permiso" Title="Descripción de permiso" Field="@(x => x.DescripciónPermiso)" Width="35%"/>
        
-        <Pager ShowPageNumber="true" />
-    </Table>
-
+            <Pager ShowPageNumber="true" />
+        </Table>
+    </EditForm>
 </Loading>

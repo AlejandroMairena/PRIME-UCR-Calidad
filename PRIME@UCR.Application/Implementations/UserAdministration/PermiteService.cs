@@ -20,5 +20,10 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
         {
             await _IPermiteRepository.DeletePermissionAsync(idProfile, idPermission);
         }
+        public async Task InsertPermissionAsync(string idProfile, int idPermission)
+        {
+            await _IPermiteRepository.InsertPermissionAsync(idProfile, idPermission);
+        }
+
     }
 }

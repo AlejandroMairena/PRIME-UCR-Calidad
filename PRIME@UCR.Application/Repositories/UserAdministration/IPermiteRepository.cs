@@ -9,5 +9,7 @@ namespace PRIME_UCR.Application.Repositories.UserAdministration
     public interface IPermiteRepository : IGenericRepository<Permite,Tuple<string, int>>
     {
         Task DeletePermissionAsync(string idProfile, int idPermission);
+
+        Task InsertPermissionAsync(string idProfile, int idPermission);
     }
 }

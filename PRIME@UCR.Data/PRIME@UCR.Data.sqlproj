@@ -107,6 +107,7 @@
     <Build Include="Tables\UserAdministration\TienePerfil.sql" />
     <Build Include="Tables\UserAdministration\Usuario.sql" />
     <Build Include="Scripts\StoredProcedures\UserAdministration\DeletePermissionFromProfile.sql" />
+    <Build Include="Scripts\StoredProcedures\UserAdministration\InsertPermissionToProfile.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Scripts\PostDeployment\Identity_PostDeployment.sql" />

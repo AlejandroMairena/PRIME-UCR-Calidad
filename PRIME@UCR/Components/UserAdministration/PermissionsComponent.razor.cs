@@ -43,41 +43,26 @@ namespace PRIME_UCR.Components.UserAdministration
             ListPermissions = (await permissionsService.GetPermisos()).ToList();
         }
 
-        protected override async Task OnParametersSetAsync()
-        {
-            var ListProfiles = await profileService.GetPerfilesWithDetailsAsync();
-            var profile = (ListProfiles.Find(p => p.NombrePerfil == Value.ProfileName));
-            ListPermissionsPerProfile.Clear();
-            foreach(var permission in profile.PerfilesYPermisos)
-            {
-                ListPermissionsPerProfile.Add(permission.Permiso);
-            }
-            Value.PermissionsList = ListPermissionsPerProfile;
-        }
-
-        private bool check(int idPermission)
-        {
-            if(ListPermissionsPerProfile.Count != 0)
-            {
-                return (ListPermissionsPerProfile.Find(p => p.IDPermiso == idPermission) == null) ? false : true;
-            }
-            return false;
-        }
-
         protected async Task update_profile(int idPermission)
         {
+
             if(Value.PermissionsList != null)
             {
-                var hasPermission = (Value.PermissionsList.Find(p => p.IDPermiso == idPermission) != null);
-                if (hasPermission)
+                var Permission = (Value.PermissionsList.Find(p => p.IDPermiso == idPermission));
+                if (Permission != null)
                 {
+                    Value.PermissionsList.Remove(Permission);
                     await permiteService.DeletePermissionAsync(Value.ProfileName,idPermission);
                 }
                 else 
                 {
-                    // agregar permiso a la relacion                
+                    
+                    Value.PermissionsList.Add(Permission);
+                    await permiteService.InsertPermissionAsync(Value.ProfileName, idPermission);
                 }
+
             }
+
         }
     }
 }

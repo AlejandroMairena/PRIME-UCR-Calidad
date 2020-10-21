@@ -14,9 +14,11 @@ namespace PRIME_UCR.Components.UserAdministration
         [Inject]
         public IProfilesService profilesService { get; set; }
 
+        [Inject]
+        public IPermissionsService permissionsService { get; set; }
+
         public List<Perfil> ListProfiles { get; set; }
 
-        public Perfil selectedProfile { get; set; }
 
         [Parameter]
         public ProfileModel Value { get; set; }
@@ -24,20 +26,35 @@ namespace PRIME_UCR.Components.UserAdministration
         [Parameter]
         public EventCallback<ProfileModel> ValueChanged { get; set; }
 
+        public Perfil selectedProfile { get; set; }
+
+        public int counterPermissions;
+       
         protected override async Task OnInitializedAsync()
         {
             ListProfiles = (await profilesService.GetPerfiles()).ToList();
+            counterPermissions = (await permissionsService.GetPermisos()).ToList().Count;
         }
-
         
         private async Task updateOtherTables(Perfil newPerfil) 
         {
             selectedProfile = newPerfil;
-            if (newPerfil != null)
-            {
-                //actualizar las tablas
-            }
             Value.ProfileName = newPerfil.NombrePerfil;
+            var ListProfiles = await profilesService.GetPerfilesWithDetailsAsync();
+            var profile = (ListProfiles.Find(p => p.NombrePerfil == Value.ProfileName));
+            Value.PermissionsList.Clear();
+            foreach (var permission in profile.PerfilesYPermisos)
+            {
+                Value.PermissionsList.Add(permission.Permiso);
+            }
+
+            Value.CheckedPermissions = new List<bool>();
+            var permisssionsList = (await permissionsService.GetPermisos()).ToList();
+            foreach (var permission in permisssionsList)
+            {
+                var permissionChecked = Value.PermissionsList.Find(p => permission.IDPermiso == p.IDPermiso) == null ? false : true;
+                Value.CheckedPermissions.Add(permissionChecked);
+            }
             await ValueChanged.InvokeAsync(Value);
         }
 
