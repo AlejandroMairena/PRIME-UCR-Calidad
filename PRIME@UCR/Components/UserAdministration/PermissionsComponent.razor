@@ -9,7 +9,7 @@
             <Template>
                 <center>
                     <div class="custom-control custom-checkbox" >
-                            <input type="checkbox" class="custom-control-input" id="customCheck @context.IDPermiso" checked="@check(context.IDPermiso)">
+                            <input type="checkbox" class="custom-control-input" id="customCheck @context.IDPermiso" checked="@check(context.IDPermiso)" onclick="@update_profile(context.IDPermiso)">
                             <label class="custom-control-label" for="customCheck @context.IDPermiso"></label>
                     </div>
                 </center>

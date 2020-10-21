@@ -19,6 +19,9 @@ namespace PRIME_UCR.Components.UserAdministration
         [Inject]
         public IProfilesService profileService { get; set; }
 
+        [Inject]
+        public IPermiteService permiteService { get; set; }
+
         public List<Permiso> ListPermissions { get; set; }
 
         private List<Permiso> ListPermissionsPerProfile { get; set; }
@@ -59,6 +62,22 @@ namespace PRIME_UCR.Components.UserAdministration
                 return (ListPermissionsPerProfile.Find(p => p.IDPermiso == idPermission) == null) ? false : true;
             }
             return false;
+        }
+
+        protected async Task update_profile(int idPermission)
+        {
+            if(Value.PermissionsList != null)
+            {
+                var hasPermission = (Value.PermissionsList.Find(p => p.IDPermiso == idPermission) != null);
+                if (hasPermission)
+                {
+                    await permiteService.DeletePermissionAsync(Value.ProfileName,idPermission);
+                }
+                else 
+                {
+                    // agregar permiso a la relacion                
+                }
+            }
         }
     }
 }
