@@ -64,6 +64,7 @@
     <Folder Include="Tables\UserAdministration" />
     <Folder Include="Tables\CheckLists" />
     <Folder Include="Tables\Appointments" />
+    <Folder Include="Tables\MedicalRecords" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\CheckLists\CheckList.sql" />
@@ -111,6 +112,7 @@
     <Build Include="Tables\Appointments\MetricasIncidentes.sql" />
     <Build Include="Tables\Appointments\Accion.sql" />
     <Build Include="Tables\Appointments\TipoAccion.sql" />
+    <Build Include="Tables\MedicalRecords\Expediente.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Scripts\Script.PostDeployment.sql" />
