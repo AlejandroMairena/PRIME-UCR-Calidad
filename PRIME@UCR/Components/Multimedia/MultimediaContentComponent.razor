@@ -63,16 +63,6 @@
         open = !open;
     }
 
-    public void open_file()
-    {
-        //puedo usar esto gracias a la inyeccion que se hizo arriba.
-        //este servicio me retorna el modelo, dentro del servicio es que se debe abrir el archivo.
-        //MultimediaContent multimedia = multimedia_content_service.AddFile();
-    }
-
-    //Todo el siguiente codigo.
-    //debe estar en el servicio y que dicho servicio me retorne el Modelo ya construido
-
     IFileListEntry file;
 
     void HandleFileSelected(IFileListEntry[] files)
@@ -89,7 +79,7 @@
             Descripcion = "prueba",
             Fecha_Hora = DateTime.Now,
             Tipo = file.Type,
-            ID_accion = 1
+            AccionId = 1
         };
         multimedia_content_service.AddFileAsync(mcontent);
         file_service.StoreFile(file.Name, file.Data);

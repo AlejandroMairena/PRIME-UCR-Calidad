@@ -8,11 +8,8 @@ namespace PRIME_UCR.Domain.Models
 {
     public class MultimediaContent
     {
-        [Key]
-        public int ID { get; set; }
-
+        public int Id { get; set; }
         public string Nombre { get; set; }
-
         public string Archivo { get; set; }
 
         public string Descripcion { get; set; }
@@ -21,11 +18,9 @@ namespace PRIME_UCR.Domain.Models
 
         public string Tipo { get; set; }
 
-        public int ID_accion { get; set; }
+        public int AccionId { get; set; }
+        public int CitaAccionId { get; set; }
 
-        //a relationship will be created when there is a navigation property discovered on a type. 
-        //public Acciones Acciones { get; set; }
-
-        //public string ID_listaDeChequeo { get; set; } Este esta pendiente. 
+        public Accion Accion { get; set; }
     }
 }

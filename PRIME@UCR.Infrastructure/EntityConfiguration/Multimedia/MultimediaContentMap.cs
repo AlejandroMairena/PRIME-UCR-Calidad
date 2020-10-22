@@ -12,46 +12,14 @@ namespace PRIME_UCR.Infrastructure.EntityConfiguration.Multimedia
 
         public void Configure(EntityTypeBuilder<MultimediaContent> builder)
         {
-            builder.ToTable("MultimediaContent");
-
-            //builder
-            //    .HasOne(p => p.Acciones)
-            //    .WithMany(p => p.MultimediaContents)
-            //    .HasForeignKey(p => p.ID_accion);
+            builder
+                .HasKey("Id");
 
             builder
-                .Property(p => p.ID)
-                .IsRequired();
+                .HasOne(cm => cm.Accion)
+                .WithMany(a => a.MultimediaContent)
+                .HasForeignKey("AccionId", "CitaAccionId");
 
-            builder
-                .Property(p => p.Nombre)
-                .IsRequired()
-                .HasMaxLength(200);
-
-            builder
-                .Property(p => p.Archivo)
-                .IsRequired()
-                .HasMaxLength(500);
-
-            builder
-                .Property(p => p.Descripcion)
-                .HasMaxLength(2000);
-
-            builder
-                .Property(p => p.Fecha_Hora)
-                .IsRequired();
-                //.HasMaxLength(20);
-
-            builder
-                .Property(p => p.Tipo)
-                .IsRequired()
-                .HasMaxLength(100);
-
-            builder
-                .Property(p => p.ID_accion)
-                .HasMaxLength(50);
-
-            builder.HasKey("ID");
         }
     }
 }

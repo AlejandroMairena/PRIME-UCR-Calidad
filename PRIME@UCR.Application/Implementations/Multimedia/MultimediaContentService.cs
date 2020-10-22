@@ -38,7 +38,7 @@ namespace PRIME_UCR.Application.Implementations.Multimedia
 
         public async Task<List<MultimediaContent>> GetByActionID(int actionID)
         {
-            return (await repository.GetByConditionAsync(mc => mc.ID_accion == actionID)).ToList();
+            return (await repository.GetByConditionAsync(mc => mc.AccionId == actionID)).ToList();
         }
 
     }
