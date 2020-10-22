@@ -45,18 +45,14 @@ else
                                 <input class="form-control" type="text" id="checklistName" name="checklistName" @bind-value="list.Nombre" @onfocusout="Update" />
                             </div>
                             <div class="col-sm-1">
-                                <div class="@divDDClass">
-                                    <button class="none"
-                                            type="button" id="dropdownMenuButton"
-                                            data-toggle="dropdown" aria-haspopup="true"
-                                            aria-expanded="@showItemChangeComponent"
-                                            @onclick="toggleItemChangeComponent">
-                                        <img src="@list.ImagenDescriptiva" width="50" height="50" data-toggle="tooltip" title="Cambiar imagen" />
-                                    </button>
-                                    <div class="@ddMenuClass customLoadImage" aria-labelledby="dropdownMenuButton">
-                                         <LoadImageComponent @bind-list="list" />
-                                    </div>
-                                </div>
+
+                                <button type="button" class="none" data-toggle="dropdown">
+                                    <img src="@list.ImagenDescriptiva" width="50" height="50" data-toggle="tooltip" title="Cambiar imagen" /><span class="caret"></span>
+                                </button>
+
+                                <ul class="dropdown-menu customLoadImage" role="menu">
+                                    <li><LoadImageComponent @bind-list="list" update="update" /></li>
+                                </ul>
                             </div>
                         </div>
                         <br />
@@ -115,10 +111,13 @@ else
                                         {
                                             <tr>
                                                 <td class="align-middle">
-                                                    <p>
-                                                        <img src="@itemInList.ImagenDescriptiva" width="50" height="50" />
-
-                                                    </p>
+                                                    <button type="button" class="btn btn-default " data-toggle="dropdown">
+                                                        <img src="@itemInList.ImagenDescriptiva" width="50" height="50" data-toggle="tooltip" title="Cambiar imagen" /><span class="caret"></span>
+                                                    </button>
+                                             
+                                                    <ul class="dropdown-menu" role="menu">
+                                                        <li><LoadImageComponent  @bind-item="itemsList[getItemIndex(itemInList)]" update="update" /></li>
+                                                    </ul>
                                                 </td>
                                                 <th scope="row" class="align-middle"> @itemInList.Nombre</th>
                                                 <td class="align-middle"> @itemInList.Descripcion </td>
@@ -171,6 +170,14 @@ else
                                     </div>
                                     <br />
                                     <label>Imagen:</label>
+                                    <div class="form-row">
+                                        <div class="col-6">
+                                            <LoadImageComponent @bind-item="tempItem" />
+                                        </div>
+                                        <div class="col-6">
+                                            <img src="@tempItem.ImagenDescriptiva" width="50" height="50" />
+                                        </div>
+                                    </div>
                                     <br />
                                     <p style="color:red">* Campo requerido</p>
 

@@ -37,11 +37,21 @@ namespace PRIME_UCR.Components.CheckLists
         [Parameter]
         public CheckList list { get; set; }
 
+        // Shares the data from an item with its parent component
+        [Parameter]
+        public EventCallback<Item> itemChanged { get; set; }
+
+        [Parameter]
+        public Item item { get; set; }
+
+        [Parameter]
+        public string update { get; set; }
+
         // [Inject] public IFileService file_service { get; set; }
 
         [Inject] public ITempFileServiceNoEncryption file_service { get; set; }
 
-        [Inject] public IEncryptionService encrypt_service { get; set; }
+        // [Inject] public IEncryptionService encrypt_service { get; set; }
 
         [Inject] public ICheckListService checklist_service { get; set; }
 
@@ -50,6 +60,12 @@ namespace PRIME_UCR.Components.CheckLists
         protected Task OnlistChanged()
         {
             return listChanged.InvokeAsync(list);
+        }
+
+        // Updates the data from the item to its parent component
+        protected Task OnitemChanged()
+        {
+            return itemChanged.InvokeAsync(item);
         }
 
         // User Story PIG01IIC20-267 LG - Agregar imagen descriptiva a lista de chequeo
@@ -61,16 +77,31 @@ namespace PRIME_UCR.Components.CheckLists
 
             IFileListEntry file = files.FirstOrDefault();
             lastFile = file.Name;
-            //string filePath = Path.Combine(file_service.FilePath, file.Name);
             string filePath = "/images/" + file.Name;
-            //byte[] pathEncrypted = encrypt_service.Encrypt(filePath);
-            //string pathEncryptedString = System.Text.Encoding.UTF8.GetString(pathEncrypted);
+            // string filePath = Path.Combine(file_service.FilePath, file.Name);
+            // byte[] pathEncrypted = encrypt_service.Encrypt(filePath);
+            // string pathEncryptedString = System.Text.Encoding.UTF8.GetString(pathEncrypted);
             // stores the file (without encrypting it) in the /wwwroot/images directory)
-
             await file_service.StoreFile(file.Name, file.Data);
-            // Saves the name of the file into the correconding checklist entry in the database
-            list.ImagenDescriptiva = filePath;
-            await OnlistChanged();
+            if (list != null)
+            {
+                // Saves the name of the file into the correconding checklist entry
+                list.ImagenDescriptiva = filePath;
+                await OnlistChanged();
+                if (update == "update")
+                {
+                    await checklist_service.UpdateCheckList(list);
+                }
+            } else if (item != null)
+            {
+                // Saves the name of the file into the correconding item entry
+                item.ImagenDescriptiva = filePath;
+                await OnitemChanged();
+                if (update == "update")
+                {
+                    await checklist_service.UpdateItem(item);
+                }
+            }
         }
     }
 }

@@ -34,6 +34,7 @@ namespace PRIME_UCR.Pages.CheckLists
         protected IEnumerable<CheckList> lists { get; set; }
 
         protected IEnumerable<Item> items { get; set; }
+        protected List<Item> itemsList = new List<Item>();
 
         public CheckList list { get; set; }
 
@@ -55,6 +56,7 @@ namespace PRIME_UCR.Pages.CheckLists
             list = await MyCheckListService.GetById(id);
             lists = await MyCheckListService.GetAll();
             items = await MyCheckListService.GetItemsByCheckListId(id);
+            itemsList = items.ToList();
         }
 
         protected void HandleFieldChanged(object sender, FieldChangedEventArgs e)
@@ -113,10 +115,15 @@ namespace PRIME_UCR.Pages.CheckLists
         {
             await RefreshModels();
         }
+
         protected async Task Update()
         {
             await MyCheckListService.UpdateCheckList(list);
             await RefreshModels();
+        }
+
+        protected int getItemIndex(Item itemInList) {
+            return itemsList.FindIndex(item => item.Id == itemInList.Id);
         }
     }
 }
