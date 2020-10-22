@@ -43,8 +43,13 @@
 
     [Parameter]
     public RenderFragment ChildContent { get; set; }
+    [Parameter]
+    public int CitaId { get; set; }
+    [Parameter]
+    public int AccionId { get; set; }
 
     public List<string> fileNames;
+    public List<MultimediaContent> elementContent;
 
     bool open = false;
     string divDDClass = "dropdown";
@@ -53,6 +58,11 @@
     protected override void OnInitialized()
     {
         fileNames = new List<string>();
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        elementContent = await multimedia_content_service.GetActionMultimediaContent(CitaId, AccionId);
     }
 
     public void Open()
@@ -76,10 +86,11 @@
         {
             Nombre = file.Name,
             Archivo = pathEncryptedString,
-            Descripcion = "prueba",
+            Descripcion = "",
             Fecha_Hora = DateTime.Now,
             Tipo = file.Type,
-            AccionId = 1
+            CitaAccionId = CitaId,
+            AccionId = AccionId,
         };
         multimedia_content_service.AddFileAsync(mcontent);
         file_service.StoreFile(file.Name, file.Data);
