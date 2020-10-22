@@ -25,6 +25,8 @@ namespace PRIME_UCR.Infrastructure
             services.AddTransient<ICheckListRepository, SqlCheckListRepository>();
             // generic repositories
             services.AddTransient(typeof(IGenericRepository<,>), typeof(GenericRepository<,>));
+            // appointments
+            services.AddTransient<IActionTypeRepository, ActionTypeRepository>();
             // incidents repositories
             services.AddTransient<ICountryRepository, CountryRepository>();
             services.AddTransient<IProvinceRepository, ProvinceRepository>();
