@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.Authorization;
 using PRIME_UCR.Application.Dtos;
 using PRIME_UCR.Application.Dtos.Incidents;
+using PRIME_UCR.Application.DTOs.Incidents;
 using PRIME_UCR.Application.Repositories;
 using PRIME_UCR.Application.Repositories.Incidents;
 using PRIME_UCR.Application.Services.Incidents;
@@ -157,6 +158,11 @@ namespace PRIME_UCR.Application.Implementations.Incidents
         public async Task<IEnumerable<Incidente>> GetAllAsync()
         {
             return await _incidentRepository.GetAllAsync();
+        }
+
+        public async Task<IEnumerable<IncidentListModel>> GetIncidentListModelsAsync()
+        {
+            return await _incidentRepository.GetIncidentListModelsAsync();
         }
     }
 }

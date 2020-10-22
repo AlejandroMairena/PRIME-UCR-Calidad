@@ -15,6 +15,7 @@ namespace PRIME_UCR.Validators
             services.AddTransient<IValidator<HouseholdModel>, HouseholdModelValidator>();
             services.AddTransient<IValidator<InternationalModel>, InternationalModelValidator>();
             services.AddTransient<IValidator<MedicalCenterLocationModel>, MedicalCenterLocationModelValidator>();
+            services.AddTransient<IValidator<PatientModel>, PatientModelValidator>();
             return services;
         }
     }

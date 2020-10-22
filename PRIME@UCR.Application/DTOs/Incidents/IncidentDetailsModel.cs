@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using PRIME_UCR.Domain.Models;
 using PRIME_UCR.Domain.Models.Incidents;
+using PRIME_UCR.Domain.Models.MedicalRecords;
 
 namespace PRIME_UCR.Application.Dtos.Incidents
 {
@@ -37,5 +38,7 @@ namespace PRIME_UCR.Application.Dtos.Incidents
         public DateTime EstimatedDateOfTransfer { get; }
         public Ubicacion Origin { get; set; }
         public Ubicacion Destination { get; set; }
+        public Expediente Expediente { get; set; }
+
     }
 }
