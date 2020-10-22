@@ -13,5 +13,7 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
         Destination,
         [Description("Paciente")]
         Patient,
+        [Description("Multimedia")]
+        Multimedia
     }
 }

@@ -14,7 +14,7 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
     {
         [Inject] IAppointmentService AppointmentService { get; set; }
         private List<TipoAccion> _actionTypes;
-        private TipoAccion _selectedActionType;
+        private TipoAccion _selectedActionType = new TipoAccion();
 
         protected override async Task OnInitializedAsync()
         {

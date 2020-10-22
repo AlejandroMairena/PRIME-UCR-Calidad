@@ -17,6 +17,10 @@
     {
         <PatientTab Expediente="@Incident.Expediente" OnSave="@SavePatient" />
     }
+    else if (Active == DetailsTab.Multimedia)
+    {
+        <MultimediaTab />
+    }
     else
     {
         <h4 class="text-danger">Not found</h4>

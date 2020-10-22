@@ -50,6 +50,9 @@ namespace PRIME_UCR.Pages.Incidents
                             ? new Tuple<DetailsTab, string>(DetailsTab.Patient, "warning")
                             : new Tuple<DetailsTab, string>(DetailsTab.Patient, ""));
                         break;
+                    case DetailsTab.Multimedia:
+                        _tabs.Add(new Tuple<DetailsTab, string>(DetailsTab.Multimedia, ""));
+                        break;
                 }
             }
         }
