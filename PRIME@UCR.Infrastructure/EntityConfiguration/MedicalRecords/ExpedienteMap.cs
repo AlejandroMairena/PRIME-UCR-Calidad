@@ -11,6 +11,7 @@ namespace PRIME_UCR.Infrastructure.EntityConfiguration.MedicalRecords
     {
         public void Configure(EntityTypeBuilder<Expediente> builder)
         {
+            builder.ToTable("Expediente");
             builder.HasKey("Id");
 
             builder

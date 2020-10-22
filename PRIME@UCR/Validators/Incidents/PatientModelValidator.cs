@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using System;
+using FluentValidation;
 using PRIME_UCR.Application.Dtos.Incidents;
 
 namespace PRIME_UCR.Validators.Incidents
@@ -9,12 +10,20 @@ namespace PRIME_UCR.Validators.Incidents
         {
             RuleFor(i => i.CedPaciente)
                 .NotEmpty()
-                .WithMessage("Debe escribir una cédula.");
-
-            RuleFor(i => i.CedPaciente)
-                .MaximumLength(9)
-                .WithMessage("Debe seleccionar una cédula válida.");
-
+                .WithMessage("Debe digitar una cédula.")
+                .DependentRules(() =>
+                {
+                    // TODO: change length to 9 after updating post deployment
+                    RuleFor(i => i.CedPaciente)
+                        .Length(8)
+                        .WithMessage("Debe digitar una cédula válida (8 números).")
+                        .DependentRules(() =>
+                        {
+                            RuleFor(i => i.CedPaciente)
+                                .Must(ced => Int32.TryParse(ced, out _))
+                                .WithMessage("Debe digitar una cédula válida (8 números).");
+                        });
+                });
         }
     }
 }

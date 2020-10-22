@@ -3,38 +3,44 @@
 <Loading IsLoading="@IsLoading()">
     <EditForm EditContext="_context" OnValidSubmit="Submit">
         <FluentValidationValidator />
-        <DropDownMenu Data="@_provinces" Label="Provincia" Value="@Value.Province" TextProperty="Nombre"
-                      DefaultText="Seleccione una provincia"
-                      ValueExpression="() => Value.Province"
-                      ValueChanged="@((Provincia p) => OnChangeProvince(p))"/>
-        <DropDownMenu Data="@_cantons" Label="Cantón" Value="@Value.Canton" TextProperty="Nombre"
-                      DefaultText="Seleccione un cantón"
-                      ValueExpression="() => Value.Canton"
-                      ValueChanged="@((Canton c) => OnChangeCanton(c))"/>
-        <DropDownMenu Data="@_districts" Label="Distrito"
-                      TextProperty="Nombre"
-                      DefaultText="Seleccione un distrito"
-                      @bind-Value="Value.District" />
-       <TextBox Label="Dirección Exacta" @bind-Value="@Value.Address" />
-       <div class="form-row">
-           <div class="col">
-               <NumberInput Label="Longitud" @bind-Value="@Value.Longitude" />
-           </div>
-            <div class="col">
-               <NumberInput Label="Longitud" @bind-Value="@Value.Latitude" />
+        <div class="row">
+            <div class="col-md-4">
+                <DropDownMenu Data="@_provinces" Label="Provincia" Value="@Value.Province" TextProperty="Nombre"
+                              DefaultText="Seleccione una provincia"
+                              ValueExpression="() => Value.Province"
+                              ValueChanged="@((Provincia p) => OnChangeProvince(p))"/>
+                <DropDownMenu Data="@_cantons" Label="Cantón" Value="@Value.Canton" TextProperty="Nombre"
+                              DefaultText="Seleccione un cantón"
+                              ValueExpression="() => Value.Canton"
+                              ValueChanged="@((Canton c) => OnChangeCanton(c))"/>
+                <DropDownMenu Data="@_districts" Label="Distrito"
+                              TextProperty="Nombre"
+                              DefaultText="Seleccione un distrito"
+                              @bind-Value="Value.District" />
             </div>
         </div>
-        <div class="text-center">
+       <div class="row">
+           <div class="col-md-4">
+               <NumberInput Label="Longitud" @bind-Value="@Value.Longitude" />
+               <NumberInput Label="Longitud" @bind-Value="@Value.Latitude" />
+           </div>
+       </div>
+       <div class="row">
+           <div class="col-md-6">
+               <TextBox Label="Dirección Exacta" @bind-Value="@Value.Address" />
+           </div>
+       </div>
+        @* <div class="text-center"> *@
             @if (!_saveButtonEnabled)
             {
-                <button disabled class="btn btn-outline-secondary">Descartar</button>
                 <button disabled type="submit" class="btn btn-primary">Guardar</button>
+                <button disabled class="btn btn-outline-secondary">Descartar</button>
             }
             else
             {
-                <button role="button" @onclick:preventDefault @onclick="@Discard" class="btn btn-outline-secondary">Descartar</button>
                 <button type="submit" class="btn btn-primary">Guardar</button>
+                <button role="button" @onclick:preventDefault @onclick="@Discard" class="btn btn-outline-secondary">Descartar</button>
             }
-        </div>
+        @* </div> *@
     </EditForm>
 </Loading>

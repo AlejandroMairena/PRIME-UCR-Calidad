@@ -17,7 +17,7 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Incidents
         {
         }
 
-        public new async Task<Incidente> InsertAsync(Incidente model)
+        public new Task<Incidente> InsertAsync(Incidente model)
         {
             throw new InvalidOperationException("Use overload with model and DateTime.");
         }

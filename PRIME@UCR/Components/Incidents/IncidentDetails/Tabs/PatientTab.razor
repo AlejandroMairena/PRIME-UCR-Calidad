@@ -1,21 +1,40 @@
 ﻿@using PRIME_UCR.Components.Controls
 
-<h3>Información sobre el expediente de paciente</h3>
+<h3>Paciente por trasladar</h3>
 <br />
 @if (Expediente == null)
 {
 
     <StatusMessage Message="Este valor está pendiente para finalizar la creación del incidente." Class="warning" />
 }
-<EditForm Model="_model" OnValidSubmit="AssignRecord">
-    <FluentValidationValidator />
-    <TextBox Label="Cédula del paciente"
-             @bind-Value="@_model.CedPaciente" />
-    <div class="text-center">
-            <button class="btn btn-primary">Guardar</button>
+<div class="row">
+    <div class="col-md-4">
+        <EditForm EditContext="_context">
+            <FluentValidationValidator />
+            <TextBox Label="Cédula del paciente"
+                     Value="@_model.CedPaciente"
+                     ValueExpression="() => _model.CedPaciente"
+                     ValueChanged="(string s) => OnIdChange(s)" />
+        </EditForm>
+        @if (_model.Patient != null)
+        {
+            // check for readonly or not
+            <EditForm Model="_model.Patient">
+        @*         @if (!_patientReady || _model.Patient.FechaNacimiento != null) *@
+        @*         { *@
+        @*             <DatePicker Disabled="@_patientReady" @bind-Value="_model.Patient.FechaNacimiento" Label="Fecha de nacimiento"/> *@
+        @*         } *@
+                <TextBox Disabled="@_patientReady" @bind-Value="_model.Patient.Nombre" Label="Nombre"/>
+                <TextBox Disabled="@_patientReady" @bind-Value="_model.Patient.PrimerApellido" Label="Primer apellido"/>
+                @if (!_patientReady || !String.IsNullOrEmpty(_model.Patient.SegundoApellido))
+                {
+                    <TextBox Disabled="@_patientReady" @bind-Value="_model.Patient.SegundoApellido" Label="Segundo apellido"/>
+                }
+                @* TODO: sexo *@
+                @* <div class="text-center"> *@
+                    <button class="btn btn-primary">Guardar</button>
+                @* </div> *@
+            </EditForm>
+        }
     </div>
-</EditForm>
-
-@code {
-
-}
+</div>

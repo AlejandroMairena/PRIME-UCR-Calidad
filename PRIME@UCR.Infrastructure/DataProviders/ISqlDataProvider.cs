@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using PRIME_UCR.Domain.Models;
 using System.Threading.Tasks;
 using PRIME_UCR.Domain.Models.Incidents;
+using PRIME_UCR.Domain.Models.MedicalRecords;
 using PRIME_UCR.Domain.Models.UserAdministration;
 
 namespace PRIME_UCR.Infrastructure.DataProviders
@@ -28,6 +29,7 @@ namespace PRIME_UCR.Infrastructure.DataProviders
         DbSet<Estado> States { get; set; }
         DbSet<EstadoIncidente> IncidentStates { get; set; }
         DbSet<Incidente> Incidents { get; set; }
+        DbSet<Expediente> MedicalRecords { get; set; }
 
         DbSet<Usuario> Usuarios {get; set;}
         DbSet<Persona> People { get; set; }
