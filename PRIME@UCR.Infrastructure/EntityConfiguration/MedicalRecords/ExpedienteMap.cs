@@ -12,7 +12,7 @@ namespace PRIME_UCR.Infrastructure.EntityConfiguration.MedicalRecords
         public void Configure(EntityTypeBuilder<Expediente> builder)
         {
             builder.ToTable("Expediente");
-            builder.HasKey("Id");
+            builder.HasKey("Id");            
 
             builder
                 .HasOne(e => e.Paciente)
@@ -21,7 +21,7 @@ namespace PRIME_UCR.Infrastructure.EntityConfiguration.MedicalRecords
 
             builder
                 .HasOne(e => e.Medico)
-                .WithMany()
+                .WithMany(m => m.Expedientes)
                 .HasForeignKey(e => e.CedulaMedicoDuenno);
         }
     }
