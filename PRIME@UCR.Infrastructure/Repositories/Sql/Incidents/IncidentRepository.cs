@@ -64,40 +64,38 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Incidents
                     from i in _db.Incidents
                     join u in _db.MedicalCenterLocations on i.IdDestino equals u.Id
                     join mc in _db.MedicalCenters on u.CentroMedicoId equals mc.Id
-                    select mc;
+                    select new { MedicalCenter = mc, Id = i.IdDestino };
+
+                var incidentStates = _db.IncidentStates
+                    .Where(state => state.Activo);
 
                 var incidentListModels = _db.Incidents
                     .Include(i => i.Origen)
-                    .Include(i => i.EstadoIncidentes)
-                    .Select(new Func<Incidente, IncidentListModel>(i =>
+                    .Select(i =>
+                    new IncidentListModel
                     {
-                        var estado = i.EstadoIncidentes.FirstOrDefault(e => e.Activo == true);
-                        var estadoString = estado == null ? "" : estado.NombreEstado;
-                        return new IncidentListModel
-                        {
-                            Codigo = i.Codigo,
-                            FechaHoraRegistro = i.FechaHoraRegistro,
-                            Estado = estadoString,
-                            Modalidad = i.TipoModalidad,
-                            Origen = i.Origen,
-                            IdDestino = i.IdDestino
-                        };
-                    }));
+                        Codigo = i.Codigo,
+                        FechaHoraRegistro = i.FechaHoraRegistro,
+                        Modalidad = i.TipoModalidad,
+                        Origen = i.Origen,
+                        IdDestino = i.IdDestino
+                    });
 
                 return
                     from i in incidentListModels
                     join add in destinations on i.IdDestino equals add.Id
-                    into MCs
-                    from mc in MCs.DefaultIfEmpty()
+                    into mCs
+                    from mc in mCs.DefaultIfEmpty()
+                    join state in incidentStates on i.Codigo equals state.CodigoIncidente
                     select new IncidentListModel
                     {
                         Codigo = i.Codigo,
                         FechaHoraRegistro = i.FechaHoraRegistro,
-                        Estado = i.Estado,
                         Modalidad = i.Modalidad,
                         Origen = i.Origen,
+                        Estado = state.NombreEstado,
                         IdDestino = i.IdDestino,
-                        Destino = mc
+                        Destino = mc != null ? mc.MedicalCenter : null
                     };
             }); 
         }

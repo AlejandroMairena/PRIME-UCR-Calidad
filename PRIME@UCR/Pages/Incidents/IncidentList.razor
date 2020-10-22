@@ -14,16 +14,23 @@
         </Column>
         <Column TableItem="IncidentListModel" Title="Fecha y Hora Registro" Field="@(x => x.FechaHoraRegistro)" Width="20%" />
         <Column TableItem="IncidentListModel" Title="Estado" Field="@(x => x.Estado)" Width="20%" />
-        <Column TableItem="IncidentListModel" Title="Modalidad" Field="@(x => x.Modalidad)" Width="20%" />
-        <Column TableItem="IncidentListModel" Title="Origen" Field="@(x => x.Origen)" Width="20%" >
+        <Column TableItem="IncidentListModel" Title="Modalidad" Field="@(x => x.Modalidad)" Width="7%" />
+        <Column TableItem="IncidentListModel" Title="Origen" Field="@(x => x.Origen)" Width="7%" >
             <Template>
-                @if (@context.Origen == null) 
+                @switch (context.Origen)
                 {
-                    <p>-</p>
-                }
-                else
-                {
-                    <p>@(nameof(context.Origen))</p>
+                    case Domicilio _:
+                        <p>@(nameof(Domicilio))</p>
+                        break;
+                    case CentroUbicacion _:
+                        <p>@(nameof(CentroUbicacion))</p>
+                        break;
+                    case Internacional _:
+                        <p>@(nameof(Internacional))</p>
+                        break;
+                    default:
+                        <p>-</p>
+                        break;
                 }
             </Template>
         </Column>
