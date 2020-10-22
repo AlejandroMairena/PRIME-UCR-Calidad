@@ -5,7 +5,7 @@ using System.Text;
 
 namespace PRIME_UCR.Application.Repositories.UserAdministration
 {
-    public interface IMédicoRepository : IGenericRepository<Médico, string>
+    public interface IDoctorRepository : IGenericRepository<Médico, string>
     {
     }
 }

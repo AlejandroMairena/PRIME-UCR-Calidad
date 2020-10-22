@@ -10,8 +10,9 @@ namespace PRIME_UCR.Application.Services.Incidents
 {
     public interface ILocationService
     {
-        Task<IEnumerable<TrabajaEn>> GetAllDoctorsByMedicalCenter(int medicalCenterId);
+        Task<IEnumerable<Médico>> GetAllDoctorsByMedicalCenter(int medicalCenterId);
         Task<Pais> GetCountryByName(string name);
+        Task<CentroMedico> GetMedicalCenterById(int id);
         Task<IEnumerable<CentroMedico>> GetAllMedicalCentersAsync();
         Task<LocationModel> GetLocationByDistrictId(int districtId);
         Task<IEnumerable<Pais>> GetAllCountriesAsync();

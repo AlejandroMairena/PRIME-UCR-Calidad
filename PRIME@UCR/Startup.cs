@@ -40,6 +40,7 @@ namespace PRIME_UCR
                 options.LogTo(Console.WriteLine);
                 options.EnableSensitiveDataLogging();
                 options.UseSqlServer(Configuration.GetConnectionString("DevelopmentDbConnection"));
+                //options.UseSqlServer(Configuration.GetConnectionString("ProductionDbConnection"));
             });
             
             services.AddIdentity<Usuario, IdentityRole>()

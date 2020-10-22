@@ -10,6 +10,24 @@ namespace PRIME_UCR.Domain.Models.UserAdministration
      */
     public class Médico : Funcionario
     {
+        protected bool Equals(Médico other)
+        {
+            return Cédula == other.Cédula;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((Médico) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Cédula);
+        }
+
         public Médico()
         {
             MedicosyCentrosMedicos = new List<TrabajaEn>();

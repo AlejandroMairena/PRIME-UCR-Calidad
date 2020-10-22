@@ -60,7 +60,7 @@ namespace PRIME_UCR.Pages.Incidents
 
         private async Task Save(IncidentDetailsModel model)
         {
-            _incidentModel = await IncidentService.UpdateIncidentDetails(model);
+            _incidentModel = await IncidentService.UpdateIncidentDetailsAsync(model);
             FillTabStates();
         }
     }

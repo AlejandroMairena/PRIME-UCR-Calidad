@@ -45,18 +45,16 @@ namespace PRIME_UCR.Application.Implementations.Incidents
             return await _modesRepository.GetAllAsync();
         }
 
-        public async Task<Incidente> CreateIncident(IncidentModel model, Persona person)
+        public async Task<Incidente> CreateIncidentAsync(IncidentModel model, Persona person)
         {
             var entity = new Incidente
             {
-                FechaHoraRegistro = DateTime.Now,
-                FechaHoraEstimada = model.EstimatedDateOfTransfer,
                 TipoModalidad = model.Mode.Tipo,
                 CedulaAdmin = person.Cédula
             };
             
             // insert before adding state to get auto generated code from DB
-            await _incidentRepository.InsertAsync(entity);
+            await _incidentRepository.InsertAsync(entity, model.EstimatedDateOfTransfer);
             
             var state = new EstadoIncidente
             {
@@ -82,8 +80,8 @@ namespace PRIME_UCR.Application.Implementations.Incidents
                     state.Nombre,
                     incident.IsCompleted(),
                     incident.IsModifiable(state),
-                    incident.FechaHoraRegistro,
-                    incident.FechaHoraEstimada,
+                    incident.Cita.FechaHoraCreacion,
+                    incident.Cita.FechaHoraEstimada,
                     incident.CedulaAdmin
                 );
                 model.Origin = incident.Origen;
@@ -95,7 +93,7 @@ namespace PRIME_UCR.Application.Implementations.Incidents
             return null;
         }
 
-        public async Task<IncidentDetailsModel> UpdateIncidentDetails(IncidentDetailsModel model)
+        public async Task<IncidentDetailsModel> UpdateIncidentDetailsAsync(IncidentDetailsModel model)
         {
             var incident = await _incidentRepository.GetByKeyAsync(model.Code);
             bool modified = false;
@@ -146,8 +144,8 @@ namespace PRIME_UCR.Application.Implementations.Incidents
                 state,
                 incident.IsCompleted(),
                 model.Modifiable,
-                incident.FechaHoraRegistro,
-                incident.FechaHoraEstimada,
+                incident.Cita.FechaHoraCreacion,
+                incident.Cita.FechaHoraEstimada,
                 incident.CedulaAdmin
             );
             outputModel.Origin = incident.Origen;

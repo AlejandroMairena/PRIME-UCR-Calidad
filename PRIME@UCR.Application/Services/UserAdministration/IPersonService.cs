@@ -8,6 +8,6 @@ namespace PRIME_UCR.Application.Services.UserAdministration
 {
     public interface IPersonService
     {
-        Task<Persona> getPersonByIdAsync(string id);
+        Task<Persona> GetPersonByIdAsync(string id);
     }
 }

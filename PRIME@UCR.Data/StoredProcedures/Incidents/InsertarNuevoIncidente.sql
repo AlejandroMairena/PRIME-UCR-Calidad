@@ -4,13 +4,26 @@
     @CedulaAdmin              NVARCHAR(12),
     @CedulaTecnicoCoordinador INT,
     @CedulaTecnicoRevisor     INT,
-    @CodigoCita               INT,
     @IdOrigen                 INT,
     @IdDestino                INT,
     @Modalidad                VARCHAR(30),
     @FechaHoraRegistro        DATETIME,
     @FechaHoraEstimada        DATETIME
 AS
+    INSERT INTO Cita
+    (
+        FechaHoraCreacion,
+        FechaHoraEstimada
+    )
+    VALUES
+    (
+        @FechaHoraRegistro,
+        @FechaHoraEstimada
+    )
+
+    DECLARE @citaId INT
+    SET @citaId = SCOPE_IDENTITY()
+
     DECLARE @codigo VARCHAR
     INSERT INTO Incidente
     (
@@ -22,9 +35,7 @@ AS
         CodigoCita,
         IdOrigen,
         IdDestino,
-        Modalidad,
-        FechaHoraRegistro,
-        FechaHoraEstimada
+        Modalidad
     )
     VALUES
     (
@@ -33,14 +44,13 @@ AS
         @CedulaAdmin,
         @CedulaTecnicoCoordinador,
         @CedulaTecnicoRevisor,
-        @CodigoCita,
+        @citaId,
         @IdOrigen,
         @IdDestino,
-        @Modalidad,
-        @FechaHoraRegistro,
-        @FechaHoraEstimada
+        @Modalidad
     )
+
     SELECT TOP 1 @codigo = Codigo 
     FROM Incidente
-    ORDER BY Codigo DESC
+    WHERE CodigoCita = @citaId
 

@@ -49,7 +49,7 @@ namespace PRIME_UCR.Pages.Incidents
         {
             var emailUser = (await authenticationState).User.Identity.Name;
             Persona person = await userService.getPersonWithDetailstAsync(emailUser);
-            var result = await IncidentService.CreateIncident(_model, person);
+            var result = await IncidentService.CreateIncidentAsync(_model, person);
             Redirect(result.Codigo);
         }
 

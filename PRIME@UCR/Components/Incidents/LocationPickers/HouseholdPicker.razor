@@ -11,41 +11,28 @@
                       DefaultText="Seleccione un cantón"
                       ValueExpression="() => Value.Canton"
                       ValueChanged="@((Canton c) => OnChangeCanton(c))"/>
-        <DropDownMenu Data="@_districts" Label="Distrito" Value="@Value.District" TextProperty="Nombre"
+        <DropDownMenu Data="@_districts" Label="Distrito"
+                      TextProperty="Nombre"
                       DefaultText="Seleccione un distrito"
-                      ValueExpression="() => Value.District"
-                      ValueChanged="@((Distrito d) => OnChangeDistrict(d))"/>
-       <TextBox
-           Label="Dirección Exacta"
-           Value="@Value.Address"
-           ValueExpression="() => Value.Address"
-           ValueChanged="(string a) => OnChangeAddress(a)"/>
+                      @bind-Value="Value.District" />
+       <TextBox Label="Dirección Exacta" @bind-Value="@Value.Address" />
        <div class="form-row">
            <div class="col">
-               <NumberInput
-                   Label="Longitud"
-                   Value="@Value.Longitude"
-                   ValueExpression="@(() => Value.Longitude)"
-                   ValueChanged="@((double? l) => OnChangeLongitude(l))"/>
+               <NumberInput Label="Longitud" @bind-Value="@Value.Longitude" />
            </div>
             <div class="col">
-               <NumberInput
-                   Label="Longitud"
-                   Value="@Value.Latitude"
-                   ValueExpression="@(() => Value.Latitude)"
-                   ValueChanged="@((double? l) => OnChangeLatitude(l))"/>
+               <NumberInput Label="Longitud" @bind-Value="@Value.Latitude" />
             </div>
         </div>
         <div class="text-center">
             @if (!_saveButtonEnabled)
             {
-                <button disabled class="btn btn-secondary">Descartar</button>
+                <button disabled class="btn btn-outline-secondary">Descartar</button>
                 <button disabled type="submit" class="btn btn-primary">Guardar</button>
             }
             else
             {
-                <button @onclick:preventDefault
-                    @onclick="@Discard" class="btn btn-secondary">Descartar</button>
+                <button role="button" @onclick:preventDefault @onclick="@Discard" class="btn btn-outline-secondary">Descartar</button>
                 <button type="submit" class="btn btn-primary">Guardar</button>
             }
         </div>
