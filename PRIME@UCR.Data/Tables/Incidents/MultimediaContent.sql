@@ -5,9 +5,5 @@
 	[Archivo] varchar(500) NOT NULL,
 	[Descripcion] varchar(2000),
 	[Fecha_Hora] datetime NOT NULL,
-	[Tipo] varchar(100) NOT NULL,
-	[AccionId] int,
-	[CitaAccionId] int,
-	foreign key (AccionId, CitaAccionId)
-		references Accion(Id, CitaId)
+	[Tipo] varchar(100) NOT NULL
 )

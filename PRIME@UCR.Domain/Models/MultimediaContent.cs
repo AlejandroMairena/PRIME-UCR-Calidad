@@ -18,9 +18,5 @@ namespace PRIME_UCR.Domain.Models
 
         public string Tipo { get; set; }
 
-        public int AccionId { get; set; }
-        public int CitaAccionId { get; set; }
-
-        public Accion Accion { get; set; }
     }
 }

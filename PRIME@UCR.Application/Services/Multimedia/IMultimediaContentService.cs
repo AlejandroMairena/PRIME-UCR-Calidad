@@ -12,9 +12,9 @@ namespace PRIME_UCR.Application.Services.Multimedia
 
     public interface IMultimediaContentService {
 
-        Task AddFileAsync(MultimediaContent mcontent);
-        Task<MultimediaContent> GetByID(int id);
+        Task<MultimediaContent> AddMultimediaContent(MultimediaContent mcontent);
+        Task<MultimediaContent> GetById(int id);
 
-        Task<List<MultimediaContent>> GetActionMultimediaContent(int citaId, int accionId);
+        Task<Accion> AddMultContToAction(int citaId, string nombreAccion, int mcId);
     }
 }

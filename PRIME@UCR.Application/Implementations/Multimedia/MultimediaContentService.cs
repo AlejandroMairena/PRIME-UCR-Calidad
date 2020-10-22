@@ -8,36 +8,41 @@ using System.Threading.Tasks;
 using PRIME_UCR.Application.Repositories.Multimedia;
 using PRIME_UCR.Application.Services.Multimedia;
 using System.Linq;
+using PRIME_UCR.Application.Repositories.Appointments;
 
 namespace PRIME_UCR.Application.Implementations.Multimedia
 {
     public class MultimediaContentService : IMultimediaContentService
     {
         //public IFileListEntry file;
-        private readonly IMultimediaContentRepository repository; 
+        private readonly IMultimediaContentRepository mcRepository;
+        private readonly IActionRepository actionRepository;
 
-        public MultimediaContentService(IMultimediaContentRepository repository ) {
-            this.repository = repository;
-            
+        public MultimediaContentService(IMultimediaContentRepository mcRepository, IActionRepository actionRepository) {
+            this.mcRepository = mcRepository;
+            this.actionRepository = actionRepository;
         }
 
-        public async Task AddFileAsync(MultimediaContent mcontent) {
-
-            await repository.InsertAsync(mcontent);
-        }
-
-        public MultimediaContent FillMultimediaContent(string patch) {
-            MultimediaContent multimedia_content = new MultimediaContent();
-            return multimedia_content; 
-        }
-
-        public async Task<MultimediaContent> GetByID(int id)
+        public async Task<Accion> AddMultContToAction(int citaId, string nombreAccion, int mcId)
         {
-            return await repository.GetByKeyAsync(id);
+            Accion accion = new Accion
+            {
+                CitaId = citaId,
+                NombreAccion = nombreAccion,
+                MultContId = mcId
+            };
+            accion = await actionRepository.InsertAsync(accion);
+            return accion;
         }
-        public async Task<List<MultimediaContent>> GetActionMultimediaContent(int citaId, int accionId)
+
+        public async Task<MultimediaContent> AddMultimediaContent(MultimediaContent mcontent) {
+
+            return await mcRepository.InsertAsync(mcontent);
+        }
+        public async Task<MultimediaContent> GetById(int id)
         {
-            return (await repository.GetByConditionAsync(mc => mc.CitaAccionId == citaId && mc.AccionId == accionId)).ToList();
+            return await mcRepository.GetByKeyAsync(id);
         }
+       
     }
 }

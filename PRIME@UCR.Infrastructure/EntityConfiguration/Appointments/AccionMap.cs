@@ -11,7 +11,8 @@ namespace PRIME_UCR.Infrastructure.EntityConfiguration.Multimedia
     {
         void IEntityTypeConfiguration<Accion>.Configure(EntityTypeBuilder<Accion> builder)
         {
-            builder.HasKey("Id", "CitaId");
+            builder
+                .HasKey("Id", "CitaId", "MultContId");
 
             builder
                 .HasOne(a => a.Cita)
@@ -22,6 +23,11 @@ namespace PRIME_UCR.Infrastructure.EntityConfiguration.Multimedia
                 .HasOne(a => a.TipoAccion)
                 .WithMany()
                 .HasForeignKey(a => a.NombreAccion);
+
+            builder
+                .HasOne(a => a.MultimediaContent)
+                .WithMany()
+                .HasForeignKey(a => a.MultContId);
         }
     }
 }

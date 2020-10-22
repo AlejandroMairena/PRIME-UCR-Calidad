@@ -15,11 +15,6 @@ namespace PRIME_UCR.Infrastructure.EntityConfiguration.Multimedia
             builder
                 .HasKey("Id");
 
-            builder
-                .HasOne(cm => cm.Accion)
-                .WithMany(a => a.MultimediaContent)
-                .HasForeignKey("AccionId", "CitaAccionId");
-
         }
     }
 }

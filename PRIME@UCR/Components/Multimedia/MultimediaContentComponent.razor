@@ -26,12 +26,12 @@
         <div class="m-menu-div">
             <BlazorInputFile.InputFile OnChange="HandleFileSelected"></BlazorInputFile.InputFile>
             @*<button type="button" class="btn btn-danger m-btn m-btn-rm">Eliminar</button>*@
-            @if (fileNames.Count > 0)
+            @if (MultimediaContent.Count > 0)
             {
                 <hr />
-                @foreach(string name in fileNames)
+                @foreach(var mc in MultimediaContent)
                 {
-                    <p>@name</p>
+                    <p>@mc.Nombre</p>
                 }
             }
         </div>
@@ -44,12 +44,9 @@
     [Parameter]
     public RenderFragment ChildContent { get; set; }
     [Parameter]
-    public int CitaId { get; set; }
+    public List<MultimediaContent> MultimediaContent { get; set; }
     [Parameter]
-    public int AccionId { get; set; }
-
-    public List<string> fileNames;
-    public List<MultimediaContent> elementContent;
+    public EventCallback<MultimediaContent> OnFileUpload { get; set; }
 
     bool open = false;
     string divDDClass = "dropdown";
@@ -57,12 +54,10 @@
 
     protected override void OnInitialized()
     {
-        fileNames = new List<string>();
     }
 
     protected override async Task OnInitializedAsync()
     {
-        elementContent = await multimedia_content_service.GetActionMultimediaContent(CitaId, AccionId);
     }
 
     public void Open()
@@ -75,7 +70,7 @@
 
     IFileListEntry file;
 
-    void HandleFileSelected(IFileListEntry[] files)
+    async Task HandleFileSelected(IFileListEntry[] files)
     {
         file = files.FirstOrDefault();
         string filePath = Path.Combine(file_service.FilePath, file.Name);
@@ -88,35 +83,12 @@
             Archivo = pathEncryptedString,
             Descripcion = "",
             Fecha_Hora = DateTime.Now,
-            Tipo = file.Type,
-            CitaAccionId = CitaId,
-            AccionId = AccionId,
+            Tipo = file.Type
         };
-        multimedia_content_service.AddFileAsync(mcontent);
-        file_service.StoreFile(file.Name, file.Data);
+        await multimedia_content_service.AddMultimediaContent(mcontent);
+        await OnFileUpload.InvokeAsync(mcontent);
+        await file_service.StoreFile(file.Name, file.Data);
         //encrypt_service.EncryptFile(file_service.FilePath,file.Name);
-        fileNames.Add(file.Name);
-    }
-
-    async Task OpenFile(IFileListEntry[] files)
-    {
-        file = files.FirstOrDefault();
-        if (file != null)
-        {
-            await UploadAsync(file);
-
-        }
-    }
-
-    async Task UploadAsync(IFileListEntry fileEntry)
-    {
-        var path = Path.Combine(_environment.ContentRootPath, "Upload", fileEntry.Name);
-        var ms = new MemoryStream();
-        await fileEntry.Data.CopyToAsync(ms);
-        using (FileStream file = new FileStream(path, FileMode.Create, FileAccess.Write))
-        {
-            ms.WriteTo(file);
-        }
     }
 
 }
