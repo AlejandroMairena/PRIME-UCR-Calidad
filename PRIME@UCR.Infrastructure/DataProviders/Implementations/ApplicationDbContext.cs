@@ -50,6 +50,7 @@ namespace PRIME_UCR.Infrastructure.DataProviders.Implementations
         public DbSet<Permiso> Permissions { get; set; }
         public DbSet<Persona> People { get; set; }
         public DbSet<Expediente> MedicalRecords { get; set; }
+        public DbSet<Cita> Appointments { get; set; }
         public DbSet<Pertenece> BelongsTo { get; set; }
         public DbSet<TienePerfil> HasProfile { get; set; }
         public DbSet<Permite> HasPermissionOf { get; set; }

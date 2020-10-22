@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using PRIME_UCR.Application.Implementations.Multimedia;
 using PRIME_UCR.Application.Repositories;
+using PRIME_UCR.Application.Repositories.Appointments;
 using PRIME_UCR.Application.Repositories.Incidents;
 using PRIME_UCR.Application.Repositories.MedicalRecords;
 using PRIME_UCR.Application.Repositories.Multimedia;
@@ -9,6 +10,7 @@ using PRIME_UCR.Application.Services.Multimedia;
 using PRIME_UCR.Infrastructure.DataProviders;
 using PRIME_UCR.Infrastructure.DataProviders.Implementations;
 using PRIME_UCR.Infrastructure.Repositories.Sql;
+using PRIME_UCR.Infrastructure.Repositories.Sql.Appointments;
 using PRIME_UCR.Infrastructure.Repositories.Sql.Incidents;
 using PRIME_UCR.Infrastructure.Repositories.Sql.MedicalRecords;
 using PRIME_UCR.Infrastructure.Repositories.Sql.Multimedia;
@@ -27,6 +29,8 @@ namespace PRIME_UCR.Infrastructure
             services.AddTransient<ICheckListRepository, SqlCheckListRepository>();
             // generic repositories
             services.AddTransient(typeof(IGenericRepository<,>), typeof(GenericRepository<,>));
+            // appointments
+            services.AddTransient<IActionTypeRepository, ActionTypeRepository>();
             // incidents repositories
             services.AddTransient<ICountryRepository, CountryRepository>();
             services.AddTransient<IProvinceRepository, ProvinceRepository>();

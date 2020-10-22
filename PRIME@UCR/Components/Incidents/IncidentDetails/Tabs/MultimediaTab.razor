@@ -1,0 +1,8 @@
+﻿<h3>Multimedia de incidente</h3>
+<br/>
+<Loading IsLoading="_actionTypes == null">
+    <EditForm Model="_selectedActionType">
+        <DropDownMenu Data="@_actionTypes" Label="Tipo de multimedia" TextProperty="Nombre"
+                      @bind-Value="_selectedActionType" />
+    </EditForm>
+</Loading>

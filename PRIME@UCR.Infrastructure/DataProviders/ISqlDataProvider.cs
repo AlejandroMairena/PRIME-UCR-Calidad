@@ -30,7 +30,6 @@ namespace PRIME_UCR.Infrastructure.DataProviders
         DbSet<EstadoIncidente> IncidentStates { get; set; }
         DbSet<Incidente> Incidents { get; set; }
         DbSet<Expediente> MedicalRecords { get; set; }
-
         DbSet<Usuario> Usuarios {get; set;}
         DbSet<Persona> People { get; set; }
         DbSet<Administrador> Adminstrators { get; set; }
@@ -47,7 +46,6 @@ namespace PRIME_UCR.Infrastructure.DataProviders
         DbSet<Pertenece> BelongsTo { get; set; }
         DbSet<TienePerfil> HasProfile { get; set; }
         DbSet<Permite> HasPermissionOf { get; set; }
-
         DbSet<MultimediaContent> Multimedia_Contents { get; set; }
         DbSet<T> Set<T>() where T : class;
         Task<int> SaveChangesAsync();     
