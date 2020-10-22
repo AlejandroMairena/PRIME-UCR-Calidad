@@ -15,7 +15,7 @@
     }
     else if (Active == DetailsTab.Patient)
     {
-        <PatientTab/>
+        <PatientTab Expediente="@Incident.Expediente" OnSave="@SavePatient" />
     }
     else
     {

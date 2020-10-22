@@ -45,6 +45,11 @@ namespace PRIME_UCR.Pages.Incidents
                             ? new Tuple<DetailsTab, string>(DetailsTab.Destination, "warning")
                             : new Tuple<DetailsTab, string>(DetailsTab.Destination, ""));
                         break;
+                    case DetailsTab.Patient:
+                        _tabs.Add(_incidentModel.Expediente == null
+                            ? new Tuple<DetailsTab, string>(DetailsTab.Patient, "warning")
+                            : new Tuple<DetailsTab, string>(DetailsTab.Patient, ""));
+                        break;
                 }
             }
         }

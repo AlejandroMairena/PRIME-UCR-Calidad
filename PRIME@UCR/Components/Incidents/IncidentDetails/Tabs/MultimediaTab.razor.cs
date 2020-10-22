@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Components;
+using PRIME_UCR.Application.Services.Appointments;
+using PRIME_UCR.Domain.Models.Appointments;
 
 namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
 {
@@ -15,7 +18,9 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
 
         protected override async Task OnInitializedAsync()
         {
-            _actionTypes = await AppointmentService.GetActionTypesAsync();
+            _actionTypes =
+                (await AppointmentService.GetActionTypesAsync())
+                .ToList();
         }
     }
 }

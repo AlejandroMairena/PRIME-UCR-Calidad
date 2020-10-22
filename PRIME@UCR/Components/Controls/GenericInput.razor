@@ -9,6 +9,7 @@
     <input class="@($"form-control {ValidationCssClass}")"
            value="@Value"
            type="@_type"
+           disabled="@Disabled"
            @oninput="OnChangeEvent"/>
     <ValidationMessage For="ValueExpression" />
 </div>

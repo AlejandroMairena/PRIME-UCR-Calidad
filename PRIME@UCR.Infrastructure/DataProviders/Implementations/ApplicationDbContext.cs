@@ -10,6 +10,7 @@ using PRIME_UCR.Domain.Models.UserAdministration;
 using PRIME_UCR.Infrastructure.EntityConfiguration.UserAdministration;
 using PRIME_UCR.Infrastructure.EntityConfiguration.MedicalRecords;
 using PRIME_UCR.Domain.Models.Appointments;
+using PRIME_UCR.Domain.Models.MedicalRecords;
 using PRIME_UCR.Infrastructure.EntityConfiguration.Appointments;
 
 namespace PRIME_UCR.Infrastructure.DataProviders.Implementations
@@ -48,10 +49,11 @@ namespace PRIME_UCR.Infrastructure.DataProviders.Implementations
         public DbSet<Perfil> Profiles { get; set; }
         public DbSet<Permiso> Permissions { get; set; }
         public DbSet<Persona> People { get; set; }
+        public DbSet<Expediente> MedicalRecords { get; set; }
+        public DbSet<Cita> Appointments { get; set; }
         public DbSet<Pertenece> BelongsTo { get; set; }
         public DbSet<TienePerfil> HasProfile { get; set; }
         public DbSet<Permite> HasPermissionOf { get; set; }
-        public DbSet<Cita> Appointments { get; set; }
 
         public ApplicationDbContext(DbContextOptions options) : base(options)
         {
