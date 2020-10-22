@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using PRIME_UCR.Application.Dtos;
 using PRIME_UCR.Application.Dtos.Incidents;
+using PRIME_UCR.Application.DTOs.Incidents;
 using PRIME_UCR.Domain.Models;
 
 namespace PRIME_UCR.Application.Services.Incidents
@@ -14,5 +15,7 @@ namespace PRIME_UCR.Application.Services.Incidents
         Task<IncidentDetailsModel> GetIncidentDetailsAsync(string code);
         Task<IncidentDetailsModel> UpdateIncidentDetails(IncidentDetailsModel model);
         Task<IEnumerable<Incidente>> GetAllAsync();
+
+        Task<IEnumerable<IncidentListModel>> GetIncidentListModelsAsync();
     }
 }

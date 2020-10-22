@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
+using PRIME_UCR.Application.DTOs.Incidents;
 using PRIME_UCR.Application.Repositories.Incidents;
 using PRIME_UCR.Domain.Models;
 using PRIME_UCR.Infrastructure.DataProviders;
@@ -52,6 +53,53 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Incidents
                 .Include(i => i.EstadoIncidentes)
                 .AsNoTracking()
                 .ToListAsync();
+        }
+
+        public async Task<IEnumerable<IncidentListModel>> GetIncidentListModelsAsync()
+        {
+            return await Task.Run(() =>
+            {
+
+                var destinations =
+                    from i in _db.Incidents
+                    join u in _db.MedicalCenterLocations on i.IdDestino equals u.Id
+                    join mc in _db.MedicalCenters on u.CentroMedicoId equals mc.Id
+                    select mc;
+
+                var incidentListModels = _db.Incidents
+                    .Include(i => i.Origen)
+                    .Include(i => i.EstadoIncidentes)
+                    .Select(new Func<Incidente, IncidentListModel>(i =>
+                    {
+                        var estado = i.EstadoIncidentes.FirstOrDefault(e => e.Activo == true);
+                        var estadoString = estado == null ? "" : estado.NombreEstado;
+                        return new IncidentListModel
+                        {
+                            Codigo = i.Codigo,
+                            FechaHoraRegistro = i.FechaHoraRegistro,
+                            Estado = estadoString,
+                            Modalidad = i.TipoModalidad,
+                            Origen = i.Origen,
+                            IdDestino = i.IdDestino
+                        };
+                    }));
+
+                return
+                    from i in incidentListModels
+                    join add in destinations on i.IdDestino equals add.Id
+                    into MCs
+                    from mc in MCs.DefaultIfEmpty()
+                    select new IncidentListModel
+                    {
+                        Codigo = i.Codigo,
+                        FechaHoraRegistro = i.FechaHoraRegistro,
+                        Estado = i.Estado,
+                        Modalidad = i.Modalidad,
+                        Origen = i.Origen,
+                        IdDestino = i.IdDestino,
+                        Destino = mc
+                    };
+            }); 
         }
     }
 }

@@ -7,6 +7,7 @@ using MatBlazor;
 using Microsoft.AspNetCore.Components;
 using Microsoft.EntityFrameworkCore;
 using PRIME_UCR.Application.Dtos.Incidents;
+using PRIME_UCR.Application.DTOs.Incidents;
 using PRIME_UCR.Application.Implementations.Incidents;
 using PRIME_UCR.Application.Services.Incidents;
 using PRIME_UCR.Components.Incidents.IncidentDetails.Tabs;
@@ -22,15 +23,15 @@ namespace PRIME_UCR.Pages.Incidents
         [Inject]
         private NavigationManager NavManager { get; set; }
 
-        private ITable<Incidente> Table;
+        private ITable<IncidentListModel> Table;
 
-        private List<Incidente> incidentsList;
+        private List<IncidentListModel> incidentsList;
 
         [Inject]
         private IIncidentService IncidentService { get; set; }
         protected override async Task OnInitializedAsync()
         {
-            incidentsList = (await IncidentService.GetAllAsync()).ToList();
+            incidentsList = (await IncidentService.GetIncidentListModelsAsync()).ToList();
 
         }
 
