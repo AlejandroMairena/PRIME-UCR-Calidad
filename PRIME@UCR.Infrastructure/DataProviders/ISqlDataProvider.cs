@@ -45,7 +45,7 @@ namespace PRIME_UCR.Infrastructure.DataProviders
         DbSet<Pertenece> BelongsTo { get; set; }
         DbSet<TienePerfil> HasProfile { get; set; }
         DbSet<Permite> HasPermissionOf { get; set; }
-
+        DbSet<Cita> Appointments { get; set; }
         DbSet<MultimediaContent> Multimedia_Contents { get; set; }
         DbSet<T> Set<T>() where T : class;
         Task<int> SaveChangesAsync();     
