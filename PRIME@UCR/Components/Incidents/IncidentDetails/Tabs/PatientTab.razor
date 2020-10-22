@@ -7,13 +7,13 @@
 
     <StatusMessage Message="Este valor está pendiente para finalizar la creación del incidente." Class="warning" />
 }
-<EditForm Model="_model" OnValidSubmit="Save">
-    <FluentValidationValidator/>
-        <TextBox Label="Cédula del paciente"
-                 Value="@_model.CedPaciente"
-                 ValueExpression="() => _model.CedPaciente"
-                 ValueChanged="(string a) => OnIDChange(a)" />
-
+<EditForm Model="_model" OnValidSubmit="AssignRecord">
+    <FluentValidationValidator />
+    <TextBox Label="Cédula del paciente"
+             @bind-Value="@_model.CedPaciente" />
+    <div class="text-center">
+            <button class="btn btn-primary">Guardar</button>
+    </div>
 </EditForm>
 
 @code {

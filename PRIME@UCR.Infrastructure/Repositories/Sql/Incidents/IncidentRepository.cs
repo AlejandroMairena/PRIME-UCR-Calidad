@@ -35,7 +35,9 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Incidents
                     
                     cmd.CommandText =
                         $"EXECUTE dbo.InsertarNuevoIncidente NULL, NULL, {model.CedulaAdmin}, NULL, NULL, NULL, NULL, '{model.TipoModalidad}', '{new SqlDateTime(DateTime.Now).ToSqlString()}', '{new SqlDateTime(estimatedTime).ToSqlString()}'";
-              
+
+     
+                    Console.WriteLine(new SqlDateTime(DateTime.Now).ToSqlString());
                     model.Codigo = cmd.ExecuteScalar() // returns a string
                         .ToString();
                 }

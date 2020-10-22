@@ -20,20 +20,15 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
 
         private PatientModel _model = new PatientModel();
 
-        private void OnIDChange(string Id)
-        {
-            _model.CedPaciente = Id; 
-        }
-
-        private async Task Save()
-        {
-            await OnSave.InvokeAsync(_model);
-        }
 
         protected override void OnInitialized()
         {
            _model.Expediente = Expediente;
-         }
+        }
 
+        private async Task AssignRecord()
+        {
+            Console.WriteLine(_model.CedPaciente);
+        }
     }
 }
