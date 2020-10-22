@@ -2,9 +2,6 @@
 @inject Blazored.SessionStorage.ISessionStorageService sessionStorage
 
 <div class="container mt-5 text-white">
-    <div class="text-left @invalidUser">
-        <p id="emailHelp" class="text-danger">Ingresó su usuario o contraseña incorrectamente. Intente de nuevo.</p>
-    </div>
     <EditForm Model="@logInInfo" OnValidSubmit="@ValidateUser">
         <DataAnnotationsValidator />
         <div class="form-group">
@@ -17,20 +14,26 @@
             <InputText @bind-Value="logInInfo.Contraseña" type="password" class="form-control" />
             <ValidationMessage For="@(()=> logInInfo.Contraseña)" />
         </div>
-        <a class="text-white">Cambiar contraseña</a> <!--Falta agregar referencia para cambiar clave-->
+        <a class="text-white" href="">Cambiar contraseña</a> <!--Falta agregar referencia para cambiar clave-->
         <br />
         <ValidationSummary />
-        @if (isBusy)
-        {
-            <button class="btn btn-light mt-2" type="button" disabled>
-                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                Cargando...
-            </button>
-        }
-        else
-        {
-            <button type="submit" class="btn btn-light mt-2">Ingresar</button>
-        }
+        <div class="text-left @invalidUser">
+            <p id="emailHelp" class="text-danger">Ingresó su usuario o contraseña incorrectamente. Intente de nuevo.</p>
+        </div>
+        <div class="text-center">
+            @if (isBusy)
+            {
+                <button class="btn btn-light mt-2" type="button">
+                    <span class="spinner-border spinner-border-sm" style="background-color:white" role="status" aria-hidden="true"></span>
+                    Validando información
+                </button>
+            }
+            else
+            {
+                <button type="submit" style="width:13em" class="btn btn-light mt-2">Ingresar</button>
+            }
+        </div>
+
     </EditForm>
     <div class="text-left">
         <small id="emailHelp" class="text-white">No compartiremos su correo electrónico con nadie.</small>
