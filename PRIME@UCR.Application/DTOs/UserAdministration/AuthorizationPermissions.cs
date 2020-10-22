@@ -32,24 +32,29 @@ namespace PRIME_UCR.Application.DTOs.UserAdministration
     {
         CanDoAnything = 1,
         CanManageUsers,
-        CanAccessEverythingExceptMedicalData,
-        CanAccessIncidentsFromAnMedicalRecordInReadMode,
-        CanAccessIncidentsOfHisPatients,
-        CanAssignAllStepsOfAIncidents,
+
+        CanManageIncidentsAssignedToHim,
+        CanManageCheckListOfAnIncidentsAssignedToHim,
+        CanSeeMedicalRecordsOfPatientsAssignedToHim,
         CanAssignPostCreationStepsOfIncidentsAssignedToHim,
+        CanSeeMedicalRecordsInReadMode,
+
+        CanManageMedicalRecordsOfHisPatients,
+        CanAccessIncidentsOfHisPatients,
         CanAttachMultimediaInChecklistOfHisPatients,
+        CanSeeMedicalRecordsOfHisPatients,
+
+        CanManageAllMedicalRecords,
+        CanAccessIncidentsFromAnMedicalRecordInReadMode,
+        CanManageDashboard,
+
         CanCreateCheckList,
         CanManageAllIncidents,
-        CanManageAllMedicalRecords,
-        CanManageCheckListOfAnIncidentsAssignedToHim,
-        CanManageDashboard,
-        CanManageIncidentsAssignedToHim,
-        CanManageMedicalRecordsOfHisPatients,
-        CanOnlyRegisterAnIncident,
-        CanSeeAllInfoOfAnIncidentInReadMode,
+        CanAssignAllStepsOfAIncidents,
         CanSeeMedicalRecordsFromIncidentsInReadMode,
-        CanSeeMedicalRecordsInReadMode,
-        CanSeeMedicalRecordsOfHisPatients,
-        CanSeeMedicalRecordsOfPatientsAssignedToHim
+
+        CanSeeAllInfoOfAnIncidentExceptMultimedia,
+        CanOnlyRegisterAnIncident,
+        CanAccessEverythingExceptMedicalData
     }
 }

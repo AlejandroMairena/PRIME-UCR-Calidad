@@ -12,30 +12,31 @@ namespace PRIME_UCR.Pages.UserAdministration
     public partial class Profiles
     {
         [Inject]
-        public IProfilesService profilesService { get; set; }
+        public IPermissionsService permissionsService { get; set; }
+
+        [Inject]
+        public IUserService userService { get; set; }
 
         public ProfileModel profile;
 
         protected override async Task OnInitializedAsync()
         {
             profile = new ProfileModel();
-            profile.ProfileName = "Administrador";            
+
+            profile.ProfileName = ""; /*Cambiar una vez que se tenga el drop down de Diosvier*/
+
+            var permissionsList = await permissionsService.GetPermisos();
             profile.CheckedPermissions = new List<bool>();
-            for (int i = 0; i < 22; ++i) 
+            foreach (var permission in permissionsList) 
             {
-                if (i < 2)
-                {
-                    profile.CheckedPermissions.Add(true);
-                }
-                else 
-                {
-                    profile.CheckedPermissions.Add(false);
-                }
+                profile.CheckedPermissions.Add(false);
             }
             profile.CheckedUsers = new List<Tuple<string,bool>>();
-            var profilesList =  await profilesService.GetPerfilesWithDetailsAsync();
-            var user = profilesList[0].UsuariosYPerfiles;
-            profile.CheckedUsers.Add(new Tuple<string, bool>(user[0].IDUsuario, true));
+            var usersList = await userService.GetUsuarios();
+            foreach(var user in usersList)
+            {
+                profile.CheckedUsers.Add(new Tuple<string, bool>(user.Id, false));
+            }
             profile.PermissionsList = new List<Permiso>();
             profile.UserLists = new List<Usuario>();
         }
