@@ -11,5 +11,6 @@ Post-Deployment Script Template
 */
 :r .\PostDeployment\Users_PostDeployment.sql
 :r .\PostDeployment\Identity_PostDeployment.sql
+:r .\PostDeployment\Appointments_PostDeployment.sql
 :r .\PostDeployment\Incidents_PostDeployment.sql
 :r .\PostDeployment\Checklists_PostDeployment.sql

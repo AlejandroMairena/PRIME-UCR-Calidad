@@ -16,6 +16,7 @@ namespace PRIME_UCR.Components.Incidents.LocationPickers
     {
         [Inject] public ILocationService LocationService { get; set; }
         [Parameter] public HouseholdModel Value { get; set; }
+        [Parameter] public bool IsFirst { get; set; }
         [Parameter] public EventCallback<HouseholdModel> OnSave { get; set; }
         [Parameter] public EventCallback OnDiscard { get; set; }
 
@@ -24,7 +25,6 @@ namespace PRIME_UCR.Components.Incidents.LocationPickers
         private List<Distrito> _districts;
         private bool _saveButtonEnabled = false;
         private EditContext _context;
-        private HouseholdModel _initialValue;
         
         // Check if everything has been loaded
         bool IsLoading()
@@ -84,26 +84,6 @@ namespace PRIME_UCR.Components.Incidents.LocationPickers
                 Value.District = null;
         }
 
-        void OnChangeDistrict(Distrito district)
-        {
-            Value.District = district;
-        }
-
-        void OnChangeAddress(string address)
-        {
-            Value.Address = address;
-        }
-
-        void OnChangeLongitude(double? newLongitude)
-        {
-            Value.Longitude = newLongitude;
-        }
-        
-        void OnChangeLatitude(double? newLatitude)
-        {
-            Value.Latitude = newLatitude;
-        }
-
         public async Task LoadExistingValues()
         {
             await LoadProvinces(true);
@@ -114,29 +94,27 @@ namespace PRIME_UCR.Components.Incidents.LocationPickers
         private async Task Submit()
         {
             await OnSave.InvokeAsync(Value);
+            _context.OnFieldChanged -= HandleFieldChanged;
+            _context = new EditContext(Value);
+            _context.OnFieldChanged += HandleFieldChanged;
+            _saveButtonEnabled = false;
         }
 
         private async Task Discard()
         {
-            Value = _initialValue.Clone();
+            await OnDiscard.InvokeAsync(null);
             await LoadExistingValues();
-            _context.OnFieldChanged -= HandleFieldChanged;
-            _context = new EditContext(Value);
-            _context.OnFieldChanged += HandleFieldChanged;
-            _saveButtonEnabled = _context.IsModified();
-        }
-
-        protected override void OnParametersSet()
-        {
-            base.OnParametersSet();
-            _initialValue = Value.Clone();
-            if (Value == null)
-                throw new ArgumentNullException("Value", "Value argument cannot be null.");
         }
 
         protected override async Task OnInitializedAsync()
         {
+            if (IsFirst)
+                Value = new HouseholdModel();
+            
             await LoadExistingValues();
+            
+            _saveButtonEnabled = IsFirst;
+                
             _context = new EditContext(Value);
             _context.OnFieldChanged += HandleFieldChanged;
         }

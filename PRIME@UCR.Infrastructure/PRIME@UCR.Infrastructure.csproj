@@ -7,6 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="DataProviders\Implementations\EntityConfiguration\**" />
+    <EmbeddedResource Remove="DataProviders\Implementations\EntityConfiguration\**" />
+    <None Remove="DataProviders\Implementations\EntityConfiguration\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.0-rc.1.20451.13" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="5.0.0-rc.1.20451.13" />
   </ItemGroup>
@@ -14,10 +20,6 @@
   <ItemGroup>
     <ProjectReference Include="..\PRIME@UCR.Application\PRIME@UCR.Application.csproj" />
     <ProjectReference Include="..\PRIME@UCR.Domain\PRIME@UCR.Domain.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="DataProviders\Implementations\EntityConfiguration\" />
   </ItemGroup>
 
 </Project>

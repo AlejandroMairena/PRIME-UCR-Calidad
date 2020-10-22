@@ -22,6 +22,7 @@ namespace PRIME_UCR.Infrastructure.DataProviders
         DbSet<Internacional> InternationalLocations { get; set; }
         DbSet<CentroMedico> MedicalCenters { get; set; }
         DbSet<CentroUbicacion> MedicalCenterLocations { get; set; }
+        DbSet<TrabajaEn> WorksOn { get; set; }
         DbSet<Modalidad> Modes { get; set; }
         DbSet<UnidadDeTransporte> TransportUnits { get; set; }
         DbSet<Estado> States { get; set; }
@@ -44,7 +45,7 @@ namespace PRIME_UCR.Infrastructure.DataProviders
         DbSet<Pertenece> BelongsTo { get; set; }
         DbSet<TienePerfil> HasProfile { get; set; }
         DbSet<Permite> HasPermissionOf { get; set; }
-
+        DbSet<Cita> Appointments { get; set; }
         DbSet<MultimediaContent> Multimedia_Contents { get; set; }
         DbSet<T> Set<T>() where T : class;
         Task<int> SaveChangesAsync();     

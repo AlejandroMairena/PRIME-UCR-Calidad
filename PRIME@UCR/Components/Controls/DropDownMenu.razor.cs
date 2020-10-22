@@ -12,15 +12,11 @@ namespace PRIME_UCR.Components.Controls
 {
     public partial class DropDownMenu<T>
     {
-        [Parameter]
-        public List<T> Data { get; set; }
-        
+        [Parameter] public List<T> Data { get; set; }
         [Parameter] public string TextProperty { get; set; }
-
+        [Parameter] public Func<T, string> TextExpression { get; set; }
         [Parameter] public string Label { get; set; }
-        
         [Parameter] public string DefaultText { get; set; }
-
         [Parameter] public bool UseValidation { get; set; } = true;
 
         private int _index = -1;
@@ -59,12 +55,22 @@ namespace PRIME_UCR.Components.Controls
 
         string GetText(T value)
         {
-            if (String.IsNullOrEmpty(TextProperty))
+            if (TextExpression != null && TextProperty != null)
             {
-                return value.ToString();
+                throw new InvalidOperationException("Only select one option of: TextProperty or TextExpression ");
+            }
+            if (TextExpression != null)
+            {
+                return TextExpression(value);
+            }
+
+            if (TextProperty != null)
+            {
+                return (string) typeof(T).GetProperty(TextProperty)?.GetValue(value);
             }
             
-            return (string) typeof(T).GetProperty(TextProperty)?.GetValue(value);
+            // default value
+            return value.ToString();
         }
 
         protected override void OnParametersSet()

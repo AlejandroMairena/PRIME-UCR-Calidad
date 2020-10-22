@@ -16,17 +16,27 @@
                   ValueExpression="() => _selectedOriginType"
                   UseValidation="false"/>
 </EditForm>
-@if (_selectedOriginType.Item1 == OriginType.Household)
-{
-    <HouseholdPicker Value="@_householdModel"
-                     OnSave="OnHouseholdSave"
-                     OnDiscard="LoadExistingValues"/>
-}
-else if (_selectedOriginType.Item1 == OriginType.International)
-{
-    <InternationalPicker Value="@Origin" ValueChanged="@OnOriginChange" />
-}
-else //hospital
-{ 
-    <MedicalCenterPicker Value="@Origin" ValueChanged="@OnOriginChange"/>
-}
+<Loading IsLoading="@_isLoading">
+    @if (_selectedOriginType.Item1 == OriginType.Household)
+    {
+        <HouseholdPicker Value="@_householdModel"
+                         OnSave="OnHouseholdSave"
+                         OnDiscard="LoadExistingValues"
+                         IsFirst="@(!(Origin is Domicilio))"/>
+    }
+    else if (_selectedOriginType.Item1 == OriginType.International)
+    {
+        <InternationalPicker Value="_internationalModel"
+                OnSave="@OnInternationalSave"
+                OnDiscard="LoadExistingValues"
+                IsFirst="@(!(Origin is Internacional))" />
+    }
+    else //hospital
+    { 
+        <MedicalCenterPicker Value="_medicalCenterModel"
+                             IsOrigin="@true"
+                             OnSave="@OnMedicalCenterSave"
+                             OnDiscard="LoadExistingValues"
+                             IsFirst="@(!(Origin is CentroUbicacion))"/>
+    }
+</Loading>

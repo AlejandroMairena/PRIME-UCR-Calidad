@@ -7,20 +7,10 @@
 {
     <StatusMessage Message="Este valor está pendiente para finalizar la creación del incidente." Class="warning"/>
 }
-<EditForm Model="_model" OnValidSubmit="Save">
-    <DataAnnotationsValidator/>
-    <ValidationSummary/>
-    <MedicalCenterPicker Value="@Destination" ValueChanged="@OnDestinationChange"/>
-    <div class="text-center">
-        @if (Destination != null && Destination.Equals(_model.Destination))
-        {
-            <button disabled type="submit" class="btn btn-primary">Guardar</button>
-            <button disabled class="btn btn-outline-secondary">Cancelar</button>
-        }
-        else
-        {
-            <button type="submit" class="btn btn-primary">Guardar</button>
-            <button type="reset" class="btn btn-outline-secondary ">Cancelar</button>
-        }
-    </div>
-</EditForm>
+<Loading IsLoading="_isLoading">
+    <MedicalCenterPicker Value="_medicalCenterModel"
+                         IsOrigin="@false"
+                         OnSave="@OnMedicalCenterSave"
+                         OnDiscard="LoadExistingValues"
+                         IsFirst="@(!(Destination is CentroUbicacion))"/>
+</Loading>

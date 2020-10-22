@@ -10,6 +10,10 @@ using PRIME_UCR.Application.Repositories.Incidents;
 using PRIME_UCR.Application.Services.Incidents;
 using PRIME_UCR.Components.Controls;
 using PRIME_UCR.Domain.Models;
+using PRIME_UCR.Domain.Models.UserAdministration;
+using PRIME_UCR.Application.Services.UserAdministration;
+using System.Runtime.CompilerServices;
+using Microsoft.AspNetCore.Components.Authorization;
 
 namespace PRIME_UCR.Pages.Incidents
 {
@@ -17,10 +21,16 @@ namespace PRIME_UCR.Pages.Incidents
     {
         [Inject]
         public IIncidentService IncidentService { get; set; }
-        
+
         [Inject]
         private NavigationManager NavManager { get; set; }
-        
+
+        [Inject]
+        public IUserService userService { get; set; }
+
+        [CascadingParameter]
+        private Task<AuthenticationState> authenticationState { get; set; }
+
         private IncidentModel _model = new IncidentModel();
         private List<Modalidad> _modes;
         private EditContext _context;
@@ -37,7 +47,9 @@ namespace PRIME_UCR.Pages.Incidents
 
         async Task Create()
         {
-            var result = await IncidentService.CreateIncident(_model);
+            var emailUser = (await authenticationState).User.Identity.Name;
+            Persona person = await userService.getPersonWithDetailstAsync(emailUser);
+            var result = await IncidentService.CreateIncidentAsync(_model, person);
             Redirect(result.Codigo);
         }
 
