@@ -22,6 +22,7 @@ namespace PRIME_UCR.Infrastructure.DataProviders
         DbSet<Internacional> InternationalLocations { get; set; }
         DbSet<CentroMedico> MedicalCenters { get; set; }
         DbSet<CentroUbicacion> MedicalCenterLocations { get; set; }
+        DbSet<TrabajaEn> WorksOn { get; set; }
         DbSet<Modalidad> Modes { get; set; }
         DbSet<UnidadDeTransporte> TransportUnits { get; set; }
         DbSet<Estado> States { get; set; }

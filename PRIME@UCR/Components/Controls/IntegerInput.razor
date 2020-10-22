@@ -1,0 +1,16 @@
+﻿@inherits GenericInput<int?>
+
+<div class="form-group">
+    @if (!String.IsNullOrEmpty(Label))
+    {
+        <label>@Label</label>
+    }
+    <input class="@($"form-control {ValidationCssClass}")"
+           value="@Value"
+           type="@_type"
+           step="@Step"
+           min="@Min"
+           max="@Max"
+           @oninput="OnChangeEvent"/>
+    <ValidationMessage For="ValueExpression" />
+</div>

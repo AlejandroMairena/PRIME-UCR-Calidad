@@ -1,5 +1,6 @@
 ﻿@using PRIME_UCR.Components.Controls
 @using PRIME_UCR.Components.Incidents.LocationPickers
+@using Microsoft.AspNetCore.Connections
 
 <h3> Información sobre el origen </h3>
 <br />
@@ -7,32 +8,35 @@
 {
     <StatusMessage Message="Este valor está pendiente para finalizar la creación del incidente." Class="warning"/>
 }
-<StatusMessage Message="@_errorMessage" Class="danger"/>
-<DropDownMenu Data="@_dropdownValuesOrigin" Label="Tipo de origen" Value="_selectedOriginType" TextProperty="Item2"
-              ValueChanged="@((Tuple<OriginType, string> o) => OnOriginTypeChange(o))" T="Tuple<OriginType, String>" />
-<EditForm Model="_model" OnValidSubmit="@Save">
+<StatusMessage Message="@_statusMessage" Class="success"/>
+<EditForm Model="_selectedOriginType">
+    <DropDownMenu Data="@_dropdownValuesOrigin" Label="Tipo de origen" TextProperty="Item2"
+                  Value="_selectedOriginType"
+                  ValueChanged="@((Tuple<OriginType, string> o) => OnOriginTypeChange(o))"
+                  ValueExpression="() => _selectedOriginType"
+                  UseValidation="false"/>
+</EditForm>
+<Loading IsLoading="@_isLoading">
     @if (_selectedOriginType.Item1 == OriginType.Household)
     {
-        <HouseholdPicker Value="@Origin" ValueChanged="@OnOriginChange"/>
+        <HouseholdPicker Value="@_householdModel"
+                         OnSave="OnHouseholdSave"
+                         OnDiscard="LoadExistingValues"
+                         IsFirst="@(!(Origin is Domicilio))"/>
     }
     else if (_selectedOriginType.Item1 == OriginType.International)
     {
-        <InternationalPicker Value="@Origin" ValueChanged="@OnOriginChange" />
+        <InternationalPicker Value="_internationalModel"
+                OnSave="@OnInternationalSave"
+                OnDiscard="LoadExistingValues"
+                IsFirst="@(!(Origin is Internacional))" />
     }
-    else
+    else //hospital
     { 
-        <MedicalCenterPicker Value="@Origin" ValueChanged="@OnOriginChange"/>
+        <MedicalCenterPicker Value="_medicalCenterModel"
+                             IsOrigin="@true"
+                             OnSave="@OnMedicalCenterSave"
+                             OnDiscard="LoadExistingValues"
+                             IsFirst="@(!(Origin is CentroUbicacion))"/>
     }
-    <div class="text-center">
-        @if (Origin != null && Origin.Equals(_model.Origin))
-        {
-            <button disabled class="btn btn-outline-secondary">Cancelar</button>
-            <button disabled type="submit" class="btn btn-primary">Guardar</button>
-        }
-        else
-        {
-            <button @onclick:preventDefault @onclick="@LoadExistingValues" class="btn btn-outline-secondary ">Cancelar</button>
-            <button type="submit" class="btn btn-primary">Guardar</button>
-        }
-    </div>
-</EditForm>
+</Loading>
