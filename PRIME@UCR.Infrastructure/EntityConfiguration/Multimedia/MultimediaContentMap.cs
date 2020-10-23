@@ -15,6 +15,8 @@ namespace PRIME_UCR.Infrastructure.EntityConfiguration.Multimedia
             builder
                 .HasKey("Id");
 
+            builder.ToTable(nameof(MultimediaContent));
+
         }
     }
 }

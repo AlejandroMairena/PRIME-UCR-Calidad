@@ -75,18 +75,19 @@ namespace PRIME_UCR.Application.Implementations.Incidents
             if (incident != null)
             {
                 var state = await _statesRepository.GetCurrentStateByIncidentId(incident.Codigo);
-                var model = new IncidentDetailsModel(
-                    incident.Codigo,
-                    incident.TipoModalidad,
-                    state.Nombre,
-                    incident.IsCompleted(),
-                    incident.IsModifiable(state),
-                    incident.Cita.FechaHoraCreacion,
-                    incident.Cita.FechaHoraEstimada,
-                    incident.CedulaAdmin
-                );
-                model.Origin = incident.Origen;
-                model.Destination = incident.Destino;
+                var model = new IncidentDetailsModel{
+                    Code = incident.Codigo,
+                    Mode = incident.TipoModalidad,
+                    CurrentState = state.Nombre,
+                    Completed = incident.IsCompleted(),
+                    Modifiable = incident.IsModifiable(state),
+                    RegistrationDate = incident.Cita.FechaHoraCreacion,
+                    EstimatedDateOfTransfer = incident.Cita.FechaHoraEstimada,
+                    AdminId = incident.CedulaAdmin,
+                    Origin = incident.Origen,
+                    Destination = incident.Destino,
+                    AppointmentId = incident.CodigoCita
+                };
                 
                 return model;
             }
@@ -139,18 +140,20 @@ namespace PRIME_UCR.Application.Implementations.Incidents
                 state = incidentState.NombreEstado;
             }
 
-            var outputModel = new IncidentDetailsModel(
-                incident.Codigo,
-                incident.TipoModalidad,
-                state,
-                incident.IsCompleted(),
-                model.Modifiable,
-                incident.Cita.FechaHoraCreacion,
-                incident.Cita.FechaHoraEstimada,
-                incident.CedulaAdmin
-            );
-            outputModel.Origin = incident.Origen;
-            outputModel.Destination = incident.Destino;
+            var outputModel = new IncidentDetailsModel
+            {
+                Code = incident.Codigo,
+                Mode = incident.TipoModalidad,
+                CurrentState = state,
+                Completed = incident.IsCompleted(),
+                Modifiable = model.Modifiable,
+                RegistrationDate = incident.Cita.FechaHoraCreacion,
+                EstimatedDateOfTransfer = incident.Cita.FechaHoraEstimada,
+                AdminId = incident.CedulaAdmin,
+                AppointmentId = incident.CodigoCita,
+                Origin = incident.Origen,
+                Destination = incident.Destino
+            };
             
             return outputModel;
         }

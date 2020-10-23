@@ -12,7 +12,7 @@ namespace PRIME_UCR.Application.Repositories.Appointments
         Task<Accion> InsertAsync(Accion action);
         Task DeleteAsync(int citaId, string nombreAccion, int mcId);
 
-        Task<IEnumerable<Accion>> GetByAppointmentAction(int citaId, string nombreAccion);
+        Task<IEnumerable<MultimediaContent>> GetByAppointmentAction(int citaId, string nombreAccion);
 
     }
 }

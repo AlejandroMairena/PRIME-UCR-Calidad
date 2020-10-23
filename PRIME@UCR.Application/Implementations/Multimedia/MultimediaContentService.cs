@@ -35,6 +35,11 @@ namespace PRIME_UCR.Application.Implementations.Multimedia
             return accion;
         }
 
+        public async Task<IEnumerable<MultimediaContent>> GetByAppointmentAction(int citaId, string nombreAccion)
+        {
+            return await actionRepository.GetByAppointmentAction(citaId, nombreAccion);
+        }
+
         public async Task<MultimediaContent> AddMultimediaContent(MultimediaContent mcontent) {
 
             return await mcRepository.InsertAsync(mcontent);

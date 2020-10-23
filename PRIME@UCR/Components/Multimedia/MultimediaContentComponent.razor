@@ -85,10 +85,10 @@
             Fecha_Hora = DateTime.Now,
             Tipo = file.Type
         };
-        await multimedia_content_service.AddMultimediaContent(mcontent);
-        await OnFileUpload.InvokeAsync(mcontent);
+        mcontent = await multimedia_content_service.AddMultimediaContent(mcontent);
         await file_service.StoreFile(file.Name, file.Data);
         //encrypt_service.EncryptFile(file_service.FilePath,file.Name);
+        await OnFileUpload.InvokeAsync(mcontent);
     }
 
 }

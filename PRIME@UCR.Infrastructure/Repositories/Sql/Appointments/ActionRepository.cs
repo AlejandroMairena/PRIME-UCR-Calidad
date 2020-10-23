@@ -24,21 +24,23 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Appointments
             var existing = await _db.Set<Accion>().FindAsync(citaId, nombreAccion, mcId);
             if (existing != null)
             {
-                _db.Set<Accion>().Remove(existing);
+                _db.Actions.Remove(existing);
             }
             await _db.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<Accion>> GetByAppointmentAction(int citaId, string nombreAccion)
+        public async Task<IEnumerable<MultimediaContent>> GetByAppointmentAction(int citaId, string nombreAccion)
         {
-            return await _db.Set<Accion>()
+            return await _db.Actions
+                .Include(a => a.MultimediaContent)
                 .Where(a => a.CitaId == citaId && a.NombreAccion == nombreAccion)
+                .Select(a => a.MultimediaContent)
                 .ToListAsync();
         }
 
         public async Task<Accion> InsertAsync(Accion action)
         {
-            _db.Set<Accion>().Add(action);
+            _db.Actions.Add(action);
             await _db.SaveChangesAsync();
             return action;
         }

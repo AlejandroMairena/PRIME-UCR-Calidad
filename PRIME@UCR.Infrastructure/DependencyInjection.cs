@@ -45,6 +45,7 @@ namespace PRIME_UCR.Infrastructure
             services.AddTransient<IMedicalRecordRepository, MedicalRecordRepository>();
             // multimedia
             services.AddTransient<IMultimediaContentRepository, MultimediaContentRepository>();
+            services.AddTransient<IActionRepository, ActionRepository>();
             services.AddTransient<IFileService, FileService>();
 
             // user administration repositories
