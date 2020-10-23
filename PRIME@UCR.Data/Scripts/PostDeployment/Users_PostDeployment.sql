@@ -1,4 +1,10 @@
-﻿DELETE FROM Administrador
+﻿DELETE FROM EstadoIncidente
+DELETE FROM Estado
+DELETE FROM Incidente
+DELETE FROM AdministradorCentroDeControl
+DELETE FROM Trabaja_En
+DELETE FROM Centro_Ubicacion
+DELETE FROM Administrador
 DELETE FROM Médico
 DELETE FROM EspecialistaTécnicoMédico
 DELETE FROM GerenteMédico
@@ -70,6 +76,18 @@ VALUES ('12345678'),
        ('90123456'),
        ('01234567'),
        ('11111111'),
+       ('22222222');
+
+INSERT INTO Médico(Cédula)
+VALUES ('56789012'),
+       ('67890123');
+
+INSERT INTO Administrador(Cédula)
+VALUES ('12345678'),
+       ('23456789');
+
+INSERT INTO AdministradorCentroDeControl(Cédula)
+VALUES ('11111111'),
        ('22222222');
 
 INSERT INTO Permiso (IdPermiso, Descripción_Permiso)

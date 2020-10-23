@@ -3,7 +3,6 @@ DELETE FROM Estado
 DELETE FROM Incidente
 DELETE FROM Unidad_De_Transporte
 DELETE FROM Modalidad
-DELETE FROM Centro_Ubicacion
 DELETE FROM Centro_Medico
 DELETE FROM Internacional
 DELETE FROM Domicilio
@@ -235,6 +234,7 @@ INSERT INTO Ubicacion DEFAULT VALUES
 INSERT INTO Ubicacion DEFAULT VALUES
 INSERT INTO Ubicacion DEFAULT VALUES
 INSERT INTO Ubicacion DEFAULT VALUES
+INSERT INTO Ubicacion DEFAULT VALUES
 
 -- Domicilio
 INSERT INTO Domicilio (Id, Direccion, DistritoId, Latitud, Longitud)
@@ -258,11 +258,20 @@ VALUES
     (3, 48, 23, 'Hospital CEACO');
 
 -- Centro_Ubicacion
-INSERT INTO Centro_Ubicacion (Id, IdCentro)
+INSERT INTO Centro_Ubicacion (Id, IdCentro, NumeroCama, CédulaMédico)
 VALUES 
-    (6, 1),
-    (7, 2),
-    (8, 3);
+    (6, 1, 15, '56789012'),
+    (7, 2, 6, '56789012'),
+    (8, 3, 12, '67890123'),
+    (9, 4, 25, '67890123');
+
+-- Trabaja_En
+INSERT INTO Trabaja_En(CédulaMédico, CentroMedicoId)
+VALUES
+    ('56789012', 1),
+    ('56789012', 2),
+    ('67890123', 3),
+    ('67890123', 4);
 
 -- Modalidad 
 INSERT INTO Modalidad (Tipo)
@@ -279,12 +288,12 @@ VALUES
     ('PHP999', 'Disponible', 'Aéreo');
 
 -- Incidente
-INSERT INTO Incidente (Codigo, MatriculaTrans, IdEspecialista, CedulaAdmin,
+INSERT INTO Incidente (MatriculaTrans, IdEspecialista, CedulaAdmin,
     CedulaTecnicoCoordinador, CedulaTecnicoRevisor, CodigoCita, IdOrigen, IdDestino,
-    Modalidad, FechaHoraRegistro, FechaHoraEstimada)
+    Modalidad)
 VALUES
-    ('TERR123', 'BPC087', 123, 111111111, 117222222, 1173333333, 1, 1, NULL, 'Terrestre', GETDATE(), GETDATE()),
-    ('AER123', 'PHP999', 456, 117111111, 117112222, 1171133333, 1, 2, NULL, 'Aéreo', GETDATE(), GETDATE());
+    ('BPC087', 123, '11111111', 117222222, 1173333333, 1, 1, NULL, 'Terrestre'),
+    ('PHP999', 456, '22222222', 117112222, 1171133333, 2, 2, NULL, 'Aéreo');
 
 -- Estado
 INSERT INTO Estado
@@ -305,6 +314,30 @@ VALUES
 -- EstadoIncidente
 INSERT INTO EstadoIncidente
 VALUES
-    ('TERR123', 'En proceso de creación', GETDATE(), 1),
-    ('AER123', 'En proceso de creación', GETDATE(), 1)
+(
+	RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) + 
+	'-' +
+	RIGHT(REPLICATE('0', 2) + CAST(MONTH(GETDATE()) AS varchar(10)), 2) + 
+	'-' +
+	RIGHT(REPLICATE('0', 2) + CAST(DAY(GETDATE()) AS varchar(10)), 2) + 
+	'-' +
+	RIGHT(REPLICATE('0', 4) + '1', 4) + 
+	'-' +
+	'IT' +
+	'-' +
+	'TER', 'En proceso de creación', GETDATE(), 1
+),
+(
+	RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) + 
+	'-' +
+	RIGHT(REPLICATE('0', 2) + CAST(MONTH(GETDATE()) AS varchar(10)), 2) + 
+	'-' +
+	RIGHT(REPLICATE('0', 2) + CAST(DAY(GETDATE()) AS varchar(10)), 2) + 
+	'-' +
+	RIGHT(REPLICATE('0', 4) + '2', 4) + 
+	'-' +
+	'IT' +
+	'-' +
+	'AER', 'En proceso de creación', GETDATE(), 1
+)
 

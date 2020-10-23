@@ -7,7 +7,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectVersion>4.1</ProjectVersion>
     <ProjectGuid>{e1b1ff1f-3177-4ba4-8a19-01127ae40579}</ProjectGuid>
-    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql130DatabaseSchemaProvider</DSP>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql110DatabaseSchemaProvider</DSP>
     <OutputType>Database</OutputType>
     <RootPath>
     </RootPath>
@@ -58,13 +58,18 @@
     <Folder Include="Properties" />
     <Folder Include="Scripts" />
     <Folder Include="Scripts\PostDeployment" />
+    <Folder Include="Tables\" />
     <Folder Include="Tables\Incidents" />
     <Folder Include="Tables\UserEntityCore" />
     <Folder Include="Tables\UserAdministration" />
     <Folder Include="Tables\CheckLists" />
     <Folder Include="Tables\" />
-    <Folder Include="Scripts\StoredProcedures" />
-    <Folder Include="Scripts\StoredProcedures\UserAdministration" />
+    <Folder Include="Triggers" />
+    <Folder Include="StoredProcedures" />
+    <Folder Include="StoredProcedures\Incidents\" />
+    <Folder Include="Tables\Appointments" />
+    <Folder Include="Tables\MedicalRecords" />
+    <Folder Include="StoredProcedures\UserAdministration" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\CheckLists\CheckList.sql" />
@@ -106,16 +111,27 @@
     <Build Include="Tables\UserAdministration\Pertenece.sql" />
     <Build Include="Tables\UserAdministration\TienePerfil.sql" />
     <Build Include="Tables\UserAdministration\Usuario.sql" />
-    <Build Include="Scripts\StoredProcedures\UserAdministration\DeletePermissionFromProfile.sql" />
-    <Build Include="Scripts\StoredProcedures\UserAdministration\InsertPermissionToProfile.sql" />
-    <Build Include="Scripts\StoredProcedures\UserAdministration\InsertUserToProfile.sql" />
-    <Build Include="Scripts\StoredProcedures\UserAdministration\DeleteUserFromProfile.sql" />
+    <Build Include="Tables\Incidents\Trabaja_En.sql" />
+    <Build Include="Triggers\InsertarIncidente.sql" />
+    <Build Include="StoredProcedures\Incidents\InsertarNuevoIncidente.sql" />
+    <Build Include="Tables\Appointments\Cita.sql" />
+    <Build Include="Tables\Appointments\Metricas.sql" />
+    <Build Include="Tables\Appointments\MetricasCitaMedica.sql" />
+    <Build Include="Tables\Appointments\MetricasIncidentes.sql" />
+    <Build Include="Tables\Appointments\Accion.sql" />
+    <Build Include="Tables\Appointments\TipoAccion.sql" />
+    <Build Include="Tables\MedicalRecords\Expediente.sql" />
+    <Build Include="StoredProcedures\UserAdministration\DeletePermissionFromProfile.sql" />
+    <Build Include="StoredProcedures\UserAdministration\DeleteUserFromProfile.sql" />
+    <Build Include="StoredProcedures\UserAdministration\InsertPermissionToProfile.sql" />
+    <Build Include="StoredProcedures\UserAdministration\InsertUserToProfile.sql" />
   </ItemGroup>
   <ItemGroup>
+    <PostDeploy Include="Scripts\Script.PostDeployment.sql" />
     <None Include="Scripts\PostDeployment\Identity_PostDeployment.sql" />
     <None Include="Scripts\PostDeployment\Incidents_PostDeployment.sql" />
     <None Include="Scripts\PostDeployment\Checklists_PostDeployment.sql" />
     <None Include="Scripts\PostDeployment\Users_PostDeployment.sql" />
-    <PostDeploy Include="Scripts\Script.PostDeployment.sql" />
+    <None Include="Scripts\PostDeployment\Appointments_PostDeployment.sql" />
   </ItemGroup>
 </Project>

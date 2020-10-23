@@ -3,6 +3,6 @@
 
 <Loading IsLoading="ListProfiles == null">
 
-    <DropDownMenu Label="Seleccione el perfil que desea consultar" Data="ListProfiles" Value="selectedProfile" ValueChanged="@((Perfil perfil) => updateOtherTables(perfil))" TextProperty="NombrePerfil" />
+    <DropDownMenu Data="ListProfiles" Label="Seleccione el perfil que desea consultar" Value="selectedProfile" TextProperty="NombrePerfil" DefaultText="Seleccione el perfil a modificar" ValueExpression="() => selectedProfile" ValueChanged="@((Perfil perfil) => updateOtherTables(perfil))" />
 
 </Loading>

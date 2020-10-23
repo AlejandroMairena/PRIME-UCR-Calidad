@@ -224,7 +224,7 @@ app {
     padding-top: 30px;
     padding-bottom: 30px;
     padding-left: 30px;
-    padding-bottom 30 px;
+    padding-bottom: 30px;
     background-color: #0e0e0e;
     flex-direction: row;
     align-content: stretch;
@@ -253,4 +253,10 @@ app {
     text-align: left;
     line-height: 2;
     color: white;
+}
+
+.app-fab--absolute {
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem;
 }
