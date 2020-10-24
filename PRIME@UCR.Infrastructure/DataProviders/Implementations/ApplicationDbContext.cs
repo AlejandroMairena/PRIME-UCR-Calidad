@@ -8,6 +8,9 @@ using PRIME_UCR.Infrastructure.EntityConfiguration.Multimedia;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using PRIME_UCR.Domain.Models.UserAdministration;
 using PRIME_UCR.Infrastructure.EntityConfiguration.UserAdministration;
+using PRIME_UCR.Infrastructure.EntityConfiguration.MedicalRecords;
+using PRIME_UCR.Domain.Models.Appointments;
+using PRIME_UCR.Infrastructure.EntityConfiguration.Appointments;
 using PRIME_UCR.Infrastructure.EntityConfiguration.CheckLists;
 using PRIME_UCR.Domain.Models.CheckLists;
 
@@ -24,6 +27,7 @@ namespace PRIME_UCR.Infrastructure.DataProviders.Implementations
         public DbSet<Internacional> InternationalLocations { get; set; }
         public DbSet<CentroMedico> MedicalCenters { get; set; }
         public DbSet<CentroUbicacion> MedicalCenterLocations { get; set; }
+        public DbSet<TrabajaEn> WorksOn { get; set; }
         public DbSet<Modalidad> Modes { get; set; }
         public DbSet<UnidadDeTransporte> TransportUnits { get; set; }
         public DbSet<Estado> States { get; set; }
@@ -33,7 +37,23 @@ namespace PRIME_UCR.Infrastructure.DataProviders.Implementations
         public DbSet<Distrito> Districts { get; set; }
         public DbSet<Ubicacion> Locations { get; set; }
         public DbSet<MultimediaContent> Multimedia_Contents { get; set; }
-        public DbSet<Usuario> Usuarios { get ; set ; }
+
+        public DbSet<Usuario> Usuarios { get; set; }
+        public DbSet<Administrador> Adminstrators { get; set; }
+        public DbSet<AdministradorCentroDeControl> AdministratorsControlCenter { get; set; }
+        public DbSet<CoordinadorTécnicoMédico> MedicalTechnicians { get; set; }
+        public DbSet<EspecialistaTécnicoMédico> MedicalSpecialists { get; set; }
+        public DbSet<Funcionario> Functionaries { get; set; }
+        public DbSet<GerenteMédico> MedicalManagers { get; set; }
+        public DbSet<Médico> Doctors { get; set; }
+        public DbSet<NúmeroTeléfono> PhoneNumbers { get; set; }
+        public DbSet<Paciente> Patients { get; set; }
+        public DbSet<Perfil> Profiles { get; set; }
+        public DbSet<Permiso> Permissions { get; set; }
+        public DbSet<Persona> People { get; set; }
+        public DbSet<Pertenece> BelongsTo { get; set; }
+        public DbSet<TienePerfil> HasProfile { get; set; }
+        public DbSet<Permite> HasPermissionOf { get; set; }
 
         public ApplicationDbContext(DbContextOptions options) : base(options)
         {
@@ -52,6 +72,7 @@ namespace PRIME_UCR.Infrastructure.DataProviders.Implementations
             builder.ApplyConfiguration(new CantonMap());
             builder.ApplyConfiguration(new CentroMedicoMap());
             builder.ApplyConfiguration(new CentroUbicacionMap());
+            builder.ApplyConfiguration(new TrabajaEnMap());
             builder.ApplyConfiguration(new DomicilioMap());
             builder.ApplyConfiguration(new IncidenteMap());
             builder.ApplyConfiguration(new ModalidadMap());
@@ -62,6 +83,28 @@ namespace PRIME_UCR.Infrastructure.DataProviders.Implementations
             builder.ApplyConfiguration(new EstadoIncidenteMap());
             builder.ApplyConfiguration(new MultimediaContentMap());
             builder.ApplyConfiguration(new UsuarioMap());
+            builder.ApplyConfiguration(new AdministradorMap());
+            builder.ApplyConfiguration(new AdministradorCentroDeControlMap());
+            builder.ApplyConfiguration(new CoordinadorTécnicoMédicoMap());
+            builder.ApplyConfiguration(new EspecialistaTécnicoMédicoMap());
+            builder.ApplyConfiguration(new FuncionarioMap());
+            builder.ApplyConfiguration(new GerenteMédicoMap());
+            builder.ApplyConfiguration(new MédicoMap());
+            builder.ApplyConfiguration(new NúmeroTeléfonoMap());
+            builder.ApplyConfiguration(new PacienteMap());
+            builder.ApplyConfiguration(new PerfilMap());
+            builder.ApplyConfiguration(new PermisoMap());
+            builder.ApplyConfiguration(new PersonaMap());
+            builder.ApplyConfiguration(new PerteneceMap());
+            builder.ApplyConfiguration(new PermiteMap());
+            builder.ApplyConfiguration(new TienePerfilMap());
+            builder.ApplyConfiguration(new ExpedienteMap());
+            builder.ApplyConfiguration(new CitaMap());
+            builder.ApplyConfiguration(new AccionMap());
+            builder.ApplyConfiguration(new TipoAccionMap());
+            builder.ApplyConfiguration(new MetricasMap());
+            builder.ApplyConfiguration(new MetricasIncidenteMap());
+            builder.ApplyConfiguration(new MetricasCitaMedicaMap());
         }
 
         public Task<int> SaveChangesAsync()

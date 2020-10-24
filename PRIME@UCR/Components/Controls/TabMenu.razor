@@ -3,13 +3,10 @@
 <ul class="@_tabClass">
     @foreach (var tuple in Tabs)
     {
-        <TabItem OnTabSetCallback="@((TEnum tab) => OnTabSet(tab))" Tab="tuple.Item1" CurrentTab="_currentTab" TabName="@tuple.Item2"/>
+        <TabItem OnTabSetCallback="@((TEnum tab) => OnTabSet(tab))"
+                 Tab="tuple.Item1"
+                 CurrentTab="_currentTab"
+                 Icon="@tuple.Item2"
+                 TabName="@(EnumUtils.GetDescription(tuple.Item1))"/>
     }
 </ul>
-
-@code {
-    protected override void OnParametersSet()
-    {
-        SetTabClass();
-    }
-}

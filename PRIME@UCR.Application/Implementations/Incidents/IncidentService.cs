@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Components.Authorization;
 using PRIME_UCR.Application.Dtos;
 using PRIME_UCR.Application.Dtos.Incidents;
 using PRIME_UCR.Application.Repositories;
 using PRIME_UCR.Application.Repositories.Incidents;
 using PRIME_UCR.Application.Services.Incidents;
+using PRIME_UCR.Application.Services.UserAdministration;
 using PRIME_UCR.Domain.Constants;
 using PRIME_UCR.Domain.Models;
 using PRIME_UCR.Domain.Models.Incidents;
+using PRIME_UCR.Domain.Models.UserAdministration;
 
 namespace PRIME_UCR.Application.Implementations.Incidents
 {
@@ -18,6 +21,7 @@ namespace PRIME_UCR.Application.Implementations.Incidents
         private readonly IModesRepository _modesRepository;
         private readonly IIncidentStateRepository _statesRepository;
         private readonly ILocationRepository _locationRepository;
+
 
         public IncidentService(
             IIncidentRepository incidentRepository,
@@ -31,9 +35,9 @@ namespace PRIME_UCR.Application.Implementations.Incidents
             _locationRepository = locationRepository;
         }
 
-        public async Task<Incidente> GetIncidentAsync(string id)
+        public async Task<Incidente> GetIncidentAsync(string code)
         {
-            return await _incidentRepository.GetByKeyAsync(id);
+            return await _incidentRepository.GetByKeyAsync(code);
         }
 
         public async Task<IEnumerable<Modalidad>> GetTransportModesAsync()
@@ -41,15 +45,16 @@ namespace PRIME_UCR.Application.Implementations.Incidents
             return await _modesRepository.GetAllAsync();
         }
 
-        public async Task<Incidente> CreateIncident(IncidentModel model)
+        public async Task<Incidente> CreateIncidentAsync(IncidentModel model, Persona person)
         {
             var entity = new Incidente
             {
-                Codigo = Guid.NewGuid().ToString(),
-                FechaHoraRegistro = DateTime.Now,
-                FechaHoraEstimada = model.EstimatedDateOfTransfer,
-                TipoModalidad = model.Mode.Tipo
+                TipoModalidad = model.Mode.Tipo,
+                CedulaAdmin = person.Cédula
             };
+            
+            // insert before adding state to get auto generated code from DB
+            await _incidentRepository.InsertAsync(entity, model.EstimatedDateOfTransfer);
             
             var state = new EstadoIncidente
             {
@@ -59,25 +64,25 @@ namespace PRIME_UCR.Application.Implementations.Incidents
                 Activo = true
             };
 
-            await _incidentRepository.InsertAsync(entity);
             await _statesRepository.AddState(state);
             
             return entity;
         }
-        public async Task<IncidentDetailsModel> GetIncidentDetailsAsync(string id)
+        public async Task<IncidentDetailsModel> GetIncidentDetailsAsync(string code)
         {
-            var incident = await _incidentRepository.GetWithDetailsAsync(id);
+            var incident = await _incidentRepository.GetWithDetailsAsync(code);
             if (incident != null)
             {
-                var state = await _statesRepository.GetCurrentStateByIncidentId(id);
+                var state = await _statesRepository.GetCurrentStateByIncidentId(incident.Codigo);
                 var model = new IncidentDetailsModel(
                     incident.Codigo,
                     incident.TipoModalidad,
                     state.Nombre,
                     incident.IsCompleted(),
                     incident.IsModifiable(state),
-                    incident.FechaHoraRegistro,
-                    incident.FechaHoraEstimada
+                    incident.Cita.FechaHoraCreacion,
+                    incident.Cita.FechaHoraEstimada,
+                    incident.CedulaAdmin
                 );
                 model.Origin = incident.Origen;
                 model.Destination = incident.Destino;
@@ -88,7 +93,7 @@ namespace PRIME_UCR.Application.Implementations.Incidents
             return null;
         }
 
-        public async Task<IncidentDetailsModel> UpdateIncidentDetails(IncidentDetailsModel model)
+        public async Task<IncidentDetailsModel> UpdateIncidentDetailsAsync(IncidentDetailsModel model)
         {
             var incident = await _incidentRepository.GetByKeyAsync(model.Code);
             bool modified = false;
@@ -115,7 +120,7 @@ namespace PRIME_UCR.Application.Implementations.Incidents
                 }
             }
 
-            if (modified) // TODO: check crash with PK violation when updating Origin (international) when there are no chanegs
+            if (modified)
                 await _incidentRepository.UpdateAsync(incident);
 
             var state = model.CurrentState;
@@ -139,13 +144,19 @@ namespace PRIME_UCR.Application.Implementations.Incidents
                 state,
                 incident.IsCompleted(),
                 model.Modifiable,
-                incident.FechaHoraRegistro,
-                incident.FechaHoraEstimada
+                incident.Cita.FechaHoraCreacion,
+                incident.Cita.FechaHoraEstimada,
+                incident.CedulaAdmin
             );
             outputModel.Origin = incident.Origen;
             outputModel.Destination = incident.Destino;
             
             return outputModel;
+        }
+
+        public async Task<IEnumerable<Incidente>> GetAllAsync()
+        {
+            return await _incidentRepository.GetAllAsync();
         }
     }
 }

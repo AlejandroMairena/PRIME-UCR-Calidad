@@ -1,0 +1,32 @@
+﻿@using PRIME_UCR.Components.Controls
+
+<Loading IsLoading="ListUsers == null">
+    <table class="table">
+        <thead>
+            <tr>
+
+                <th scope="col"> </th>
+                <th scope="col">Nombre usuario</th>
+                <th scope="col">Número cédula</th>
+
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var user in ListUsers)
+            {
+            <tr>
+                <td>
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="customCheck @user.CedPersona" checked>
+                        <label class="custom-control-label" for="customCheck @user.CedPersona"></label>
+                    </div>
+                </td>
+                <th scope="row">@user.UserName</th>
+                <td>@user.CedPersona</td>
+            </tr>
+            }
+
+        </tbody>
+    </table>
+</Loading>
