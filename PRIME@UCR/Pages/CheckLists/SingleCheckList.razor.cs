@@ -34,6 +34,7 @@ namespace PRIME_UCR.Pages.CheckLists
         protected IEnumerable<CheckList> lists { get; set; }
 
         protected IEnumerable<Item> items { get; set; }
+        protected IEnumerable<Item> subItems { get; set; }
         protected List<Item> itemsList = new List<Item>();
 
         public CheckList list { get; set; }
@@ -94,13 +95,14 @@ namespace PRIME_UCR.Pages.CheckLists
             StateHasChanged();
         }
 
-        protected void CreateSubItem(int itemId)
+        protected async Task CreateSubItem(int itemId)
         {
+            subItems = await MyCheckListService.GetItemsBySuperitemId(itemId);
             createItem = true;
             tempItem = new Item();
             tempItem.IDLista = id;
             tempItem.IDSuperItem = itemId;
-            // Get the order from ?
+            tempItem.Orden = subItems.Count() + 1;
             editContext = new EditContext(tempItem);
             editContext.OnFieldChanged += HandleFieldChanged;
             StateHasChanged();
