@@ -17,19 +17,17 @@ else
                 <h6>Listas de chequeo: <a class="btn btn-outline-primary" href='@string.Format("checklist/create")' id="a_LC2" data-toggle="tooltip" title="Crear Lista de chequeo">+</a></h6>
                 <div>
                     <ul class="nav nav-pills flex-column">
-                        <li class="nav-item">
                             @if (lists != null && lists.Count() > 0)
                             {
                                 @foreach (var tempList in lists)
                                 {
-                                    <li class="mt-2">
+                                    <li class="nav-item mt-2">
                                         <NavLink href='@string.Format("checklist/{0}", @tempList.Id)' class="nav-link" id="a_LC4">
                                             •  @tempList.Nombre
                                         </NavLink>
                                     </li>
                                 }
                             }
-                         </li>
                      </ul>
                 </div>
                 
@@ -40,7 +38,7 @@ else
                 <div id="def_LC">
                     <p>
                         <div class="input-group row">
-                            <label for="checklistName" class="col-sm-2 col-form-label"><b>Nombre:</b></label>
+                            <label for="checklistName" class="col-sm-2 col-form-label">Nombre:</label>
                             <div class="col-sm-9">
                                 <input class="form-control" type="text" id="checklistName" name="checklistName" @bind-value="list.Nombre" @onfocusout="Update" />
                             </div>
@@ -155,9 +153,8 @@ else
                             <div class="container">
                                 <br />
                                 <EditForm EditContext="@editContext" OnValidSubmit="@HandleValidSubmit">
-                                    <label for="name">Nombre:<span style=" color:red">*&nbsp;&nbsp;&nbsp;&nbsp;</span></label>
-                                    <InputText id="name" @bind-Value="tempItem.Nombre" class="form-control" />
-                                    <ValidationMessage For="@(() => tempItem.Nombre)" />
+                                    <FluentValidationValidator />
+                                    <TextBox Label="Nombre" @bind-Value="@tempItem.Nombre" />
                                     <br />
                                     <label for="description">Descripción: </label>
                                     <InputTextArea id="description" @bind-Value="tempItem.Descripcion" class="form-control" />

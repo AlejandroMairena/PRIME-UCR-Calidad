@@ -1,29 +1,24 @@
 ﻿@page "/checklist/create"
 @using PRIME_UCR.Components.Controls
 @inherits CheckListCreateBase
-@* @layout CheckListLayout *@
-@* @attribute [Authorize(Roles = "coordinador tecnico medico")] *@
-@* @attribute [Authorize(Policy = "check-list")] *@
+
 @attribute [Authorize]
 <link href="css/Checklist.css" rel="stylesheet" />
 
 <h3>Plantillas de listas de chequeo</h3>
 <hr />
 <div class="row">
-    <div class="col-lg-3 mb-4" >@*id="colALL_LC"*@
-        <div class="container" >@*id="contAll_LC"*@
-            <h6>Listas de chequeo existentes</h6> @* Mejorar diseño de interfaz*@
+    <div class="col-lg-3 mb-4" >
+        <div class="container" >
+            <h6>Listas de chequeo existentes</h6> 
             <div>
                 <ul class="nav nav-pills flex-column">
-                    @*<ul class="ml-4" type="square">*@
-                    <li class="nav-item">
-                        @*ver lisatas de chequeo ya creadas*@
 
                         @if (lists != null && lists.Count() > 0)
                         {
                             @foreach (var tempList in lists)
                             {
-                            <li class="mt-2">
+                            <li class="nav-item mt-2">
                                 <NavLink href='@string.Format("checklist/{0}", @tempList.Id)' class="nav-link" id="a_LC4">
                                     •  @tempList.Nombre
                                 </NavLink>
@@ -31,7 +26,6 @@
 
                             }
                         }
-                    </li>
                     </ul>
                 </div>
             </div>
@@ -47,25 +41,16 @@
                     <h5>Crear plantilla de lista de chequeo</h5>
                     <br />
                     <EditForm EditContext="@editContext" OnValidSubmit="@HandleValidSubmit">
-                        @* to do: <EditForm> Crear lista de Chequeo*@
-                        <label for="name">Nombre:<span style=" color:red">*&nbsp;&nbsp;&nbsp;&nbsp;</span></label>
-                        <InputText id="name" @bind-Value="checkList.Nombre" class="form-control" />
-                        <ValidationMessage For="@(() => checkList.Nombre)" />
+                        <FluentValidationValidator />
+                        <TextBox Label="Nombre" @bind-Value="@checkList.Nombre" />
                         <br />
                         <label for="description">Descripción: </label>
                         <InputTextArea id="description" @bind-Value="checkList.Descripcion" class="form-control" />
                         <br />
                         <div class="form-row">
                             <div class="col-6">
-                                <label for="type">Tipo:<span style=" color:red">*</span></label>
-                                <InputSelect id="type" @bind-Value="checkList.Tipo" class="custom-select">
-                                    <option value="" selected="selected" disabled>Seleccione el tipo</option>
-                                    <option value="Colocación equipo">Colocación equipo</option>
-                                    <option value="Retiro equipo">Retiro equipo</option>
-                                    <option value="Paciente en origen">Paciente en origen</option>
-                                    <option value="Paciente en destino">Paciente en destino</option>
-                                    <option value="Paciente en traslado">Paciente en traslado</option>
-                                </InputSelect>
+                                <DropDownMenu Label="Tipo" Data="_types" @bind-Value="checkList.Tipo"
+                                              DefaultText="Seleccione el tipo de la lista de chequeo" />
                                 <ValidationMessage For="@(() => checkList.Tipo)" />
                             </div>
                             <div class="col-6">
@@ -99,18 +84,4 @@
 @code {
 
 }
-@* info de incidentes <EditForm Model="_model" OnValidSubmit="@Create">
-        <DataAnnotationsValidator />
-        <ValidationSummary />
-        <Loading IsLoading="_modes == null">
-            <div class="form-group">
-                <DropDownMenu Label="Modalidad" Data="_modes" @bind-Value="_model.Mode" TextProperty="Tipo" />
-            </div>
-            <DateTimePicker @bind-Date="@_model.EstimatedDateOfTransfer"
-                            DateLabel="Fecha estimada de traslado" TimeLabel="Hora estimada de traslado" />
-            <div class="text-center">
-                <a class="btn btn-outline-secondary" href="">Cancelar</a>
-                <button type="submit" class="btn btn-primary">Crear</button>
-            </div>
-        </Loading>
-    </EditForm>*@
+

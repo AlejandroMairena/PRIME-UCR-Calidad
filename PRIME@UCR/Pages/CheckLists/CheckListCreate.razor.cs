@@ -22,10 +22,11 @@ namespace PRIME_UCR.Pages.CheckLists
         [Inject]  public NavigationManager NavManager { get; set; }
 
         private const string CreateUrl = "/checklist/create";
-        private string beforeUrl = "/checklist"; //mejorar diseño de interfaz
+        // private string beforeUrl = "/checklist"; //mejorar diseño de interfaz
         private string afterUrl = "";
 
         protected CheckList checkList = new CheckList();
+        protected List<string> _types = new List<string>();
 
         protected bool formInvalid = true;
         protected EditContext editContext;
@@ -36,6 +37,11 @@ namespace PRIME_UCR.Pages.CheckLists
         }
         protected override async Task OnInitializedAsync()
         {
+            _types.Add("Colocación equipo");
+            _types.Add("Retiro equipo");
+            _types.Add("Paciente en origen");
+            _types.Add("Paciente en destino");
+            _types.Add("Paciente en traslado");
             editContext = new EditContext(checkList);
             editContext.OnFieldChanged += HandleFieldChanged;
             await RefreshModels();
