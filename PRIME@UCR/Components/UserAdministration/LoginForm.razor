@@ -2,35 +2,34 @@
 @inject Blazored.SessionStorage.ISessionStorageService sessionStorage
 
 <div class="container mt-5 text-white">
-    <EditForm Model="@logInInfo" OnValidSubmit="@ValidateUser">
+    <EditForm EditContext="_context" OnValidSubmit="@ValidateUser">
         <DataAnnotationsValidator />
-        <div class="form-group">
-            <label>Correo Electrónico:</label>
-            <InputText @bind-Value="logInInfo.Correo" class="form-control" aria-describedby="emailHelp" />
-            <ValidationMessage For="@(()=> logInInfo.Correo)" />
-        </div>
-        <div class="form-group">
-            <label>Contraseña</label>
-            <InputText @bind-Value="logInInfo.Contraseña" type="password" class="form-control" />
-            <ValidationMessage For="@(()=> logInInfo.Contraseña)" />
-        </div>
-        <a class="text-white" href="">Cambiar contraseña</a> <!--Falta agregar referencia para cambiar clave-->
+        <TextInput Label="Correo Electrónico:" @bind-Value="@logInInfo.Correo" />
+        <TextInput Type="password" Label="Contraseña:" @bind-Value="@logInInfo.Contraseña" />
+
+        <a class="text-secondary disable" href=""><u>Cambiar contraseña</u></a> <!--Falta agregar referencia para cambiar clave-->
         <br />
-        <ValidationSummary />
         <div class="text-left @invalidUser">
             <p id="emailHelp" class="text-danger">Ingresó su usuario o contraseña incorrectamente. Intente de nuevo.</p>
         </div>
         <div class="text-center">
             @if (isBusy)
             {
-                <button class="btn btn-light mt-2" type="button">
+                <button class="btn btn-light width:13em mt-2" type="button">
                     <span class="spinner-border spinner-border-sm" style="background-color:white" role="status" aria-hidden="true"></span>
                     Validando información
-                </button>
+                </button> 
             }
             else
             {
-                <button type="submit" style="width:13em" class="btn btn-light mt-2">Ingresar</button>
+                @if (isFormValid)
+                {
+                    <button type="submit" style="width:13em" class="btn btn-light mt-2">Crear</button> 
+                }
+                else
+                {
+                    <button type="submit" style="width:13em" class="btn btn-secondary mt-2" disabled>Crear</button>
+                }
             }
         </div>
 
