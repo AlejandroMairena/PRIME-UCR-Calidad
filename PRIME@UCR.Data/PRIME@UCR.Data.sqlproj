@@ -70,6 +70,7 @@
     <Folder Include="Tables\MedicalRecords" />
     <Folder Include="StoredProcedures\" />
     <Folder Include="StoredProcedures\UserAdministration" />
+    <Folder Include="StoredProcedures\Multimedia" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\CheckLists\CheckList.sql" />
@@ -122,6 +123,8 @@
     <Build Include="Tables\Appointments\TipoAccion.sql" />
     <Build Include="Tables\MedicalRecords\Expediente.sql" />
     <Build Include="StoredProcedures\UserAdministration\InsertarPacienteSolo.sql" />
+    <Build Include="StoredProcedures\Multimedia\ObtenerContenidoMultimediaCita.sql" />
+    <Build Include="StoredProcedures\Multimedia\FObtenerContendidoMultimediaCita.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Scripts\Script.PostDeployment.sql" />
