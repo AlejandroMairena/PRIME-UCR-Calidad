@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
@@ -9,7 +8,6 @@ namespace PRIME_UCR.Components.Controls
     public partial class GenericInput<TValue>
     {
         [Parameter] public string Label { get; set; }
-        [Parameter] public bool Disabled { get; set; }
 
         protected string _type = "text";
 

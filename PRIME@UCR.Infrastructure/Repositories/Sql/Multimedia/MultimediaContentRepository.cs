@@ -12,7 +12,7 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Multimedia
     {
         public MultimediaContentRepository(ISqlDataProvider dataProvider) : base(dataProvider)
         {
-            
+
         }
 
     }

@@ -38,6 +38,7 @@ namespace PRIME_UCR.Domain.Models.UserAdministration
         /*List of medical records for which the doctor has access*/
         public List<Expediente> Expedientes { get; set; }
         public List<CentroUbicacion> CentrosMedicos { get; private set; }
+
         public List<TrabajaEn> MedicosyCentrosMedicos { get; set; }
 
     }

@@ -6,8 +6,6 @@
 <Loading IsLoading="_medicalCenters == null || _doctors == null">
     <EditForm EditContext="_context" OnValidSubmit="Submit">
         <FluentValidationValidator />
-        <div class="row">
-            <div class="col-md-4">
         <DropDownMenu T="CentroMedico" Data="_medicalCenters"
                       Label="Centro médico"
                       DefaultText="Seleccione un centro médico"
@@ -20,8 +18,6 @@
                       Label="@DoctorForLabel"
                       TextExpression="@((Médico m) => $"{m.Nombre} {m.PrimerApellido} {m.SegundoApellido}")"
                       @bind-Value="Value.Doctor"/>
-            </div>
-        </div>
         @if (IsOrigin)
         {
             <div class="row">
@@ -30,16 +26,16 @@
                 </div>
             </div>
         }
-        <div class="mt-2">
+        <div class="text-center">
             @if (!_saveButtonEnabled)
             {
-                <button disabled type="submit" class="btn btn-primary">Guardar</button>
                 <button disabled class="btn btn-outline-secondary">Descartar</button>
+                <button disabled type="submit" class="btn btn-primary">Guardar</button>
             }
             else
             {
-                <button type="submit" class="btn btn-primary">Guardar</button>
                 <button role="button" @onclick:preventDefault @onclick="@Discard" class="btn btn-outline-secondary">Descartar</button>
+                <button type="submit" class="btn btn-primary">Guardar</button>
             }
         </div>
     </EditForm>

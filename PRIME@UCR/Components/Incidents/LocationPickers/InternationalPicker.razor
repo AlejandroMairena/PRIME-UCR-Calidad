@@ -4,24 +4,20 @@
 
 <Loading IsLoading="_values == null">
     <EditForm EditContext="_context" OnValidSubmit="Submit">
-        <div class="row">
-            <div class="col-md-4">
-                <DropDownMenu Data="@_values" T="Pais" Label="País" TextProperty="Nombre"
-                              DefaultText="Seleccione un país"
-                              @bind-Value="@Value.Country" />
-        <div class="mt-4">
+        <DropDownMenu Data="@_values" T="Pais" Label="País" TextProperty="Nombre"
+                      DefaultText="Seleccione un país"
+                      @bind-Value="@Value.Country" />
+        <div class="text-center">
             @if (!_saveButtonEnabled)
             {
-                <button disabled type="submit" class="btn btn-primary">Guardar</button>
                 <button disabled class="btn btn-outline-secondary">Descartar</button>
+                <button disabled type="submit" class="btn btn-primary">Guardar</button>
             }
             else
             {
-                <button type="submit" class="btn btn-primary">Guardar</button>
                 <button role="button" @onclick:preventDefault @onclick="@Discard" class="btn btn-outline-secondary">Descartar</button>
+                <button type="submit" class="btn btn-primary">Guardar</button>
             }
-        </div>
-            </div>
         </div>
     </EditForm>
 </Loading>

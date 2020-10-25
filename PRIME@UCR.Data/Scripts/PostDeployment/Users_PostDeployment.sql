@@ -1,8 +1,6 @@
 ﻿DELETE FROM EstadoIncidente
 DELETE FROM Estado
 DELETE FROM Incidente
-DELETE FROM Cita
-DELETE FROM Expediente
 DELETE FROM AdministradorCentroDeControl
 DELETE FROM Trabaja_En
 DELETE FROM Centro_Ubicacion

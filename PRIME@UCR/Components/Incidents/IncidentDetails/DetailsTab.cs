@@ -1,11 +1,11 @@
-using System;
+﻿using System;
 using System.ComponentModel;
 
 namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
 {
     public enum DetailsTab
     {
-        [Description("Resumen")]
+        [Description("Información general")]
         Info,
         [Description("Origen")]
         Origin,
@@ -13,7 +13,5 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
         Destination,
         [Description("Paciente")]
         Patient,
-        [Description("Multimedia")]
-        Multimedia
     }
 }

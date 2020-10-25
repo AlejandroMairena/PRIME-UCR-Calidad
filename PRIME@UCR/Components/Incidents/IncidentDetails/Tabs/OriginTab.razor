@@ -2,24 +2,20 @@
 @using PRIME_UCR.Components.Incidents.LocationPickers
 @using Microsoft.AspNetCore.Connections
 
-<h3>Origen del incidente</h3>
+<h3> Información sobre el origen </h3>
 <br />
 @if (Origin == null)
 {
     <StatusMessage Message="Este valor está pendiente para finalizar la creación del incidente." Class="warning"/>
 }
 <StatusMessage Message="@_statusMessage" Class="success"/>
-<div class="row">
-    <div class="col-md-4">
-        <EditForm Model="_selectedOriginType">
-            <DropDownMenu Data="@_dropdownValuesOrigin" Label="Tipo de origen" TextProperty="Item2"
-                          Value="_selectedOriginType"
-                          ValueChanged="@((Tuple<OriginType, string> o) => OnOriginTypeChange(o))"
-                          ValueExpression="() => _selectedOriginType"
-                          UseValidation="false"/>
-        </EditForm>
-    </div>
-</div>
+<EditForm Model="_selectedOriginType">
+    <DropDownMenu Data="@_dropdownValuesOrigin" Label="Tipo de origen" TextProperty="Item2"
+                  Value="_selectedOriginType"
+                  ValueChanged="@((Tuple<OriginType, string> o) => OnOriginTypeChange(o))"
+                  ValueExpression="() => _selectedOriginType"
+                  UseValidation="false"/>
+</EditForm>
 <Loading IsLoading="@_isLoading">
     @if (_selectedOriginType.Item1 == OriginType.Household)
     {

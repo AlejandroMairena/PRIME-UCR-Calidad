@@ -6,12 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Implementations\Appointments\NewFile1.txt" />
-    <None Remove="Repositories\Appointments\NewFile1.txt" />
-    <None Remove="Services\Appointments\NewFile1.txt" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\PRIME@UCR.Domain\PRIME@UCR.Domain.csproj" />
   </ItemGroup>
 
@@ -23,10 +17,6 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.0-rc.1.20451.13" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0-rc.1.20451.14" />
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0-rc.1.20451.14" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Implementations\Appointments\" />
   </ItemGroup>
 
 </Project>
