@@ -1,4 +1,4 @@
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using PRIME_UCR.Application.Implementations.Multimedia;
 using PRIME_UCR.Application.Repositories;
 using PRIME_UCR.Application.Repositories.Appointments;
@@ -42,6 +42,7 @@ namespace PRIME_UCR.Infrastructure
             services.AddTransient<IIncidentRepository, IncidentRepository>();
             services.AddTransient<IIncidentStateRepository, IncidentStateRepository>();
             services.AddTransient<ILocationRepository, LocationRepository>();
+            services.AddTransient<ITransportUnitRepository, TransportUnitRepository>();
             // medical records
             services.AddTransient<IMedicalRecordRepository, MedicalRecordRepository>();
             // multimedia

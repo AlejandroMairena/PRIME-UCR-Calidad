@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.Authorization;
@@ -23,6 +23,7 @@ namespace PRIME_UCR.Application.Implementations.Incidents
         private readonly IModesRepository _modesRepository;
         private readonly IIncidentStateRepository _statesRepository;
         private readonly ILocationRepository _locationRepository;
+        private readonly ITransportUnitRepository _transportUnitRepository;
         private readonly IMedicalRecordRepository _medicalRecordRepository;
 
 
@@ -31,12 +32,14 @@ namespace PRIME_UCR.Application.Implementations.Incidents
             IModesRepository modesRepository,
             IIncidentStateRepository statesRepository,
             ILocationRepository locationRepository,
+            ITransportUnitRepository transportUnitRepository,
             IMedicalRecordRepository medicalRecordRepository)
         {
             _incidentRepository = incidentRepository;
             _modesRepository = modesRepository;
             _statesRepository = statesRepository;
             _locationRepository = locationRepository;
+            _transportUnitRepository = transportUnitRepository;
             _medicalRecordRepository = medicalRecordRepository;
         }
 
@@ -76,6 +79,7 @@ namespace PRIME_UCR.Application.Implementations.Incidents
         public async Task<IncidentDetailsModel> GetIncidentDetailsAsync(string code)
         {
             var incident = await _incidentRepository.GetWithDetailsAsync(code);
+            var transportUnit = await _transportUnitRepository.GetTransporUnitByIncidentIdAsync(incident.Codigo);
             if (incident != null)
             {
                 var state = await _statesRepository.GetCurrentStateByIncidentId(incident.Codigo);
@@ -83,7 +87,8 @@ namespace PRIME_UCR.Application.Implementations.Incidents
                     incident.Cita.IdExpediente != null ?
                     await _medicalRecordRepository.GetByKeyAsync((int)incident.Cita.IdExpediente)
                     : null;
-                var model = new IncidentDetailsModel{
+                var model = new IncidentDetailsModel
+                {
                     Code = incident.Codigo,
                     Mode = incident.TipoModalidad,
                     CurrentState = state.Nombre,
@@ -95,6 +100,8 @@ namespace PRIME_UCR.Application.Implementations.Incidents
                     Origin = incident.Origen,
                     Destination = incident.Destino,
                     AppointmentId = incident.CodigoCita,
+                    TransportUnitId = transportUnit.Matricula,
+                    TransportUnit = transportUnit,
                     MedicalRecord = medicalRecord
                 };
                 
@@ -132,6 +139,16 @@ namespace PRIME_UCR.Application.Implementations.Incidents
                     modified = true;
                 }
             }
+            
+            if (model.TransportUnit != null)
+            {
+                if (incident.MatriculaTrans == null || incident.MatriculaTrans != model.TransportUnit.Matricula)
+                {
+                    model.TransportUnit = await _transportUnitRepository.GetByKeyAsync(model.TransportUnit.Matricula);
+                    incident.MatriculaTrans = model.TransportUnit.Matricula;                   
+                    modified = true;
+                }
+            }
 
             if (modified)
                 await _incidentRepository.UpdateAsync(incident);
@@ -147,7 +164,7 @@ namespace PRIME_UCR.Application.Implementations.Incidents
                 };
                 await _statesRepository.AddState(incidentState);
             }
-
+            
             return await GetIncidentDetailsAsync(incident.Codigo);
         }
 

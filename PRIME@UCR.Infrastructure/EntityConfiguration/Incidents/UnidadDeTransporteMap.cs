@@ -8,7 +8,7 @@ namespace PRIME_UCR.Infrastructure.EntityConfiguration.Incidents
     {
         public void Configure(EntityTypeBuilder<UnidadDeTransporte> builder)
         {
-            builder.ToTable("Ubicacion_De_Transporte");
+            builder.ToTable("Unidad_De_Transporte");
             builder
                 .Property(p => p.Matricula)
                 .IsRequired();

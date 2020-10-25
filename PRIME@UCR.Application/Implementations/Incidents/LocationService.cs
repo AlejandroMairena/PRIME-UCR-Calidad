@@ -7,6 +7,7 @@ using PRIME_UCR.Application.Services.Incidents;
 using PRIME_UCR.Domain.Models;
 using PRIME_UCR.Domain.Models.UserAdministration;
 using System.Linq;
+using PRIME_UCR.Domain.Models.Incidents;
 
 namespace PRIME_UCR.Application.Implementations.Incidents
 {
@@ -17,20 +18,29 @@ namespace PRIME_UCR.Application.Implementations.Incidents
         private readonly ICantonRepository _cantonRepository;
         private readonly IDistrictRepository _districtRepository;
         private readonly IMedicalCenterRepository _medicalCenterRepository;
+        private readonly ITransportUnitRepository _transportUnitRepository;
 
         public LocationService(
             ICountryRepository countryRepository,
             IProvinceRepository provinceRepository,
             ICantonRepository cantonRepository,
             IDistrictRepository districtRepository,
-            IMedicalCenterRepository medicalCenterRepository)
+            IMedicalCenterRepository medicalCenterRepository,
+            ITransportUnitRepository transportUnitRepository)
         {
             _countryRepository = countryRepository;
             _provinceRepository = provinceRepository;
             _cantonRepository = cantonRepository;
             _districtRepository = districtRepository;
             _medicalCenterRepository = medicalCenterRepository;
+            _transportUnitRepository = transportUnitRepository;
         }
+
+        public async Task<IEnumerable<UnidadDeTransporte>> GetAllTransporUnitsByMode(string mode)
+        {
+            return await _transportUnitRepository.GetAllTransporUnitsByMode(mode);
+        }
+
 
         public async Task<IEnumerable<Médico>> GetAllDoctorsByMedicalCenter(int medicalCenterId)
         {

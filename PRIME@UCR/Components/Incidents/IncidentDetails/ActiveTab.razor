@@ -21,6 +21,10 @@
     {
         <MultimediaTab Incident="@Incident"/>
     }
+    else if (Active == DetailsTab.Assignment)
+    {
+        <Assignment TransportUnit="@Incident.TransportUnit" Mode="@Incident.Mode" OnSave="@SaveAssignments"/>
+    }
     else
     {
         <h4 class="text-danger">Not found</h4>

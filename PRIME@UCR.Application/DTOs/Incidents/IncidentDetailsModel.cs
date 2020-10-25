@@ -19,6 +19,8 @@ namespace PRIME_UCR.Application.Dtos.Incidents
         public DateTime EstimatedDateOfTransfer { get; set; }
         public Ubicacion Origin { get; set; }
         public Ubicacion Destination { get; set; }
+        public string TransportUnitId { get; set; }
+        public UnidadDeTransporte TransportUnit { get; set; }
         public Expediente MedicalRecord { get; set; }
 
     }

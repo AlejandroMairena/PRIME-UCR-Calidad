@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.ComponentModel;
 
 namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
@@ -13,7 +13,9 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
         Destination,
         [Description("Paciente")]
         Patient,
+        [Description("Asignación")]
+        Assignment,
         [Description("Multimedia")]
-        Multimedia
+        Multimedia,
     }
 }

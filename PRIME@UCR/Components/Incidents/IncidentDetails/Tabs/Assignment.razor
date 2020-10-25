@@ -1,0 +1,16 @@
+﻿@using PRIME_UCR.Components.Incidents.LocationPickers
+
+<h3>Asignación</h3>
+<br />
+
+<Loading IsLoading="@_isLoading">
+    @if (TransportUnit == null)
+    {
+        <StatusMessage Message="Hay valores pendientes para finalizar la creación del incidente." Class="warning" />
+    }
+    <StatusMessage Message="@_statusMessage" Class="success" />
+            <TransportUnitPicker Value="@_model" Mode="@Mode"
+                                 IsFirst="@(!(TransportUnit is UnidadDeTransporte))"
+                                 OnSave="@OnTransportUnitSave"
+                                 OnDiscard="LoadExistingValues" />
+</Loading>
