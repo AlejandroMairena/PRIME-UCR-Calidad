@@ -125,6 +125,7 @@
     <Build Include="StoredProcedures\UserAdministration\InsertarPacienteSolo.sql" />
     <Build Include="StoredProcedures\Multimedia\ObtenerContenidoMultimediaCita.sql" />
     <Build Include="StoredProcedures\Multimedia\FObtenerContendidoMultimediaCita.sql" />
+    <Build Include="StoredProcedures\Incidents\InsertarAccion.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Scripts\Script.PostDeployment.sql" />
