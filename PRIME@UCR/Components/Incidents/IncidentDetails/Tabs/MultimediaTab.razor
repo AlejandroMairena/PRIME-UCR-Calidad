@@ -1,0 +1,23 @@
+﻿@using PRIME_UCR.Domain.Models.Appointments
+
+<h3>Multimedia de incidente</h3>
+<br/>
+<Loading IsLoading="_isLoading">
+    <div class="row">
+        <div class="col-md-4">
+            <EditForm Model="Incident">
+                <DropDownMenu Data="@_actionTypes" Label="Tipo de multimedia"
+                              DefaultText="Seleccione tipo de multimedia"
+                              TextProperty="Nombre"
+                              Value="_selectedActionType"
+                              ValueExpression="() => _selectedActionType"
+                              ValueChanged="(TipoAccion ta) => OnActionTypeChange(ta)" />
+                @if (_selectedActionType != null)
+                {
+                    <MultimediaContentComponent MultimediaContent="_existingFiles" OnFileUpload="OnFileUpload" />
+                }
+                <p>@Message</p>
+            </EditForm>
+        </div>
+    </div>
+</Loading>
