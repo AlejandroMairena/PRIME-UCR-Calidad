@@ -19,7 +19,7 @@ namespace PRIME_UCR.Application.Dtos.Incidents
         public DateTime EstimatedDateOfTransfer { get; set; }
         public Ubicacion Origin { get; set; }
         public Ubicacion Destination { get; set; }
-        public Expediente Expediente { get; set; }
+        public Expediente MedicalRecord { get; set; }
 
     }
 }

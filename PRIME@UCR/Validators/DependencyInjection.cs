@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using PRIME_UCR.Application.Dtos.Incidents;
+using PRIME_UCR.Domain.Models.UserAdministration;
 using PRIME_UCR.Validators.Incidents;
 
 namespace PRIME_UCR.Validators
@@ -16,6 +17,7 @@ namespace PRIME_UCR.Validators
             services.AddTransient<IValidator<InternationalModel>, InternationalModelValidator>();
             services.AddTransient<IValidator<MedicalCenterLocationModel>, MedicalCenterLocationModelValidator>();
             services.AddTransient<IValidator<PatientModel>, PatientModelValidator>();
+            services.AddTransient<IValidator<Paciente>, PacienteValidator>();
             return services;
         }
     }

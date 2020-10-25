@@ -52,6 +52,7 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Incidents
         {
             return await _db.Incidents
                 .Include(i => i.Cita)
+                    .ThenInclude(c => c.Expediente)
                 .Include(i => i.Origen)
                 .Include(i => i.Destino)
                 .FirstOrDefaultAsync(i => i.Codigo == code);

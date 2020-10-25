@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using PRIME_UCR.Application.Dtos.Incidents;
+using PRIME_UCR.Application.Implementations.Incidents;
+using PRIME_UCR.Application.Services.Appointments;
 using PRIME_UCR.Application.Services.MedicalRecords;
 using PRIME_UCR.Application.Services.UserAdministration;
 using PRIME_UCR.Domain.Models;
@@ -19,17 +21,33 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
         [Inject] private IPatientService PatientService { get; set; }
         [Inject] private IPersonService PersonService { get; set; }
         [Inject] private IMedicalRecordService MedicalRecordService { get; set; }
-        [Parameter] public Expediente Expediente { get; set; }
+        [Inject] private IAppointmentService AppointmentService { get; set; }
+        [Parameter] public IncidentDetailsModel Incident { get; set; }
         [Parameter] public EventCallback<PatientModel> OnSave { get; set; }
         
-        
-        private PatientModel _model = new PatientModel();
-        private bool _patientReady = false;
-        private bool _isLoading = false;
         private EditContext _context;
+        private EditContext _patientContext;
+        private PatientModel _model = new PatientModel();
+        private PatientStatus _patientStatus;
+        private bool _isLoading = true;
+        private string _statusMessage = "";
+
+        enum PatientStatus
+        {
+            PatientUnchanged,
+            PatientExists,
+            PersonExists,
+            NewPerson
+        }
+
+        private bool IsReadOnly()
+        {
+            return _patientStatus != PatientStatus.NewPerson;
+        }
         
         private async Task OnIdChange(string id)
         {
+            _statusMessage = "";
             _model.CedPaciente = id;
             if (_context.Validate())
             {
@@ -38,16 +56,23 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
                 if (patient != null)
                 {
                     _model.Patient = patient;
-                    _patientReady = true;
+                    if (Incident.MedicalRecord?.CedulaPaciente == _model.CedPaciente)
+                    {
+                        _patientStatus = PatientStatus.PatientUnchanged;
+                        _context = new EditContext(_model);
+                    }
+                    else
+                    {
+                        _patientStatus = PatientStatus.PatientExists;
+                    }
                 }
                 else // check for person
                 {
                     var person = await PersonService.GetPersonByIdAsync(id);
                     if (person != null)
                     {
-                        // warn: existing person, add them as patient?
-                        // we assume that we always create patient 
-                        patient = new Paciente
+                        // warn: existing person, but not a patient yet
+                        _model.Patient = new Paciente
                         {
                             Cédula = person.Cédula,
                             FechaNacimiento = person.FechaNacimiento,
@@ -56,46 +81,73 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
                             SegundoApellido = person.SegundoApellido,
                             Sexo = person.Sexo
                         };
-                        _model.Patient = await PatientService.InsertPatientOnlyAsync(patient);
-                        _patientReady = true;
+                        _patientStatus = PatientStatus.PersonExists;
                     }
                     else
                     {
+                        // new patient
                         _model.Patient = new Paciente
                         {
                             Cédula = _model.CedPaciente
                         };
-                    }
-
-                    if (_patientReady)
-                    {
-                        var result = await MedicalRecordService.GetByPatientIdAsync(_model.Patient.Cédula);
-                        if (result == null)
-                        {
-                            var medicalRecord = new Expediente
-                            {
-                                CedulaPaciente = _model.Patient.Cédula
-                            };
-                            _model.Expediente =  await MedicalRecordService.CreateMedicalRecordAsync(medicalRecord);
-                        }
+                        _patientStatus = PatientStatus.NewPerson;
                     }
                 }
+                _patientContext = new EditContext(_model.Patient);
             }
             else
             {
+                // invalid model, hide UI
                 _model.Patient = null;
             }
         }
 
-        protected override void OnInitialized()
+        private async Task LoadExistingValues()
         {
-           _model.Expediente = Expediente;
+           if (Incident.MedicalRecord != null)
+           {
+               _model.Patient = await PatientService.GetPatientByIdAsync(Incident.MedicalRecord.CedulaPaciente);
+               _model.CedPaciente = _model.Patient.Cédula;
+               _patientStatus = PatientStatus.PatientUnchanged;
+               _patientContext = new EditContext(_model.Patient);
+           }
+           
            _context = new EditContext(_model);
+           _statusMessage = "";
         }
 
-        private async Task AssignRecord()
+        protected override async Task OnInitializedAsync()
         {
-            Console.WriteLine(_model.CedPaciente);
+           _context = new EditContext(_model);
+           await LoadExistingValues();
+           _isLoading = false;
+        }
+
+        private async Task InsertPatient()
+        {
+            switch (_patientStatus)
+            {
+                case PatientStatus.PatientExists:
+                    // already in DB
+                    return;
+                case PatientStatus.PersonExists:
+                    _model.Patient = await PatientService.InsertPatientOnlyAsync(_model.Patient);
+                    return;
+                case PatientStatus.NewPerson:
+                    await PatientService.CreatePatientAsync(_model.Patient);
+                    return;
+            }
+        }
+
+        private async Task Submit()
+        {
+            await InsertPatient();
+            _model.Expediente = await AppointmentService.AssignMedicalRecordAsync(Incident.AppointmentId, _model.Patient);
+            await OnSave.InvokeAsync(_model);
+            _context = new EditContext(_model);
+            _patientContext = new EditContext(_model.Patient);
+            _patientStatus = PatientStatus.PatientUnchanged;
+            _statusMessage = "Se guardaron los cambios exitosamente.";
         }
     }
 }

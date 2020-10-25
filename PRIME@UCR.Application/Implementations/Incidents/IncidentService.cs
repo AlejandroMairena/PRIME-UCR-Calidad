@@ -7,6 +7,7 @@ using PRIME_UCR.Application.Dtos.Incidents;
 using PRIME_UCR.Application.DTOs.Incidents;
 using PRIME_UCR.Application.Repositories;
 using PRIME_UCR.Application.Repositories.Incidents;
+using PRIME_UCR.Application.Repositories.MedicalRecords;
 using PRIME_UCR.Application.Services.Incidents;
 using PRIME_UCR.Application.Services.UserAdministration;
 using PRIME_UCR.Domain.Constants;
@@ -22,18 +23,21 @@ namespace PRIME_UCR.Application.Implementations.Incidents
         private readonly IModesRepository _modesRepository;
         private readonly IIncidentStateRepository _statesRepository;
         private readonly ILocationRepository _locationRepository;
+        private readonly IMedicalRecordRepository _medicalRecordRepository;
 
 
         public IncidentService(
             IIncidentRepository incidentRepository,
             IModesRepository modesRepository,
             IIncidentStateRepository statesRepository,
-            ILocationRepository locationRepository)
+            ILocationRepository locationRepository,
+            IMedicalRecordRepository medicalRecordRepository)
         {
             _incidentRepository = incidentRepository;
             _modesRepository = modesRepository;
             _statesRepository = statesRepository;
             _locationRepository = locationRepository;
+            _medicalRecordRepository = medicalRecordRepository;
         }
 
         public async Task<Incidente> GetIncidentAsync(string code)
@@ -75,6 +79,10 @@ namespace PRIME_UCR.Application.Implementations.Incidents
             if (incident != null)
             {
                 var state = await _statesRepository.GetCurrentStateByIncidentId(incident.Codigo);
+                var medicalRecord = 
+                    incident.Cita.IdExpediente != null ?
+                    await _medicalRecordRepository.GetByKeyAsync((int)incident.Cita.IdExpediente)
+                    : null;
                 var model = new IncidentDetailsModel{
                     Code = incident.Codigo,
                     Mode = incident.TipoModalidad,
@@ -86,7 +94,8 @@ namespace PRIME_UCR.Application.Implementations.Incidents
                     AdminId = incident.CedulaAdmin,
                     Origin = incident.Origen,
                     Destination = incident.Destino,
-                    AppointmentId = incident.CodigoCita
+                    AppointmentId = incident.CodigoCita,
+                    MedicalRecord = medicalRecord
                 };
                 
                 return model;
@@ -99,6 +108,7 @@ namespace PRIME_UCR.Application.Implementations.Incidents
         {
             var incident = await _incidentRepository.GetByKeyAsync(model.Code);
             bool modified = false;
+            
             // update origin
             if (model.Origin != null)
             {
@@ -111,6 +121,7 @@ namespace PRIME_UCR.Application.Implementations.Incidents
                 }
             }
 
+            // update destination
             if (model.Destination != null)
             {
                 if (incident.IdDestino == null || incident.IdDestino != model.Destination.Id)
@@ -125,8 +136,6 @@ namespace PRIME_UCR.Application.Implementations.Incidents
             if (modified)
                 await _incidentRepository.UpdateAsync(incident);
 
-            var state = model.CurrentState;
-            
             if (!model.Completed && incident.IsCompleted()) // if it was just completed but wasn't previously
             {
                 var incidentState = new EstadoIncidente
@@ -137,25 +146,9 @@ namespace PRIME_UCR.Application.Implementations.Incidents
                     FechaModificado = DateTime.Now
                 };
                 await _statesRepository.AddState(incidentState);
-                state = incidentState.NombreEstado;
             }
 
-            var outputModel = new IncidentDetailsModel
-            {
-                Code = incident.Codigo,
-                Mode = incident.TipoModalidad,
-                CurrentState = state,
-                Completed = incident.IsCompleted(),
-                Modifiable = model.Modifiable,
-                RegistrationDate = incident.Cita.FechaHoraCreacion,
-                EstimatedDateOfTransfer = incident.Cita.FechaHoraEstimada,
-                AdminId = incident.CedulaAdmin,
-                AppointmentId = incident.CodigoCita,
-                Origin = incident.Origen,
-                Destination = incident.Destino
-            };
-            
-            return outputModel;
+            return await GetIncidentDetailsAsync(incident.Codigo);
         }
 
         public async Task<IEnumerable<Incidente>> GetAllAsync()
