@@ -1,17 +1,17 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PRIME_UCR.Domain.Models;
+using System;
+using System.Collections.Generic;
+using System.Text;
 
-namespace PRIME_UCR.Infrastructure.EntityConfiguration.Appointments
+namespace PRIME_UCR.Infrastructure.EntityConfiguration.Multimedia
 {
     public class AccionMap : IEntityTypeConfiguration<Accion>
     {
         void IEntityTypeConfiguration<Accion>.Configure(EntityTypeBuilder<Accion> builder)
         {
-            builder
-                .HasKey(a => new { a.CitaId, a.MultContId, a.NombreAccion });
-
-            builder.ToTable(nameof(Accion));
+            builder.HasKey("Id", "CitaId");
 
             builder
                 .HasOne(a => a.Cita)
@@ -22,11 +22,6 @@ namespace PRIME_UCR.Infrastructure.EntityConfiguration.Appointments
                 .HasOne(a => a.TipoAccion)
                 .WithMany()
                 .HasForeignKey(a => a.NombreAccion);
-
-            builder
-                .HasOne(a => a.MultimediaContent)
-                .WithMany()
-                .HasForeignKey(a => a.MultContId);
         }
     }
 }

@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BlazorTable;
-using MatBlazor;
 using Microsoft.AspNetCore.Components;
 using Microsoft.EntityFrameworkCore;
 using PRIME_UCR.Application.Dtos.Incidents;
-using PRIME_UCR.Application.DTOs.Incidents;
 using PRIME_UCR.Application.Implementations.Incidents;
 using PRIME_UCR.Application.Services.Incidents;
 using PRIME_UCR.Components.Incidents.IncidentDetails.Tabs;
@@ -23,23 +21,17 @@ namespace PRIME_UCR.Pages.Incidents
         [Inject]
         private NavigationManager NavManager { get; set; }
 
-        private ITable<IncidentListModel> Table;
+        private ITable<Incidente> Table;
 
-        private List<IncidentListModel> incidentsList;
+        private List<Incidente> incidentsList;
 
         [Inject]
         private IIncidentService IncidentService { get; set; }
         protected override async Task OnInitializedAsync()
         {
-            incidentsList = (await IncidentService.GetIncidentListModelsAsync()).ToList();
+            incidentsList = (await IncidentService.GetAllAsync()).ToList();
 
         }
-
-        MatTheme AddButtonTheme = new MatTheme()
-        {
-            Primary = "white",
-            Secondary = "#095290"
-        };
 
 
         void Redirect()

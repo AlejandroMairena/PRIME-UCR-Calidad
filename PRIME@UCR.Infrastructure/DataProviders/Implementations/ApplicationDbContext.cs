@@ -10,7 +10,6 @@ using PRIME_UCR.Domain.Models.UserAdministration;
 using PRIME_UCR.Infrastructure.EntityConfiguration.UserAdministration;
 using PRIME_UCR.Infrastructure.EntityConfiguration.MedicalRecords;
 using PRIME_UCR.Domain.Models.Appointments;
-using PRIME_UCR.Domain.Models.MedicalRecords;
 using PRIME_UCR.Infrastructure.EntityConfiguration.Appointments;
 
 namespace PRIME_UCR.Infrastructure.DataProviders.Implementations
@@ -39,22 +38,19 @@ namespace PRIME_UCR.Infrastructure.DataProviders.Implementations
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<Administrador> Adminstrators { get; set; }
         public DbSet<AdministradorCentroDeControl> AdministratorsControlCenter { get; set; }
-        public DbSet<CoordinadorTÃ©cnicoMÃ©dico> MedicalTechnicians { get; set; }
-        public DbSet<EspecialistaTÃ©cnicoMÃ©dico> MedicalSpecialists { get; set; }
+        public DbSet<CoordinadorTécnicoMédico> MedicalTechnicians { get; set; }
+        public DbSet<EspecialistaTécnicoMédico> MedicalSpecialists { get; set; }
         public DbSet<Funcionario> Functionaries { get; set; }
-        public DbSet<GerenteMÃ©dico> MedicalManagers { get; set; }
-        public DbSet<MÃ©dico> Doctors { get; set; }
-        public DbSet<NÃºmeroTelÃ©fono> PhoneNumbers { get; set; }
+        public DbSet<GerenteMédico> MedicalManagers { get; set; }
+        public DbSet<Médico> Doctors { get; set; }
+        public DbSet<NúmeroTeléfono> PhoneNumbers { get; set; }
         public DbSet<Paciente> Patients { get; set; }
         public DbSet<Perfil> Profiles { get; set; }
         public DbSet<Permiso> Permissions { get; set; }
         public DbSet<Persona> People { get; set; }
-        public DbSet<Expediente> MedicalRecords { get; set; }
-        public DbSet<Cita> Appointments { get; set; }
         public DbSet<Pertenece> BelongsTo { get; set; }
         public DbSet<TienePerfil> HasProfile { get; set; }
         public DbSet<Permite> HasPermissionOf { get; set; }
-        public DbSet<Accion> Actions { get; set; }
 
         public ApplicationDbContext(DbContextOptions options) : base(options)
         {
@@ -87,12 +83,12 @@ namespace PRIME_UCR.Infrastructure.DataProviders.Implementations
             builder.ApplyConfiguration(new UsuarioMap());
             builder.ApplyConfiguration(new AdministradorMap());
             builder.ApplyConfiguration(new AdministradorCentroDeControlMap());
-            builder.ApplyConfiguration(new CoordinadorTÃ©cnicoMÃ©dicoMap());
-            builder.ApplyConfiguration(new EspecialistaTÃ©cnicoMÃ©dicoMap());
+            builder.ApplyConfiguration(new CoordinadorTécnicoMédicoMap());
+            builder.ApplyConfiguration(new EspecialistaTécnicoMédicoMap());
             builder.ApplyConfiguration(new FuncionarioMap());
-            builder.ApplyConfiguration(new GerenteMÃ©dicoMap());
-            builder.ApplyConfiguration(new MÃ©dicoMap());
-            builder.ApplyConfiguration(new NÃºmeroTelÃ©fonoMap());
+            builder.ApplyConfiguration(new GerenteMédicoMap());
+            builder.ApplyConfiguration(new MédicoMap());
+            builder.ApplyConfiguration(new NúmeroTeléfonoMap());
             builder.ApplyConfiguration(new PacienteMap());
             builder.ApplyConfiguration(new PerfilMap());
             builder.ApplyConfiguration(new PermisoMap());
