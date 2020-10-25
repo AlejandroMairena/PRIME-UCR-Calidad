@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -46,7 +46,7 @@ namespace PRIME_UCR.Pages.Incidents
                             : new Tuple<DetailsTab, string>(DetailsTab.Destination, ""));
                         break;
                     case DetailsTab.Patient:
-                        _tabs.Add(_incidentModel.Expediente == null
+                        _tabs.Add(_incidentModel.MedicalRecord == null
                             ? new Tuple<DetailsTab, string>(DetailsTab.Patient, "warning")
                             : new Tuple<DetailsTab, string>(DetailsTab.Patient, ""));
                         break;

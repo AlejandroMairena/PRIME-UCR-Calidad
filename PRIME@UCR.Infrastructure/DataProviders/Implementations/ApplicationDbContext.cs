@@ -54,6 +54,7 @@ namespace PRIME_UCR.Infrastructure.DataProviders.Implementations
         public DbSet<Pertenece> BelongsTo { get; set; }
         public DbSet<TienePerfil> HasProfile { get; set; }
         public DbSet<Permite> HasPermissionOf { get; set; }
+        public DbSet<Accion> Actions { get; set; }
 
         public ApplicationDbContext(DbContextOptions options) : base(options)
         {
