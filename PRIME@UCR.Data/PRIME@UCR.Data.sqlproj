@@ -73,6 +73,7 @@
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\CheckLists\CheckList.sql" />
+    <Build Include="Tables\CheckLists\Item.sql" />
     <Build Include="Tables\Incidents\Pais.sql" />
     <Build Include="Tables\Incidents\Provincia.sql" />
     <Build Include="Tables\Incidents\Canton.sql" />

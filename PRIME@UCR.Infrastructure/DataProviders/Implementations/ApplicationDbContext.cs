@@ -11,6 +11,8 @@ using PRIME_UCR.Infrastructure.EntityConfiguration.UserAdministration;
 using PRIME_UCR.Infrastructure.EntityConfiguration.MedicalRecords;
 using PRIME_UCR.Domain.Models.Appointments;
 using PRIME_UCR.Infrastructure.EntityConfiguration.Appointments;
+using PRIME_UCR.Infrastructure.EntityConfiguration.CheckLists;
+using PRIME_UCR.Domain.Models.CheckLists;
 
 namespace PRIME_UCR.Infrastructure.DataProviders.Implementations
 {
@@ -18,6 +20,7 @@ namespace PRIME_UCR.Infrastructure.DataProviders.Implementations
     {
         public IDbConnection DbConnection { get; set; }
         public DbSet<CheckList> CheckList { get; set; }
+        public DbSet<Item> Item { get; set; }
         public DbSet<Provincia> Provinces { get; set; }
         public DbSet<Pais> Countries { get; set; }
         public DbSet<Domicilio> HouseholdLocations { get; set; }
@@ -60,10 +63,9 @@ namespace PRIME_UCR.Infrastructure.DataProviders.Implementations
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            builder.Entity<CheckList>(cl =>
-            {
-                cl.HasKey("Id");
-            });            
+
+            builder.ApplyConfiguration(new CheckListMap());
+            builder.ApplyConfiguration(new ItemMap());
             builder.ApplyConfiguration(new PaisMap());
             builder.ApplyConfiguration(new ProvinciaMap());
             builder.ApplyConfiguration(new DistritoMap());

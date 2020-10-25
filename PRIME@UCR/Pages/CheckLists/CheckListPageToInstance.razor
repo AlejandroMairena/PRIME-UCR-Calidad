@@ -1,0 +1,99 @@
+﻿@page "/checklist/toInstance"
+@inherits CheckListToInstanceBase
+@* @layout CheckListLayout *@
+@* @attribute [Authorize(Roles = "coordinador tecnico medico")] *@
+@* @attribute [Authorize(Policy = "check-list")] *@
+@attribute [Authorize]
+<link href="css/Checklist.css" rel="stylesheet" />
+
+<h3> Listas de chequeo para asignar a un incidente</h3>
+<hr />
+<div>
+    @if (lists == null)
+    {
+        <p><em class="nav-link">Cargando listas de chequeo.</em></p>
+    }
+    else
+    { <div></div>
+        if (lists.Count() == 0)
+        {
+            <p><em class="nav-link">No se ha creado ninguna lista, presione el boton + para crear una.</em></p>
+        }
+        else
+        {
+            if (@llenado == false)
+            {
+                Llenar();
+            }
+            <p>Marque con un check las listas que de desea asignar a este incidente de traslado</p>
+            <h5>Listas de chequeo disponibles </h5>
+            <table class="table" id="Table_CL">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Tipo</th>
+                        <th>Descripción</th>
+                        <th>&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var tempList in lists)
+                    {
+
+                    <tr class="nav-item px-3" style="transform: rotate(0);">
+
+                        <th scope="row">
+                            <a href='@string.Format("checklist/{0}", @tempList.Id)'>@tempList.Nombre</a>
+                        </th>
+                        <td>@tempList.Tipo</td>
+                        <td>@tempList.Descripcion</td>
+                        
+                        <td><input type="checkbox" @bind="TempDetail[TempsIds.IndexOf(tempList.Id)].IsDone"></td>
+                        
+                        @* *@
+
+                    </tr>
+                    }
+                </tbody>
+            </table>
+            <hr />
+            <h5>Listas de chequeo asignadas a el incidente</h5>
+            <table class="table" id="Table_CL">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Tipo</th>
+                        <th>Descripción</th>
+                    </tr>
+                </thead>
+                @*listas de chequeo elegidas*@
+            <tbody>
+                @foreach (var tempList in lists)
+                {
+                    if (TempDetail[TempsIds.LastIndexOf(tempList.Id)].IsDone)
+                    {
+                    <tr class="nav-item px-3" style="transform: rotate(0);">
+
+                        <th scope="row">
+                            <a href='@string.Format("checklist/{0}", @tempList.Id)'>@tempList.Nombre</a>
+                        </th>
+                        <td>@tempList.Tipo</td>
+                        <td>@tempList.Descripcion</td>
+
+                    </tr>
+                    }
+                }
+            </tbody>
+            </table>
+
+
+            <div align="center">
+                <button type="submit" class="btn btn-primary" id="BP_LC0">Guardar</button>
+                <a class="btn btn-outline-secondary" @onclick="Dispose" id="a_LC3">Cancelar</a>
+            </div>
+            
+        }
+
+    }
+</div>
+<br />
