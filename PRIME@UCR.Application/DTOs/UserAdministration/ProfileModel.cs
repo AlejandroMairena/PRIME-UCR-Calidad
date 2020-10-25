@@ -9,6 +9,8 @@ namespace PRIME_UCR.Application.DTOs.UserAdministration
     {
         public string ProfileName { get; set; }
 
+        public string StatusMessage { get; set; }
+
         public List<Tuple<string,bool>> CheckedUsers { get; set; }
 
         public List<bool> CheckedPermissions { get; set; }

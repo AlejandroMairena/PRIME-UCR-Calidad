@@ -50,12 +50,15 @@ namespace PRIME_UCR.Components.UserAdministration
                 {
                     Value.UserLists.Add(User);
                     await perteneceService.InsertUserOfProfileAsync(User.Id, Value.ProfileName);
+                    Value.StatusMessage = "El usuario " + User.UserName + " fue agregado del perfil " + Value.ProfileName;
                 }
                 else
                 {
                     Value.UserLists.Remove(User);
                     await perteneceService.DeleteUserOfProfileAsync(User.Id, Value.ProfileName);
+                    Value.StatusMessage = "El usuario " + User.UserName + " fue removido del perfil " + Value.ProfileName;
                 }
+                await ValueChanged.InvokeAsync(Value);
             }
         }
 

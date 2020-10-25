@@ -51,12 +51,15 @@ namespace PRIME_UCR.Components.UserAdministration
                 {
                     Value.PermissionsList.Add(Permission);
                     await permiteService.InsertPermissionAsync(Value.ProfileName, idPermission);
+                    Value.StatusMessage = "El permiso \"" + Permission.DescripciónPermiso + "\" fue agregado al perfil " + Value.ProfileName;
                 }
                 else 
                 {
                     Value.PermissionsList.Remove(Permission);
                     await permiteService.DeletePermissionAsync(Value.ProfileName,idPermission);
+                    Value.StatusMessage = "El permiso \"" + Permission.DescripciónPermiso + "\" fue removido del perfil " + Value.ProfileName;
                 }
+                await ValueChanged.InvokeAsync(Value);
             }
         }
     }
