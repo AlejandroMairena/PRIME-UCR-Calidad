@@ -37,7 +37,7 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails
         }
         private async Task SavePatient(PatientModel model)
        {
-            Incident.Expediente = model.Expediente;
+            Incident.MedicalRecord = model.Expediente;
             await OnSave.InvokeAsync(Incident);
        }
     }

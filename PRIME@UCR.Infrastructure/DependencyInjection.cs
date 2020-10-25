@@ -23,14 +23,15 @@ namespace PRIME_UCR.Infrastructure
         public static IServiceCollection AddInfrastructureLayer(this IServiceCollection services)
         {
             // data providers
-            services.AddTransient<ISqlDataProvider, ApplicationDbContext>();
+            services.AddScoped<ISqlDataProvider, ApplicationDbContext>();
             // repositories
-            services.AddTransient(typeof(IGenericRepository<,>), typeof(GenericRepository<,>));
+            services.AddScoped(typeof(IGenericRepository<,>), typeof(GenericRepository<,>));
             services.AddTransient<ICheckListRepository, SqlCheckListRepository>();
             // generic repositories
             services.AddTransient(typeof(IGenericRepository<,>), typeof(GenericRepository<,>));
             // appointments
             services.AddTransient<IActionTypeRepository, ActionTypeRepository>();
+            services.AddTransient<IAppointmentRepository, AppointmentRepository>();
             // incidents repositories
             services.AddTransient<ICountryRepository, CountryRepository>();
             services.AddTransient<IProvinceRepository, ProvinceRepository>();
