@@ -8,6 +8,7 @@ using PRIME_UCR.Components.CheckLists;
 using Microsoft.AspNetCore.Components.Forms;
 using PRIME_UCR.Domain.Models.CheckLists;
 using System.Linq;
+using System.Threading;
 
 namespace PRIME_UCR.Pages.CheckLists
 {
@@ -24,6 +25,8 @@ namespace PRIME_UCR.Pages.CheckLists
         protected bool createItem { get; set; } = false;
 
         protected IEnumerable<CheckList> lists { get; set; }
+
+        protected IEnumerable<Item> coreItems { get; set; }
 
         protected IEnumerable<Item> items { get; set; }
         protected IEnumerable<Item> subItems { get; set; }
@@ -53,6 +56,7 @@ namespace PRIME_UCR.Pages.CheckLists
             lists = await MyCheckListService.GetAll();
             items = await MyCheckListService.GetItemsByCheckListId(id);
             itemsList = items.ToList();
+            coreItems = await MyCheckListService.GetCoreItems(id);
         }
 
         /**
@@ -93,7 +97,7 @@ namespace PRIME_UCR.Pages.CheckLists
             createItem = true;
             tempItem = new Item();
             tempItem.IDLista = id;
-            tempItem.Orden = items.Count() + 1;
+            tempItem.Orden = coreItems.Count() + 1;
             editContext = new EditContext(tempItem);
             editContext.OnFieldChanged += HandleFieldChanged;
             StateHasChanged();

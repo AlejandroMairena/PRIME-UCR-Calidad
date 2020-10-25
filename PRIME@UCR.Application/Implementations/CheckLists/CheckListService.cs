@@ -62,6 +62,11 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
             IEnumerable<Item> items = await _itemRepository.GetBySuperitemId(superitemId);
             return items.OrderBy(item => item.Orden);
         }
+        public async Task<IEnumerable<Item>> GetCoreItems(int checkListId)
+        {
+            IEnumerable<Item> items = await _itemRepository.GetCoreItems(checkListId);
+            return items.OrderBy(item => item.Orden);
+        }
         public async Task<Item> SaveImageItem(Item item)
         {
             return await _itemRepository.InsertAsync(item);

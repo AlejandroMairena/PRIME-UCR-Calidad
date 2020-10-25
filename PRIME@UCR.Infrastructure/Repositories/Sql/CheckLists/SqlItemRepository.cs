@@ -30,5 +30,9 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.CheckLists
         {
             return await this.GetByConditionAsync(itemModel => itemModel.IDSuperItem == superitemId);
         }
+        public async Task<IEnumerable<Item>> GetCoreItems(int listId)
+        {
+            return await this.GetByConditionAsync(itemModel => itemModel.IDLista == listId && itemModel.IDSuperItem == null);
+        }
     }
 }
