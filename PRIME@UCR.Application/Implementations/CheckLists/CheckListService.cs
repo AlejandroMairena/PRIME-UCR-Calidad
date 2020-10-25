@@ -13,7 +13,9 @@ using PRIME_UCR.Domain.Models.CheckLists;
 
 namespace PRIME_UCR.Application.Implementations.CheckLists
 {
-
+    /**
+     * Class used to manage checklists and their items
+     */
     public class CheckListService : ICheckListService
     {
         private readonly ICheckListRepository _checklistRepository;
@@ -24,6 +26,7 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
             _checklistRepository = checklistRepository;
             _itemRepository = itemRepository;
         }
+
         public async Task<IEnumerable<CheckList>> GetAll()
         {
             IEnumerable<CheckList> lists = await _checklistRepository.GetAllAsync();

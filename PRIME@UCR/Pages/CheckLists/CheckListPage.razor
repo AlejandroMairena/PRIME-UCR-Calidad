@@ -20,6 +20,7 @@
         }
         else { 
             <table class="table" id="Table_CL">
+                @* Contains the list of existing checklists *@
                 <thead>
                     <tr>
                         <th>Nombre</th>
@@ -31,6 +32,7 @@
                     @foreach (var tempList in lists)
                     {
                         <tr class="nav-item px-3" style="transform: rotate(0);">
+                            @* Navigation link for each checklist *@
                             <th scope="row"><a href='@string.Format("checklist/{0}", @tempList.Id)' class="stretched-link">@tempList.Nombre</a></th>
                                 <td>@tempList.Tipo</td>
                                 <td>@tempList.Descripcion</td>
@@ -39,7 +41,7 @@
                 </tbody>
             </table>
         }
+        @* Floating button to create a new checklist *@
         <a class="btn btn-outline-primary" href='@string.Format("checklist/create")' id="a_LC1" data-toggle="tooltip" title="Crear Lista de chequeo">+</a>
     }
 </div>
-<br />

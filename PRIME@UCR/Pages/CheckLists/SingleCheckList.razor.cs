@@ -11,6 +11,9 @@ using System.Linq;
 
 namespace PRIME_UCR.Pages.CheckLists
 {
+    /**
+    * This page displays the information of achecklists and its subitems
+    * */
     public class SingleCheckListBase : ComponentBase
     {
         [Parameter]
@@ -19,17 +22,6 @@ namespace PRIME_UCR.Pages.CheckLists
         private bool isDisabled { get; set; } = true;
 
         protected bool createItem { get; set; } = false;
-
-        protected bool showItemChangeComponent = false;
-        protected string divDDClass = "dropdown";
-        protected string ddMenuClass = "dropdown-menu";
-
-        protected void toggleItemChangeComponent()
-        {
-            divDDClass = showItemChangeComponent ? "dropdown" : "dropdown show";
-            ddMenuClass = showItemChangeComponent ? "dropdown-menu" : "dropdown-menu show";
-            showItemChangeComponent = !showItemChangeComponent;
-        }
 
         protected IEnumerable<CheckList> lists { get; set; }
 
@@ -52,6 +44,9 @@ namespace PRIME_UCR.Pages.CheckLists
             await RefreshModels();
         }
 
+        /**
+         * Gets the checklist corresponding to this page, its items and the list of checklists in the database
+         * */
         protected async Task RefreshModels()
         {
             list = await MyCheckListService.GetById(id);
@@ -60,6 +55,9 @@ namespace PRIME_UCR.Pages.CheckLists
             itemsList = items.ToList();
         }
 
+        /**
+         * Checks if the required fields of the item are valid
+         * */
         protected void HandleFieldChanged(object sender, FieldChangedEventArgs e)
         {
             if (tempItem.Nombre != null)
@@ -75,6 +73,9 @@ namespace PRIME_UCR.Pages.CheckLists
             StateHasChanged();
         }
 
+        /**
+         * Inserts a new item into the database
+         * */
         protected async Task AddCheckListItem(Item item)
         {
             await MyCheckListService.InsertCheckListItem(item);
@@ -84,6 +85,9 @@ namespace PRIME_UCR.Pages.CheckLists
             StateHasChanged();
         }
 
+        /**
+         * Sets flags to display the item creation form
+         * */
         protected void StartNewItemCreation() 
         {
             createItem = true;
@@ -95,6 +99,9 @@ namespace PRIME_UCR.Pages.CheckLists
             StateHasChanged();
         }
 
+        /**
+         * Sets flags to display the sub item creation form
+         * */
         protected async Task CreateSubItem(int itemId)
         {
             subItems = await MyCheckListService.GetItemsBySuperitemId(itemId);
@@ -108,6 +115,9 @@ namespace PRIME_UCR.Pages.CheckLists
             StateHasChanged();
         }
 
+        /**
+         * Registers the new item
+         * */
         protected async Task HandleValidSubmit()
         {
             await AddCheckListItem(tempItem);
@@ -124,6 +134,9 @@ namespace PRIME_UCR.Pages.CheckLists
             await RefreshModels();
         }
 
+        /**
+         * Gets an item based on its id
+         * */
         protected int getItemIndex(Item itemInList) {
             return itemsList.FindIndex(item => item.Id == itemInList.Id);
         }

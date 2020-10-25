@@ -9,9 +9,11 @@ using Microsoft.AspNetCore.Components.Forms;
 using System.Linq;
 using PRIME_UCR.Domain.Models.CheckLists;
 
-
 namespace PRIME_UCR.Pages.CheckLists
 {
+    /**
+    * This page displays a form to create a new checklist
+    * */
     public class CheckListCreateBase : ComponentBase
     {
    
@@ -31,10 +33,14 @@ namespace PRIME_UCR.Pages.CheckLists
         protected bool formInvalid = true;
         protected EditContext editContext;
 
+        /**
+         * Gets the list of checklists in the database
+         * */
         protected async Task RefreshModels()
         {
             lists = await MyService.GetAll();
         }
+
         protected override async Task OnInitializedAsync()
         {
             _types.Add("Colocación equipo");
@@ -48,6 +54,9 @@ namespace PRIME_UCR.Pages.CheckLists
             checkList.Orden = lists.Count() + 1;
         }
 
+        /**
+         * Checks if the required fields of the checklist are valid
+         * */
         protected void HandleFieldChanged(object sender, FieldChangedEventArgs e)
         {
             if (checkList.Nombre != null && checkList.Tipo != null)
@@ -63,13 +72,18 @@ namespace PRIME_UCR.Pages.CheckLists
             editContext.OnFieldChanged -= HandleFieldChanged;
         }
 
+        /**
+         * Inserts the new checklist into the database
+         * */
         protected async Task AddCheckList(CheckList tempList)
         {
             await MyService.InsertCheckList(tempList);
             await RefreshModels();
         }
 
-
+        /**
+         * Registers the new checklist and navigates to its page
+         * */
         protected async Task HandleValidSubmit()
         {
             await AddCheckList(checkList);

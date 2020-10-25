@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 namespace PRIME_UCR.Application.Implementations.Multimedia
 {
-    // User Story PIG01IIC20-267 LG - Agregar imagen descriptiva a lista de chequeo
     // Temporal service to store files without encrypting them
     public class TempFileServiceNoEncryption : ITempFileServiceNoEncryption
     {
