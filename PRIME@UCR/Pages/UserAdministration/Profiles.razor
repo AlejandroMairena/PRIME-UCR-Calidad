@@ -1,7 +1,10 @@
 ﻿@page "/user_administration/profiles"
 @using PRIME_UCR.Components.UserAdministration
+@using ChartJs.Blazor.Charts
+@using PRIME_UCR.Application.DTOs.UserAdministration;
+@using PRIME_UCR.Application.Implementations.UserAdministration;
 
-@attribute [Authorize]
+@attribute [HasPermission(AuthorizationPermissions.CanManageUsers)]
 <link href="css/Profiles.css" rel="stylesheet" />
 
 
@@ -10,7 +13,7 @@
 <br />
 
 <h5>Perfiles</h5>
-<ProfilesComponent @bind-Value="profile"/>
+<ProfilesComponent @bind-Value="profile" />
 
 
 <Loading IsLoading="profile.ProfileName == null">
@@ -18,12 +21,12 @@
         <div style="background-color: white;padding-left: 10px;padding-right: 10px;">
             <br />
             <h5>Usuarios</h5>
-            <UsersComponent  @bind-Value="profile"/>
+            <UsersComponent @bind-Value="profile" />
         </div>
         <div style="background-color:white;padding-left: 10px;padding-right: 10px;">
             <br />
             <h5>Permisos</h5>
-            <PermissionsComponent @bind-Value="profile"/>
+            <PermissionsComponent @bind-Value="profile" />
         </div>
 
     </div>
