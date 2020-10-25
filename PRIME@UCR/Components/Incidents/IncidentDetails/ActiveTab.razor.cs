@@ -35,5 +35,10 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails
             Incident.TransportUnit = model.TransportUnit;
             await OnSave.InvokeAsync(Incident);
         }
+        private async Task SavePatient(PatientModel model)
+       {
+            Incident.Expediente = model.Expediente;
+            await OnSave.InvokeAsync(Incident);
+       }
     }
 }

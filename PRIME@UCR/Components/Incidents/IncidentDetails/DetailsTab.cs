@@ -5,7 +5,7 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
 {
     public enum DetailsTab
     {
-        [Description("Información general")]
+        [Description("Resumen")]
         Info,
         [Description("Origen")]
         Origin,
@@ -15,5 +15,7 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
         Patient,
         [Description("Asignación")]
         Assignment,
+        [Description("Multimedia")]
+        Multimedia,
     }
 }

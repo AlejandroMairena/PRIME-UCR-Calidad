@@ -1,4 +1,4 @@
-﻿@using PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
+@using PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
 
 <div class="container">
     @if (Active == DetailsTab.Info)
@@ -15,7 +15,11 @@
     }
     else if (Active == DetailsTab.Patient)
     {
-        <PatientTab/>
+        <PatientTab Expediente="@Incident.Expediente" OnSave="@SavePatient" />
+    }
+    else if (Active == DetailsTab.Multimedia)
+    {
+        <MultimediaTab Incident="@Incident"/>
     }
     else if (Active == DetailsTab.Assignment)
     {

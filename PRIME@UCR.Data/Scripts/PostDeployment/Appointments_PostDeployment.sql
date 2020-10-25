@@ -7,7 +7,6 @@ DELETE FROM TipoAccion
 
 DBCC CHECKIDENT ('Cita', RESEED, 0)
 DBCC CHECKIDENT ('Metricas', RESEED, 0)
-DBCC CHECKIDENT ('Accion', RESEED, 0)
 
 INSERT INTO TipoAccion (Nombre, EsDeCitaMedica, EsDeIncidente)
 VALUES
