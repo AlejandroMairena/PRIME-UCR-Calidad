@@ -13,7 +13,7 @@
             <p id="emailHelp" class="text-danger">Ingresó su usuario o contraseña incorrectamente. Intente de nuevo.</p>
         </div>
         <div class="text-center">
-            @if (isBusy)
+            @if (isBusy) // Loading button
             {
                 <button class="btn btn-light width:13em mt-2" type="button">
                     <span class="spinner-border spinner-border-sm" style="background-color:white" role="status" aria-hidden="true"></span>
@@ -22,7 +22,7 @@
             }
             else
             {
-                @if (isFormValid)
+                @if (isFormValid) // Disable button if form is not valid 
                 {
                     <button type="submit" style="width:13em" class="btn btn-light mt-2">Ingresar</button> 
                 }
