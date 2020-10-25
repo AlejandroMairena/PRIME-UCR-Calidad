@@ -5,6 +5,5 @@
 	[Archivo] varchar(500) NOT NULL,
 	[Descripcion] varchar(2000),
 	[Fecha_Hora] datetime NOT NULL,
-	[Tipo] varchar(100) NOT NULL,
-	[ID_Accion] int
+	[Tipo] varchar(100) NOT NULL
 )
