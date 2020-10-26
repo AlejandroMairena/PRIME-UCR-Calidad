@@ -10,7 +10,7 @@
     }
     <StatusMessage Message="@_statusMessage" Class="success"/>
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-xl-4 col-lg-6">
             <EditForm EditContext="_context">
                 <FluentValidationValidator />
                 <TextBox Label="Cédula del paciente"
@@ -31,16 +31,20 @@
                     <FluentValidationValidator />
                     @if (!IsReadOnly() || _model.Patient.FechaNacimiento != null)
                     {
-                        <DatePicker Disabled="IsReadOnly()" @bind-Value="_model.Patient.FechaNacimiento" Label="Fecha de nacimiento"/>
+                        <DatePicker Disabled="IsReadOnly()"
+                                    @bind-Value="_model.Patient.FechaNacimiento"
+                                    Label="Fecha de nacimiento"
+                                    Max="@DateTime.Today"
+                                    Min="@DateTime.Today.AddYears(-120)" />
                     }
                     <TextBox Disabled="IsReadOnly()" @bind-Value="_model.Patient.Nombre" Label="Nombre"/>
                     <TextBox Disabled="IsReadOnly()" @bind-Value="_model.Patient.PrimerApellido" Label="Primer apellido"/>
-                    @if (IsReadOnly() || !String.IsNullOrEmpty(_model.Patient.SegundoApellido))
+                    @if (!IsReadOnly() || !String.IsNullOrEmpty(_model.Patient.SegundoApellido))
                     {
                         <TextBox Disabled="IsReadOnly()" @bind-Value="_model.Patient.SegundoApellido" Label="Segundo apellido"/>
                     }
                     @* TODO: sexo *@
-                    <div class="mt-2">
+                    <div class="mt-4">
                         @if (_patientStatus == PatientStatus.PatientUnchanged)
                         {
                             <button disabled class="btn btn-primary">Guardar</button>

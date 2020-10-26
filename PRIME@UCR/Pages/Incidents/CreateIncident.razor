@@ -11,7 +11,9 @@
                           TextProperty="Tipo"
                           DefaultText="Seleccione una modalidad de traslado"/>
             <DateTimePicker @bind-Value="@_model.EstimatedDateOfTransfer"
-                             DateLabel="Fecha estimada de traslado" TimeLabel="Hora estimada de traslado"/>
+                             Min="DateTime.Now"
+                             DateLabel="Fecha estimada de traslado"
+                             TimeLabel="Hora estimada de traslado"/>
             @if (isFormValid)
             {
                 <button type="submit" class="btn btn-primary">Crear</button>

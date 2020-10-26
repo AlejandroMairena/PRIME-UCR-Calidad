@@ -38,7 +38,8 @@ namespace PRIME_UCR.Domain.Models
         public bool IsCompleted()
         {
             return IdOrigen != null &&
-                   IdDestino != null;
+                   IdDestino != null &&
+                   MatriculaTrans != null;
         }
 
         public bool IsModifiable(Estado currentState)

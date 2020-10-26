@@ -4,8 +4,11 @@ using Microsoft.AspNetCore.Components;
 
 namespace PRIME_UCR.Components.Controls
 {
-    public class DatePicker : GenericInput<DateTime?>
+    public partial class DatePicker
     {
+        [Parameter] public DateTime? Min { get; set; } 
+        [Parameter] public DateTime? Max { get; set; } 
+        
         protected override async Task OnChangeEvent(ChangeEventArgs e)
         {
             var valid = DateTime.TryParse((string) e.Value, out var result);

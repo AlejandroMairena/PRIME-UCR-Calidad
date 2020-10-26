@@ -36,13 +36,21 @@ namespace PRIME_UCR.Components.Incidents.LocationPickers
         private async Task Discard()
         {
             await OnDiscard.InvokeAsync(null);
+            if (!IsFirst && !OnDiscard.HasDelegate)
+                await LoadExistingValues();
+
         }
 
-        protected override async Task OnInitializedAsync()
+        private async Task LoadExistingValues()
         {
             _values = (await LocationService.GetAllCountriesAsync())
                 .Where(c => c.Nombre != Pais.DefaultCountry)
                 .ToList();
+        }
+
+        protected override async Task OnInitializedAsync()
+        {
+            await LoadExistingValues();
             
             if (IsFirst)
                 Value = new InternationalModel();

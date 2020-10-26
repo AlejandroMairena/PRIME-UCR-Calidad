@@ -11,7 +11,6 @@ namespace PRIME_UCR.Application.Services.Incidents
 {
     public interface ILocationService
     {
-        Task<IEnumerable<UnidadDeTransporte>> GetAllTransporUnitsByMode(string mode);
         Task<IEnumerable<Médico>> GetAllDoctorsByMedicalCenter(int medicalCenterId);
         Task<Pais> GetCountryByName(string name);
         Task<CentroMedico> GetMedicalCenterById(int id);

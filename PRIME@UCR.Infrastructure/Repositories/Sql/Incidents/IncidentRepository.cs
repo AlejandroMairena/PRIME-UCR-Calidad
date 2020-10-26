@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Data.SqlTypes;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,6 +11,7 @@ using PRIME_UCR.Application.DTOs.Incidents;
 using PRIME_UCR.Application.Repositories.Incidents;
 using PRIME_UCR.Domain.Models;
 using PRIME_UCR.Infrastructure.DataProviders;
+using RepoDb;
 
 namespace PRIME_UCR.Infrastructure.Repositories.Sql.Incidents
 {
@@ -19,35 +21,30 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Incidents
         {
         }
 
-        public new Task<Incidente> InsertAsync(Incidente model)
+        public override async Task<Incidente> InsertAsync(Incidente model)
         {
-            throw new InvalidOperationException("Use overload with model and DateTime.");
-        }
-        public async Task<Incidente> InsertAsync(Incidente model, DateTime estimatedTime)
-        {
-            return await Task.Run(() =>
+            await using var connection = new SqlConnection(_db.DbConnection.ConnectionString);
+            var parameters = new Dictionary<string, object>
             {
-                // raw sql
-                using (var cmd = _db.DbConnection.CreateCommand())
-                {
-                    if (cmd.Connection.State == ConnectionState.Closed)
-                    {
-                        cmd.Connection.Open();
-                    }
-                    
-                    cmd.CommandText =
-                        $"EXECUTE dbo.InsertarNuevoIncidente NULL, NULL, {model.CedulaAdmin}, NULL, NULL, NULL, NULL, '{model.TipoModalidad}', '{new SqlDateTime(DateTime.Now).ToSqlString()}', '{new SqlDateTime(estimatedTime).ToSqlString()}'";
+                {"CedulaAdmin", model.CedulaAdmin},
+                {"Modalidad", model.TipoModalidad},
+                {"FechaHoraRegistro", DateTime.Now},
+                {"FechaHoraEstimada", model.Cita.FechaHoraEstimada},
+                {"CedulaTecnicoCoordinador", null},
+                {"CedulaTecnicoRevisor", null},
+                {"IdOrigen", null},
+                {"IdDestino", null},
+                {"IdEspecialista", null},
+                {"MatriculaTrans", null}
+            };
+            
+            var result = await connection.ExecuteScalarAsync(
+                "dbo.InsertarNuevoIncidente", parameters, CommandType.StoredProcedure);
+            
+            model.Codigo = result.ToString();
 
-     
-                    Console.WriteLine(new SqlDateTime(DateTime.Now).ToSqlString());
-                    model.Codigo = cmd.ExecuteScalar() // returns a string
-                        .ToString();
-                }
-
-                return model;
-            });
+            return model;
         }
-
         public async Task<Incidente> GetWithDetailsAsync(string code)
         {
             return await _db.Incidents

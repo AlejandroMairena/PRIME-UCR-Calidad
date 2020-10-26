@@ -15,7 +15,7 @@
     }
     else if (Active == DetailsTab.Patient)
     {
-        <PatientTab Incident="@Incident" OnSave="@SavePatient" />
+        <PatientTab Incident="@Incident" OnSave="@SavePatient"/>
     }
     else if (Active == DetailsTab.Multimedia)
     {
@@ -23,7 +23,7 @@
     }
     else if (Active == DetailsTab.Assignment)
     {
-        <Assignment TransportUnit="@Incident.TransportUnit" Mode="@Incident.Mode" OnSave="@SaveAssignments"/>
+        <Assignment Incident="@Incident" OnSave="@SaveAssignments"/>
     }
     else
     {

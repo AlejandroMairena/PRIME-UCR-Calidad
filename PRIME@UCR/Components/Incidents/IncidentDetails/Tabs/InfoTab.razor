@@ -3,9 +3,13 @@
 
 <h3> Información general del incidente</h3>
 <br />
-@if (!DetailsModel.Completed)
+@if (status == "a")
 {
-    <StatusMessage Message="Hay valores pendientes para finalizar la creación del incidente." Class="warning" />
+    <StatusMessage Message="Aprobado por Fernando Morales" Class="primary" />
+}
+else if (status == "r")
+{
+    <StatusMessage Message="Rechazado por Fernando Morales" Class="danger" />
 }
 <ul class="list-group">
     <ListItem Title="Identificador" Text="@DetailsModel.Code"/>
@@ -18,3 +22,22 @@
     <ListItem Title="Creado por"
               Text="@_register" />
 </ul>
+@if (status == null)
+{
+    <div class="text-center mt-4">
+        <button class="btn btn-primary">Aprobar</button>
+        <button class="btn btn-danger">Rechazar</button>
+    </div>
+}
+else if (status == "r")
+{
+    <div class="text-center mt-4">
+        <button class="btn btn-primary">Aprobar</button>
+        <button disabled class="btn btn-danger">Rechazar</button>
+    </div>
+}
+
+
+@code {
+    string status = "a";
+}

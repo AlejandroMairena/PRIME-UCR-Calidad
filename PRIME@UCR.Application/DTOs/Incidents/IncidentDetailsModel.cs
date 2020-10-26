@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using PRIME_UCR.Domain.Models;
 using PRIME_UCR.Domain.Models.Incidents;
 using PRIME_UCR.Domain.Models.MedicalRecords;
+using PRIME_UCR.Domain.Models.UserAdministration;
 
 namespace PRIME_UCR.Application.Dtos.Incidents
 {

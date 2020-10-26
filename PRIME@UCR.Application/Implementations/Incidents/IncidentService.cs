@@ -55,14 +55,22 @@ namespace PRIME_UCR.Application.Implementations.Incidents
 
         public async Task<Incidente> CreateIncidentAsync(IncidentModel model, Persona person)
         {
+            if (model.EstimatedDateOfTransfer == null)
+            {
+                throw new ArgumentNullException("model.EstimatedDateOfTransfer");
+            }
+            
             var entity = new Incidente
             {
                 TipoModalidad = model.Mode.Tipo,
-                CedulaAdmin = person.Cédula
+                CedulaAdmin = person.Cédula,
+                Cita = new Cita()
             };
+
+            entity.Cita.FechaHoraEstimada = (DateTime)model.EstimatedDateOfTransfer;
             
             // insert before adding state to get auto generated code from DB
-            await _incidentRepository.InsertAsync(entity, model.EstimatedDateOfTransfer);
+            await _incidentRepository.InsertAsync(entity);
             
             var state = new EstadoIncidente
             {
@@ -100,7 +108,7 @@ namespace PRIME_UCR.Application.Implementations.Incidents
                     Origin = incident.Origen,
                     Destination = incident.Destino,
                     AppointmentId = incident.CodigoCita,
-                    TransportUnitId = transportUnit.Matricula,
+                    TransportUnitId = transportUnit?.Matricula,
                     TransportUnit = transportUnit,
                     MedicalRecord = medicalRecord
                 };

@@ -81,7 +81,8 @@ namespace PRIME_UCR.Components.Incidents.LocationPickers
         private async Task Discard()
         {
             await OnDiscard.InvokeAsync(null);
-            await LoadExistingValues();
+            if (!IsFirst && !OnDiscard.HasDelegate)
+                await LoadExistingValues();
         }
 
         protected override async Task OnInitializedAsync()

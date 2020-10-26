@@ -25,7 +25,7 @@ namespace PRIME_UCR.Infrastructure.EntityConfiguration.Incidents
                 .HasColumnName("CédulaMédico");
             builder
                 .HasOne(p => p.Médico)
-                .WithMany(p => p.CentrosMedicos)
+                .WithMany()
                 .HasForeignKey(p => p.CedulaMedico);
         }
     }

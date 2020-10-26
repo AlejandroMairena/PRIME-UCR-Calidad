@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using System.Data;
+using Microsoft.Extensions.DependencyInjection;
 using PRIME_UCR.Application.Implementations.Multimedia;
 using PRIME_UCR.Application.Repositories;
 using PRIME_UCR.Application.Repositories.Appointments;
@@ -15,6 +16,7 @@ using PRIME_UCR.Infrastructure.Repositories.Sql.Incidents;
 using PRIME_UCR.Infrastructure.Repositories.Sql.MedicalRecords;
 using PRIME_UCR.Infrastructure.Repositories.Sql.Multimedia;
 using PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration;
+using RepoDb;
 
 namespace PRIME_UCR.Infrastructure
 {
@@ -22,6 +24,8 @@ namespace PRIME_UCR.Infrastructure
     {
         public static IServiceCollection AddInfrastructureLayer(this IServiceCollection services)
         {
+            RepoDb.SqlServerBootstrap.Initialize();
+
             // data providers
             services.AddScoped<ISqlDataProvider, ApplicationDbContext>();
             // repositories

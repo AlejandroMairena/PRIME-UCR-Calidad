@@ -10,7 +10,7 @@ namespace PRIME_UCR.Application.Services.Appointments
 {
     public interface IAppointmentService
     {
-        Task<IEnumerable<TipoAccion>> GetActionTypesAsync();
+        Task<IEnumerable<TipoAccion>> GetActionTypesAsync(bool isIncident = true);
         Task<Expediente> AssignMedicalRecordAsync(int appointmentId, Paciente patient);
     }
 }

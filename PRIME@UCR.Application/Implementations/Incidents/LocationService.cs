@@ -18,27 +18,19 @@ namespace PRIME_UCR.Application.Implementations.Incidents
         private readonly ICantonRepository _cantonRepository;
         private readonly IDistrictRepository _districtRepository;
         private readonly IMedicalCenterRepository _medicalCenterRepository;
-        private readonly ITransportUnitRepository _transportUnitRepository;
 
         public LocationService(
             ICountryRepository countryRepository,
             IProvinceRepository provinceRepository,
             ICantonRepository cantonRepository,
             IDistrictRepository districtRepository,
-            IMedicalCenterRepository medicalCenterRepository,
-            ITransportUnitRepository transportUnitRepository)
+            IMedicalCenterRepository medicalCenterRepository)
         {
             _countryRepository = countryRepository;
             _provinceRepository = provinceRepository;
             _cantonRepository = cantonRepository;
             _districtRepository = districtRepository;
             _medicalCenterRepository = medicalCenterRepository;
-            _transportUnitRepository = transportUnitRepository;
-        }
-
-        public async Task<IEnumerable<UnidadDeTransporte>> GetAllTransporUnitsByMode(string mode)
-        {
-            return await _transportUnitRepository.GetAllTransporUnitsByMode(mode);
         }
 
 

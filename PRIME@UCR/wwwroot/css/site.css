@@ -243,3 +243,17 @@ app {
     bottom: 1rem;
     right: 1rem;
 }
+
+/* Radzen multi select */
+
+.ui-dropdown-item.ui-state-highlight, .ui-dropdown-items li.ui-state-highlight, .ui-multiselect-items li.ui-state-highlight, .ui-autocomplete-items li.ui-state-highlight, .ui-state-highlight.ui-multiselect-item, .ui-state-highlight.ui-autocomplete-list-item, .ui-state-highlight.ui-menuitem {
+    background: #095290;
+}
+
+.ui-chkbox-box.ui-state-active {
+    background-color: #00c0f3;
+}
+
+.ui-dropdown-item:hover, .ui-dropdown-items li:hover, .ui-multiselect-items li:hover, .ui-autocomplete-items li:hover, .ui-multiselect-item:hover, .ui-autocomplete-list-item:hover, .ui-menuitem:hover {
+    background-color: #095290;
+}

@@ -16,7 +16,6 @@ namespace PRIME_UCR.Components.Incidents.LocationPickers
     {
         [Inject] public ILocationService LocationService { get; set; }
         [Parameter] public AssignmentModel Value { get; set; }
-        [Parameter] public bool IsFirst { get; set; }
         [Parameter] public string Mode { get; set; }
         [Parameter] public EventCallback OnDiscard { get; set; }
         [Parameter] public EventCallback<AssignmentModel> OnSave { get; set; }
@@ -28,39 +27,40 @@ namespace PRIME_UCR.Components.Incidents.LocationPickers
         private bool _saveButtonEnabled;
         private EditContext _context;
 
-        private async Task LoadTransportUnits(bool firstRender)
+        private async Task LoadTransportUnits()
         {
-            _transportUnits =
-                (await LocationService.GetAllTransporUnitsByMode(Mode))
-                .ToList();
-            if (firstRender)
-            {
-                Value.TransportUnit = null;
-            }
         }
- 
+
         private async Task Submit()
         {
+            Value.TransportUnit = _selectedTransportUnit;
             await OnSave.InvokeAsync(Value);
             _context.OnFieldChanged -= HandleFieldChanged;
-            _context = new EditContext(model: Value);
+            _context = new EditContext(Value);
             _context.OnFieldChanged += HandleFieldChanged;
             _saveButtonEnabled = false;
         }
         private async Task Discard()
         {
             await OnDiscard.InvokeAsync(null);
-            await LoadTransportUnits(true);
+            await LoadTransportUnits();
         }
         protected override async Task OnInitializedAsync()
         {
-            if (IsFirst)
-                Value = new AssignmentModel {};
+            await LoadTransportUnits();
 
-            await LoadTransportUnits(true);
-            _saveButtonEnabled = IsFirst;
+            if (Value == null || Value.TransportUnit == null)
+            {
+                Value = new AssignmentModel();
+                _saveButtonEnabled = true;
+            }
+            else
+            {
+                _selectedTransportUnit =
+                    _transportUnits.FirstOrDefault(t => t.Matricula == Value.TransportUnit.Matricula);
+            }
 
-            _context = new EditContext(model: Value);
+            _context = new EditContext(Value);
             _context.OnFieldChanged += HandleFieldChanged;
         }
 
