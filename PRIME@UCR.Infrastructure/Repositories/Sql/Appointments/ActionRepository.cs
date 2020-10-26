@@ -41,25 +41,24 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Appointments
 
         public async Task<Accion> InsertAsync(Accion action)
         {
-            //_db.Actions.Add(action);
-            //await _db.SaveChangesAsync();
-            //return action;
-            return await Task.Run(() =>
-            {
-                // raw sql
-                using (var cmd = _db.DbConnection.CreateCommand())
-                {
-                    if (cmd.Connection.State == ConnectionState.Closed)
-                    {
-                        cmd.Connection.Open();
-                    }
+            _db.Actions.Add(action);
+            await _db.SaveChangesAsync();
+            return action;
+            //return await Task.Run(() =>
+            //{
+            //    // raw sql
+            //    using (var cmd = _db.DbConnection.CreateCommand())
+            //    {
+            //        if (cmd.Connection.State == ConnectionState.Closed)
+            //        {
+            //            cmd.Connection.Open();
+            //        }
 
-                    cmd.CommandText =
-                        $"EXECUTE dbo.InsertarAccion {action.CitaId}, '{action.NombreAccion}', {action.MultContId}";
-                }
+            //        cmd.CommandText = $"EXECUTE dbo.InsertarAccion {action.CitaId}, '{action.NombreAccion}', {action.MultContId}";
+            //    }
 
-                return action;
-            });
+            //    return action;
+            //});
         }
     }
 }
