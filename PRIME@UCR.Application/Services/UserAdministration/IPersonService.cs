@@ -12,5 +12,9 @@ namespace PRIME_UCR.Application.Services.UserAdministration
         Task<Persona> GetPersonByIdAsync(string id);
 
         Task StoreNewPersonAsync(PersonFormModel personInfo);
+
+        PersonFormModel GetPersonModelFromRegisterModel(RegisterUserFormModel registerUserModel);
+
+        Task DeletePersonAsync(string id);
     }
 }

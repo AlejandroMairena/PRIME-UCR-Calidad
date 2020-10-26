@@ -43,7 +43,14 @@ namespace PRIME_UCR.Validators.UserAdministration
 
             RuleFor(p => p.PrimaryPhoneNumber)
                 .NotEmpty()
-                .WithMessage("Debe digitar al menos un número teléfonico de contacto");
+                .WithMessage("Debe digitar al menos un número teléfonico de contacto")
+                .MaximumLength(8)
+                .WithMessage("El número telefónico no puede exceder los 8 números");
+            
+            RuleFor(p => p.SecondaryPhoneNumber)
+                .MaximumLength(8)
+                .WithMessage("El número telefónico no puede exceder los 8 números");
+
         }
     }
 }
