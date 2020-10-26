@@ -109,51 +109,43 @@ else
                         }
                         else
                         {
-                            <table class="table table-hover">
-                                @* Contains information about every item in this checklist *@
-                                <thead>
-                                </thead>
-                                <tbody>
-                                    @foreach (var item in coreItems)
-                                    {
-                                        { DisplayItems(__builder, item); }
-                                    }
-                                    @foreach (var itemInList in coreItems)
-                                    {
-                                        <tr>
-                                            <td class="align-middle">
-                                                @* Displys the image of the item *@
-                                                <button type="button" class="btn btn-default " data-toggle="dropdown">
-                                                    <img src="@itemInList.ImagenDescriptiva" width="50" height="50" data-toggle="tooltip" title="Cambiar imagen" /><span class="caret"></span>
-                                                </button>
-                                                @* Drop zone for the image of the item, displyed in a dropdown menu for the item image *@
-                                                <ul class="dropdown-menu" role="menu">
-                                                    <li><LoadImageComponent @bind-item="itemsList[getItemIndex(itemInList)]" update="update" /></li>
-                                                </ul>
-                                            </td>
-                                            <th scope="row" class="align-middle"> @itemInList.Nombre</th>
-                                            <td class="align-middle"> @itemInList.Descripcion </td>
-                                            <td class="align-middle">Temp idItem = @itemInList.Id</td>
-                                            @if (itemInList.IDSuperItem != null)
-                                            {
-                                                @* Temporal display for the parent item, in case this is a sub item *@
-                                                <td>Temp idSuperItem = @itemInList.IDSuperItem</td>
-                                            }
-                                            <td class="align-middle">
-                                                @* Drop down button to show additional options *@
-                                                <button type="button" class="btn btn-default " data-toggle="dropdown">
-                                                    ⋮<span class="caret"></span>
-                                                    <span class="sr-only">Desplegar menú</span>
-                                                </button>
-                                                @* Button to create a new sub item *@
-                                                <ul class="dropdown-menu" role="menu">
-                                                    <li><button class="dropdown-item" @onclick="() => CreateSubItem(itemInList.Id)">Agregar Subítem</button></li>
-                                                </ul>
-                                            </td>
-                                        </tr>
-                                    }
-                                </tbody>
-                            </table>
+                <table class="table table-hover">
+                    @* Contains information about every item in this checklist *@
+                    <thead>
+                    </thead>
+                    <tbody>
+                        @for (int itemIndex = 0; itemIndex < orderedList.Count(); itemIndex++)
+                        {
+                            PRIME_UCR.Domain.Models.CheckLists.Item itemInList = orderedList[itemIndex];
+                            string style = orderedListLevel[itemIndex] * 2 + "em";
+                            <tr>
+                                <td class="align-middle" style="padding-left: @style">
+                                    @* Displys the image of the item *@
+                                    <button type="button" class="btn btn-default " data-toggle="dropdown">
+                                        <img src="@itemInList.ImagenDescriptiva" width="50" height="50" data-toggle="tooltip" title="Cambiar imagen" /><span class="caret"></span>
+                                    </button>
+                                    @* Drop zone for the image of the item, displyed in a dropdown menu for the item image *@
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li><LoadImageComponent @bind-item="itemsList[getItemIndex(itemInList)]" update="update" /></li>
+                                    </ul>
+                                </td>
+                                <th scope="row" class="align-middle"> @itemInList.Nombre</th>
+                                <td class="align-middle"> @itemInList.Descripcion </td>
+                                <td class="align-middle">
+                                    @* Drop down button to show additional options *@
+                                    <button type="button" class="btn btn-default " data-toggle="dropdown">
+                                        ⋮<span class="caret"></span>
+                                        <span class="sr-only">Desplegar menú</span>
+                                    </button>
+                                    @* Button to create a new sub item *@
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li><button class="dropdown-item" @onclick="() => CreateSubItem(itemInList.Id)">Agregar Subítem</button></li>
+                                    </ul>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                    </table>
                             }
 
                         }

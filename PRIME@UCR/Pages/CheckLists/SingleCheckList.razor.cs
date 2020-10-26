@@ -34,6 +34,9 @@ namespace PRIME_UCR.Pages.CheckLists
         protected IEnumerable<Item> subItems { get; set; }
         protected List<Item> itemsList = new List<Item>();
 
+        protected List<Item> orderedList;
+        protected List<int> orderedListLevel;
+
         public CheckList list { get; set; }
 
         protected Item tempItem;
@@ -59,6 +62,11 @@ namespace PRIME_UCR.Pages.CheckLists
             items = await MyCheckListService.GetItemsByCheckListId(id);
             itemsList = items.ToList();
             coreItems = await MyCheckListService.GetCoreItems(id);
+            orderedList = new List<Item>();
+            orderedListLevel = new List<int>();
+            foreach (var item in coreItems) {
+                GenerateOrderedList(item, 0);
+            }
         }
 
         /**
@@ -146,33 +154,30 @@ namespace PRIME_UCR.Pages.CheckLists
         protected int getItemIndex(Item itemInList) {
             return itemsList.FindIndex(item => item.Id == itemInList.Id);
         }
-        protected void DisplayItems(RenderTreeBuilder __builder, Item item)
+
+        private void GenerateOrderedList(Item item, int level) 
         {
+            orderedList.Add(item);
+            orderedListLevel.Add(level);
             List<Item> subItems = itemsList.FindAll(tempItem => tempItem.IDSuperItem == item.Id);
+            subItems = subItems.OrderBy(item => item.Orden).ToList<Item>();
             if (subItems.Count() > 0)
             {
-                __builder.OpenElement(Index++, "tr");
-                __builder.OpenElement(Index++, "td");
-                __builder.AddAttribute(Index++, "scope", "row");
-                __builder.AddAttribute(Index++, "class", "align-middle");
-                __builder.AddContent(Index++, item.Nombre);
-                __builder.CloseElement();
-                __builder.CloseElement();
-                foreach (var subitem in subItems)
+                foreach (var tempSubtem in subItems) 
                 {
-                    DisplayItems(__builder, subitem);
+                    GenerateOrderedList(tempSubtem, level + 1);
                 }
             }
-            else
+        }
+        protected bool HasSubItems(Item item)
+        {
+            List<Item> subItems = itemsList.FindAll(tempItem => tempItem.IDSuperItem == item.Id);
+            bool hasSubItems = false;
+            if (subItems.Count() != 0) 
             {
-                __builder.OpenElement(Index++, "tr");
-                __builder.OpenElement(Index++, "td");
-                __builder.AddAttribute(Index++, "scope", "row");
-                __builder.AddAttribute(Index++, "class", "align-middle");
-                __builder.AddContent(Index++, item.Nombre);
-                __builder.CloseElement();
-                __builder.CloseElement();
+                hasSubItems = true;
             }
+            return hasSubItems;
         }
     }
 }
