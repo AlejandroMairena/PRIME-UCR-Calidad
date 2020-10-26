@@ -36,9 +36,9 @@
                         <BlazorInputFile.InputFile OnChange="HandleFileSelected"></BlazorInputFile.InputFile> @* Componente BlazorInputFile *@
                     </div>
                     @* Loading Wheel *@
-                    <div class="col">
+                    @*<div class="col">
 
-                    </div>
+            </div>*@
                     @* Camera Logo *@
                     <div class="col">
                         <img class="data_btn" src="img/ico-foto-blanco.jpeg" />
@@ -56,7 +56,8 @@
                 @* Lista de Archivos asociados *@
                 @if (!validFileType)
                 {
-                    <p style="color: red">Archivo invalido</p>
+                    string message = invalidType();
+                    <p style="color: red">@message</p>
                 }
                 @if (MultimediaContent != null && MultimediaContent.Count > 0)
                 {
@@ -89,7 +90,7 @@
                                     <td>@mcontent.Nombre</td>
                                     <td>@mcontent.Tipo</td>
                                     <td>@mcontent.Fecha_Hora</td>
-                                    <td><button type="button" class="btn btn-secondary m-btn m-btn-rm"><a class="ver_link" href="#">Ver</a></button></td>
+                                    <td><button type="button" class="btn btn-secondary m-btn m-btn-rm action_buttom"><a class="ver_link" href="#">Ver</a></button></td>
                                     <td><button type="button" class="btn btn-danger m-btn m-btn-rm">Eliminar</button></td>
                                 </tr>
                             }
@@ -123,6 +124,7 @@
     bool open = false;
     string divDDClass = "dropdown";
     string ddMenuClass = "dropdown-menu";
+    string invalidMessage = "";
 
     protected override void OnInitialized()
     {
@@ -179,6 +181,17 @@
             if (type.Contains(validType)) return true;
 
         return false;
+    }
+
+    string invalidType() {
+        string datas = "El archivo seleccionado no se encuentra dentro de los archivos válidos. Por favor seleccione un archivo con las siguientes extensiones: ";
+        for (int i = 0; i < validTypeFiles.Count(); ++i ) {
+            datas += validTypeFiles[i];
+            if (i < (validTypeFiles.Count()-1)) {
+                datas += ",";
+            }
+        }
+        return datas;
     }
 
 }
