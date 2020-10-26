@@ -16,7 +16,8 @@ namespace PRIME_UCR.Components.Controls
         [Parameter] public TEnum Value { get; set; } // used for data binding
         [Parameter] public EventCallback<TEnum> ValueChanged { get; set; }
         [Parameter] public IEnumerable<Tuple<TEnum, string>> Tabs { get; set; }
-
+        [Parameter] public string TooltipText { get; set; }
+        
         private TEnum _currentTab;
 
         private string _tabClass;

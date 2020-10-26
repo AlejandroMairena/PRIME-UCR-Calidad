@@ -25,7 +25,7 @@ namespace PRIME_UCR.Components.Controls
         
         protected override void OnInitialized()
         {
-            _type = "number";
+            Type = "number";
         }
     }
 }

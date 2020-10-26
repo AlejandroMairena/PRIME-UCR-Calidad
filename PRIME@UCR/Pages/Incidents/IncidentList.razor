@@ -3,66 +3,61 @@
 @using PRIME_UCR.Application.DTOs.Incidents
 @attribute [Authorize]
 
-<h3>Lista de Incidentes</h3>
-
 <Loading IsLoading="incidentsList == null">
-    <Table TableItem="IncidentListModel" Items="incidentsList" PageSize="3" @ref="Table" ColumnReorder="true" ShowSearchBar="true" >
-        <Column TableItem="IncidentListModel" Title="Código" Field="@(x => x.Codigo)" Width="20%" DefaultSortColumn="true">
-            <Template>
-                <a href="/incidents/@context.Codigo">@context.Codigo</a>
-            </Template>
-        </Column>
-        <Column TableItem="IncidentListModel" Title="Fecha y Hora Registro" Field="@(x => x.FechaHoraRegistro)" Width="20%" />
-        <Column TableItem="IncidentListModel" Title="Estado" Field="@(x => x.Estado)" Width="20%" />
-        <Column TableItem="IncidentListModel" Title="Modalidad" Field="@(x => x.Modalidad)" Width="7%" />
-        <Column TableItem="IncidentListModel" Title="Origen" Field="@(x => x.Origen)" Width="7%" >
-            <Template>
-                @switch (context.Origen)
-                {
-                    case Domicilio _:
-                        <p>@(nameof(Domicilio))</p>
-                        break;
-                    case CentroUbicacion _:
-                        <p>Centro médico</p>
-                        break;
-                    case Internacional _:
-                        <p>@(nameof(Internacional))</p>
-                        break;
-                    default:
-                        <p>-</p>
-                        break;
-                }
-            </Template>
-        </Column>
-        <Column TableItem="IncidentListModel" Title="Destino" Field="@(x => x.Destino)" Width="20%">
-            <Template>
-                @if (context.Destino == null)
-                {
-                    <p>-</p>
-                }
-                else
-                {
-                    <p>@context.Destino.Nombre</p>
-                }
-            </Template>
-        </Column>
-
-
-
-        <EmptyDataTemplate>
-            <div class="text-center">
-                No se encontraron incidentes registrados.
-            </div>
-        </EmptyDataTemplate>
-        <Pager ShowPageNumber="true" ShowTotalCount="true" />
-
-    </Table>
+    <div class="jumbotron white-panel">
+        <h1>Lista de Incidentes</h1>
+        <Table TableItem="IncidentListModel" Items="incidentsList" PageSize="3" @ref="Table" ColumnReorder="true" ShowSearchBar="true" class="table table-bordered">
+            <Column TableItem="IncidentListModel" Title="Código" Field="@(x => x.Codigo)" Filterable="true" Sortable="true" Width="20%" DefaultSortColumn="true">
+                <Template>
+                    <a href="/incidents/@context.Codigo">@context.Codigo</a>
+                </Template>
+            </Column>
+            <Column TableItem="IncidentListModel" Title="Fecha y Hora Registro" Field="@(x => x.FechaHoraRegistro)" Filterable="true" Sortable="true" Width="20%"/>
+            <Column TableItem="IncidentListModel" Title="Estado" Field="@(x => x.Estado)" Filterable="true" Sortable="true" Width="20%"/>
+            <Column TableItem="IncidentListModel" Title="Modalidad" Field="@(x => x.Modalidad)" Filterable="true" Sortable="true" Width="7%"/>
+            <Column TableItem="IncidentListModel" Title="Origen" Field="@(x => x.Origen)" Filterable="true" Sortable="true" Width="7%">
+                <Template>
+                    @switch (context.Origen)
+                    {
+                        case Domicilio _:
+                            <div>@(nameof(Domicilio))</div>
+                            break;
+                        case CentroUbicacion _:
+                            <div>Centro médico</div>
+                            break;
+                        case Internacional _:
+                            <div>@(nameof(Internacional))</div>
+                            break;
+                        default:
+                            <div>-</div>
+                            break;
+                    }
+                </Template>
+            </Column>
+            <Column TableItem="IncidentListModel" Title="Destino" Field="@(x => x.Destino)" Filterable="true" Sortable="true" Width="20%">
+                <Template>
+                    @if (context.Destino == null)
+                    {
+                        <div>-</div>
+                    }
+                    else
+                    {
+                        <div>@context.Destino.Nombre</div>
+                    }
+                </Template>
+            </Column>
+            
+            <EmptyDataTemplate>
+                <div class="text-center">
+                    No se encontraron incidentes registrados.
+                </div>
+            </EmptyDataTemplate>
+            
+            <Pager ShowPageNumber="true" ShowTotalCount="true"/>
+        </Table>
+    </div>
 </Loading>
 
 <MatThemeProvider Theme="@AddButtonTheme">
     <MatFAB Icon="@MatIconNames.Add" Class="app-fab--absolute" OnClick="@(_ => Redirect())"></MatFAB>
 </MatThemeProvider>
-
-
-
-

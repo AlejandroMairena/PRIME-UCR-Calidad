@@ -2,7 +2,14 @@
 @inherits InputBase<T>
 
 <div class="form-group">
-    <label>@Label</label>
+    @if (Required)
+    {
+        <label>@Label<strong class="text-danger">*</strong></label>
+    }
+    else
+    {
+        <label>@Label</label>
+    }
     <select class="@($"custom-select {ValidationCssClass}")"
             value="@SelectedValue"
             @onchange="OnChangeEvent">
@@ -14,7 +21,7 @@
         {
             @if (i == _index)
             {
-                    <option selected value="@i">@GetText(Data[i])</option>
+                <option selected value="@i">@GetText(Data[i])</option>
             }
             else
             {

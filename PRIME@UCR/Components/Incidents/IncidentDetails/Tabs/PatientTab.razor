@@ -9,6 +9,25 @@
         <StatusMessage Message="Este valor está pendiente para finalizar la creación del incidente." Class="warning" />
     }
     <StatusMessage Message="@_statusMessage" Class="success"/>
+    @if (_model.Patient != null)
+    {
+        @switch (_patientStatus)
+        {
+            case PatientStatus.PatientExists:
+                <StatusMessage Message="El paciente existe y tiene expediente. Puede asignarlo a este incidente presionando el botón de guardar." Class="primary"/>
+                break;
+            case PatientStatus.PersonExists:
+                <StatusMessage Message="La persona está registrada en el sistema, pero no tiene un expediente. Puede crear el expediente y asignarlo a este incidente presionando el botón de guardar." Class="primary"/>
+                break;
+            case PatientStatus.NewPerson:
+                <StatusMessage Message="Esta cédula no está registrada en el sistema. Digite los datos en el formulario. Presione el botón de guardar para crear al paciente con su expediente y asignarlo a este incidente." Class="primary"/>
+                break;
+            case PatientStatus.PatientUnchanged:
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+    }
     <div class="row">
         <div class="col-xl-4 col-lg-6">
             <EditForm EditContext="_context">
@@ -29,19 +48,20 @@
             {
                 <EditForm EditContext="_patientContext" OnValidSubmit="Submit">
                     <FluentValidationValidator />
+                    <TextBox Disabled="IsReadOnly()" @bind-Value="_model.Patient.Nombre" Label="Nombre"/>
+                    <TextBox Disabled="IsReadOnly()" @bind-Value="_model.Patient.PrimerApellido" Label="Primer apellido"/>
+                    @if (!IsReadOnly() || !String.IsNullOrEmpty(_model.Patient.SegundoApellido))
+                    {
+                        <TextBox Disabled="IsReadOnly()" Required="false" @bind-Value="_model.Patient.SegundoApellido" Label="Segundo apellido"/>
+                    }
                     @if (!IsReadOnly() || _model.Patient.FechaNacimiento != null)
                     {
                         <DatePicker Disabled="IsReadOnly()"
                                     @bind-Value="_model.Patient.FechaNacimiento"
                                     Label="Fecha de nacimiento"
                                     Max="@DateTime.Today"
-                                    Min="@DateTime.Today.AddYears(-120)" />
-                    }
-                    <TextBox Disabled="IsReadOnly()" @bind-Value="_model.Patient.Nombre" Label="Nombre"/>
-                    <TextBox Disabled="IsReadOnly()" @bind-Value="_model.Patient.PrimerApellido" Label="Primer apellido"/>
-                    @if (!IsReadOnly() || !String.IsNullOrEmpty(_model.Patient.SegundoApellido))
-                    {
-                        <TextBox Disabled="IsReadOnly()" @bind-Value="_model.Patient.SegundoApellido" Label="Segundo apellido"/>
+                                    Min="@DateTime.Today.AddYears(-120)"
+                                    Required="false"/>
                     }
                     @* TODO: sexo *@
                     <div class="mt-4">

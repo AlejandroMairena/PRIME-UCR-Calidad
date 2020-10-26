@@ -27,7 +27,7 @@ namespace PRIME_UCR.Components.Controls
         
         protected override void OnInitialized()
         {
-            _type = "date";
+            Type = "date";
         }
     }
 }

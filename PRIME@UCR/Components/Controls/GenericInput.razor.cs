@@ -10,8 +10,9 @@ namespace PRIME_UCR.Components.Controls
     {
         [Parameter] public string Label { get; set; }
         [Parameter] public bool Disabled { get; set; }
+        [Parameter] public bool Required { get; set; } = true;
 
-        protected string _type = "text";
+        protected string Type = "text";
 
         public string ValidationCssClass => ValidationUtils.ToBootstrapValidationCss(CssClass);
 

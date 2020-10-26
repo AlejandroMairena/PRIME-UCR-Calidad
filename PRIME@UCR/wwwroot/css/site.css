@@ -257,3 +257,7 @@ app {
 .ui-dropdown-item:hover, .ui-dropdown-items li:hover, .ui-multiselect-items li:hover, .ui-autocomplete-items li:hover, .ui-multiselect-item:hover, .ui-autocomplete-list-item:hover, .ui-menuitem:hover {
     background-color: #095290;
 }
+
+.jumbotron.white-panel {
+    background: white;
+}

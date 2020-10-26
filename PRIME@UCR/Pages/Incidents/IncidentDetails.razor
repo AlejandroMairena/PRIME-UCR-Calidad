@@ -14,10 +14,14 @@
     <Loading IsLoading="_incidentModel == null">
         <div class="row">
             <div class="col-xl-2 col-lg-3 mb-4">
-                <TabMenu Tabs="_tabs" DefaultTab="DefaultTab" IsVertical="true" @bind-Value="_activeTab"/>
+                <TabMenu Tabs="_tabs" DefaultTab="DefaultTab" IsVertical="true"
+                         TooltipText="Campo pendiente"
+                         @bind-Value="_activeTab"/>
             </div> 
             <div class="col">
-                <ActiveTab Active="@_activeTab" Incident="_incidentModel" OnSave="@Save"/>
+                <div class="jumbotron white-panel">
+                    <ActiveTab Active="@_activeTab" Incident="_incidentModel" OnSave="@Save"/>
+                </div>
             </div>
         </div>
     </Loading>
