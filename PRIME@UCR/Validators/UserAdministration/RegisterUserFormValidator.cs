@@ -44,6 +44,11 @@ namespace PRIME_UCR.Validators.UserAdministration
             RuleFor(p => p.PrimaryPhoneNumber)
                 .NotEmpty()
                 .WithMessage("Debe digitar al menos un número teléfonico de contacto");
+
+            RuleFor(p => p.Profiles)
+                .NotEmpty()
+                .WithMessage("Debe de seleccionar al menos un perifl.");
+                
         }
     }
 }
