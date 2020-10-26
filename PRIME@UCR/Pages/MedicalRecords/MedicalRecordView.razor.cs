@@ -8,6 +8,7 @@ using PRIME_UCR.Domain.Models.MedicalRecords;
 using PRIME_UCR.Domain.Models.UserAdministration;
 using System.Runtime.CompilerServices;
 using PRIME_UCR.Application.DTOs.MedicalRecords;
+using System.Linq;
 
 namespace PRIME_UCR.Pages.MedicalRecords
 {
@@ -29,15 +30,35 @@ namespace PRIME_UCR.Pages.MedicalRecords
 
         private Persona person;
 
-        private RecordViewModel viewModel;
+        private RecordViewModel viewModel = new RecordViewModel();
+
+        private void FillTabStates()
+        {
+            _tabs.Clear();
+            var tabValues = Enum.GetValues(typeof(DetailsTab)).Cast<DetailsTab>();
+            foreach (var tab in tabValues)
+            {
+                switch (tab)
+                {
+                    case DetailsTab.Info:
+                        _tabs.Add(new Tuple<DetailsTab, string>(DetailsTab.Info, ""));
+                        break;
+                    case DetailsTab.Appointments:
+                        _tabs.Add(new Tuple<DetailsTab, string>(DetailsTab.Appointments, ""));
+                        break;
+                }
+            }
+        }
 
 
         protected override async Task OnInitializedAsync()
         {
             int identification = Int32.Parse(Id);
             viewModel = await MedicalRecordService.GetIncidentDetailsAsync(identification);
-            if (record == null)
+            if (viewModel == null)
                 exists = false;
+            else
+                FillTabStates();
         }
 
 

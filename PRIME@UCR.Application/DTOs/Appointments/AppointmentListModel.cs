@@ -4,7 +4,7 @@ using System.Text;
 
 namespace PRIME_UCR.Application.DTOs.Appointments
 {
-    public class AppointmentModel
+    public class AppointmentListModel
     {
         public DateTime FechaCreacion { get; set; }
         public int CitaId { get; set; }
