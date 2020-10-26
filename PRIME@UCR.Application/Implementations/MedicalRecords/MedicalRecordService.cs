@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using PRIME_UCR.Application.Repositories.MedicalRecords;
@@ -18,7 +19,60 @@ namespace PRIME_UCR.Application.Implementations.MedicalRecords
 
         public async Task<IEnumerable<Expediente>> GeyByConditionAsync(string name) {
 
-            return await _repo.GetByConditionAsync(_repo => _repo.Paciente.Nombre.Contains(name)); 
+            string patient_name = "";
+            string lastname1 = "";
+            string lastname2 = "";
+
+            int index_names = 0; 
+
+            int identification;
+
+            bool is_numeric = int.TryParse(name, out identification);
+            if (is_numeric)
+            {
+                return await _repo.GetByConditionAsync(_repo => _repo.Paciente.Cédula.Contains(name));
+            }
+            else {
+                for (int index = 0; index < name.Length; ++index) {
+                    if (name[index] != ' ')
+                    {
+                        switch (index_names)
+                        {
+                            case 0:
+                                patient_name += name[index];
+                                break;
+
+                            case 1:
+                                lastname1 += name[index]; 
+                                break;
+
+                            case 2:
+                                lastname2 += name[index]; 
+                                break;
+                        }
+                    }
+                    else {
+                        ++index_names; 
+                    }
+                }
+
+
+                if (index_names == 0)
+                {
+                    return await _repo.GetByConditionAsync(_repo => _repo.Paciente.Nombre.Contains(name));
+                }
+                else {
+                    if (index_names == 1)
+                    {
+                        //name and first lastname was added, correct search needs to be done.
+                        return await _repo.GetByConditionAsync(_repo => _repo.Paciente.Nombre.Contains(name));
+                    }
+                    else {
+                        //name, fist lastname, and second lastname was added, correct search needs to be done. 
+                        return await _repo.GetByConditionAsync(_repo => _repo.Paciente.Nombre.Contains(name));
+                    }
+                }
+            }
         }
 
         public async Task<IEnumerable<Expediente>> GetAllAsync() {

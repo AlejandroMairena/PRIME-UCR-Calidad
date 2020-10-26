@@ -4,7 +4,7 @@
 
 <h3>Lista Expedientes Medicos</h3>
 
-<Pagination Total_pages="total_pages" Current_page="current_page" Radius="3" Selected_page="selected_page">
+<Pagination Total_pages="total_pages" Current_page="current_page" Radius="radius" Selected_page="selected_page">
 </Pagination>
 
 <Filter FilterBox="filter_box" SetFilter="set_filter" ClearFilter="clear_filter"></Filter>
@@ -24,13 +24,50 @@
     <tbody>
         @for (int expediente = start_show_record; expediente < end_show_record; ++expediente)
         {
-            <tr style="transform: rotate(0);">
-                <th scope="row"><a href="#" class="stretched-link">@medical_records[expediente].Id</a></th>
+        <tr style="transform: rotate(0);">
+            <th scope="row"><a href="#" class="stretched-link">@medical_records[expediente].Id</a></th>
+
+            @if (medical_records[expediente].CedulaPaciente != null)
+            {
                 <td align="center">@medical_records[expediente].CedulaPaciente</td>
+
+            }
+            else
+            {
+                <th scope="row"><a href="#" class="stretched-link">NULL</a></th>
+            }
+
+            @if (medical_records[expediente].Paciente != null && medical_records[expediente].Paciente.Nombre != null)
+            {
                 <td align="center">@medical_records[expediente].Paciente.Nombre</td>
+
+            }
+            else
+            {
+                <th scope="row"><a href="#" class="stretched-link">NULL</a></th>
+            }
+
+
+            @if (medical_records[expediente].Paciente != null && medical_records[expediente].Paciente.PrimerApellido != null)
+            {
                 <td align="center">@medical_records[expediente].Paciente.PrimerApellido</td>
+
+            }
+            else
+            {
+                <th scope="row"><a href="#" class="stretched-link">NULL</a></th>
+            }
+
+            @if (medical_records[expediente].Paciente != null && medical_records[expediente].Paciente.SegundoApellido != null)
+            {
                 <td align="center">@medical_records[expediente].Paciente.SegundoApellido</td>
-            </tr>
+
+            }
+            else
+            {
+                <th scope="row"><a href="#" class="stretched-link">NULL</a></th>
+            }
+        </tr>
 
         }
     </tbody>
@@ -45,6 +82,7 @@
 
     public string filter_box { get; set; } = string.Empty;
 
+    public int radius { get; set; } = 3;
     //its the amount of tabs of the pagination, this is bind to the pagination component.
     public int total_pages { get; set; } = 3;
     //current pagination's page, this is bind to the pagination component.
@@ -75,7 +113,7 @@
 
     private async Task clear_filter()
     {
-        get_records();
+        await get_records();
     }
 
     //this is what happens when you click the "Buscar" button because this method is bind to the component
@@ -122,11 +160,14 @@
     //this is what happens when the program starts, so we set some values to the "medical records resources "
     protected override void OnInitialized()
     {
-        get_records();
 
-        base.OnInitialized();
     }
 
+
+    protected override async Task OnInitializedAsync() {
+
+        await get_records();
+    }
 
     private async Task get_records() {
 
@@ -145,6 +186,10 @@
         total_pages = total_elements / sub_group_range;
 
         end_show_record = start_show_record + sub_group_range;
+
+        if (total_elements < radius) {
+            radius = 0; 
+        }
 
     }
 

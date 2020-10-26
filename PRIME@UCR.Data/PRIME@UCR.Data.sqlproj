@@ -134,5 +134,6 @@
     <None Include="Scripts\PostDeployment\Checklists_PostDeployment.sql" />
     <None Include="Scripts\PostDeployment\Users_PostDeployment.sql" />
     <None Include="Scripts\PostDeployment\Appointments_PostDeployment.sql" />
+    <None Include="Scripts\PostDeployment\MedicalRecords_PostDeployment.sql" />
   </ItemGroup>
 </Project>
