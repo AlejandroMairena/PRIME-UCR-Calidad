@@ -73,12 +73,17 @@
     left: 50px;
     top: -16px;
 }
+.dropdown-menu {
+    transform: none;
+    transition: none;
+}
 .dropdown-menu.show {
-padding-bottom: 15px;
-padding-top: 15px;
-padding-left: 20px;
-padding-right: 20px;
-
+    transform: none;
+    transition: none;
+    padding-bottom: 15px;
+    padding-top: 15px;
+    padding-left: 20px;
+    padding-right: 20px;
 }
 .data_btn:hover {
     border-color: #fbc51a;
