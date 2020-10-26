@@ -19,5 +19,16 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
         {
             return await _db.People.FindAsync(id);
         }
+
+        public async Task<Persona> GetWithDetailsAsync(string id)
+        {
+            return await _db.People
+                .Include(i => i.Cédula)
+                .Include(i => i.Nombre)
+                .Include(i => i.PrimerApellido)
+                .Include(i => i.SegundoApellido)
+                .Include(i=> i.Sexo)
+                .FirstOrDefaultAsync(i => i.Cédula == id);
+        }
     }
 }

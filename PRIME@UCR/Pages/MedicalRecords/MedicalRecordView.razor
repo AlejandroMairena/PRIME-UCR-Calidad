@@ -1,0 +1,28 @@
+﻿@page "/medicalrecord/{Id}"
+@using PRIME_UCR.Components.MedicalRecords.Tabs
+@using PRIME_UCR.Components.MedicalRecords
+@using PRIME_UCR.Components.Controls
+@using PRIME_UCR.Application.Services.MedicalRecords
+@attribute [Authorize]
+
+@inject NavigationManager NavigationManager
+@inject IMedicalRecordService MedicalRecordService
+
+<h1>Detalles del expediente</h1>
+<hr />
+@if (exists)
+{
+    <Loading IsLoading="viewModel == null">
+        <div class="row">
+            <div class="col-lg-2 mb-4">
+                <TabMenu Tabs="_tabs" DefaultTab="DefaultTab" IsVertical="true" @bind-Value="_activeTab" />
+            </div>
+        </div>
+    </Loading>
+}
+else
+{
+    <h4 class="text-danger">No se encontró el expediente solicitado.</h4>
+}
+<br />
+

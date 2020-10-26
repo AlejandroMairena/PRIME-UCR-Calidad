@@ -16,5 +16,14 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.MedicalRecords
         {
             return await _db.MedicalRecords.FirstOrDefaultAsync(mr => mr.CedulaPaciente == id);
         }
+
+        public async Task<Expediente> GetWithDetailsAsync(int id)
+        {
+            return await _db.MedicalRecords
+                .Include(i => i.CedulaPaciente)
+                .Include(i => i.CedulaMedicoDuenno)
+                .Include(i => i.Id)
+                .FirstOrDefaultAsync(i => i.Id == id);
+        }
     }
 }
