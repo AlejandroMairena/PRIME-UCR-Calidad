@@ -1,6 +1,6 @@
 ﻿@using PRIME_UCR.Components.Controls
 
-<Loading IsLoading="@IsLoading()">
+<Loading IsLoading="@_isLoading">
     <EditForm EditContext="_context" OnValidSubmit="Submit">
         <FluentValidationValidator />
         <div class="row">

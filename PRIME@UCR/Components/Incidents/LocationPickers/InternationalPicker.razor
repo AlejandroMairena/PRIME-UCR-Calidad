@@ -2,7 +2,7 @@
 @using Microsoft.EntityFrameworkCore
 @implements IDisposable
 
-<Loading IsLoading="_values == null">
+<Loading IsLoading="_isLoading">
     <EditForm EditContext="_context" OnValidSubmit="Submit">
         <div class="row">
             <div class="col-xl-4 col-lg-6">

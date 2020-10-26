@@ -87,9 +87,9 @@ namespace PRIME_UCR.Application.Implementations.Incidents
         public async Task<IncidentDetailsModel> GetIncidentDetailsAsync(string code)
         {
             var incident = await _incidentRepository.GetWithDetailsAsync(code);
-            var transportUnit = await _transportUnitRepository.GetTransporUnitByIncidentIdAsync(incident.Codigo);
             if (incident != null)
             {
+                var transportUnit = await _transportUnitRepository.GetTransporUnitByIncidentIdAsync(incident.Codigo);
                 var state = await _statesRepository.GetCurrentStateByIncidentId(incident.Codigo);
                 var medicalRecord = 
                     incident.Cita.IdExpediente != null ?

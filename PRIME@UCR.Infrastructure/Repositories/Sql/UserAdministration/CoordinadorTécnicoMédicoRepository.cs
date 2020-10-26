@@ -3,6 +3,7 @@ using PRIME_UCR.Domain.Models.UserAdministration;
 using PRIME_UCR.Infrastructure.DataProviders;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,9 +21,18 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
             _db = dataProvider;
         }
 
-        public Task<CoordinadorTécnicoMédico> GetByKeyAsync(string key)
+        public async Task<CoordinadorTécnicoMédico> GetByKeyAsync(string key)
         {
-            throw new NotImplementedException();
+            await using var connection = new SqlConnection(_db.DbConnection.ConnectionString);
+            var result = await connection.ExecuteQueryAsync<CoordinadorTécnicoMédico>(@"
+                select Persona.Cédula, Persona.Nombre, Persona.PrimerApellido, Persona.SegundoApellido, Persona.Sexo, Persona.FechaNacimiento
+                from Persona
+                join Funcionario F on Persona.Cédula = F.Cédula
+                join CoordinadorTécnicoMédico CTM on F.Cédula = CTM.Cédula
+                where CTM.Cédula = @Ced
+            ", new { Ced = key });
+            
+            return result.FirstOrDefault();
         }
 
         public async Task<IEnumerable<CoordinadorTécnicoMédico>> GetAllAsync()

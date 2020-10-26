@@ -1,12 +1,13 @@
 ﻿@using PRIME_UCR.Components.Incidents.LocationPickers
 @using PRIME_UCR.Domain.Models.UserAdministration
+@implements IDisposable
 
 <h3>Asignación</h3>
 <br />
 
 <Loading IsLoading="@_isLoading">
     <StatusMessage Message="@_statusMessage" Class="success" />
-    <EditForm Model="_model" OnValidSubmit="Save">
+    <EditForm EditContext="_context" OnValidSubmit="Save">
         <FluentValidationValidator />
         <div class="row">
             <div class="col-xl-6 col-lg-8">
@@ -14,14 +15,20 @@
                               Label="Unidad de transporte"
                               DefaultText="Seleccione una unidad de transporte"
                               TextProperty="Matricula"
-                              @bind-Value="_model.TransportUnit"/>
+                              ValueComparer="@((UnidadDeTransporte u) =>
+                                                 u.Matricula == _model.TransportUnit?.Matricula)"
+                              @bind-Value="_model.TransportUnit"
+                              Required="false" />
                 <DropDownMenu T="CoordinadorTécnicoMédico" Data="_coordinators"
                               Label="Coordinador técnico médico"
                               DefaultText="Seleccione al coordinador del incidente"
                               TextProperty="NombreCompleto"
-                              @bind-Value="_model.Coordinator" />
+                              ValueComparer="@((CoordinadorTécnicoMédico ctm) =>
+                                                 ctm.Cédula == _model.Coordinator?.Cédula)"
+                              @bind-Value="_model.Coordinator"
+                              Required="false" />
                 <div class="form-group">
-                    <label>Miembros del equipo<strong class="text-danger">*</strong></label>
+                    <label>Miembros del equipo</label>
                     <RadzenDropDown Multiple="true" Data="_specialists"
                                     TextProperty="NombreCompleto"
                                     ValueProperty="Cédula"
@@ -31,20 +38,17 @@
                 </div>
             </div>
         </div>
-         
-    </EditForm> 
-    
-    
-    <div class="mt-2">
-        @if (!_saveButtonEnabled)
-        {
-            <button disabled type="submit" class="btn btn-primary">Guardar</button>
-            <button disabled class="btn btn-outline-secondary">Descartar</button>
-        }
-        else
-        {
-            <button type="submit" class="btn btn-primary">Guardar</button>
-            <button role="button" class="btn btn-outline-secondary">Descartar</button>
-        }
+        <div class="mt-2">
+            @if (!_saveButtonEnabled)
+            {
+                <button disabled type="submit" class="btn btn-primary">Guardar</button>
+                <button disabled class="btn btn-outline-secondary">Descartar</button>
+            }
+            else
+            {
+                <button type="submit" class="btn btn-primary">Guardar</button>
+                <button role="button" class="btn btn-outline-secondary" @onclick="LoadExistingValues" @onclick:preventDefault >Descartar</button>
+            }
     </div>
+    </EditForm> 
 </Loading>

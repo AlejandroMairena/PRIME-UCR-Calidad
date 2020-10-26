@@ -6,10 +6,9 @@
 		SET NOCOUNT ON
 		DECLARE @Codigo varchar(50);
 		DECLARE @MatriculaTrans varchar(30);
-		DECLARE @IdEspecialista int;
-		DECLARE @CedulaAdmin int;
-		DECLARE @CedulaTecnicoCoordinador int;
-		DECLARE @CedulaTecnicoRevisor int;
+		DECLARE @CedulaAdmin nvarchar(12);
+		DECLARE @CedulaTecnicoCoordinador nvarchar(12);
+		DECLARE @CedulaTecnicoRevisor nvarchar(12);
 		DECLARE @CodigoCita int;
 		DECLARE @IdOrigen int;
 		DECLARE @IdDestino int;
@@ -23,7 +22,6 @@
 		FETCH NEXT FROM ptr INTO
 			@Codigo,
 			@MatriculaTrans,
-			@IdEspecialista,
 			@CedulaAdmin,
 			@CedulaTecnicoCoordinador,
 			@CedulaTecnicoRevisor,
@@ -82,7 +80,6 @@
             (
                 @code,
                 @MatriculaTrans,
-                @IdEspecialista,
                 @CedulaAdmin,
                 @CedulaTecnicoCoordinador,
                 @CedulaTecnicoRevisor,
@@ -97,7 +94,6 @@
 			FETCH NEXT FROM ptr INTO
 				@Codigo,
 				@MatriculaTrans,
-				@IdEspecialista,
 				@CedulaAdmin,
 				@CedulaTecnicoCoordinador,
 				@CedulaTecnicoRevisor,

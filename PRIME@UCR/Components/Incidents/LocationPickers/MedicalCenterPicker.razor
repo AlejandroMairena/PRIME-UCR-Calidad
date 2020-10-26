@@ -3,7 +3,7 @@
 @using PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
 @using Microsoft.EntityFrameworkCore
 
-<Loading IsLoading="_medicalCenters == null || _doctors == null">
+<Loading IsLoading="_isLoading">
     <EditForm EditContext="_context" OnValidSubmit="Submit">
         <FluentValidationValidator />
         <div class="row">

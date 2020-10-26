@@ -23,23 +23,17 @@ namespace PRIME_UCR.Domain.Models
         public Modalidad Modalidad {get; set;}
         public string MatriculaTrans { get; set; }
         public UnidadDeTransporte UnidadDeTransporte {get; set;}
-        
         public int CodigoCita { get; set; }
         public Cita Cita { get; set; }
-        // public int? IdEspecialista { get; set; }
-        //public Especialista Especialista {get; set;}
         public string CedulaAdmin { set; get; }
-        //public Administrador Administrador {get; set;}
-        // public int? CedulaTecnicoCoordinador { get; set; }
-        //public TecnicoCoordinador TecnicoCordinador {get; set;}
-        // public int? CedulaTecnicoRevisor { get; set; }
-        //public TecnicoRevisor {get; set;}
+        public string CedulaTecnicoCoordinador { get; set; }
+        public string CedulaTecnicoRevisor { get; set; }
 
         public bool IsCompleted()
         {
             return IdOrigen != null &&
                    IdDestino != null &&
-                   MatriculaTrans != null;
+                   Cita?.IdExpediente != null;
         }
 
         public bool IsModifiable(Estado currentState)

@@ -291,12 +291,10 @@ VALUES
     ('PHP999', 'Disponible', 'Aéreo');
 
 -- Incidente
-INSERT INTO Incidente (IdEspecialista, CedulaAdmin,
-    CedulaTecnicoCoordinador, CedulaTecnicoRevisor, CodigoCita, IdOrigen, IdDestino,
-    Modalidad)
+INSERT INTO Incidente (CedulaAdmin, CodigoCita, IdOrigen, Modalidad)
 VALUES
-    (123, '12345678', 117222222, 1173333333, 1, 1, NULL, 'Terrestre'),
-    (456, '12345678', 117112222, 1171133333, 2, 2, NULL, 'Aéreo');
+    ('12345678', 1, 1, 'Terrestre'),
+    ('12345678', 2, 2, 'Aéreo');
 
 -- Estado
 INSERT INTO Estado

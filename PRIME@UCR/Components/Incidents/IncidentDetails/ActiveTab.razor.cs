@@ -30,15 +30,10 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails
             await OnSave.InvokeAsync(Incident);
         }
 
-        private async Task SaveAssignments(AssignmentModel model)
-        {
-            Incident.TransportUnit = model.TransportUnit;
-            await OnSave.InvokeAsync(Incident);
-        }
         private async Task SavePatient(PatientModel model)
-       {
+        {
             Incident.MedicalRecord = model.Expediente;
             await OnSave.InvokeAsync(Incident);
-       }
+        }
     }
 }

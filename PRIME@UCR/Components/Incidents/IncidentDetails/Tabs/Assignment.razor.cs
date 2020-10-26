@@ -16,7 +16,6 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
     public partial class Assignment
     {
         [Parameter] public IncidentDetailsModel Incident { get; set; }
-        [Parameter] public EventCallback<AssignmentModel> OnSave { get; set; }
         [Inject] public IAssignmentService AssignmentService { get; set; }
 
         private IEnumerable<string> Specialists
@@ -36,30 +35,31 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
         private List<CoordinadorTécnicoMédico> _coordinators;
         
         private string _statusMessage = "";
-        private AssignmentModel _model = new AssignmentModel();
+        private AssignmentModel _model;
         private bool _isLoading = true;
         private bool _saveButtonEnabled;
         private EditContext _context;
         
         private async Task Save()
         {
+            _isLoading = true;
+            StateHasChanged();
+            await AssignmentService.AssignToIncidentAsync(Incident.Code, _model);
             _statusMessage = "Se guardaron los cambios exitosamente.";
-            await OnSave.InvokeAsync(_model);
-        }
-        private async Task OnTransportUnitSave(AssignmentModel assignmentModel)
-        {
-            _model.TransportUnit = new UnidadDeTransporte
-            {
-                Matricula = assignmentModel.TransportUnit.Matricula,
-                Estado = assignmentModel.TransportUnit.Estado,
-                Modalidad = assignmentModel.TransportUnit.Modalidad,
-                ModalidadTrasporte = assignmentModel.TransportUnit.ModalidadTrasporte
-            };
-            await Save();
+            _context = new EditContext(_model);
+            _saveButtonEnabled = false;
+            _context.OnFieldChanged += ToggleSaveButton;
+            _isLoading = false;
         }
 
         private async Task LoadExistingValues()
         {
+            // make sure it's initialized
+            _model = await AssignmentService.GetAssignmentsByIncidentIdAsync(Incident.Code);
+            
+            _context = new EditContext(_model);
+            _context.OnFieldChanged += ToggleSaveButton;
+
             _transportUnits =
                 (await AssignmentService.GetAllTransportUnitsByMode(Incident.Mode))
                 .ToList();
@@ -75,9 +75,21 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
             _statusMessage = "";
             _isLoading = false;
         }
+
+        private void ToggleSaveButton(object? sender, FieldChangedEventArgs e)
+        {
+            _saveButtonEnabled = _context.IsModified();
+            StateHasChanged();
+        }
+
         protected override async Task OnInitializedAsync()
         {
             await LoadExistingValues();
+        }
+
+        public void Dispose()
+        {
+            _context.OnFieldChanged -= ToggleSaveButton;
         }
     }
 }

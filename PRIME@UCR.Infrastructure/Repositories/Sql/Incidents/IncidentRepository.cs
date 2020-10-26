@@ -34,7 +34,6 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Incidents
                 {"CedulaTecnicoRevisor", null},
                 {"IdOrigen", null},
                 {"IdDestino", null},
-                {"IdEspecialista", null},
                 {"MatriculaTrans", null}
             };
             

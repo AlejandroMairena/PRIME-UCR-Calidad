@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PRIME_UCR.Domain.Models;
+using PRIME_UCR.Domain.Models.UserAdministration;
 
 namespace PRIME_UCR.Infrastructure.EntityConfiguration.Incidents
 {
@@ -31,12 +32,20 @@ namespace PRIME_UCR.Infrastructure.EntityConfiguration.Incidents
                 .HasForeignKey(p => p.TipoModalidad);
             builder
                 .HasOne(p => p.UnidadDeTransporte)
-                .WithMany(p => p.Incidentes)
+                .WithMany()
                 .HasForeignKey(p => p.MatriculaTrans);
             builder
                 .HasOne(i => i.Cita)
                 .WithOne()
                 .HasForeignKey<Incidente>(i => i.CodigoCita);
+            builder
+                .HasOne<CoordinadorTécnicoMédico>()
+                .WithMany()
+                .HasForeignKey(i => i.CedulaTecnicoCoordinador);
+            builder
+                .HasOne<CoordinadorTécnicoMédico>()
+                .WithMany()
+                .HasForeignKey(i => i.CedulaTecnicoRevisor);
         }
     }
 }

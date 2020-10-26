@@ -7,17 +7,17 @@ namespace PRIME_UCR.Validators.Incidents
     {
         public AssignmentModelValidator()
         {
-            RuleFor(a => a.Coordinator)
-                .NotEmpty()
-                .WithMessage("Debe seleccionar un coordinador");
-            
-            RuleFor(a => a.TeamMembers)
-                .NotEmpty()
-                .WithMessage("Debe seleccionar al menos un miembro del equipo");
-            
-            RuleFor(a => a.TransportUnit)
-                .NotEmpty()
-                .WithMessage("Debe seleccionar una unidad de transporte");
+            // RuleFor(a => a.Coordinator)
+            //     .NotEmpty()
+            //     .WithMessage("Debe seleccionar un coordinador");
+            //
+            // RuleFor(a => a.TeamMembers)
+            //     .NotEmpty()
+            //     .WithMessage("Debe seleccionar al menos un miembro del equipo");
+            //
+            // RuleFor(a => a.TransportUnit)
+            //     .NotEmpty()
+            //     .WithMessage("Debe seleccionar una unidad de transporte");
         }
     }
 }

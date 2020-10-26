@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using PRIME_UCR.Domain.Models;
 using PRIME_UCR.Domain.Models.Incidents;
 
 namespace PRIME_UCR.Infrastructure.EntityConfiguration.Incidents
@@ -14,7 +15,7 @@ namespace PRIME_UCR.Infrastructure.EntityConfiguration.Incidents
                 .IsRequired();
             builder.HasKey("Matricula");
             builder
-                .HasOne(p => p.ModalidadTrasporte)
+                .HasOne<Modalidad>()
                 .WithMany(p => p.Unidades)
                 .HasForeignKey(p => p.Modalidad);
         }
