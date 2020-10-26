@@ -148,7 +148,20 @@ Integrantes:
 | Gustavo Jimenez                | Developer       |
 | Isaac Zuñiga                   | Developer       |
 
+#### Sprint 1:
+
     
+- Atenienses++
+
+| Integrante                     | Rol             |
+| -------------------------------| ----------------| 
+| Luis Andrés Sánchez Romero     | Developer       |
+| Daniela Vargas Sauma           | Scrum Master    |
+| José Andrés Víquez Ramírez     | Developer       |
+| Fernando Ezequiel Morales      | Scrum Ambassador|
+| Elian Ortega Velásquez         | Developer       |
+
+
 
 ## Descripción general del sistema a desarrollar
 La aplicación debe desarrollar e integrar las funciones necesarias para la sistematización de los procesos del equipo PRIME, desde una sola aplicación integrada. Por lo tanto, el sistema consiste en una aplicación web con una base de datos, que permita a los usuarios la sistematización de los procesos de atención y la gestión en tiempo real de la información de los procesos entre los equipos de atención y el centro de control. Esto con el fin de permitir que todos los usuarios autorizados cuenten con información actualizada por medio de la aplicación web.
@@ -382,25 +395,25 @@ El diseño de la página sigue la paleta de colores, diseño del header y footer
 
 ### Esquema lógico de la base de datos
 
-![](https://i.imgur.com/qdAyrje.jpg)
+![](https://i.imgur.com/J4bu9GS.png)
 
 A continuación se muestra el esquema lógico dividido en los correspondientes a cada equipo: 
 
 Atenienses++ (Administración de Usuarios):
 
-![](https://i.imgur.com/BsF0lHT.jpg)
+![](https://i.imgur.com/69sm8RJ.png)
 
 Diosvier (Administración de Translados) :
 
-![](https://i.imgur.com/HE20mND.png)
+![](https://i.imgur.com/Z5rxjQK.png)
 
 Legados (Control del Procedimientos) :
 
-![](https://i.imgur.com/Mobj6U3.png)
+![](https://i.imgur.com/Qwl0XXB.png)
 
 Drim Team (Gestión de Información) :
 
-![](https://i.imgur.com/te7oeHP.png)
+![](https://i.imgur.com/rcEkHBA.png)
 
 ## Decisiones técnicas.
 
