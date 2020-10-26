@@ -2,6 +2,10 @@
 @using BlazorTable
 @using PRIME_UCR.Domain.Models.UserAdministration
 
+@*This corresponds to the visual part of the users component, which shows the user a list of the users
+    assigned to each profile in a table, with a checkbox used to assing or unassing users, the username and the id of each user.
+*@
+
 <Loading IsLoading="Value.UserLists == null">
     <EditForm Model="Value">
         <Table TableItem="Usuario" Items="ListUsers" PageSize="12">
