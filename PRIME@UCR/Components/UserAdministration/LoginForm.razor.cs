@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Components.Forms;
 
 namespace PRIME_UCR.Components.UserAdministration
 {
@@ -20,12 +21,30 @@ namespace PRIME_UCR.Components.UserAdministration
 
         string invalidUser = "hide";
 
+        EditContext _context;
+
         bool isBusy = false;
+
+        bool isFormValid = false;
 
         protected override void OnInitialized()
         {
             logInInfo = new LogInModel();
             base.OnInitialized();
+        }
+
+        protected override Task OnInitializedAsync()
+        {
+            _context = new EditContext(logInInfo);
+             _context.OnFieldChanged += HandleFieldChanged;
+            return base.OnInitializedAsync();
+        }
+
+        // used to toggle submit button disabled attribute
+        private void HandleFieldChanged(object sender, FieldChangedEventArgs e)
+        {
+            isFormValid = _context.Validate();
+            StateHasChanged();
         }
 
         private async Task<bool> ValidateUser()
