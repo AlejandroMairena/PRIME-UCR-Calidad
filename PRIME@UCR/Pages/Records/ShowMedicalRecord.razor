@@ -15,6 +15,8 @@
 
 <Filter FilterBox="filter_box" SetFilter="set_filter" ClearFilter="clear_filter"></Filter>
 
+<PaginationBox SetRecordsPerPage="set_records_per_page" RecordsPerPage="amount_records"></PaginationBox>
+
 
 <table class="table table-hover wrapper_table">
     <thead>
@@ -92,6 +94,8 @@
 
     public string filter_box { get; set; } = string.Empty;
 
+    public int amount_records { get; set; } = 3;
+
     public int radius { get; set; } = 3;
     //its the amount of tabs of the pagination, this is bind to the pagination component.
     public int total_pages { get; set; } = 3;
@@ -112,6 +116,12 @@
     //this is the end of the index of the "medical records resources"
     public int end_show_record { get; set; }
 
+
+
+    private async Task set_records_per_page(int amount_records) {
+
+        start_values(amount_records);
+    }
 
     private async Task set_filter(string filter_name)
     {
@@ -183,22 +193,25 @@
 
         IEnumerable<Expediente> records = await medical_record_service.GetAllAsync();
         medical_records = records.ToList();
-        start_values();
+        start_values(3);
     }
 
 
-    private void start_values()
+    private void start_values(int sub_group_range)
     {
+        current_page = 1;
+        start_show_record = 0; 
+
         total_elements = medical_records.Count;
 
-        sub_group_range = 3;
+        this.sub_group_range = sub_group_range;
 
         total_pages = total_elements / sub_group_range;
 
         end_show_record = start_show_record + sub_group_range;
 
         if (total_elements < radius) {
-            radius = 0; 
+            radius = 0;
         }
 
     }
