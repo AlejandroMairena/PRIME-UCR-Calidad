@@ -12,7 +12,7 @@ namespace PRIME_UCR.Application.Implementations.Multimedia
         public string FilePath { get; set; }
         public FileService()
         {
-            FilePath = "C:\\Users\\Isacc\\Desktop\\prueba";
+            FilePath = Path.GetTempPath() + "\\PRIME@UCR_Files";
         }
 
         public async Task<bool> StoreFile(string fileName, Stream fileStream)
