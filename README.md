@@ -314,7 +314,15 @@ El programa en su pantalla de inicio le muestra al usuario solamente un menú la
 
 - Para crear una lista se clickea el botón “Crear lista de chequeo” en el menú lateral de la pantalla, esto abrirá una ventana titulada “Crear plantilla de lista de chequeo” (definición previamente explicada en el apartado “Definiciones, acrónimos y abreviaciones”), en esta se ven las características principales de la lista marcadas en un cuadro blanco en el centro de la ventana y marcadas con un asterisco las que son fundamentales, la leyenda del asterisco también se muestra en la parte inferior; el botón de guardar lista está inhabilitado hasta que la ventanas necesarias, Nombre y Tipo, sean correctamente llenadas y esto se ve reflejado en el color del mismo que se hace más intenso y diferenciable cuando se encuentra habilitado, además de tener la opción de cancelar la creación si así lo desea.  
 
-- Al crear una lista esta se ve inmediatamente reflejada en la pantalla de listas de chequeo.  
+- Al crear una lista esta se ve inmediatamente reflejada en la pantalla de listas de chequeo.
+
+- Para crear un item se se clickea el botón de "Crear item", se abre una pantalla para los detalles del mismo y son guardados asociados a la lista de checkeo actual mostrada.
+
+- Al crear un item este se ve mostrado inmediatamente en pantalla.
+
+- A cada item se pueden añadir subitems mediante el menú desplegable asociado a cada item en pantalla.
+
+- Los subitems son mostrados en pantalla inmediatamente y se ve en pantalla en que nivel se encuentran para asociarlos a su item padre.
 
 #### Drim Team/Contenido Multimedia-Expedientes
 
