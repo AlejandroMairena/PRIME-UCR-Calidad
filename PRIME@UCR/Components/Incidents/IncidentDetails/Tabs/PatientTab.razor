@@ -1,5 +1,6 @@
 @using PRIME_UCR.Components.Controls
 @using ChartJs.Blazor.ChartJS.Common.Handlers.OnClickHandler
+@using PRIME_UCR.Domain.Models.UserAdministration
 
 <h3>Paciente por trasladar</h3>
 <br />
@@ -63,7 +64,16 @@
                                     Min="@DateTime.Today.AddYears(-120)"
                                     Required="false"/>
                     }
-                    @* TODO: sexo *@
+                    @if (!IsReadOnly() || _model.Patient.Sexo != null)
+                    {
+                        <DropDownMenu T="Gender?" Data="_genders"
+                                      Label="Sexo"
+                                      DefaultText="Seleccione un sexo"
+                                      TextExpression="@((Gender? g) => EnumUtils.GetDescription(g))"
+                                      Required="false" 
+                                      Disabled="@IsReadOnly()"
+                                      @bind-Value="SelectedGender" />
+                    }
                     <div class="mt-4">
                         @if (_patientStatus == PatientStatus.PatientUnchanged)
                         {

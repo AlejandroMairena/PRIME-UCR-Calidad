@@ -12,7 +12,8 @@
     }
     <select class="@($"custom-select {ValidationCssClass}")"
             value="@SelectedValue"
-            @onchange="OnChangeEvent">
+            @onchange="OnChangeEvent"
+            disabled="@Disabled">
         @if (!String.IsNullOrEmpty(DefaultText))
         {
             <option value="@(-1)" selected disabled>@DefaultText</option>

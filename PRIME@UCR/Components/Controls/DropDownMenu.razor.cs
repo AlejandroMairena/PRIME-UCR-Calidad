@@ -18,6 +18,7 @@ namespace PRIME_UCR.Components.Controls
         [Parameter] public string Label { get; set; }
         [Parameter] public string DefaultText { get; set; }
         [Parameter] public bool UseValidation { get; set; } = true;
+        [Parameter] public bool Disabled { get; set; } = false;
         [Parameter] public bool Required { get; set; } = true;
 
         private int _index = -1;
