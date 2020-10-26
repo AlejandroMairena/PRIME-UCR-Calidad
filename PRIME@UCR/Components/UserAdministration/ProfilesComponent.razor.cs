@@ -11,6 +11,10 @@ using System.Threading.Tasks;
 
 namespace PRIME_UCR.Components.UserAdministration
 {
+    /*
+     * Class used to select the desired profile to be displayed and to update the corresponding components (UsersComponent and 
+     * PermissionsComponent) based on the selected profile.
+    */
     public partial class ProfilesComponent
     {
         [Inject]
@@ -33,13 +37,21 @@ namespace PRIME_UCR.Components.UserAdministration
         public Perfil selectedProfile { get; set; }
 
         public int counterPermissions;
-       
+
+         /*
+         * Function:        Method that is used to get all of the profiles in the database loaded in the component
+         */
+
         protected override async Task OnInitializedAsync()
         {
             ListProfiles = (await profilesService.GetPerfiles()).ToList();
             counterPermissions = (await permissionsService.GetPermisos()).ToList().Count;
         }
-        
+
+        /*
+        * Function:        Method that is used to update the corresponding components (UsersComponent and PermissionsComponent) based
+        * on when the selected profile value changes
+        */
         private async Task updateOtherTables(Perfil newPerfil) 
         {
             selectedProfile = newPerfil;
@@ -47,6 +59,7 @@ namespace PRIME_UCR.Components.UserAdministration
             var ListProfiles = await profilesService.GetPerfilesWithDetailsAsync();
             var profile = (ListProfiles.Find(p => p.NombrePerfil == Value.ProfileName));
             Value.PermissionsList.Clear();
+            // adding all of the permissions and users corresponding to the selected profile
             foreach (var permission in profile.PerfilesYPermisos)
             {
                 Value.PermissionsList.Add(permission.Permiso);
@@ -56,7 +69,7 @@ namespace PRIME_UCR.Components.UserAdministration
             {
                 Value.UserLists.Add(user.Usuario);
             }
-
+            // setting the checkboxes of the permissions and users corresponding to the selected profile to true
             Value.CheckedPermissions = new List<bool>();
             var permisssionsList = (await permissionsService.GetPermisos()).ToList();
             foreach (var permission in permisssionsList)
