@@ -12,6 +12,8 @@ namespace PRIME_UCR.Domain.Models.MedicalRecords
         //public DateTime FechaHoraCreacion { get; set; }
         public string CedulaPaciente { get; set; } //fk-paciente
         public string CedulaMedicoDuenno { get; set; } //fk-medico
+        public DateTime FechaCreacion { get; set; }
+        public string Clinica { get; set; }
         public Médico Medico { get; set; }
         public Paciente Paciente { get; set; }
         public List<Cita> Citas { get; set; }
