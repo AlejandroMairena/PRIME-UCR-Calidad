@@ -1,4 +1,5 @@
-﻿using PRIME_UCR.Application.Repositories.UserAdministration;
+﻿using PRIME_UCR.Application.DTOs.UserAdministration;
+using PRIME_UCR.Application.Repositories.UserAdministration;
 using PRIME_UCR.Application.Services.UserAdministration;
 using PRIME_UCR.Domain.Models.UserAdministration;
 using System;
@@ -21,6 +22,11 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
         public async Task<Persona> GetPersonByIdAsync(string id)
         {
             return await PersonRepository.GetByKeyPersonaAsync(id);
+        }
+
+        public Task StoreNewPersonAsync(PersonFormModel personInfo)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -1,0 +1,60 @@
+﻿<Loading IsLoading="Value == null">
+    <h4>Información personal</h4>
+
+    <div class="row" style="width:30%">
+        <div class="col">
+            <TextInput Label="Número de cédula:" @bind-Value="Value.IdCardNumber" />
+        </div>
+    </div>
+
+    <div class="row" style="width:30%">
+        <div class="col">
+            <TextInput Label="Nombre:" @bind-Value="Value.Name" />
+        </div>
+    </div>
+    <div class="row" style="width:60%">
+        <div class="col" style="width: 30%">
+            <TextInput Label="Primer apellido:" @bind-Value="Value.FirstLastName" />
+        </div>
+        <div class="col" style="width:30%">
+            <TextInput Label="Segundo apellido:" @bind-Value="Value.SecondLastName" />
+        </div>
+    </div>
+
+    @*<DateTimePicker DateLabel="Fecha nacimiento:" @bind-Value="Value.BirthDate"  />*@
+
+    <label>Sexo:</label>
+    <br />
+    <form>
+        <label class="radio-inline">
+            <input type="radio" name="optradio" @onclick="SetSexToMale">Masculino
+        </label>
+        &emsp;
+        <label class="radio-inline">
+            <input type="radio" name="optradio" @onclick="SetSexToFemale">Femenino
+        </label>
+        &emsp;
+        <label class="radio-inline">
+            <input type="radio" name="optradio" @onclick="SetSexToOther">Otro
+        </label>
+    </form>
+    <br />
+
+    <h4>Información de contacto</h4>
+
+    <div class="row" style="width:30%">
+        <div class="col">
+            <TextInput Label="Correo electrónico" @bind-Value="Value.Email" />
+        </div>
+    </div>
+
+    <div class="row" style="width:60%">
+        <div class="col">
+            <TextInput Label="Número de teléfono primario:" @bind-Value="Value.PrimaryPhoneNumber" />
+        </div>
+        <div class="col">
+            <TextInput Label="Número de teléfono secundario:" @bind-Value="Value.SecondaryPhoneNumber" />
+        </div>
+    </div>
+
+</Loading>
