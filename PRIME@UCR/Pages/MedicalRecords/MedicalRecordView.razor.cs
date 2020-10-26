@@ -15,7 +15,7 @@ namespace PRIME_UCR.Pages.MedicalRecords
     {
 
         [Parameter]
-        public int Id { get; set; }
+        public string Id { get; set; }
 
         private readonly List<Tuple<DetailsTab, string>> _tabs = new List<Tuple<DetailsTab, string>>();
 
@@ -31,9 +31,11 @@ namespace PRIME_UCR.Pages.MedicalRecords
 
         private RecordViewModel viewModel;
 
+
         protected override async Task OnInitializedAsync()
         {
-            viewModel = await MedicalRecordService.GetIncidentDetailsAsync(Id);
+            int identification = Int32.Parse(Id);
+            viewModel = await MedicalRecordService.GetIncidentDetailsAsync(identification);
             if (record == null)
                 exists = false;
         }

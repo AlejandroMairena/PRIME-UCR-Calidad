@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using PRIME_UCR.Application.DTOs.Appointments;
 using PRIME_UCR.Application.Repositories.Appointments;
 using PRIME_UCR.Application.Services.Appointments;
 using PRIME_UCR.Domain.Models.Appointments;
@@ -19,5 +20,10 @@ namespace PRIME_UCR.Application.Implementations.Appointments
         {
             return await _actionTypeRepo.GetAllAsync();
         }
+
+        /*public async Task<IEnumerable<AppointmentModel>> GetAppointmentListModelsAsync()
+        {
+            return await _actionTypeRepo.GetAllAsync();
+        }*/
     }
 }
