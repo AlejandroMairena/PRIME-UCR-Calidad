@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Components.Forms;
 using PRIME_UCR.Domain.Models.CheckLists;
 using System.Linq;
 using System.Threading;
+using Microsoft.AspNetCore.Components.Rendering;
 
 namespace PRIME_UCR.Pages.CheckLists
 {
@@ -19,6 +20,7 @@ namespace PRIME_UCR.Pages.CheckLists
     {
         [Parameter]
         public int id { get; set; }
+        private int Index { get; set; } = 0;
 
         private bool isDisabled { get; set; } = true;
 
@@ -143,6 +145,34 @@ namespace PRIME_UCR.Pages.CheckLists
          * */
         protected int getItemIndex(Item itemInList) {
             return itemsList.FindIndex(item => item.Id == itemInList.Id);
+        }
+        protected void DisplayItems(RenderTreeBuilder __builder, Item item)
+        {
+            List<Item> subItems = itemsList.FindAll(tempItem => tempItem.IDSuperItem == item.Id);
+            if (subItems.Count() > 0)
+            {
+                __builder.OpenElement(Index++, "tr");
+                __builder.OpenElement(Index++, "td");
+                __builder.AddAttribute(Index++, "scope", "row");
+                __builder.AddAttribute(Index++, "class", "align-middle");
+                __builder.AddContent(Index++, item.Nombre);
+                __builder.CloseElement();
+                __builder.CloseElement();
+                foreach (var subitem in subItems)
+                {
+                    DisplayItems(__builder, subitem);
+                }
+            }
+            else
+            {
+                __builder.OpenElement(Index++, "tr");
+                __builder.OpenElement(Index++, "td");
+                __builder.AddAttribute(Index++, "scope", "row");
+                __builder.AddAttribute(Index++, "class", "align-middle");
+                __builder.AddContent(Index++, item.Nombre);
+                __builder.CloseElement();
+                __builder.CloseElement();
+            }
         }
     }
 }

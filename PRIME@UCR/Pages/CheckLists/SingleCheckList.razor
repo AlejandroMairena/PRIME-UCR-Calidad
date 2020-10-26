@@ -114,6 +114,10 @@ else
                                 <thead>
                                 </thead>
                                 <tbody>
+                                    @foreach (var item in coreItems)
+                                    {
+                                        { DisplayItems(__builder, item); }
+                                    }
                                     @foreach (var itemInList in coreItems)
                                     {
                                         <tr>
