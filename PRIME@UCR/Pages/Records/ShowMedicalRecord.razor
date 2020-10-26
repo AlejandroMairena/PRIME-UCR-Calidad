@@ -4,6 +4,12 @@
 
 <h3>Lista Expedientes Medicos</h3>
 
+<style>
+    body {
+        background-color:white;
+    }
+</style>
+
 <Pagination Total_pages="total_pages" Current_page="current_page" Radius="radius" Selected_page="selected_page">
 </Pagination>
 
@@ -29,43 +35,47 @@
 
             @if (medical_records[expediente].CedulaPaciente != null)
             {
-                <td align="center">@medical_records[expediente].CedulaPaciente</td>
+                <td align="left">@medical_records[expediente].CedulaPaciente</td>
 
             }
             else
             {
-                <th scope="row"><a href="#" class="stretched-link">NULL</a></th>
+                <td align="left">------</td>
+                //<th scope="row"><a href="#" class="stretched-link">------</a></th>
             }
 
             @if (medical_records[expediente].Paciente != null && medical_records[expediente].Paciente.Nombre != null)
             {
-                <td align="center">@medical_records[expediente].Paciente.Nombre</td>
+                <td align="left">@medical_records[expediente].Paciente.Nombre</td>
 
             }
             else
             {
-                <th scope="row"><a href="#" class="stretched-link">NULL</a></th>
+                <td align="left">------</td>
+                //<th scope="row"><a href="#" class="stretched-link">------</a></th>
             }
 
 
             @if (medical_records[expediente].Paciente != null && medical_records[expediente].Paciente.PrimerApellido != null)
             {
-                <td align="center">@medical_records[expediente].Paciente.PrimerApellido</td>
+                <td align="left">@medical_records[expediente].Paciente.PrimerApellido</td>
 
             }
             else
             {
-                <th scope="row"><a href="#" class="stretched-link">NULL</a></th>
+                <td align="left">------</td>
+                //<th scope="row"><a href="#" class="stretched-link">------</a></th>
             }
 
             @if (medical_records[expediente].Paciente != null && medical_records[expediente].Paciente.SegundoApellido != null)
             {
-                <td align="center">@medical_records[expediente].Paciente.SegundoApellido</td>
+                <td align="left">@medical_records[expediente].Paciente.SegundoApellido</td>
 
             }
             else
             {
-                <th scope="row"><a href="#" class="stretched-link">NULL</a></th>
+                <td align="left">------</td>
+                //<th scope="row"><a href="#" class="stretched-link">------</a></th>
             }
         </tr>
 

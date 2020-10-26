@@ -64,12 +64,10 @@ namespace PRIME_UCR.Application.Implementations.MedicalRecords
                 else {
                     if (index_names == 1)
                     {
-                        //name and first lastname was added, correct search needs to be done.
-                        return await _repo.GetByConditionAsync(_repo => _repo.Paciente.Nombre.Contains(name));
+                        return await _repo.GetByNameAndLastnameAsync(patient_name, lastname1); 
                     }
                     else {
-                        //name, fist lastname, and second lastname was added, correct search needs to be done. 
-                        return await _repo.GetByConditionAsync(_repo => _repo.Paciente.Nombre.Contains(name));
+                        return await _repo.GetByNameAndLastnameLastnameAsync(patient_name, lastname1, lastname2); 
                     }
                 }
             }
