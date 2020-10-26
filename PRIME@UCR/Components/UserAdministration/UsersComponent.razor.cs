@@ -38,7 +38,7 @@ namespace PRIME_UCR.Components.UserAdministration
 
         protected override async Task OnInitializedAsync()
         {
-            ListUsers = (await userService.GetUsuarios()).ToList();
+            ListUsers = (await userService.GetAllUsersWithDetailsAsync()).ToList();
         }
 
         protected async Task update_profile(string IdUser, ChangeEventArgs e)

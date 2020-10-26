@@ -16,7 +16,9 @@
                 </Template>
             </Column>
 
-            <Column TableItem="Usuario" Title="Nombre de usuario" Field="@(x => x.UserName)" Width="25%" />
+            <Column TableItem="Usuario" Title="Nombre de usuario" Field="@(x => x.Persona.NombreCompleto)" Width="30%" />
+            <Column TableItem="Usuario" Title="Correo electrónico" Field="@(x => x.UserName)" Width="20%" />
+            @**@
 
             <Pager ShowPageNumber="true" ShowTotalCount="true" ShowPageSizes="true" />
         </Table>
