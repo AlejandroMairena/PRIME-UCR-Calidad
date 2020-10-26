@@ -35,6 +35,7 @@ namespace PRIME_UCR.Infrastructure
             services.AddTransient<IIncidentRepository, IncidentRepository>();
             services.AddTransient<IIncidentStateRepository, IncidentStateRepository>();
             services.AddTransient<ILocationRepository, LocationRepository>();
+            services.AddTransient<ITransportUnitRepository, TransportUnitRepository>();
             // multimedia
             services.AddTransient<IMultimediaContentRepository, MultimediaContentRepository>();
             services.AddTransient<IFileService, FileService>();

@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using PRIME_UCR.Application.Dtos.Incidents;
+using PRIME_UCR.Application.DTOs.Incidents;
 using PRIME_UCR.Components.Incidents.IncidentDetails.Tabs;
 using PRIME_UCR.Domain.Models;
 
@@ -26,6 +27,12 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails
         private async Task SaveOrigin(OriginModel model)
         {
             Incident.Origin = model.Origin;
+            await OnSave.InvokeAsync(Incident);
+        }
+
+        private async Task SaveAssignments(AssignmentModel model)
+        {
+            Incident.TransportUnit = model.TransportUnit;
             await OnSave.InvokeAsync(Incident);
         }
     }

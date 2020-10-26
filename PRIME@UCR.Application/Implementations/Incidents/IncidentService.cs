@@ -21,18 +21,20 @@ namespace PRIME_UCR.Application.Implementations.Incidents
         private readonly IModesRepository _modesRepository;
         private readonly IIncidentStateRepository _statesRepository;
         private readonly ILocationRepository _locationRepository;
-
+        private readonly ITransportUnitRepository _transportUnitRepository;
 
         public IncidentService(
             IIncidentRepository incidentRepository,
             IModesRepository modesRepository,
             IIncidentStateRepository statesRepository,
-            ILocationRepository locationRepository)
+            ILocationRepository locationRepository,
+            ITransportUnitRepository transportUnitRepository)
         {
             _incidentRepository = incidentRepository;
             _modesRepository = modesRepository;
             _statesRepository = statesRepository;
             _locationRepository = locationRepository;
+            _transportUnitRepository = transportUnitRepository;
         }
 
         public async Task<Incidente> GetIncidentAsync(string code)
@@ -71,10 +73,12 @@ namespace PRIME_UCR.Application.Implementations.Incidents
         public async Task<IncidentDetailsModel> GetIncidentDetailsAsync(string code)
         {
             var incident = await _incidentRepository.GetWithDetailsAsync(code);
+            //var transportUnit = await _transportUnitRepository.GetTransporUnitByIncidentIdAsync(incident.Codigo);
             if (incident != null)
             {
                 var state = await _statesRepository.GetCurrentStateByIncidentId(incident.Codigo);
-                var model = new IncidentDetailsModel(
+                IncidentDetailsModel model = new IncidentDetailsModel
+                (
                     incident.Codigo,
                     incident.TipoModalidad,
                     state.Nombre,
@@ -82,11 +86,11 @@ namespace PRIME_UCR.Application.Implementations.Incidents
                     incident.IsModifiable(state),
                     incident.Cita.FechaHoraCreacion,
                     incident.Cita.FechaHoraEstimada,
-                    incident.CedulaAdmin
+                    incident.CedulaAdmin,
+                    incident.MatriculaTrans
                 );
                 model.Origin = incident.Origen;
                 model.Destination = incident.Destino;
-                
                 return model;
             }
 
@@ -119,6 +123,16 @@ namespace PRIME_UCR.Application.Implementations.Incidents
                     modified = true;
                 }
             }
+            
+            if (model.TransportUnit != null)
+            {
+                if (incident.MatriculaTrans == null || incident.MatriculaTrans != model.TransportUnit.Matricula)
+                {
+                    var transportUnit = await _transportUnitRepository.GetByKeyAsync(model.TransportUnit.Matricula);
+                    incident.MatriculaTrans = transportUnit.Matricula;                   
+                    modified = true;
+                }
+            }
 
             if (modified)
                 await _incidentRepository.UpdateAsync(incident);
@@ -146,11 +160,13 @@ namespace PRIME_UCR.Application.Implementations.Incidents
                 model.Modifiable,
                 incident.Cita.FechaHoraCreacion,
                 incident.Cita.FechaHoraEstimada,
-                incident.CedulaAdmin
+                incident.CedulaAdmin,
+                incident.MatriculaTrans
             );
             outputModel.Origin = incident.Origen;
             outputModel.Destination = incident.Destino;
-            
+            //Use model to avoid repetition of TransportUnit
+            outputModel.TransportUnit = model.TransportUnit;
             return outputModel;
         }
 

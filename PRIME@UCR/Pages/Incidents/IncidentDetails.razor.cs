@@ -45,6 +45,11 @@ namespace PRIME_UCR.Pages.Incidents
                             ? new Tuple<DetailsTab, string>(DetailsTab.Destination, "warning")
                             : new Tuple<DetailsTab, string>(DetailsTab.Destination, ""));
                         break;
+                    case DetailsTab.Assignment:
+                        _tabs.Add(_incidentModel.TransportUnit == null
+                            ? new Tuple<DetailsTab, string>(DetailsTab.Assignment, "warning")
+                            : new Tuple<DetailsTab, string>(DetailsTab.Assignment, ""));
+                        break;
                 }
             }
         }
