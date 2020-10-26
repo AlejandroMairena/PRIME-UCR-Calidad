@@ -11,6 +11,8 @@
     En esta página usted puede hacer el registro de usuarios en la aplicación
 </p>
 
+<StatusMessage Message="@statusMessage" Class="@messageType" />
+
 <EditForm Model="infoOfUserToRegister" OnValidSubmit="RegisterUserInDB">
     <FluentValidationValidator />
 
