@@ -15,9 +15,9 @@ namespace PRIME_UCR.Application.DTOs.Incidents
         public string Estado { get; set; }
         public string Modalidad { get; set; }
 
-        public Ubicacion Origen { get; set; }
+        public string Origen { get; set; }
 
-        public CentroMedico Destino { get; set; }
+        public string Destino { get; set; }
         public int? IdDestino { get; set; }
 
     }

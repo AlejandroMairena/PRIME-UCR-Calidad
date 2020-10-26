@@ -58,6 +58,7 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
             _model = await AssignmentService.GetAssignmentsByIncidentIdAsync(Incident.Code);
             
             _context = new EditContext(_model);
+            _saveButtonEnabled = false;
             _context.OnFieldChanged += ToggleSaveButton;
 
             _transportUnits =

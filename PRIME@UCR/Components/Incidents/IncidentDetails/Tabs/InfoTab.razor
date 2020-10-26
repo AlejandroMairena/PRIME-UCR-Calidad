@@ -20,7 +20,7 @@ else if (status == "r")
     <ListItem Title="Fecha de registro"
               Text="@($"{DetailsModel.RegistrationDate.ToShortDateString()} - {DetailsModel.RegistrationDate.ToShortTimeString()}")" />
     <ListItem Title="Creado por"
-              Text="@_register" />
+              Text="@(_person?.NombreCompleto)" />
 </ul>
 @if (status == null)
 {

@@ -87,7 +87,7 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Incidents
                         Codigo = i.Codigo,
                         FechaHoraRegistro = i.Cita.FechaHoraCreacion,
                         Modalidad = i.TipoModalidad,
-                        Origen = i.Origen,
+                        Origen = i.Origen.DisplayName,
                         IdDestino = i.IdDestino
                     });
 
@@ -105,7 +105,7 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Incidents
                         Origen = i.Origen,
                         Estado = state.NombreEstado,
                         IdDestino = i.IdDestino,
-                        Destino = mc != null ? mc.MedicalCenter : null
+                        Destino = mc != null ? mc.MedicalCenter.Nombre : null
                     };
             }); 
         }

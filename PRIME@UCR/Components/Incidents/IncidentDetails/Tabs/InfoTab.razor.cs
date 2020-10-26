@@ -11,13 +11,12 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
     {
         [Parameter] public IncidentDetailsModel DetailsModel { get; set; }
         [Inject] public IPersonService PersonService { get; set; }
-
-        private String _register;
+        
+        private Persona _person;
 
         protected override async Task OnInitializedAsync()
         {
-            Persona person = await PersonService.GetPersonByIdAsync(DetailsModel.AdminId);
-            _register = person.Nombre+" "+person.PrimerApellido+" "+person.SegundoApellido;
+            _person = await PersonService.GetPersonByIdAsync(DetailsModel.AdminId);
         }
     }
 }

@@ -7,30 +7,23 @@
     <div class="jumbotron white-panel">
         <h1>Lista de Incidentes</h1>
         <Table TableItem="IncidentListModel" Items="incidentsList" PageSize="3" @ref="Table" ColumnReorder="true" ShowSearchBar="true" class="table table-bordered">
-            <Column TableItem="IncidentListModel" Title="Código" Field="@(x => x.Codigo)" Filterable="true" Sortable="true" Width="20%" DefaultSortColumn="true">
+            <Column TableItem="IncidentListModel" Title="Código" Field="@(x => x.Codigo)" Filterable="true" Sortable="true" Width="18%" DefaultSortColumn="true">
                 <Template>
                     <a href="/incidents/@context.Codigo">@context.Codigo</a>
                 </Template>
             </Column>
-            <Column TableItem="IncidentListModel" Title="Fecha y Hora Registro" Field="@(x => x.FechaHoraRegistro)" Filterable="true" Sortable="true" Width="20%"/>
-            <Column TableItem="IncidentListModel" Title="Estado" Field="@(x => x.Estado)" Filterable="true" Sortable="true" Width="20%"/>
-            <Column TableItem="IncidentListModel" Title="Modalidad" Field="@(x => x.Modalidad)" Filterable="true" Sortable="true" Width="7%"/>
-            <Column TableItem="IncidentListModel" Title="Origen" Field="@(x => x.Origen)" Filterable="true" Sortable="true" Width="7%">
+            <Column TableItem="IncidentListModel" Title="Fecha de registro" Field="@(x => x.FechaHoraRegistro)" Filterable="true" Sortable="true" Width="18%"/>
+            <Column TableItem="IncidentListModel" Title="Estado" Field="@(x => x.Estado)" Filterable="true" Sortable="true" Width="14%"/>
+            <Column TableItem="IncidentListModel" Title="Modalidad" Field="@(x => x.Modalidad)" Filterable="true" Sortable="true" Width="12%"/>
+            <Column TableItem="IncidentListModel" Title="Origen" Field="@(x => x.Origen)" Filterable="true" Sortable="true" Width="12%">
                 <Template>
-                    @switch (context.Origen)
+                    @if (context.Origen == null)
                     {
-                        case Domicilio _:
-                            <div>@(nameof(Domicilio))</div>
-                            break;
-                        case CentroUbicacion _:
-                            <div>Centro médico</div>
-                            break;
-                        case Internacional _:
-                            <div>@(nameof(Internacional))</div>
-                            break;
-                        default:
-                            <div>-</div>
-                            break;
+                        <div>-</div>
+                    }
+                    else
+                    {
+                        <div>@context.Origen</div>
                     }
                 </Template>
             </Column>
@@ -42,7 +35,7 @@
                     }
                     else
                     {
-                        <div>@context.Destino.Nombre</div>
+                        <div>@context.Destino</div>
                     }
                 </Template>
             </Column>
