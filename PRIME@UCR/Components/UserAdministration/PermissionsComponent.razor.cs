@@ -11,6 +11,9 @@ using Microsoft.AspNetCore.Components.Web;
 
 namespace PRIME_UCR.Components.UserAdministration
 {
+    /**
+     * Partial class used to manage the logic part of the PermissionsComponent.
+     */
     public partial class PermissionsComponent
     {
 
@@ -32,16 +35,30 @@ namespace PRIME_UCR.Components.UserAdministration
         [Parameter]
         public EventCallback<ProfileModel> ValueChanged { get; set; }
 
+        /**
+         * Function: Assigns, a new list of permissions to the attribute ListPermissions once IsInitialized  is set to true.
+         */
         protected override void OnInitialized()
         {
             ListPermissions = new List<Permiso>();
         }
 
+        /**
+         * Function: Assigns, a new list of permissions to the attribute ListPermissions based on the permissions that are
+         * placed on the database.
+         */
         protected override async Task OnInitializedAsync()
         {
             ListPermissions = (await permissionsService.GetPermisos()).ToList();
         }
 
+        /**
+         * Function: Used to update the permissions asigned to each profile so, the permissions chosen by the user on the
+         * front end, are changed at the database level. 
+         * 
+         * Requires: The permission id, which corresponds to a attribute that uniquely identifies a permission, and an argument
+         * that indicates that there's an event happening.
+         */
         protected async Task update_profile(int idPermission, ChangeEventArgs e)
         {
             if(Value.PermissionsList != null)
@@ -51,14 +68,15 @@ namespace PRIME_UCR.Components.UserAdministration
                 {
                     Value.PermissionsList.Add(Permission);
                     await permiteService.InsertPermissionAsync(Value.ProfileName, idPermission);
-                    Value.StatusMessage = "El permiso \"" + Permission.DescripciónPermiso + "\" fue agregado al perfil " + Value.ProfileName;
+                    Value.StatusMessage = "El permiso \"" + Permission.DescripciónPermiso + "\" fue agregado al perfil " + Value.ProfileName + ". Para notar los cambios, deberá reiniciar su sesión.";
                 }
                 else 
                 {
                     Value.PermissionsList.Remove(Permission);
                     await permiteService.DeletePermissionAsync(Value.ProfileName,idPermission);
-                    Value.StatusMessage = "El permiso \"" + Permission.DescripciónPermiso + "\" fue removido del perfil " + Value.ProfileName;
+                    Value.StatusMessage = "El permiso \"" + Permission.DescripciónPermiso + "\" fue removido del perfil " + Value.ProfileName +". Para notar los cambios, deberá reiniciar su sesión." ;
                 }
+                Value.CheckedPermissions[idPermission-1] = (bool)e.Value;
                 await ValueChanged.InvokeAsync(Value);
             }
         }

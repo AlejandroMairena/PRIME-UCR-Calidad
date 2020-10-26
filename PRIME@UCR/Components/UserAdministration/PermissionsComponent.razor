@@ -2,6 +2,10 @@
 @using BlazorTable
 @using PRIME_UCR.Domain.Models.UserAdministration;
 
+@*This corresponds to the visual part of the permissions component, which shows the user a list of the permissions
+    assigned to each profile in a table, with a checkbox used to assing or unassing permissions, the permission
+    description and its id.
+*@
 <Loading IsLoading="ListPermissions == null">
 
     <EditForm Model="Value">
@@ -16,8 +20,8 @@
                     </center>
                 </Template>
             </Column>
-            <Column TableItem="Permiso" Title="Descripción de permiso" Field="@(x => x.DescripciónPermiso)" Width="35%"/>
-            <Column TableItem="Permiso" Title="Número de permiso" Field="@(x => x.IDPermiso)"  Width="14%"  />
+            <Column TableItem="Permiso" Title="Descripción de permiso" Field="@(x => x.DescripciónPermiso)" Width="44%"/>
+            <Column TableItem="Permiso" Title="ID" Field="@(x => x.IDPermiso)"  Width="5%" Align="Align.Right"/>
        
             <Pager ShowPageNumber="true" />
         </Table>
