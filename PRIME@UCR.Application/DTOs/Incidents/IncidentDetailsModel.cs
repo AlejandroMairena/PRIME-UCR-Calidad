@@ -17,6 +17,7 @@ namespace PRIME_UCR.Application.Dtos.Incidents
         public string AdminId { get; set; }
         public bool Completed { get; set; }
         public bool Modifiable { get; set; }
+        public Persona Reviewer { get; set; }
         public DateTime RegistrationDate { get; set; }
         public DateTime EstimatedDateOfTransfer { get; set; }
         public Ubicacion Origin { get; set; }

@@ -29,7 +29,7 @@ AS
         MatriculaTrans,
         CedulaAdmin,
         CedulaTecnicoCoordinador,
-        CedulaTecnicoRevisor,
+        CedulaRevisor,
         CodigoCita,
         IdOrigen,
         IdDestino,

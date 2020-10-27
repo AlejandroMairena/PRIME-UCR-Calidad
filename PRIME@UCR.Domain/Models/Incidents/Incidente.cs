@@ -27,7 +27,7 @@ namespace PRIME_UCR.Domain.Models
         public Cita Cita { get; set; }
         public string CedulaAdmin { set; get; }
         public string CedulaTecnicoCoordinador { get; set; }
-        public string CedulaTecnicoRevisor { get; set; }
+        public string CedulaRevisor { get; set; }
 
         public bool IsCompleted()
         {

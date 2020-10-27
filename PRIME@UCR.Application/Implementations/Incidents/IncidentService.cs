@@ -8,6 +8,7 @@ using PRIME_UCR.Application.DTOs.Incidents;
 using PRIME_UCR.Application.Repositories;
 using PRIME_UCR.Application.Repositories.Incidents;
 using PRIME_UCR.Application.Repositories.MedicalRecords;
+using PRIME_UCR.Application.Repositories.UserAdministration;
 using PRIME_UCR.Application.Services.Incidents;
 using PRIME_UCR.Application.Services.UserAdministration;
 using PRIME_UCR.Domain.Constants;
@@ -25,7 +26,7 @@ namespace PRIME_UCR.Application.Implementations.Incidents
         private readonly ILocationRepository _locationRepository;
         private readonly ITransportUnitRepository _transportUnitRepository;
         private readonly IMedicalRecordRepository _medicalRecordRepository;
-
+        private readonly IPersonaRepository _personRepository;
 
         public IncidentService(
             IIncidentRepository incidentRepository,
@@ -33,7 +34,8 @@ namespace PRIME_UCR.Application.Implementations.Incidents
             IIncidentStateRepository statesRepository,
             ILocationRepository locationRepository,
             ITransportUnitRepository transportUnitRepository,
-            IMedicalRecordRepository medicalRecordRepository)
+            IMedicalRecordRepository medicalRecordRepository,
+            IPersonaRepository personRepository)
         {
             _incidentRepository = incidentRepository;
             _modesRepository = modesRepository;
@@ -41,6 +43,7 @@ namespace PRIME_UCR.Application.Implementations.Incidents
             _locationRepository = locationRepository;
             _transportUnitRepository = transportUnitRepository;
             _medicalRecordRepository = medicalRecordRepository;
+            _personRepository = personRepository;
         }
 
         public async Task<Incidente> GetIncidentAsync(string code)
@@ -90,6 +93,7 @@ namespace PRIME_UCR.Application.Implementations.Incidents
             if (incident != null)
             {
                 var transportUnit = await _transportUnitRepository.GetTransporUnitByIncidentIdAsync(incident.Codigo);
+                var reviewer = await _personRepository.GetByKeyPersonaAsync(incident.CedulaRevisor);
                 var state = await _statesRepository.GetCurrentStateByIncidentId(incident.Codigo);
                 var medicalRecord = 
                     incident.Cita.IdExpediente != null ?
@@ -110,7 +114,8 @@ namespace PRIME_UCR.Application.Implementations.Incidents
                     AppointmentId = incident.CodigoCita,
                     TransportUnitId = transportUnit?.Matricula,
                     TransportUnit = transportUnit,
-                    MedicalRecord = medicalRecord
+                    MedicalRecord = medicalRecord,
+                    Reviewer = reviewer
                 };
                 
                 return model;
@@ -185,5 +190,63 @@ namespace PRIME_UCR.Application.Implementations.Incidents
         {
             return await _incidentRepository.GetIncidentListModelsAsync();
         }
+
+        public async Task ApproveIncidentAsync(string code, string reviewerId)
+        {
+            var incident = await _incidentRepository.GetByKeyAsync(code);
+            if (incident == null)
+            {
+                throw new ArgumentException(
+                    $"Invalid incident id {code}.");
+            }
+            
+            var currentState = await _statesRepository.GetCurrentStateByIncidentId(code);
+            if (currentState.Nombre != IncidentStates.Created.Nombre
+                && currentState.Nombre != IncidentStates.Rejected.Nombre)
+            {
+                throw new ApplicationException("Cannot approve incident that is not in the created or rejected state.");
+            }
+
+            await _statesRepository.AddState(new EstadoIncidente
+            {
+                CodigoIncidente = code,
+                NombreEstado = IncidentStates.Approved.Nombre,
+                Activo = true,
+                FechaModificado = DateTime.Now
+            });
+
+            incident.CedulaRevisor = reviewerId;
+            await _incidentRepository.UpdateAsync(incident);
+        }
+        
+        public async Task RejectIncidentAsync(string code, string reviewerId)
+        {
+            var incident = await _incidentRepository.GetByKeyAsync(code);
+            if (incident == null)
+            {
+                throw new ArgumentException(
+                    $"Invalid incident id {code}.");
+            }
+            
+            var currentState = await _statesRepository.GetCurrentStateByIncidentId(code);
+            if (currentState.Nombre != IncidentStates.Created.Nombre)
+            {
+                throw new ApplicationException("Cannot reject incident that is not in the created state.");
+            }
+
+            await _statesRepository.AddState(new EstadoIncidente
+            {
+                CodigoIncidente = code,
+                NombreEstado = IncidentStates.Rejected.Nombre,
+                Activo = true,
+                FechaModificado = DateTime.Now
+            });
+
+            incident.CedulaRevisor = reviewerId;
+            await _incidentRepository.UpdateAsync(incident);
+        }
+        
+        
+        
     }
 }

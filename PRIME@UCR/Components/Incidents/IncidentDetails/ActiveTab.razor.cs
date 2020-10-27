@@ -18,22 +18,27 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails
         [Parameter]
         public EventCallback<IncidentDetailsModel> OnSave { get; set; }
 
+        private async Task Save()
+        {
+            await OnSave.InvokeAsync(Incident);
+        }
+
         private async Task SaveDestination(DestinationModel model)
         {
             Incident.Destination = model.Destination;
-            await OnSave.InvokeAsync(Incident);
+            await Save();
         }
 
         private async Task SaveOrigin(OriginModel model)
         {
             Incident.Origin = model.Origin;
-            await OnSave.InvokeAsync(Incident);
+            await Save();
         }
 
         private async Task SavePatient(PatientModel model)
         {
             Incident.MedicalRecord = model.Expediente;
-            await OnSave.InvokeAsync(Incident);
+            await Save();
         }
     }
 }

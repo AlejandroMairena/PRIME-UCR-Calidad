@@ -34,7 +34,7 @@ namespace PRIME_UCR.Pages.Incidents
         private IncidentModel _model = new IncidentModel();
         private List<Modalidad> _modes;
         private EditContext _context;
-        private bool isFormValid = false;
+        private bool isFormValid;
 
         private const string DetailsUrl = "/incidents";
 

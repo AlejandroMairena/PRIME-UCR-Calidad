@@ -1,15 +1,16 @@
 ﻿@using PRIME_UCR.Domain.Models.UserAdministration
 @using PRIME_UCR.Application.Services.UserAdministration
+@using PRIME_UCR.Domain.Constants
 
 <h3> Información general del incidente</h3>
 <br />
-@if (status == "a")
+@if (DetailsModel.CurrentState == IncidentStates.Approved.Nombre)
 {
-    <StatusMessage Message="Aprobado por Fernando Morales" Class="primary" />
+    <StatusMessage Message="@($"Aprobado por {DetailsModel.Reviewer.NombreCompleto}")" Class="primary" />
 }
-else if (status == "r")
+else if (DetailsModel.CurrentState == IncidentStates.Rejected.Nombre)
 {
-    <StatusMessage Message="Rechazado por Fernando Morales" Class="danger" />
+    <StatusMessage Message="@($"Rechazado por {DetailsModel.Reviewer.NombreCompleto}")" Class="danger" />
 }
 <ul class="list-group">
     <ListItem Title="Identificador" Text="@DetailsModel.Code"/>
@@ -20,24 +21,19 @@ else if (status == "r")
     <ListItem Title="Fecha de registro"
               Text="@($"{DetailsModel.RegistrationDate.ToShortDateString()} - {DetailsModel.RegistrationDate.ToShortTimeString()}")" />
     <ListItem Title="Creado por"
-              Text="@(_person?.NombreCompleto)" />
+              Text="@(_creator?.NombreCompleto)" />
 </ul>
-@if (status == null)
+@if (DetailsModel.CurrentState == IncidentStates.Created.Nombre)
 {
     <div class="text-center mt-4">
-        <button class="btn btn-primary">Aprobar</button>
-        <button class="btn btn-danger">Rechazar</button>
+        <button class="btn btn-primary" @onclick="@Approve">Aprobar</button>
+        <button class="btn btn-outline-danger" @onclick="@Reject">Rechazar</button>
     </div>
 }
-else if (status == "r")
+else if (DetailsModel.CurrentState == IncidentStates.Rejected.Nombre)
 {
     <div class="text-center mt-4">
-        <button class="btn btn-primary">Aprobar</button>
-        <button disabled class="btn btn-danger">Rechazar</button>
+        <button class="btn btn-primary" @onclick="@Approve">Aprobar</button>
+        <button disabled class="btn btn-outline-danger">Rechazar</button>
     </div>
-}
-
-
-@code {
-    string status = "a";
 }

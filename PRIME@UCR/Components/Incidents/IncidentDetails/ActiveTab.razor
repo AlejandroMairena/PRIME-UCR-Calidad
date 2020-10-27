@@ -3,7 +3,7 @@
 <div class="container">
     @if (Active == DetailsTab.Info)
     {
-        <InfoTab DetailsModel="@Incident"/>
+        <InfoTab DetailsModel="@Incident" OnSave="@Save"/>
     }
     else if (Active == DetailsTab.Origin)
     {

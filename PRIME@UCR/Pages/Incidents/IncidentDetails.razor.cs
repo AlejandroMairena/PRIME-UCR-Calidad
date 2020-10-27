@@ -51,9 +51,7 @@ namespace PRIME_UCR.Pages.Incidents
                             : new Tuple<DetailsTab, string>(DetailsTab.Patient, ""));
                         break;
                     case DetailsTab.Assignment:
-                        _tabs.Add(_incidentModel.TransportUnit == null
-                            ? new Tuple<DetailsTab, string>(DetailsTab.Assignment, "warning")
-                            : new Tuple<DetailsTab, string>(DetailsTab.Assignment, ""));
+                        _tabs.Add(new Tuple<DetailsTab, string>(DetailsTab.Assignment, ""));
                         break;
                     case DetailsTab.Multimedia:
                         _tabs.Add(new Tuple<DetailsTab, string>(DetailsTab.Multimedia, ""));

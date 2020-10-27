@@ -43,9 +43,9 @@ namespace PRIME_UCR.Infrastructure.EntityConfiguration.Incidents
                 .WithMany()
                 .HasForeignKey(i => i.CedulaTecnicoCoordinador);
             builder
-                .HasOne<CoordinadorTécnicoMédico>()
+                .HasOne<Persona>()
                 .WithMany()
-                .HasForeignKey(i => i.CedulaTecnicoRevisor);
+                .HasForeignKey(i => i.CedulaRevisor);
         }
     }
 }
