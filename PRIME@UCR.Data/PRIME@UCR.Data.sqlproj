@@ -69,6 +69,7 @@
     <Folder Include="StoredProcedures\Incidents\" />
     <Folder Include="Tables\Appointments" />
     <Folder Include="Tables\MedicalRecords" />
+    <Folder Include="StoredProcedures\UserAdministration" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\CheckLists\CheckList.sql" />
@@ -121,6 +122,10 @@
     <Build Include="Tables\Appointments\Accion.sql" />
     <Build Include="Tables\Appointments\TipoAccion.sql" />
     <Build Include="Tables\MedicalRecords\Expediente.sql" />
+    <Build Include="StoredProcedures\UserAdministration\DeletePermissionFromProfile.sql" />
+    <Build Include="StoredProcedures\UserAdministration\DeleteUserFromProfile.sql" />
+    <Build Include="StoredProcedures\UserAdministration\InsertPermissionToProfile.sql" />
+    <Build Include="StoredProcedures\UserAdministration\InsertUserToProfile.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Scripts\Script.PostDeployment.sql" />

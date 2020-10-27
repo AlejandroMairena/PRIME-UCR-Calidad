@@ -1,5 +1,4 @@
 ﻿@page "/logout"
-@inject IJSRuntime JSRuntime 
 @using PRIME_UCR.Application.Implementations.UserAdministration
 
 @code {
@@ -8,11 +7,8 @@
 
     protected override async Task OnInitializedAsync()
     {
-        if (await JSRuntime.InvokeAsync<bool>("confirm", "Está seguro que desea cerrar sesión?"))
-        {
-            var customAuth = (CustomAuthenticationStateProvider)authProvider;
-            await customAuth.Logout();
-        }
+        var customAuth = (CustomAuthenticationStateProvider)authProvider;
+        await customAuth.Logout();
         navManager.NavigateTo("");
     }
 
