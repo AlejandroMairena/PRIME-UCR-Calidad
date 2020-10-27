@@ -25,6 +25,7 @@ namespace PRIME_UCR.Pages.CheckLists
         private bool isDisabled { get; set; } = true;
 
         protected bool createItem { get; set; } = false;
+        protected string createItemText { get; set; }
 
         protected IEnumerable<CheckList> lists { get; set; }
 
@@ -108,6 +109,7 @@ namespace PRIME_UCR.Pages.CheckLists
          * */
         protected void StartNewItemCreation() 
         {
+            createItemText = "Crear Item";
             createItem = true;
             tempItem = new Item();
             tempItem.IDSuperItem = null;
@@ -123,6 +125,7 @@ namespace PRIME_UCR.Pages.CheckLists
          * */
         protected async Task CreateSubItem(int itemId)
         {
+            createItemText = "Crear SubItem";
             subItems = await MyCheckListService.GetItemsBySuperitemId(itemId);
             createItem = true;
             tempItem = new Item();
