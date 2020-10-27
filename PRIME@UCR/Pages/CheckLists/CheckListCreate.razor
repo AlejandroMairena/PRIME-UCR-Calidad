@@ -1,7 +1,10 @@
 ﻿@page "/checklist/create"
 @using PRIME_UCR.Components.Controls
 @inherits CheckListCreateBase
-
+@*
+@using PRIME_UCR.Application.DTOs.UserAdministration;
+@using PRIME_UCR.Application.Implementations.UserAdministration;
+@attribute [HasPermission(AuthorizationPermissions.CanCreateCheckList)]*@
 @attribute [Authorize]
 <link href="css/Checklist.css" rel="stylesheet" />
 
@@ -68,7 +71,7 @@
                 </div>
                 <br />
                 @* Drop zone for the image of the checklist *@
-                <label>Imagen:</label>
+                <label>Imagen</label>
                 <div class="form-row">
                     <div class="col-6">
                         <LoadImageComponent @bind-list="checkList" />
