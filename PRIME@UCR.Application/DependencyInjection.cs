@@ -30,6 +30,8 @@ namespace PRIME_UCR.Application
             services.AddTransient<IProfilesService, ProfilesService>();
             services.AddTransient<IUserService, UsersService>();
             services.AddScoped<IPrimeAuthorizationService, PrimeAuthorizationService>();
+            services.AddTransient<IPermiteService, PermiteService>();
+            services.AddTransient<IPerteneceService, PerteneceService>();
             services.AddTransient<IPersonService, PersonService>();
             services.AddTransient<IDoctorService, DoctorService>();
             return services;
