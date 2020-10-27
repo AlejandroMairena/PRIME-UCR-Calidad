@@ -79,3 +79,107 @@ Values('Carreta', 11, 2);
 
 insert into Item(Nombre, Orden, IDLista)
 Values('Tercer par de guantes (exteriores), Extiéndalos de manera que cubran las mangas.', 12, 2);
+
+
+insert into CheckList(Nombre, Tipo, Orden)
+Values('Secuencia rápida de intubación', 'Paciente en traslado', 3);
+
+insert into Item(Nombre, Orden, IDLista)		--24
+Values('Preparacion', 1, 3);
+
+insert into Item(Nombre, Descripcion, Orden, IDSuperItem, IDLista)		--25
+Values('Colocación de EPP', 'Verificar lista de chequeo ', 1, 24, 3);
+
+insert into Item(Nombre, Orden, IDSuperItem, IDLista)
+Values('Colocación de EPP', 1, 25, 3);
+
+insert into Item(Nombre, Descripcion, Orden, IDSuperItem, IDLista)
+Values('Dispositivo de barrera', 'Covid Cubo/Covid Plástico', 2, 25, 3);
+-------------------------------------------------
+insert into Item(Nombre, Descripcion, Orden, IDSuperItem, IDLista)		--28
+Values('Dispositivo De Barrera', 'Covid Cubo/Covid Plástico', 2, 24, 3);
+
+insert into Item(Nombre, Orden, IDSuperItem, IDLista)
+Values('Preoxigenación: Fuente de oxígeno/ NC + Reservorio (APOX) / CAF / VMNI / Bolsa Mascarilla Autoinflable (AMBU) + Válvula PEEP', 3, 24, 3);
+
+insert into Item(Nombre, Descripcion, Orden, IDSuperItem, IDLista)
+Values('Acceso Vascular', '2 Accesos Periféricos Permeables / Acceso Intraóseo', 4, 24, 3);
+
+insert into Item(Nombre, Descripcion, Orden, IDSuperItem, IDLista)
+Values('Soluciones y conexión', 'Funcionando', 5, 24, 3);
+
+insert into Item(Nombre, Descripcion, Orden, IDSuperItem, IDLista)
+Values('Aspiración', 'Funcionando', 6, 24, 3);
+
+insert into Item(Nombre, Descripcion, Orden, IDSuperItem, IDLista)
+Values('Monitor', 'Encendido y Funcionando ', 7, 24, 3);
+
+insert into Item(Nombre, Descripcion, Orden, IDSuperItem, IDLista)
+Values('Ventilador', 'Calibrado, Configurado y Listo- Filtro Colocado  ', 8, 24, 3);
+----------------------------------------------------------
+insert into Item(Nombre, Orden, IDLista)	--35
+Values('Drogas', 2, 3);
+
+insert into Item(Nombre, Descripcion, Orden, IDSuperItem, IDLista)
+Values('Premedicación', '-Atropina 0.5-1MG IV Previo a Inducción/-Lidocaína 1.5MG/KG IV Previo a Inducción / -Fentanil 1UG/KG IV ', 1, 35, 3);
+
+insert into Item(Nombre, Descripcion, Orden, IDSuperItem, IDLista)
+Values('Inductores', '-Midazolam 0.1MG/KG IV/ -Ketamina 1-2MG / KG IV/ -Propofol 1MG/ KG IV ', 2, 35, 3);
+
+insert into Item(Nombre, Descripcion, Orden, IDSuperItem, IDLista)
+Values('Paralisis', 'Succinilcolina 1.5 MG/ KG IV/ -Atracurio 1MG/KG IV/ -Rocuronio 1MG / KG IV', 3, 35, 3);
+
+insert into Item(Nombre, Descripcion, Orden, IDSuperItem, IDLista)
+Values('Drogas Mantenimiento', '-Midazolam 1 MG/ CC(6 ampollas +72 CC SP)/-Fentanilo 10 UG/ CC (10 ampollas + 80 CC SF)/- Atracurio 24 ampollas Puras', 4, 35, 3);
+
+insert into Item(Nombre, Descripcion, Orden, IDSuperItem, IDLista)
+Values('Vasopresores PUSH', ' Adrenalina 1/10000/-Fenilefrina 1 AMP + 100 CC SF', 1, 35, 3);
+------------------------------------
+insert into Item(Nombre, Orden, IDLista)		--41
+Values('Vía Aérea', 3, 3);
+
+insert into Item(Nombre, Descripcion, Orden, IDSuperItem, IDLista)
+Values('Dispositivos básicos', 'Cánula Nasofaríngea - Cánula Orofaringea -', 1, 41, 3);
+
+insert into Item(Nombre, Descripcion, Orden, IDSuperItem, IDLista)
+Values('Video Laringoscopio', 'Funcionando ', 2, 41, 3);
+
+insert into Item(Nombre, Descripcion, Orden, IDSuperItem, IDLista)
+Values('Insumos', 'Bougie Guia /- TET-Probados-Repuesto/-Jeringa de 10CC/-Filtro/-Fijación de tubo ', 3, 41, 3);
+
+insert into Item(Nombre, Orden, IDSuperItem, IDLista)
+Values('Dispositivos Supraglóticos', 4, 41, 3);
+
+insert into Item(Nombre, Orden, IDSuperItem, IDLista)
+Values('Vía Aérea Quirúrgica', 5, 41, 3);
+--------------------------------------
+insert into Item(Nombre, Orden, IDLista)		--47
+Values('Procedimiento', 4, 3);
+
+insert into Item(Nombre, Orden, IDSuperItem, IDLista)
+Values('Visualizar/Valorar Monitor', 1, 47, 3);
+
+insert into Item(Nombre, Orden, IDSuperItem, IDLista)
+Values('Administración de fármacos', 2, 47, 3);
+
+insert into Item(Nombre, Orden, IDSuperItem, IDLista)
+Values('Inmovilización en línea', 3, 47, 3);
+
+insert into Item(Nombre, Orden, IDSuperItem, IDLista)
+Values('Colocar TET/ insuflar balón Neumotaponador ', 4, 47, 3);
+----------------------------------------------
+insert into Item(Nombre, Orden, IDLista)		--52
+Values('Manejo post-intubación', 1, 3);
+
+insert into Item(Nombre, Orden, IDSuperItem, IDLista)
+Values('Fijación TET', 1, 52, 3);
+
+insert into Item(Nombre, Orden, IDSuperItem, IDLista)
+Values('Monitorización ', 2, 52, 3);
+
+insert into Item(Nombre, Orden, IDSuperItem, IDLista)
+Values('Capnometría/Grafía: Comprobación Lista de Chequeo ', 3, 52, 3);
+
+insert into Item(Nombre, Orden, IDSuperItem, IDLista)
+Values('Retiro de EPP', 4, 52, 3);
+
