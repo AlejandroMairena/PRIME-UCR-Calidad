@@ -37,5 +37,7 @@ namespace PRIME_UCR.Domain.Models.UserAdministration
 
         /*List of phone numbers of the person*/
         public List<NúmeroTeléfono> NumerosTelefono { get; set; }
+
+        public string NombreCompleto { get { return String.Format("{0} {1} {2}", Nombre, PrimerApellido, SegundoApellido); } }
     }
 }

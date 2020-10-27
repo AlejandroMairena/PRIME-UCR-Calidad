@@ -16,6 +16,18 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
             
         }
 
+        /**
+         * Method used to get the list of all users with details.
+         * 
+         * Return: List of users with details.
+         */
+        public async Task<List<Usuario>> GetAllUsersWithDetailsAsync()
+        {
+            return await _db.Usuarios
+                .Include(u => u.Persona)
+                .ToListAsync();
+        }
+
         public async Task<Usuario> GetWithDetailsAsync(string id)
         {
             return await _db.Usuarios

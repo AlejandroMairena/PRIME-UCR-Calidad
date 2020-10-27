@@ -97,5 +97,15 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
                 return false;
             }
         }
+
+        /**
+         * Method used to get all the users with details.
+         * 
+         * Return: A list with all the users with the details.
+         */
+        public async Task<List<Usuario>> GetAllUsersWithDetailsAsync()
+        {
+            return await _usuarioRepository.GetAllUsersWithDetailsAsync();
+        }
     }
 }

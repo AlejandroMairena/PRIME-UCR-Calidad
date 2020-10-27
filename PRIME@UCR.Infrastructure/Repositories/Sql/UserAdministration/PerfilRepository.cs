@@ -26,6 +26,7 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
                 .ThenInclude(p => p.Permiso)
                 .Include(p => p.UsuariosYPerfiles)
                 .ThenInclude(p => p.Usuario)
+                .AsNoTracking()
                 .ToListAsync();
         }
     }
