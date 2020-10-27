@@ -24,6 +24,7 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
         [Inject] private IPersonService PersonService { get; set; }
         [Inject] private IMedicalRecordService MedicalRecordService { get; set; }
         [Inject] private IAppointmentService AppointmentService { get; set; }
+        [Inject] private NavigationManager NavigationManager { get; set; }
         [Parameter] public IncidentDetailsModel Incident { get; set; }
         [Parameter] public EventCallback<PatientModel> OnSave { get; set; }
 

@@ -29,10 +29,10 @@ namespace PRIME_UCR.Infrastructure
             RepoDb.SqlServerBootstrap.Initialize();
 
             // data providers
-            services.AddScoped<ISqlDataProvider, ApplicationDbContext>();
+            services.AddTransient<ISqlDataProvider, ApplicationDbContext>();
             // repositories
             // generic repositories
-            services.AddScoped(typeof(IGenericRepository<,>), typeof(GenericRepository<,>));
+            services.AddTransient(typeof(IGenericRepository<,>), typeof(GenericRepository<,>));
             // checklists
             services.AddTransient<ICheckListRepository, SqlCheckListRepository>();
             services.AddTransient<IItemRepository, SqlItemRepository>();

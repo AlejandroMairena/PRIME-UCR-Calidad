@@ -27,7 +27,7 @@ namespace PRIME_UCR.Infrastructure.EntityConfiguration.Incidents
                 .Property(p => p.TipoModalidad)
                 .HasColumnName("Modalidad");
             builder
-                .HasOne(p => p.Modalidad)
+                .HasOne<Modalidad>()
                 .WithMany(p => p.Incidentes)
                 .HasForeignKey(p => p.TipoModalidad);
             builder

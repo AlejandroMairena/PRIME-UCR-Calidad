@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using PRIME_UCR.Application.DTOs.Incidents;
 using PRIME_UCR.Application.Repositories.Incidents;
 using PRIME_UCR.Domain.Models;
+using PRIME_UCR.Domain.Models.MedicalRecords;
 using PRIME_UCR.Infrastructure.DataProviders;
 using RepoDb;
 
@@ -46,12 +47,35 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Incidents
         }
         public async Task<Incidente> GetWithDetailsAsync(string code)
         {
-            return await _db.Incidents
-                .Include(i => i.Cita)
-                    .ThenInclude(c => c.Expediente)
+            await using var connection = new SqlConnection(_db.DbConnection.ConnectionString);
+
+            var incident =
+                connection.Query<Incidente>(code).FirstOrDefault();
+            if (incident == null)
+            {
+                throw new ArgumentException("Invalid incident ID.");
+            }
+            
+            incident.Cita =
+                connection.Query<Cita>(incident.CodigoCita).FirstOrDefault();
+            
+            if (incident.Cita == null)
+            {
+                throw new ArgumentException("Invalid incident appointment.");
+            }
+            
+            incident.Cita.Expediente =
+                connection.Query<Expediente>(incident.Cita.IdExpediente).FirstOrDefault();
+            
+            var modelWithLocations = await _db.Incidents
                 .Include(i => i.Origen)
                 .Include(i => i.Destino)
                 .FirstOrDefaultAsync(i => i.Codigo == code);
+
+            incident.Origen = modelWithLocations.Origen;
+            incident.Destino = modelWithLocations.Destino;
+
+            return incident;
         }
 
         public new async Task<IEnumerable<Incidente>> GetAllAsync()
