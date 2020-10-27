@@ -24,12 +24,12 @@ namespace PRIME_UCR.Infrastructure.EntityConfiguration.Incidents
                 .HasMaxLength(50)
                 .HasDefaultValueSql();
             builder
-                .Property(p => p.TipoModalidad)
+                .Property(p => p.Modalidad)
                 .HasColumnName("Modalidad");
             builder
                 .HasOne<Modalidad>()
                 .WithMany(p => p.Incidentes)
-                .HasForeignKey(p => p.TipoModalidad);
+                .HasForeignKey(p => p.Modalidad);
             builder
                 .HasOne(p => p.UnidadDeTransporte)
                 .WithMany()

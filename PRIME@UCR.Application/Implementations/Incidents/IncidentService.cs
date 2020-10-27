@@ -65,7 +65,7 @@ namespace PRIME_UCR.Application.Implementations.Incidents
             
             var entity = new Incidente
             {
-                TipoModalidad = model.Mode.Tipo,
+                Modalidad = model.Mode.Tipo,
                 CedulaAdmin = person.Cédula,
                 Cita = new Cita()
             };
@@ -95,14 +95,12 @@ namespace PRIME_UCR.Application.Implementations.Incidents
                 var transportUnit = await _transportUnitRepository.GetTransporUnitByIncidentIdAsync(incident.Codigo);
                 var reviewer = await _personRepository.GetByKeyPersonaAsync(incident.CedulaRevisor);
                 var state = await _statesRepository.GetCurrentStateByIncidentId(incident.Codigo);
-                var medicalRecord = 
-                    incident.Cita.IdExpediente != null ?
-                    await _medicalRecordRepository.GetByKeyAsync((int)incident.Cita.IdExpediente)
-                    : null;
+                var medicalRecord =
+                    incident.Cita.Expediente;
                 var model = new IncidentDetailsModel
                 {
                     Code = incident.Codigo,
-                    Mode = incident.TipoModalidad,
+                    Mode = incident.Modalidad,
                     CurrentState = state.Nombre,
                     Completed = incident.IsCompleted(),
                     Modifiable = incident.IsModifiable(state),

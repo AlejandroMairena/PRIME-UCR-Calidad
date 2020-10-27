@@ -28,7 +28,7 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Incidents
             var parameters = new Dictionary<string, object>
             {
                 {"CedulaAdmin", model.CedulaAdmin},
-                {"Modalidad", model.TipoModalidad},
+                {"Modalidad", model.Modalidad},
                 {"FechaHoraRegistro", DateTime.Now},
                 {"FechaHoraEstimada", model.Cita.FechaHoraEstimada},
                 {"CedulaTecnicoCoordinador", null},
@@ -64,8 +64,9 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Incidents
                 throw new ArgumentException("Invalid incident appointment.");
             }
             
-            incident.Cita.Expediente =
-                connection.Query<Expediente>(incident.Cita.IdExpediente).FirstOrDefault();
+            if (incident.Cita.IdExpediente != null)
+                incident.Cita.Expediente =
+                    connection.Query<Expediente>(incident.Cita.IdExpediente).FirstOrDefault();
             
             var modelWithLocations = await _db.Incidents
                 .Include(i => i.Origen)
@@ -110,7 +111,7 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Incidents
                     {
                         Codigo = i.Codigo,
                         FechaHoraRegistro = i.Cita.FechaHoraCreacion,
-                        Modalidad = i.TipoModalidad,
+                        Modalidad = i.Modalidad,
                         Origen = i.Origen.DisplayName,
                         IdDestino = i.IdDestino
                     });

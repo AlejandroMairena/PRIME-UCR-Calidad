@@ -19,7 +19,7 @@ namespace PRIME_UCR.Domain.Models
         public Ubicacion Origen {get; set;}
         public int? IdDestino { get; set; }
         public Ubicacion Destino {get; set;}
-        public string TipoModalidad { get; set; }
+        public string Modalidad { get; set; }
         public string MatriculaTrans { get; set; }
         public UnidadDeTransporte UnidadDeTransporte {get; set;}
         public int CodigoCita { get; set; }
