@@ -12,5 +12,6 @@ namespace PRIME_UCR.Application.Repositories.CheckLists
         Task<IEnumerable<Item>> GetByCheckListId(int checkListId);
         Task<IEnumerable<Item>> GetBySuperitemId(int superitemId);
         Task<IEnumerable<Item>> GetCoreItems(int checkListId);
+        Task<Item> InsertCheckItemAsync(Item item);
     }
 }
