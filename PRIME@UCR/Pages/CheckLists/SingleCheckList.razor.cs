@@ -92,6 +92,10 @@ namespace PRIME_UCR.Pages.CheckLists
          * */
         protected async Task AddCheckListItem(Item item)
         {
+            if (item.ImagenDescriptiva == null)
+            {
+                item.ImagenDescriptiva = "/images/defaultCheckList.svg";
+            }
             await MyCheckListService.InsertCheckListItem(item);
             createItem = false;
             formInvalid = true;
@@ -106,6 +110,7 @@ namespace PRIME_UCR.Pages.CheckLists
         {
             createItem = true;
             tempItem = new Item();
+            tempItem.IDSuperItem = null;
             tempItem.IDLista = id;
             tempItem.Orden = coreItems.Count() + 1;
             editContext = new EditContext(tempItem);

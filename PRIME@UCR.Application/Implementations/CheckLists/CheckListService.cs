@@ -50,7 +50,7 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
 
         public async Task<Item> InsertCheckListItem(Item item)
         {
-            return await _itemRepository.InsertAsync(item);
+            return await _itemRepository.InsertCheckItemAsync(item);
         }
         public async Task<IEnumerable<Item>> GetItemsByCheckListId(int checkListId)
         {

@@ -123,6 +123,7 @@
     <Build Include="Tables\Appointments\TipoAccion.sql" />
     <Build Include="Tables\MedicalRecords\Expediente.sql" />
     <Build Include="StoredProcedures\CheckLists\InsertarListaChequeo.sql" />
+    <Build Include="StoredProcedures\CheckLists\InsertarItemEnListaDeChequeo.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Scripts\Script.PostDeployment.sql" />
