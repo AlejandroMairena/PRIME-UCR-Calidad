@@ -27,6 +27,13 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.MedicalRecords
                 .ToListAsync(); 
         }
 
+
+        public async Task<IEnumerable<Expediente>> GetRecordsWithPatientAsync() {
+            return await _db.MedicalRecords
+                .Include(p => p.Paciente)
+                .ToListAsync(); 
+        }
+
         public async Task<IEnumerable<Expediente>> GetByNameAndLastnameLastnameAsync(string name, string lastname, string lastname2) {
 
             return await _db.MedicalRecords

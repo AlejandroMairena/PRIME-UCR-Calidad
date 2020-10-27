@@ -79,7 +79,8 @@ namespace PRIME_UCR.Application.Implementations.MedicalRecords
 
         public async Task<IEnumerable<Expediente>> GetAllAsync() {
 
-            return await _repo.GetAllAsync(); 
+            return await _repo.GetRecordsWithPatientAsync(); 
+            //return await _repo.GetAllAsync(); 
         }
 
 
