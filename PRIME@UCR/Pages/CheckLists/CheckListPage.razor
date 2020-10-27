@@ -1,8 +1,9 @@
 ﻿@page "/checklist"
 @inherits CheckListPageBase
-@* @layout CheckListLayout *@
-@* @attribute [Authorize(Roles = "coordinador tecnico medico")] *@
-@* @attribute [Authorize(Policy = "check-list")] *@
+@*
+@using PRIME_UCR.Application.DTOs.UserAdministration;
+@using PRIME_UCR.Application.Implementations.UserAdministration;
+@attribute [HasPermission(AuthorizationPermissions.CanCreateCheckList)]*@
 @attribute [Authorize]
 <link href="css/Checklist.css" rel="stylesheet" />
 

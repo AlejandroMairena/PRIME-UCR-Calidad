@@ -9,5 +9,6 @@ namespace PRIME_UCR.Application.Repositories.CheckLists
     public interface ICheckListRepository : IGenericRepository<CheckList, int>
     {
         Task<IEnumerable<CheckList>> GetByName(string name);
+        Task<CheckList> InsertCheckListAsync(CheckList list);
     }
 }
