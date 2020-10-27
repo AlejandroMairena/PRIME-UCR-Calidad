@@ -34,6 +34,7 @@ namespace PRIME_UCR.Application
             services.AddTransient<IPerteneceService, PerteneceService>();
             services.AddTransient<IPersonService, PersonService>();
             services.AddTransient<IDoctorService, DoctorService>();
+            services.AddTransient<INumeroTelefonoService, NumeroTelefonoService>();
             return services;
         }
     }

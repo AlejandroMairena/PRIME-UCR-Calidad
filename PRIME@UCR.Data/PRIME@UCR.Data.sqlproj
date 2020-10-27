@@ -129,6 +129,8 @@
     <Build Include="StoredProcedures\UserAdministration\InsertUserToProfile.sql" />
     <Build Include="StoredProcedures\CheckLists\InsertarListaChequeo.sql" />
     <Build Include="StoredProcedures\CheckLists\InsertarItemEnListaDeChequeo.sql" />
+    <Build Include="Triggers\InsertarPerfil.sql" />
+    <Build Include="Triggers\DeletePerfil.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Scripts\Script.PostDeployment.sql" />

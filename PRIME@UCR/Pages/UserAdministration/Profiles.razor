@@ -13,20 +13,24 @@
 <br />
 
 <StatusMessage Message="@profile.StatusMessage" Class="success" />
-<h5>Perfiles</h5>
-<ProfilesComponent @bind-Value="profile" />
 
+<div class="rounded" style="background-color: white;padding: 10px">
+    <h5>Perfiles</h5>
+    <ProfilesComponent @bind-Value="profile" />
+</div>
+
+<br />
 
 @if (!String.IsNullOrEmpty(profile.ProfileName))
 {
     <Loading IsLoading="profile.ProfileName == null">
         <div class="wrapper">
-            <div style="background-color: white;padding-left: 10px;padding-right: 10px;">
+            <div class="rounded" style="background-color: white;padding-left: 10px;padding-right: 10px;">
                 <br />
                 <h5>Usuarios</h5>
                 <UsersComponent @bind-Value="profile" />
             </div>
-            <div style="background-color:white;padding-left: 10px;padding-right: 10px;">
+            <div class="rounded" style="background-color:white;padding-left: 10px;padding-right: 10px;">
                 <br />
                 <h5>Permisos</h5>
                 <PermissionsComponent @bind-Value="profile" />
