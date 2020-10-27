@@ -11,7 +11,7 @@ namespace PRIME_UCR.Application.DTOs.MedicalRecords
         public string PrimerApellido { get; set; }
         public string? SegundoApellido { get; set; }
         public char? Sexo { get; set; }
-        public DateTime? FechaNacimineto { get; set; }
+        public DateTime? FechaNacimiento { get; set; }
 
         public DateTime FechaCreacion { get; set; }
         public string Clinica { get; set; }

@@ -1,0 +1,81 @@
+﻿@using PRIME_UCR.Domain.Models.MedicalRecords
+
+
+<EditForm Model="@Expediente" OnValidSubmit="@OnValidSubmit">
+    <DataAnnotationsValidator />
+
+    <div class="form-group">
+
+        <label for="Paciente">Cedula Paciente</label>
+        <InputText id="Clinica" @bind-Value="@Expediente.CedulaPaciente" class="form-control"></InputText>
+        <ValidationMessage For="@(() => Expediente.CedulaPaciente)" />
+    </div>
+
+    <div class="form-group">
+
+        <label for="Medico">Cedula Medico</label>
+        <InputText id="Clinica" @bind-Value="@Expediente.CedulaMedicoDuenno" class="form-control"></InputText>
+        <ValidationMessage For="@(() => Expediente.CedulaMedicoDuenno)" />
+    </div>
+
+    <button class="btn btn-dark">@Submit_msg</button>
+
+</EditForm>
+
+
+
+@code {
+
+    [Parameter] public Expediente Expediente { get; set; }
+    //[Parameter] public string Msg_dropdown { get; set; }
+    [Parameter] public string Submit_msg { get; set; }
+    //[Parameter] public List<string> Medicos { get; set; }
+    //[Parameter] public List<string> Pacientes { get; set; }
+    [Parameter] public EventCallback OnValidSubmit { get; set; }
+
+}
+
+
+
+@*<div class="form-group">
+        <InputSelect @bind-Value="Expediente.CedMedicoDuenno" class="form-control">
+            <option>@Msg_dropdown</option>
+            @for (int index_ced_medicos = 0; index_ced_medicos < Medicos.Count; ++index_ced_medicos)
+            {
+                <option>@Medicos[index_ced_medicos]</option>
+            }
+        </InputSelect>
+        <ValidationMessage For="@(() => Expediente.CedMedicoDuenno)" />
+    </div>*@
+
+
+@*<div class="form-group">
+        <InputSelect @bind-Value="Expediente.CedPaciente" class="form-control">
+            <option>@Msg_dropdown</option>
+            @for (int index_ced_pacientes = 0; index_ced_pacientes < Pacientes.Count; ++index_ced_pacientes)
+            {
+                <option>@Pacientes[index_ced_pacientes]</option>
+            }
+        </InputSelect>
+        <ValidationMessage For="@(() => Expediente.CedPaciente)" />
+    </div>*@
+
+
+
+
+@*<div class="form-group">
+
+        <label for="FechaHoraCreacion">Fecha/Hora de Creacion</label>
+        <InputDate id="FechaHoraCreacion" @bind-Value="@Expediente.FechaHoraCreacion" class="form-control"></InputDate>
+        <ValidationMessage For="@(() => Expediente.FechaHoraCreacion)" />
+    </div>*@
+
+
+
+@*
+    <div class="form-group">
+        <label for="Clinica">Clinica</label>
+        <InputText id="Clinica" @bind-Value="@Expediente.Clinica" class="form-control"></InputText>
+        <ValidationMessage For="@(() => Expediente.Clinica)" />
+    </div>
+    *@

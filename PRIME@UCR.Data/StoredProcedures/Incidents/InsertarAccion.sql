@@ -5,4 +5,3 @@
 AS
 	INSERT INTO Accion(CitaId, NombreAccion, MultContId)
 	VALUES(@CitaId, @NombreAccion, @MultContId)
-

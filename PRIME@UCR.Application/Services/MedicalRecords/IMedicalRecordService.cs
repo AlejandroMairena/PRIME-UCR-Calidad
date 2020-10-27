@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using PRIME_UCR.Domain.Models.MedicalRecords;
 using PRIME_UCR.Application.DTOs.MedicalRecords;
 
@@ -8,6 +10,13 @@ namespace PRIME_UCR.Application.Services.MedicalRecords
     {
         // returns null if no such record exists
         Task<Expediente> GetByPatientIdAsync(string id);
+
+        Task<IEnumerable<Expediente>> GetAllAsync();
+
+        Task<IEnumerable<Expediente>> GeyByConditionAsync(string name);
+
+        Task<Expediente> InsertAsync(Expediente expediente); 
+
         Task<Expediente> CreateMedicalRecordAsync(Expediente entity);
         Task<Expediente> GetByIdAsync(int id);
 

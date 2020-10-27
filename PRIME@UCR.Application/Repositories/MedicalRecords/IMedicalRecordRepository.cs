@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using PRIME_UCR.Domain.Models.MedicalRecords;
 using PRIME_UCR.Application.DTOs.MedicalRecords;
 
@@ -9,6 +10,10 @@ namespace PRIME_UCR.Application.Repositories.MedicalRecords
         Task<Expediente> GetByPatientIdAsync(string id);
 
         Task<Expediente> GetWithDetailsAsync(int id);
+
+        Task<IEnumerable<Expediente>> GetByNameAndLastnameAsync(string name, string lastname);
+
+        Task<IEnumerable<Expediente>> GetByNameAndLastnameLastnameAsync(string name, string lastname, string lastname2);
     }
 
 }

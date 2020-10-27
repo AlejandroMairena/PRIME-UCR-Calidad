@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using PRIME_UCR.Application.Repositories.MedicalRecords;
 using PRIME_UCR.Domain.Models.MedicalRecords;
@@ -16,6 +18,24 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.MedicalRecords
         {
             return await _db.MedicalRecords.FirstOrDefaultAsync(mr => mr.CedulaPaciente == id);
         }
+
+        public async Task<IEnumerable<Expediente>> GetByNameAndLastnameAsync(string name, string lastname) {
+
+            return await _db.MedicalRecords
+                .Include(p => p.Paciente)
+                .Where(p => p.Paciente.Nombre == name && p.Paciente.PrimerApellido == lastname)
+                .ToListAsync(); 
+        }
+
+        public async Task<IEnumerable<Expediente>> GetByNameAndLastnameLastnameAsync(string name, string lastname, string lastname2) {
+
+            return await _db.MedicalRecords
+                .Include(p => p.Paciente)
+                .Where(p => p.Paciente.Nombre == name && p.Paciente.PrimerApellido == lastname && p.Paciente.SegundoApellido == lastname2)
+                .ToListAsync(); 
+
+        }
+
 
         public async Task<Expediente> GetWithDetailsAsync(int id)
         {
