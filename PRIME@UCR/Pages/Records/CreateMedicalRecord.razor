@@ -25,7 +25,7 @@
 
     private void create_medical_record()
     {
-        //expediente.FechaHoraCreacion = DateTime.Now;
+        expediente.FechaCreacion = DateTime.Now;
 
         medical_record_service.InsertAsync(expediente); 
         Console.WriteLine(expediente);

@@ -5,6 +5,12 @@
     <DataAnnotationsValidator />
 
     <div class="form-group">
+        <label for="Clinica">Clinica</label>
+        <InputText id="Clinica" @bind-Value="@Expediente.Clinica" class="form-control"></InputText>
+        <ValidationMessage For="@(() => Expediente.Clinica)" />
+    </div>
+
+    <div class="form-group">
 
         <label for="Paciente">Cedula Paciente</label>
         <InputText id="Clinica" @bind-Value="@Expediente.CedulaPaciente" class="form-control"></InputText>

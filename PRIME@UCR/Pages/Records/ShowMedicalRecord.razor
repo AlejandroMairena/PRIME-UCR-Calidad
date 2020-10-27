@@ -1,6 +1,7 @@
 ﻿@page "/show-medical-record"
 @using PRIME_UCR.Domain.Models.MedicalRecords
 @inject PRIME_UCR.Application.Services.MedicalRecords.IMedicalRecordService medical_record_service
+@attribute [Authorize]
 
 <h3>Lista Expedientes Medicos</h3>
 
