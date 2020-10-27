@@ -5,7 +5,7 @@
         @TabName &nbsp;
         @if (!String.IsNullOrEmpty(Icon))
         {
-            <span class="oi oi-@Icon"></span>
+            <span class="oi oi-@Icon" data-toggle="tooltip" title="@TooltipText" data-placement="top"></span>
         }
     </a>
 </li>

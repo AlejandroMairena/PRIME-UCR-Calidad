@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using PRIME_UCR.Application.Dtos;
 using PRIME_UCR.Application.Dtos.Incidents;
 using PRIME_UCR.Domain.Models;
+using PRIME_UCR.Domain.Models.Incidents;
 using PRIME_UCR.Domain.Models.UserAdministration;
 
 

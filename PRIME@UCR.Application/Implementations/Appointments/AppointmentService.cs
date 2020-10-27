@@ -26,9 +26,9 @@ namespace PRIME_UCR.Application.Implementations.Appointments
             _medicalRecordRepository = medicalRecordRepository;
         }
 
-        public async Task<IEnumerable<TipoAccion>> GetActionTypesAsync()
+        public async Task<IEnumerable<TipoAccion>> GetActionTypesAsync(bool isIncident = true)
         {
-            return await _actionTypeRepo.GetAllAsync();
+            return await _actionTypeRepo.GetByConditionAsync(a => a.EsDeIncidente);
         }
 
         public async Task<Expediente> AssignMedicalRecordAsync(int appointmentId, Paciente patient)

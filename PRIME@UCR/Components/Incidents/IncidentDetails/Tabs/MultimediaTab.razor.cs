@@ -19,38 +19,34 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
         [Inject] public IMultimediaContentService MultimediaContentService { get; set; }
         [Parameter] public IncidentDetailsModel Incident { get; set; }
         private List<TipoAccion> _actionTypes;
-        private TipoAccion _selectedActionType;
-        private List<MultimediaContent> _existingFiles;
+        private List<List<MultimediaContent>> _existingFiles;
         private bool _isLoading = true;
-        private string Message = "";
 
         protected override async Task OnInitializedAsync()
         {
             _actionTypes =
                 (await AppointmentService.GetActionTypesAsync())
                 .ToList();
+            _existingFiles = new List<List<MultimediaContent>>();
+            foreach (var i in _actionTypes)
+            {
+                var content =
+                    (await MultimediaContentService.GetByAppointmentAction(Incident.AppointmentId, i.Nombre))
+                    .ToList();
+                _existingFiles.Add(content);
+            }
             _isLoading = false;
         }
 
-        private async Task OnActionTypeChange(TipoAccion actionType)
+        private async Task OnFileUpload(TipoAccion action, MultimediaContent mc)
         {
             _isLoading = true;
             StateHasChanged();
-            _selectedActionType = actionType;
-            _existingFiles =
-                (await MultimediaContentService.GetByAppointmentAction(Incident.AppointmentId, _selectedActionType.Nombre))
-                    .ToList();
-            _isLoading = false;
-        }
 
-        private async Task OnFileUpload(MultimediaContent mc)
-        {
-            _isLoading = true;
-            StateHasChanged();
-            await MultimediaContentService.AddMultContToAction(Incident.AppointmentId, _selectedActionType.Nombre, mc.Id);
-            _existingFiles = 
-                (await MultimediaContentService.GetByAppointmentAction(Incident.AppointmentId, _selectedActionType.Nombre))
-                    .ToList();
+            var i = _actionTypes.IndexOf(action);
+            await MultimediaContentService.AddMultContToAction(Incident.AppointmentId, action.Nombre, mc.Id);
+            _existingFiles[i].Add(mc);
+            
             _isLoading = false;
         }
     }

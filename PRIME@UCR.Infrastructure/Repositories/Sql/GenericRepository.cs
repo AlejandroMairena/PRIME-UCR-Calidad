@@ -14,12 +14,12 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql
     {
         protected readonly ISqlDataProvider _db;
 
-        public GenericRepository(ISqlDataProvider dataProvider)
+        protected GenericRepository(ISqlDataProvider dataProvider)
         {
             _db = dataProvider;
         }
 
-        public async Task DeleteAsync(TKey key)
+        public virtual async Task DeleteAsync(TKey key)
         {
             var existing = await _db.Set<T>().FindAsync(key);
             if (existing != null)
@@ -29,29 +29,29 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql
             await _db.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<T>> GetAllAsync()
+        public virtual async Task<IEnumerable<T>> GetAllAsync()
         {
             return await _db.Set<T>().ToListAsync();
         }
 
-        public async Task<IEnumerable<T>> GetByConditionAsync(Expression<Func<T, bool>> expression)
+        public virtual async Task<IEnumerable<T>> GetByConditionAsync(Expression<Func<T, bool>> expression)
         {
             return await _db.Set<T>().Where(expression).ToListAsync();
         }
 
-        public async Task<T> GetByKeyAsync(TKey key)
+        public virtual async Task<T> GetByKeyAsync(TKey key)
         {
             return await _db.Set<T>().FindAsync(key);
         }
 
-        public async Task<T> InsertAsync(T model)
+        public virtual async Task<T> InsertAsync(T model)
         {
             _db.Set<T>().Add(model);
             await _db.SaveChangesAsync();
             return model;
         }
 
-        public async Task UpdateAsync(T model)
+        public virtual async Task UpdateAsync(T model)
         {
             _db.Set<T>().Update(model);
             await _db.SaveChangesAsync();

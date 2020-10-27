@@ -10,6 +10,6 @@ namespace PRIME_UCR.Domain.Models
         public CentroMedico CentroMedico { get; set; }
         public string CedulaMedico { get; set; }
         public Médico Médico { get; set; }
-
+        public override string DisplayName => "Centro médico";
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Components;
@@ -10,6 +11,7 @@ using PRIME_UCR.Application.Implementations.Incidents;
 using PRIME_UCR.Application.Services.Appointments;
 using PRIME_UCR.Application.Services.MedicalRecords;
 using PRIME_UCR.Application.Services.UserAdministration;
+using PRIME_UCR.Components.Controls;
 using PRIME_UCR.Domain.Models;
 using PRIME_UCR.Domain.Models.MedicalRecords;
 using PRIME_UCR.Domain.Models.UserAdministration;
@@ -24,13 +26,21 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
         [Inject] private IAppointmentService AppointmentService { get; set; }
         [Parameter] public IncidentDetailsModel Incident { get; set; }
         [Parameter] public EventCallback<PatientModel> OnSave { get; set; }
-        
+
+        private Gender? SelectedGender
+        {
+            get => _genders.FirstOrDefault(g =>
+                       g?.ToString().First().ToString() == _model.Patient.Sexo?.First().ToString());
+            set => _model.Patient.Sexo = value?.ToString().First().ToString();
+        }
+
         private EditContext _context;
         private EditContext _patientContext;
         private PatientModel _model = new PatientModel();
         private PatientStatus _patientStatus;
         private bool _isLoading = true;
         private string _statusMessage = "";
+        private readonly List<Gender?> _genders = new List<Gender?>();
 
         enum PatientStatus
         {
@@ -47,6 +57,8 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
         
         private async Task OnIdChange(string id)
         {
+            _isLoading = true;
+            StateHasChanged();
             _statusMessage = "";
             _model.CedPaciente = id;
             if (_context.Validate())
@@ -100,27 +112,33 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
                 // invalid model, hide UI
                 _model.Patient = null;
             }
+
+            _isLoading = false;
         }
 
         private async Task LoadExistingValues()
         {
-           if (Incident.MedicalRecord != null)
-           {
-               _model.Patient = await PatientService.GetPatientByIdAsync(Incident.MedicalRecord.CedulaPaciente);
-               _model.CedPaciente = _model.Patient.Cédula;
-               _patientStatus = PatientStatus.PatientUnchanged;
-               _patientContext = new EditContext(_model.Patient);
-           }
+            _isLoading = true;
+            StateHasChanged();
+            _genders.AddRange(Enum.GetValues(typeof(Gender)).Cast<Gender?>());
+            if (Incident.MedicalRecord != null)
+            {
+                _model.Patient = await PatientService.GetPatientByIdAsync(Incident.MedicalRecord.CedulaPaciente);
+                _model.CedPaciente = _model.Patient.Cédula;
+                _patientStatus = PatientStatus.PatientUnchanged;
+                _patientContext = new EditContext(_model.Patient);
+            }
            
-           _context = new EditContext(_model);
-           _statusMessage = "";
+            _context = new EditContext(_model);
+            _statusMessage = "";
+            _isLoading = false;
         }
 
         protected override async Task OnInitializedAsync()
         {
-           _context = new EditContext(_model);
-           await LoadExistingValues();
-           _isLoading = false;
+            _context = new EditContext(_model);
+            await LoadExistingValues();
+            _isLoading = false;
         }
 
         private async Task InsertPatient()
@@ -141,13 +159,17 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
 
         private async Task Submit()
         {
+            _isLoading = true;
+            StateHasChanged();
             await InsertPatient();
-            _model.Expediente = await AppointmentService.AssignMedicalRecordAsync(Incident.AppointmentId, _model.Patient);
+            _model.Expediente =
+                await AppointmentService.AssignMedicalRecordAsync(Incident.AppointmentId, _model.Patient);
             await OnSave.InvokeAsync(_model);
             _context = new EditContext(_model);
             _patientContext = new EditContext(_model.Patient);
             _patientStatus = PatientStatus.PatientUnchanged;
             _statusMessage = "Se guardaron los cambios exitosamente.";
+            _isLoading = false;
         }
     }
 }

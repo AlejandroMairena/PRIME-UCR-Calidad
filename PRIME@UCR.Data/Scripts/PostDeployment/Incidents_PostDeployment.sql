@@ -283,17 +283,18 @@ VALUES
 -- Unidad Transporte
 INSERT INTO Unidad_De_Transporte (Matricula, Estado, Modalidad)
 VALUES
-    ('BPC087', 'Disponible', 'Terrestre'),
+    ('BPC086', 'Disponible', 'Terrestre'),
     ('FMM420', 'Disponible', 'Terrestre'),
+    ('XRG430', 'Disponible', 'Marítimo'),
+    ('XRG431', 'Disponible', 'Marítimo'),
+    ('JPG777', 'Disponible', 'Aéreo'),
     ('PHP999', 'Disponible', 'Aéreo');
 
 -- Incidente
-INSERT INTO Incidente (MatriculaTrans, IdEspecialista, CedulaAdmin,
-    CedulaTecnicoCoordinador, CedulaTecnicoRevisor, CodigoCita, IdOrigen, IdDestino,
-    Modalidad)
+INSERT INTO Incidente (CedulaAdmin, CodigoCita, IdOrigen, Modalidad)
 VALUES
-    ('BPC087', 123, '11111111', 117222222, 1173333333, 1, 1, NULL, 'Terrestre'),
-    ('PHP999', 456, '22222222', 117112222, 1171133333, 2, 2, NULL, 'Aéreo');
+    ('12345678', 1, 1, 'Terrestre'),
+    ('12345678', 2, 2, 'Aéreo');
 
 -- Estado
 INSERT INTO Estado

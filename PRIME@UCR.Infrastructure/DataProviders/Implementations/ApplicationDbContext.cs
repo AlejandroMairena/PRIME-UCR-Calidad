@@ -13,6 +13,7 @@ using PRIME_UCR.Domain.Models.Appointments;
 using PRIME_UCR.Infrastructure.EntityConfiguration.Appointments;
 using PRIME_UCR.Infrastructure.EntityConfiguration.CheckLists;
 using PRIME_UCR.Domain.Models.CheckLists;
+using PRIME_UCR.Domain.Models.MedicalRecords;
 
 namespace PRIME_UCR.Infrastructure.DataProviders.Implementations
 {
@@ -33,11 +34,13 @@ namespace PRIME_UCR.Infrastructure.DataProviders.Implementations
         public DbSet<Estado> States { get; set; }
         public DbSet<EstadoIncidente> IncidentStates { get; set; }
         public DbSet<Incidente> Incidents { get; set; }
+        public DbSet<Expediente> MedicalRecords { get; set; }
         public DbSet<Canton> Cantons { get; set; }
         public DbSet<Distrito> Districts { get; set; }
         public DbSet<Ubicacion> Locations { get; set; }
         public DbSet<MultimediaContent> Multimedia_Contents { get; set; }
-
+        public DbSet<Cita> Appointments { get; set; }
+        public DbSet<Accion> Actions { get; set; }
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<Administrador> Adminstrators { get; set; }
         public DbSet<AdministradorCentroDeControl> AdministratorsControlCenter { get; set; }

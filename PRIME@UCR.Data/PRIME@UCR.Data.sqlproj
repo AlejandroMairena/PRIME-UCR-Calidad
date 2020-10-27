@@ -122,6 +122,8 @@
     <Build Include="Tables\Appointments\Accion.sql" />
     <Build Include="Tables\Appointments\TipoAccion.sql" />
     <Build Include="Tables\MedicalRecords\Expediente.sql" />
+    <Build Include="StoredProcedures\UserAdministration\InsertarPacienteSolo.sql" />
+    <Build Include="Tables\Incidents\AsignadoA.sql" />
     <Build Include="StoredProcedures\UserAdministration\DeletePermissionFromProfile.sql" />
     <Build Include="StoredProcedures\UserAdministration\DeleteUserFromProfile.sql" />
     <Build Include="StoredProcedures\UserAdministration\InsertPermissionToProfile.sql" />
