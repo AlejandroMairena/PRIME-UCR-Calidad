@@ -1,0 +1,24 @@
+﻿@attribute [HasPermission(AuthorizationPermissions.CanManageUsers)]
+@page "/user_administration/registerUser"
+
+@using PRIME_UCR.Application.DTOs.UserAdministration
+@using PRIME_UCR.Application.Implementations.UserAdministration
+@using PRIME_UCR.Components.UserAdministration
+
+<h3>Registrar usuarios en la aplicación</h3>
+
+<p>
+    En esta página usted puede hacer el registro de usuarios en la aplicación
+</p>
+
+<StatusMessage Message="@statusMessage" Class="@messageType" />
+
+<EditForm Model="infoOfUserToRegister" OnValidSubmit="RegisterUserInDB">
+    <FluentValidationValidator />
+
+    <RegisterUserFormComponent Value="infoOfUserToRegister" />
+
+    <ProfileSelectionComponent Value=" infoOfUserToRegister"/>
+
+    <button type="submit" class="btn btn-primary mt-4 mb-4">Registrar usuario</button>
+</EditForm>

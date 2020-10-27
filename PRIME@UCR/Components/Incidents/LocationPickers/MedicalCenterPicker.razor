@@ -3,11 +3,11 @@
 @using PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
 @using Microsoft.EntityFrameworkCore
 
-<Loading IsLoading="_medicalCenters == null || _doctors == null">
+<Loading IsLoading="_isLoading">
     <EditForm EditContext="_context" OnValidSubmit="Submit">
         <FluentValidationValidator />
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-xl-6 col-lg-8">
         <DropDownMenu T="CentroMedico" Data="_medicalCenters"
                       Label="Centro médico"
                       DefaultText="Seleccione un centro médico"

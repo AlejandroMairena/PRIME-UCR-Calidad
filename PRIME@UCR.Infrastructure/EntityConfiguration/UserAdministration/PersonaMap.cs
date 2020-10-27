@@ -45,9 +45,6 @@ namespace PRIME_UCR.Infrastructure.EntityConfiguration.UserAdministration
                 .Property(p => p.FechaNacimiento)
                 .HasColumnName("FechaNacimiento")
                 .HasColumnType("Date");
-            builder
-                .HasMany(p => p.NumerosTelefono)
-                .WithOne(p => p.Persona);
         }
     }
 }

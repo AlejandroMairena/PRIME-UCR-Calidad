@@ -1,4 +1,4 @@
-@page "/incidents/{Code}"
+﻿@page "/incidents/{Code}"
 @using PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
 @using PRIME_UCR.Components.Incidents.IncidentDetails
 @using PRIME_UCR.Components.Controls
@@ -7,17 +7,21 @@
 @inject NavigationManager NavigationManager
 @inject IIncidentService IncidentService
 
-<h1>Detalles del incidente</h1>
+<h1>Administración del incidente</h1>
 <hr />
 @if (_exists)
 {
     <Loading IsLoading="_incidentModel == null">
         <div class="row">
-            <div class="col-lg-2 mb-4">
-                <TabMenu Tabs="_tabs" DefaultTab="DefaultTab" IsVertical="true" @bind-Value="_activeTab"/>
+            <div class="col-xl-2 col-lg-3 mb-4">
+                <TabMenu Tabs="_tabs" DefaultTab="DefaultTab" IsVertical="true"
+                         TooltipText="Campo pendiente"
+                         @bind-Value="_activeTab"/>
             </div> 
             <div class="col">
-                <ActiveTab Active="@_activeTab" Incident="_incidentModel" OnSave="@Save"/>
+                <div class="jumbotron white-panel">
+                    <ActiveTab Active="@_activeTab" Incident="_incidentModel" OnSave="@Save"/>
+                </div>
             </div>
         </div>
     </Loading>

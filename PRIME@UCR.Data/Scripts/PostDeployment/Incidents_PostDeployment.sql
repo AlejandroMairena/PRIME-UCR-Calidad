@@ -1,4 +1,5 @@
-﻿DELETE FROM EstadoIncidente
+﻿DELETE FROM AsignadoA
+DELETE FROM EstadoIncidente
 DELETE FROM Estado
 DELETE FROM Incidente
 DELETE FROM Unidad_De_Transporte
@@ -260,16 +261,16 @@ VALUES
 -- Centro_Ubicacion
 INSERT INTO Centro_Ubicacion (Id, IdCentro, NumeroCama, CédulaMédico)
 VALUES 
-    (6, 1, 15, '11111111'),
-    (7, 2, 6, '11111111'),
+    (6, 1, 15, '89012345'),
+    (7, 2, 6,  '89012345'),
     (8, 3, 12, '22222222'),
     (9, 4, 25, '22222222');
 
 -- Trabaja_En
 INSERT INTO Trabaja_En(CédulaMédico, CentroMedicoId)
 VALUES
-    ('11111111', 1),
-    ('11111111', 2),
+    ('89012345', 1),
+    ('89012345', 2),
     ('22222222', 3),
     ('22222222', 4);
 
@@ -283,17 +284,18 @@ VALUES
 -- Unidad Transporte
 INSERT INTO Unidad_De_Transporte (Matricula, Estado, Modalidad)
 VALUES
-    ('BPC087', 'Disponible', 'Terrestre'),
+    ('BPC086', 'Disponible', 'Terrestre'),
     ('FMM420', 'Disponible', 'Terrestre'),
+    ('XRG430', 'Disponible', 'Marítimo'),
+    ('XRG431', 'Disponible', 'Marítimo'),
+    ('JPG777', 'Disponible', 'Aéreo'),
     ('PHP999', 'Disponible', 'Aéreo');
 
 -- Incidente
-INSERT INTO Incidente (MatriculaTrans, IdEspecialista, CedulaAdmin,
-    CedulaTecnicoCoordinador, CedulaTecnicoRevisor, CodigoCita, IdOrigen, IdDestino,
-    Modalidad)
+INSERT INTO Incidente (CedulaAdmin, CodigoCita, IdOrigen, Modalidad)
 VALUES
-    ('BPC087', 123, '12345678', 117222222, 1173333333, 1, 1, NULL, 'Terrestre'),
-    ('PHP999', 456, '12345678', 117112222, 1171133333, 2, 2, NULL, 'Aéreo');
+    ('11111111', 1, 1, 'Terrestre'),
+    ('11111111', 2, 2, 'Aéreo');
 
 -- Estado
 INSERT INTO Estado

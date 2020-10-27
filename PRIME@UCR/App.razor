@@ -1,7 +1,5 @@
-﻿@using PRIME_UCR.Application.Services.CheckLists
+﻿@using PRIME_UCR.Domain.Models.CheckLists;
 <CascadingAuthenticationState>
-    <CascadingValue Value="@Lists" Name="lists">
-    <CascadingValue Value="@Changelists" Name="Changelists" TValue="Action<IEnumerable<CheckList>>">
         <Router AppAssembly="@typeof(Program).Assembly">
             <Found Context="routeData">
                 <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" >
@@ -13,6 +11,7 @@
             <NotFound>
                 <LayoutView>
                     <HeaderComponent/>
+
                     <h3>
                         Error: La página no existe
                     </h3>
@@ -22,18 +21,7 @@
                 </LayoutView>
             </NotFound>
         </Router>
-    </CascadingValue>
-    </CascadingValue>
 </CascadingAuthenticationState>
 
 @code {
-
-    public IEnumerable<CheckList> Lists { get; set; }
-
-    private void Changelists(IEnumerable<CheckList> newlists)
-    {
-        Lists = newlists;
-        StateHasChanged();
-    }
-
 }

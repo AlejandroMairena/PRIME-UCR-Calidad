@@ -7,15 +7,25 @@ namespace PRIME_UCR.Components.Controls
 {
     public partial class DateTimePicker
     {
-        private TimeSpan _time; 
+        private TimeSpan? _time; 
         [Parameter] public string DateLabel { get; set; }
         [Parameter] public string TimeLabel { get; set; }
+        [Parameter] public DateTime? Min { get; set; }
+        [Parameter] public DateTime? Max { get; set; }
         private string ValidationCssClass => ValidationUtils.ToBootstrapValidationCss(CssClass);
 
         async Task OnDateChanged(ChangeEventArgs e)
         {
-            DateTime d = DateTime.Parse((string)e.Value);
-            Value = d + _time;
+            var valid = DateTime.TryParse((string)e.Value, out var result);
+            if (valid)
+            {
+                
+                Value = result + _time;
+            }
+            else
+            {
+                Value = null;
+            }
 
             await ValueChanged.InvokeAsync(Value);
             EditContext.NotifyFieldChanged(FieldIdentifier);
@@ -23,8 +33,16 @@ namespace PRIME_UCR.Components.Controls
 
         async Task OnTimeChanged(ChangeEventArgs e)
         {
-            _time = TimeSpan.Parse((string)e.Value);
-            Value = Value.Date + _time;
+            var valid = TimeSpan.TryParse((string) e.Value, out var result);
+            if (valid)
+            {
+                _time = result;
+                Value = Value?.Date + _time;
+            }
+            else
+            {
+                _time = null;
+            }
 
             await ValueChanged.InvokeAsync(Value);
             EditContext.NotifyFieldChanged(FieldIdentifier);
@@ -32,12 +50,13 @@ namespace PRIME_UCR.Components.Controls
 
         protected override void OnInitialized()
         {
-            _time = Value.TimeOfDay;
+            if (Value != null)
+                _time = ((DateTime)Value).TimeOfDay;
         }
 
-        protected override bool TryParseValueFromString(string value, out DateTime result, out string validationErrorMessage)
+        protected override bool TryParseValueFromString(string value, out DateTime? result, out string validationErrorMessage)
         {
-            result = DateTime.Parse(value);
+            result = Value;
             validationErrorMessage = null;
             return true;
         }

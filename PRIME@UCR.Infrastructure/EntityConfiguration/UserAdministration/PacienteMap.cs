@@ -22,10 +22,6 @@ namespace PRIME_UCR.Infrastructure.EntityConfiguration.UserAdministration
                 .Property(p => p.Cédula)
                 .HasColumnName("Cédula")
                 .IsRequired();
-            builder
-                .HasOne(p => p.Expediente)
-                .WithOne(p => p.Paciente);
-                //.HasForeignKey<Paciente>(p => p.NumExpediente);
         }
     }
 }

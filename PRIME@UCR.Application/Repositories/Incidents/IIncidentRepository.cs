@@ -9,8 +9,6 @@ namespace PRIME_UCR.Application.Repositories.Incidents
     public interface IIncidentRepository : IGenericRepository<Incidente, string>
     {
         Task<Incidente> GetWithDetailsAsync(string code);
-        Task<Incidente> InsertAsync(Incidente entity, DateTime estimatedTime);
-
         Task<IEnumerable<IncidentListModel>> GetIncidentListModelsAsync();
     }
 }

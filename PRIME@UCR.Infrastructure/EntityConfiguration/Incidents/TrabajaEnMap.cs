@@ -14,7 +14,7 @@ namespace PRIME_UCR.Infrastructure.EntityConfiguration.Incidents
             builder.HasKey(k => new { k.CédulaMédico, k.CentroMedicoId });
             builder
                 .HasOne(p => p.Médico)
-                .WithMany(p => p.MedicosyCentrosMedicos)
+                .WithMany()
                 .HasForeignKey(p => p.CédulaMédico);
             builder
                 .HasOne(p => p.CentroMedico)

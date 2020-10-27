@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using PRIME_UCR.Domain.Models.Incidents;
 using PRIME_UCR.Domain.Models.MedicalRecords;
 using PRIME_UCR.Domain.Models.UserAdministration;
+using PRIME_UCR.Domain.Models.CheckLists;
 
 namespace PRIME_UCR.Infrastructure.DataProviders
 {
@@ -14,6 +15,7 @@ namespace PRIME_UCR.Infrastructure.DataProviders
 
         // dbsets
         DbSet<CheckList> CheckList { get; set; }
+        DbSet<Item> Item { get; set; }
         DbSet<Pais> Countries { get; set; }
         DbSet<Provincia> Provinces { get; set; }
         DbSet<Canton> Cantons { get; set; }
@@ -47,6 +49,7 @@ namespace PRIME_UCR.Infrastructure.DataProviders
         DbSet<TienePerfil> HasProfile { get; set; }
         DbSet<Permite> HasPermissionOf { get; set; }
         DbSet<MultimediaContent> Multimedia_Contents { get; set; }
+        DbSet<Cita> Appointments { get; set; }
         DbSet<Accion> Actions { get; set; }
         DbSet<T> Set<T>() where T : class;
         Task<int> SaveChangesAsync();     

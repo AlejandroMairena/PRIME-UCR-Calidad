@@ -27,6 +27,7 @@ namespace PRIME_UCR.Components.Incidents.LocationPickers
         private List<Médico> _doctors;
         private EditContext _context;
         private bool _saveButtonEnabled;
+        private bool _isLoading = true;
 
         async Task OnChangeMedicalCenter(CentroMedico medicalCenter)
         {
@@ -65,23 +66,30 @@ namespace PRIME_UCR.Components.Incidents.LocationPickers
 
         private async Task LoadExistingValues()
         {
+            _isLoading = true;
+            StateHasChanged();
             await LoadMedicalCenters(true);
             await LoadDoctors(true);
+            _isLoading = false;
         }
         
         private async Task Submit()
         {
+            _isLoading = true;
+            StateHasChanged();
             await OnSave.InvokeAsync(Value);
             _context.OnFieldChanged -= HandleFieldChanged;
             _context = new EditContext(Value);
             _context.OnFieldChanged += HandleFieldChanged;
             _saveButtonEnabled = false;
+            _isLoading = false;
         }
 
         private async Task Discard()
         {
             await OnDiscard.InvokeAsync(null);
-            await LoadExistingValues();
+            if (!IsFirst && !OnDiscard.HasDelegate)
+                await LoadExistingValues();
         }
 
         protected override async Task OnInitializedAsync()

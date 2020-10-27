@@ -16,7 +16,7 @@ namespace PRIME_UCR.Infrastructure.EntityConfiguration.Multimedia
 
             builder
                 .HasOne(c => c.Expediente)
-                .WithMany(e => e.Citas)
+                .WithMany()
                 .HasForeignKey(c => c.IdExpediente);
 
             builder.ToTable(nameof(Cita));

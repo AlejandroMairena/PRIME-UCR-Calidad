@@ -4,7 +4,7 @@
 
 # PRIME@UCR
 
-#### Version 1.0
+#### Version 2.0
   
   
     
@@ -148,7 +148,28 @@ Integrantes:
 | Gustavo Jimenez                | Developer       |
 | Isaac Zuñiga                   | Developer       |
 
+#### Sprint 1:
+
     
+- Atenienses++
+
+| Integrante                     | Rol             |
+| -------------------------------| ----------------| 
+| Luis Andrés Sánchez Romero     | Developer       |
+| Daniela Vargas Sauma           | Scrum Master    |
+| José Andrés Víquez Ramírez     | Developer       |
+| Fernando Ezequiel Morales      | Scrum Ambassador|
+| Elian Ortega Velásquez         | Developer       |
+
+- Diosvier:
+
+| Integrante                     | Rol             |
+| -------------------------------| ----------------| 
+| Adrián Sibaja Retana           | Scrum Master    |
+| Erik Kühlmann Salazar          | Scrum Ambassador|
+| José Esteban Marín Masís       | Developer       |
+| Daniel Salazar Mora            | Developer       |
+| Ricardo Franco Rodríguez       | Developer       |
 
 ## Descripción general del sistema a desarrollar
 La aplicación debe desarrollar e integrar las funciones necesarias para la sistematización de los procesos del equipo PRIME, desde una sola aplicación integrada. Por lo tanto, el sistema consiste en una aplicación web con una base de datos, que permita a los usuarios la sistematización de los procesos de atención y la gestión en tiempo real de la información de los procesos entre los equipos de atención y el centro de control. Esto con el fin de permitir que todos los usuarios autorizados cuenten con información actualizada por medio de la aplicación web.
@@ -314,7 +335,15 @@ El programa en su pantalla de inicio le muestra al usuario solamente un menú la
 
 - Para crear una lista se clickea el botón “Crear lista de chequeo” en el menú lateral de la pantalla, esto abrirá una ventana titulada “Crear plantilla de lista de chequeo” (definición previamente explicada en el apartado “Definiciones, acrónimos y abreviaciones”), en esta se ven las características principales de la lista marcadas en un cuadro blanco en el centro de la ventana y marcadas con un asterisco las que son fundamentales, la leyenda del asterisco también se muestra en la parte inferior; el botón de guardar lista está inhabilitado hasta que la ventanas necesarias, Nombre y Tipo, sean correctamente llenadas y esto se ve reflejado en el color del mismo que se hace más intenso y diferenciable cuando se encuentra habilitado, además de tener la opción de cancelar la creación si así lo desea.  
 
-- Al crear una lista esta se ve inmediatamente reflejada en la pantalla de listas de chequeo.  
+- Al crear una lista esta se ve inmediatamente reflejada en la pantalla de listas de chequeo.
+
+- Para crear un item se se clickea el botón de "Crear item", se abre una pantalla para los detalles del mismo y son guardados asociados a la lista de checkeo actual mostrada.
+
+- Al crear un item este se ve mostrado inmediatamente en pantalla.
+
+- A cada item se pueden añadir subitems mediante el menú desplegable asociado a cada item en pantalla.
+
+- Los subitems son mostrados en pantalla inmediatamente y se ve en pantalla en que nivel se encuentran para asociarlos a su item padre.
 
 #### Drim Team/Contenido Multimedia-Expedientes
 
@@ -380,27 +409,33 @@ El diseño de la página sigue la paleta de colores, diseño del header y footer
 
 ## Artefactos de base de datos
 
+### Esquema conceptual de la base de datos
+
+A continuación se muestra el esquema conceptual:
+
+![](https://app.lucidchart.com/invitations/accept/6de27e38-f785-4942-9cc4-9defbde00e09)
+
 ### Esquema lógico de la base de datos
 
-![](https://i.imgur.com/qdAyrje.jpg)
+![](https://i.imgur.com/J4bu9GS.png)
 
 A continuación se muestra el esquema lógico dividido en los correspondientes a cada equipo: 
 
 Atenienses++ (Administración de Usuarios):
 
-![](https://i.imgur.com/BsF0lHT.jpg)
+![](https://i.imgur.com/69sm8RJ.png)
 
 Diosvier (Administración de Translados) :
 
-![](https://i.imgur.com/HE20mND.png)
+![](https://i.imgur.com/Z5rxjQK.png)
 
 Legados (Control del Procedimientos) :
 
-![](https://i.imgur.com/Mobj6U3.png)
+![](https://i.imgur.com/Qwl0XXB.png)
 
 Drim Team (Gestión de Información) :
 
-![](https://i.imgur.com/te7oeHP.png)
+![](https://i.imgur.com/rcEkHBA.png)
 
 ## Decisiones técnicas.
 

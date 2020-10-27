@@ -128,7 +128,7 @@
 
     protected override void OnInitialized()
     {
-        validTypeFiles = new List<string>() { "pdf", "doc", "docx", "xls", "txt", "mp3", "jpg", "png", "mp4", "wmv", "avi" };
+        validTypeFiles = new List<string>() { "pdf", "doc", "docx", "xls", "txt", "mp3", "jpg", "png", "mp4", "wmv", "avi", "text/plain" };
     }
 
     protected override async Task OnInitializedAsync()
@@ -178,7 +178,7 @@
         string type = file.Type;
 
         foreach (string validType in validTypeFiles)
-            if (type.Contains(validType)) return true;
+            if (type.Contains(validType) || type == validType) return true;
 
         return false;
     }

@@ -27,6 +27,7 @@ namespace PRIME_UCR.Components.UserAdministration
             var result = (await _authenticationState).User;
             if (result.Identity.IsAuthenticated)
             {
+                isAuthenticated = true;
                 return "Para acceder a esta página debe contar con los permisos necesarios.";
             }
             else

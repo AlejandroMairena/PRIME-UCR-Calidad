@@ -15,8 +15,8 @@ namespace PRIME_UCR.Validators.Incidents
                 {
                     // TODO: change length to 9 after updating post deployment
                     RuleFor(i => i.CedPaciente)
-                        .Length(8)
-                        .WithMessage("Debe digitar una cédula válida (8 números).")
+                        .Length(9)
+                        .WithMessage("Debe digitar una cédula válida (9 números).")
                         .DependentRules(() =>
                         {
                             RuleFor(i => i.CedPaciente)

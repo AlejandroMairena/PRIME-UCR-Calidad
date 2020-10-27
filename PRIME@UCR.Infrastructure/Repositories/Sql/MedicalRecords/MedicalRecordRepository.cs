@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +13,14 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.MedicalRecords
     {
         public MedicalRecordRepository(ISqlDataProvider dataProvider) : base(dataProvider)
         {
+        }
+
+        public override async Task<Expediente> InsertAsync(Expediente model)
+        {
+            model.FechaCreacion = DateTime.Now;
+            _db.MedicalRecords.Add(model);
+            await _db.SaveChangesAsync();
+            return model;
         }
 
         public async Task<Expediente> GetByPatientIdAsync(string id)

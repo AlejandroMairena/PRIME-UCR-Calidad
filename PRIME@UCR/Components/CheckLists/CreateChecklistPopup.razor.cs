@@ -8,6 +8,7 @@ using PRIME_UCR.Components.CheckLists;
 using Microsoft.AspNetCore.Components.Forms;
 using System.Linq;
 using System;
+using PRIME_UCR.Domain.Models.CheckLists;
 
 namespace PRIME_UCR.Components.CheckLists
 {

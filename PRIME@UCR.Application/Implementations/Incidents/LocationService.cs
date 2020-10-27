@@ -7,6 +7,7 @@ using PRIME_UCR.Application.Services.Incidents;
 using PRIME_UCR.Domain.Models;
 using PRIME_UCR.Domain.Models.UserAdministration;
 using System.Linq;
+using PRIME_UCR.Domain.Models.Incidents;
 
 namespace PRIME_UCR.Application.Implementations.Incidents
 {
@@ -31,6 +32,7 @@ namespace PRIME_UCR.Application.Implementations.Incidents
             _districtRepository = districtRepository;
             _medicalCenterRepository = medicalCenterRepository;
         }
+
 
         public async Task<IEnumerable<Médico>> GetAllDoctorsByMedicalCenter(int medicalCenterId)
         {

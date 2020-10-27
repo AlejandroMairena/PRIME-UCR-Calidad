@@ -3,3 +3,6 @@
 <p>
     @GetMessageAsync().Result
 </p>
+@if(@isAuthenticated){
+    <button class="btn btn-disabled" role="button" aria-disabled="true" disabled>Solicitar Permiso</button>
+}

@@ -3,21 +3,26 @@
 <h3>Multimedia de incidente</h3>
 <br/>
 <Loading IsLoading="_isLoading">
-    <div class="row">
-        <div class="col-md-4">
-            <EditForm Model="Incident">
-                <DropDownMenu Data="@_actionTypes" Label="Tipo de multimedia"
-                              DefaultText="Seleccione tipo de multimedia"
-                              TextProperty="Nombre"
-                              Value="_selectedActionType"
-                              ValueExpression="() => _selectedActionType"
-                              ValueChanged="(TipoAccion ta) => OnActionTypeChange(ta)" />
-                @if (_selectedActionType != null)
-                {
-                    <MultimediaContentComponent MultimediaContent="_existingFiles" OnFileUpload="OnFileUpload" />
-                }
-                <p>@Message</p>
-            </EditForm>
-        </div>
-    </div>
+    <table class="table table-bordered text-center">
+        <thead>
+        <tr>
+            <th style="width: 20%;">Adjuntar</th>
+            <th style="width: 80%;">Tipo acción</th>
+        </tr> 
+        </thead>
+        <tbody>
+        @foreach (var i in _actionTypes)
+        {
+            <tr>
+                <td>
+                    <MultimediaContentComponent MultimediaContent="_existingFiles[_actionTypes.IndexOf(i)]"
+                        OnFileUpload="(MultimediaContent mc) => OnFileUpload(i, mc)"/>
+                </td>
+                <td>
+                    @i.Nombre
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
 </Loading>

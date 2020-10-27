@@ -14,13 +14,40 @@ a, .btn-link {
     color: #0366d6;
 }
 
-/*.btn-primary {*/
-/*    background: #FFFFFF;*/
-/*    height: 100%;*/
-/*    margin-top: 0;*/
-/*    z-index: 2;*/
-/*    position: relative;*/
-/*}*/
+.btn-primary {
+    background: #095290;
+    height: 100%;
+    margin-top: 0;
+    z-index: 2;
+    position: relative;
+}
+
+    .btn-primary:hover {
+        background: #00c0f3;
+    }
+
+.btn-secondary {
+    background: #676766;
+    height: 100%;
+    opacity: 0.5;
+    margin-top: 0;
+    z-index: 2;
+    position: relative;
+}
+
+    .btn-secondary:hover {
+        background: #303030;
+    }
+
+.btn-disabled {
+    background: #676766;
+    height: 100%;
+    opacity: 0.5;
+    margin-top: 0;
+    z-index: 2;
+    position: relative;
+}
+
 
 app {
     display: flex;
@@ -99,6 +126,26 @@ app {
                 color: white;
             }
 
+            /*Disable buttons nav menu*/
+            .sidebar .nav-item a.disable {
+                background-color: transparent;
+                color: grey;
+            }
+
+            /*Disable buttons nav menu on hover*/
+            .sidebar .nav-item a.disable:hover {
+                background-color:transparent;
+                color: grey;
+            }
+
+.required-star {
+    color:red;
+}
+
+a.disable {
+    color:gray;
+    pointer-events: none;
+}
 
 .content {
     padding-top: 1.1rem;
@@ -242,4 +289,22 @@ app {
     position: fixed;
     bottom: 1rem;
     right: 1rem;
+}
+
+/* Radzen multi select */
+
+.ui-dropdown-item.ui-state-highlight, .ui-dropdown-items li.ui-state-highlight, .ui-multiselect-items li.ui-state-highlight, .ui-autocomplete-items li.ui-state-highlight, .ui-state-highlight.ui-multiselect-item, .ui-state-highlight.ui-autocomplete-list-item, .ui-state-highlight.ui-menuitem {
+    background: #095290;
+}
+
+.ui-chkbox-box.ui-state-active {
+    background-color: #00c0f3;
+}
+
+.ui-dropdown-item:hover, .ui-dropdown-items li:hover, .ui-multiselect-items li:hover, .ui-autocomplete-items li:hover, .ui-multiselect-item:hover, .ui-autocomplete-list-item:hover, .ui-menuitem:hover {
+    background-color: #095290;
+}
+
+.jumbotron.white-panel {
+    background: white;
 }

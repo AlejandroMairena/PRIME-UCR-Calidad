@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Globalization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -62,11 +64,20 @@ namespace PRIME_UCR
                 }
             });
 
+            services.AddLocalization();
+            var supportedCultures = new List<CultureInfo> { new CultureInfo("es"), new CultureInfo("en"), new CultureInfo("de") };
+            services.Configure<RequestLocalizationOptions>(options =>
+            {
+                options.DefaultRequestCulture = new Microsoft.AspNetCore.Localization.RequestCulture("es");
+                options.SupportedUICultures = supportedCultures;
+            });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseRequestLocalization();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

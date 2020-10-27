@@ -151,9 +151,9 @@ namespace PRIME_UCR.Application.Implementations.MedicalRecords
                     SegundoApellido = person.SegundoApellido,
                     Sexo = person.Sexo,
                     FechaNacimiento = person.FechaNacimiento,
-                    NombreMedico = doctor.Nombre,
-                    PrimerApellidoMedico = doctor.PrimerApellido,
-                    SegundoApellidoMedico = doctor.SegundoApellido,
+                    NombreMedico = doctor?.Nombre,
+                    PrimerApellidoMedico = doctor?.PrimerApellido,
+                    SegundoApellidoMedico = doctor?.SegundoApellido,
                     IdExpediente = record.Id,
                     FechaCreacion = record.FechaCreacion,
                     Clinica = record.Clinica
