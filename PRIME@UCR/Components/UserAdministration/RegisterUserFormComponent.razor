@@ -3,18 +3,18 @@
 
     <div class="row" style="width:30%">
         <div class="col">
-            <TextInput Label="Número de cédula:" @bind-Value="Value.IdCardNumber" />
+            <TextInput Label="Número de cédula:" @bind-Value="Value.IdCardNumber" IsRequired="true" />
         </div>
     </div>
 
     <div class="row" style="width:30%">
         <div class="col">
-            <TextInput Label="Nombre:" @bind-Value="Value.Name" />
+            <TextInput Label="Nombre:" @bind-Value="Value.Name" IsRequired="true"/>
         </div>
     </div>
     <div class="row" style="width:60%">
         <div class="col" style="width: 30%">
-            <TextInput Label="Primer apellido:" @bind-Value="Value.FirstLastName" />
+            <TextInput Label="Primer apellido:" @bind-Value="Value.FirstLastName" IsRequired="true"/>
         </div>
         <div class="col" style="width:30%">
             <TextInput Label="Segundo apellido:" @bind-Value="Value.SecondLastName" />
@@ -40,21 +40,26 @@
     </form>
     <br />
 
-    <h4>Información de contacto</h4>
+    <div class="bg-white rounded p-3 col-lg-6">
 
-    <div class="row" style="width:30%">
-        <div class="col">
-            <TextInput Label="Correo electrónico" @bind-Value="Value.Email" />
-        </div>
-    </div>
+        <h4>Información de contacto</h4>
 
-    <div class="row" style="width:60%">
-        <div class="col">
-            <TextInput Label="Número de teléfono primario:" @bind-Value="Value.PrimaryPhoneNumber" />
+        <div class="row" style="width:30%">
+            <div class="col">
+                <TextInput Label="Correo electrónico" @bind-Value="Value.Email" IsRequired="true"/>
+            </div>
         </div>
-        <div class="col">
-            <TextInput Label="Número de teléfono secundario:" @bind-Value="Value.SecondaryPhoneNumber" />
+
+        <div class="row" style="width:60%">
+            <div class="col-lg-4">
+                <TextInput Label="Número de teléfono primario:" @bind-Value="Value.PrimaryPhoneNumber" IsRequired="true"/>
+            </div>
+            <div class="col-lg-4">
+                <TextInput Label="Número de teléfono secundario:" @bind-Value="Value.SecondaryPhoneNumber" />
+            </div>
         </div>
+
     </div>
+    <br />
 
 </Loading>

@@ -91,7 +91,7 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
             {
                 user.CedPersona = userToRegist.IdCardNumber;
                 var result = await userManager.CreateAsync(user, password);
-                return true;
+                return result.Succeeded;
             } else
             {
                 return false;

@@ -21,6 +21,10 @@ namespace PRIME_UCR.Pages.UserAdministration
         [Inject]
         public INumeroTelefonoService telefonoService { get; set; }
 
+        [Inject]
+        public IPerteneceService perteneceService { get; set; }
+        
+
         private string statusMessage;
 
         private string messageType;
@@ -62,7 +66,16 @@ namespace PRIME_UCR.Pages.UserAdministration
 
                     /*Aqui va la parte de registrar el perfil*/
                     /*ELIAN*/
-                    
+
+                    /*Inserting profiles for the user*/
+                    //System.Diagnostics.Debug.WriteLine( user.Id);
+
+                    foreach (String profileName in infoOfUserToRegister.Profiles)
+                    {
+                        await perteneceService.InsertUserOfProfileAsync(user.Id, profileName);
+                        //System.Diagnostics.Debug.WriteLine(profileName);
+                    }
+
                     statusMessage = "El usuario indicado se ha registrado en la aplicación.";
                     messageType = "success";
                 }
