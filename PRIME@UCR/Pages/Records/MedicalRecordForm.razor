@@ -6,14 +6,14 @@
 
     <div class="form-group">
 
-        <label for="Paciente">Paciente</label>
+        <label for="Paciente">Cedula Paciente</label>
         <InputText id="Clinica" @bind-Value="@Expediente.CedulaPaciente" class="form-control"></InputText>
         <ValidationMessage For="@(() => Expediente.CedulaPaciente)" />
     </div>
 
     <div class="form-group">
 
-        <label for="Medico">Medico</label>
+        <label for="Medico">Cedula Medico</label>
         <InputText id="Clinica" @bind-Value="@Expediente.CedulaMedicoDuenno" class="form-control"></InputText>
         <ValidationMessage For="@(() => Expediente.CedulaMedicoDuenno)" />
     </div>
