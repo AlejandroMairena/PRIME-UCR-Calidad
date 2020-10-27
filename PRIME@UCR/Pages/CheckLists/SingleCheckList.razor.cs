@@ -8,6 +8,8 @@ using PRIME_UCR.Components.CheckLists;
 using Microsoft.AspNetCore.Components.Forms;
 using PRIME_UCR.Domain.Models.CheckLists;
 using System.Linq;
+using System.Threading;
+using Microsoft.AspNetCore.Components.Rendering;
 
 namespace PRIME_UCR.Pages.CheckLists
 {
@@ -18,16 +20,23 @@ namespace PRIME_UCR.Pages.CheckLists
     {
         [Parameter]
         public int id { get; set; }
+        private int Index { get; set; } = 0;
 
         private bool isDisabled { get; set; } = true;
 
         protected bool createItem { get; set; } = false;
+        protected string createItemText { get; set; }
 
         protected IEnumerable<CheckList> lists { get; set; }
+
+        protected IEnumerable<Item> coreItems { get; set; }
 
         protected IEnumerable<Item> items { get; set; }
         protected IEnumerable<Item> subItems { get; set; }
         protected List<Item> itemsList = new List<Item>();
+
+        protected List<Item> orderedList;
+        protected List<int> orderedListLevel;
 
         public CheckList list { get; set; }
 
@@ -53,6 +62,12 @@ namespace PRIME_UCR.Pages.CheckLists
             lists = await MyCheckListService.GetAll();
             items = await MyCheckListService.GetItemsByCheckListId(id);
             itemsList = items.ToList();
+            coreItems = await MyCheckListService.GetCoreItems(id);
+            orderedList = new List<Item>();
+            orderedListLevel = new List<int>();
+            foreach (var item in coreItems) {
+                GenerateOrderedList(item, 0);
+            }
         }
 
         /**
@@ -78,6 +93,10 @@ namespace PRIME_UCR.Pages.CheckLists
          * */
         protected async Task AddCheckListItem(Item item)
         {
+            if (item.ImagenDescriptiva == null)
+            {
+                item.ImagenDescriptiva = "/images/defaultCheckList.svg";
+            }
             await MyCheckListService.InsertCheckListItem(item);
             createItem = false;
             formInvalid = true;
@@ -90,10 +109,12 @@ namespace PRIME_UCR.Pages.CheckLists
          * */
         protected void StartNewItemCreation() 
         {
+            createItemText = "Crear Item";
             createItem = true;
             tempItem = new Item();
+            tempItem.IDSuperItem = null;
             tempItem.IDLista = id;
-            tempItem.Orden = items.Count() + 1;
+            tempItem.Orden = coreItems.Count() + 1;
             editContext = new EditContext(tempItem);
             editContext.OnFieldChanged += HandleFieldChanged;
             StateHasChanged();
@@ -104,6 +125,7 @@ namespace PRIME_UCR.Pages.CheckLists
          * */
         protected async Task CreateSubItem(int itemId)
         {
+            createItemText = "Crear SubItem";
             subItems = await MyCheckListService.GetItemsBySuperitemId(itemId);
             createItem = true;
             tempItem = new Item();
@@ -139,6 +161,31 @@ namespace PRIME_UCR.Pages.CheckLists
          * */
         protected int getItemIndex(Item itemInList) {
             return itemsList.FindIndex(item => item.Id == itemInList.Id);
+        }
+
+        private void GenerateOrderedList(Item item, int level) 
+        {
+            orderedList.Add(item);
+            orderedListLevel.Add(level);
+            List<Item> subItems = itemsList.FindAll(tempItem => tempItem.IDSuperItem == item.Id);
+            subItems = subItems.OrderBy(item => item.Orden).ToList<Item>();
+            if (subItems.Count() > 0)
+            {
+                foreach (var tempSubtem in subItems) 
+                {
+                    GenerateOrderedList(tempSubtem, level + 1);
+                }
+            }
+        }
+        protected bool HasSubItems(Item item)
+        {
+            List<Item> subItems = itemsList.FindAll(tempItem => tempItem.IDSuperItem == item.Id);
+            bool hasSubItems = false;
+            if (subItems.Count() != 0) 
+            {
+                hasSubItems = true;
+            }
+            return hasSubItems;
         }
     }
 }

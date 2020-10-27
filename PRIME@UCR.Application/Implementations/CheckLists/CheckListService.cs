@@ -34,7 +34,7 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
         }
         public async Task<CheckList> InsertCheckList(CheckList list) 
         {
-            return await _checklistRepository.InsertAsync(list);
+            return await _checklistRepository.InsertCheckListAsync(list);
         }
 
         public async Task<CheckList> GetById(int id)
@@ -50,7 +50,7 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
 
         public async Task<Item> InsertCheckListItem(Item item)
         {
-            return await _itemRepository.InsertAsync(item);
+            return await _itemRepository.InsertCheckItemAsync(item);
         }
         public async Task<IEnumerable<Item>> GetItemsByCheckListId(int checkListId)
         {
@@ -60,6 +60,11 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
         public async Task<IEnumerable<Item>> GetItemsBySuperitemId(int superitemId)
         {
             IEnumerable<Item> items = await _itemRepository.GetBySuperitemId(superitemId);
+            return items.OrderBy(item => item.Orden);
+        }
+        public async Task<IEnumerable<Item>> GetCoreItems(int checkListId)
+        {
+            IEnumerable<Item> items = await _itemRepository.GetCoreItems(checkListId);
             return items.OrderBy(item => item.Orden);
         }
         public async Task<Item> SaveImageItem(Item item)
