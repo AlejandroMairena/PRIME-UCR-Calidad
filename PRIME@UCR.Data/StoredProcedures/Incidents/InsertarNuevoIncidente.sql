@@ -1,9 +1,8 @@
 ﻿CREATE PROCEDURE [dbo].[InsertarNuevoIncidente]
     @MatriculaTrans           VARCHAR(30),
-    @IdEspecialista           INT,
     @CedulaAdmin              NVARCHAR(12),
-    @CedulaTecnicoCoordinador INT,
-    @CedulaTecnicoRevisor     INT,
+    @CedulaTecnicoCoordinador NVARCHAR(12),
+    @CedulaTecnicoRevisor     NVARCHAR(12),
     @IdOrigen                 INT,
     @IdDestino                INT,
     @Modalidad                VARCHAR(30),
@@ -28,10 +27,9 @@ AS
     INSERT INTO Incidente
     (
         MatriculaTrans,
-        IdEspecialista,
         CedulaAdmin,
         CedulaTecnicoCoordinador,
-        CedulaTecnicoRevisor,
+        CedulaRevisor,
         CodigoCita,
         IdOrigen,
         IdDestino,
@@ -40,7 +38,6 @@ AS
     VALUES
     (
         @MatriculaTrans,
-        @IdEspecialista,
         @CedulaAdmin,
         @CedulaTecnicoCoordinador,
         @CedulaTecnicoRevisor,

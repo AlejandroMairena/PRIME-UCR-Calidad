@@ -10,8 +10,8 @@ namespace PRIME_UCR.Components.Controls
         [Parameter] public TEnum CurrentTab { get; set; }
         [Parameter] public string TabName { get; set; }
         [Parameter] public EventCallback<TEnum> OnTabSetCallback { get; set; }
-
         [Parameter] public string Icon { get; set; }
+        [Parameter] public string TooltipText { get; set; } = "Campo pendiente";
 
         async Task OnTabSet()
         {

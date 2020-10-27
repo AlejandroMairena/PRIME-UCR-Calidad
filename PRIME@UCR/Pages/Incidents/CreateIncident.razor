@@ -2,8 +2,9 @@
 @using PRIME_UCR.Components.Controls
 @attribute [Authorize]
 
-<h1>Crear incidente</h1>
-<Loading IsLoading="_modes == null">
+<div class="jumbotron white-panel">
+    <h1>Crear incidente</h1>
+    <Loading IsLoading="_modes == null">
     <div class="col-lg-6 col-md-8">
         <EditForm EditContext="_context" OnValidSubmit="@Create">
             <FluentValidationValidator/>
@@ -11,7 +12,9 @@
                           TextProperty="Tipo"
                           DefaultText="Seleccione una modalidad de traslado"/>
             <DateTimePicker @bind-Value="@_model.EstimatedDateOfTransfer"
-                             DateLabel="Fecha estimada de traslado" TimeLabel="Hora estimada de traslado"/>
+                             Min="DateTime.Now"
+                             DateLabel="Fecha estimada de traslado"
+                             TimeLabel="Hora estimada de traslado"/>
             @if (isFormValid)
             {
                 <button type="submit" class="btn btn-primary">Crear</button>
@@ -22,5 +25,6 @@
             }
         </EditForm>
     </div>
-</Loading>
+    </Loading>
+</div>
 <br/>

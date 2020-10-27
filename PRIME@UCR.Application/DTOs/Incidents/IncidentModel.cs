@@ -9,7 +9,7 @@ namespace PRIME_UCR.Application.Dtos.Incidents
     public class IncidentModel
     {
         public Modalidad Mode { get; set; }
-        public DateTime EstimatedDateOfTransfer { get; set; }
+        public DateTime? EstimatedDateOfTransfer { get; set; }
 
     }
 }

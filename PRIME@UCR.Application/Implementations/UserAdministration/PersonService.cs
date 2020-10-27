@@ -39,7 +39,7 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
             personModel.Name = registerUserModel.Name;
             personModel.FirstLastName = registerUserModel.FirstLastName;
             personModel.SecondLastName = registerUserModel.SecondLastName;
-            personModel.Sex = registerUserModel.Sex;
+            personModel.Sex = registerUserModel.Sex.ToString();
             personModel.BirthDate = registerUserModel.BirthDate;
             personModel.PrimaryPhoneNumber = registerUserModel.PrimaryPhoneNumber;
             personModel.SecondaryPhoneNumber = registerUserModel.SecondaryPhoneNumber;

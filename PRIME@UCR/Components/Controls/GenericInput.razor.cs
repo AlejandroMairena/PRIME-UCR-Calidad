@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
@@ -8,11 +9,9 @@ namespace PRIME_UCR.Components.Controls
     public partial class GenericInput<TValue>
     {
         [Parameter] public string Label { get; set; }
-        
-        //If true a red * will appear next to the lable
-        [Parameter] public bool IsRequired { get; set; }
-
-        protected string _type = "text";
+        [Parameter] public bool Disabled { get; set; }
+        [Parameter] public bool Required { get; set; } = true;
+        [Parameter] public string Type { get; set; } = "text";
 
         public string ValidationCssClass => ValidationUtils.ToBootstrapValidationCss(CssClass);
 

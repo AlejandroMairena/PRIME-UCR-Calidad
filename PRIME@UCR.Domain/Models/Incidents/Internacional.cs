@@ -4,5 +4,6 @@
     {
         public string NombrePais { get; set; }
         public Pais Pais { get; set; }
+        public override string DisplayName => "Internacional";
     }
 }

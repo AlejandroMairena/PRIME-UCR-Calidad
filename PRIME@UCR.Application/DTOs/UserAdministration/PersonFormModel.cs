@@ -14,9 +14,9 @@ namespace PRIME_UCR.Application.DTOs.UserAdministration
 
         public string? SecondLastName { get; set; }
 
-        public char? Sex { get; set; }
+        public string Sex { get; set; }
 
-        public DateTime BirthDate { get; set; }
+        public DateTime? BirthDate { get; set; }
 
         public string PrimaryPhoneNumber { get; set; }
 

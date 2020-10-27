@@ -26,7 +26,7 @@ namespace PRIME_UCR.Components
 
         private string showCheckList = "show";
 
-        private string incidentUrl = "incidents/create";
+        private string incidentUrl = "incidents";
         private string checklistUrl = "checklist";
         private string dashboardUrl = "dashboard";
         private string usersUrl = "user_administration/profiles";
