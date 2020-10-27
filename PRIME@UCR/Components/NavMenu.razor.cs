@@ -29,7 +29,7 @@ namespace PRIME_UCR.Components
         private string incidentUrl = "incidents/create";
         private string checklistUrl = "checklist";
         private string dashboardUrl = "dashboard";
-        private string usersUrl = "user_administration";
+        private string usersUrl = "user_administration/profiles";
         private string recordsUrl = "medical_records";
 
         protected string GetUrl()

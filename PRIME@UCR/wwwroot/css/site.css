@@ -39,6 +39,15 @@ a, .btn-link {
         background: #303030;
     }
 
+.btn-disabled {
+    background: #676766;
+    height: 100%;
+    opacity: 0.5;
+    margin-top: 0;
+    z-index: 2;
+    position: relative;
+}
+
 
 app {
     display: flex;
@@ -127,6 +136,10 @@ app {
                 background-color:transparent;
                 color: grey;
             }
+
+.required-star {
+    color:red;
+}
 
 a.disable {
     color:gray;

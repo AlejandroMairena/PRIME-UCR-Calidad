@@ -70,6 +70,10 @@ namespace PRIME_UCR.Components.UserAdministration
                 Value.UserLists.Add(user.Usuario);
             }
             // setting the checkboxes of the permissions and users corresponding to the selected profile to true
+            if (Value.CheckedPermissions != null)
+            {
+                Value.CheckedPermissions.Clear();
+            }
             Value.CheckedPermissions = new List<bool>();
             var permisssionsList = (await permissionsService.GetPermisos()).ToList();
             foreach (var permission in permisssionsList)
@@ -77,7 +81,10 @@ namespace PRIME_UCR.Components.UserAdministration
                 var permissionChecked = Value.PermissionsList.Find(p => permission.IDPermiso == p.IDPermiso) == null ? false : true;
                 Value.CheckedPermissions.Add(permissionChecked);
             }
-
+            if (Value.CheckedUsers != null)
+            {
+                Value.CheckedUsers.Clear();
+            }
             Value.CheckedUsers = new List<Tuple<string, bool>>();
             var usersList = (await userService.GetUsuarios()).ToList();
             foreach(var user in usersList)

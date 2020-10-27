@@ -5,10 +5,15 @@
     @if (!String.IsNullOrEmpty(Label))
     {
         <label>@Label</label>
+        @if (IsRequired)
+        {
+            <span class="required-star">*</span>
+        }
     }
     <input class="@($"form-control {ValidationCssClass}")"
            value="@Value"
            type="@_type"
            @oninput="OnChangeEvent"/>
+    
     <ValidationMessage For="ValueExpression" />
 </div>

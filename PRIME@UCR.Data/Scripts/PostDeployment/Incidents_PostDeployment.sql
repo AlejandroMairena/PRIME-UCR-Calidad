@@ -260,18 +260,18 @@ VALUES
 -- Centro_Ubicacion
 INSERT INTO Centro_Ubicacion (Id, IdCentro, NumeroCama, CédulaMédico)
 VALUES 
-    (6, 1, 15, '56789012'),
-    (7, 2, 6, '56789012'),
-    (8, 3, 12, '67890123'),
-    (9, 4, 25, '67890123');
+    (6, 1, 15, '89012345'),
+    (7, 2, 6,  '89012345'),
+    (8, 3, 12, '22222222'),
+    (9, 4, 25, '22222222');
 
 -- Trabaja_En
 INSERT INTO Trabaja_En(CédulaMédico, CentroMedicoId)
 VALUES
-    ('56789012', 1),
-    ('56789012', 2),
-    ('67890123', 3),
-    ('67890123', 4);
+    ('89012345', 1),
+    ('89012345', 2),
+    ('22222222', 3),
+    ('22222222', 4);
 
 -- Modalidad 
 INSERT INTO Modalidad (Tipo)
@@ -293,7 +293,7 @@ INSERT INTO Incidente (MatriculaTrans, IdEspecialista, CedulaAdmin,
     Modalidad)
 VALUES
     ('BPC087', 123, '11111111', 117222222, 1173333333, 1, 1, NULL, 'Terrestre'),
-    ('PHP999', 456, '22222222', 117112222, 1171133333, 2, 2, NULL, 'Aéreo');
+    ('PHP999', 456, '90123456', 117112222, 1171133333, 2, 2, NULL, 'Aéreo');
 
 -- Estado
 INSERT INTO Estado
