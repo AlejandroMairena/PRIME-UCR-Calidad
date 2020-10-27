@@ -127,6 +127,7 @@
     <Build Include="StoredProcedures\UserAdministration\InsertPermissionToProfile.sql" />
     <Build Include="StoredProcedures\UserAdministration\InsertUserToProfile.sql" />
     <Build Include="Triggers\InsertarPerfil.sql" />
+    <Build Include="Triggers\DeletePerfil.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Scripts\Script.PostDeployment.sql" />

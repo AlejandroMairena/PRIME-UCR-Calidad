@@ -66,32 +66,31 @@ VALUES
     ('e8b07151-040d-4b2c-95dd-03314508c40f','11111111'),
     ('95b3d7ae-03ff-4b50-af8b-0e1582750640','90123456');
     
-    
-INSERT INTO Funcionario (Cédula)
-VALUES ('12345678'),
-       ('23456789'),
-       ('34567890'),
-       ('45678901'),
-       ('56789012'),
-       ('67890123'),
-       ('78901234'),
-       ('89012345'),
-       ('90123456'),
-       ('01234567'),
-       ('11111111'),
-       ('22222222');
+--INSERT INTO Funcionario (Cédula)
+--VALUES ('12345678'),
+--       ('23456789'),
+--       ('34567890'),
+--       ('45678901'),
+--       ('56789012'),
+--       ('67890123'),
+--       ('78901234'),
+--       ('89012345'),
+--       ('90123456'),
+--       ('01234567'),
+--       ('11111111'),
+--       ('22222222');
 
-INSERT INTO Médico(Cédula)
-VALUES ('56789012'),
-       ('67890123');
+--INSERT INTO Médico(Cédula)
+--VALUES ('56789012'),
+--       ('67890123');
 
-INSERT INTO Administrador(Cédula)
-VALUES ('12345678'),
-       ('23456789');
+--INSERT INTO Administrador(Cédula)
+--VALUES ('12345678'),
+--       ('23456789');
 
-INSERT INTO AdministradorCentroDeControl(Cédula)
-VALUES ('11111111'),
-       ('22222222');
+--INSERT INTO AdministradorCentroDeControl(Cédula)
+--VALUES ('11111111'),
+--       ('22222222');
        
 INSERT INTO Permiso (IdPermiso, Descripción_Permiso)
 VALUES
@@ -155,10 +154,9 @@ VALUES  (1,'Administrador'),
         (19,'Administrador de la central de control'),
         (20,'Administrador de la central de control'),
         (21,'Administrador de la central de control');
-
-        
+ 
 INSERT INTO Pertenece(IdUsuario, NombrePerfil)
-VALUES ('a6f7aa70-a038-419f-9945-7c77b093d58f', 'Administrador'),
+VALUES ('a6f7aa70-a038-419f-9945-7c77b093d58f','Administrador'),
        ('e5cb3edd-44c2-45bd-bd03-a35a4bca66fa','Administrador'),
        ('312e5edf-cf52-4dac-a4c9-1565cb73e13e','Especialista técnico médico'),
        ('5c14b733-ae39-42da-aa31-3eccf37ae33f','Especialista técnico médico'),
@@ -170,4 +168,3 @@ VALUES ('a6f7aa70-a038-419f-9945-7c77b093d58f', 'Administrador'),
        ('df025dd6-57c9-4c3e-8ae2-e319080ca07b','Coordinador técnico médico'),
        ('e8b07151-040d-4b2c-95dd-03314508c40f','Administrador de la central de control'),
        ('95b3d7ae-03ff-4b50-af8b-0e1582750640','Administrador de la central de control');
-       

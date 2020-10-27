@@ -1,13 +1,13 @@
-﻿CREATE TRIGGER [InsertarPerfil] ON [dbo].[Pertenece]
-AFTER INSERT
+﻿CREATE TRIGGER [BorrarPerfil] ON [dbo].[Pertenece]
+AFTER DELETE
 AS
 BEGIN
 	DECLARE  @IdUsuario NVARCHAR(450),
 		     @NombrePerfil NVARCHAR(60);
 	
 	DECLARE ptr CURSOR FOR 
-		SELECT i.IdUsuario, i.NombrePerfil 
-		FROM inserted as i;
+		SELECT d.IdUsuario, d.NombrePerfil 
+		FROM deleted as d;
 
 	OPEN ptr
 
@@ -17,38 +17,30 @@ BEGIN
 		 SELECT @cedula = p.Cédula
 		 FROM Usuario as u JOIN Persona as p on u.CédulaPersona = p.Cédula
 		 WHERE u.Id = @IdUsuario
-
-		 DECLARE @amount INT 
-		 SELECT @amount = COUNT(*)
-			FROM Funcionario as f
-			WHERE f.Cédula = @cedula
-		 IF @amount = 0
+		
+		IF @NombrePerfil = 'Administrador'
 		 BEGIN
-			INSERT INTO Funcionario VALUES (@cedula)
-		 END
-		 IF @NombrePerfil = 'Administrador'
-		 BEGIN
-			INSERT INTO Administrador VALUES (@cedula)
+			DELETE FROM Administrador WHERE Cédula = @cedula
 		 END
 		 IF @NombrePerfil = 'Especialista técnico médico'
 		 BEGIN
-			INSERT INTO EspecialistaTécnicoMédico VALUES (@cedula)
+			DELETE FROM EspecialistaTécnicoMédico WHERE Cédula = @cedula
 		 END
 		 IF @NombrePerfil = 'Médico'
 		 BEGIN
-			INSERT INTO Médico VALUES (@cedula)
+			DELETE FROM Médico WHERE Cédula = @cedula
 		 END
 		 IF @NombrePerfil = 'Gerente médico'
 		 BEGIN
-			INSERT INTO GerenteMédico VALUES (@cedula)
+			DELETE FROM GerenteMédico WHERE Cédula = @cedula
 		 END
 		 IF @NombrePerfil = 'Coordinador técnico médico'
 		 BEGIN
-			INSERT INTO CoordinadorTécnicoMédico VALUES (@cedula)
+			DELETE FROM CoordinadorTécnicoMédico WHERE Cédula = @cedula
 		 END
 		 IF @NombrePerfil = 'Administrador de la central de control'
 		 BEGIN
-			INSERT INTO AdministradorCentroDeControl VALUES (@cedula)
+			DELETE FROM AdministradorCentroDeControl WHERE Cédula = @cedula
 		 END
 		 FETCH NEXT FROM ptr INTO @IdUsuario, @NombrePerfil
 	END
