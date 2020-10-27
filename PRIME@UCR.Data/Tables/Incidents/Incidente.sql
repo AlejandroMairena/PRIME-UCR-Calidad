@@ -10,7 +10,7 @@
     IdDestino                INT          NULL,
     Modalidad                VARCHAR(30)  NOT NULL,
     PRIMARY KEY (Codigo),
-    FOREIGN KEY (CedulaAdmin) REFERENCES AdministradorCentroDeControl(Cédula),
+    FOREIGN KEY (CedulaAdmin) REFERENCES Persona(Cédula),
     FOREIGN KEY (CedulaTecnicoCoordinador) REFERENCES CoordinadorTécnicoMédico(Cédula),
     FOREIGN KEY (CedulaRevisor) REFERENCES Persona(Cédula),
     FOREIGN KEY (Modalidad) REFERENCES Modalidad (Tipo),

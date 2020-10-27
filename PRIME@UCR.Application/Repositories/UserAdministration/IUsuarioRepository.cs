@@ -9,6 +9,8 @@ namespace PRIME_UCR.Application.Repositories.UserAdministration
     public interface IUsuarioRepository : IGenericRepository<Usuario, string>
     {
         Task<Usuario> GetWithDetailsAsync(string id);
+
+        Task<List<Usuario>> GetAllUsersWithDetailsAsync();
     }
 
 

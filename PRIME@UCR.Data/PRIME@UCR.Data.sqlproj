@@ -70,6 +70,7 @@
     <Folder Include="Tables\Appointments" />
     <Folder Include="Tables\MedicalRecords" />
     <Folder Include="StoredProcedures\UserAdministration" />
+    <Folder Include="StoredProcedures\CheckLists" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\CheckLists\CheckList.sql" />
@@ -128,6 +129,10 @@
     <Build Include="StoredProcedures\UserAdministration\DeleteUserFromProfile.sql" />
     <Build Include="StoredProcedures\UserAdministration\InsertPermissionToProfile.sql" />
     <Build Include="StoredProcedures\UserAdministration\InsertUserToProfile.sql" />
+    <Build Include="StoredProcedures\CheckLists\InsertarListaChequeo.sql" />
+    <Build Include="StoredProcedures\CheckLists\InsertarItemEnListaDeChequeo.sql" />
+    <Build Include="Triggers\InsertarPerfil.sql" />
+    <Build Include="Triggers\DeletePerfil.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Scripts\Script.PostDeployment.sql" />

@@ -77,6 +77,10 @@ namespace PRIME_UCR.Pages.CheckLists
          * */
         protected async Task AddCheckList(CheckList tempList)
         {
+            if (tempList.ImagenDescriptiva == null)
+            {
+                tempList.ImagenDescriptiva = "/images/defaultCheckList.svg";
+            }
             await MyService.InsertCheckList(tempList);
             await RefreshModels();
         }

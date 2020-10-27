@@ -116,8 +116,11 @@ a:hover#a_LC4.nav-link {
 }
 
 /*View all checklist created*/
-.container#contAll_LC{
+.container#contAll_LC {
     padding-top: 16px;
+    background: white;
+    border-radius: 5px;
+    padding-bottom: 16px;
 }
 
 .col-lg-3.mb-4#colALL_LC {
@@ -143,12 +146,24 @@ button#BP_LC6.btn.btn-primary {
 button:hover#BP_LC6.btn.btn-primary {
     border-color: #676766;
 }
-
+/* boby, have items and subitems from a checklist */
 #Body_LC {
-    background: white;
+    background: #E6E6E6;
     padding: 10px;
     border-radius: 5px;
     position: relative;
+    border-color: black;
+    border: 0px;
+    border-style: solid;
+}
+/*Create items and subitems*/
+#Create_I-SI_LC {
+    background: transparent;
+    padding: 10px;
+    border-radius: 5px;
+    position: relative;
+    border: darkgrey 1px;
+    border-style: solid;
 }
 
 /* Modify checklist*/
@@ -201,7 +216,7 @@ textarea#checklistDescription {
 
 /*definition of a single checklist*/
 #def_LC {
-    background: lightgrey;
+    background: white;
     border-radius: 5px;
     padding-bottom: 10px;
     padding-left: 10px;
@@ -258,4 +273,9 @@ button#Menu_LC { /*.btn.btn-primary*/
     margin: 0;
     transform: translate3d(-110px, 56px, 0px);
     will-change: transform;
+}
+
+/* button of image in checklist definition*/
+button.none#BN_LC {
+    border: 0px;
 }

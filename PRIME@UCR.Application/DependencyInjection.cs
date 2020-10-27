@@ -45,6 +45,7 @@ namespace PRIME_UCR.Application
             services.AddTransient<IPersonService, PersonService>();
             services.AddTransient<IPatientService, PatientService>();
             services.AddTransient<IDoctorService, DoctorService>();
+            services.AddTransient<INumeroTelefonoService, NumeroTelefonoService>();
             services.AddTransient<IAssignmentService, AssignmentService>();
             services.AddTransient<IAppointmentService, AppointmentService>();
             
