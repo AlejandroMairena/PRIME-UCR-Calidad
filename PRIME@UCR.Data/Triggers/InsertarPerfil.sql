@@ -1,7 +1,7 @@
 ﻿
 CREATE TRIGGER [InsertarPerfil]
 	ON [dbo].[Pertenece]
-	INSTEAD OF INSERT
+	AFTER INSERT
 	AS
 	BEGIN
 		SET NOCOUNT ON
@@ -41,9 +41,6 @@ CREATE TRIGGER [InsertarPerfil]
 		BEGIN
 			BEGIN TRANSACTION;		
 			
-			SELECT REPLACE(@NombrePerfil, ' ', '')
-
-			
 
 			IF @NombrePerfil = 'Administrador'
 			BEGIN
@@ -55,22 +52,22 @@ CREATE TRIGGER [InsertarPerfil]
 				INSERT INTO Médico (Cédula)VALUES (@cedula)
 			END
 
-			ELSE IF @NombrePerfil = 'Gerentemédico'
+			ELSE IF @NombrePerfil = 'Gerente médico'
 			BEGIN
 				INSERT INTO GerenteMédico (Cédula)VALUES (@cedula)
 			END
 
-			ELSE IF @NombrePerfil = 'Especialistatécnicomédico'
+			ELSE IF @NombrePerfil = 'Especialista técnico médico'
 			BEGIN
 				INSERT INTO EspecialistaTécnicoMédico (Cédula)VALUES (@cedula)
 			END
 
-			ELSE IF @NombrePerfil = 'Coordinadortécnicomédico'
+			ELSE IF @NombrePerfil = 'Coordinador técnico médico'
 			BEGIN
 				INSERT INTO CoordinadorTécnicoMédico (Cédula)VALUES (@cedula)
 			END
 
-			ELSE IF @NombrePerfil = 'Administradordelacentraldecontrol'
+			ELSE IF @NombrePerfil = 'Administrador de la central de control'
 			BEGIN
 				INSERT INTO AdministradorCentroDeControl(Cédula)VALUES (@cedula)
 			END
@@ -86,3 +83,4 @@ CREATE TRIGGER [InsertarPerfil]
 		DEALLOCATE ptr
 	    
 	END
+	
