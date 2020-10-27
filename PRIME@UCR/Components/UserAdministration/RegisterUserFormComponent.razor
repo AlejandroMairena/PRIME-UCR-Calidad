@@ -5,27 +5,27 @@
 
         <div class="row">
             <div class="col-lg-3">
-                <TextInput Label="Número de cédula:" @bind-Value="Value.IdCardNumber" IsRequired="true" />
+                <TextInput Label="Número de cédula" @bind-Value="Value.IdCardNumber" IsRequired="true" />
             </div>
         </div>
 
         <div class="row">
             <div class="col-lg-3">
-                <TextInput Label="Nombre:" @bind-Value="Value.Name" IsRequired="true" />
+                <TextInput Label="Nombre" @bind-Value="Value.Name" IsRequired="true" />
             </div>
         </div>
         <div class="row">
             <div class="col-lg-3">
-                <TextInput Label="Primer apellido:" @bind-Value="Value.FirstLastName" IsRequired="true" />
+                <TextInput Label="Primer apellido" @bind-Value="Value.FirstLastName" IsRequired="true" />
             </div>
             <div class="col-lg-3">
-                <TextInput Label="Segundo apellido:" @bind-Value="Value.SecondLastName" />
+                <TextInput Label="Segundo apellido" @bind-Value="Value.SecondLastName" />
             </div>
         </div>
 
         @*<DateTimePicker DateLabel="Fecha nacimiento:" @bind-Value="Value.BirthDate"  />*@
 
-        <label>Sexo:</label>
+        <label>Sexo</label>
         <br />
         <form>
             <label class="radio-inline">
@@ -50,17 +50,17 @@
         <h4>Información de contacto</h4>
 
         <div class="row" >
-            <div class="col-lg-4">
+            <div class="col-lg-5">
                 <TextInput Label="Correo electrónico" @bind-Value="Value.Email" IsRequired="true" />
             </div>
         </div>
 
         <div class="row">
             <div class="col-lg-3">
-                <TextInput Label="Número de teléfono primario:" @bind-Value="Value.PrimaryPhoneNumber" IsRequired="true" />
+                <TextInput Label="Número telefónico" @bind-Value="Value.PrimaryPhoneNumber" IsRequired="true" />
             </div>
             <div class="col-lg-3">
-                <TextInput Label="Número de teléfono secundario:" @bind-Value="Value.SecondaryPhoneNumber" />
+                <TextInput Label="Número secundario" @bind-Value="Value.SecondaryPhoneNumber" />
             </div>
         </div>
 
