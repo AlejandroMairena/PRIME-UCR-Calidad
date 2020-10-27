@@ -31,9 +31,12 @@ namespace PRIME_UCR.Pages.UserAdministration
 
         public RegisterUserFormModel infoOfUserToRegister;
 
+        private bool isBusy;
+
         protected override void OnInitialized()
         {
             infoOfUserToRegister = new RegisterUserFormModel();
+            isBusy = false;
         }
 
         /**
@@ -41,6 +44,8 @@ namespace PRIME_UCR.Pages.UserAdministration
          */
         private async void RegisterUserInDB()
         {
+            isBusy = true;
+            StateHasChanged();
             var personModel = personService.GetPersonModelFromRegisterModel(infoOfUserToRegister);
             var existPersonInDB = (await personService.GetPersonByIdAsync(personModel.IdCardNumber)) == null ? false : true;
             if (!existPersonInDB)
@@ -64,29 +69,21 @@ namespace PRIME_UCR.Pages.UserAdministration
 
                     var user = (await userService.GetUsuarios()).ToList().Find(u => u.Email == userModel.Email);
 
-                    /*Aqui va la parte de registrar el perfil*/
-                    /*ELIAN*/
-
-                    /*Inserting profiles for the user*/
-                    //System.Diagnostics.Debug.WriteLine( user.Id);
-
                     foreach (String profileName in infoOfUserToRegister.Profiles)
                     {
                         await perteneceService.InsertUserOfProfileAsync(user.Id, profileName);
-                        //System.Diagnostics.Debug.WriteLine(profileName);
                     }
-
+                    infoOfUserToRegister = new RegisterUserFormModel();
                     statusMessage = "El usuario indicado se ha registrado en la aplicación.";
                     messageType = "success";
                 }
-                StateHasChanged();
             } else
             {
                 statusMessage = "El usuario indicado ya forma parte de la aplicación.";
                 messageType = "danger";
-                StateHasChanged();
             }
-
+            isBusy = false;
+            StateHasChanged();
         }
     }
 }

@@ -88,13 +88,13 @@ padding-right: 20px;
     width: 50px;
     height: auto;
 }
-.btn-secondary {
+/*.btn-secondary {
     background-color: #095290;
 }
     .btn-secondary:hover {
         background-color: #00c0f3;
         border-color: #00c0f3;
-    }
+    }*/
 .ver_link {
     color: white;
     text-decoration: none;

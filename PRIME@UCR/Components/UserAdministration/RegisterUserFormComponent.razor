@@ -25,7 +25,7 @@
 
         <div class="row">
             <div class="col-lg-2">
-                <DatePicker Label="Fecha nacimiento" @bind-Value="Value.BirthDate" Min="@DateTime.Today.AddYears(120)" Max="@DateTime.Today"
+                <DatePicker Label="Fecha nacimiento" @bind-Value="Value.BirthDate" Min="@DateTime.Today.AddYears(-120)" Max="@DateTime.Today"
                             Required="false"/>
             </div>
         </div>

@@ -18,7 +18,18 @@
 
     <RegisterUserFormComponent Value="infoOfUserToRegister" />
 
-    <ProfileSelectionComponent Value=" infoOfUserToRegister"/>
+    <ProfileSelectionComponent Value=" infoOfUserToRegister" />
 
-    <button type="submit" class="btn btn-primary mt-4 mb-4">Registrar usuario</button>
-</EditForm>
+    @if (isBusy) // Loading button
+    {
+        <button class="btn btn-primary width:13em mt-4 mb-4" type="button">
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            Validando información
+        </button>
+    }
+    else
+    {
+        <button type="submit" class="btn btn-primary mt-4 mb-4 text-center" style="width:13em">Registrar usuario</button>
+    }
+
+    </EditForm>
