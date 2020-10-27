@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using PRIME_UCR.Domain.Models.MedicalRecords;
+using PRIME_UCR.Domain.Models.UserAdministration;
 using PRIME_UCR.Application.DTOs.MedicalRecords;
+using PRIME_UCR.Domain.Models;
 
 namespace PRIME_UCR.Application.Services.MedicalRecords
 {
@@ -15,11 +17,15 @@ namespace PRIME_UCR.Application.Services.MedicalRecords
 
         Task<IEnumerable<Expediente>> GeyByConditionAsync(string name);
 
-        Task<Expediente> InsertAsync(Expediente expediente); 
+        Task<Expediente> InsertAsync(Expediente expediente);
 
         Task<Expediente> CreateMedicalRecordAsync(Expediente entity);
-        Task<Expediente> GetByIdAsync(int id);
 
-        Task<RecordViewModel> GetIncidentDetailsAsync(int id);
+        Task<IEnumerable<Paciente>> GetPatients();
+
+        Task<IEnumerable<Funcionario>> GetMedics();
+        Task<RecordViewModel> GetIncidentDetailsAsync(int identification);
+
+        Task<IEnumerable<Incidente>> GetMedicalRecordIncidents(int recordId);
     }
 }

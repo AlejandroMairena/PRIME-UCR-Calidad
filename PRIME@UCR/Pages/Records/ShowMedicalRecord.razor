@@ -1,12 +1,12 @@
 ﻿@page "/show-medical-record"
-@using PRIME_UCR.Domain.Models.MedicalRecords 
+@using PRIME_UCR.Domain.Models.MedicalRecords
 @inject PRIME_UCR.Application.Services.MedicalRecords.IMedicalRecordService medical_record_service
 
 <h3>Lista Expedientes Medicos</h3>
 
 <style>
     body {
-        background-color:white;
+        background-color: white;
     }
 </style>
 
@@ -17,7 +17,7 @@
 
 <PaginationBox SetRecordsPerPage="set_records_per_page" RecordsPerPage="amount_records"></PaginationBox>
 
-
+<br />
 <table class="table table-hover wrapper_table">
     <thead>
         <tr>
@@ -32,54 +32,54 @@
     <tbody>
         @for (int expediente = start_show_record; expediente < end_show_record; ++expediente)
         {
-        <tr style="transform: rotate(0);">
-            <th scope="row"><a href="#" class="stretched-link">@medical_records[expediente].Id</a></th>
+            <tr style="transform: rotate(0);">
+                <th scope="row"><a href="@get_record_link(medical_records[expediente].Id)" class="stretched-link">@medical_records[expediente].Id</a></th>
 
-            @if (medical_records[expediente].CedulaPaciente != null)
-            {
-                <td align="left">@medical_records[expediente].CedulaPaciente</td>
+                @if (medical_records[expediente].CedulaPaciente != null)
+                {
+                    <td align="left">@medical_records[expediente].CedulaPaciente</td>
 
-            }
-            else
-            {
-                <td align="left">------</td>
-                //<th scope="row"><a href="#" class="stretched-link">------</a></th>
-            }
+                }
+                else
+                {
+                    <td align="left">------</td>
+                    //<th scope="row"><a href="#" class="stretched-link">------</a></th>
+                }
 
-            @if (medical_records[expediente].Paciente != null && medical_records[expediente].Paciente.Nombre != null)
-            {
-                <td align="left">@medical_records[expediente].Paciente.Nombre</td>
+                @if (medical_records[expediente].Paciente != null && medical_records[expediente].Paciente.Nombre != null)
+                {
+                    <td align="left">@medical_records[expediente].Paciente.Nombre</td>
 
-            }
-            else
-            {
-                <td align="left">------</td>
-                //<th scope="row"><a href="#" class="stretched-link">------</a></th>
-            }
+                }
+                else
+                {
+                    <td align="left">------</td>
+                    //<th scope="row"><a href="#" class="stretched-link">------</a></th>
+                }
 
 
-            @if (medical_records[expediente].Paciente != null && medical_records[expediente].Paciente.PrimerApellido != null)
-            {
-                <td align="left">@medical_records[expediente].Paciente.PrimerApellido</td>
+                @if (medical_records[expediente].Paciente != null && medical_records[expediente].Paciente.PrimerApellido != null)
+                {
+                    <td align="left">@medical_records[expediente].Paciente.PrimerApellido</td>
 
-            }
-            else
-            {
-                <td align="left">------</td>
-                //<th scope="row"><a href="#" class="stretched-link">------</a></th>
-            }
+                }
+                else
+                {
+                    <td align="left">------</td>
+                    //<th scope="row"><a href="#" class="stretched-link">------</a></th>
+                }
 
-            @if (medical_records[expediente].Paciente != null && medical_records[expediente].Paciente.SegundoApellido != null)
-            {
-                <td align="left">@medical_records[expediente].Paciente.SegundoApellido</td>
+                @if (medical_records[expediente].Paciente != null && medical_records[expediente].Paciente.SegundoApellido != null)
+                {
+                    <td align="left">@medical_records[expediente].Paciente.SegundoApellido</td>
 
-            }
-            else
-            {
-                <td align="left">------</td>
-                //<th scope="row"><a href="#" class="stretched-link">------</a></th>
-            }
-        </tr>
+                }
+                else
+                {
+                    <td align="left">------</td>
+                    //<th scope="row"><a href="#" class="stretched-link">------</a></th>
+                }
+            </tr>
 
         }
     </tbody>
@@ -116,9 +116,13 @@
     //this is the end of the index of the "medical records resources"
     public int end_show_record { get; set; }
 
+    public string get_record_link(int recordId)
+    {
+        return $"/medicalrecord/{recordId}";
+    }
 
-
-    private async Task set_records_per_page(int amount_records) {
+    private async Task set_records_per_page(int amount_records)
+    {
 
         start_values(amount_records);
     }
@@ -184,12 +188,14 @@
     }
 
 
-    protected override async Task OnInitializedAsync() {
+    protected override async Task OnInitializedAsync()
+    {
 
         await get_records();
     }
 
-    private async Task get_records() {
+    private async Task get_records()
+    {
 
         IEnumerable<Expediente> records = await medical_record_service.GetAllAsync();
         medical_records = records.ToList();
@@ -200,7 +206,7 @@
     private void start_values(int sub_group_range)
     {
         current_page = 1;
-        start_show_record = 0; 
+        start_show_record = 0;
 
         total_elements = medical_records.Count;
 
@@ -210,7 +216,8 @@
 
         end_show_record = start_show_record + sub_group_range;
 
-        if (total_elements < radius) {
+        if (total_elements < radius)
+        {
             radius = 0;
         }
 

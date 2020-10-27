@@ -3,10 +3,13 @@ using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using PRIME_UCR.Application.DTOs.MedicalRecords;
+using PRIME_UCR.Application.Repositories.Incidents;
 using PRIME_UCR.Application.Repositories.MedicalRecords;
 using PRIME_UCR.Application.Repositories.UserAdministration;
 using PRIME_UCR.Application.Services.MedicalRecords;
+using PRIME_UCR.Domain.Models;
 using PRIME_UCR.Domain.Models.MedicalRecords;
+using PRIME_UCR.Domain.Models.UserAdministration;
 
 namespace PRIME_UCR.Application.Implementations.MedicalRecords
 {
@@ -14,20 +17,27 @@ namespace PRIME_UCR.Application.Implementations.MedicalRecords
     {
         private readonly IMedicalRecordRepository _repo;
         private readonly IPersonaRepository _personRepo;
+        private readonly IPacienteRepository _patientrepo;
+        private readonly IFuncionarioRepository _medicrepo;
+        private readonly IIncidentRepository _incidentrepo;
 
-        public MedicalRecordService(IMedicalRecordRepository repo, IPersonaRepository repoPersona )
+        public MedicalRecordService(IMedicalRecordRepository repo, IPersonaRepository personRepo, IPacienteRepository repo1, IFuncionarioRepository repo2, IIncidentRepository incidentrepo)
         {
             _repo = repo;
-            _personRepo = repoPersona;
+            _personRepo = personRepo;
+            _patientrepo = repo1;
+            _medicrepo = repo2;
+            _incidentrepo = incidentrepo;
         }
 
-        public async Task<IEnumerable<Expediente>> GeyByConditionAsync(string name) {
+        public async Task<IEnumerable<Expediente>> GeyByConditionAsync(string name)
+        {
 
             string patient_name = "";
             string lastname1 = "";
             string lastname2 = "";
 
-            int index_names = 0; 
+            int index_names = 0;
 
             int identification;
 
@@ -36,8 +46,10 @@ namespace PRIME_UCR.Application.Implementations.MedicalRecords
             {
                 return await _repo.GetByConditionAsync(_repo => _repo.Paciente.Cédula.Contains(name));
             }
-            else {
-                for (int index = 0; index < name.Length; ++index) {
+            else
+            {
+                for (int index = 0; index < name.Length; ++index)
+                {
                     if (name[index] != ' ')
                     {
                         switch (index_names)
@@ -47,16 +59,17 @@ namespace PRIME_UCR.Application.Implementations.MedicalRecords
                                 break;
 
                             case 1:
-                                lastname1 += name[index]; 
+                                lastname1 += name[index];
                                 break;
 
                             case 2:
-                                lastname2 += name[index]; 
+                                lastname2 += name[index];
                                 break;
                         }
                     }
-                    else {
-                        ++index_names; 
+                    else
+                    {
+                        ++index_names;
                     }
                 }
 
@@ -65,31 +78,44 @@ namespace PRIME_UCR.Application.Implementations.MedicalRecords
                 {
                     return await _repo.GetByConditionAsync(_repo => _repo.Paciente.Nombre.Contains(name));
                 }
-                else {
+                else
+                {
                     if (index_names == 1)
                     {
-                        return await _repo.GetByNameAndLastnameAsync(patient_name, lastname1); 
+                        return await _repo.GetByNameAndLastnameAsync(patient_name, lastname1);
                     }
-                    else {
-                        return await _repo.GetByNameAndLastnameLastnameAsync(patient_name, lastname1, lastname2); 
+                    else
+                    {
+                        return await _repo.GetByNameAndLastnameLastnameAsync(patient_name, lastname1, lastname2);
                     }
                 }
             }
         }
 
-        public async Task<IEnumerable<Expediente>> GetAllAsync() {
-
+        public async Task<IEnumerable<Expediente>> GetAllAsync()
+        {
             return await _repo.GetRecordsWithPatientAsync(); 
-            //return await _repo.GetAllAsync(); 
+
         }
 
+
+        public async Task<IEnumerable<Paciente>> GetPatients()
+        {
+            return await _patientrepo.GetAllAsync();
+        }
+
+        public async Task<IEnumerable<Funcionario>> GetMedics()
+        {
+            return await _medicrepo.GetAllAsync();
+        }
 
         public async Task<Expediente> GetByPatientIdAsync(string id)
         {
             return await _repo.GetByPatientIdAsync(id);
         }
 
-        public async Task<Expediente> InsertAsync(Expediente expediente) {
+        public async Task<Expediente> InsertAsync(Expediente expediente)
+        {
 
             return await _repo.InsertAsync(expediente);
         }
@@ -103,6 +129,12 @@ namespace PRIME_UCR.Application.Implementations.MedicalRecords
         {
             return await _repo.GetByKeyAsync(id);
         }
+
+        public async Task<IEnumerable<Incidente>> GetMedicalRecordIncidents(int recordId)
+        {
+            return await _incidentrepo.GetByConditionAsync(i => i.Cita.IdExpediente == recordId);
+        }
+
 
         public async Task<RecordViewModel> GetIncidentDetailsAsync(int id)
         {
@@ -126,7 +158,7 @@ namespace PRIME_UCR.Application.Implementations.MedicalRecords
                     FechaCreacion = record.FechaCreacion,
                     Clinica = record.Clinica
 
-    };
+                };
 
                 return model;
             }
