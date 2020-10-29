@@ -4,6 +4,7 @@ using PRIME_UCR.Domain.Models;
 using PRIME_UCR.Infrastructure.DataProviders;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -43,6 +44,21 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Appointments
             _db.Actions.Add(action);
             await _db.SaveChangesAsync();
             return action;
+            //return await Task.Run(() =>
+            //{
+            //    // raw sql
+            //    using (var cmd = _db.DbConnection.CreateCommand())
+            //    {
+            //        if (cmd.Connection.State == ConnectionState.Closed)
+            //        {
+            //            cmd.Connection.Open();
+            //        }
+
+            //        cmd.CommandText = $"EXECUTE dbo.InsertarAccion {action.CitaId}, '{action.NombreAccion}', {action.MultContId}";
+            //    }
+
+            //    return action;
+            //});
         }
     }
 }

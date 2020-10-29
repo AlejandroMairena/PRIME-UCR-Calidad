@@ -9,5 +9,7 @@ namespace PRIME_UCR.Application.Repositories.UserAdministration
     public interface IPersonaRepository : IGenericRepository<Persona, string>
     {
         Task<Persona> GetByKeyPersonaAsync(string id);
+
+        Task<Persona> GetWithDetailsAsync(string id);
     }
 }

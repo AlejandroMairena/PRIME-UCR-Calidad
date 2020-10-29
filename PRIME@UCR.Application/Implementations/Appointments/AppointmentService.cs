@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using PRIME_UCR.Application.DTOs.Appointments;
 using PRIME_UCR.Application.Implementations.MedicalRecords;
 using PRIME_UCR.Application.Repositories.Appointments;
 using PRIME_UCR.Application.Repositories.MedicalRecords;
@@ -55,5 +56,10 @@ namespace PRIME_UCR.Application.Implementations.Appointments
 
             return record;
         }
+
+        /*public async Task<IEnumerable<AppointmentModel>> GetAppointmentListModelsAsync()
+        {
+            return await _actionTypeRepo.GetAllAsync();
+        }*/
     }
 }

@@ -9,9 +9,16 @@ Post-Deployment Script Template
                SELECT * FROM [$(TableName)]					
 --------------------------------------------------------------------------------------
 */
-:r .\PostDeployment\Users_PostDeployment.sql
-:r .\PostDeployment\Identity_PostDeployment.sql
-:r .\PostDeployment\Appointments_PostDeployment.sql
-:r .\PostDeployment\Incidents_PostDeployment.sql
-:r .\PostDeployment\Checklists_PostDeployment.sql
-:r .\PostDeployment\MedicalRecords_PostDeployment.sql
+
+
+INSERT INTO Expediente(CedulaPaciente, CedulaMedicoDuenno, FechaCreacion, Clinica)
+VALUES
+    ('12345678',NULL,'10/26/2020','clinica'),
+    ('23456789',NULL,'10/26/2020','clinica'),
+    ('34567890',NULL,'10/26/2020','clinica'),
+    ('45678901',NULL,'10/26/2020','clinica'),
+    ('56789012',NULL,'10/26/2020','clinica'),
+    ('67890123',NULL,'10/26/2020','clinica'),
+    ('78901234',NULL,'10/26/2020','clinica'),
+    ('89012345',NULL,'10/26/2020','clinica'),
+    ('90123456',NULL,'10/26/2020','clinica');

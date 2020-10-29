@@ -1,4 +1,5 @@
-﻿DELETE FROM EstadoIncidente
+﻿DELETE FROM AsignadoA
+DELETE FROM EstadoIncidente
 DELETE FROM Estado
 DELETE FROM Incidente
 DELETE FROM Unidad_De_Transporte
