@@ -172,8 +172,7 @@ else
                         <EditForm EditContext="@editContext" OnValidSubmit="@HandleValidSubmit">
                             <FluentValidationValidator />
                             @* Input for the name of the item *@
-                            <label for="name">Nombre<span style=" color:red">*</span></label>
-                            <TextBox id="name" @bind-Value="@tempItem.Nombre" />
+                            <TextBox Label="Nombre" id="name" @bind-Value="@tempItem.Nombre" IsRequired="true"/>
                             <br />
                             @* Input for the description of the item *@
                             <label for="description">Descripción</label>
@@ -183,7 +182,7 @@ else
                                 @* Input for the order of the item with a recommended value *@
                                 <div class="col-6">
                                     <label for="order">Orden<span style=" color:red">*</span></label>
-                                    <InputNumber id="order" @bind-Value="tempItem.Orden" class="form-control" />
+                                    <IntegerInput Label="" @bind-Value="tempItem.Orden" Min="0" IsRequired="true" />
                                 </div>
                             </div>
                             <br />
@@ -201,7 +200,14 @@ else
                             <p style="color:red">* Campo requerido</p>
 
                             <div align="center">
-                                <button type="submit" class="btn btn-primary" disabled="@formInvalid" id="BP_LC0">Guardar Item</button>
+                                @if (formInvalid)
+                                {
+                                    <button type="submit" class="btn btn-primary">Guardar Item</button>
+                                    }
+                                else
+                                {
+                                    <button type="submit" class="btn btn-secondary" disabled>Guardar item</button>
+                                    }
                                 <a class="btn btn-outline-secondary" @onclick="Dispose" id="a_LC3">Cancelar</a>
                             </div>
                         </EditForm>

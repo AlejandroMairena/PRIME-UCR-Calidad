@@ -42,7 +42,7 @@ namespace PRIME_UCR.Pages.CheckLists
 
         protected Item tempItem;
 
-        protected bool formInvalid = true;
+        protected bool formInvalid = false;
         protected EditContext editContext;
 
         [Inject] protected ICheckListService MyCheckListService { get; set; }
@@ -75,9 +75,10 @@ namespace PRIME_UCR.Pages.CheckLists
          * */
         protected void HandleFieldChanged(object sender, FieldChangedEventArgs e)
         {
-            if (tempItem.Nombre != null)
+            formInvalid = editContext.Validate();
+            if (formInvalid == true)
             {
-                formInvalid = !editContext.Validate();
+                StateHasChanged();
             }
         }
 
@@ -99,7 +100,7 @@ namespace PRIME_UCR.Pages.CheckLists
             }
             await MyCheckListService.InsertCheckListItem(item);
             createItem = false;
-            formInvalid = true;
+            formInvalid = false;
             await RefreshModels();
             StateHasChanged();
         }

@@ -45,8 +45,7 @@
             <EditForm EditContext="@editContext" OnValidSubmit="@HandleValidSubmit">
                 <FluentValidationValidator />
                 @* Input for the name of the checklist *@
-                <label for="Nombre">Nombre <span style=" color:red">*</span></label>
-                <TextBox Label="" @bind-Value="@checkList.Nombre" />
+                <TextBox Label="Nombre" @bind-Value="@checkList.Nombre" IsRequired="true" />
                 <br />
                 @* Input for the description of the checklist *@
                 <label for="description">Descripción </label>
@@ -57,15 +56,15 @@
                         @* Input for the type of the checklist with predefined options *@
                         <label for="Tipo">Tipo <span style=" color:red">*</span></label>
                         <DropDownMenu Label="" Data="_types" @bind-Value="checkList.Tipo"
-                                      DefaultText="Seleccione el tipo de la lista de chequeo" />
-                        <ValidationMessage For="@(() => checkList.Tipo)" />
+                                      DefaultText="Seleccione el tipo de la lista de chequeo" 
+                                      IsRequired="true" />
                     </div>
                     <div class="col-6">
                         @* Input for the order of the checklist with a recommended value *@
-                        <label for="order">Orden <span style=" color:red">*</span></label>
+                        <label for="Tipo">Orden <span style=" color:red">*</span></label>
                         <br />
                         <br />
-                        <InputNumber id="order" @bind-Value="checkList.Orden" class="form-control" />
+                        <IntegerInput Label="" @bind-Value="checkList.Orden" Min="0" IsRequired="true" />
                     </div>
                 </div>
                 <br />
@@ -83,7 +82,14 @@
                 <p style="color:red">* Campo requerido</p>
 
                 <div align="center">
-                    <button type="submit" class="btn btn-primary" disabled="@formInvalid" id="BP_LC0">Guardar</button> @*to do: ir a la recien creada *@
+                    @if (formInvalid)
+                    {
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    }
+                    else
+                    {
+                <button type="submit" class="btn btn-secondary" disabled>Guardar</button>
+                    }
                     <a class="btn btn-outline-secondary" href='@string.Format("checklist")' id="a_LC3">Cancelar</a> @*to do: ir a la anterior  *@
                 </div>
             </EditForm>
