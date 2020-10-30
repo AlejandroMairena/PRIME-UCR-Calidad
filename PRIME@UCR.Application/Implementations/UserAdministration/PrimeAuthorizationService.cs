@@ -1,4 +1,5 @@
-﻿using PRIME_UCR.Application.Services.UserAdministration;
+﻿using PRIME_UCR.Application.DTOs.UserAdministration;
+using PRIME_UCR.Application.Services.UserAdministration;
 using PRIME_UCR.Domain.Models.UserAdministration;
 using System;
 using System.Collections.Generic;
@@ -14,17 +15,30 @@ namespace PRIME_UCR.Application.Implementations
         /**
          * Method used to handle the authorization of an user to the aplication.
          */
-        public string HavePermission(int permission, List<Pertenece> UsersProfiles, List<Perfil> ProfilesAndPermissions)
+        public string HavePolicy(int policy, List<Pertenece> UsersProfiles, List<Perfil> ProfilesAndPermissions)
         {
-            foreach (var profile in UsersProfiles)
+
+            var permissionsList = new List<Permiso>();
+            foreach(var profile in UsersProfiles)
             {
-                if ( (ProfilesAndPermissions.Find(p => p.NombrePerfil == profile.IDPerfil)).
-                        PerfilesYPermisos.Find(p => p.IDPermiso == permission) != null )
+                var permissionsOfProfile = ProfilesAndPermissions.Find(p => p.NombrePerfil == profile.IDPerfil).PerfilesYPermisos;
+                foreach(var permission in permissionsOfProfile)
                 {
-                    return "true";
+                    permissionsList.Add(permission.Permiso);
                 }
             }
+            switch (policy)
+            {
+                case (int)AuthorizationPolicies.CanManageUsers:
+                    return CanManageUsers(permissionsList);
+            }
             return "false";
+        }
+
+        private string CanManageUsers(List<Permiso> permissionsList)
+        {
+            return permissionsList.Exists(p => p.IDPermiso == (int)AuthorizationPermissions.CanDoAnything)
+                    || permissionsList.Exists(p => p.IDPermiso == (int)AuthorizationPermissions.CanManageUsers) ? "true" : "false";
         }
     }
 }

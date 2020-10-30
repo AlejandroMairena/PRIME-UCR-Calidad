@@ -11,6 +11,6 @@ namespace PRIME_UCR.Application.Services.UserAdministration
      */
     public interface IPrimeAuthorizationService
     {
-        string HavePermission(int permission, List<Pertenece> UsersProfiles, List<Perfil> ProfilesAndPermissions);
+        string HavePolicy(int policy, List<Pertenece> UsersProfiles, List<Perfil> ProfilesAndPermissions);
     }
 }
