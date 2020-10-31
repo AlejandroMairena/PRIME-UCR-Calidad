@@ -17,7 +17,8 @@ else
             @* Contains the list of existing checklists *@
             <div class="container">
                 @* Header with button to create a new checklist *@
-                <h6>Listas de chequeo: <a class="btn btn-outline-primary" href='@string.Format("checklist/create")' id="a_LC2" data-toggle="tooltip" title="Crear Lista de chequeo">+</a></h6>
+                <h6>Listas de chequeo: 
+                <a class="btn btn-outline-primary" href='@string.Format("checklist/create")' id="a_LC2" data-toggle="tooltip" title="Crear Lista de chequeo">+</a></h6>
                 <div>
                     <ul class="nav nav-pills flex-column">
                         @if (lists != null && lists.Count() > 0)

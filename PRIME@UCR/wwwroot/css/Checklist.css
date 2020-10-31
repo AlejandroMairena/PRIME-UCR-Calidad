@@ -70,19 +70,19 @@ a:hover#a_LC1.btn.btn-outline-primary {
 a:disabled#a_LC1.btn.btn-outline-primary {
     background: #676766;
 }
+
 /*a for create  checklist 2 */
 a#a_LC2.btn.btn-outline-primary {
-    background: #095290;
-    position: absolute;
+    background: #095290; /*rgba(49, 169, 255, 0.80)*/
     color: white;
-    border-radius: 1.0rem;
-    padding-top: 0px;
-    padding-left: 6px;
-    padding-right: 6px;
-    padding-bottom: 0px;
-    margin-left: 45px;
-    border-color: black;
+    border-radius: 50%;
+    border-color: #095290;
+    position: absolute;
+    right: 10%;
+    top: -10px;
 }
+
+a:active#a_LC1.btn.btn-outline-primary {
 }
 
 a:hover#a_LC2.btn.btn-outline-primary {
