@@ -172,7 +172,7 @@ else
                         <EditForm EditContext="@editContext" OnValidSubmit="@HandleValidSubmit">
                             <FluentValidationValidator />
                             @* Input for the name of the item *@
-                            <TextBox Label="Nombre" id="name" @bind-Value="@tempItem.Nombre" IsRequired="true"/>
+                            <TextBox Label="Nombre " id="name" @bind-Value="@tempItem.Nombre" Required="true"/>
                             <br />
                             @* Input for the description of the item *@
                             <label for="description">Descripción</label>
@@ -181,8 +181,8 @@ else
                             <div class="form-row">
                                 @* Input for the order of the item with a recommended value *@
                                 <div class="col-6">
-                                    <label for="order">Orden<span style=" color:red">*</span></label>
-                                    <IntegerInput Label="" @bind-Value="tempItem.Orden" Min="0" IsRequired="true" />
+                                    <label for="order">Orden <span style=" color:red">*</span></label>
+                                    <IntegerInput Label="" @bind-Value="tempItem.Orden" Min="0" Required="true" />
                                 </div>
                             </div>
                             <br />

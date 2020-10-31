@@ -21,8 +21,8 @@ namespace PRIME_UCR.Validators.CheckLists
             RuleFor(c => c.Orden)
                 .NotEmpty()
                 .WithMessage("Debe ingresar un orden.")
-                .GreaterThanOrEqualTo(0)
-                .WithMessage("Debe ingresar un orden mayor o igual que 0");
+                .GreaterThanOrEqualTo(1)
+                .WithMessage("Debe ingresar un orden mayor o igual que 1");
         }
     }
 }

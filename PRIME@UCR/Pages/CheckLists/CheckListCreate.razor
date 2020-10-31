@@ -45,7 +45,7 @@
             <EditForm EditContext="@editContext" OnValidSubmit="@HandleValidSubmit">
                 <FluentValidationValidator />
                 @* Input for the name of the checklist *@
-                <TextBox Label="Nombre" @bind-Value="@checkList.Nombre" IsRequired="true" />
+                <TextBox Label="Nombre " @bind-Value="@checkList.Nombre" Required="true" />
                 <br />
                 @* Input for the description of the checklist *@
                 <label for="description">Descripción </label>
@@ -54,17 +54,15 @@
                 <div class="form-row">
                     <div class="col-6">
                         @* Input for the type of the checklist with predefined options *@
-                        <label for="Tipo">Tipo <span style=" color:red">*</span></label>
-                        <DropDownMenu Label="" Data="_types" @bind-Value="checkList.Tipo"
+                        <DropDownMenu Label="Tipo " Data="_types" @bind-Value="checkList.Tipo"
                                       DefaultText="Seleccione el tipo de la lista de chequeo" 
-                                      IsRequired="true" />
+                                      Required="true" />
                     </div>
                     <div class="col-6">
                         @* Input for the order of the checklist with a recommended value *@
                         <label for="Tipo">Orden <span style=" color:red">*</span></label>
                         <br />
-                        <br />
-                        <IntegerInput Label="" @bind-Value="checkList.Orden" Min="0" IsRequired="true" />
+                        <IntegerInput Label="" @bind-Value="checkList.Orden" Min="0" Required />
                     </div>
                 </div>
                 <br />
