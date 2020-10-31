@@ -7,40 +7,47 @@ using System.Text;
 using System.Threading.Tasks;
 using PRIME_UCR.Application.Repositories.Multimedia;
 using PRIME_UCR.Application.Services.Multimedia;
+using System.Linq;
+using PRIME_UCR.Application.Repositories.Appointments;
 
 namespace PRIME_UCR.Application.Implementations.Multimedia
 {
     public class MultimediaContentService : IMultimediaContentService
     {
         //public IFileListEntry file;
-        private readonly IMultimediaContentRepository repository; 
+        private readonly IMultimediaContentRepository mcRepository;
+        private readonly IActionRepository actionRepository;
 
-        public MultimediaContentService(IMultimediaContentRepository repository ) {
-            this.repository = repository;
+        public MultimediaContentService(IMultimediaContentRepository mcRepository, IActionRepository actionRepository) {
+            this.mcRepository = mcRepository;
+            this.actionRepository = actionRepository;
         }
 
-        public async Task AddFileAsync(MultimediaContent mcontent) {
-
-            //abrir aqui el archivo que se desea adjuntar. 
-            //string path = "c:/ Temp / MM / "; //esto es un ejemplo
-            await repository.InsertAsync(mcontent);
-
-            //return FillMultimediaContent(path); 
+        public async Task<Accion> AddMultContToAction(int citaId, string nombreAccion, int mcId)
+        {
+            Accion accion = new Accion
+            {
+                CitaId = citaId,
+                NombreAccion = nombreAccion,
+                MultContId = mcId
+            };
+            accion = await actionRepository.InsertAsync(accion);
+            return accion;
         }
 
-        public MultimediaContent FillMultimediaContent(string patch) {
-
-            //aqui se llenarian los datos antes de guardarlo a la db. 
-
-            MultimediaContent multimedia_content = new MultimediaContent();
-            return multimedia_content; 
+        public async Task<IEnumerable<MultimediaContent>> GetByAppointmentAction(int citaId, string nombreAccion)
+        {
+            return await actionRepository.GetByAppointmentAction(citaId, nombreAccion);
         }
 
+        public async Task<MultimediaContent> AddMultimediaContent(MultimediaContent mcontent) {
 
-        /*    
-        public async Task UploadAsync(IFileListEntry file) { 
-        
+            return await mcRepository.InsertAsync(mcontent);
         }
-        */      
+        public async Task<MultimediaContent> GetById(int id)
+        {
+            return await mcRepository.GetByKeyAsync(id);
+        }
+       
     }
 }

@@ -4,7 +4,7 @@
 
 # PRIME@UCR
 
-#### Version 1.0
+#### Version 2.0
   
   
     
@@ -161,7 +161,15 @@ Integrantes:
 | Fernando Ezequiel Morales      | Scrum Ambassador|
 | Elian Ortega Velásquez         | Developer       |
 
+- Diosvier:
 
+| Integrante                     | Rol             |
+| -------------------------------| ----------------| 
+| Adrián Sibaja Retana           | Scrum Master    |
+| Erik Kühlmann Salazar          | Scrum Ambassador|
+| José Esteban Marín Masís       | Developer       |
+| Daniel Salazar Mora            | Developer       |
+| Ricardo Franco Rodríguez       | Developer       |
 
 ## Descripción general del sistema a desarrollar
 La aplicación debe desarrollar e integrar las funciones necesarias para la sistematización de los procesos del equipo PRIME, desde una sola aplicación integrada. Por lo tanto, el sistema consiste en una aplicación web con una base de datos, que permita a los usuarios la sistematización de los procesos de atención y la gestión en tiempo real de la información de los procesos entre los equipos de atención y el centro de control. Esto con el fin de permitir que todos los usuarios autorizados cuenten con información actualizada por medio de la aplicación web.
@@ -400,6 +408,12 @@ Información personal de los entes relacionados no debe fugarse ni ser vista por
 El diseño de la página sigue la paleta de colores, diseño del header y footer propuesta por la Universidad de Costa Rica, siguiendo sus regulaciones  del manual de desarrollo de sitios web de la Oficina de Divulgación e Información ODI [8] y también siguiendo ejemplos de la página oficial de la UCR así como de la ECCI.
 
 ## Artefactos de base de datos
+
+### Esquema conceptual de la base de datos
+
+A continuación se muestra el esquema conceptual:
+
+![](https://app.lucidchart.com/invitations/accept/6de27e38-f785-4942-9cc4-9defbde00e09)
 
 ### Esquema lógico de la base de datos
 

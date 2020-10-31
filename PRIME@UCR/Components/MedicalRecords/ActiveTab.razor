@@ -1,0 +1,16 @@
+@using PRIME_UCR.Components.MedicalRecords.Tabs
+
+<div class="container">
+    @if (Active == DetailsTab.Info)
+    {
+        <GeneralInfoTab record="@Expediente"/>
+    }
+    else if (Active == DetailsTab.Appointments)
+    {
+        //<OriginTab Origin="@Incident.Origin" OnSave="@SaveOrigin"/>
+    }
+    else
+    {
+        <h4 class="text-danger">Not found</h4>
+    }
+</div>

@@ -1,26 +1,56 @@
-﻿@page "/incidents/ListaIncidentes"
+@page "/incidents"
 @using BlazorTable
+@using PRIME_UCR.Application.DTOs.Incidents
 @attribute [Authorize]
 
-<h3>Lista de Incidentes</h3>
-
 <Loading IsLoading="incidentsList == null">
-    <Table TableItem="Incidente" Items="incidentsList" PageSize="15" @ref="Table" ColumnReorder="true">
-        <Column TableItem="Incidente" Title="Código" Field="@(x => x.Codigo)" Sortable="true" Filterable="true" Width="20%" DefaultSortColumn="true" />
-        @*<Column TableItem="Incidente" Title="Cédula Paciente" Field="@(x => x.Ced)" Sortable="true" Filterable="true" Width="20%" />*@
-        @*<Column TableItem="Incidente" Title="Nombre Paciente" Field="@(x => x.Nombre)" Sortable="true" Filterable="true" Width="20%" />*@
-        <Column TableItem="Incidente" Title="Fecha Registro" Field="@(x => x.Cita.FechaHoraCreacion.Date)" Sortable="true" Filterable="true" Width="20%" />
-        <Column TableItem="Incidente" Title="Hora Registro" Field="@(x => x.Cita.FechaHoraCreacion.TimeOfDay)" Sortable="true" Filterable="true" Width="20%" />
-
-        <EmptyDataTemplate>
-            <div class="text-center">
-                No se encontraron incidentes registrados.
-            </div>
-        </EmptyDataTemplate>
-        <Pager ShowPageNumber="true" ShowTotalCount="true" />
-
-    </Table>
+    <div class="jumbotron white-panel">
+        <h1>Lista de Incidentes</h1>
+        <Table TableItem="IncidentListModel" Items="incidentsList" PageSize="3" @ref="Table" ColumnReorder="true" ShowSearchBar="true" class="table table-bordered">
+            <Column TableItem="IncidentListModel" Title="Código" Field="@(x => x.Codigo)" Filterable="true" Sortable="true" Width="18%" DefaultSortColumn="true">
+                <Template>
+                    <a href="/incidents/@context.Codigo">@context.Codigo</a>
+                </Template>
+            </Column>
+            <Column TableItem="IncidentListModel" Title="Fecha de registro" Field="@(x => x.FechaHoraRegistro)" Filterable="true" Sortable="true" Width="18%"/>
+            <Column TableItem="IncidentListModel" Title="Estado" Field="@(x => x.Estado)" Filterable="true" Sortable="true" Width="14%"/>
+            <Column TableItem="IncidentListModel" Title="Modalidad" Field="@(x => x.Modalidad)" Filterable="true" Sortable="true" Width="12%"/>
+            <Column TableItem="IncidentListModel" Title="Origen" Field="@(x => x.Origen)" Filterable="true" Sortable="true" Width="12%">
+                <Template>
+                    @if (context.Origen == null)
+                    {
+                        <div>-</div>
+                    }
+                    else
+                    {
+                        <div>@context.Origen</div>
+                    }
+                </Template>
+            </Column>
+            <Column TableItem="IncidentListModel" Title="Destino" Field="@(x => x.Destino)" Filterable="true" Sortable="true" Width="20%">
+                <Template>
+                    @if (context.Destino == null)
+                    {
+                        <div>-</div>
+                    }
+                    else
+                    {
+                        <div>@context.Destino</div>
+                    }
+                </Template>
+            </Column>
+            
+            <EmptyDataTemplate>
+                <div class="text-center">
+                    No se encontraron incidentes registrados.
+                </div>
+            </EmptyDataTemplate>
+            
+            <Pager ShowPageNumber="true" ShowTotalCount="true"/>
+        </Table>
+    </div>
 </Loading>
+
+<MatThemeProvider Theme="@AddButtonTheme">
     <MatFAB Icon="@MatIconNames.Add" Class="app-fab--absolute" OnClick="@(_ => Redirect())"></MatFAB>
-
-
+</MatThemeProvider>

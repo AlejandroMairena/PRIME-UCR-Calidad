@@ -11,19 +11,24 @@
 
         <div class="row">
             <div class="col-lg-2">
-                <TextBox Label="Nombre" @bind-Value="Value.Name" IsRequired="true" />
+                <TextBox Label="Nombre" @bind-Value="Value.Name"/>
             </div>
         </div>
         <div class="row">
             <div class="col-lg-2">
-                <TextBox Label="Primer apellido" @bind-Value="Value.FirstLastName" IsRequired="true" />
+                <TextBox Label="Primer apellido" @bind-Value="Value.FirstLastName" />
             </div>
             <div class="col-lg-2">
-                <TextBox Label="Segundo apellido" @bind-Value="Value.SecondLastName" />
+                <TextBox Label="Segundo apellido" @bind-Value="Value.SecondLastName" Required="false"/>
             </div>
         </div>
 
-        @*<DatePicker Label="Fecha nacimiento" @bind-Value="Value.BirthDate" Min="@DateTime.MinValue" Max="@DateTime.Today" />*@
+        <div class="row">
+            <div class="col-lg-2">
+                <DatePicker Label="Fecha nacimiento" @bind-Value="Value.BirthDate" Min="@DateTime.Today.AddYears(120)" Max="@DateTime.Today"
+                            Required="false"/>
+            </div>
+        </div>
         
         <label>Sexo</label>
         <br />
@@ -51,16 +56,16 @@
 
         <div class="row" >
             <div class="col-lg-4">
-                <TextBox Label="Correo electrónico" @bind-Value="Value.Email" IsRequired="true" />
+                <TextBox Label="Correo electrónico" @bind-Value="Value.Email"/>
             </div>
         </div>
 
         <div class="row">
             <div class="col-lg-2">
-                <TextBox Label="Número telefónico" @bind-Value="Value.PrimaryPhoneNumber" IsRequired="true" />
+                <TextBox Label="Número telefónico" @bind-Value="Value.PrimaryPhoneNumber" />
             </div>
             <div class="col-lg-2">
-                <TextBox Label="Número secundario" @bind-Value="Value.SecondaryPhoneNumber" />
+                <TextBox Label="Número secundario" @bind-Value="Value.SecondaryPhoneNumber" Required="false"/>
             </div>
         </div>
 

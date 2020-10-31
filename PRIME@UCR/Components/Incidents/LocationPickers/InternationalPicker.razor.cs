@@ -23,26 +23,42 @@ namespace PRIME_UCR.Components.Incidents.LocationPickers
         private bool _saveButtonEnabled = false;
         private EditContext _context;
         private List<Pais> _values;
+        private bool _isLoading = true;
+        
 
         private async Task Submit()
         {
+            _isLoading = true;
+            StateHasChanged();
             await OnSave.InvokeAsync(Value);
             _context.OnFieldChanged -= HandleFieldChanged;
             _context = new EditContext(Value);
             _context.OnFieldChanged += HandleFieldChanged;
             _saveButtonEnabled = false;
+            _isLoading = false;
         }
 
         private async Task Discard()
         {
             await OnDiscard.InvokeAsync(null);
+            if (!IsFirst && !OnDiscard.HasDelegate)
+                await LoadExistingValues();
+
+        }
+
+        private async Task LoadExistingValues()
+        {
+            _isLoading = true;
+            StateHasChanged();
+            _values = (await LocationService.GetAllCountriesAsync())
+                .Where(c => c.Nombre != Pais.DefaultCountry)
+                .ToList();
+            _isLoading = false;
         }
 
         protected override async Task OnInitializedAsync()
         {
-            _values = (await LocationService.GetAllCountriesAsync())
-                .Where(c => c.Nombre != Pais.DefaultCountry)
-                .ToList();
+            await LoadExistingValues();
             
             if (IsFirst)
                 Value = new InternationalModel();

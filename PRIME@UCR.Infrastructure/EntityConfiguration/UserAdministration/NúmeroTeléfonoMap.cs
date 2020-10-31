@@ -27,7 +27,7 @@ namespace PRIME_UCR.Infrastructure.EntityConfiguration.UserAdministration
             builder.HasKey("CedPersona", "NúmeroTelefónico");
             builder
                 .HasOne(p => p.Persona)
-                .WithMany(p => p.NumerosTelefono)
+                .WithMany()
                 .HasForeignKey(p => p.CedPersona);
         }
     }

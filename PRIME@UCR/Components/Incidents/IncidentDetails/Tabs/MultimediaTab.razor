@@ -1,0 +1,28 @@
+﻿@using PRIME_UCR.Domain.Models.Appointments
+
+<h3>Multimedia de incidente</h3>
+<br/>
+<Loading IsLoading="_isLoading">
+    <table class="table table-bordered text-center">
+        <thead>
+        <tr>
+            <th style="width: 20%;">Adjuntar</th>
+            <th style="width: 80%;">Tipo acción</th>
+        </tr> 
+        </thead>
+        <tbody>
+        @foreach (var i in _actionTypes)
+        {
+            <tr>
+                <td>
+                    <MultimediaContentComponent MultimediaContent="_existingFiles[_actionTypes.IndexOf(i)]"
+                        OnFileUpload="(MultimediaContent mc) => OnFileUpload(i, mc)"/>
+                </td>
+                <td>
+                    @i.Nombre
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</Loading>

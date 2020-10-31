@@ -15,9 +15,12 @@ namespace PRIME_UCR.Components.Controls
         [Parameter] public List<T> Data { get; set; }
         [Parameter] public string TextProperty { get; set; }
         [Parameter] public Func<T, string> TextExpression { get; set; }
+        [Parameter] public Func<T, bool> ValueComparer { get; set; }
         [Parameter] public string Label { get; set; }
         [Parameter] public string DefaultText { get; set; }
         [Parameter] public bool UseValidation { get; set; } = true;
+        [Parameter] public bool Disabled { get; set; } = false;
+        [Parameter] public bool Required { get; set; } = true;
 
         private int _index = -1;
         private string SelectedValue => _index.ToString();
@@ -77,7 +80,10 @@ namespace PRIME_UCR.Components.Controls
         {
             if (Value != null)
             {
-                _index = Data.IndexOf(Value);
+                if (ValueComparer != null)
+                    _index = Data.IndexOf(Data.FirstOrDefault(ValueComparer));
+                else
+                    _index = Data.IndexOf(Value);
             }
             else
             {

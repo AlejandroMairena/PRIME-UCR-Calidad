@@ -19,23 +19,18 @@
     padding-left: 15px;
     margin-top: 4px;
     margin-bottom: 4px;
+
 }
 
 .m-btn 
 {
-    height: 20px;
-    padding: 2px 6px;
-    font-size: 10px;
+    font-size: 15px;
 }
 
 .m-btn-rm
 {
     display: inline;
     margin-right: 15px;
-}
-
-.m-file-menu 
-{
 }
 
 .m-button
@@ -47,7 +42,118 @@
 {
     background-color: #00c0f3;
 }
-.show > .btn-secondary.dropdown-toggle
-{
+.show > .btn-secondary.dropdown-toggle {
     background-color: #00c0f3;
+    border-color: #00c0f3;
+}
+/*
+    Cambiar color del contador de archivos adjuntados para 
+    el boton de contenido multimedia para adjustarse al prototipo validado por el P.O
+*/
+
+.counter-append {
+    color: white;
+    background-color: rgb(238,64,55);
+    border: solid #fbc51a 0px;
+    width: 26px;
+    height: 26px;
+    font-size: 12px;
+    text-align: center;
+    align-content: center;
+    /*display: inline;*/
+    border-radius: 50%;
+    top: 50%;
+    line-height: 2;
+    /*Posicionar apendice*/
+    position: relative;
+    left: 50px;
+    top: -16px;
+}
+.dropdown-menu {
+    transform: none;
+    transition: none;
+}
+.dropdown-menu.show {
+    transform: none;
+    transition: none;
+    padding-bottom: 15px;
+    padding-top: 15px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+.data_btn:hover {
+    border-color: #fbc51a;
+}
+.data_btn {
+    border: 10px;
+    width: 50px;
+    height: auto;
+}
+.btn-secondary {
+    background-color: #095290;
+}
+    .btn-secondary:hover {
+        background-color: #00c0f3;
+        border-color: #00c0f3;  
+    }
+.action_buttom {
+    /*DESACTIVADO*/
+    background-color: #676766;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+    .action_buttom:hover {
+        /*DESACTIVADO*/
+        background-color: #676766;
+        border-color: #676766;
+    }
+.ver_link {
+    color: white;
+    text-decoration: none;
+    /*DESACTIVADO*/
+    background-color: #676766;
+}
+    .ver_link:hover {
+        color: white;
+        text-decoration: none;
+        /*DESACTIVADO*/
+        background-color: #676766;
+    }
+input[type="file"] {
+    padding: 10px;
+    font-size: revert;
+}
+p {
+    padding: 10px;
+}
+input#file-upload-button {
+    color:white;
+}
+button.btn.btn-danger.m-btn.m-btn-rm {
+    /*PARA ACTIVAR:*/
+    /*background-color: rgb(238,64,55);   COLOR ROJO*/
+    /*PARA DESACTIVAR:*/
+    background-color: #676766;
+    border-color: #676766;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* Loading Wheel */
+.mc-loader {
+    border: 8px solid #f3f3f3; /* Light grey */
+    border-top: 8px solid #095290; /* Blue */
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 2s linear infinite;
+}
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }

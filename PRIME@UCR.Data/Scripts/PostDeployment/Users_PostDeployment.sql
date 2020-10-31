@@ -1,6 +1,9 @@
-﻿DELETE FROM EstadoIncidente
+﻿DELETE FROM AsignadoA
+DELETE FROM EstadoIncidente
 DELETE FROM Estado
 DELETE FROM Incidente
+DELETE FROM Cita
+DELETE FROM Expediente
 DELETE FROM AdministradorCentroDeControl
 DELETE FROM Trabaja_En
 DELETE FROM Centro_Ubicacion
@@ -51,6 +54,17 @@ VALUES  ('12345678', 'Juan', 'Guzman','2020-10-10'),
         ('11111111', 'Jaikel', 'Rivas','2020-10-10'),
         ('22222222', 'Fabiola', 'Mora','2020-10-10');
 
+INSERT INTO Paciente
+VALUES  ('12345678'),
+        ('23456789'),
+        ('34567890'),
+        ('45678901'),
+        ('56789012'),
+        ('67890123'),
+        ('78901234'),
+        ('89012345'),
+        ('90123456');
+
 INSERT INTO Usuario (Id, CédulaPersona)
 VALUES
     ('a6f7aa70-a038-419f-9945-7c77b093d58f','12345678'),
@@ -91,7 +105,7 @@ VALUES
 --INSERT INTO AdministradorCentroDeControl(Cédula)
 --VALUES ('11111111'),
 --       ('22222222');
-       
+
 INSERT INTO Permiso (IdPermiso, Descripción_Permiso)
 VALUES
     -- Administrador

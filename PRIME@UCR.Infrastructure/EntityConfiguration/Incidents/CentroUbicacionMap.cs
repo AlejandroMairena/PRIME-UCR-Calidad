@@ -22,10 +22,10 @@ namespace PRIME_UCR.Infrastructure.EntityConfiguration.Incidents
                 .HasForeignKey(p => p.CentroMedicoId);
             builder
                 .Property(p => p.CedulaMedico)
-                .HasColumnName("CédulaMédico");
+                .HasColumnName("CÃ©dulaMÃ©dico");
             builder
-                .HasOne(p => p.Médico)
-                .WithMany(p => p.CentrosMedicos)
+                .HasOne(p => p.MÃ©dico)
+                .WithMany()
                 .HasForeignKey(p => p.CedulaMedico);
         }
     }

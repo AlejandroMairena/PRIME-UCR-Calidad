@@ -4,16 +4,19 @@
 <div class="form-group">
     @if (!String.IsNullOrEmpty(Label))
     {
-        <label>@Label</label>
-        @if (IsRequired)
+        @if (Required)
         {
-            <span class="required-star">*</span>
+            <label>@Label<strong class="text-danger">*</strong></label>
+        }
+        else
+        {
+            <label>@Label</label>
         }
     }
     <input class="@($"form-control {ValidationCssClass}")"
            value="@Value"
-           type="@_type"
+           type="@Type"
+           disabled="@Disabled"
            @oninput="OnChangeEvent"/>
-    
     <ValidationMessage For="ValueExpression" />
 </div>

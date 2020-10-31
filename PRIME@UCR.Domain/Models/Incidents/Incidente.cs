@@ -19,26 +19,20 @@ namespace PRIME_UCR.Domain.Models
         public Ubicacion Origen {get; set;}
         public int? IdDestino { get; set; }
         public Ubicacion Destino {get; set;}
-        public string TipoModalidad { get; set; }
-        public Modalidad Modalidad {get; set;}
+        public string Modalidad { get; set; }
         public string MatriculaTrans { get; set; }
         public UnidadDeTransporte UnidadDeTransporte {get; set;}
-        
         public int CodigoCita { get; set; }
         public Cita Cita { get; set; }
-        // public int? IdEspecialista { get; set; }
-        //public Especialista Especialista {get; set;}
         public string CedulaAdmin { set; get; }
-        //public Administrador Administrador {get; set;}
-        // public int? CedulaTecnicoCoordinador { get; set; }
-        //public TecnicoCoordinador TecnicoCordinador {get; set;}
-        // public int? CedulaTecnicoRevisor { get; set; }
-        //public TecnicoRevisor {get; set;}
+        public string CedulaTecnicoCoordinador { get; set; }
+        public string CedulaRevisor { get; set; }
 
         public bool IsCompleted()
         {
             return IdOrigen != null &&
-                   IdDestino != null;
+                   IdDestino != null &&
+                   Cita?.IdExpediente != null;
         }
 
         public bool IsModifiable(Estado currentState)

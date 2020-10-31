@@ -26,13 +26,7 @@ namespace PRIME_UCR.Components.Incidents.LocationPickers
         private bool _saveButtonEnabled = false;
         private EditContext _context;
         
-        // Check if everything has been loaded
-        bool IsLoading()
-        {
-            return _provinces == null
-                   || _cantons == null
-                   || _districts == null;
-        }
+        private bool _isLoading = true;
 
         async Task LoadProvinces(bool firstLoad)
         {
@@ -86,24 +80,31 @@ namespace PRIME_UCR.Components.Incidents.LocationPickers
 
         public async Task LoadExistingValues()
         {
+            _isLoading = true;
+            StateHasChanged(); 
             await LoadProvinces(true);
             await LoadCantons(true);
             await LoadDistricts(true);
+            _isLoading = false;
         }
 
         private async Task Submit()
         {
+            _isLoading = true;
+            StateHasChanged();
             await OnSave.InvokeAsync(Value);
             _context.OnFieldChanged -= HandleFieldChanged;
             _context = new EditContext(Value);
             _context.OnFieldChanged += HandleFieldChanged;
             _saveButtonEnabled = false;
+            _isLoading = false;
         }
 
         private async Task Discard()
         {
             await OnDiscard.InvokeAsync(null);
-            await LoadExistingValues();
+            if (!IsFirst && !OnDiscard.HasDelegate)
+                await LoadExistingValues();
         }
 
         protected override async Task OnInitializedAsync()

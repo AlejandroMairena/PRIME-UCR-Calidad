@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using PRIME_UCR.Domain.Models;
 using System.Threading.Tasks;
 using PRIME_UCR.Domain.Models.Incidents;
+using PRIME_UCR.Domain.Models.MedicalRecords;
 using PRIME_UCR.Domain.Models.UserAdministration;
 using PRIME_UCR.Domain.Models.CheckLists;
 
@@ -30,7 +31,7 @@ namespace PRIME_UCR.Infrastructure.DataProviders
         DbSet<Estado> States { get; set; }
         DbSet<EstadoIncidente> IncidentStates { get; set; }
         DbSet<Incidente> Incidents { get; set; }
-
+        DbSet<Expediente> MedicalRecords { get; set; }
         DbSet<Usuario> Usuarios {get; set;}
         DbSet<Persona> People { get; set; }
         DbSet<Administrador> Adminstrators { get; set; }
@@ -47,8 +48,9 @@ namespace PRIME_UCR.Infrastructure.DataProviders
         DbSet<Pertenece> BelongsTo { get; set; }
         DbSet<TienePerfil> HasProfile { get; set; }
         DbSet<Permite> HasPermissionOf { get; set; }
-
         DbSet<MultimediaContent> Multimedia_Contents { get; set; }
+        DbSet<Cita> Appointments { get; set; }
+        DbSet<Accion> Actions { get; set; }
         DbSet<T> Set<T>() where T : class;
         Task<int> SaveChangesAsync();     
     }

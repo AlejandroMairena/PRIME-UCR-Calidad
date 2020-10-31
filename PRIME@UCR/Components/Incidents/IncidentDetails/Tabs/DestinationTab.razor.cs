@@ -47,15 +47,15 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
             StateHasChanged();
             if (Destination is CentroUbicacion mc)
             {
-                    var doctor = await DoctorService.GetDoctorByIdAsync(mc.CedulaMedico);
-                    var medicalCenter = await LocationService.GetMedicalCenterById(mc.CentroMedicoId);
-                    _medicalCenterModel = new MedicalCenterLocationModel
-                    {
-                        IsOrigin = false,
-                        BedNumber = mc.NumeroCama,
-                        Doctor = doctor,
-                        MedicalCenter = medicalCenter
-                    };
+                var doctor = await DoctorService.GetDoctorByIdAsync(mc.CedulaMedico);
+                var medicalCenter = await LocationService.GetMedicalCenterById(mc.CentroMedicoId);
+                _medicalCenterModel = new MedicalCenterLocationModel
+                {
+                    IsOrigin = false,
+                    BedNumber = mc.NumeroCama,
+                    Doctor = doctor,
+                    MedicalCenter = medicalCenter
+                };
             }
             
             _model.Destination = Destination;

@@ -14,3 +14,4 @@ Post-Deployment Script Template
 :r .\PostDeployment\Appointments_PostDeployment.sql
 :r .\PostDeployment\Incidents_PostDeployment.sql
 :r .\PostDeployment\Checklists_PostDeployment.sql
+:r .\PostDeployment\MedicalRecords_PostDeployment.sql

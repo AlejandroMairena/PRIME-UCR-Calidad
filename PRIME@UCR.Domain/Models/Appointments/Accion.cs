@@ -8,17 +8,11 @@ namespace PRIME_UCR.Domain.Models
 {
     public class Accion
     {
-        public int Id { get; set; }
-
         public int CitaId { get; set; }
-
         public string NombreAccion { get; set; }
-
-        public string Descripcion { get; set; } 
-
+        public int MultContId { get; set; }
         public Cita Cita { get; set; }
         public TipoAccion TipoAccion { get; set; }
-
-        public List<MultimediaContent> MultimediaContent { get; set; }
+        public MultimediaContent MultimediaContent { get; set; }
     }
 }
