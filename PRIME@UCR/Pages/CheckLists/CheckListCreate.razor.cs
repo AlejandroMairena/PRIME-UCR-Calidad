@@ -30,7 +30,7 @@ namespace PRIME_UCR.Pages.CheckLists
         protected CheckList checkList = new CheckList();
         protected List<string> _types = new List<string>();
 
-        protected bool formInvalid = true;
+        protected bool formInvalid = false;
         protected EditContext editContext;
 
         /**
@@ -59,11 +59,11 @@ namespace PRIME_UCR.Pages.CheckLists
          * */
         protected void HandleFieldChanged(object sender, FieldChangedEventArgs e)
         {
-            if (checkList.Nombre != null && checkList.Tipo != null)
+            formInvalid = editContext.Validate();
+            if (formInvalid == true) 
             {
-                formInvalid = !editContext.Validate();
+                StateHasChanged();
             }
-            StateHasChanged();
         }
 
 
