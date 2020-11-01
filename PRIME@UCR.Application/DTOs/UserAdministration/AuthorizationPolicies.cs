@@ -8,5 +8,8 @@ namespace PRIME_UCR.Application.DTOs.UserAdministration
     {
         /*User administration policies*/
         CanManageUsers = 0,
+
+        /*Checklist policies*/
+        CanCreateCheckList,
     }
 }

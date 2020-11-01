@@ -15,30 +15,28 @@ namespace PRIME_UCR.Application.Implementations
         /**
          * Method used to handle the authorization of an user to the aplication.
          */
-        public string HavePolicy(int policy, List<Pertenece> UsersProfiles, List<Perfil> ProfilesAndPermissions)
+        public bool HavePolicy(int policy, List<Permiso> permissionsList)
         {
-
-            var permissionsList = new List<Permiso>();
-            foreach(var profile in UsersProfiles)
-            {
-                var permissionsOfProfile = ProfilesAndPermissions.Find(p => p.NombrePerfil == profile.IDPerfil).PerfilesYPermisos;
-                foreach(var permission in permissionsOfProfile)
-                {
-                    permissionsList.Add(permission.Permiso);
-                }
-            }
             switch (policy)
             {
                 case (int)AuthorizationPolicies.CanManageUsers:
                     return CanManageUsers(permissionsList);
+                case (int)AuthorizationPolicies.CanCreateCheckList:
+                    return CanCreateChecklist(permissionsList);
             }
-            return "false";
+            return false;
         }
 
-        private string CanManageUsers(List<Permiso> permissionsList)
+        private bool CanManageUsers(List<Permiso> permissionsList)
         {
             return permissionsList.Exists(p => p.IDPermiso == (int)AuthorizationPermissions.CanDoAnything)
-                    || permissionsList.Exists(p => p.IDPermiso == (int)AuthorizationPermissions.CanManageUsers) ? "true" : "false";
+                    || permissionsList.Exists(p => p.IDPermiso == (int)AuthorizationPermissions.CanManageUsers);
+        }
+
+        private bool CanCreateChecklist(List<Permiso> permissionsList)
+        {
+            return permissionsList.Exists(p => p.IDPermiso == (int)AuthorizationPermissions.CanCreateCheckList)
+                    || permissionsList.Exists(p => p.IDPermiso == (int)AuthorizationPermissions.CanDoAnything);
         }
     }
 }

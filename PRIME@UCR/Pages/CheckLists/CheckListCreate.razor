@@ -1,41 +1,37 @@
 ﻿@page "/checklist/create"
 @using PRIME_UCR.Components.Controls
 @inherits CheckListCreateBase
-
 @using PRIME_UCR.Application.DTOs.UserAdministration;
 @using PRIME_UCR.Application.Implementations.UserAdministration;
-@attribute [HasPermission(AuthorizationPermissions.CanCreateCheckList)]
+@attribute [HasPolicy(AuthorizationPolicies.CanCreateCheckList)]
 <link href="css/Checklist.css" rel="stylesheet" />
 
 <h3>Plantillas de listas de chequeo</h3>
 <hr />
 <div class="row">
-    <div class="col-lg-3 mb-4" >
+    <div class="col-lg-3 mb-4">
         @* Contains the list of existing checklists *@
-        <div class="container" >
-            <h6>Listas de chequeo existentes</h6> 
+        <div class="container">
+            <h6>Listas de chequeo existentes</h6>
             <div>
                 <ul class="nav nav-pills flex-column">
                     @if (lists != null && lists.Count() > 0)
                     {
-                        @foreach (var tempList in lists)
-                        {
-                            @* Navigation link for each checklist *@
+        @foreach (var tempList in lists)
+        {@* Navigation link for each checklist *@
                             <li class="nav-item mt-2">
                                 <NavLink href='@string.Format("checklist/{0}", @tempList.Id)' class="nav-link" id="a_LC4">
                                     •  @tempList.Nombre
                                 </NavLink>
-                            </li>
-                        }
-                    }
+                            </li>}}
                 </ul>
             </div>
         </div>
     </div>
     @*
-    Story: PIG01IIC20-309
-    Tasks: PIG01IIC20-399, PIG01IIC20-346, PIG01IIC20-450
-    Devs: Stephanie Leiton, Juan Pablo Gamboa
+        Story: PIG01IIC20-309
+        Tasks: PIG01IIC20-399, PIG01IIC20-346, PIG01IIC20-450
+        Devs: Stephanie Leiton, Juan Pablo Gamboa
     *@
     <div class="col">
         @* Contains the form to create a new checklist *@

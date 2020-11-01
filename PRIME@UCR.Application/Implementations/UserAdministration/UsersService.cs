@@ -49,16 +49,6 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
         }
 
         /**
-         * Method used to get all the users of the database.
-         *
-         * Return: A list with all the users in the database.
-         */
-        public async Task<IEnumerable<Usuario>> GetUsuarios()
-        {
-            return await _usuarioRepository.GetAllAsync();
-        }
-
-        /**
          * Method used to get all the info of a user given its email.
          * 
          * Return: All the info of the user.

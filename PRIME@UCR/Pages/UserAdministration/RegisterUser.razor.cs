@@ -67,7 +67,7 @@ namespace PRIME_UCR.Pages.UserAdministration
                         await telefonoService.AddNewPhoneNumberAsync(personModel.IdCardNumber, infoOfUserToRegister.SecondaryPhoneNumber);
                     }
 
-                    var user = (await userService.GetUsuarios()).ToList().Find(u => u.Email == userModel.Email);
+                    var user = (await userService.GetAllUsersWithDetailsAsync()).ToList().Find(u => u.Email == userModel.Email);
 
                     foreach (String profileName in infoOfUserToRegister.Profiles)
                     {
