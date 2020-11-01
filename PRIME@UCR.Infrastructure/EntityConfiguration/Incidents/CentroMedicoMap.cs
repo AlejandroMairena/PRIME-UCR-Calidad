@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PRIME_UCR.Domain.Models;
+using RepoDb;
 
 namespace PRIME_UCR.Infrastructure.EntityConfiguration.Incidents
 {
@@ -17,6 +18,9 @@ namespace PRIME_UCR.Infrastructure.EntityConfiguration.Incidents
                 .HasOne(p => p.Distrito)
                 .WithMany(p => p.CentroMedicos)
                 .HasForeignKey(p => p.UbicadoEn);
+
+            FluentMapper.Entity<CentroMedico>()
+                .Table("Centro_Medico");
         }
 
     }

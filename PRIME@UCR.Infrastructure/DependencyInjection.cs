@@ -33,6 +33,7 @@ namespace PRIME_UCR.Infrastructure
             // repositories
             // generic repositories
             services.AddTransient(typeof(IGenericRepository<,>), typeof(GenericRepository<,>));
+            services.AddTransient(typeof(IRepoDbRepository<,>), typeof(RepoDbRepository<,>));
             // checklists
             services.AddTransient<ICheckListRepository, SqlCheckListRepository>();
             services.AddTransient<IItemRepository, SqlItemRepository>();

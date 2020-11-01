@@ -45,7 +45,8 @@ namespace PRIME_UCR.Application.Implementations.Appointments
             {
                 var medicalRecord = new Expediente
                 {
-                    CedulaPaciente = patient.Cédula
+                    CedulaPaciente = patient.Cédula,
+                    FechaCreacion = DateTime.Now
                 };
                 record = await _medicalRecordRepository.InsertAsync(medicalRecord);
             }

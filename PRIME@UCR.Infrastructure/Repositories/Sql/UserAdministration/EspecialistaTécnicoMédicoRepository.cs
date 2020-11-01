@@ -27,14 +27,16 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
 
         public async Task<IEnumerable<EspecialistaTécnicoMédico>> GetAllAsync()
         {
-            await using var connection = new SqlConnection(_db.DbConnection.ConnectionString);
-            var result = await connection.ExecuteQueryAsync<EspecialistaTécnicoMédico>(@"
-                select Persona.Cédula, Persona.Nombre, Persona.PrimerApellido, Persona.SegundoApellido, Persona.Sexo, Persona.FechaNacimiento
-                from Persona
-                join Funcionario F on Persona.Cédula = F.Cédula
-                join EspecialistaTécnicoMédico ETM on F.Cédula = ETM.Cédula
-            ");
-            return result;
+            using (var connection = new SqlConnection(_db.DbConnection.ConnectionString))
+            {
+                var result = await connection.ExecuteQueryAsync<EspecialistaTécnicoMédico>(@"
+                    select Persona.Cédula, Persona.Nombre, Persona.PrimerApellido, Persona.SegundoApellido, Persona.Sexo, Persona.FechaNacimiento
+                    from Persona
+                    join Funcionario F on Persona.Cédula = F.Cédula
+                    join EspecialistaTécnicoMédico ETM on F.Cédula = ETM.Cédula
+                ");
+                return result;
+            }
         }
 
         public Task<IEnumerable<EspecialistaTécnicoMédico>> GetByConditionAsync(Expression<Func<EspecialistaTécnicoMédico, bool>> expression)
