@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using PRIME_UCR.Application.Repositories.MedicalRecords;
@@ -41,6 +42,15 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.MedicalRecords
             return await _db.MedicalRecords
                 .Include(p => p.Paciente)
                 .ToListAsync(); 
+        }
+
+
+        public async Task<Expediente> GetDetailsRecordWithPatientDoctorDatesAsync(int id) {
+            return await _db.MedicalRecords
+                .Include(p => p.Paciente)
+                .Include(m => m.Medico)
+                .Include(c => c.Citas)
+                .FirstOrDefaultAsync(i => i.Id == id);
         }
 
         public async Task<IEnumerable<Expediente>> GetByNameAndLastnameLastnameAsync(string name, string lastname, string lastname2) {

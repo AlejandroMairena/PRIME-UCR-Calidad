@@ -1,7 +1,10 @@
 ﻿@page "/show-medical-record"
 @using PRIME_UCR.Domain.Models.MedicalRecords
+@using BlazorTable
+@using MatBlazor;
+@inject NavigationManager NavManager
 @inject PRIME_UCR.Application.Services.MedicalRecords.IMedicalRecordService medical_record_service
-@attribute [Authorize]
+
 
 <h3>Lista Expedientes Medicos</h3>
 
@@ -11,235 +14,49 @@
     }
 </style>
 
-<Pagination Total_pages="total_pages" Current_page="current_page" Radius="radius" Selected_page="selected_page">
-</Pagination>
+    <Loading IsLoading="medical_records == null">
+        <Table TableItem="Expediente" Items="medical_records" PageSize="5" @ref="MedicalRecordsModel" ColumnReorder="true" ShowSearchBar="true" class="table table-bordered">
+            <Column TableItem="Expediente" Title="Numero Expediente" Field="@(x => x.Id)" Width="20%">
+                <Template>
+                    <a href="@get_record_link(context.Id)">@context.Id</a>
+                </Template>
+            </Column>
 
-<Filter FilterBox="filter_box" SetFilter="set_filter" ClearFilter="clear_filter"></Filter>
+            <Column TableItem="Expediente" Title="Cédula" Field="@(x => x.CedulaPaciente)" Width="20%">
+            </Column>
 
-<PaginationBox SetRecordsPerPage="set_records_per_page" RecordsPerPage="amount_records"></PaginationBox>
+            <Column TableItem="Expediente" Title="Nombre" Field="@(x => x.Paciente.Nombre)" Width="20%">
+            </Column>
 
-<br />
-<table class="table table-hover wrapper_table">
-    <thead>
-        <tr>
-            <th align="center">NumExpediente</th>
-            <th align="center">Cedula</th>
-            <th align="center">Nombre</th>
-            <th align="center">Apellido1</th>
-            <th align="center">Apellido2</th>
-        </tr>
-    </thead>
+            <Column TableItem="Expediente" Title="Primer Apellido" Field="@(x => x.Paciente.PrimerApellido)" Width="20%">
+            </Column>
 
-    <tbody>
-        @for (int expediente = start_show_record; expediente < end_show_record; ++expediente)
-        {
-            <tr style="transform: rotate(0);">
-                <th scope="row"><a href="@get_record_link(medical_records[expediente].Id)" class="stretched-link">@medical_records[expediente].Id</a></th>
+            <Column TableItem="Expediente" Title="Segundo Apellido" Field="@(x => x.Paciente.SegundoApellido)"  Width="20%">
+            </Column>
 
-                @if (medical_records[expediente].CedulaPaciente != null)
-                {
-                    <td align="left">@medical_records[expediente].CedulaPaciente</td>
-
-                }
-                else
-                {
-                    <td align="left">------</td>
-                    //<th scope="row"><a href="#" class="stretched-link">------</a></th>
-                }
-
-                @if (medical_records[expediente].Paciente != null && medical_records[expediente].Paciente.Nombre != null)
-                {
-                    <td align="left">@medical_records[expediente].Paciente.Nombre</td>
-
-                }
-                else
-                {
-                    <td align="left">------</td>
-                    //<th scope="row"><a href="#" class="stretched-link">------</a></th>
-                }
-
-
-                @if (medical_records[expediente].Paciente != null && medical_records[expediente].Paciente.PrimerApellido != null)
-                {
-                    <td align="left">@medical_records[expediente].Paciente.PrimerApellido</td>
-
-                }
-                else
-                {
-                    <td align="left">------</td>
-                    //<th scope="row"><a href="#" class="stretched-link">------</a></th>
-                }
-
-                @if (medical_records[expediente].Paciente != null && medical_records[expediente].Paciente.SegundoApellido != null)
-                {
-                    <td align="left">@medical_records[expediente].Paciente.SegundoApellido</td>
-
-                }
-                else
-                {
-                    <td align="left">------</td>
-                    //<th scope="row"><a href="#" class="stretched-link">------</a></th>
-                }
-            </tr>
-
-        }
-    </tbody>
-</table>
-
-
-
+            <Pager ShowPageNumber="true" ShowTotalCount="true" />
+        </Table>
+    </Loading>
 
 @code {
 
     public List<Expediente> medical_records { get; set; }
 
-    public string filter_box { get; set; } = string.Empty;
-
-    public int amount_records { get; set; } = 3;
-
-    public int radius { get; set; } = 3;
-    //its the amount of tabs of the pagination, this is bind to the pagination component.
-    public int total_pages { get; set; } = 3;
-    //current pagination's page, this is bind to the pagination component.
-    public int current_page { get; set; } = 1;
-
-    //the current amount of medical records, for example, if you set a filter, this should change.
-    public int total_elements { get; set; } = 0;
-
-    //the amount of records you want to display on every pagination's page.
-    public int sub_group_range { get; set; }
-
-    //there are a max amount of records, and also the "sub_group_range"
-    //this is the start index of the "medical records resources" return to code line 76 and
-    //check the for of the html's table.
-    public int start_show_record { get; set; } = 0;
-
-    //this is the end of the index of the "medical records resources"
-    public int end_show_record { get; set; }
-
-    public string get_record_link(int recordId)
-    {
-        return $"/medicalrecord/{recordId}";
-    }
-
-    private async Task set_records_per_page(int amount_records)
-    {
-
-        start_values(amount_records);
-    }
-
-    private async Task set_filter(string filter_name)
-    {
-
-        current_page = 1;
-        await get_records_with_filter(filter_name);
-
-    }
-
-    private async Task clear_filter()
-    {
-        await get_records();
-    }
-
-    //this is what happens when you click the "Buscar" button because this method is bind to the component
-    //the full method is a parameter of the component.
-    async Task get_records_with_filter(string filter_box)
-    {
-
-        IEnumerable<Expediente> records = await medical_record_service.GeyByConditionAsync(filter_box);
-        medical_records = records.ToList();
-
-
-        current_page = 1;
-        sub_group_range = 1;
-        total_elements = medical_records.Count;
-        total_pages = total_elements / sub_group_range;
-
-        if (total_elements > 0)
-        {
-            end_show_record = start_show_record + sub_group_range;
-
-            if (end_show_record > total_pages * sub_group_range)
-            {
-
-                end_show_record = total_pages * sub_group_range;
-
-            }
-        }
-        else
-        {
-            end_show_record = 0;
-        }
-    }
-
-
-    //this is the method bind to the pagination's component, the full method is a parameter, watch code line 17
-    private async Task selected_page(int page)
-    {
-        //current page is a parameter of the pagination's component, return to code line 65
-        current_page = page;
-        await get_records_per_page(page, total_pages);
-    }
-
-
-    //this is what happens when the program starts, so we set some values to the "medical records resources "
-    protected override void OnInitialized()
-    {
-
-    }
-
+    public ITable<Expediente> MedicalRecordsModel { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-
         await get_records();
     }
 
     private async Task get_records()
     {
-
         IEnumerable<Expediente> records = await medical_record_service.GetAllAsync();
         medical_records = records.ToList();
-        start_values(3);
     }
 
-
-    private void start_values(int sub_group_range)
+     public string get_record_link(int recordId)
     {
-        current_page = 1;
-        start_show_record = 0;
-
-        total_elements = medical_records.Count;
-
-        this.sub_group_range = sub_group_range;
-
-        total_pages = total_elements / sub_group_range;
-
-        end_show_record = start_show_record + sub_group_range;
-
-        if (total_elements < radius)
-        {
-            radius = 0;
-        }
-
+        return $"/medicalrecord/{recordId}";
     }
-
-
-    async Task get_records_per_page(int current_page, int total_pages)
-    {
-
-        start_show_record = sub_group_range * (current_page - 1);
-
-        end_show_record = start_show_record + sub_group_range;
-
-        if (end_show_record > total_pages * sub_group_range)
-        {
-
-            end_show_record = total_pages * sub_group_range;
-
-        }
-
-    }
-
-
 }
