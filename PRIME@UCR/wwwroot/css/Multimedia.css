@@ -33,10 +33,6 @@
     margin-right: 15px;
 }
 
-.m-file-menu 
-{
-}
-
 .m-button
 {
     background-color: #095290;
@@ -73,12 +69,17 @@
     left: 50px;
     top: -16px;
 }
+.dropdown-menu {
+    transform: none;
+    transition: none;
+}
 .dropdown-menu.show {
-padding-bottom: 15px;
-padding-top: 15px;
-padding-left: 20px;
-padding-right: 20px;
-
+    transform: none;
+    transition: none;
+    padding-bottom: 15px;
+    padding-top: 15px;
+    padding-left: 20px;
+    padding-right: 20px;
 }
 .data_btn:hover {
     border-color: #fbc51a;
@@ -93,29 +94,50 @@ padding-right: 20px;
 }
     .btn-secondary:hover {
         background-color: #00c0f3;
-        border-color: #00c0f3;
-    }*/
+        border-color: #00c0f3;  
+    }
+*/
+.action_buttom {
+    /*DESACTIVADO*/
+    background-color: #676766;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+    .action_buttom:hover {
+        /*DESACTIVADO*/
+        background-color: #676766;
+        border-color: #676766;
+    }
 .ver_link {
     color: white;
     text-decoration: none;
+    /*DESACTIVADO*/
+    background-color: #676766;
 }
     .ver_link:hover {
         color: white;
         text-decoration: none;
-        
+        /*DESACTIVADO*/
+        background-color: #676766;
     }
 input[type="file"] {
     padding: 10px;
+    font-size: revert;
 }
 p {
     padding: 10px;
 }
 input#file-upload-button {
     color:white;
-
 }
 button.btn.btn-danger.m-btn.m-btn-rm {
-    background-color: rgb(238,64,55);
+    /*PARA ACTIVAR:*/
+    /*background-color: rgb(238,64,55);   COLOR ROJO*/
+    /*PARA DESACTIVAR:*/
+    background-color: #676766;
+    border-color: #676766;
+    cursor: not-allowed;
+    pointer-events: none;
 }
 
 /* Loading Wheel */
@@ -127,7 +149,6 @@ button.btn.btn-danger.m-btn.m-btn-rm {
     height: 50px;
     animation: spin 2s linear infinite;
 }
-
 @keyframes spin {
     0% {
         transform: rotate(0deg);

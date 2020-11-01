@@ -70,6 +70,7 @@
     <Folder Include="Tables\Appointments" />
     <Folder Include="Tables\MedicalRecords" />
     <Folder Include="StoredProcedures\UserAdministration" />
+    <Folder Include="StoredProcedures\Multimedia" />
     <Folder Include="StoredProcedures\CheckLists" />
   </ItemGroup>
   <ItemGroup>
@@ -133,6 +134,9 @@
     <Build Include="StoredProcedures\CheckLists\InsertarItemEnListaDeChequeo.sql" />
     <Build Include="Triggers\InsertarPerfil.sql" />
     <Build Include="Triggers\DeletePerfil.sql" />
+    <Build Include="StoredProcedures\Multimedia\ObtenerContenidoMultimediaCita.sql" />
+    <Build Include="StoredProcedures\Multimedia\FObtenerContendidoMultimediaCita.sql" />
+    <Build Include="StoredProcedures\Incidents\InsertarAccion.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Scripts\Script.PostDeployment.sql" />
@@ -141,5 +145,6 @@
     <None Include="Scripts\PostDeployment\Checklists_PostDeployment.sql" />
     <None Include="Scripts\PostDeployment\Users_PostDeployment.sql" />
     <None Include="Scripts\PostDeployment\Appointments_PostDeployment.sql" />
+    <None Include="Scripts\PostDeployment\MedicalRecords_PostDeployment.sql" />
   </ItemGroup>
 </Project>

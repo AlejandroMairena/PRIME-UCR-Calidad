@@ -1,4 +1,5 @@
-﻿DELETE FROM EstadoIncidente
+﻿DELETE FROM AsignadoA
+DELETE FROM EstadoIncidente
 DELETE FROM Estado
 DELETE FROM Incidente
 DELETE FROM Cita
@@ -52,6 +53,17 @@ VALUES  ('12345678', 'Juan', 'Guzman','2020-10-10'),
         ('01234567', 'Fabian', 'Hernandez','2020-10-10'),
         ('11111111', 'Jaikel', 'Rivas','2020-10-10'),
         ('22222222', 'Fabiola', 'Mora','2020-10-10');
+
+INSERT INTO Paciente
+VALUES  ('12345678'),
+        ('23456789'),
+        ('34567890'),
+        ('45678901'),
+        ('56789012'),
+        ('67890123'),
+        ('78901234'),
+        ('89012345'),
+        ('90123456');
 
 INSERT INTO Usuario (Id, CédulaPersona)
 VALUES
