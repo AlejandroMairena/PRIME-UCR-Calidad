@@ -155,6 +155,15 @@ else
                                                 </ul>
                                             </td>
                                         </tr>
+                                           @if (createSubItem == true && parentItemId == itemInList.Id)
+                                           {
+                                                <tr>
+                                                    <td colspan="3">
+                                                        <CreateItem @bind-item="tempItem" creating="createSubItem" OnCreatingChanged="creatingFinished">Crear SubItem</CreateItem>
+                                                    </td>
+                                                </tr>
+
+                                            }
 }
                                 </tbody>
                             </table>}
@@ -166,54 +175,8 @@ else
                     <button class="btn btn-primary" @onclick="StartNewItemCreation" id="BP_LC6">+</button><a>Crear ítem</a> }
                 else
                 {
-                    <div class="container" id="Create_I-SI_LC">
-                        <h5>@createItemText</h5>
-                        <br />
-                        @* Contains the form to create a new item *@
-                        <EditForm EditContext="@editContext" OnValidSubmit="@HandleValidSubmit">
-                            <FluentValidationValidator />
-                            @* Input for the name of the item *@
-                            <TextBox Label="Nombre " id="name" @bind-Value="@tempItem.Nombre" Required="true"/>
-                            <br />
-                            @* Input for the description of the item *@
-                            <label for="description">Descripción</label>
-                            <InputTextArea id="description" @bind-Value="tempItem.Descripcion" class="form-control" />
-                            <br />
-                            <div class="form-row">
-                                @* Input for the order of the item with a recommended value *@
-                                <div class="col-6">
-                                    <label for="order">Orden <span style=" color:red">*</span></label>
-                                    <IntegerInput Label="" @bind-Value="tempItem.Orden" Min="0" Required="true" />
-                                </div>
-                            </div>
-                            <br />
-                            <label>Imagen</label>
-                            <div class="form-row">
-                                @* Drop zone for the image of the item *@
-                                <div class="col-6">
-                                    <LoadImageComponent @bind-item="tempItem" />
-                                </div>
-                                <div class="col-6">
-                                    <img src="@tempItem.ImagenDescriptiva" width="50" height="50" />
-                                </div>
-                            </div>
-                            <br />
-                            <p style="color:red">* Campo requerido</p>
-
-                            <div align="center">
-                                @if (formInvalid)
-                                {
-                                    <button type="submit" class="btn btn-primary">Guardar Item</button>
-                                    }
-                                else
-                                {
-                                    <button type="submit" class="btn btn-secondary" disabled>Guardar item</button>
-                                    }
-                                <a class="btn btn-outline-secondary" @onclick="Dispose" id="a_LC3">Cancelar</a>
-                            </div>
-                        </EditForm>
-                    </div>
-                    <br />}
+                    <CreateItem @bind-item="tempItem" creating="createItem" OnCreatingChanged="creatingFinished">Crear Item</CreateItem>
+                }
                 </div>
             </div>
         </div>
