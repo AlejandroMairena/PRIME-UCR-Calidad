@@ -11,5 +11,8 @@ namespace PRIME_UCR.Application.DTOs.UserAdministration
 
         /*Checklist policies*/
         CanCreateCheckList,
+
+        /*Dashboard policies*/
+        CanManageDashboard,
     }
 }

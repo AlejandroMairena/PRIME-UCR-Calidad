@@ -23,6 +23,8 @@ namespace PRIME_UCR.Application.Implementations
                     return CanManageUsers(permissionsList);
                 case (int)AuthorizationPolicies.CanCreateCheckList:
                     return CanCreateChecklist(permissionsList);
+                case (int)AuthorizationPolicies.CanManageDashboard:
+                    return CanManageDashboard(permissionsList);
             }
             return false;
         }
@@ -36,6 +38,12 @@ namespace PRIME_UCR.Application.Implementations
         private bool CanCreateChecklist(List<Permiso> permissionsList)
         {
             return permissionsList.Exists(p => p.IDPermiso == (int)AuthorizationPermissions.CanCreateCheckList)
+                    || permissionsList.Exists(p => p.IDPermiso == (int)AuthorizationPermissions.CanDoAnything);
+        }
+
+        private bool CanManageDashboard(List<Permiso> permissionsList)
+        {
+            return permissionsList.Exists(p => p.IDPermiso == (int)AuthorizationPermissions.CanManageDashboard)
                     || permissionsList.Exists(p => p.IDPermiso == (int)AuthorizationPermissions.CanDoAnything);
         }
     }
