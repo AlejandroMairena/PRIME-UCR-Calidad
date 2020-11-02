@@ -51,7 +51,7 @@ namespace PRIME_UCR.Pages.UserAdministration
             if (!existPersonInDB)
             {
                 await personService.StoreNewPersonAsync(personModel);
-                var userModel = userService.GetUserFormFromRegisterUserForm(infoOfUserToRegister);
+                var userModel = await userService.GetUserFormFromRegisterUserFormAsync(infoOfUserToRegister);
                 var tempPassword = personModel.Name + "." + personModel.FirstLastName + personModel.PrimaryPhoneNumber;/*Es temporal, luego esto cambiará*/
                 var result = await userService.StoreUserAsync(userModel,tempPassword);
                 if(!result)

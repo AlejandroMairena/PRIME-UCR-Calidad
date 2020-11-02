@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using PRIME_UCR.Application.DTOs.UserAdministration;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.AspNetCore.Http;
 
 namespace PRIME_UCR.Components.UserAdministration
 {
@@ -28,6 +29,8 @@ namespace PRIME_UCR.Components.UserAdministration
 
         public List<Permiso> ListPermissions { get; set; }
 
+        [Inject]
+        IHttpContextAccessor contextAccessor { get; set; }
 
         [Parameter]
         public ProfileModel Value { get; set; }
@@ -49,6 +52,7 @@ namespace PRIME_UCR.Components.UserAdministration
          */
         protected override async Task OnInitializedAsync()
         {
+            var user = contextAccessor.HttpContext.User;
             ListPermissions = (await permissionsService.GetPermisos()).ToList();
         }
 
