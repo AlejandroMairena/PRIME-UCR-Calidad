@@ -11,6 +11,10 @@ using ChartJs.Blazor.ChartJS.Common.Axes;
 using ChartJs.Blazor.ChartJS.Common.Axes.Ticks;
 using ChartJs.Blazor.ChartJS.Common.Handlers;
 using ChartJs.Blazor.Util;
+using PRIME_UCR.Application.Services.Incidents;
+using Microsoft.AspNetCore.Components;
+using PRIME_UCR.Domain.Models;
+using PRIME_UCR.Application.Services.Dashboard;
 
 namespace PRIME_UCR.Components.Dashboard
 {
@@ -18,10 +22,13 @@ namespace PRIME_UCR.Components.Dashboard
     {
         LineConfig _lineConfig;
         ChartJsLineChart _lineChartJs;
+
+        [Inject]
+        public IDashboardService _dashboardService { get; set; }
        
         private LineDataset<Point> _incidentsPerDaySet;
 
-        protected override void OnInitialized()
+        protected override async Task OnInitializedAsync()
         {
             _lineConfig = new LineConfig
             {
@@ -58,7 +65,7 @@ namespace PRIME_UCR.Components.Dashboard
                                 },
                                 Ticks = new LinearCartesianTicks
                                 {
-                                    SuggestedMin = 0
+ //                                   SuggestedMin = 0
                                 }
                             }
                         },
@@ -69,8 +76,14 @@ namespace PRIME_UCR.Components.Dashboard
                                 ScaleLabel = new ScaleLabel
                                 {
                                     LabelString = "Incidentes"
+                                },
+                                Ticks = new LinearCartesianTicks
+                                {
+                                    SuggestedMin = 0,
+                                    StepSize = 1
                                 }
                             }
+
                         }
                     },//finaliza Scales
                     Hover = new LineOptionsHover
@@ -94,11 +107,15 @@ namespace PRIME_UCR.Components.Dashboard
                 SteppedLine = SteppedLine.False,
             };
 
-            for(var i = 0; i < 10; i++)
+            var incidentsData = await _dashboardService.GetAllIncidentsAsync();
+
+            var incidentsPerDay = incidentsData.GroupBy(i => i.Cita.FechaHoraCreacion.DayOfYear);
+
+            foreach (var incident in incidentsPerDay)
             {
-                _incidentsPerDaySet.Add(new Point(i*2, i+2));
-                //_tempPerDaySet.AddRange(weatherForecasts.Select(p => new Point(p.Date.Day, p.TemperatureF)));
+                _incidentsPerDaySet.Add(new Point(incident.Key, incident.ToList().Count()));
             }
+
             _lineConfig.Data.Datasets.Add(_incidentsPerDaySet);
 
              

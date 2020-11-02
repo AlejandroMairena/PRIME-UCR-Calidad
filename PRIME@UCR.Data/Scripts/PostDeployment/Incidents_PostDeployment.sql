@@ -295,7 +295,14 @@ VALUES
 INSERT INTO Incidente (CedulaAdmin, CodigoCita, IdOrigen, Modalidad)
 VALUES
     ('11111111', 1, 1, 'Terrestre'),
-    ('11111111', 2, 2, 'Aéreo');
+    ('11111111', 2, 2, 'Aéreo'),
+    --Agregados por Atenienses
+    ('11111111', 3, 1, 'Aéreo'),
+    ('11111111', 4, 2, 'Aéreo'),
+    ('11111111', 5, 1, 'Aéreo'),
+    ('11111111', 6, 2, 'Aéreo'),
+    ('11111111', 7, 1, 'Aéreo');
+
 
 -- Estado
 INSERT INTO Estado

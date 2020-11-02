@@ -4,6 +4,7 @@ using PRIME_UCR.Application.Implementations.Multimedia;
 using PRIME_UCR.Application.Repositories;
 using PRIME_UCR.Application.Repositories.Appointments;
 using PRIME_UCR.Application.Repositories.CheckLists;
+using PRIME_UCR.Application.Repositories.Dashboard;
 using PRIME_UCR.Application.Repositories.Incidents;
 using PRIME_UCR.Application.Repositories.MedicalRecords;
 using PRIME_UCR.Application.Repositories.Multimedia;
@@ -14,6 +15,7 @@ using PRIME_UCR.Infrastructure.DataProviders.Implementations;
 using PRIME_UCR.Infrastructure.Repositories.Sql;
 using PRIME_UCR.Infrastructure.Repositories.Sql.Appointments;
 using PRIME_UCR.Infrastructure.Repositories.Sql.CheckLists;
+using PRIME_UCR.Infrastructure.Repositories.Sql.Dashboard;
 using PRIME_UCR.Infrastructure.Repositories.Sql.Incidents;
 using PRIME_UCR.Infrastructure.Repositories.Sql.MedicalRecords;
 using PRIME_UCR.Infrastructure.Repositories.Sql.Multimedia;
@@ -58,7 +60,6 @@ namespace PRIME_UCR.Infrastructure
             services.AddTransient<IMultimediaContentRepository, MultimediaContentRepository>();
             services.AddTransient<IActionRepository, ActionRepository>();
             services.AddTransient<IFileService, FileService>();
-
             // user administration repositories
             services.AddTransient<IAdministradorRepository, AdministradorRepository>();
             services.AddTransient<IAdministradorCentroDeControlRepository, AdministradorCentroDeControlRepository>();
@@ -75,9 +76,13 @@ namespace PRIME_UCR.Infrastructure
             services.AddTransient<IPermiteRepository, PermiteRepository>();
             services.AddTransient<IPerteneceRepository, PerteneceRepository>();
             services.AddTransient<INumeroTelefonoRepository, NumeroTelefonoRepository>();
+            // dashboard
+            services.AddTransient<IDashboardRepository, DashboardRepository>();
 
             // temporary file service with no encryption
             services.AddTransient<ITempFileServiceNoEncryption, TempFileServiceNoEncryption>();
+
+         
             return services;
         }
     }
