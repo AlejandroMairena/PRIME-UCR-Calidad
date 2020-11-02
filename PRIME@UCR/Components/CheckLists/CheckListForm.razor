@@ -1,0 +1,71 @@
+﻿<EditForm EditContext="@editContext" OnValidSubmit="@HandleValidSubmit">
+    <FluentValidationValidator />
+    @* Input for the name of the checklist *@
+    <TextBox Label="Nombre " @bind-Value="@CheckList.Nombre" Required="true" />
+    <br />
+    @* Input for the description of the checklist *@
+    <label for="description">Descripción </label>
+    <InputTextArea id="description" @bind-Value="CheckList.Descripcion" class="form-control" />
+    <br />
+    <div class="form-row">
+        <div class="col-6">
+            @* Input for the type of the checklist with predefined options *@
+            <DropDownMenu Label="Tipo " Data="_types" @bind-Value="CheckList.Tipo"
+                          DefaultText="Seleccione el tipo de la lista de chequeo"
+                          Required="true" />
+        </div>
+        <div class="col-6">
+            @* Input for the order of the checklist with a recommended value *@
+            <label for="Tipo">Orden <span style=" color:red">*</span></label>
+            <br />
+            <IntegerInput Label="" @bind-Value="CheckList.Orden" Min="0" Required />
+        </div>
+    </div>
+    <br />
+    @* Drop zone for the image of the checklist *@
+            @if (Update == false)
+            {
+                <label>Imagen</label>
+                <div class="form-row">
+                    <LoadImageComponent @bind-list="CheckList" />
+                    @if (@CheckList.ImagenDescriptiva != null)
+                    {
+                        <div class="col-6">
+                            <img src="@CheckList.ImagenDescriptiva" width="50" height="50" />
+                        </div>
+                    }
+                </div>
+            }
+            else
+            {
+            @* Displys the image of the checklist *@
+            <div class="col-sm-1">
+                @* Displys the image of the checklist *@
+                <button type="button" class="none" data-toggle="dropdown" id="BN_LC">
+                    <img src="@CheckList.ImagenDescriptiva" width="50" height="50" data-toggle="tooltip" title="Cambiar imagen" />
+                </button>
+                @* Drop zone for the image of the checklist, displyed in a dropdown menu for the checklist image *@
+                <ul class="dropdown-menu customLoadImage" role="menu">
+                    <li><LoadImageComponent @bind-list="CheckList" update="update" /></li>
+                </ul>
+            </div>
+            }
+        <br />
+        <p style="color:red">* Campo requerido</p>
+
+        <div align="center">
+            @if (formInvalid)
+            {
+                <button type="submit" class="btn btn-primary">Guardar</button>
+            }
+            else
+            {
+                <button type="submit" class="btn btn-secondary" disabled>Guardar</button>
+            }
+            <a class="btn btn-outline-secondary" @onclick="Dispose" id="a_LC3">Cancelar</a> @*to do: ir a la anterior  *@
+        </div>
+    </EditForm>
+
+@code {
+
+}

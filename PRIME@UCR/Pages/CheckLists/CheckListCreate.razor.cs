@@ -28,10 +28,7 @@ namespace PRIME_UCR.Pages.CheckLists
         private string afterUrl = "";
 
         protected CheckList checkList = new CheckList();
-        protected List<string> _types = new List<string>();
 
-        protected bool formInvalid = false;
-        protected EditContext editContext;
 
         /**
          * Gets the list of checklists in the database
@@ -43,13 +40,6 @@ namespace PRIME_UCR.Pages.CheckLists
 
         protected override async Task OnInitializedAsync()
         {
-            _types.Add("Colocación equipo");
-            _types.Add("Retiro equipo");
-            _types.Add("Paciente en origen");
-            _types.Add("Paciente en destino");
-            _types.Add("Paciente en traslado");
-            editContext = new EditContext(checkList);
-            editContext.OnFieldChanged += HandleFieldChanged;
             await RefreshModels();
             checkList.Orden = lists.Count() + 1;
         }
@@ -57,19 +47,12 @@ namespace PRIME_UCR.Pages.CheckLists
         /**
          * Checks if the required fields of the checklist are valid
          * */
-        protected void HandleFieldChanged(object sender, FieldChangedEventArgs e)
-        {
-            formInvalid = editContext.Validate();
-            if (formInvalid == true) 
-            {
-                StateHasChanged();
-            }
-        }
+
 
 
         public void Dispose()
         {
-            editContext.OnFieldChanged -= HandleFieldChanged;
+            NavManager.NavigateTo("/checklist"); // to do: agregar a pagina anterior
         }
 
         /**
@@ -83,17 +66,13 @@ namespace PRIME_UCR.Pages.CheckLists
             }
             await MyService.InsertCheckList(tempList);
             await RefreshModels();
+            afterUrl = "/checklist/" + checkList.Id;
+            NavManager.NavigateTo(afterUrl); // to do: agregar a pagina anterior
         }
 
         /**
          * Registers the new checklist and navigates to its page
          * */
-        protected async Task HandleValidSubmit()
-        {
-            await AddCheckList(checkList);
-            afterUrl = "/checklist/" + checkList.Id;
-            NavManager.NavigateTo(afterUrl); // to do: agregar a pagina anterior
-        }
 
     }
 }
