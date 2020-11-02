@@ -7,7 +7,6 @@
 @using ChartJs.Blazor.Charts
 @using PRIME_UCR.Application.DTOs.UserAdministration;
 @using PRIME_UCR.Application.Implementations.UserAdministration;
-
 @*Example of policy based authorization in a piece of code*@
 
 <AuthorizeView Policy="@AuthorizationPermissions.CanManageDashboard.ToString()">
@@ -15,6 +14,7 @@
         <h1>
             Dashboard
         </h1>
+        
     </Authorized>
     <NotAuthorized>
         <h1>
@@ -34,6 +34,10 @@
     <div class="col-md-4">
         <PieGraphComponent></PieGraphComponent>
     </div>
+
+    <br />
+
+    <PRIME_UCR.Components.Dashboard.IncidentsVsTimeChartComponent />
 
     @*<LineGraphComponent></LineGraphComponent>*@
 </div>
