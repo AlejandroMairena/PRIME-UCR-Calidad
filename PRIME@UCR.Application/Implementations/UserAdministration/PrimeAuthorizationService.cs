@@ -25,8 +25,11 @@ namespace PRIME_UCR.Application.Implementations
                     return CanCreateChecklist(permissionsList);
                 case (int)AuthorizationPolicies.CanManageDashboard:
                     return CanManageDashboard(permissionsList);
+                case (int)AuthorizationPolicies.CanManageMedicalRecords:
+                    return CanAccessMedicalRecords(permissionsList);
+                default:
+                    return false;
             }
-            return false;
         }
 
         private bool CanManageUsers(List<Permiso> permissionsList)
@@ -45,6 +48,17 @@ namespace PRIME_UCR.Application.Implementations
         {
             return permissionsList.Exists(p => p.IDPermiso == (int)AuthorizationPermissions.CanManageDashboard)
                     || permissionsList.Exists(p => p.IDPermiso == (int)AuthorizationPermissions.CanDoAnything);
+        }
+
+        private bool CanAccessMedicalRecords(List<Permiso> permissionsList)
+        {
+            return permissionsList.Exists(p => p.IDPermiso == (int)AuthorizationPermissions.CanManageAllMedicalRecords)
+                    || permissionsList.Exists(p => p.IDPermiso == (int)AuthorizationPermissions.CanDoAnything)
+                    || (permissionsList.Exists(p => p.IDPermiso == (int)AuthorizationPermissions.CanManageMedicalRecordsOfHisPatients) 
+                        /*Falta revisar si es paciente pertenece a su lista de pacientes*/)
+                    || permissionsList.Exists(p => p.IDPermiso == (int)AuthorizationPermissions.CanSeeMedicalRecordsInReadMode)
+                    || (permissionsList.Exists(p => p.IDPermiso == (int)AuthorizationPermissions.CanSeeMedicalRecordsOfHisPatients)
+                        /*Falta revisar si es paciente pertenece a su lista de pacientes*/);
         }
     }
 }

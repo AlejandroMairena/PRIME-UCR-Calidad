@@ -14,5 +14,8 @@ namespace PRIME_UCR.Application.DTOs.UserAdministration
 
         /*Dashboard policies*/
         CanManageDashboard,
+
+        /*Medical records policies*/
+        CanManageMedicalRecords,
     }
 }

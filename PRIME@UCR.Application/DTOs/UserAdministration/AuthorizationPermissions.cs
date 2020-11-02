@@ -7,11 +7,11 @@ namespace PRIME_UCR.Application.DTOs.UserAdministration
     /**     
      * Enumeration used to know each of the policies names to be used in the authorization.
      * The idea is to used in a page a structure like the following to make the authorization:
-     * Ej:      @attribute [HasPermission(AuthorizationPermissions.CanManageDashboard)]
+     * Ej:      @attribute [HasPolicy(AuthorizationPolicies.CanManageDashboard)]
      * 
      * Or in a piece of code a structure like the following:
      * Ej:
-     * <AuthorizeView Policy="@AuthorizationPermissions.CanManageDashboard">
+     * <AuthorizeView Policy="@AuthorizationPolicies.CanManageDashboard">
             <Authorized>
                 <h1>
                     Dashboard
