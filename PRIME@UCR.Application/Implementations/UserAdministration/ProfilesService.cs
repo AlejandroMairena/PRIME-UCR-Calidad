@@ -28,24 +28,9 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
             authorizationService = _authorizationService;
         }
 
-        public async Task<IEnumerable<Perfil>> GetPerfiles()
-        {
-            var user = (await authenticationStateProvider.GetAuthenticationStateAsync()).User;
-            if((await authorizationService.AuthorizeAsync(user,AuthorizationPolicies.CanManageUsers.ToString())).Succeeded )
-            {
-                return await _profilesRepository.GetAllAsync();
-            }
-            return null;
-        }
-
         public async Task<List<Perfil>> GetPerfilesWithDetailsAsync()
         {
-            var user = (await authenticationStateProvider.GetAuthenticationStateAsync()).User;
-            if ((await authorizationService.AuthorizeAsync(user, AuthorizationPolicies.CanManageUsers.ToString())).Succeeded)
-            {
-                return await _profilesRepository.GetPerfilesWithDetailsAsync();
-            }
-            return null;
+            return await _profilesRepository.GetPerfilesWithDetailsAsync();
         }
     }
 }

@@ -31,6 +31,14 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
                 .ToListAsync();
         }
 
+        public async Task<Usuario> GetUserByEmailAsync(string email)
+        {
+            return await _db.Usuarios
+                .Include(u => u.Persona)
+                .Include(u => u.UsuariosYPerfiles)
+                .FirstAsync(u => u.Email == email);
+        }
+
         public async Task<Usuario> GetWithDetailsAsync(string id)
         {
             return await _db.Usuarios

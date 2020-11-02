@@ -46,7 +46,7 @@ namespace PRIME_UCR.Pages.UserAdministration
         {
             isBusy = true;
             StateHasChanged();
-            var personModel = personService.GetPersonModelFromRegisterModel(infoOfUserToRegister);
+            var personModel = await personService.GetPersonModelFromRegisterModelAsync(infoOfUserToRegister);
             var existPersonInDB = (await personService.GetPersonByIdAsync(personModel.IdCardNumber)) == null ? false : true;
             if (!existPersonInDB)
             {

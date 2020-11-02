@@ -31,6 +31,11 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
             return await usuarioRepository.GetAllUsersWithDetailsAsync();
         }
 
+        public async Task<Usuario> GetUserByEmailAsync(string email)
+        {
+            return await usuarioRepository.GetUserByEmailAsync(email);
+        }
+
         public async Task<Usuario> GetUserWithDetailsAsync(string id)
         {
             return await usuarioRepository.GetWithDetailsAsync(id);

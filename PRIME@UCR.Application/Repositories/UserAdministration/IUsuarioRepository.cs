@@ -11,6 +11,8 @@ namespace PRIME_UCR.Application.Repositories.UserAdministration
         Task<Usuario> GetWithDetailsAsync(string id);
 
         Task<List<Usuario>> GetAllUsersWithDetailsAsync();
+
+        Task<Usuario> GetUserByEmailAsync(string email);
     }
 
 

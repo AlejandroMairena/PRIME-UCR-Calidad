@@ -87,8 +87,7 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
 
             if (emailAddress != null)
             {
-                var userToRegister = await UserManager.FindByEmailAsync(emailAddress);
-                userToRegister = await authenticationService.GetUserWithDetailsAsync(userToRegister.Id);
+                var userToRegister = await authenticationService.GetUserByEmailAsync(emailAddress);
                 var profilesAndPermissions = await authenticationService.GetAllProfilesWithDetailsAsync();
                 identity = GetClaimIdentity(userToRegister, profilesAndPermissions);
             }

@@ -1,4 +1,7 @@
-﻿using PRIME_UCR.Application.Repositories.UserAdministration;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Components.Authorization;
+using PRIME_UCR.Application.DTOs.UserAdministration;
+using PRIME_UCR.Application.Repositories.UserAdministration;
 using PRIME_UCR.Application.Services.UserAdministration;
 using System;
 using System.Collections.Generic;
@@ -11,18 +14,35 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
     {
         private readonly IPermiteRepository _IPermiteRepository;
 
-        public PermiteService(IPermiteRepository IPermiteRepository) 
+        private readonly IAuthorizationService authorizationService;
+
+        private readonly AuthenticationStateProvider authenticationStateProvider;
+
+        public PermiteService(IPermiteRepository IPermiteRepository,
+            IAuthorizationService _authorizationService,
+            AuthenticationStateProvider _authenticationStateProvider) 
         {
             _IPermiteRepository = IPermiteRepository;
+            authenticationStateProvider = _authenticationStateProvider;
+            authorizationService = _authorizationService;
         }
 
         public async Task DeletePermissionAsync(string idProfile, int idPermission)
         {
-            await _IPermiteRepository.DeletePermissionAsync(idProfile, idPermission);
+            var user = (await authenticationStateProvider.GetAuthenticationStateAsync()).User;
+            if((await authorizationService.AuthorizeAsync(user, AuthorizationPolicies.CanManageUsers.ToString())).Succeeded)
+            {
+                await _IPermiteRepository.DeletePermissionAsync(idProfile, idPermission);
+            }
         }
+
         public async Task InsertPermissionAsync(string idProfile, int idPermission)
         {
-            await _IPermiteRepository.InsertPermissionAsync(idProfile, idPermission);
+            var user = (await authenticationStateProvider.GetAuthenticationStateAsync()).User;
+            if ((await authorizationService.AuthorizeAsync(user, AuthorizationPolicies.CanManageUsers.ToString())).Succeeded)
+            {
+                await _IPermiteRepository.InsertPermissionAsync(idProfile, idPermission);
+            }
         }
 
     }

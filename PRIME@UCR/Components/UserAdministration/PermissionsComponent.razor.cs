@@ -22,15 +22,9 @@ namespace PRIME_UCR.Components.UserAdministration
         public IPermissionsService permissionsService { get; set; }
 
         [Inject]
-        public IProfilesService profileService { get; set; }
-
-        [Inject]
         public IPermiteService permiteService { get; set; }
 
         public List<Permiso> ListPermissions { get; set; }
-
-        [Inject]
-        IHttpContextAccessor contextAccessor { get; set; }
 
         [Parameter]
         public ProfileModel Value { get; set; }
@@ -52,7 +46,6 @@ namespace PRIME_UCR.Components.UserAdministration
          */
         protected override async Task OnInitializedAsync()
         {
-            var user = contextAccessor.HttpContext.User;
             ListPermissions = (await permissionsService.GetPermisos()).ToList();
         }
 

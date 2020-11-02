@@ -11,5 +11,6 @@ namespace PRIME_UCR.Application.Services.UserAdministration
         Task<List<Usuario>> GetAllUsersWithDetailsAsync();
         Task<List<Perfil>> GetAllProfilesWithDetailsAsync();
         Task<Usuario> GetUserWithDetailsAsync(string id);
+        Task<Usuario> GetUserByEmailAsync(string email);
     }
 }
