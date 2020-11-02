@@ -5,6 +5,7 @@
 @inject IEncryptionService encrypt_service
 @using Microsoft.AspNetCore.Hosting
 @inject IWebHostEnvironment _environment;
+@inject IJSRuntime JS
 
 @using PRIME_UCR.Infrastructure
 
@@ -133,6 +134,7 @@
 
     protected override async Task OnInitializedAsync()
     {
+        await JS.InvokeAsync<bool>("hasGetUserMedia", null);
     }
 
     public void Open()
