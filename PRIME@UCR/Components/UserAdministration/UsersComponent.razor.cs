@@ -69,12 +69,14 @@ namespace PRIME_UCR.Components.UserAdministration
                     Value.UserLists.Add(User);
                     await perteneceService.InsertUserOfProfileAsync(User.Id, Value.ProfileName);
                     Value.StatusMessage = "El usuario " + User.UserName + " fue agregado del perfil " + Value.ProfileName + ". Para que " + User.UserName+ " pueda notar los cambios, deberá reiniciar su sesión.";
+                    Value.StatusMessageType = "success";
                 }
                 else
                 {
                     Value.UserLists.Remove(User);
                     await perteneceService.DeleteUserOfProfileAsync(User.Id, Value.ProfileName);
                     Value.StatusMessage = "El usuario " + User.UserName + " fue removido del perfil " + Value.ProfileName + ". Para que " + User.UserName + " pueda notar los cambios, deberá reiniciar su sesión.";
+                    Value.StatusMessageType = "warning";
                 }
                 Value.CheckedUsers[(Value.CheckedUsers.FindIndex(p => p.Item1 == IdUser))] =  new Tuple<string, bool>(IdUser,(bool)e.Value);
                 await ValueChanged.InvokeAsync(Value);
