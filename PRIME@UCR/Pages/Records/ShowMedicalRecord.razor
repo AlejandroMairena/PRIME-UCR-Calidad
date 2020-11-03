@@ -31,8 +31,14 @@
             <Column TableItem="Expediente" Title="Primer Apellido" Field="@(x => x.Paciente.PrimerApellido)" Width="20%">
             </Column>
 
-            <Column TableItem="Expediente" Title="Segundo Apellido" Field="@(x => x.Paciente.SegundoApellido)"  Width="20%">
+            <Column TableItem="Expediente" Title="Segundo Apellido" Field="@(x => x.Paciente.SegundoApellido)" Width="20%">
             </Column>
+
+            <EmptyDataTemplate>
+                <div class="text-center">
+                    No se encontraron expedientes en el sistema. 
+                </div>
+            </EmptyDataTemplate>
 
             <Pager ShowPageNumber="true" ShowTotalCount="true" />
         </Table>

@@ -136,14 +136,14 @@ namespace PRIME_UCR.Application.Implementations.MedicalRecords
         }
 
 
+        public async Task<Expediente> GetMedicalRecordDetailsLinkedAsync(int identification) {
+
+            return await _repo.GetDetailsRecordWithPatientDoctorDatesAsync(identification); 
+        }
+
+
         public async Task<RecordViewModel> GetIncidentDetailsAsync(int id)
         {
-            //intentar usar este, en teoria, con este deberia poder navegar y acceder al paciente, doctor y citas
-            //ejemplo : 
-            // medical_record.Paciente.Nombre
-            //medical_record.Citas 
-            //var medical_record = await _repo.GetDetailsRecordWithPatientDoctorDatesAsync(id); 
-
             var record = await _repo.GetByKeyAsync(id);
             var person = await _personRepo.GetByKeyAsync(record.CedulaPaciente);
             var doctor = await _personRepo.GetByKeyAsync(record.CedulaMedicoDuenno);

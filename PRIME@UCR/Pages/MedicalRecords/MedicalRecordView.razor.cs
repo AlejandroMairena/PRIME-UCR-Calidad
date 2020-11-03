@@ -32,6 +32,8 @@ namespace PRIME_UCR.Pages.MedicalRecords
 
         private RecordViewModel viewModel = new RecordViewModel();
 
+        Expediente medical_record_with_details { get; set; }
+
         private void FillTabStates()
         {
             _tabs.Clear();
@@ -59,6 +61,10 @@ namespace PRIME_UCR.Pages.MedicalRecords
                 exists = false;
             else
                 FillTabStates();
+
+            //en teoria en este tiene las citas, entonces nadamas saca la info de aqui. 
+            //de momento el único paciente que tiene citas es el que tiene el expediente con id 28
+            medical_record_with_details = await MedicalRecordService.GetMedicalRecordDetailsLinkedAsync(identification); 
         }
 
 

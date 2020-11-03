@@ -12,13 +12,15 @@ namespace PRIME_UCR.Components.MedicalRecords
     public partial class ActiveTab
     {
         [Parameter]
-        public DetailsTab Active { get; set; }    
-        
+        public DetailsTab Active { get; set; }
+
         [Parameter]
         public RecordViewModel Expediente { get; set; }
 
         [Parameter]
         public EventCallback<IncidentDetailsModel> OnSave { get; set; }
 
+        [Parameter]
+        public Expediente MedicalRecord { get; set;  }
     }
 }
