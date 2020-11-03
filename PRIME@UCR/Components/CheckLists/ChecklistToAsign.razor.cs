@@ -9,12 +9,12 @@ using Microsoft.AspNetCore.Components.Forms;
 using System.Linq;
 using PRIME_UCR.Domain.Models.CheckLists;
 
-namespace PRIME_UCR.Pages.CheckLists
+namespace PRIME_UCR.Components.CheckLists
 {
-    public class CheckListToInstanceBase : ComponentBase
+    public class ChecklistToAsignBase : ComponentBase
     {
-        
-        public CheckListToInstanceBase()
+
+        public ChecklistToAsignBase()
         {
             llenado = false;
             count = 0;
@@ -28,6 +28,7 @@ namespace PRIME_UCR.Pages.CheckLists
         public List<int> TempsIds = new List<int>();
         public int count;
         public bool dont_save;
+
         protected override async Task OnInitializedAsync()
         {
             await RefreshModels();
@@ -44,32 +45,15 @@ namespace PRIME_UCR.Pages.CheckLists
         }
         public void Dispose()
         {
-            foreach (var temp in TempDetail)
+            foreach( var temp in TempDetail )
             {
                 temp.IsDone = false;
             }
             Update();
             OnInitialized();
             dont_save = true;
+
         }
-        /*protected bool CheckIempList(int id)
-        {
-            bool resultado = false;
-            if (TempIds.Contains(id))
-            {
-                TempIds.Remove(id);
-                resultado = true;
-            }
-            else
-            {
-                TempIds.Add(id);
-                resultado = false;
-            }
-            //TempInstanceIds.Append();
-            RefreshModels();
-            StateHasChanged();
-            return resultado;
-        }*/
         protected void CheckIempList(int idd, ChangeEventArgs e)
         {
             if ((bool)e.Value)
@@ -98,6 +82,8 @@ namespace PRIME_UCR.Pages.CheckLists
             }
         }
 
+
+
         protected void toggleItemChangeComponent()
         {
         }
@@ -107,16 +93,20 @@ namespace PRIME_UCR.Pages.CheckLists
             public int idd;
         }
 
-        public void Llenar() {
-             foreach (var templist in lists)
-             {
-                 Todo TodoItem =new Todo();
-                 int idds = @templist.Id;
-                 TodoItem.idd = idds;
-                 TempDetail.Add(TodoItem);
-                TempsIds.Add(idds);
-             }
-            llenado = true;
+        public void Llenar()
+        {
+            if (llenado == false)
+            {
+                foreach (var templist in lists)
+                {
+                    Todo TodoItem = new Todo();
+                    int idds = @templist.Id;
+                    TodoItem.idd = idds;
+                    TempDetail.Add(TodoItem);
+                    TempsIds.Add(idds);
+                }
+                llenado = true;
+            }
         }
     }
 }
