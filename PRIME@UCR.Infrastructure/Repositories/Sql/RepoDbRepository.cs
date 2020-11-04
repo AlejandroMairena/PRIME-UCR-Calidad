@@ -21,16 +21,13 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql
 
         public virtual async Task DeleteAsync(TKey key)
         {
+            var existing = await GetByKeyAsync(key);
             using (var connection = new SqlConnection(_db.ConnectionString))
             {
-                var existing = await GetByKeyAsync(key);
-
-                if (existing == null)
+                if (existing != null)
                 {
-                    throw new ArgumentException($"Invalid key for entity {nameof(T)}: {key}");
+                    await connection.DeleteAsync(existing);
                 }
-
-                await connection.DeleteAsync(existing);
             }
         }
 
@@ -60,11 +57,12 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql
 
         public virtual async Task<T> InsertAsync(T model)
         {
+            TKey key;
             using (var connection = new SqlConnection(_db.ConnectionString))
             {
-                var key = (TKey)await connection.InsertAsync(model);
-                return await GetByKeyAsync(key);
+                key = (TKey)await connection.InsertAsync(model);
             }
+            return await GetByKeyAsync(key);
         }
 
         public virtual async Task UpdateAsync(T model)

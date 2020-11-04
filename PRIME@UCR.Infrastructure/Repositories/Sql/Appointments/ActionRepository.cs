@@ -5,9 +5,11 @@ using PRIME_UCR.Infrastructure.DataProviders;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using RepoDb;
 
 namespace PRIME_UCR.Infrastructure.Repositories.Sql.Appointments
 {
@@ -22,43 +24,51 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Appointments
 
         public async Task DeleteAsync(int citaId, string nombreAccion, int mcId)
         {
-            var existing = await _db.Set<Accion>().FindAsync(citaId, nombreAccion, mcId);
-            if (existing != null)
+            using (var connection = new SqlConnection(_db.ConnectionString))
             {
-                _db.Actions.Remove(existing);
+                await connection.ExecuteNonQueryAsync(
+                    @"
+                        delete from Accion
+                        where CitaId = @CitaId
+                            and MultContId = @MultContId
+                            and NombreAccion = @NombreAccion
+                    ", new
+                    {
+                        CitaId = citaId,
+                        MultContId = mcId,
+                        NombreAccion = nombreAccion
+                    }
+                );
             }
-            await _db.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<MultimediaContent>> GetByAppointmentAction(int citaId, string nombreAccion)
         {
-            return await _db.Actions
-                .Include(a => a.MultimediaContent)
-                .Where(a => a.CitaId == citaId && a.NombreAccion == nombreAccion)
-                .Select(a => a.MultimediaContent)
-                .ToListAsync();
+            using (var connection = new SqlConnection(_db.ConnectionString))
+            {
+                return await connection.ExecuteQueryAsync<MultimediaContent>(
+                    @"
+                        select MC.*
+                        from Accion
+                        join MultimediaContent MC on MC.Id = Accion.MultContId
+                        where CitaId = @CitaId and NombreAccion = @NombreAccion
+                    ",
+                    new
+                    {
+                        CitaId = citaId,
+                        NombreAccion = nombreAccion
+                    }
+                );
+            }
         }
 
         public async Task<Accion> InsertAsync(Accion action)
         {
-            _db.Actions.Add(action);
-            await _db.SaveChangesAsync();
-            return action;
-            //return await Task.Run(() =>
-            //{
-            //    // raw sql
-            //    using (var cmd = _db.DbConnection.CreateCommand())
-            //    {
-            //        if (cmd.Connection.State == ConnectionState.Closed)
-            //        {
-            //            cmd.Connection.Open();
-            //        }
-
-            //        cmd.CommandText = $"EXECUTE dbo.InsertarAccion {action.CitaId}, '{action.NombreAccion}', {action.MultContId}";
-            //    }
-
-            //    return action;
-            //});
+            using (var connection = new SqlConnection(_db.ConnectionString))
+            {
+                await connection.InsertAsync(action);
+                return action;
+            }
         }
     }
 }

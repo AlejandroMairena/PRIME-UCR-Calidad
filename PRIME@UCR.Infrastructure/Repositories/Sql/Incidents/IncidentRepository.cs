@@ -137,17 +137,17 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Incidents
                         join s in states
                             on i.Codigo equals s.CodigoIncidente
                         join add in origins
-                            on i.IdOrigen equals add.Id
+                            on i.IdOrigen equals add?.Id
                             into orgs
                             from o in orgs.DefaultIfEmpty() // left join
                         join add in destinations
-                            on i.IdDestino equals add.Id
-                            into CUs
-                            from d in CUs.DefaultIfEmpty() // left join
+                            on i.IdDestino equals add?.Id
+                            into cUs
+                            from d in cUs.DefaultIfEmpty() // left join
                         join add in medicalCenters
                             on d?.CentroMedicoId equals add?.Id
-                            into CMs
-                            from mc in CMs.DefaultIfEmpty() // left join
+                            into cMs
+                            from mc in cMs.DefaultIfEmpty() // left join
                         select new IncidentListModel
                         {
                             Codigo = i.Codigo,

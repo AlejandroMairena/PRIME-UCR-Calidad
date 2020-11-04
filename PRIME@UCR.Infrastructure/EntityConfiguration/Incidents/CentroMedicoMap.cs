@@ -9,6 +9,7 @@ namespace PRIME_UCR.Infrastructure.EntityConfiguration.Incidents
     {
         public void Configure(EntityTypeBuilder<CentroMedico> builder)
         {
+            // EFCore
             builder.ToTable("Centro_Medico");
             builder
                 .Property(p => p.Id)
@@ -19,6 +20,7 @@ namespace PRIME_UCR.Infrastructure.EntityConfiguration.Incidents
                 .WithMany(p => p.CentroMedicos)
                 .HasForeignKey(p => p.UbicadoEn);
 
+            // RepoDb
             FluentMapper.Entity<CentroMedico>()
                 .Table("Centro_Medico");
         }

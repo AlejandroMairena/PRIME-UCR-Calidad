@@ -14,7 +14,6 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Incidents
     {
         private readonly ISqlDataProvider _db;
 
-
         public AssignmentRepository(ISqlDataProvider db)
         {
             _db = db;

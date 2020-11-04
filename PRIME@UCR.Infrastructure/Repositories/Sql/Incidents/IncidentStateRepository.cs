@@ -21,6 +21,8 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Incidents
 
         public async Task AddState(EstadoIncidente incidentState)
         {
+            if (incidentState == null)
+                throw new ArgumentNullException("incidentState");
             using (var connection = new SqlConnection(_db.ConnectionString))
             {
                 // specify composite key, use raw SQL to support this
@@ -29,7 +31,10 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Incidents
                         update EstadoIncidente
                         set Activo = 0
                         where CodigoIncidente = @Id
-                    ", new { Id = incidentState.CodigoIncidente }
+                    ", new
+                    {
+                        Id = incidentState.CodigoIncidente,
+                    }
                 );
 
                 incidentState.Activo = true; // make sure it is inserted as active

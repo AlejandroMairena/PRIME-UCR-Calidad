@@ -18,7 +18,6 @@ using PRIME_UCR.Infrastructure.Repositories.Sql.Incidents;
 using PRIME_UCR.Infrastructure.Repositories.Sql.MedicalRecords;
 using PRIME_UCR.Infrastructure.Repositories.Sql.Multimedia;
 using PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration;
-using RepoDb;
 
 namespace PRIME_UCR.Infrastructure
 {
