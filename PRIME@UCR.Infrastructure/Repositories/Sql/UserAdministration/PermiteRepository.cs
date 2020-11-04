@@ -7,56 +7,81 @@ using PRIME_UCR.Application.Repositories.UserAdministration;
 using PRIME_UCR.Infrastructure.DataProviders;
 using System.Threading.Tasks;
 using System.Data.Common;
+using PRIME_UCR.Application.Services.UserAdministration;
+using PRIME_UCR.Application.DTOs.UserAdministration;
+using PRIME_UCR.Application.Exceptions.UserAdministration;
 
 namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
 {
-    public class PermiteRepository : GenericRepository<Permite, Tuple<string, int>>, IPermiteRepository
+    public class PermiteRepository : IPermiteRepository
     {
-        public PermiteRepository(ISqlDataProvider dataProvider) : base(dataProvider)
+        
+        private readonly ISqlDataProvider _db;
+
+        private readonly IPrimeSecurityService primeSecurityService;
+
+        public PermiteRepository(ISqlDataProvider dataProvider, 
+            IPrimeSecurityService _primeSecurityService)
         {
+            _db = dataProvider;
+            primeSecurityService = _primeSecurityService;
         }
 
         public async Task DeletePermissionAsync(string idProfile, int idPermission) 
         {
-            await Task.Run(() =>
+            if ((await primeSecurityService.isAuthorizedAsync(AuthorizationPolicies.CanManageUsers)))
             {
-                using (var cmd = _db.DbConnection.CreateCommand())
+                await Task.Run(() =>
                 {
-                    while (cmd.Connection.State != System.Data.ConnectionState.Open) 
+                    using (var cmd = _db.DbConnection.CreateCommand())
                     {
-                        cmd.Connection.Open();
-                    }
-                    if (cmd.Connection.State == System.Data.ConnectionState.Open) 
-                    {
-                        cmd.CommandText =
-                            $"EXECUTE dbo.DeletePermissionFromProfile @idPermission='{idPermission}', @idProfile='{idProfile}'";
+                        while (cmd.Connection.State != System.Data.ConnectionState.Open) 
+                        {
+                            cmd.Connection.Open();
+                        }
+                        if (cmd.Connection.State == System.Data.ConnectionState.Open) 
+                        {
+                            cmd.CommandText =
+                                $"EXECUTE dbo.DeletePermissionFromProfile @idPermission='{idPermission}', @idProfile='{idProfile}'";
 
-                        cmd.ExecuteNonQuery();
-                    }
+                            cmd.ExecuteNonQuery();
+                        }
                     
-                }
-            });
+                    }
+                });
+            } else
+            {
+                throw new NotAuthorizedException();
+            }
+
         }
         public async Task InsertPermissionAsync(string idProfile, int idPermission)
         {
-            await Task.Run(() =>
+            if ((await primeSecurityService.isAuthorizedAsync(AuthorizationPolicies.CanManageUsers)))
             {
-                using (var cmd = _db.DbConnection.CreateCommand())
+                await Task.Run(() =>
                 {
-                    while (cmd.Connection.State != System.Data.ConnectionState.Open)
+                    using (var cmd = _db.DbConnection.CreateCommand())
                     {
-                        cmd.Connection.Open();
-                    }
-                    if (cmd.Connection.State == System.Data.ConnectionState.Open)
-                    {
-                        cmd.CommandText =
-                            $"EXECUTE dbo.InsertPermissionToProfile @idPermission='{idPermission}', @idProfile='{idProfile}'";
+                        while (cmd.Connection.State != System.Data.ConnectionState.Open)
+                        {
+                            cmd.Connection.Open();
+                        }
+                        if (cmd.Connection.State == System.Data.ConnectionState.Open)
+                        {
+                            cmd.CommandText =
+                                $"EXECUTE dbo.InsertPermissionToProfile @idPermission='{idPermission}', @idProfile='{idProfile}'";
 
-                        cmd.ExecuteNonQuery();
-                    }
+                            cmd.ExecuteNonQuery();
+                        }
 
-                }
-            });
+                    }
+                });
+            }
+            else 
+            {
+                throw new NotAuthorizedException();
+            }
 
         }
     }

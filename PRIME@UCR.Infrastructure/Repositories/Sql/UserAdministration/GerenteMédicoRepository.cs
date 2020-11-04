@@ -7,10 +7,12 @@ using System.Text;
 
 namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
 {
-    public class GerenteMédicoRepository : GenericRepository<GerenteMédico, string>, IGerenteMédicoRepository
+    public class GerenteMédicoRepository : IGerenteMédicoRepository
     {
-        public GerenteMédicoRepository(ISqlDataProvider dataProvider) : base(dataProvider)
+        private readonly ISqlDataProvider _db;
+        public GerenteMédicoRepository(ISqlDataProvider dataProvider)
         {
+            _db = dataProvider;
         }
     }
 }
