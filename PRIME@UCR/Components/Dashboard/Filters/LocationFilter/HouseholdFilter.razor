@@ -1,0 +1,42 @@
+﻿@using PRIME_UCR.Components.Controls
+
+<Loading IsLoading="@_isLoading">
+    <EditForm EditContext="_context" OnValidSubmit="Submit">
+        <FluentValidationValidator />
+        <div class="row">
+            <div class="col-xl-4 col-lg-6">
+                <DropDownMenu Data="@_provinces" 
+                              Label="Provincia" 
+                              TextProperty="Nombre"
+                              DefaultText="Sin filtro"
+                              Value="@Value.Province" 
+                              ValueExpression="() => Value.Province"
+                              ValueChanged="@((Provincia p) => OnChangeProvince(p))" 
+                              UseValidation="false" 
+                              Required="false"/>                
+                @if (Value.Province != null)
+                {
+                    <DropDownMenu Data="@_cantons" 
+                              Label="Cantón"
+                              TextProperty="Nombre"
+                              DefaultText="Sin filtro"
+                              Value="@Value.Canton" 
+                              ValueExpression="() => Value.Canton"
+                              ValueChanged="@((Canton c) => OnChangeCanton(c))" 
+                              UseValidation="false" 
+                              Required="false"/>
+                    if (Value.Canton != null)
+                    {
+                        <DropDownMenu Data="@_districts" 
+                              Label="Distrito"
+                              TextProperty="Nombre"
+                              DefaultText="Sin filtro"
+                              @bind-Value="Value.District" 
+                              UseValidation="false"
+                              Required="false"/>
+                    }
+                }
+            </div>
+        </div>
+    </EditForm>
+</Loading>

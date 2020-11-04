@@ -1,0 +1,44 @@
+﻿@using PRIME_UCR.Components.Controls
+@using PRIME_UCR.Components.Dashboard.Filters.LocationFilter
+
+<div class="row">
+    <div class="col-md-4">
+        <EditForm Model="_selectedOriginType">
+            <DropDownMenu Data="@_dropdownValuesOrigin" 
+                          Label="Ubicación origen" 
+                          TextProperty="Item2"
+                          Value="_selectedOriginType"
+                          ValueChanged="@((Tuple<OriginType, string> o) => OnOriginTypeChange(o))"
+                          ValueExpression="() => _selectedOriginType"
+                          UseValidation="false" 
+                          Required="false"/>
+        </EditForm>
+    </div>
+</div>
+<Loading IsLoading="@_isLoading">
+    @if(_selectedOriginType.Item1 != OriginType.SinFiltro)
+    {
+        @if (_selectedOriginType.Item1 == OriginType.Household)
+        {
+            <HouseholdFilter Value="@_householdModel"
+                             OnSave="OnHouseholdSave"
+                             OnDiscard="LoadExistingValues"
+                             IsFirst="@(!(Origin is Domicilio))"/>
+        }
+        else if (_selectedOriginType.Item1 == OriginType.International)
+        {
+            <InternationalFilter Value="_internationalModel"
+                                 OnSave="@OnInternationalSave"
+                                 OnDiscard="LoadExistingValues"
+                                 IsFirst="@(!(Origin is Internacional))" />
+        }
+        else
+        {
+            <MedicalCenterFilter Value="_medicalCenterModel"
+                                 IsOrigin="@true"
+                                 OnSave="@OnMedicalCenterSave"
+                                 OnDiscard="LoadExistingValues"
+                                 IsFirst="@(!(Origin is CentroUbicacion))" />
+        }
+    }
+</Loading>
