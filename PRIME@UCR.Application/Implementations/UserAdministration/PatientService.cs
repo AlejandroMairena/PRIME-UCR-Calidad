@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components.Authorization;
 using PRIME_UCR.Application.DTOs.UserAdministration;
+using PRIME_UCR.Application.Exceptions.UserAdministration;
 using PRIME_UCR.Application.Repositories.UserAdministration;
 using PRIME_UCR.Application.Services.UserAdministration;
 using PRIME_UCR.Domain.Models.UserAdministration;
@@ -13,47 +14,47 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
     {
         private readonly IPacienteRepository _patientRepo;
 
-        private readonly IAuthorizationService authorizationService;
-
-        private readonly AuthenticationStateProvider authenticationStateProvider;
+        private readonly IPrimeSecurityService primeSecurityService;
 
         public PatientService(IPacienteRepository patientRepo,
-            AuthenticationStateProvider _authenticationStateProvider,
-            IAuthorizationService _authorizationService)
+            IPrimeSecurityService _primeSecurityService)
         {
             _patientRepo = patientRepo;
-            authorizationService = _authorizationService;
-            authenticationStateProvider = _authenticationStateProvider;
+            primeSecurityService = _primeSecurityService;
         }
 
         public async Task<Paciente> GetPatientByIdAsync(string id)
         {
-            var user = (await authenticationStateProvider.GetAuthenticationStateAsync()).User;
-            if((await authorizationService.AuthorizeAsync(user, AuthorizationPolicies.CanManageMedicalRecords.ToString())).Succeeded)
+            if ((await primeSecurityService.isAuthorizedAsync(AuthorizationPolicies.CanManageUsers)))
             {
                 return await _patientRepo.GetByKeyAsync(id);
+            } else
+            {
+                throw new NotAuthorizedException();
             }
-            return null;
         }
 
         public async Task<Paciente> CreatePatientAsync(Paciente entity)
         {
-            var user = (await authenticationStateProvider.GetAuthenticationStateAsync()).User;
-            if ((await authorizationService.AuthorizeAsync(user, AuthorizationPolicies.CanManageMedicalRecords.ToString())).Succeeded)
+            if ((await primeSecurityService.isAuthorizedAsync(AuthorizationPolicies.CanManageUsers)))
             {
                 return await _patientRepo.InsertAsync(entity);
             }
-            return null;
+            else
+            {
+                throw new NotAuthorizedException();
+            }
         }
 
         public async Task<Paciente> InsertPatientOnlyAsync(Paciente entity)
         {
-            var user = (await authenticationStateProvider.GetAuthenticationStateAsync()).User;
-            if ((await authorizationService.AuthorizeAsync(user, AuthorizationPolicies.CanManageMedicalRecords.ToString())).Succeeded)
+            if ((await primeSecurityService.isAuthorizedAsync(AuthorizationPolicies.CanManageUsers)))
             {
                 return await _patientRepo.InsertPatientOnlyAsync(entity);
+            } else
+            {
+                throw new NotAuthorizedException();
             }
-            return null;
         }
     }
 }

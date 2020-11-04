@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components.Authorization;
 using PRIME_UCR.Application.DTOs.UserAdministration;
+using PRIME_UCR.Application.Exceptions.UserAdministration;
 using PRIME_UCR.Application.Repositories.UserAdministration;
 using PRIME_UCR.Application.Services.UserAdministration;
 using System;
@@ -14,34 +15,35 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
     {
         private readonly IPerteneceRepository _perteneceRepository;
 
-        private readonly IAuthorizationService authorizationService;
-
-        private readonly AuthenticationStateProvider authenticationStateProvider;
+        private readonly IPrimeSecurityService primeSecurityService;
 
         public PerteneceService(IPerteneceRepository perteneceRepository,
-            IAuthorizationService _authorizationService,
-            AuthenticationStateProvider _authenticationStateProvider)
+            IPrimeSecurityService _primeSecurityService)
         {
             _perteneceRepository = perteneceRepository;
-            authorizationService = _authorizationService;
-            authenticationStateProvider = _authenticationStateProvider;
+            primeSecurityService = _primeSecurityService;
         }
 
         public async Task DeleteUserOfProfileAsync(string idUser, string idProfile)
         {
-            var user = (await authenticationStateProvider.GetAuthenticationStateAsync()).User;
-            if( (await authorizationService.AuthorizeAsync(user, AuthorizationPolicies.CanManageUsers.ToString())).Succeeded)
+            if((await primeSecurityService.isAuthorizedAsync(AuthorizationPolicies.CanManageUsers)))
             {
                 await _perteneceRepository.DeleteUserFromProfileAsync(idUser, idProfile);
+            } else
+            {
+                throw new NotAuthorizedException();
             }
         }
 
         public async Task InsertUserOfProfileAsync(string idUser, string idProfile)
         {
-            var user = (await authenticationStateProvider.GetAuthenticationStateAsync()).User;
-            if ((await authorizationService.AuthorizeAsync(user, AuthorizationPolicies.CanManageUsers.ToString())).Succeeded)
+            if ((await primeSecurityService.isAuthorizedAsync(AuthorizationPolicies.CanManageUsers))) 
             {
                 await _perteneceRepository.InsertUserToProfileAsync(idUser, idProfile);
+            } 
+            else
+            {
+                throw new NotAuthorizedException();
             }
         }
     }

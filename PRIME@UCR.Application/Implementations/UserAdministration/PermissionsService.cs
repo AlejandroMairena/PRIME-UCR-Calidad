@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components.Authorization;
 using PRIME_UCR.Application.DTOs.UserAdministration;
+using PRIME_UCR.Application.Exceptions.UserAdministration;
 using PRIME_UCR.Application.Repositories.UserAdministration;
 using PRIME_UCR.Application.Services.UserAdministration;
 using PRIME_UCR.Domain.Models.UserAdministration;
@@ -15,27 +16,25 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
     {
         private readonly IPermisoRepository _permissionsRepository;
 
-        private readonly IAuthorizationService authorizationService;
-
-        private readonly AuthenticationStateProvider authenticationStateProvider;
+        private readonly IPrimeSecurityService primeSecurityService;
 
         public PermissionsService(IPermisoRepository permisoRepository,
-            IAuthorizationService _authorizationService,
-            AuthenticationStateProvider _authenticationStateProvider)
+            IPrimeSecurityService _primeSecurityService)
         {
             _permissionsRepository = permisoRepository;
-            authenticationStateProvider = _authenticationStateProvider;
-            authorizationService = _authorizationService;
+            primeSecurityService = _primeSecurityService;
         }
 
         public async Task<IEnumerable<Permiso>> GetPermisos()
         {
-            var user = (await authenticationStateProvider.GetAuthenticationStateAsync()).User;
-            if ((await authorizationService.AuthorizeAsync(user, AuthorizationPolicies.CanManageUsers.ToString())).Succeeded)
+            if ((await primeSecurityService.isAuthorizedAsync(AuthorizationPolicies.CanManageUsers)))
             {
                 return await _permissionsRepository.GetAllAsync();
             }
-            return null;
+            else
+            {
+                throw new NotAuthorizedException();
+            }
         }
     }
 }   

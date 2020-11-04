@@ -49,6 +49,7 @@ namespace PRIME_UCR.Application
             services.AddTransient<IAssignmentService, AssignmentService>();
             services.AddTransient<IAppointmentService, AppointmentService>();
             services.AddTransient<IAuthenticationService, AuthenticationService>();
+            services.AddTransient<IPrimeSecurityService, PrimeSecurityService>();
             
             return services;
         }

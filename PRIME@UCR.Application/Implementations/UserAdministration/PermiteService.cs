@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components.Authorization;
 using PRIME_UCR.Application.DTOs.UserAdministration;
+using PRIME_UCR.Application.Exceptions.UserAdministration;
 using PRIME_UCR.Application.Repositories.UserAdministration;
 using PRIME_UCR.Application.Services.UserAdministration;
 using System;
@@ -14,34 +15,35 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
     {
         private readonly IPermiteRepository _IPermiteRepository;
 
-        private readonly IAuthorizationService authorizationService;
-
-        private readonly AuthenticationStateProvider authenticationStateProvider;
+        private readonly IPrimeSecurityService primeSecurityService;
 
         public PermiteService(IPermiteRepository IPermiteRepository,
-            IAuthorizationService _authorizationService,
-            AuthenticationStateProvider _authenticationStateProvider) 
+            IPrimeSecurityService _primeSecurityService) 
         {
             _IPermiteRepository = IPermiteRepository;
-            authenticationStateProvider = _authenticationStateProvider;
-            authorizationService = _authorizationService;
+            primeSecurityService = _primeSecurityService;
         }
 
         public async Task DeletePermissionAsync(string idProfile, int idPermission)
         {
-            var user = (await authenticationStateProvider.GetAuthenticationStateAsync()).User;
-            if((await authorizationService.AuthorizeAsync(user, AuthorizationPolicies.CanManageUsers.ToString())).Succeeded)
+            if ((await primeSecurityService.isAuthorizedAsync(AuthorizationPolicies.CanManageUsers)))
             {
                 await _IPermiteRepository.DeletePermissionAsync(idProfile, idPermission);
+            } else
+            {
+                throw new NotAuthorizedException();
             }
         }
 
         public async Task InsertPermissionAsync(string idProfile, int idPermission)
         {
-            var user = (await authenticationStateProvider.GetAuthenticationStateAsync()).User;
-            if ((await authorizationService.AuthorizeAsync(user, AuthorizationPolicies.CanManageUsers.ToString())).Succeeded)
+            if ((await primeSecurityService.isAuthorizedAsync(AuthorizationPolicies.CanManageUsers)))
             {
                 await _IPermiteRepository.InsertPermissionAsync(idProfile, idPermission);
+            }
+            else
+            {
+                throw new NotAuthorizedException();
             }
         }
 

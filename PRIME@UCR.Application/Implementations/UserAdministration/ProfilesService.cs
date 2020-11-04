@@ -15,17 +15,13 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
     {
         private readonly IPerfilRepository _profilesRepository;
 
-        private readonly AuthenticationStateProvider authenticationStateProvider;
-
-        private readonly IAuthorizationService authorizationService;
+        private readonly IPrimeSecurityService primeSecurityService;
 
         public ProfilesService(IPerfilRepository profileRepository,
-            AuthenticationStateProvider _authenticationStateProvider,
-            IAuthorizationService _authorizationService)
+            IPrimeSecurityService _primeSecurityService)
         {
             _profilesRepository = profileRepository;
-            authenticationStateProvider = _authenticationStateProvider;
-            authorizationService = _authorizationService;
+            primeSecurityService = _primeSecurityService;
         }
 
         public async Task<List<Perfil>> GetPerfilesWithDetailsAsync()

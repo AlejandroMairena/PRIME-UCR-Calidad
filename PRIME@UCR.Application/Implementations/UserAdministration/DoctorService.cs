@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components.Authorization;
 using PRIME_UCR.Application.DTOs.UserAdministration;
+using PRIME_UCR.Application.Exceptions.UserAdministration;
 using PRIME_UCR.Application.Repositories.UserAdministration;
 using PRIME_UCR.Application.Services.UserAdministration;
 using PRIME_UCR.Domain.Models.UserAdministration;
@@ -13,39 +14,36 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
     {
         private readonly IDoctorRepository _repository;
 
-        private readonly IAuthorizationService authorizationService;
-
-        private readonly AuthenticationStateProvider authenticationStateProvider;
+        private readonly IPrimeSecurityService primeSecurityService;
 
         public DoctorService(IDoctorRepository repository,
-            AuthenticationStateProvider _authenticationStateProvider,
-            IAuthorizationService _authorizationService)
+            IPrimeSecurityService _primeSecurityService)
         {
             _repository = repository;
-            authorizationService = _authorizationService;
-            authenticationStateProvider = _authenticationStateProvider;
+            primeSecurityService = _primeSecurityService;
         }
 
         public async Task<Médico> GetDoctorByIdAsync(string id)
         {
-            var user = (await authenticationStateProvider.GetAuthenticationStateAsync()).User;
-            if ((await authorizationService.AuthorizeAsync(user, AuthorizationPolicies.CanManageUsers.ToString())).Succeeded)
+            if ((await primeSecurityService.isAuthorizedAsync(AuthorizationPolicies.CanManageUsers)))
             {
                 return await _repository.GetByKeyAsync(id);
             }
-            return null;
-
+            else
+            {
+                throw new NotAuthorizedException();
+            }
         }
 
         public async Task<IEnumerable<Médico>> GetAllDoctorsAsync()
         {
-            var user = (await authenticationStateProvider.GetAuthenticationStateAsync()).User;
-            if ((await authorizationService.AuthorizeAsync(user, AuthorizationPolicies.CanManageUsers.ToString())).Succeeded)
+            if ((await primeSecurityService.isAuthorizedAsync(AuthorizationPolicies.CanManageUsers)))
             {
                 return await _repository.GetAllAsync();
+            } else
+            {
+                throw new NotAuthorizedException();
             }
-            return null;
-
         }
     }
 }

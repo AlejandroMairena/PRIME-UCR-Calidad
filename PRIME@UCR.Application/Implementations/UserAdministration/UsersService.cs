@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using PRIME_UCR.Application.DTOs.UserAdministration;
+using PRIME_UCR.Application.Exceptions.UserAdministration;
 using PRIME_UCR.Application.Repositories.UserAdministration;
 using PRIME_UCR.Application.Services.UserAdministration;
 using PRIME_UCR.Domain.Models.UserAdministration;
@@ -20,20 +21,16 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
 
         private readonly UserManager<Usuario> userManager;
 
-        private readonly IAuthorizationService authorizationService;
-
-        private readonly AuthenticationStateProvider authenticationStateProvider;
+        private readonly IPrimeSecurityService primeSecurityService;
 
         public UsersService(
             IUsuarioRepository usuarioRepository,
             UserManager<Usuario> _userManager,
-            IAuthorizationService _authorizationService,
-            AuthenticationStateProvider _authenticationStateProvider)
+            IPrimeSecurityService _primeSecurityService)
         {
             _usuarioRepository = usuarioRepository;
             userManager = _userManager;
-            authorizationService = _authorizationService;
-            authenticationStateProvider = _authenticationStateProvider;
+            primeSecurityService = _primeSecurityService;
         }
 
         /**
@@ -41,14 +38,15 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
          */
         public async Task<Persona> getPersonWithDetailstAsync(string email)
         {
-            var authenticatedUser = (await authenticationStateProvider.GetAuthenticationStateAsync()).User;
-            if ((await authorizationService.AuthorizeAsync(authenticatedUser, AuthorizationPolicies.CanManageUsers.ToString())).Succeeded) 
+            if ((await primeSecurityService.isAuthorizedAsync(AuthorizationPolicies.CanManageUsers))) 
             {
                 var user = await userManager.FindByEmailAsync(email);
                 var person = await getUsuarioWithDetailsAsync(user.Id);
                 return person.Persona;
+            } else
+            {
+                throw new NotAuthorizedException();
             }
-            return null;
         }
 
         /**
@@ -58,15 +56,16 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
          */
         public async Task<UserFormModel> GetUserFormFromRegisterUserFormAsync(RegisterUserFormModel userToRegister)
         {
-            var authenticatedUser = (await authenticationStateProvider.GetAuthenticationStateAsync()).User;
-            if ((await authorizationService.AuthorizeAsync(authenticatedUser, AuthorizationPolicies.CanManageUsers.ToString())).Succeeded)
+            if ((await primeSecurityService.isAuthorizedAsync(AuthorizationPolicies.CanManageDashboard)))
             {
                 UserFormModel userModel = new UserFormModel();
                 userModel.Email = userToRegister.Email;
                 userModel.IdCardNumber = userToRegister.IdCardNumber;
                 return userModel;
+            } else
+            {
+                throw new NotAuthorizedException();
             }
-            return null;
         }
 
         /**
@@ -86,14 +85,15 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
          */
         private async Task<Usuario> GetUserFromUserModelAsync(UserFormModel userToRegister)
         {
-            var authenticatedUser = (await authenticationStateProvider.GetAuthenticationStateAsync()).User;
-            if ((await authorizationService.AuthorizeAsync(authenticatedUser, AuthorizationPolicies.CanManageUsers.ToString())).Succeeded)
+            if ((await primeSecurityService.isAuthorizedAsync(AuthorizationPolicies.CanManageDashboard)))
             {
                 Usuario user = new Usuario();
                 user.Email = user.UserName = userToRegister.Email;
                 return user;
+            } else
+            {
+                throw new NotAuthorizedException();
             }
-            return null;
         }
 
         /**
@@ -101,8 +101,7 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
          */
         public async Task<bool> StoreUserAsync(UserFormModel userToRegist, string password)
         {
-            var authenticatedUser = (await authenticationStateProvider.GetAuthenticationStateAsync()).User;
-            if ((await authorizationService.AuthorizeAsync(authenticatedUser, AuthorizationPolicies.CanManageUsers.ToString())).Succeeded)
+            if ((await primeSecurityService.isAuthorizedAsync(AuthorizationPolicies.CanManageDashboard)))
             {
                 var user = await GetUserFromUserModelAsync(userToRegist);
                 var existInDB = (await userManager.FindByEmailAsync(user.Email)) == null ? false : true;
@@ -115,8 +114,10 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
                 {
                     return false;
                 }
+            } else
+            {
+                throw new NotAuthorizedException();
             }
-            return false;
         }
 
         /**

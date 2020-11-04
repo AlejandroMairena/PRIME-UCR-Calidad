@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components.Authorization;
 using PRIME_UCR.Application.DTOs.UserAdministration;
+using PRIME_UCR.Application.Exceptions.UserAdministration;
 using PRIME_UCR.Application.Repositories.UserAdministration;
 using PRIME_UCR.Application.Services.UserAdministration;
 using PRIME_UCR.Domain.Models.UserAdministration;
 using System;
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -16,17 +18,13 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
 
         private readonly IPersonaRepository PersonRepository;
 
-        private readonly IAuthorizationService authorizationService;
-
-        private readonly AuthenticationStateProvider authenticationStateProvider;
+        private readonly IPrimeSecurityService primeSecurityService;
 
         public PersonService(IPersonaRepository _personaRepository,
-            IAuthorizationService _authorizationService,
-            AuthenticationStateProvider _authenticationStateProvider)
+            IPrimeSecurityService _primeSecurityService)
         {
             PersonRepository = _personaRepository;
-            authorizationService = _authorizationService;
-            authenticationStateProvider = _authenticationStateProvider;
+            primeSecurityService = _primeSecurityService;
         }
 
         /**
@@ -34,12 +32,13 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
          */
         public async Task<Persona> GetPersonByIdAsync(string id)
         {
-            var user = (await authenticationStateProvider.GetAuthenticationStateAsync()).User;
-            if((await authorizationService.AuthorizeAsync(user, AuthorizationPolicies.CanManageUsers.ToString())).Succeeded)
+            if((await primeSecurityService.isAuthorizedAsync(AuthorizationPolicies.CanManageUsers)))
             {
                 return await PersonRepository.GetByKeyPersonaAsync(id);
+            } else
+            {
+                throw new NotAuthorizedException();
             }
-            return null;
         }
 
         /**
@@ -49,8 +48,7 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
          */
         public async Task<PersonFormModel> GetPersonModelFromRegisterModelAsync(RegisterUserFormModel registerUserModel)
         {
-            var user = (await authenticationStateProvider.GetAuthenticationStateAsync()).User;
-            if ((await authorizationService.AuthorizeAsync(user, AuthorizationPolicies.CanManageUsers.ToString())).Succeeded)
+            if ((await primeSecurityService.isAuthorizedAsync(AuthorizationPolicies.CanManageUsers)))
             {
                 PersonFormModel personModel = new PersonFormModel();
                 personModel.IdCardNumber = registerUserModel.IdCardNumber;
@@ -62,8 +60,10 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
                 personModel.PrimaryPhoneNumber = registerUserModel.PrimaryPhoneNumber;
                 personModel.SecondaryPhoneNumber = registerUserModel.SecondaryPhoneNumber;
                 return personModel;
+            } else
+            {
+                throw new NotAuthorizedException();
             }
-            return null;
 
         }
 
@@ -89,11 +89,13 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
          */
         public async Task StoreNewPersonAsync(PersonFormModel personInfo)
         {
-            var user = (await authenticationStateProvider.GetAuthenticationStateAsync()).User;
-            if ((await authorizationService.AuthorizeAsync(user, AuthorizationPolicies.CanManageUsers.ToString())).Succeeded)
+            if ((await primeSecurityService.isAuthorizedAsync(AuthorizationPolicies.CanManageUsers)))
             {
                 var person = GetPersonaFromPersonModel(personInfo);
                 await PersonRepository.InsertAsync(person);
+            } else
+            {
+                throw new NotAuthorizedException();
             }
         }
 
@@ -102,12 +104,14 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
          */
         public async Task DeletePersonAsync(string id)
         {
-            var user = (await authenticationStateProvider.GetAuthenticationStateAsync()).User;
-            if ((await authorizationService.AuthorizeAsync(user, AuthorizationPolicies.CanManageUsers.ToString())).Succeeded)
+            if ((await primeSecurityService.isAuthorizedAsync(AuthorizationPolicies.CanManageUsers)))
             {
                 await PersonRepository.DeleteAsync(id);
             }
-
+            else 
+            {
+                throw new NotAuthorizedException();
+            }
         }
     }
 }

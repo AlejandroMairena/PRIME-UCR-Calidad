@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components.Authorization;
 using PRIME_UCR.Application.DTOs.UserAdministration;
+using PRIME_UCR.Application.Exceptions.UserAdministration;
 using PRIME_UCR.Application.Repositories.UserAdministration;
 using PRIME_UCR.Application.Services.UserAdministration;
 using PRIME_UCR.Domain.Models.UserAdministration;
@@ -15,28 +16,27 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
     {
         private readonly INumeroTelefonoRepository numeroTelefonoRepository;
 
-        private readonly IAuthorizationService authorizationService;
-
-        private readonly AuthenticationStateProvider authenticationStateProvider;
+        private readonly IPrimeSecurityService primeSecurityService;
 
         public NumeroTelefonoService(INumeroTelefonoRepository _numeroTelefonoRepository,
-            AuthenticationStateProvider _authenticationStateProvider,
-            IAuthorizationService _authorizationService)
+            IPrimeSecurityService _primeSecurityService)
         {
             numeroTelefonoRepository = _numeroTelefonoRepository;
-            authorizationService = _authorizationService;
-            authenticationStateProvider = _authenticationStateProvider;
+            primeSecurityService = _primeSecurityService;
         }
 
         public async Task AddNewPhoneNumberAsync(string idUser, string phoneNumber)
         {
-            var user = (await authenticationStateProvider.GetAuthenticationStateAsync()).User;
-            if ((await authorizationService.AuthorizeAsync(user, AuthorizationPolicies.CanManageUsers.ToString())).Succeeded)
+            if ((await primeSecurityService.isAuthorizedAsync(AuthorizationPolicies.CanManageUsers)))
             {
                 NúmeroTeléfono userPhoneNumber = new NúmeroTeléfono();
                 userPhoneNumber.CedPersona = idUser;
                 userPhoneNumber.NúmeroTelefónico = phoneNumber;
                 await numeroTelefonoRepository.AddPhoneNumberAsync(userPhoneNumber);
+            }
+            else
+            {
+                throw new NotAuthorizedException();
             }
         }
     }
