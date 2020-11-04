@@ -1,4 +1,7 @@
-﻿using PRIME_UCR.Application.Repositories.UserAdministration;
+﻿using PRIME_UCR.Application.DTOs.UserAdministration;
+using PRIME_UCR.Application.Exceptions.UserAdministration;
+using PRIME_UCR.Application.Repositories.UserAdministration;
+using PRIME_UCR.Application.Services.UserAdministration;
 using PRIME_UCR.Domain.Models.UserAdministration;
 using PRIME_UCR.Infrastructure.DataProviders;
 using System;
@@ -12,16 +15,26 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
     {
 
         private readonly ISqlDataProvider _db;
+        private readonly IPrimeSecurityService primeSecurityService;
 
-        public NumeroTelefonoRepository(ISqlDataProvider db)
+        public NumeroTelefonoRepository(ISqlDataProvider dataProvider,
+            IPrimeSecurityService _primeSecurityService)
         {
-            _db = db;
+            _db = dataProvider;
+            primeSecurityService = _primeSecurityService;
         }
 
         public async Task AddPhoneNumberAsync(NúmeroTeléfono phoneNumber)
         {
-            await _db.PhoneNumbers.AddAsync(phoneNumber);
-            await _db.SaveChangesAsync();
+            if ((await primeSecurityService.isAuthorizedAsync(AuthorizationPolicies.CanManageUsers))) 
+            { 
+                await _db.PhoneNumbers.AddAsync(phoneNumber);
+                await _db.SaveChangesAsync();
+            }
+            else
+            {
+                throw new NotAuthorizedException();
+            }
         }
     }
 }

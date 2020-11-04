@@ -8,16 +8,23 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Data.SqlClient;
 using RepoDb;
+using PRIME_UCR.Application.Services.UserAdministration;
+using PRIME_UCR.Application.DTOs.UserAdministration;
+using PRIME_UCR.Application.Exceptions.UserAdministration;
 
 namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
 {
     public class EspecialistaTécnicoMédicoRepository : IEspecialistaTécnicoMédicoRepository
     {
-        private readonly ISqlDataProvider _db; 
-        
-        public EspecialistaTécnicoMédicoRepository(ISqlDataProvider dataProvider)
+        private readonly ISqlDataProvider _db;
+
+        private readonly IPrimeSecurityService primeSecurityService;
+
+        public EspecialistaTécnicoMédicoRepository(ISqlDataProvider dataProvider,
+            IPrimeSecurityService _primeSecurityService)
         {
             _db = dataProvider;
+            primeSecurityService = _primeSecurityService;
         }
 
         public Task<EspecialistaTécnicoMédico> GetByKeyAsync(string key)
@@ -27,14 +34,21 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
 
         public async Task<IEnumerable<EspecialistaTécnicoMédico>> GetAllAsync()
         {
-            await using var connection = new SqlConnection(_db.DbConnection.ConnectionString);
-            var result = await connection.ExecuteQueryAsync<EspecialistaTécnicoMédico>(@"
-                select Persona.Cédula, Persona.Nombre, Persona.PrimerApellido, Persona.SegundoApellido, Persona.Sexo, Persona.FechaNacimiento
-                from Persona
-                join Funcionario F on Persona.Cédula = F.Cédula
-                join EspecialistaTécnicoMédico ETM on F.Cédula = ETM.Cédula
-            ");
-            return result;
+            if ((await primeSecurityService.isAuthorizedAsync(AuthorizationPolicies.CanManageMedicalRecords))) { 
+            
+                await using var connection = new SqlConnection(_db.DbConnection.ConnectionString);
+                var result = await connection.ExecuteQueryAsync<EspecialistaTécnicoMédico>(@"
+                    select Persona.Cédula, Persona.Nombre, Persona.PrimerApellido, Persona.SegundoApellido, Persona.Sexo, Persona.FechaNacimiento
+                    from Persona
+                    join Funcionario F on Persona.Cédula = F.Cédula
+                    join EspecialistaTécnicoMédico ETM on F.Cédula = ETM.Cédula
+                ");
+                return result;
+            }
+            else
+            {
+                throw new NotAuthorizedException();
+            }
         }
 
         public Task<IEnumerable<EspecialistaTécnicoMédico>> GetByConditionAsync(Expression<Func<EspecialistaTécnicoMédico, bool>> expression)
