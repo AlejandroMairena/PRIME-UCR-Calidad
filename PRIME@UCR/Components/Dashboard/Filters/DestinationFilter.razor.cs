@@ -11,9 +11,9 @@ using PRIME_UCR.Domain.Models;
 using PRIME_UCR.Application.Services.UserAdministration;
 using PRIME_UCR.Domain.Models.UserAdministration;
 
-namespace PRIME_UCR.Components.Dashboard.Filters.LocationFilter
+namespace PRIME_UCR.Components.Dashboard.Filters
 {
-    public partial class MedicalCenterFilter
+    public partial class DestinationFilter
     {
         [Inject] public ILocationService LocationService { get; set; }
         [Parameter] public MedicalCenterLocationModel Value { get; set; }
@@ -24,12 +24,12 @@ namespace PRIME_UCR.Components.Dashboard.Filters.LocationFilter
         public string DoctorForLabel => IsOrigin ? "Médico en origen" : "Médico en destino";
 
         private List<CentroMedico> _medicalCenters;
-        private EditContext _context;
+        private CentroMedico selectedMedicalCenter = new CentroMedico();
         private bool _isLoading = true;
 
         async Task OnChangeMedicalCenter(CentroMedico medicalCenter)
         {
-            Value.MedicalCenter = medicalCenter;
+            selectedMedicalCenter = medicalCenter;
         }
 
         private async Task LoadMedicalCenters(bool firstRender)
@@ -37,7 +37,6 @@ namespace PRIME_UCR.Components.Dashboard.Filters.LocationFilter
             _medicalCenters =
                 (await LocationService.GetAllMedicalCentersAsync())
                 .ToList();
-
             if (!firstRender)
                 Value.MedicalCenter = null;
         }
@@ -62,22 +61,14 @@ namespace PRIME_UCR.Components.Dashboard.Filters.LocationFilter
         {
             if (IsFirst)
                 Value = new MedicalCenterLocationModel { IsOrigin = IsOrigin };
-
             await LoadExistingValues();
 
-            _context = new EditContext(Value);
-            _context.OnFieldChanged += HandleFieldChanged;
         }
 
         // used to toggle submit button disabled attribute
         private void HandleFieldChanged(object sender, FieldChangedEventArgs e)
         {
             StateHasChanged();
-        }
-
-        public void Dispose()
-        {
-            _context.OnFieldChanged -= HandleFieldChanged;
         }
     }
 }

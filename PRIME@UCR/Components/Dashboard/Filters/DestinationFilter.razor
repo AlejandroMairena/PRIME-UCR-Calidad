@@ -1,0 +1,14 @@
+﻿@using PRIME_UCR.Components.Controls
+<Loading IsLoading="_isLoading">
+    <EditForm Model="selectedMedicalCenter">
+        <DropDownMenu Data="@_medicalCenters"
+                        Label="Centro médico"
+                        TextProperty="Nombre"
+                        DefaultText="Sin filtro"
+                        Value="selectedMedicalCenter"
+                        ValueExpression="() => selectedMedicalCenter"
+                        ValueChanged="@((CentroMedico mc) => OnChangeMedicalCenter(mc))" 
+                        UseValidation="false"
+                        Required="false"/>
+    </EditForm>
+</Loading>
