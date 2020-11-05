@@ -22,6 +22,7 @@ namespace PRIME_UCR.Infrastructure.DataProviders.Implementations
         public IDbConnection DbConnection { get; set; }
         public DbSet<CheckList> CheckList { get; set; }
         public DbSet<Item> Item { get; set; }
+        public DbSet<InstanceChecklist> InstanceChecklist { get; set; }
         public DbSet<Provincia> Provinces { get; set; }
         public DbSet<Pais> Countries { get; set; }
         public DbSet<Domicilio> HouseholdLocations { get; set; }
@@ -69,6 +70,7 @@ namespace PRIME_UCR.Infrastructure.DataProviders.Implementations
 
             builder.ApplyConfiguration(new CheckListMap());
             builder.ApplyConfiguration(new ItemMap());
+            builder.ApplyConfiguration(new InstanceChecklistMap());
             builder.ApplyConfiguration(new PaisMap());
             builder.ApplyConfiguration(new ProvinciaMap());
             builder.ApplyConfiguration(new DistritoMap());
