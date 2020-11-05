@@ -9,10 +9,11 @@ Post-Deployment Script Template
                SELECT * FROM [$(TableName)]					
 --------------------------------------------------------------------------------------
 */
-:r .\PostDeployment\Users_PostDeployment.sql
-:r .\PostDeployment\Identity_PostDeployment.sql
-:r .\PostDeployment\Appointments_PostDeployment.sql
-:r .\PostDeployment\Incidents_PostDeployment.sql
-:r .\PostDeployment\Checklists_PostDeployment.sql
-:r .\PostDeployment\MedicalRecords_PostDeployment.sql
-:r .\PostDeployment\Alergies_PostDeployment.sql
+DELETE FROM Alergias
+DELETE FROM ListaAlergia
+
+INSERT INTO ListaAlergia(NombreAlergia)
+VALUES
+    ('Miel'),
+    ('Penisilina'),
+    ('Nitrofuranos')
