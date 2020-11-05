@@ -11,9 +11,11 @@ namespace PRIME_UCR.Application.Services.Multimedia
 
         public byte[] Encrypt(string plainText);
         public bool EncryptFile(string path, string fileName);
+        public bool DecryptFile(string path, string filename);
         public bool ByteArrayToFile(string filePath, byte[] byteArray);
         public string Decrypt(byte[] cipherText);
-
+        public byte[] StringToByteArray(string fileText);
         public string FiletoString(string path);
+        public bool StringToFile(string filePath, string decryptedString);
     }
 }

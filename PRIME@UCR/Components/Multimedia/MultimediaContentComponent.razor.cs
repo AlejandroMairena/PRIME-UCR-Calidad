@@ -1,5 +1,6 @@
 ﻿using BlazorInputFile;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 using PRIME_UCR.Domain.Models;
 using System;
 using System.Collections.Generic;
@@ -31,7 +32,7 @@ namespace PRIME_UCR.Components.Multimedia
 
         protected override void OnInitialized()
         {
-            validTypeFiles = new List<string>() { "pdf", "doc", "docx", "xls", "txt", "mp3", "jpg", "png", "mp4", "wmv", "avi", "text/plain" };
+            validTypeFiles = new List<string>() { "mpeg", "pdf", "doc", "docx", "xls", "txt", "mp3", "jpg", "png", "mp4", "wmv", "avi", "text/plain" };
         }
 
         protected override async Task OnInitializedAsync()
@@ -93,6 +94,18 @@ namespace PRIME_UCR.Components.Multimedia
             if (showCamera)
                 await JS.InvokeAsync<bool>("openCamera", null);
         }
+        async Task ShowPopUp(MultimediaContent mcontent) {
+            //para probar, esta con una imagen y path quemadas
+            string name = mcontent.Nombre; //
+            //hacer query para encontrar el archivo por el ID y desencriptar el path y el archivo
+            //SOLO FUNCIONA CON IMAGENES
+            string nombreQuemado = "practica.png";
+            string pathQuemado = "img/practica.png";
+            await JS.InvokeAsync<bool>("showImage", pathQuemado, nombreQuemado);
+        }
+        async Task CloseImageView() {
+            await JS.InvokeAsync<bool>("closeView");
+        }
 
         string invalidType()
         {
@@ -107,5 +120,16 @@ namespace PRIME_UCR.Components.Multimedia
             }
             return datas;
         }
+        string getButonName(MultimediaContent mcontent) {
+            string name = "";
+            if (mcontent.Tipo == "audio/mpeg") {
+                name = "Escuchar";
+            }
+            else {
+                name = "Ver"; 
+            }
+            return name; 
+        }
+
     }
 }

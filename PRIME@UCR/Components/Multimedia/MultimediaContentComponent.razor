@@ -14,7 +14,7 @@
     @* Boton Principal *@
     <div class="@divDDClass">
         @* Div Contededor del Componente: Propiedades ligadas al codigo: class=@divDDClass *@
-        <button class="btn btn-secondary dropdown-toggle m-button"
+        <button class="btn btn-secondary dropdown-toggle m-button add-multimedia-button"
                 type="button" id="dropdownMenuButton"
                 data-toggle="dropdown" aria-haspopup="true"
                 aria-expanded="@open"
@@ -39,11 +39,11 @@
                     @* Loading Wheel *@
                     @*<div class="col">
 
-            </div>*@
+                        </div>*@
                     @* Camera Logo *@
                     @*<div class="col">
-                        <img class="data_btn" src="img/ico-foto-blanco.jpeg" />
-                    </div>*@
+                            <img class="data_btn" src="img/ico-foto-blanco.jpeg" />
+                        </div>*@
                     <button type="button" class="btn btn-primary" @onclick="OpenCamera">Cámara</button>
                     @* Audio Logo *@
                     <div class="col">
@@ -70,7 +70,7 @@
                 @if (!showCamera && (MultimediaContent != null && MultimediaContent.Count > 0))
                 {
                     // Notificacion de cantidad de archivos adjuntos
-                    @if (MultimediaContent.Count == 1) 
+                    @if (MultimediaContent.Count == 1)
                     {
                         <p>@MultimediaContent.Count archivo adjunto</p>
                     }
@@ -94,11 +94,12 @@
                         <tbody>
                             @foreach (var mcontent in MultimediaContent)
                             {
+                                string butonName = getButonName(mcontent);
                                 <tr>
                                     <td>@mcontent.Nombre</td>
                                     <td>@mcontent.Tipo</td>
                                     <td>@mcontent.Fecha_Hora</td>
-                                    <td><button type="button" class="btn btn-secondary m-btn m-btn-rm action_buttom"><a class="ver_link" href="#">Ver</a></button></td>
+                                    <td><button type="button" class="btn btn-secondary m-btn m-btn-rm action_buttom" @onclick="(() => ShowPopUp(mcontent))">@butonName</button></td>
                                     <td><button type="button" class="btn btn-danger m-btn m-btn-rm">Eliminar</button></td>
                                 </tr>
                             }
@@ -109,12 +110,28 @@
         </div>
     </div>
     @* File Counter Appendix*@
-    @if ( MultimediaContent != null && MultimediaContent.Count > 0)
+    @if (MultimediaContent != null && MultimediaContent.Count > 0)
     {
         <div class="counter-append">
             @MultimediaContent.Count
         </div>
     }
+    <!--POPUP VER-->
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+
+        <!-- The Close Button -->
+        <div class="close" id="close1" @onclick = "CloseImageView">x</div>
+
+        <!-- Modal Content (The Image) -->
+        <img class="modal-content" id="img01">
+
+        <!-- Modal Caption (Image Text) -->
+        <div id="caption"></div>
+    </div>
+
+
+
 </div>
 
 <!--
