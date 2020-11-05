@@ -138,6 +138,7 @@
     <Build Include="StoredProcedures\Multimedia\FObtenerContendidoMultimediaCita.sql" />
     <Build Include="StoredProcedures\Incidents\InsertarAccion.sql" />
     <Build Include="Tables\MedicalRecords\Alergias.sql" />
+    <Build Include="Tables\MedicalRecords\ListaAlergia.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Scripts\Script.PostDeployment.sql" />
