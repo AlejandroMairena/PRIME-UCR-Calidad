@@ -1,6 +1,8 @@
 ﻿using PRIME_UCR.Application.Repositories;
 using PRIME_UCR.Application.Repositories.CheckLists;
 using PRIME_UCR.Domain.Models;
+using System.Data.SqlClient;
+using System.Data.SqlTypes;
 using PRIME_UCR.Domain.Models.CheckLists;
 using PRIME_UCR.Infrastructure.DataProviders;
 using System;
@@ -9,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using RepoDb;
 
 namespace PRIME_UCR.Infrastructure.Repositories.Sql.CheckLists
 {
@@ -20,22 +23,21 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.CheckLists
 
         public async Task<CheckList> InsertCheckListAsync(CheckList list)
         {
-            return await Task.Run(() =>
+            await using var connection = new SqlConnection(_db.DbConnection.ConnectionString);
+            var parameters = new Dictionary<string, object>
             {
-                // raw sql
-                using (var cmd = _db.DbConnection.CreateCommand())
-                {
-                    if (cmd.Connection.State == ConnectionState.Closed)
-                    {
-                        cmd.Connection.Open();
-                    }
-                    cmd.CommandText =
-                        $"EXECUTE dbo.InsertarListaChequeo @nombre = '{list.Nombre}', @tipo = '{list.Tipo}', @descripcion = '{list.Descripcion}', @orden = '{list.Orden}', @imagenDescriptiva = '{list.ImagenDescriptiva}'";
+                {"nombre", list.Nombre},
+                {"tipo", list.Tipo},
+                {"descripcion", list.Descripcion},
+                {"orden", list.Orden},
+                {"imagenDescriptiva", list.ImagenDescriptiva},
+            };
+            var result = await connection.ExecuteScalarAsync(
+                "dbo.InsertarListaChequeo", parameters, CommandType.StoredProcedure);
 
-                    list.Id = int.Parse(s: cmd.ExecuteScalar().ToString());
-                }
-                return list;
-            });
+            list.Id = int.Parse(s: result.ToString());
+
+            return list;
         }
 
         public async Task<IEnumerable<CheckList>> GetByName(string name)
