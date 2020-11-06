@@ -1,0 +1,20 @@
+﻿@if (Content.Count == Values.Count && Content.Count > 0)
+{
+    <div class="@($"alert alert-{Class}")" role="alert">
+        @for (var it = 0; it < Content.Count; ++it)
+        {
+            <b>@Content[it]</b> @Values[it] <br />
+        }
+    </div>
+}
+
+@code {
+    [Parameter]
+    public List<string> Values { get; set; }
+
+    [Parameter]
+    public List<string> Content { get; set; }
+
+    [Parameter]
+    public string Class { get; set; }
+}

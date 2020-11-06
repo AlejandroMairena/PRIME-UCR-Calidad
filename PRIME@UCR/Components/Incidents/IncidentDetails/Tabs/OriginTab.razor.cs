@@ -7,6 +7,7 @@ using PRIME_UCR.Application.Dtos.Incidents;
 using PRIME_UCR.Application.Services.Incidents;
 using PRIME_UCR.Application.Services.UserAdministration;
 using PRIME_UCR.Components.Controls;
+using PRIME_UCR.Components.Incidents.IncidentDetails.Constants;
 using PRIME_UCR.Components.Incidents.LocationPickers;
 using PRIME_UCR.Domain.Models;
 
@@ -28,9 +29,11 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
 
         [Inject] private ILocationService LocationService { get; set; }
         [Inject] private IDoctorService DoctorService { get; set; }
-        [Parameter] public Ubicacion Origin { get; set; }
+        [Parameter] public IncidentDetailsModel Incident { get; set; }
         [Parameter] public EventCallback<OriginModel> OnSave { get; set; }
-        
+        public Ubicacion Origin { get; set; }
+        // Info for Incident summary that is shown at top of the page
+        public IncidentSummary Summary = new IncidentSummary();
         // Selected options
         private Tuple<OriginType, string> _selectedOriginType;
         private OriginModel _model = new OriginModel();
@@ -114,6 +117,7 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
         private async Task LoadExistingValues()
         {
             _isLoading = true;
+            Origin = Incident.Origin;
             StateHasChanged();
             switch (Origin)
             {
@@ -163,6 +167,7 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
 
         protected override async Task OnInitializedAsync()
         {
+            Summary.LoadValues(Incident);
             await LoadExistingValues();
         }
     }

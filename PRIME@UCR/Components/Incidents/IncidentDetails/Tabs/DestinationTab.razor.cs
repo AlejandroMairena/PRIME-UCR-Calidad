@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Components;
 using PRIME_UCR.Application.Dtos.Incidents;
 using PRIME_UCR.Application.Services.Incidents;
 using PRIME_UCR.Application.Services.UserAdministration;
+using PRIME_UCR.Components.Incidents.IncidentDetails.Constants;
 using PRIME_UCR.Domain.Models;
 
 namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
@@ -14,13 +15,16 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
     {
         [Inject] private ILocationService LocationService { get; set; }
         [Inject] private IDoctorService DoctorService { get; set; }
-        [Parameter] public Ubicacion Destination { get; set; }
+        [Parameter] public IncidentDetailsModel Incident { get; set; }
+        public Ubicacion Destination { get; set; }
         [Parameter] public EventCallback<DestinationModel> OnSave { get; set; }
         
         private DestinationModel _model = new DestinationModel();
         private string _statusMessage = "";
         private MedicalCenterLocationModel _medicalCenterModel = new MedicalCenterLocationModel();
         private bool _isLoading = false;
+        // Info for Incident summary that is shown at top of the page
+        public IncidentSummary Summary = new IncidentSummary();
 
         private async Task OnMedicalCenterSave(MedicalCenterLocationModel medicalCenter)
         {
@@ -44,6 +48,7 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
         private async Task LoadExistingValues()
         {
             _isLoading = true;
+            Destination = Incident.Destination;
             StateHasChanged();
             if (Destination is CentroUbicacion mc)
             {
@@ -65,6 +70,7 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
 
         protected override async Task OnInitializedAsync()
         {
+            Summary.LoadValues(Incident);
             await LoadExistingValues();
         }
     }

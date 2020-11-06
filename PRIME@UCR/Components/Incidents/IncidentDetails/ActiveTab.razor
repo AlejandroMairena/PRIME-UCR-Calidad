@@ -8,11 +8,11 @@
     }
     else if (Active == DetailsTab.Origin)
     {
-        <OriginTab Origin="@Incident.Origin" OnSave="@SaveOrigin"/>
+        <OriginTab Incident="@Incident" OnSave="@SaveOrigin"/>
     }
     else if (Active == DetailsTab.Destination)
     {
-        <DestinationTab Destination="@Incident.Destination" OnSave="@SaveDestination"/>
+        <DestinationTab Incident="@Incident" OnSave="@SaveDestination"/>
     }
     else if (Active == DetailsTab.Patient)
     {
