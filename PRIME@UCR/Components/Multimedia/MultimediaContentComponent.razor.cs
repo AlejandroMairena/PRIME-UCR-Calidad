@@ -97,6 +97,7 @@ namespace PRIME_UCR.Components.Multimedia
         async Task ShowPopUp(MultimediaContent mcontent) {
             //para probar, esta con una imagen y path quemadas
             string name = mcontent.Nombre; //
+          
             //hacer query para encontrar el archivo por el ID y desencriptar el path y el archivo
             //SOLO FUNCIONA CON IMAGENES
             string nombreQuemado = "practica.png";
