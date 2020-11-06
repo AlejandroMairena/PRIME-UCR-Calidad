@@ -1,6 +1,6 @@
 ﻿@using PRIME_UCR.Components.Dashboard.Filters
 
 <h3>Filtros</h3>
-<OriginFilter/>
-<DestinationFilter/>    
-<DateFilter/>
+<OriginFilter @bind-value="FilterInfo"/>
+<DestinationFilter @bind-value="FilterInfo"/>    
+<DateFilter @bind-value="FilterInfo"/>

@@ -10,18 +10,20 @@ using PRIME_UCR.Application.Services.Incidents;
 using PRIME_UCR.Domain.Models;
 using PRIME_UCR.Application.Services.UserAdministration;
 using PRIME_UCR.Domain.Models.UserAdministration;
+using PRIME_UCR.Application.DTOs.Dashboard;
 
 namespace PRIME_UCR.Components.Dashboard.Filters
 {
     public partial class DestinationFilter
     {
         [Inject] public ILocationService LocationService { get; set; }
-        [Parameter] public MedicalCenterLocationModel Value { get; set; }
         [Parameter] public bool IsOrigin { get; set; }
         [Parameter] public EventCallback<MedicalCenterLocationModel> OnSave { get; set; }
         [Parameter] public EventCallback OnDiscard { get; set; }
         [Parameter] public bool IsFirst { get; set; }
         public string DoctorForLabel => IsOrigin ? "Médico en origen" : "Médico en destino";
+        [Parameter] public FilterModel Value { get; set; }
+        [Parameter] public EventCallback<FilterModel> ValueChanged { get; set; }
 
         private List<CentroMedico> _medicalCenters;
         private CentroMedico selectedMedicalCenter = new CentroMedico();
@@ -29,6 +31,7 @@ namespace PRIME_UCR.Components.Dashboard.Filters
 
         async Task OnChangeMedicalCenter(CentroMedico medicalCenter)
         {
+            Value.MedicalCenterDestination.MedicalCenter = medicalCenter;
             selectedMedicalCenter = medicalCenter;
         }
 
@@ -38,7 +41,7 @@ namespace PRIME_UCR.Components.Dashboard.Filters
                 (await LocationService.GetAllMedicalCentersAsync())
                 .ToList();
             if (!firstRender)
-                Value.MedicalCenter = null;
+                Value.MedicalCenterDestination.MedicalCenter = null;
         }
 
 
@@ -60,7 +63,7 @@ namespace PRIME_UCR.Components.Dashboard.Filters
         protected override async Task OnInitializedAsync()
         {
             if (IsFirst)
-                Value = new MedicalCenterLocationModel { IsOrigin = IsOrigin };
+                Value.MedicalCenterDestination = new MedicalCenterLocationModel { IsOrigin = IsOrigin };
             await LoadExistingValues();
 
         }

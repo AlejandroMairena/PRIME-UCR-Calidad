@@ -20,21 +20,21 @@
     {
         @if (_selectedOriginType.Item1 == OriginType.Household)
         {
-            <HouseholdFilter Value="@_householdModel"
+            <HouseholdFilter Value="@Value.HouseholdOriginFilter"
                              OnSave="OnHouseholdSave"
                              OnDiscard="LoadExistingValues"
                              IsFirst="@(!(Origin is Domicilio))"/>
         }
         else if (_selectedOriginType.Item1 == OriginType.International)
         {
-            <InternationalFilter Value="_internationalModel"
+            <InternationalFilter Value="Value.InternationalOriginFilter"
                                  OnSave="@OnInternationalSave"
                                  OnDiscard="LoadExistingValues"
                                  IsFirst="@(!(Origin is Internacional))" />
         }
         else
         {
-            <MedicalCenterFilter Value="_medicalCenterModel"
+            <MedicalCenterFilter Value="Value.MedicalCenterOriginFilter"
                                  IsOrigin="@true"
                                  OnSave="@OnMedicalCenterSave"
                                  OnDiscard="LoadExistingValues"

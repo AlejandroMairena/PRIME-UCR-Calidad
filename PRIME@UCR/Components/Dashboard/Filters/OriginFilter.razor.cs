@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using PRIME_UCR.Application.Dtos.Incidents;
+using PRIME_UCR.Application.DTOs.Dashboard;
 using PRIME_UCR.Application.Services.Incidents;
 using PRIME_UCR.Application.Services.UserAdministration;
 using PRIME_UCR.Components.Controls;
@@ -32,13 +33,12 @@ namespace PRIME_UCR.Components.Dashboard.Filters
         [Inject] private IDoctorService DoctorService { get; set; }
         [Parameter] public Ubicacion Origin { get; set; }
         [Parameter] public EventCallback<OriginModel> OnSave { get; set; }
+        [Parameter] public EventCallback<FilterModel> ValueChanged { get; set; }
+
+        [Parameter] public FilterModel Value { get; set; }
 
         // Selected options
         private Tuple<OriginType, string> _selectedOriginType;
-        private OriginModel _model = new OriginModel();
-        private HouseholdModel _householdModel = new HouseholdModel();
-        private InternationalModel _internationalModel = new InternationalModel();
-        private MedicalCenterLocationModel _medicalCenterModel = new MedicalCenterLocationModel();
 
         // Lists of options
         private readonly List<Tuple<OriginType, string>> _dropdownValuesOrigin = new List<Tuple<OriginType, string>>
@@ -56,7 +56,7 @@ namespace PRIME_UCR.Components.Dashboard.Filters
 
         private void OnOriginChange(Ubicacion origin)
         {
-            _model.Origin = origin;
+            Value.OriginFilter.Origin = origin;
         }
 
         private bool _isLoading;
@@ -65,7 +65,7 @@ namespace PRIME_UCR.Components.Dashboard.Filters
         {
             if (household.Longitude != null && household.Latitude != null)
             {
-                _model.Origin = new Domicilio
+                Value.OriginFilter.Origin = new Domicilio
                 {
                     Direccion = household.Address,
                     DistritoId = household.District.Id,
@@ -78,37 +78,37 @@ namespace PRIME_UCR.Components.Dashboard.Filters
                 throw new ApplicationException("Household picker shouldn't return null longitude or latitude");
             }
 
-            _householdModel = household;
+            Value.HouseholdOriginFilter = household;
             await Save();
         }
 
         private async Task OnInternationalSave(InternationalModel international)
         {
-            _model.Origin = new Internacional
+            Value.OriginFilter.Origin = new Internacional
             {
                 NombrePais = international.Country.Nombre
             };
 
-            _internationalModel = international;
+            Value.InternationalOriginFilter = international;
             await Save();
         }
 
         private async Task OnMedicalCenterSave(MedicalCenterLocationModel medicalCenter)
         {
-            _model.Origin = new CentroUbicacion
+            Value.OriginFilter.Origin = new CentroUbicacion
             {
                 CedulaMedico = medicalCenter.Doctor.Cédula,
                 CentroMedicoId = medicalCenter.MedicalCenter.Id,
                 NumeroCama = medicalCenter.BedNumber
             };
 
-            _medicalCenterModel = medicalCenter;
+            Value.MedicalCenterOriginFilter = medicalCenter;
             await Save();
         }
 
         private async Task Save()
         {
-            await OnSave.InvokeAsync(_model);
+            await OnSave.InvokeAsync(Value.OriginFilter);
         }
 
         private async Task LoadExistingValues()
@@ -121,7 +121,7 @@ namespace PRIME_UCR.Components.Dashboard.Filters
                     {
                         _selectedOriginType = _dropdownValuesOrigin[0];
                         var location = await LocationService.GetLocationByDistrictId(d.DistritoId);
-                        _householdModel = new HouseholdModel
+                        Value.HouseholdOriginFilter = new HouseholdModel
                         {
                             Province = location.Province,
                             Canton = location.Canton,
@@ -134,7 +134,7 @@ namespace PRIME_UCR.Components.Dashboard.Filters
                     }
                 case Internacional i:
                     _selectedOriginType = _dropdownValuesOrigin[1];
-                    _internationalModel = new InternationalModel
+                    Value.InternationalOriginFilter = new InternationalModel
                     {
                         Country = await LocationService.GetCountryByName(i.NombrePais)
                     };
@@ -143,7 +143,7 @@ namespace PRIME_UCR.Components.Dashboard.Filters
                     _selectedOriginType = _dropdownValuesOrigin[2];
                     var doctor = await DoctorService.GetDoctorByIdAsync(mc.CedulaMedico);
                     var medicalCenter = await LocationService.GetMedicalCenterById(mc.CentroMedicoId);
-                    _medicalCenterModel = new MedicalCenterLocationModel
+                    Value.MedicalCenterOriginFilter = new MedicalCenterLocationModel
                     {
                         IsOrigin = true,
                         BedNumber = mc.NumeroCama,
@@ -155,8 +155,7 @@ namespace PRIME_UCR.Components.Dashboard.Filters
                     _selectedOriginType = _dropdownValuesOrigin[0];
                     break;
             }
-
-            _model.Origin = Origin;
+            Value.OriginFilter.Origin = Origin;
             _isLoading = false;
         }
 
