@@ -19,12 +19,20 @@ namespace PRIME_UCR.Pages.CheckLists
         }
         [Parameter]
         public int id { get; set; }
+        [Parameter]
+        public int plantillaid { get; set; }
+        [Parameter]
+        public string incidentcod { get; set; }
 
         private bool isDisabled { get; set; } = true;
 
         protected bool createItem { get; set; } = false;
 
         protected IEnumerable<CheckList> lists { get; set; }
+
+        public InstanceChecklist insanceLC { get; set; }
+
+        protected IEnumerable<InstanceChecklist> instancelists { get; set; }
 
         protected IEnumerable<Item> items { get; set; }
 

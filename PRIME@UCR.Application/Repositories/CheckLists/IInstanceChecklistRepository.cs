@@ -14,7 +14,7 @@ namespace PRIME_UCR.Application.Repositories.CheckLists
        //recuperar por id de la plantilla
         Task<IEnumerable<InstanceChecklist>> GetByPlantillaId(int id);
         //recuperar por codigo de incidente
-        Task<IEnumerable<InstanceChecklist>> GetByIncidentCod(string vod);
+        Task<IEnumerable<InstanceChecklist>> GetByIncidentCod(string cod);
        
         Task <InstanceChecklist> InsertInstanceChecklistAsync(InstanceChecklist list);
     }

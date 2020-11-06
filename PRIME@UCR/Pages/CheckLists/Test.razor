@@ -3,35 +3,40 @@
 @inherits TestBase
 <link href="css/Checklist.css" rel="stylesheet" />
 
+
 <h3>Test</h3>
-<p>Id</p>
-<input @bind-value="instanceCL.InstanciadoId" />
-<p>plantilla</p>
-<input @bind-value="instanceCL.PlantillaId" />
-<p>incinebte</p>
-<input @bind-value="instanceCL.IncidentCod" />
-<button type="submit" class="btn btn-primary">Guardar</button>
 @if (instancelists != null)
 {
-    <table class="table" id="Table_ICL">
-        @* Contains the list of instance existing checklists *@
-        <thead>
-            <tr>
-                <th>Id plantilla</th>
-                <th>Id</th>
-                <th>cod</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var tempList in instancelists)
-            {
-                <tr class="nav-item px-3" style="transform: rotate(0);">
-                    @* Navigation link for each checklist *@
-                    <th scope="row"><a href='@string.Format("checklist/{0}", @tempList.PlantillaId)' class="stretched-link">@tempList.PlantillaId</a></th>
-                    <td>@tempList.InstanciadoId</td>
-                    <td>@tempList.IncidentCod</td>
-                </tr>
-            }
-        </tbody>
-    </table>
+    string cod = "2020-11-04-0001-IT-TER";
+    <AllChecklistSingleIncident IncidentCod="@cod" />
 }
+@*<p>Id</p>
+            <input @bind-value="instanceCL.InstanciadoId" />
+            <p>plantilla</p>
+            <input @bind-value="instanceCL.PlantillaId" />
+            <p>incinebte</p>
+            <input @bind-value="instanceCL.IncidentCod" />
+            <button type="submit" class="btn btn-primary">Guardar</button>
+        <button class="btn btn-primary" @onclick="Insert">Guardar</button>
+
+            <table class="table" id="Table_ICL">
+
+    <thead>
+        <tr>
+            <th>Id plantilla</th>
+            <th>Id</th>
+            <th>cod</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var tempList in instancelists)
+        {
+            <tr class="nav-item px-3" style="transform: rotate(0);">
+
+                <th scope="row"><a href='@string.Format("checklist/{0}", @tempList.PlantillaId)' class="stretched-link">@tempList.PlantillaId</a></th>
+                <td>@tempList.InstanciadoId</td>
+                <td>@tempList.IncidentCod</td>
+            </tr>
+        }
+    </tbody>
+        </table>*@
