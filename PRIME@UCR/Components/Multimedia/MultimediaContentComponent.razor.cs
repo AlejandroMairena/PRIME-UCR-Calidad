@@ -28,6 +28,8 @@ namespace PRIME_UCR.Components.Multimedia
 
         // real time multimedia
         bool showCamera = false;
+        string videoId = "video120";
+        ElementReference videoElement;
 
         protected override void OnInitialized()
         {
@@ -91,7 +93,7 @@ namespace PRIME_UCR.Components.Multimedia
         {
             showCamera = !showCamera;
             if (showCamera)
-                await JS.InvokeAsync<bool>("openCamera", null);
+                await JS.InvokeAsync<bool>("openCamera", new object[1] { videoElement });
         }
 
         string invalidType()

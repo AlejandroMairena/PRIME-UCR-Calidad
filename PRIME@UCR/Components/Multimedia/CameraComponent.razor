@@ -1,0 +1,16 @@
+﻿@inject IJSRuntime JS
+
+<div>
+    <video class="rt-box" @ref=videoElement></video>
+    
+    <canvas class="rt-box" @ref=canvasElement></canvas>
+
+    <div class="row">
+        <div class="col">
+            <button type="button" class="btn btn-primary" @onclick="OpenCamera">Cámara</button>
+        </div>
+        <div class="col">
+            <button type="button" class="btn btn-primary" @onclick="TakePhotograph">Tomar Fotografía</button>
+        </div>
+    </div>
+</div>

@@ -157,3 +157,16 @@ button.btn.btn-danger.m-btn.m-btn-rm {
         transform: rotate(360deg);
     }
 }
+
+.video-div {
+    all: unset;
+    /** {
+        all: unset;
+    }*/
+}
+
+.rt-box {
+    width: 512px;
+    height: 384px;
+    border: 1px solid black;
+}

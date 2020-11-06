@@ -64,7 +64,9 @@
                 @if (showCamera)
                 {
                     <p>Cámara:</p>
-                    <video autoplay style="width: 400px; height: 300px"></video>
+                    <div class="video-div">
+                        <video autoplay class="video-div" id="@videoId" @ref="videoElement"></video>
+                    </div>
                     <p>Fin</p>
                 }
                 @if (!showCamera && (MultimediaContent != null && MultimediaContent.Count > 0))
