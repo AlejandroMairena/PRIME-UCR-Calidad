@@ -1,0 +1,10 @@
+﻿@using PRIME_UCR.Components.Controls
+
+<EditForm Model="Value">
+    <DropDownMenu Data="_stateTypes"
+                  Label="Filtro estado"
+                  @bind-Value="Value.StateFilter"
+                  DefaultText="Sin filtro"
+                  UseValidation="false"
+                  Required="false" />
+</EditForm>

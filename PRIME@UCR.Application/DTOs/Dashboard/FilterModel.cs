@@ -19,6 +19,7 @@ namespace PRIME_UCR.Application.DTOs.Dashboard
             MedicalCenterOriginFilter = new MedicalCenterLocationModel();
         }
 
+        public string StateFilter { get; set; }
         public DateTime? InitialDateFilter { get; set; }
         public DateTime? FinalDateFilter { get; set; }
         public Modalidad ModalityFilter { get; set; }
