@@ -1,0 +1,37 @@
+﻿@page "/test"
+@using PRIME_UCR.Components.Controls
+@inherits TestBase
+<link href="css/Checklist.css" rel="stylesheet" />
+
+<h3>Test</h3>
+<p>Id</p>
+<input @bind-value="instanceCL.InstanciadoId" />
+<p>plantilla</p>
+<input @bind-value="instanceCL.PlantillaId" />
+<p>incinebte</p>
+<input @bind-value="instanceCL.IncidentCod" />
+<button type="submit" class="btn btn-primary">Guardar</button>
+@if (instancelists != null)
+{
+    <table class="table" id="Table_ICL">
+        @* Contains the list of instance existing checklists *@
+        <thead>
+            <tr>
+                <th>Id plantilla</th>
+                <th>Id</th>
+                <th>cod</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var tempList in instancelists)
+            {
+                <tr class="nav-item px-3" style="transform: rotate(0);">
+                    @* Navigation link for each checklist *@
+                    <th scope="row"><a href='@string.Format("checklist/{0}", @tempList.PlantillaId)' class="stretched-link">@tempList.PlantillaId</a></th>
+                    <td>@tempList.InstanciadoId</td>
+                    <td>@tempList.IncidentCod</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

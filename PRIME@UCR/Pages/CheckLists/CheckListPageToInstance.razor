@@ -18,7 +18,8 @@
         }
         else
         {
-            if (@llenado == false)
+            <ChecklistToAsign />
+           @* if (@llenado == false)
             {
                 Llenar();
             }
@@ -47,7 +48,7 @@
                         
                         <td><input type="checkbox" @bind="TempDetail[TempsIds.IndexOf(tempList.Id)].IsDone"></td>
                         
-                        @* *@
+                        
 
                     </tr>
                     }
@@ -63,7 +64,7 @@
                         <th>Descripción</th>
                     </tr>
                 </thead>
-                @*listas de chequeo elegidas*@
+                @*listas de chequeo elegidas
             <tbody>
                 @foreach (var tempList in lists)
                 {
@@ -85,9 +86,9 @@
 
 
             <div align="center">
-                <button type="submit" class="btn btn-primary" id="BP_LC0">Guardar</button>
+                <button type="submit" class="btn btn-primary" id="BP_LC0" disabled="@dont_save">Guardar</button>
                 <a class="btn btn-outline-secondary" @onclick="Dispose" id="a_LC3">Cancelar</a>
-            </div>
+            </div>*@
             
         }
 
