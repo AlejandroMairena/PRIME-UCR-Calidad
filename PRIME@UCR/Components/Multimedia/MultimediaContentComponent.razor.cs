@@ -99,12 +99,18 @@ namespace PRIME_UCR.Components.Multimedia
         async Task ShowPopUp(MultimediaContent mcontent) {
             //para probar, esta con una imagen y path quemadas
             string name = mcontent.Nombre; //
-          
+            string pathEncrypted = mcontent.Archivo; //AQUI EL PATH ESTA ENCRIPTADO
+            string type = mcontent.Tipo;
+
             //hacer query para encontrar el archivo por el ID y desencriptar el path y el archivo
             //SOLO FUNCIONA CON IMAGENES
-            string nombreQuemado = "practica.png";
-            string pathQuemado = "img/practica.png";
-            await JS.InvokeAsync<bool>("showImage", pathQuemado, nombreQuemado);
+            string nombreQuemadoImg = "practica.png";
+            string pathQuemadoImg = "img/practica.png";
+            string nombreQuemadoPDF = "prueba.pdf";
+            string pathQuemadoPDF = "img/prueba.pdf";
+
+            //SE LLAMA A UN METODO GENERAL QUE DIFERENCIA LAS VISTAS DE LOS TIPOS
+            await JS.InvokeAsync<bool>("showMultimedia", pathQuemadoImg, nombreQuemadoImg, type);
         }
         async Task CloseImageView() {
             await JS.InvokeAsync<bool>("closeView");

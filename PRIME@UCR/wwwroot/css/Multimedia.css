@@ -183,9 +183,9 @@ button.btn.btn-danger.m-btn.m-btn-rm {
 }
 
 /* Modal Content (Image) */
-.modal-content {
+.modal-content-image {
     margin: auto;
-    display: block;
+    display: none;
     width: 80%;
     max-width: 700px;
 }
@@ -193,7 +193,7 @@ button.btn.btn-danger.m-btn.m-btn-rm {
 /* Caption of Modal Image (Image Text) - Same Width as the Image */
 #caption {
     margin: auto;
-    display: block;
+    display: none;
     width: 80%;
     max-width: 700px;
     text-align: center;
