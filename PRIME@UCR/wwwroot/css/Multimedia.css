@@ -165,8 +165,24 @@ button.btn.btn-danger.m-btn.m-btn-rm {
     }*/
 }
 
+.rt-container {
+    width: 500px;
+}
+
 .rt-box {
+    margin: auto;
     width: 512px;
     height: 384px;
     border: 1px solid black;
+}
+
+.rt-button {
+    width: 120px;
+    margin-left: auto;
+    margin-right: auto;
+    display:block;
+}
+
+.hidden {
+    display: none;
 }
