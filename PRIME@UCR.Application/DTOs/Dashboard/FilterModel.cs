@@ -21,6 +21,7 @@ namespace PRIME_UCR.Application.DTOs.Dashboard
 
         public DateTime? InitialDateFilter { get; set; }
         public DateTime? FinalDateFilter { get; set; }
+        public Modalidad ModalityFilter { get; set; }
 
         public MedicalCenterLocationModel MedicalCenterDestination { get; set; }
         public OriginModel OriginFilter { get; set; }

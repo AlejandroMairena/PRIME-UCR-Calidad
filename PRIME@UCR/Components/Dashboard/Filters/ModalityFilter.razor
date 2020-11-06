@@ -1,0 +1,13 @@
+﻿@using PRIME_UCR.Components.Controls
+
+<Loading IsLoading="_isLoading">
+    <EditForm Model="Value">
+        <DropDownMenu Label="Modalidad"
+                      Data="_modes"
+                      @bind-Value="Value.ModalityFilter"
+                      TextProperty="Tipo"
+                      DefaultText="Sin filtro"
+                      UseValidation="false"
+                      Required="false" />
+    </EditForm>
+</Loading>

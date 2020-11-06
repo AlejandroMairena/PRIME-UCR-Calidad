@@ -26,13 +26,11 @@ namespace PRIME_UCR.Components.Dashboard.Filters
         [Parameter] public EventCallback<FilterModel> ValueChanged { get; set; }
 
         private List<CentroMedico> _medicalCenters;
-        private CentroMedico selectedMedicalCenter = new CentroMedico();
         private bool _isLoading = true;
 
         async Task OnChangeMedicalCenter(CentroMedico medicalCenter)
         {
             Value.MedicalCenterDestination.MedicalCenter = medicalCenter;
-            selectedMedicalCenter = medicalCenter;
         }
 
         private async Task LoadMedicalCenters(bool firstRender)
