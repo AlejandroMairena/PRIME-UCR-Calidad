@@ -7,6 +7,7 @@ using PRIME_UCR.Application.Services.UserAdministration;
 using PRIME_UCR.Domain.Models.UserAdministration;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -32,13 +33,8 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
          */
         public async Task<Persona> GetPersonByIdAsync(string id)
         {
-            if((await primeSecurityService.isAuthorizedAsync(AuthorizationPolicies.CanManageUsers)))
-            {
-                return await PersonRepository.GetByKeyPersonaAsync(id);
-            } else
-            {
-                throw new NotAuthorizedException();
-            }
+            await primeSecurityService.CheckIfIsAuthorizedAsync(MethodBase.GetCurrentMethod());
+            return await PersonRepository.GetByKeyPersonaAsync(id);
         }
 
         /**
@@ -48,23 +44,17 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
          */
         public async Task<PersonFormModel> GetPersonModelFromRegisterModelAsync(RegisterUserFormModel registerUserModel)
         {
-            if ((await primeSecurityService.isAuthorizedAsync(AuthorizationPolicies.CanManageUsers)))
-            {
-                PersonFormModel personModel = new PersonFormModel();
-                personModel.IdCardNumber = registerUserModel.IdCardNumber;
-                personModel.Name = registerUserModel.Name;
-                personModel.FirstLastName = registerUserModel.FirstLastName;
-                personModel.SecondLastName = registerUserModel.SecondLastName;
-                personModel.Sex = registerUserModel.Sex.ToString();
-                personModel.BirthDate = registerUserModel.BirthDate;
-                personModel.PrimaryPhoneNumber = registerUserModel.PrimaryPhoneNumber;
-                personModel.SecondaryPhoneNumber = registerUserModel.SecondaryPhoneNumber;
-                return personModel;
-            } else
-            {
-                throw new NotAuthorizedException();
-            }
-
+            await primeSecurityService.CheckIfIsAuthorizedAsync(MethodBase.GetCurrentMethod());
+            PersonFormModel personModel = new PersonFormModel();
+            personModel.IdCardNumber = registerUserModel.IdCardNumber;
+            personModel.Name = registerUserModel.Name;
+            personModel.FirstLastName = registerUserModel.FirstLastName;
+            personModel.SecondLastName = registerUserModel.SecondLastName;
+            personModel.Sex = registerUserModel.Sex.ToString();
+            personModel.BirthDate = registerUserModel.BirthDate;
+            personModel.PrimaryPhoneNumber = registerUserModel.PrimaryPhoneNumber;
+            personModel.SecondaryPhoneNumber = registerUserModel.SecondaryPhoneNumber;
+            return personModel;
         }
 
         /**
@@ -89,14 +79,9 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
          */
         public async Task StoreNewPersonAsync(PersonFormModel personInfo)
         {
-            if ((await primeSecurityService.isAuthorizedAsync(AuthorizationPolicies.CanManageUsers)))
-            {
-                var person = GetPersonaFromPersonModel(personInfo);
-                await PersonRepository.InsertAsync(person);
-            } else
-            {
-                throw new NotAuthorizedException();
-            }
+            await primeSecurityService.CheckIfIsAuthorizedAsync(MethodBase.GetCurrentMethod());
+            var person = GetPersonaFromPersonModel(personInfo);
+            await PersonRepository.InsertAsync(person);
         }
 
         /**
@@ -104,14 +89,8 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
          */
         public async Task DeletePersonAsync(string id)
         {
-            if ((await primeSecurityService.isAuthorizedAsync(AuthorizationPolicies.CanManageUsers)))
-            {
-                await PersonRepository.DeleteAsync(id);
-            }
-            else 
-            {
-                throw new NotAuthorizedException();
-            }
+            await primeSecurityService.CheckIfIsAuthorizedAsync(MethodBase.GetCurrentMethod());
+            await PersonRepository.DeleteAsync(id);
         }
     }
 }

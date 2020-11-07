@@ -7,6 +7,7 @@ using PRIME_UCR.Application.Services.UserAdministration;
 using PRIME_UCR.Domain.Models.UserAdministration;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -27,14 +28,8 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
 
         public async Task<IEnumerable<Permiso>> GetPermisos()
         {
-            if ((await primeSecurityService.isAuthorizedAsync(AuthorizationPolicies.CanManageUsers)))
-            {
-                return await _permissionsRepository.GetAllAsync();
-            }
-            else
-            {
-                throw new NotAuthorizedException();
-            }
+            await primeSecurityService.CheckIfIsAuthorizedAsync(MethodBase.GetCurrentMethod());
+            return await _permissionsRepository.GetAllAsync();
         }
     }
 }   

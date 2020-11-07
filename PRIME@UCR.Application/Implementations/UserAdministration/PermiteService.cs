@@ -6,6 +6,7 @@ using PRIME_UCR.Application.Repositories.UserAdministration;
 using PRIME_UCR.Application.Services.UserAdministration;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -26,26 +27,14 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
 
         public async Task DeletePermissionAsync(string idProfile, int idPermission)
         {
-            if ((await primeSecurityService.isAuthorizedAsync(AuthorizationPolicies.CanManageUsers)))
-            {
-                await _IPermiteRepository.DeletePermissionAsync(idProfile, idPermission);
-            } else
-            {
-                throw new NotAuthorizedException();
-            }
+            await primeSecurityService.CheckIfIsAuthorizedAsync(MethodBase.GetCurrentMethod());
+            await _IPermiteRepository.DeletePermissionAsync(idProfile, idPermission);
         }
 
         public async Task InsertPermissionAsync(string idProfile, int idPermission)
         {
-            if ((await primeSecurityService.isAuthorizedAsync(AuthorizationPolicies.CanManageUsers)))
-            {
-                await _IPermiteRepository.InsertPermissionAsync(idProfile, idPermission);
-            }
-            else
-            {
-                throw new NotAuthorizedException();
-            }
+            await primeSecurityService.CheckIfIsAuthorizedAsync(MethodBase.GetCurrentMethod());
+            await _IPermiteRepository.InsertPermissionAsync(idProfile, idPermission);
         }
-
     }
 }

@@ -6,6 +6,7 @@ using PRIME_UCR.Application.Repositories.UserAdministration;
 using PRIME_UCR.Application.Services.UserAdministration;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -26,25 +27,14 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
 
         public async Task DeleteUserOfProfileAsync(string idUser, string idProfile)
         {
-            if((await primeSecurityService.isAuthorizedAsync(AuthorizationPolicies.CanManageUsers)))
-            {
-                await _perteneceRepository.DeleteUserFromProfileAsync(idUser, idProfile);
-            } else
-            {
-                throw new NotAuthorizedException();
-            }
+            await primeSecurityService.CheckIfIsAuthorizedAsync(MethodBase.GetCurrentMethod());
+            await _perteneceRepository.DeleteUserFromProfileAsync(idUser, idProfile);
         }
 
         public async Task InsertUserOfProfileAsync(string idUser, string idProfile)
         {
-            if ((await primeSecurityService.isAuthorizedAsync(AuthorizationPolicies.CanManageUsers))) 
-            {
-                await _perteneceRepository.InsertUserToProfileAsync(idUser, idProfile);
-            } 
-            else
-            {
-                throw new NotAuthorizedException();
-            }
+            await primeSecurityService.CheckIfIsAuthorizedAsync(MethodBase.GetCurrentMethod());
+            await _perteneceRepository.InsertUserToProfileAsync(idUser, idProfile);
         }
     }
 }

@@ -40,11 +40,10 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
          */
         public async Task<Persona> getPersonWithDetailstAsync(string email)
         {
-            // call in EVERY METHOD IN THE PROJECT
             await primeSecurityService.CheckIfIsAuthorizedAsync(MethodBase.GetCurrentMethod());
-                var user = await userManager.FindByEmailAsync(email);
-                var person = await getUsuarioWithDetailsAsync(user.Id);
-                return person.Persona;
+            var user = await userManager.FindByEmailAsync(email);
+            var person = await getUsuarioWithDetailsAsync(user.Id);
+            return person.Persona;
         }
 
         /**
@@ -54,12 +53,7 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
          */
         public async Task<UserFormModel> GetUserFormFromRegisterUserFormAsync(RegisterUserFormModel userToRegister)
         {
-            await primeSecurityService.CheckIfIsAuthorizedAsync(
-                new List<AuthorizationPermissions>
-                { 
-                    AuthorizationPermissions.CanCreateUsers,
-                    AuthorizationPermissions.CanModifyUsers 
-                }, false);
+            await primeSecurityService.CheckIfIsAuthorizedAsync(MethodBase.GetCurrentMethod());
             UserFormModel userModel = new UserFormModel();
             userModel.Email = userToRegister.Email;
             userModel.IdCardNumber = userToRegister.IdCardNumber;
@@ -83,15 +77,10 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
          */
         private async Task<Usuario> GetUserFromUserModelAsync(UserFormModel userToRegister)
         {
-            if ((await primeSecurityService.isAuthorizedAsync(AuthorizationPolicies.CanManageDashboard)))
-            {
-                Usuario user = new Usuario();
-                user.Email = user.UserName = userToRegister.Email;
-                return user;
-            } else
-            {
-                throw new NotAuthorizedException();
-            }
+            await primeSecurityService.CheckIfIsAuthorizedAsync(MethodBase.GetCurrentMethod());
+            Usuario user = new Usuario();
+            user.Email = user.UserName = userToRegister.Email;
+            return user;
         }
 
         /**
@@ -99,22 +88,17 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
          */
         public async Task<bool> StoreUserAsync(UserFormModel userToRegist, string password)
         {
-            if ((await primeSecurityService.isAuthorizedAsync(AuthorizationPolicies.CanManageDashboard)))
+            await primeSecurityService.CheckIfIsAuthorizedAsync(MethodBase.GetCurrentMethod());
+            var user = await GetUserFromUserModelAsync(userToRegist);
+            var existInDB = (await userManager.FindByEmailAsync(user.Email)) == null ? false : true;
+            if(!existInDB)
             {
-                var user = await GetUserFromUserModelAsync(userToRegist);
-                var existInDB = (await userManager.FindByEmailAsync(user.Email)) == null ? false : true;
-                if(!existInDB)
-                {
-                    user.CedPersona = userToRegist.IdCardNumber;
-                    var result = await userManager.CreateAsync(user, password);
-                    return result.Succeeded;
-                } else
-                {
-                    return false;
-                }
+                user.CedPersona = userToRegist.IdCardNumber;
+                var result = await userManager.CreateAsync(user, password);
+                return result.Succeeded;
             } else
             {
-                throw new NotAuthorizedException();
+                return false;
             }
         }
 

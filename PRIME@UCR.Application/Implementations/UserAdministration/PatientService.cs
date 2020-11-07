@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components.Authorization;
@@ -25,36 +26,20 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
 
         public async Task<Paciente> GetPatientByIdAsync(string id)
         {
-            if ((await primeSecurityService.isAuthorizedAsync(AuthorizationPolicies.CanManageUsers)))
-            {
-                return await _patientRepo.GetByKeyAsync(id);
-            } else
-            {
-                throw new NotAuthorizedException();
-            }
+            await primeSecurityService.CheckIfIsAuthorizedAsync(MethodBase.GetCurrentMethod());
+            return await _patientRepo.GetByKeyAsync(id);
         }
 
         public async Task<Paciente> CreatePatientAsync(Paciente entity)
         {
-            if ((await primeSecurityService.isAuthorizedAsync(AuthorizationPolicies.CanManageUsers)))
-            {
-                return await _patientRepo.InsertAsync(entity);
-            }
-            else
-            {
-                throw new NotAuthorizedException();
-            }
+            await primeSecurityService.CheckIfIsAuthorizedAsync(MethodBase.GetCurrentMethod());
+            return await _patientRepo.InsertAsync(entity);
         }
 
         public async Task<Paciente> InsertPatientOnlyAsync(Paciente entity)
         {
-            if ((await primeSecurityService.isAuthorizedAsync(AuthorizationPolicies.CanManageUsers)))
-            {
-                return await _patientRepo.InsertPatientOnlyAsync(entity);
-            } else
-            {
-                throw new NotAuthorizedException();
-            }
+            await primeSecurityService.CheckIfIsAuthorizedAsync(MethodBase.GetCurrentMethod());
+            return await _patientRepo.InsertPatientOnlyAsync(entity);
         }
     }
 }

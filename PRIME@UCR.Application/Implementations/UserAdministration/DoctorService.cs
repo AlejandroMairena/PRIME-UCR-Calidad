@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components.Authorization;
@@ -25,25 +26,14 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
 
         public async Task<Médico> GetDoctorByIdAsync(string id)
         {
-            if ((await primeSecurityService.isAuthorizedAsync(AuthorizationPolicies.CanManageUsers)))
-            {
-                return await _repository.GetByKeyAsync(id);
-            }
-            else
-            {
-                throw new NotAuthorizedException();
-            }
+            await primeSecurityService.CheckIfIsAuthorizedAsync(MethodBase.GetCurrentMethod());
+            return await _repository.GetByKeyAsync(id);
         }
 
         public async Task<IEnumerable<Médico>> GetAllDoctorsAsync()
         {
-            if ((await primeSecurityService.isAuthorizedAsync(AuthorizationPolicies.CanManageUsers)))
-            {
-                return await _repository.GetAllAsync();
-            } else
-            {
-                throw new NotAuthorizedException();
-            }
+            await primeSecurityService.CheckIfIsAuthorizedAsync(MethodBase.GetCurrentMethod());
+            return await _repository.GetAllAsync();
         }
     }
 }
