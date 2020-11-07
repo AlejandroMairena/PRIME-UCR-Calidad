@@ -9,23 +9,17 @@ using PRIME_UCR.Infrastructure.DataProviders;
 
 namespace PRIME_UCR.Infrastructure.Repositories.Sql.MedicalRecords
 {
-    public class MedicalRecordRepository : GenericRepository<Expediente, int>, IMedicalRecordRepository
+    public class MedicalRecordRepository : RepoDbRepository<Expediente, int>, IMedicalRecordRepository
     {
         public MedicalRecordRepository(ISqlDataProvider dataProvider) : base(dataProvider)
         {
         }
 
-        public override async Task<Expediente> InsertAsync(Expediente model)
-        {
-            model.FechaCreacion = DateTime.Now;
-            _db.MedicalRecords.Add(model);
-            await _db.SaveChangesAsync();
-            return model;
-        }
-
         public async Task<Expediente> GetByPatientIdAsync(string id)
         {
-            return await _db.MedicalRecords.FirstOrDefaultAsync(mr => mr.CedulaPaciente == id);
+            return
+                (await GetByConditionAsync(mr => mr.CedulaPaciente == id))
+                .FirstOrDefault();
         }
 
         public async Task<IEnumerable<Expediente>> GetByNameAndLastnameAsync(string name, string lastname) {
@@ -35,7 +29,6 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.MedicalRecords
                 .Where(p => p.Paciente.Nombre == name && p.Paciente.PrimerApellido == lastname)
                 .ToListAsync(); 
         }
-
 
         public async Task<IEnumerable<Expediente>> GetRecordsWithPatientAsync() {
             return await _db.MedicalRecords
@@ -50,16 +43,6 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.MedicalRecords
                 .Where(p => p.Paciente.Nombre == name && p.Paciente.PrimerApellido == lastname && p.Paciente.SegundoApellido == lastname2)
                 .ToListAsync(); 
 
-        }
-
-
-        public async Task<Expediente> GetWithDetailsAsync(int id)
-        {
-            return await _db.MedicalRecords
-                .Include(i => i.CedulaPaciente)
-                .Include(i => i.CedulaMedicoDuenno)
-                .Include(i => i.Id)
-                .FirstOrDefaultAsync(i => i.Id == id);
         }
     }
 }
