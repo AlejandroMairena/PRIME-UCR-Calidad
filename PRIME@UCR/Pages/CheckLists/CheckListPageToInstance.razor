@@ -1,4 +1,4 @@
-﻿@page "/checklist/toInstance"
+﻿@page "/checklist/{incidentcod}"
 @inherits CheckListToInstanceBase
 @attribute [Authorize]
 <link href="css/Checklist.css" rel="stylesheet" />
@@ -18,7 +18,7 @@
         }
         else
         {
-            <ChecklistToAsign />
+            <ChecklistToAsign incidentCod="@incidentcod"/>
            @* if (@llenado == false)
             {
                 Llenar();

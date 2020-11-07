@@ -36,7 +36,7 @@ namespace PRIME_UCR.Components.CheckLists
         public bool dont_save;
         public int min = 0;//sumar 1
         public string afterUrl;
-        public string incidentCod;
+        [Parameter] public string incidentCod { get; set; }
         /*
          * asig incident code
          */
