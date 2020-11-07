@@ -29,7 +29,7 @@ namespace PRIME_UCR.Application.Implementations.Appointments
 
         public async Task<IEnumerable<TipoAccion>> GetActionTypesAsync(bool isIncident = true)
         {
-            return await _actionTypeRepo.GetByConditionAsync(a => a.EsDeIncidente);
+            return await _actionTypeRepo.GetByConditionAsync(a => a.EsDeIncidente == true);
         }
 
         public async Task<Expediente> AssignMedicalRecordAsync(int appointmentId, Paciente patient)
@@ -45,7 +45,8 @@ namespace PRIME_UCR.Application.Implementations.Appointments
             {
                 var medicalRecord = new Expediente
                 {
-                    CedulaPaciente = patient.Cédula
+                    CedulaPaciente = patient.Cédula,
+                    FechaCreacion = DateTime.Now
                 };
                 record = await _medicalRecordRepository.InsertAsync(medicalRecord);
             }

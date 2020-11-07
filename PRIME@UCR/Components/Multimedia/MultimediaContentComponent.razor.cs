@@ -27,10 +27,6 @@ namespace PRIME_UCR.Components.Multimedia
         string ddMenuClass = "dropdown-menu";
         string invalidMessage = "";
 
-        // real time multimedia
-        bool showCamera = false;
-        string videoId = "video120";
-        ElementReference videoElement;
 
         protected override void OnInitialized()
         {
@@ -42,6 +38,8 @@ namespace PRIME_UCR.Components.Multimedia
             await JS.InvokeAsync<bool>("hasGetUserMedia", null);
         }
 
+        // Method to handle main button click
+        // It opens and closes the dropdown.
         public void Open()
         {
             divDDClass = open ? "dropdown" : "dropdown show";
@@ -50,34 +48,61 @@ namespace PRIME_UCR.Components.Multimedia
             open = !open;
         }
 
-        IFileListEntry file;
-
+        // Method to handle the file selected by the user
+        // If the file has a valid type it will be stored as a 
+        // MultimediaContent instance in the DB and the file stored
+        // in the file repository.
+        // Otherwise, it will rejected and a warning will be shown
+        // to the user. 
         async Task HandleFileSelected(IFileListEntry[] files)
         {
-            file = files.FirstOrDefault();
+            IFileListEntry file = files.FirstOrDefault();
 
             validFileType = ValidateFile(file, validTypeFiles);
 
             if (!validFileType) return; // archivo invalido
 
-            string filePath = Path.Combine(file_service.FilePath, file.Name);
-            byte[] pathEncrypted = encrypt_service.Encrypt(filePath);
-            string pathEncryptedString = System.Text.Encoding.UTF8.GetString(pathEncrypted);
-            if (file == null) return;
-            MultimediaContent mcontent = new MultimediaContent
+            MultimediaContent mcontent = await StoreMultimediaContent(file);
+
+            await file_service.StoreFile(file.Name, file.Data);
+            
+            await OnFileUpload.InvokeAsync(mcontent);
+        }
+
+        // Method to store a MultimediaContent from a file
+        async Task<MultimediaContent> StoreMultimediaContent(IFileListEntry file)
+        {
+            if (file == null) return null;
+
+            string filePath = EncryptFilePath(file_service.FilePath, file.Name);
+            MultimediaContent mcontent = FileToMultimediaContent(file, filePath);
+            return await multimedia_content_service.AddMultimediaContent(mcontent);
+        }
+
+        // Method to create a MultimediaContent instance from a file and a path
+        // Req: encrypted path
+        MultimediaContent FileToMultimediaContent(IFileListEntry file, string path)
+        {
+            return new MultimediaContent
             {
                 Nombre = file.Name,
-                Archivo = pathEncryptedString,
+                Archivo = path, 
                 Descripcion = "",
                 Fecha_Hora = DateTime.Now,
                 Tipo = file.Type
             };
-            mcontent = await multimedia_content_service.AddMultimediaContent(mcontent);
-            await file_service.StoreFile(file.Name, file.Data);
-            //encrypt_service.EncryptFile(file_service.FilePath,file.Name);
-            await OnFileUpload.InvokeAsync(mcontent);
         }
 
+        // Method to Encrypt File Path
+        string EncryptFilePath(string basePath, string fileName)
+        {
+            string filePath = Path.Combine(basePath, fileName);
+            byte[] encryptedPathB = encrypt_service.Encrypt(filePath);
+            string encryptedPathS = System.Text.Encoding.UTF8.GetString(encryptedPathB);
+            return encryptedPathS;
+        }
+
+        // Method to Validate File Type according to accepted types
         bool ValidateFile(IFileListEntry file, List<string> validFileTypes)
         {
             if (file == null) return false;

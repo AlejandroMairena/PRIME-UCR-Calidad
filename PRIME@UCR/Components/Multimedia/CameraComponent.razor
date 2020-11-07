@@ -1,16 +1,16 @@
 ﻿@inject IJSRuntime JS
 
-<div>
-    <video autoplay class="rt-box" @ref=videoElement></video>
-    
-    <canvas class="rt-box" @ref=canvasElement></canvas>
+<div class="rt-container">
 
-    <div class="row">
-        <div class="col">
-            <button type="button" class="btn btn-primary" @onclick="OpenCamera">Cámara</button>
-        </div>
-        <div class="col">
-            <button type="button" class="btn btn-primary" @onclick="TakePhotograph">Tomar Fotografía</button>
-        </div>
-    </div>
+    <video autoplay class="@VideoClass()" @ref=videoElement></video>
+
+    <canvas class="@CanvasClass()" @ref=canvasElement></canvas>
+
+    <img src="" class="hidden" @ref=imageElement/>
+
+    <button type="button" class="btn btn-primary rt-button" @onclick="HandleClick">@ButtonText()</button>
+
+     
 </div>
+
+@*<button type="button" class="btn btn-primary" @onclick="CloseCamera">Cerrar Camara</button>*@

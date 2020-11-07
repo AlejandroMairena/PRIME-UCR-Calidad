@@ -1,7 +1,4 @@
-﻿let video_e = null;
-let v_canvas = null;
-
-function hasGetUserMedia() {
+﻿function hasGetUserMedia() {
     let has_um = !!(navigator.mediaDevices &&
         navigator.mediaDevices.getUserMedia);
 
@@ -16,17 +13,13 @@ function hasGetUserMedia() {
 }
 
 function openCamera(videoRef) {
-    console.log("OpenCamera");
-    video_e = videoRef;
-    console.log(video_e);
-
     const constraints = {
         video: { width: { exact: 512 }, height: { exact: 384 } }
     };
 
-    if (video_e != null) {
+    if (videoRef != null) {
         navigator.mediaDevices.getUserMedia(constraints).
-            then(handleSuccess).catch(handleError);
+            then((stream) => { videoRef.srcObject = stream }).catch(handleError);
     }
     else {
         console.error('Null video reference.');
@@ -35,21 +28,20 @@ function openCamera(videoRef) {
     return true;
 }
 
-function takePhotograph(canvasRef) {
-    console.log("Take Photograph");
-    v_canvas = canvasRef;
-    console.log(v_canvas);
+function takePhotograph(canvasRef, videoRef, imageRef) {
+    canvasRef.width = videoRef.videoWidth;
+    canvasRef.height = videoRef.videoHeight;
+    canvasRef.getContext('2d').drawImage(videoRef, 0, 0);
+    imageRef.src = canvasRef.toDataURL('image/webp');
+    return imageRef.src;
+}
 
-    v_canvas.width = video_e.videoWidth;
-    v_canvas.height = video_e.videoHeight;
-    v_canvas.getContext('2d').drawImage(video_e, 0, 0);
+function closeCamera(videoRef) {
+    videoRef.srcObject = null;
     return true;
 }
 
 function handleSuccess(stream) {
-    console.log("Success");
-    console.log(video_e);
-    console.log(stream);
     video_e.srcObject = stream;
     console.log(video_e.srcObject);
 }

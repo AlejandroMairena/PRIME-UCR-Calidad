@@ -39,12 +39,12 @@
                     @* Loading Wheel *@
                     @*<div class="col">
 
-                        </div>*@
+                    </div>*@
                     @* Camera Logo *@
                     @*<div class="col">
-                            <img class="data_btn" src="img/ico-foto-blanco.jpeg" />
-                        </div>*@
-                    <button type="button" class="btn btn-primary" @onclick="OpenCamera">Cámara</button>
+                        <img class="data_btn" src="img/ico-foto-blanco.jpeg" />
+                    </div>*@
+                    <button type="button" class="btn btn-primary">Cámara</button>
                     @* Audio Logo *@
                     <div class="col">
                         <img class="data_btn" src="img/ico-micro-blanco.jpeg" />
@@ -58,18 +58,10 @@
                 @* Lista de Archivos asociados *@
                 @if (!validFileType)
                 {
-                    string message = invalidType();
+                    string message = InvalidType();
                     <p style="color: red">@message</p>
                 }
-                @if (showCamera)
-                {
-                    <p>Cámara:</p>
-                    <div class="video-div">
-                        <video autoplay class="video-div" id="@videoId" @ref="videoElement"></video>
-                    </div>
-                    <p>Fin</p>
-                }
-                @if (!showCamera && (MultimediaContent != null && MultimediaContent.Count > 0))
+                @if (MultimediaContent != null && MultimediaContent.Count > 0)
                 {
                     // Notificacion de cantidad de archivos adjuntos
                     @if (MultimediaContent.Count == 1)
@@ -81,7 +73,7 @@
                         <p>@MultimediaContent.Count archivos adjuntos</p>
                     }
                     <hr />
-                    // Tabla de Contenido Multimedia Adjunto
+                    @*Tabla de Contenido Multimedia Adjunto*@
                     <table class="table">
                         <thead>
                             <tr>
@@ -136,35 +128,3 @@
 
 </div>
 
-<!--
-    Ejemplo de DBCONTEXT.
-    en App.config se deberia de crear el connectionstring
-
-    <connectionString>
-        <add name="WHATEVER" connectionString="data source =.\ bla bla bla">
-    </connectionString>
-
-
-            El sevicio : 'multimedia_content_service' deberia retornarnos el modelo
-        del ejemplo, para simplemente agregarlo.
-
-
-        ApplicationDbContext context = new ApplicationDbContext();
-
-        //aqui se crea un modelo, pero esto en realidad deberia retornarlo el servicio.
-        MultimediaContent multimedia = new MultimediaContent()
-        {
-            ID = "212331",
-            Nombre = "A",
-            Archivo = "c:/por_ahi/uy",
-            Descripcion = "nothing",
-            Fecha_Hora = DateTime.Parse("1/2/3"),
-            Tipo = "hmmm..",
-            ID_accion = "53225252"
-    };
-
-    context.multimedia_content.Add(multimedia);
-    context.SaveChanges();
-
-
-    ---->
