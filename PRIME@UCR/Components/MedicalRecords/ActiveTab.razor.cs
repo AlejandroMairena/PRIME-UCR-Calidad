@@ -18,9 +18,6 @@ namespace PRIME_UCR.Components.MedicalRecords
         public RecordViewModel Expediente { get; set; }
 
         [Parameter]
-        public EventCallback<IncidentDetailsModel> OnSave { get; set; }
-
-        [Parameter]
         public Expediente MedicalRecord { get; set;  }
     }
 }
