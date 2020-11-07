@@ -13,6 +13,7 @@ namespace PRIME_UCR.Components.Multimedia
     {
         ElementReference videoElement;
         ElementReference canvasElement;
+        ElementReference imageElement;
         bool cameraOpen = false;
         bool photoTaken = false;
 
@@ -47,11 +48,11 @@ namespace PRIME_UCR.Components.Multimedia
         {
             return await JS.InvokeAsync<bool>("closeCamera", videoElement);
         }
-
-        async Task<bool> TakePhotograph()
+        string test = "";
+        async Task TakePhotograph()
         {
             photoTaken = true;
-            return await JS.InvokeAsync<bool>("takePhotograph", canvasElement, videoElement);
+            test = await JS.InvokeAsync<string>("takePhotograph", canvasElement, videoElement, imageElement);
         }
 
         void CancelPhotograph()

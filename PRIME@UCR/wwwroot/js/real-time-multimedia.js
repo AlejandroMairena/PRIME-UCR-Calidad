@@ -13,9 +13,6 @@
 }
 
 function openCamera(videoRef) {
-    console.log("OpenCamera");
-    console.log(videoRef);
-
     const constraints = {
         video: { width: { exact: 512 }, height: { exact: 384 } }
     };
@@ -31,13 +28,12 @@ function openCamera(videoRef) {
     return true;
 }
 
-function takePhotograph(canvasRef, videoRef) {
-    console.log("Take Photograph");
-
+function takePhotograph(canvasRef, videoRef, imageRef) {
     canvasRef.width = videoRef.videoWidth;
     canvasRef.height = videoRef.videoHeight;
     canvasRef.getContext('2d').drawImage(videoRef, 0, 0);
-    return true;
+    imageRef.src = canvasRef.toDataURL('image/webp');
+    return imageRef.src;
 }
 
 function closeCamera(videoRef) {
@@ -46,7 +42,6 @@ function closeCamera(videoRef) {
 }
 
 function handleSuccess(stream) {
-    console.log("Success");
     video_e.srcObject = stream;
     console.log(video_e.srcObject);
 }
