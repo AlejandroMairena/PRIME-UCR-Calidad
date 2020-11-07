@@ -9,7 +9,7 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
     /*
      * Class used to handle the authorization of pages.
      */
-    [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class, Inherited = false)]
+    [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class, Inherited = false, AllowMultiple = true)]
     public class HasPermissionAttribute : AuthorizeAttribute
     {
         public HasPermissionAttribute(AuthorizationPermissions permission) : base (permission.ToString())

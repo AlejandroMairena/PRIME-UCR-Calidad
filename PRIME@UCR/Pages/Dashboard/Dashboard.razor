@@ -1,7 +1,7 @@
 ﻿@page "/dashboard"
 @*Example of policy based authorization in a page*@
 
-@attribute [HasPolicy(AuthorizationPolicies.CanManageDashboard)]
+@attribute [HasPermission(AuthorizationPermissions.CanAccessDashboard)]
 
 @layout MainLayout
 @using ChartJs.Blazor.Charts
@@ -10,7 +10,7 @@
 
 @*Example of policy based authorization in a piece of code*@
 
-<AuthorizeView Policy="@AuthorizationPermissions.CanManageDashboard.ToString()">
+<AuthorizeView Policy="@AuthorizationPermissions.CanSeeIncidentsInfoOnDashboard.ToString()">
     <Authorized>
         <h1>
             Dashboard

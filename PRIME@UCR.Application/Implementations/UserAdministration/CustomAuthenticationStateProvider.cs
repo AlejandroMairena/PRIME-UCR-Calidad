@@ -67,9 +67,9 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
             
             claimsAuthentication.Add(new Claim(ClaimTypes.Name, user.Email));
             
-            foreach (var policy in Enum.GetValues(typeof(AuthorizationPolicies)).Cast<AuthorizationPolicies>())
+            foreach (var permission in Enum.GetValues(typeof(AuthorizationPermissions)).Cast<AuthorizationPermissions>())
             {
-                claimsAuthentication.Add(new Claim(policy.ToString(), PrimeAuthorizarionService.HavePolicy((int)policy, permissionsList) ? "true" : "false"));
+                claimsAuthentication.Add(new Claim(permission.ToString(), PrimeAuthorizarionService.HavePermission((int)permission, permissionsList) ? "true" : "false"));
             }
             return new ClaimsIdentity(claimsAuthentication.ToList(), "apiauth_type");
         }

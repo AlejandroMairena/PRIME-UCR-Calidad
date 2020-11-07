@@ -8,6 +8,7 @@ using PRIME_UCR.Components.CheckLists;
 using Microsoft.AspNetCore.Components.Forms;
 using System.Linq;
 using PRIME_UCR.Domain.Models.CheckLists;
+using MatBlazor;
 
 namespace PRIME_UCR.Pages.CheckLists
 {
@@ -16,6 +17,11 @@ namespace PRIME_UCR.Pages.CheckLists
     * */
     public class CheckListPageBase : ComponentBase
     {
+        protected const string CreateIncidentUrl = "/checklist/create";
+
+        [Inject]
+        private NavigationManager NavManager { get; set; }
+
         protected IEnumerable<CheckList> lists { get; set; }
 
         [Inject] protected ICheckListService MyService { get; set; }
@@ -32,5 +38,19 @@ namespace PRIME_UCR.Pages.CheckLists
         {
             lists = await MyService.GetAll();
         }
+
+
+        protected MatTheme AddButtonTheme = new MatTheme()
+        {
+            Primary = "white",
+            Secondary = "#095290"
+        };
+
+
+        protected void Redirect()
+        {
+            NavManager.NavigateTo($"{CreateIncidentUrl}");
+        }
+
     }
 }
