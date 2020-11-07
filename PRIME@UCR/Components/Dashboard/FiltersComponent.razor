@@ -1,8 +1,23 @@
 ﻿@using PRIME_UCR.Components.Dashboard.Filters
 
 <h3>Filtros</h3>
-<OriginFilter @bind-value="FilterInfo"/>
-<DestinationFilter @bind-value="FilterInfo"/>    
-<DateFilter @bind-value="FilterInfo"/>
-<ModalityFilter @bind-value="FilterInfo"/>
-<StateFilter @bind-Value="FilterInfo"/>
+<div class="row">
+    <div class="col">
+        <OriginFilter @bind-value="FilterInfo" />
+    </div>
+    <div class="col">
+        <DestinationFilter @bind-value="FilterInfo" />
+    </div>
+    <div class="col">
+        <InitialDateFilter @bind-value="FilterInfo" />
+    </div>
+    <div class="col">
+        <FinalDateFilter @bind-value="FilterInfo" />
+    </div>
+    <div class="col">
+        <ModalityFilter @bind-value="FilterInfo" />
+    </div>
+    <div class="col">
+        <StateFilter @bind-Value="FilterInfo" />
+    </div>
+</div>

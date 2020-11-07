@@ -4,7 +4,9 @@
     <EditForm Model="Value">
         <DropDownMenu Label="Modalidad"
                       Data="_modes"
-                      @bind-Value="Value.ModalityFilter"
+                      Value="Value.ModalityFilter"
+                      ValueChanged="@((Modalidad m) => OnModalityChange(m))"
+                      ValueExpression="() => Value.ModalityFilter"
                       TextProperty="Tipo"
                       DefaultText="Sin filtro"
                       UseValidation="false"

@@ -1,20 +1,15 @@
 ﻿@using PRIME_UCR.Components.Controls
-@using PRIME_UCR.Components.Dashboard.Filters.LocationFilter
 
-<div class="row">
-    <div class="col-md-4">
-        <EditForm Model="Value">
-            <DropDownMenu Data="@_dropdownValuesOrigin" 
-                          Label="Ubicación origen" 
-                          TextProperty="Item2"
-                          Value="_selectedOriginType"
-                          ValueChanged="@((Tuple<OriginType, string> o) => OnOriginTypeChange(o))"
-                          ValueExpression="() => _selectedOriginType"
-                          UseValidation="false" 
-                          Required="false"/>
-        </EditForm>
-    </div>
-</div>
+<EditForm Model="Value">
+    <DropDownMenu Data="@_dropdownValuesOrigin" 
+                    Label="Ubicación origen" 
+                    TextProperty="Item2"
+                    Value="_selectedOriginType"
+                    ValueChanged="@((Tuple<OriginType, string> o) => OnOriginTypeChange(o))"
+                    ValueExpression="() => _selectedOriginType"
+                    UseValidation="false" 
+                    Required="false"/>
+</EditForm>
 <Loading IsLoading="@_isLoading">
     @if(_selectedOriginType.Item1 != OriginType.SinFiltro)
     {
@@ -23,8 +18,6 @@
             <Loading IsLoading="@_isLoading">
                 <EditForm Model="Value">
                     <FluentValidationValidator />
-                    <div class="row">
-                        <div class="col-xl-4 col-lg-6">
                             <DropDownMenu Data="@_provinces"
                                           Label="Provincia"
                                           TextProperty="Nombre"
@@ -56,8 +49,6 @@
                                                   Required="false" />
                                 }
                             }
-                        </div>
-                    </div>
                 </EditForm>
             </Loading>
         }
@@ -65,8 +56,6 @@
         {
             <Loading IsLoading="_isLoading">
                 <EditForm Model="Value">
-                    <div class="row">
-                        <div class="col-xl-4 col-lg-6">
                             <DropDownMenu Data="@_countries"
                                           T="Pais"
                                           Label="País"
@@ -75,8 +64,6 @@
                                           @bind-Value="@Value.InternationalOriginFilter.Country"
                                           UseValidation="false"
                                           Required="false" />
-                        </div>
-                    </div>
                 </EditForm>
             </Loading>
         }
@@ -85,8 +72,6 @@
             <Loading IsLoading="_isLoading">
                 <EditForm Model="Value">
                     <FluentValidationValidator />
-                    <div class="row">
-                        <div class="col-xl-6 col-lg-8">
                             <DropDownMenu T="CentroMedico" 
                                           Data="_medicalCenters"
                                           Label="Centro médico"
@@ -97,8 +82,6 @@
                                           ValueChanged="@((CentroMedico mc) => OnChangeMedicalCenter(mc))" 
                                           UseValidation="false"
                                           Required="false"/>
-                        </div>
-                    </div>
                 </EditForm>
             </Loading>
 

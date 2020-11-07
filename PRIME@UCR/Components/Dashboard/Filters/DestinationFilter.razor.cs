@@ -17,11 +17,6 @@ namespace PRIME_UCR.Components.Dashboard.Filters
     public partial class DestinationFilter
     {
         [Inject] public ILocationService LocationService { get; set; }
-        [Parameter] public bool IsOrigin { get; set; }
-        [Parameter] public EventCallback<MedicalCenterLocationModel> OnSave { get; set; }
-        [Parameter] public EventCallback OnDiscard { get; set; }
-        [Parameter] public bool IsFirst { get; set; }
-        public string DoctorForLabel => IsOrigin ? "Médico en origen" : "Médico en destino";
         [Parameter] public FilterModel Value { get; set; }
         [Parameter] public EventCallback<FilterModel> ValueChanged { get; set; }
 
@@ -31,6 +26,7 @@ namespace PRIME_UCR.Components.Dashboard.Filters
         async Task OnChangeMedicalCenter(CentroMedico medicalCenter)
         {
             Value.MedicalCenterDestination.MedicalCenter = medicalCenter;
+            await ValueChanged.InvokeAsync(Value);
         }
 
         private async Task LoadMedicalCenters(bool firstRender)
@@ -51,25 +47,9 @@ namespace PRIME_UCR.Components.Dashboard.Filters
             _isLoading = false;
         }
 
-        private async Task Discard()
-        {
-            await OnDiscard.InvokeAsync(null);
-            if (!IsFirst && !OnDiscard.HasDelegate)
-                await LoadExistingValues();
-        }
-
         protected override async Task OnInitializedAsync()
         {
-            if (IsFirst)
-                Value.MedicalCenterDestination = new MedicalCenterLocationModel { IsOrigin = IsOrigin };
             await LoadExistingValues();
-
-        }
-
-        // used to toggle submit button disabled attribute
-        private void HandleFieldChanged(object sender, FieldChangedEventArgs e)
-        {
-            StateHasChanged();
         }
     }
 }

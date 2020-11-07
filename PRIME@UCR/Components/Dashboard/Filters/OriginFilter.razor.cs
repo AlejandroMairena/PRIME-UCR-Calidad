@@ -62,7 +62,7 @@ namespace PRIME_UCR.Components.Dashboard.Filters
 
         private bool _isLoading;
 
-        private void OnOriginTypeChange(Tuple<OriginType, string> type)
+        private async Task OnOriginTypeChange(Tuple<OriginType, string> type)
         {
             _selectedOriginType = type;
             Value.OriginType = type.Item2;
@@ -85,6 +85,7 @@ namespace PRIME_UCR.Components.Dashboard.Filters
                 Value.HouseholdOriginFilter.Province = null;
                 Value.InternationalOriginFilter.Country = null;
             }
+            await ValueChanged.InvokeAsync(Value);
         }
 
         private async Task LoadExistingValues()
@@ -130,6 +131,7 @@ namespace PRIME_UCR.Components.Dashboard.Filters
         async Task OnChangeProvince(Provincia province)
         {
             Value.HouseholdOriginFilter.Province = province;
+            await ValueChanged.InvokeAsync(Value);
             await LoadCantons(false);
             await LoadDistricts(false);
         }
@@ -150,6 +152,7 @@ namespace PRIME_UCR.Components.Dashboard.Filters
         async Task OnChangeCanton(Canton canton)
         {
             Value.HouseholdOriginFilter.Canton = canton;
+            await ValueChanged.InvokeAsync(Value);
             await LoadDistricts(false);
         }
 
@@ -182,6 +185,7 @@ namespace PRIME_UCR.Components.Dashboard.Filters
         async Task OnChangeMedicalCenter(CentroMedico medicalCenter)
         {
             Value.MedicalCenterOriginFilter.MedicalCenter = medicalCenter;
+            await ValueChanged.InvokeAsync(Value);
         }
 
         private async Task LoadMedicalCenters(bool firstRender)

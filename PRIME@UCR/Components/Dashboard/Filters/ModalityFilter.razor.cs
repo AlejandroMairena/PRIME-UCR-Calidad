@@ -28,5 +28,10 @@ namespace PRIME_UCR.Components.Dashboard.Filters
             _isLoading = false;
         }
 
+        private async Task OnModalityChange(Modalidad modalidad) 
+        {
+            Value.ModalityFilter = modalidad;
+            await ValueChanged.InvokeAsync(Value);        
+        }
     }
 }

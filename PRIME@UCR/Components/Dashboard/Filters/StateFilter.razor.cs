@@ -29,6 +29,12 @@ namespace PRIME_UCR.Components.Dashboard.Filters
                                             "Reactivación",
                                             "Finalizado"};
         }
+
+        private async Task OnStateChange(string state) 
+        {
+            Value.StateFilter = state;
+            await ValueChanged.InvokeAsync(Value);
+        }
     }
 
 }
