@@ -34,7 +34,7 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
         }
         public async Task<InstanceChecklist> InsertInstanceChecklist(InstanceChecklist list) 
         {
-            return await _instancechecklistRepository.InsertInstanceChecklistAsync(list);
+            return await _instancechecklistRepository.InsertAsync(list);
         }
 
         public async Task<InstanceChecklist> GetById(int id)

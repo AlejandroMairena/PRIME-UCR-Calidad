@@ -16,6 +16,5 @@ namespace PRIME_UCR.Application.Repositories.CheckLists
         //recuperar por codigo de incidente
         Task<IEnumerable<InstanceChecklist>> GetByIncidentCod(string cod);
        
-        Task <InstanceChecklist> InsertInstanceChecklistAsync(InstanceChecklist list);
     }
 }

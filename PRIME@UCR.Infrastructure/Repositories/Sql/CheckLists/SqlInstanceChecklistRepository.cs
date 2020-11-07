@@ -17,35 +17,6 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.CheckLists
         public SqlInstanceChecklistRepository(ISqlDataProvider dataProvider) : base(dataProvider)
         {
         }
-
-        public async Task<InstanceChecklist> InsertInstanceChecklistAsync(InstanceChecklist list)
-        {
-            /*var parameters = new Dictionary<string, object>
-             {
-                 {"InstanciadoId", list.InstanciadoId},
-                 { "PlantillaId", list.PlantillaId},
-                 { "IncidentCod", list.IncidentCod},
-                 {"Completado",0 },
-                 { "FechaHoraInicio" ,null },
-                 {"FechaHoraFinal", null }
-             };*/
-            return await Task.Run(() =>
-            {
-                // raw sql
-                using (var cmd = _db.DbConnection.CreateCommand())
-                {
-                    if (cmd.Connection.State == ConnectionState.Closed)
-                    {
-                        cmd.Connection.Open();
-                    }
-                    cmd.CommandText =
-                        $"insert into dbo.InstanceChecklist  values ({list.InstanciadoId}, {list.PlantillaId} ,{list.IncidentCod},{0},{null},{null})";
-
-                    list.InstanciadoId = int.Parse(s: cmd.ExecuteScalar().ToString());
-                }
-                return list;
-            });
-        }
         //recuperar por id de la instancia de lista
         public async Task<IEnumerable<InstanceChecklist>> GetByIdd(int id)
         {

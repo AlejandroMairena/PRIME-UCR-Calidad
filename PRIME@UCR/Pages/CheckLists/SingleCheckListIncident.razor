@@ -1,147 +1,130 @@
 ﻿@page "/checklist/{incidentcod}/{plantillaid:int}/{id:int}"
 @inherits SingleCheckListIncidentBase
+@using PRIME_UCR.Components.CheckLists 
 @attribute [Authorize]
 <link href="css/Checklist.css" rel="stylesheet" />
 
 <h3>Listas de chequeo</h3>
 <hr />
+@if (Getincident()) {
 @if (list == null)
 {
     <p><em>Cargando lista de chequeo.</em></p>
 }
 else
 {
-    <div class="row">
-        <div class="col-lg-3 mb-4">
-            <div class="container">
-                <h6>Listas de chequeo:</h6>
-                <div>
-                    <ul class="nav nav-pills flex-column">
-                        <li class="nav-item">
-                            @if (lists != null && lists.Count() > 0)
-                            {
-                                @foreach (var tempList in lists)
-                                {
-                                <li class="mt-2">
-                                    <NavLink href='@string.Format("checklist/Incident/{0}", @tempList.Id)' class="nav-link" id="a_LC4">
-                                        •  @tempList.Nombre
-                                    </NavLink>
-                                </li>
-                            }
-                            }
-                            </li>
-                        </ul>
-                    </div>
-
-                </div>
+<div class="row">
+    <div class="col-lg-3 mb-4">
+        <CheckListMenuIncident insidentcod=@incidentcod />
+    </div>
+    <div class="col">
+        <div class="container" id="contAll_LC" style="background:white;">
+            <h5>Definición de la lista de chequeo</h5>
+            <div id="def_LC">
+                <p>
+                    <div class="input-group row">
+                        <label for="checklistName" class="col-sm-2 col-form-label"><b>Nombre:</b></label>
+                        <div class="col-sm-9">
+                <p>@list.Nombre</p>
             </div>
-            <div class="col">
-                <div class="container" id="contAll_LC" style="background:white;">
-                    <h5>Definición de la lista de chequeo</h5>
-                    <div id="def_LC">
-                        <p>
-                            <div class="input-group row">
-                                <label for="checklistName" class="col-sm-2 col-form-label"><b>Nombre:</b></label>
-                                <div class="col-sm-9">
-                        <p>@list.Nombre</p>
-                    </div>
-                    <div class="col-sm-1">
-                        @*
-                             User Story PIG01IIC20-267 LG - Agregar imagen descriptiva a lista de chequeo
-                            Calls a component to upload images into the checklist
-                            <LoadImageComponent @bind-list="@list" />*@
-                        <img src="@list.ImagenDescriptiva" width="50" height="50" />
-                    </div>
-                </div>
-                <br />
-                <div class="input-group row">
-                    <label for="checklistDescription" class="col-sm-2 col-form-label"><span style="color:black">Descripción: </span></label>
-                    <div class="col-sm-10">
-                        <p>@list.Descripcion </p>
-                    </div>
-                </div>
-                <br />
-                <div class="input-group row">
-                    <label for="checklistType" class="col-sm-2 col-form-label"><span style="color:black">Tipo: </span></label>
-                    <div class="col-sm-4">
-                        <p>@list.Tipo</p>
-                    </div>
-                    <label for="checklistOrder" class="col-sm-1 col-form-label"><span style="color:black">Orden: </span></label>
-                    <div class="col-sm-2">
-                        <p>@list.Orden</p>
-                    </div>
-                    <label for="checklistId" class="col-sm-1 col-form-label"><span style="color:black">Id: </span></label>
-                    <span class="col-sm-2">
-                        <p> @list.Id </p>
-                    </span>
-                </div>
-
-
-                </p>
-            </div>
-            <button type="button" class="btn btn-primary" id="BP_LC0" disabled="@not_complete">Lista Completada</button>
-            <br />
-            <br />
-            <h5> Items de la lista de chequeo</h5>
-            <div id="Body_LC">
-                @if (items == null)
-                {
-                    <p>Cargando items.</p>
-                }
-                else
-                {
-                    if (items.Count() == 0)
-                    {
-                        <p>No se ha creado ningún item para esta lista de chequeo. Presione el botón de crear item para agregarle un item.</p>
-                    }
-                    else
-                    {
-
-                        <table class="table table-hover">
-                            <thead>
-                            </thead>
-                            <tbody>
-                                @foreach (var itemInList in items)
-                                {
-                                    <tr>
-                                        <td class="align-middle"><input type="checkbox">@*checked="checked"*@&nbsp;</td>
-                                        <td class="align-middle">
-                                            <p>
-                                                <img src="@itemInList.ImagenDescriptiva" width="50" height="50" />
-
-                                            </p>
-                                        </td>
-                                        <th scope="row" class="align-middle"> @itemInList.Nombre</th>
-                                        <td class="align-middle"> @itemInList.Descripcion </td>
-                                        <td class="align-middle">Temp idItem = @itemInList.Id</td>
-                                        @if (itemInList.IDSuperItem != null)
-                                        {
-                                            <td>Temp idSuperItem = @itemInList.IDSuperItem</td>
-                                        }
-
-                                        <td class="align-middle">
-                                            @* <button type="button" class="btn btn-primary"  id="Menu_LC" @onclick="() => CreateSubItem(itemInList.Id)"></button>*@
-                                            <button type="button" class="btn btn-default " data-toggle="dropdown">
-                                                ⋮<span class="caret"></span>
-                                                <span class="sr-only">Desplegar menú</span>
-                                            </button>
-
-                                            <ul class="dropdown-menu" role="menu">
-                                                @*<li><button class="dropdown-item" @onclick="() => CreateSubItem(itemInList.Id)">Agregar Subítem</button></li>*@
-                                                <li><button class="dropdown-item">Agregar contenido multimedia</button></li>
-                                            </ul>
-                                        </td>
-
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    }
-
-                }
+            <div class="col-sm-1">
+                @*
+                     User Story PIG01IIC20-267 LG - Agregar imagen descriptiva a lista de chequeo
+                    Calls a component to upload images into the checklist
+                    <LoadImageComponent @bind-list="@list" />*@
+                <img src="@list.ImagenDescriptiva" width="50" height="50" />
             </div>
         </div>
+        <br />
+        <div class="input-group row">
+            <label for="checklistDescription" class="col-sm-2 col-form-label"><span style="color:black">Descripción: </span></label>
+            <div class="col-sm-10">
+                <p>@list.Descripcion </p>
+            </div>
+        </div>
+        <br />
+        <div class="input-group row">
+            <label for="checklistType" class="col-sm-2 col-form-label"><span style="color:black">Tipo: </span></label>
+            <div class="col-sm-4">
+                <p>@list.Tipo</p>
+            </div>
+            <label for="checklistOrder" class="col-sm-1 col-form-label"><span style="color:black">Orden: </span></label>
+            <div class="col-sm-2">
+                <p>@list.Orden</p>
+            </div>
+            <label for="checklistId" class="col-sm-1 col-form-label"><span style="color:black">Id: </span></label>
+            <span class="col-sm-2">
+                <p> @list.Id </p>
+            </span>
+        </div>
+
+
+        </p>
+    </div>
+    <p>Lista Completada: </p>
+    <br />
+    <br />
+    <h5> Items de la lista de chequeo</h5>
+    <div id="Body_LC">
+        @if (items == null)
+        {
+            <p>Cargando items.</p>
+        }
+        else
+        {
+            if (items.Count() == 0)
+            {
+                <p>No se ha creado ningún item para esta lista de chequeo en este incidente.</p>
+            }
+            else
+            {
+
+                <table class="table table-hover">
+                    <thead>
+                    </thead>
+                    <tbody>
+                        @foreach (var itemInList in items) //to change
+                        {
+                            <tr>
+                                <td class="align-middle"><input type="checkbox">@*checked="checked"*@&nbsp;</td>
+                                <td class="align-middle">
+                                    <p>
+                                        <img src="@itemInList.ImagenDescriptiva" width="50" height="50" />
+
+                                    </p>
+                                </td>
+                                <th scope="row" class="align-middle"> @itemInList.Nombre</th>
+                                <td class="align-middle"> @itemInList.Descripcion </td>
+                                <td class="align-middle">Temp idItem = @itemInList.Id</td>
+                                @if (itemInList.IDSuperItem != null)
+                                {
+                                    <td>Temp idSuperItem = @itemInList.IDSuperItem</td>
+                                }
+
+                                <td class="align-middle">
+                                    @* <button type="button" class="btn btn-primary"  id="Menu_LC" @onclick="() => CreateSubItem(itemInList.Id)"></button>*@
+                                    <button type="button" class="btn btn-default " data-toggle="dropdown">
+                                        ⋮<span class="caret"></span>
+                                        <span class="sr-only">Desplegar menú</span>
+                                    </button>
+
+                                    <ul class="dropdown-menu" role="menu">
+                                        @*<li><button class="dropdown-item" @onclick="() => CreateSubItem(itemInList.Id)">Agregar Subítem</button></li>*@
+                                        <li><button class="dropdown-item">Agregar contenido multimedia</button></li>
+                                    </ul>
+                                </td>
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+
+        }
+    </div>
+</div>
         </div>
         </div>
         <br />
-    }
+}
+}
