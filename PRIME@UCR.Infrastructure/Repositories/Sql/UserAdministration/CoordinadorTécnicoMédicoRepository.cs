@@ -30,9 +30,8 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
 
         public async Task<CoordinadorTécnicoMédico> GetByKeyAsync(string key)
         {
-            if ((await primeSecurityService.isAuthorizedAsync(AuthorizationPolicies.CanManageMedicalRecords))) 
-            { 
-                await using var connection = new SqlConnection(_db.DbConnection.ConnectionString);
+            using (var connection = new SqlConnection(_db.DbConnection.ConnectionString))
+            {
                 var result = await connection.ExecuteQueryAsync<CoordinadorTécnicoMédico>(@"
                     select Persona.Cédula, Persona.Nombre, Persona.PrimerApellido, Persona.SegundoApellido, Persona.Sexo, Persona.FechaNacimiento
                     from Persona
@@ -40,31 +39,24 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
                     join CoordinadorTécnicoMédico CTM on F.Cédula = CTM.Cédula
                     where CTM.Cédula = @Ced
                 ", new { Ced = key });
-            
+                
                 return result.FirstOrDefault();
-            } else
-            {
-                throw new NotAuthorizedException();
             }
         }
 
         public async Task<IEnumerable<CoordinadorTécnicoMédico>> GetAllAsync()
         {
-            if ((await primeSecurityService.isAuthorizedAsync(AuthorizationPolicies.CanManageMedicalRecords)))
+            using (var connection = new SqlConnection(_db.DbConnection.ConnectionString))
             {
-                await using var connection = new SqlConnection(_db.DbConnection.ConnectionString);
                 var result = await connection.ExecuteQueryAsync<CoordinadorTécnicoMédico>(@"
                     select Persona.Cédula, Persona.Nombre, Persona.PrimerApellido, Persona.SegundoApellido, Persona.Sexo, Persona.FechaNacimiento
                     from Persona
                     join Funcionario F on Persona.Cédula = F.Cédula
                     join CoordinadorTécnicoMédico CTM on F.Cédula = CTM.Cédula
                 ");
+                
                 return result;
-            } else
-            {
-                throw new NotAuthorizedException();
             }
-
         }
 
         public Task<IEnumerable<CoordinadorTécnicoMédico>> GetByConditionAsync(Expression<Func<CoordinadorTécnicoMédico, bool>> expression)
