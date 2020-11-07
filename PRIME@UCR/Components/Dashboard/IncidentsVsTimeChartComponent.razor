@@ -1,3 +1,11 @@
-﻿<h3>IncidentsVsTimeChartComponent</h3>
+﻿
+<div class="card">
+    <div class="card-header">
+        <h6>Incidentes en el tiempo</h6>
+    </div>
+    <div class="card-body">
+        <ChartJs.Blazor.Charts.ChartJsLineChart @ref="_lineChartJs" Config="@_lineConfig" Width="600" Height="300" />
+    </div>
+</div>
 
-<ChartJs.Blazor.Charts.ChartJsLineChart @ref="_lineChartJs" Config="@_lineConfig" Width = "600" Height = "300" />
+

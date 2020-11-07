@@ -14,7 +14,7 @@
         <h1>
             Dashboard
         </h1>
-        
+
     </Authorized>
     <NotAuthorized>
         <h1>
@@ -37,7 +37,25 @@
 
     <br />
 
-    <PRIME_UCR.Components.Dashboard.IncidentsVsTimeChartComponent />
-
     @*<LineGraphComponent></LineGraphComponent>*@
+</div>
+
+<div class="row">
+    <div class="col-lg-6 col-md-12">
+        <PRIME_UCR.Components.Dashboard.IncidentsVsTimeChartComponent />
+    </div>
+    <div class="col-lg-6 col-md-12">
+        <PRIME_UCR.Components.Dashboard.IncidentVSTransportTypeChartComponent />
+    </div>
+</div>
+
+<br />
+
+<div class="row">
+    <div class="col-lg-6 col-md-12">
+        <PieGraphComponent></PieGraphComponent>
+    </div>
+    <div class="col-lg-6 col-md-12">
+        <PRIME_UCR.Components.Dashboard.IncidentsVsTimeChartComponent />
+    </div>
 </div>
