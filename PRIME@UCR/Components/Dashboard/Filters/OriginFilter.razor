@@ -3,7 +3,7 @@
 
 <div class="row">
     <div class="col-md-4">
-        <EditForm Model="_selectedOriginType">
+        <EditForm Model="Value">
             <DropDownMenu Data="@_dropdownValuesOrigin" 
                           Label="Ubicación origen" 
                           TextProperty="Item2"
@@ -20,25 +20,88 @@
     {
         @if (_selectedOriginType.Item1 == OriginType.Household)
         {
-            <HouseholdFilter Value="@Value.HouseholdOriginFilter"
-                             OnSave="OnHouseholdSave"
-                             OnDiscard="LoadExistingValues"
-                             IsFirst="@(!(Origin is Domicilio))"/>
+            <Loading IsLoading="@_isLoading">
+                <EditForm Model="Value">
+                    <FluentValidationValidator />
+                    <div class="row">
+                        <div class="col-xl-4 col-lg-6">
+                            <DropDownMenu Data="@_provinces"
+                                          Label="Provincia"
+                                          TextProperty="Nombre"
+                                          DefaultText="Sin filtro"
+                                          Value="@Value.HouseholdOriginFilter.Province"
+                                          ValueExpression="() => Value.HouseholdOriginFilter.Province"
+                                          ValueChanged="@((Provincia p) => OnChangeProvince(p))"
+                                          UseValidation="false"
+                                          Required="false" />
+                            @if (Value.HouseholdOriginFilter.Province != null)
+                            {
+                                <DropDownMenu Data="@_cantons"
+                                              Label="Cantón"
+                                              TextProperty="Nombre"
+                                              DefaultText="Sin filtro"
+                                              Value="@Value.HouseholdOriginFilter.Canton"
+                                              ValueExpression="() => Value.HouseholdOriginFilter.Canton"
+                                              ValueChanged="@((Canton c) => OnChangeCanton(c))"
+                                              UseValidation="false"
+                                              Required="false" />
+                                if (Value.HouseholdOriginFilter.Canton != null)
+                                {
+                                    <DropDownMenu Data="@_districts"
+                                                  Label="Distrito"
+                                                  TextProperty="Nombre"
+                                                  DefaultText="Sin filtro"
+                                                  @bind-Value="Value.HouseholdOriginFilter.District"
+                                                  UseValidation="false"
+                                                  Required="false" />
+                                }
+                            }
+                        </div>
+                    </div>
+                </EditForm>
+            </Loading>
         }
         else if (_selectedOriginType.Item1 == OriginType.International)
         {
-            <InternationalFilter Value="Value.InternationalOriginFilter"
-                                 OnSave="@OnInternationalSave"
-                                 OnDiscard="LoadExistingValues"
-                                 IsFirst="@(!(Origin is Internacional))" />
+            <Loading IsLoading="_isLoading">
+                <EditForm Model="Value">
+                    <div class="row">
+                        <div class="col-xl-4 col-lg-6">
+                            <DropDownMenu Data="@_countries"
+                                          T="Pais"
+                                          Label="País"
+                                          TextProperty="Nombre"
+                                          DefaultText="Sin filtro"
+                                          @bind-Value="@Value.InternationalOriginFilter.Country"
+                                          UseValidation="false"
+                                          Required="false" />
+                        </div>
+                    </div>
+                </EditForm>
+            </Loading>
         }
         else
         {
-            <MedicalCenterFilter Value="Value.MedicalCenterOriginFilter"
-                                 IsOrigin="@true"
-                                 OnSave="@OnMedicalCenterSave"
-                                 OnDiscard="LoadExistingValues"
-                                 IsFirst="@(!(Origin is CentroUbicacion))" />
+            <Loading IsLoading="_isLoading">
+                <EditForm Model="Value">
+                    <FluentValidationValidator />
+                    <div class="row">
+                        <div class="col-xl-6 col-lg-8">
+                            <DropDownMenu T="CentroMedico" 
+                                          Data="_medicalCenters"
+                                          Label="Centro médico"
+                                          DefaultText="Sin filtro"
+                                          TextProperty="Nombre"
+                                          Value="@Value.MedicalCenterOriginFilter.MedicalCenter"
+                                          ValueExpression="() => Value.MedicalCenterOriginFilter.MedicalCenter"
+                                          ValueChanged="@((CentroMedico mc) => OnChangeMedicalCenter(mc))" 
+                                          UseValidation="false"
+                                          Required="false"/>
+                        </div>
+                    </div>
+                </EditForm>
+            </Loading>
+
         }
     }
 </Loading>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using PRIME_UCR.Application.Dtos.Incidents;
@@ -31,16 +32,12 @@ namespace PRIME_UCR.Components.Dashboard.Filters
 
         [Inject] private ILocationService LocationService { get; set; }
         [Inject] private IDoctorService DoctorService { get; set; }
-        [Parameter] public Ubicacion Origin { get; set; }
-        [Parameter] public EventCallback<OriginModel> OnSave { get; set; }
         [Parameter] public EventCallback<FilterModel> ValueChanged { get; set; }
-
         [Parameter] public FilterModel Value { get; set; }
 
-        // Selected options
-        private Tuple<OriginType, string> _selectedOriginType;
+        // Origin needed attributes
 
-        // Lists of options
+        private Tuple<OriginType, string> _selectedOriginType;
         private readonly List<Tuple<OriginType, string>> _dropdownValuesOrigin = new List<Tuple<OriginType, string>>
         {
             Tuple.Create(OriginType.SinFiltro, EnumUtils.GetDescription(OriginType.SinFiltro)),
@@ -49,113 +46,66 @@ namespace PRIME_UCR.Components.Dashboard.Filters
             Tuple.Create(OriginType.MedicalCenter, EnumUtils.GetDescription(OriginType.MedicalCenter))
         };
 
-        private void OnOriginTypeChange(Tuple<OriginType, string> type)
-        {
-            _selectedOriginType = type;
-        }
+        // Household needed attributes
 
-        private void OnOriginChange(Ubicacion origin)
-        {
-            Value.OriginFilter.Origin = origin;
-        }
+        private List<Provincia> _provinces;
+        private List<Canton> _cantons;
+        private List<Distrito> _districts;
+
+        // International needed attributes
+
+        private List<Pais> _countries;
+
+        // Medical centers needed attributes
+
+        private List<CentroMedico> _medicalCenters;
 
         private bool _isLoading;
 
-        private async Task OnHouseholdSave(HouseholdModel household)
+        private void OnOriginTypeChange(Tuple<OriginType, string> type)
         {
-            if (household.Longitude != null && household.Latitude != null)
+            _selectedOriginType = type;
+            Value.OriginType = type.Item2;
+            if (Value.OriginType == "Domicilio")
             {
-                Value.OriginFilter.Origin = new Domicilio
-                {
-                    Direccion = household.Address,
-                    DistritoId = household.District.Id,
-                    Longitud = (double)household.Longitude,
-                    Latitud = (double)household.Latitude
-                };
+                Value.InternationalOriginFilter.Country = null;
+                Value.MedicalCenterOriginFilter.MedicalCenter = null;
             }
-            else
+            else if (Value.OriginType == "Internacional")
             {
-                throw new ApplicationException("Household picker shouldn't return null longitude or latitude");
+                Value.HouseholdOriginFilter.District = null;
+                Value.HouseholdOriginFilter.Canton = null;
+                Value.HouseholdOriginFilter.Province = null;
+                Value.MedicalCenterOriginFilter.MedicalCenter = null;
             }
-
-            Value.HouseholdOriginFilter = household;
-            await Save();
-        }
-
-        private async Task OnInternationalSave(InternationalModel international)
-        {
-            Value.OriginFilter.Origin = new Internacional
+            else 
             {
-                NombrePais = international.Country.Nombre
-            };
-
-            Value.InternationalOriginFilter = international;
-            await Save();
-        }
-
-        private async Task OnMedicalCenterSave(MedicalCenterLocationModel medicalCenter)
-        {
-            Value.OriginFilter.Origin = new CentroUbicacion
-            {
-                CedulaMedico = medicalCenter.Doctor.Cédula,
-                CentroMedicoId = medicalCenter.MedicalCenter.Id,
-                NumeroCama = medicalCenter.BedNumber
-            };
-
-            Value.MedicalCenterOriginFilter = medicalCenter;
-            await Save();
-        }
-
-        private async Task Save()
-        {
-            await OnSave.InvokeAsync(Value.OriginFilter);
+                Value.HouseholdOriginFilter.District = null;
+                Value.HouseholdOriginFilter.Canton = null;
+                Value.HouseholdOriginFilter.Province = null;
+                Value.InternationalOriginFilter.Country = null;
+            }
         }
 
         private async Task LoadExistingValues()
         {
             _isLoading = true;
             StateHasChanged();
-            switch (Origin)
-            {
-                case Domicilio d:
-                    {
-                        _selectedOriginType = _dropdownValuesOrigin[0];
-                        var location = await LocationService.GetLocationByDistrictId(d.DistritoId);
-                        Value.HouseholdOriginFilter = new HouseholdModel
-                        {
-                            Province = location.Province,
-                            Canton = location.Canton,
-                            District = location.District,
-                            Address = d.Direccion,
-                            Longitude = d.Longitud,
-                            Latitude = d.Latitud
-                        };
-                        break;
-                    }
-                case Internacional i:
-                    _selectedOriginType = _dropdownValuesOrigin[1];
-                    Value.InternationalOriginFilter = new InternationalModel
-                    {
-                        Country = await LocationService.GetCountryByName(i.NombrePais)
-                    };
-                    break;
-                case CentroUbicacion mc:
-                    _selectedOriginType = _dropdownValuesOrigin[2];
-                    var doctor = await DoctorService.GetDoctorByIdAsync(mc.CedulaMedico);
-                    var medicalCenter = await LocationService.GetMedicalCenterById(mc.CentroMedicoId);
-                    Value.MedicalCenterOriginFilter = new MedicalCenterLocationModel
-                    {
-                        IsOrigin = true,
-                        BedNumber = mc.NumeroCama,
-                        Doctor = doctor,
-                        MedicalCenter = medicalCenter
-                    };
-                    break;
-                default:
-                    _selectedOriginType = _dropdownValuesOrigin[0];
-                    break;
-            }
-            Value.OriginFilter.Origin = Origin;
+            
+            _selectedOriginType = _dropdownValuesOrigin[0];
+            //Initialize household attributes
+            
+            await LoadProvinces(true);
+            await LoadCantons(true);
+            await LoadDistricts(true);
+
+            //Initialize international attributes
+
+            await LoadCountries(true);
+
+            //Initialize medical center attributes
+            await LoadMedicalCenters(true);
+
             _isLoading = false;
         }
 
@@ -163,6 +113,87 @@ namespace PRIME_UCR.Components.Dashboard.Filters
         {
             await LoadExistingValues();
         }
+
+        // Household needed methods
+
+        async Task LoadProvinces(bool firstLoad)
+        {
+            // get options
+            _provinces =
+                (await LocationService.GetProvincesByCountryNameAsync(Pais.DefaultCountry))
+                .ToList();
+
+            if (!firstLoad)
+                Value.HouseholdOriginFilter.Province = null;
+        }
+
+        async Task OnChangeProvince(Provincia province)
+        {
+            Value.HouseholdOriginFilter.Province = province;
+            await LoadCantons(false);
+            await LoadDistricts(false);
+        }
+
+        async Task LoadCantons(bool firstLoad)
+        {
+            if (Value.HouseholdOriginFilter.Province != null)
+                _cantons =
+                    (await LocationService.GetCantonsByProvinceNameAsync(Value.HouseholdOriginFilter.Province.Nombre))
+                    .ToList();
+            else
+                _cantons = new List<Canton>();
+
+            if (!firstLoad)
+                Value.HouseholdOriginFilter.Canton = null;
+        }
+
+        async Task OnChangeCanton(Canton canton)
+        {
+            Value.HouseholdOriginFilter.Canton = canton;
+            await LoadDistricts(false);
+        }
+
+        async Task LoadDistricts(bool firstLoad)
+        {
+            if (Value.HouseholdOriginFilter.Canton != null)
+                _districts =
+                    (await LocationService.GetDistrictsByCantonIdAsync(Value.HouseholdOriginFilter.Canton.Id))
+                    .ToList();
+            else
+                _districts = new List<Distrito>();
+
+            if (!firstLoad)
+                Value.HouseholdOriginFilter.District = null;
+        }
+
+        // Needed international methods 
+
+        private async Task LoadCountries(bool firstRender) 
+        {
+            _countries = (await LocationService.GetAllCountriesAsync())
+                .Where(c => c.Nombre != Pais.DefaultCountry)
+                .ToList();
+            if (!firstRender)
+                Value.InternationalOriginFilter.Country = null;
+
+        }
+
+        // Needed medical centers methods
+        async Task OnChangeMedicalCenter(CentroMedico medicalCenter)
+        {
+            Value.MedicalCenterOriginFilter.MedicalCenter = medicalCenter;
+        }
+
+        private async Task LoadMedicalCenters(bool firstRender)
+        {
+            _medicalCenters =
+                (await LocationService.GetAllMedicalCentersAsync())
+                .ToList();
+
+            if (!firstRender)
+                Value.MedicalCenterOriginFilter.MedicalCenter = null;
+        }
+
     }
 
 }
