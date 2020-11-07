@@ -7,7 +7,7 @@ using PRIME_UCR.Infrastructure.DataProviders;
 
 namespace PRIME_UCR.Infrastructure.Repositories.Sql.Appointments
 {
-    public class AppointmentRepository : GenericRepository<Cita, int>, IAppointmentRepository
+    public class AppointmentRepository : RepoDbRepository<Cita, int>, IAppointmentRepository
     {
         public AppointmentRepository(ISqlDataProvider dataProvider) : base(dataProvider)
         {

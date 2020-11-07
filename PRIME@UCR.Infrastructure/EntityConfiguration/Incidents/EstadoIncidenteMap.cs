@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PRIME_UCR.Domain.Models.Incidents;
+using RepoDb;
 
 namespace PRIME_UCR.Infrastructure.EntityConfiguration.Incidents
 {
@@ -23,7 +24,7 @@ namespace PRIME_UCR.Infrastructure.EntityConfiguration.Incidents
                 .HasForeignKey(e => e.CodigoIncidente);
 
             builder
-                .Property(e => e.FechaModificado)
+                .Property(e => e.FechaHora)
                 .HasColumnName("FechaHora");
         }
     }

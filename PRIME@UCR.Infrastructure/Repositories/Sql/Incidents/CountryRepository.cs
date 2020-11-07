@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace PRIME_UCR.Infrastructure.Repositories.Sql.Incidents
 {
-    public class CountryRepository : GenericRepository<Pais, string>, ICountryRepository
+    public class CountryRepository : RepoDbRepository<Pais, string>, ICountryRepository
     {
         public CountryRepository(ISqlDataProvider dataProvider) : base(dataProvider)
         {
