@@ -5,8 +5,11 @@ using ChartJs.Blazor.ChartJS.Common.Axes.Ticks;
 using ChartJs.Blazor.ChartJS.Common.Properties;
 using ChartJs.Blazor.ChartJS.Common.Wrappers;
 using ChartJs.Blazor.Charts;
+using Microsoft.AspNetCore.Components;
+using PRIME_UCR.Application.Services.Dashboard;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -17,8 +20,17 @@ namespace PRIME_UCR.Components.Dashboard
         BarConfig _config;
         ChartJsBarChart _barChartJs;
 
-        protected override void OnInitialized()
+        [Inject]
+        public IDashboardService _dashboardService { get; set; }
+
+        private  BarDataset<DoubleWrapper> _incidentsPerTransport;
+
+        protected override async Task OnInitializedAsync()
         {
+
+            /*
+            * Bar Chart configuration Title and axis range
+            */
             _config = new BarConfig
             {
                 Options = new BarOptions
@@ -53,12 +65,15 @@ namespace PRIME_UCR.Components.Dashboard
                 }
             };
 
-            _config.Data.Labels.AddRange(new[] { "Aereo", "Maritimo" });
 
-            var barSet = new BarDataset<DoubleWrapper>
+            /*
+            * Bar Chart Labels
+            */
+            _config.Data.Labels.AddRange(new[] { "Aéreo", "Terrestre", "Marítimo" });
+
+            _incidentsPerTransport = new BarDataset<DoubleWrapper>
             {
-                //Label = "My double dataset",
-                BackgroundColor = new[] { "#242968" , "#123123" },
+                BackgroundColor = new[] { "#242968", "#123123", "#242968" },
                 BorderWidth = 0,
                 HoverBackgroundColor = "#f06384",
                 HoverBorderColor = "#f06384",
@@ -66,11 +81,37 @@ namespace PRIME_UCR.Components.Dashboard
                 BorderColor = "#ffffff",
             };
 
-           
+            /*
+            * Method to get the incidents data 
+            * variables to count the # of incidents
+            */
+            var incidentsData = await _dashboardService.GetAllIncidentsAsync();
+
+            int aerialIncidents = 0;
+            int maritimeIncidents = 0;
+            int landIncidents = 0;
+
+            foreach (var incident in incidentsData)
+            {
+                switch (incident.Modalidad)
+                {
+                    case "Aéreo":
+                        aerialIncidents += 1;
+                        break;
+                    case "Terrestre":
+                        landIncidents += 1;
+                        break;
+                    case "Marítimo":
+                        maritimeIncidents += 1;
+                        break;
+                    default:
+                        break;
+                }
+            }
 
 
-            barSet.AddRange(new double[] { 8,5 }.Wrap());
-            _config.Data.Datasets.Add(barSet);
+            _incidentsPerTransport.AddRange(new double[] {aerialIncidents, landIncidents, maritimeIncidents,}.Wrap());
+            _config.Data.Datasets.Add(_incidentsPerTransport);
         }
     }
 }
