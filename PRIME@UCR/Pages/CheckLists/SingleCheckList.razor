@@ -18,13 +18,14 @@ else
             @* Contains editable information about this checklist *@
             <div class="container" id="contAll_LC" style="background: white;">
                 <h5>Definición de una plantilla de lista de chequeo</h5>
-                <div id="def_LC">
-                    <p>
+                <EditForm EditContext="@editContext" OnValidSubmit="@UpdateCheckList">
+                    <FluentValidationValidator />
+                    <div id="def_LC">
                         <div class="input-group row">
                             <label for="checklistName" class="col-sm-2 col-form-label">Nombre</label>
                             <div class="col-sm-9">
                                 @* Editable input for the name of the checklist *@
-                                <input class="form-control" type="text" id="checklistName" name="checklistName" @bind-value="list.Nombre" @onfocusout="Update" />
+                                <TextBox Label="" @bind-Value="@editedList.Nombre" Required="true" />
                             </div>
                             <div class="col-sm-1">
                                 @* Displys the image of the checklist *@
@@ -42,7 +43,7 @@ else
                             @* Editable input for the description of the checklist *@
                             <label for="checklistDescription" class="col-sm-2 col-form-label"><span style="color:black">Descripción </span></label>
                             <div class="col-sm-10">
-                                <textarea class="form-control" type="text" id="checklistDescription" name="checklistDescription" rows="2" @bind="list.Descripcion" @onfocusout="Update" />
+                                <InputTextArea class="form-control" @bind-Value="editedList.Descripcion" />
                             </div>
                         </div>
                         <br />
@@ -50,18 +51,19 @@ else
                             @* Editable input for the type of the checklist with predefined options *@
                             <label for="checklistType" class="col-sm-2 col-form-label"><span style="color:black">Tipo </span></label>
                             <div class="col-sm-4">
-                                <select class="form-control" id="checklistType" @bind="list.Tipo" @onfocusout="Update">
+                                <InputSelect @bind-Value="editedList.Tipo" class="form-control">
                                     <option value="Colocación equipo">Colocación equipo</option>
                                     <option value="Retiro equipo">Retiro equipo</option>
                                     <option value="Paciente en origen">Paciente en origen</option>
                                     <option value="Paciente en destino">Paciente en destino</option>
                                     <option value="Paciente en traslado">Paciente en traslado</option>
-                                </select>
+                                </InputSelect>
+
                             </div>
                             @* Editable input for the order of the checklist with a recommended value *@
                             <label for="checklistOrder" class="col-sm-1 col-form-label"><span style="color:black">Orden </span></label>
                             <div class="col-sm-2">
-                                <input class="form-control" type="number" id="checklistOrder" name="checklistOrder" @bind-value="list.Orden" @onfocusout="Update" />
+                                <IntegerInput Label="" @bind-Value="editedList.Orden" Min="1" Required="false" />
                             </div>
                             @* Read only display for the checklist id *@
                             <label for="checklistId" class="col-sm-1 col-form-label"><span style="color:black">Id </span></label>
@@ -69,10 +71,18 @@ else
                                 <input class="form-control" type="number" id="checklistId" name="checklistId" disabled="disabled" @bind-value="@list.Id" />
                             </span>
                         </div>
-
-
-                    </p>
-                </div>
+                        <br />
+                        <div align="center">
+                            @if (formInvalid)
+                            {
+                                <button type="submit" class="btn btn-primary">Guardar cambios</button> }
+                            else {
+                                <button type="submit" class="btn btn-secondary" disabled>Guardar cambios</button>
+                             }
+                            <a class="btn btn-outline-secondary" @onclick="Dispose" id="a_LC3">Cancelar</a>
+                        </div>
+                    </div>
+                </EditForm>
                 <br />
                 <br />
                 <h5> Items de la plantilla de lista de chequeo</h5>
