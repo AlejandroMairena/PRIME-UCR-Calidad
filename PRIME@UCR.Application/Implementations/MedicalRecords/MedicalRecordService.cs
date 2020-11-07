@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -116,12 +117,13 @@ namespace PRIME_UCR.Application.Implementations.MedicalRecords
 
         public async Task<Expediente> InsertAsync(Expediente expediente)
         {
-
+            expediente.FechaCreacion = DateTime.Now;
             return await _repo.InsertAsync(expediente);
         }
 
         public async Task<Expediente> CreateMedicalRecordAsync(Expediente entity)
         {
+            entity.FechaCreacion = DateTime.Now;
             return await _repo.InsertAsync(entity);
         }
 
