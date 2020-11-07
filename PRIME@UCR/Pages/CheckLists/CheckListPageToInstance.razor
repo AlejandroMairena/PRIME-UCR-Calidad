@@ -2,7 +2,9 @@
 @inherits CheckListToInstanceBase
 @using PRIME_UCR.Application.DTOs.UserAdministration;
 @using PRIME_UCR.Application.Implementations.UserAdministration;
-@attribute [HasPolicy(AuthorizationPolicies.CanCreateCheckList)]
+
+@attribute [HasPermission(AuthorizationPermissions.CanCreateChecklist)]
+
 <link href="css/Checklist.css" rel="stylesheet" />
 
 <h3> Listas de chequeo para asignar a un incidente</h3>

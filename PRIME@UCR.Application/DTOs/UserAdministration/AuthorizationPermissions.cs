@@ -7,11 +7,11 @@ namespace PRIME_UCR.Application.DTOs.UserAdministration
     /**     
      * Enumeration used to know each of the policies names to be used in the authorization.
      * The idea is to used in a page a structure like the following to make the authorization:
-     * Ej:      @attribute [HasPolicy(AuthorizationPolicies.CanManageDashboard)]
+     * Ej:      @attribute [HasPermission(AuthorizationPolicies.CanDoAnything)]
      * 
      * Or in a piece of code a structure like the following:
      * Ej:
-     * <AuthorizeView Policy="@AuthorizationPolicies.CanManageDashboard">
+     * <AuthorizeView Policy="@AuthorizationPolicies.CanDoAnything">
             <Authorized>
                 <h1>
                     Dashboard
@@ -30,31 +30,27 @@ namespace PRIME_UCR.Application.DTOs.UserAdministration
 
     public enum AuthorizationPermissions
     {
-        CanDoAnything = 1,
-        CanManageUsers,
-
-        CanManageIncidentsAssignedToHim,
-        CanManageCheckListOfAnIncidentsAssignedToHim,
-        CanSeeMedicalRecordsOfPatientsAssignedToHim,
-        CanAssignPostCreationStepsOfIncidentsAssignedToHim,
-        CanSeeMedicalRecordsInReadMode,
-
-        CanManageMedicalRecordsOfHisPatients,
-        CanAccessIncidentsOfHisPatients,
-        CanAttachMultimediaInChecklistOfHisPatients,
+        CanCreateUsers = 1,
+        CanModifyUsers,
+        CanCreateChecklist,
+        CanInstantiateChecklist,
+        CanSeeIncidentsList,
+        CanSeeMedicalInfoInIncidentsList,
+        CanSeeBasicDetailsOfIncidents,
+        CanSeeMedicalDetailsOfIncidents,
+        CanSeeInfoOfIncidentsPatient,
         CanSeeMedicalRecordsOfHisPatients,
-
-        CanManageAllMedicalRecords,
-        CanAccessIncidentsFromAnMedicalRecordInReadMode,
-        CanManageDashboard,
-
-        CanCreateCheckList,
-        CanManageAllIncidents,
-        CanAssignAllStepsOfAIncidents,
-        CanSeeMedicalRecordsFromIncidentsInReadMode,
-
-        CanSeeAllInfoOfAnIncidentExceptMultimedia,
-        CanOnlyRegisterAnIncident,
-        CanAccessEverythingExceptMedicalData
+        CanSeeAllMedicalRecords,
+        CanSeeMedicalInfoOnDashboard,
+        CanSeeIncidentsInfoOnDashboard,
+        CanCheckItemsInChecklists,
+        CanAttachMultimediaInChecklists,
+        CanEditBasicDetailsOfIncident,
+        CanEditMedicalDetailsOfIncident,
+        CanReviewIncidents,
+        CanEditMedicalInfoOfIncidentsPatient,
+        CanAssignIncidents,
+        CanCreateIncidents,
+        CanAccessDashboard,
     }
 }
