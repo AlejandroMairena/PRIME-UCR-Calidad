@@ -308,3 +308,21 @@ a.disable {
 .jumbotron.white-panel {
     background: white;
 }
+
+/* Diosvier -> State Panel*/
+div.scrollmenu {
+    overflow: auto;
+    white-space: nowrap;
+}
+
+div.scrollmenu MatButton {
+    display: inline-block;
+    color: white;
+    text-align: center;
+    padding: 14px;
+    text-decoration: none;
+}
+
+div.scrollmenu MatButton:hover {
+    background-color: #777;
+}

@@ -1,6 +1,5 @@
 ﻿using MatBlazor;
 using Microsoft.AspNetCore.Components.Web;
-using PRIME_UCR.Domain.Constants;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,19 +11,20 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
     public partial class StatePanel
     {
         public List<string> IncidentStatesList = new List<string> {
-            IncidentStates.InCreationProcess.Nombre,
-            IncidentStates.Created.Nombre,
-            IncidentStates.Rejected.Nombre,
-            IncidentStates.Approved.Nombre,
-            IncidentStates.Assigned.Nombre,
-            IncidentStates.Preparing.Nombre,
-            IncidentStates.InOriginRoute.Nombre,
-            IncidentStates.PatientInOrigin.Nombre,
-            IncidentStates.InRoute.Nombre,
-            IncidentStates.Delivered.Nombre,
-            IncidentStates.Reactivated.Nombre,
-            IncidentStates.Done.Nombre
+            "Creando",
+            "Creado",
+            "Rechazado",
+            "Aceptado",
+            "Asignado",
+            "Preparación",
+            "Hacia origen",
+            "Colecta",
+            "Traslado",
+            "Entregado",
+            "Reactivado",
+            "Finalizado"
         };
+
         MatButton Button2;
         BaseMatMenu Menu2;
 

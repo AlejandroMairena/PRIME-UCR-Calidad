@@ -1,15 +1,36 @@
 ﻿<h3>Estados del Incidente</h3>
+<br />
 
-
-<p>
-    @foreach(var state in IncidentStatesList)
+<div class="scrollmenu">
+    <RadzenMenu>
+    @foreach (var state in IncidentStatesList)
     {
-        <MatButton Label="@state" OnClick="@OnClick" @ref="Button2"></MatButton>
-        <MatMenu @ref="Menu2">
-            <MatList>
-                <MatListItem>ESTADO</MatListItem>
-            </MatList>
-        </MatMenu>
+        <RadzenMenuItem Text=@state />
+                <!--
+                        <p>
+                            <MatButton Label="@state" OnClick="@OnClick" @ref="Button2" />
+                            <MatMenu @ref="Menu2">
+                                <MatList>
+                                    <MatListItem>En progreso</MatListItem>
+                                </MatList>
+                            </MatMenu>
+                        </p>       -->
     }
-</p>
+    </RadzenMenu>
 
+</div>
+<br />
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">Siguiente estado</th>
+            <th scope="col">Pendiente</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Aceptado</td>
+            <td>En revisión por un coordinador</td>
+        </tr>
+    </tbody>
+</table>
