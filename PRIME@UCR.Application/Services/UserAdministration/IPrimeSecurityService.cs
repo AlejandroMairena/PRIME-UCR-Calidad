@@ -8,6 +8,6 @@ namespace PRIME_UCR.Application.Services.UserAdministration
 {
     public interface IPrimeSecurityService
     {
-        Task<bool> isAuthorizedAsync(AuthorizationPolicies authorizationPolicy);
+        Task CheckIfIsAuthorizedAsync(List<AuthorizationPermissions> authorizationPermissions, bool areAllNeeded = true);
     }
 }

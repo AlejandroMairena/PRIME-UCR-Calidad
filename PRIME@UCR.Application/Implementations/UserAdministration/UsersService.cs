@@ -56,16 +56,16 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
          */
         public async Task<UserFormModel> GetUserFormFromRegisterUserFormAsync(RegisterUserFormModel userToRegister)
         {
-            if ((await primeSecurityService.isAuthorizedAsync(AuthorizationPolicies.CanManageDashboard)))
-            {
-                UserFormModel userModel = new UserFormModel();
-                userModel.Email = userToRegister.Email;
-                userModel.IdCardNumber = userToRegister.IdCardNumber;
-                return userModel;
-            } else
-            {
-                throw new NotAuthorizedException();
-            }
+            await primeSecurityService.CheckIfIsAuthorizedAsync(
+                new List<AuthorizationPermissions>
+                { 
+                    AuthorizationPermissions.CanCreateUsers,
+                    AuthorizationPermissions.CanModifyUsers 
+                }, false);
+            UserFormModel userModel = new UserFormModel();
+            userModel.Email = userToRegister.Email;
+            userModel.IdCardNumber = userToRegister.IdCardNumber;
+            return userModel;
         }
 
         /**
