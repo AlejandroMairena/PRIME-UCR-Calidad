@@ -29,6 +29,10 @@ namespace PRIME_UCR.Components.CheckLists
         [Parameter] public string IncidentCod { get; set; }
         public CheckList Alist = new CheckList(); //templist
 
+        /* DIOSVIER
+         * Se debe hacer Inject de IIncidentService y usar el metodo: GetIncidentStateByIdAsync(Incident id).
+         * Tiene un atributo Nombre, entonce un ej de uso: var state = incidentService.GetIncidentStateByIdAsync(code) -> state.Nombre es el que tiene el estado
+         */
         protected override async Task OnInitializedAsync()
         {
             await RefreshModels();

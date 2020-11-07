@@ -26,6 +26,10 @@
     {
         <Assignment Incident="@Incident" />
     }
+    else if (Active == DetailsTab.Checklist)
+    {
+        <CheckList Incident="@Incident" />
+    }
     else
     {
         <h4 class="text-danger">Not found</h4>

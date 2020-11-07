@@ -243,5 +243,18 @@ namespace PRIME_UCR.Application.Implementations.Incidents
             incident.CedulaRevisor = reviewerId;
             await _incidentRepository.UpdateAsync(incident);
         }
+
+
+        /*
+         * Function:     This method will search for the current state of an incident
+         * 
+         * Param:       Code -> Incident ID
+         * Returns:     The current state of the incident given.
+         */
+        public async Task<Estado> GetIncidentStateByIdAsync(string code)
+        {
+            return await _statesRepository.GetCurrentStateByIncidentId(code);
+        }
+
     }
 }
