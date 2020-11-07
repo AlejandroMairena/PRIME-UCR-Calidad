@@ -129,7 +129,8 @@ namespace PRIME_UCR.Components.Incidents.LocationPickers
 
         public void Dispose()
         {
-            _context.OnFieldChanged -= HandleFieldChanged;
+            if (_context != null)
+                _context.OnFieldChanged -= HandleFieldChanged;
         }
     }
 }

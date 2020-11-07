@@ -11,13 +11,13 @@
     @if (lists == null)
     {
 <p><em class="nav-link">Cargando listas de chequeo.</em></p> }
-            else
-            {
-                if (lists.Count() == 0)
-                {
+else
+{
+if (lists.Count() == 0)
+{
 <p><em class="nav-link">No se ha creado ninguna lista, presione el boton + para crear una.</em></p> }
-                else
-                {
+else
+{
 <table class="table" id="Table_CL">
     @* Contains the list of existing checklists *@
     <thead>
@@ -35,8 +35,13 @@
     <th scope="row"><a href='@string.Format("checklist/{0}", @tempList.Id)' class="stretched-link">@tempList.Nombre</a></th>
     <td>@tempList.Tipo</td>
     <td>@tempList.Descripcion</td>
-</tr>                    }
+</tr>}
     </tbody>
-</table> } @* Floating button to create a new checklist *@
-                <a class="btn btn-outline-primary" href='@string.Format("checklist/create")' id="a_LC1" data-toggle="tooltip" title="Crear Lista de chequeo">+</a>}
+</table> }}
 </div>
+
+
+@* Floating button to create a new checklist *@
+<MatThemeProvider Theme="@AddButtonTheme">
+    <MatFAB Icon="@MatIconNames.Add" Class="app-fab--absolute" OnClick="@(_ => Redirect())" data-toggle="tooltip" title="Crear Lista de chequeo"></MatFAB>
+</MatThemeProvider>
