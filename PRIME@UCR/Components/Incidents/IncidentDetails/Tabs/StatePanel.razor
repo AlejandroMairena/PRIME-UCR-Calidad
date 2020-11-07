@@ -1,0 +1,15 @@
+﻿<h3>Estados del Incidente</h3>
+
+
+<p>
+    @foreach(var state in IncidentStatesList)
+    {
+        <MatButton Label="@state" OnClick="@OnClick" @ref="Button2"></MatButton>
+        <MatMenu @ref="Menu2">
+            <MatList>
+                <MatListItem>ESTADO</MatListItem>
+            </MatList>
+        </MatMenu>
+    }
+</p>
+
