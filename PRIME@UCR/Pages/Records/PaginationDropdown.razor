@@ -1,0 +1,54 @@
+﻿@page "/uyuy"
+@using PRIME_UCR.Domain.Models.MedicalRecords
+
+<style>
+    .dd {
+        background-color: lightgrey;
+        border-color: none;
+    }
+
+    /*
+    .dd:active {
+        border-color: white;
+    }
+    */
+
+    .title {
+        font-size: 15px;
+    }
+
+    .dropdown {
+        position: absolute;
+        top: 175px;
+        left: 290px;
+    }
+</style>
+
+@*<div class="title">Registros</div>*@
+<div class="dropdown">
+    <button class="btn dropdown-toggle dd" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Registros
+    </button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <a class="dropdown-item" @onclick="@(() => ChangePageSize(3))">3</a>
+        <a class="dropdown-item" @onclick="@(() => ChangePageSize(5))">5</a>
+        <a class="dropdown-item" @onclick="@(() => ChangePageSize(9))">9</a>
+        <a class="dropdown-item" @onclick="@(() => ChangePageSize(MaxElements))">Max</a>
+    </div>
+</div>
+
+
+
+
+@*
+    <Loading IsLoading="pagesizes == null">
+        <EditForm>
+            <InputSelect class="form-group" @bind-Value="size">
+                @for (int p_size = 0; p_size < pagesizes.Count; ++p_size)
+                {
+                    <option value="@pagesizes[p_size].size">@pagesizes[p_size].idSize</option>
+                }
+            </InputSelect>
+        </EditForm>
+    </Loading>
+*@
