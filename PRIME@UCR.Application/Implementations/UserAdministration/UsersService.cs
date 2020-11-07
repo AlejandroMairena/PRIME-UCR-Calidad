@@ -9,9 +9,11 @@ using PRIME_UCR.Application.Services.UserAdministration;
 using PRIME_UCR.Domain.Models.UserAdministration;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using PRIME_UCR.Domain.Constants;
 
 namespace PRIME_UCR.Application.Implementations.UserAdministration
 {
@@ -38,15 +40,11 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
          */
         public async Task<Persona> getPersonWithDetailstAsync(string email)
         {
-            if ((await primeSecurityService.isAuthorizedAsync(AuthorizationPolicies.CanManageUsers))) 
-            {
+            // call in EVERY METHOD IN THE PROJECT
+            await primeSecurityService.CheckIfIsAuthorizedAsync(MethodBase.GetCurrentMethod());
                 var user = await userManager.FindByEmailAsync(email);
                 var person = await getUsuarioWithDetailsAsync(user.Id);
                 return person.Persona;
-            } else
-            {
-                throw new NotAuthorizedException();
-            }
         }
 
         /**

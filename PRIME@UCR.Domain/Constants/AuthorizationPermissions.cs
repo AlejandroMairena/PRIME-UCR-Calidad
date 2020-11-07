@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace PRIME_UCR.Application.DTOs.UserAdministration
+﻿namespace PRIME_UCR.Domain.Constants
 {
     /**     
      * Enumeration used to know each of the policies names to be used in the authorization.

@@ -3,6 +3,7 @@ using PRIME_UCR.Application.DTOs.UserAdministration;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using PRIME_UCR.Domain.Constants;
 
 namespace PRIME_UCR.Application.Implementations.UserAdministration
 {
