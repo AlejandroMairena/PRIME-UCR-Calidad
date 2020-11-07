@@ -10,6 +10,8 @@ using System.IO;
 using Microsoft.AspNetCore.Components;
 using PRIME_UCR.Application.Repositories.CheckLists;
 using PRIME_UCR.Domain.Models.CheckLists;
+using Microsoft.AspNetCore.Components.Routing;
+using System.ComponentModel;
 
 namespace PRIME_UCR.Application.Implementations.CheckLists
 {
@@ -75,6 +77,15 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
         {
             await _itemRepository.UpdateAsync(item);
             return item;
+        }
+
+        public async Task DeleteCheckList(int id)
+        {
+            await _checklistRepository.DeleteAsync(id);
+        }
+        public async Task DeleteItem(int id)
+        {
+            await _itemRepository.DeleteAsync(id);
         }
     }
 }

@@ -9,7 +9,14 @@
 <hr />
 @if (list == null)
 {
-    <p><em>Cargando lista de chequeo.</em></p> }
+   <p><em>Cargando lista de chequeo.</em></p>
+   @*<meta http-equiv="refresh" content="0;url=checklist" /> *@
+   @*Esto me manda a la pagina de chechlist*@
+
+   @*<a href='@string.Format("checklist")'>Listas de chequeo Existentes</a>*@
+
+}
+
 else
 {
     <div class="row">
@@ -31,17 +38,22 @@ else
                                         •  @tempList.Nombre
                                     </NavLink>
                                 </li>
-}}
+                                
+                            }
+
+                        }
                     </ul>
                 </div>
 
             </div>
         </div>
         <div class="col">
+            
             @* Contains editable information about this checklist *@
             <div class="container" id="contAll_LC" style="background: white;">
                 <h5>Definición de una plantilla de lista de chequeo</h5>
                 <div id="def_LC">
+                    
                     <p>
                         <div class="input-group row">
                             <label for="checklistName" class="col-sm-2 col-form-label">Nombre</label>
@@ -92,8 +104,11 @@ else
                                 <input class="form-control" type="number" id="checklistId" name="checklistId" disabled="disabled" @bind-value="@list.Id" />
                             </span>
                         </div>
-
-
+                        <div>
+                            <span class="col-sm-1">
+                                <button class="btn btn-danger" type="button" @onclick="() =>Delete(list.Id)">Eliminar Lista</button>
+                            </span>
+                        </div>
                     </p>
                 </div>
                 <br />
@@ -152,9 +167,11 @@ else
                                                 @* Button to create a new sub item *@
                                                 <ul class="dropdown-menu" role="menu">
                                                     <li><button class="dropdown-item" @onclick="() => CreateSubItem(itemInList.Id)">Agregar Subítem</button></li>
+                                                    <li> <button class="dropdown-item" @onclick="() => DeleteItem(itemInList.Id)">Eliminar Ítem</button></li>
                                                 </ul>
                                             </td>
                                         </tr>
+
                                            @if (createSubItem == true && parentItemId == itemInList.Id)
                                            {
                                                 <tr>
@@ -164,7 +181,8 @@ else
                                                 </tr>
 
                                             }
-}
+                                           
+                                    }
                                 </tbody>
                             </table>}
 

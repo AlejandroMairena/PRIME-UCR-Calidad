@@ -129,6 +129,11 @@ namespace PRIME_UCR.Pages.CheckLists
             await RefreshModels();
         }
 
+        protected async Task UpdateItem()
+        {
+            await MyCheckListService.UpdateItem(tempItem);
+            await RefreshModels();
+        }
         /**
          * Gets an item based on its id
          * */
@@ -167,5 +172,20 @@ namespace PRIME_UCR.Pages.CheckLists
             }
             return hasSubItems;
         }
+
+        protected async Task Delete(int id)
+        {
+            await MyCheckListService.DeleteCheckList(id);
+            await RefreshModels();
+           
+        }
+        protected async Task DeleteItem(int id)
+        {
+            await MyCheckListService.DeleteItem(id);
+            await RefreshModels();
+
+        }
+
+        
     }
 }
