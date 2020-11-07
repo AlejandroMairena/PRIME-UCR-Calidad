@@ -86,7 +86,7 @@ namespace PRIME_UCR.Components.UserAdministration
                 Value.CheckedUsers.Clear();
             }
             Value.CheckedUsers = new List<Tuple<string, bool>>();
-            var usersList = (await userService.GetUsuarios()).ToList();
+            var usersList = (await userService.GetAllUsersWithDetailsAsync()).ToList();
             foreach(var user in usersList)
             {
                 var userChecked = Value.UserLists.Find(p => p.Id == user.Id) == null ? false : true;

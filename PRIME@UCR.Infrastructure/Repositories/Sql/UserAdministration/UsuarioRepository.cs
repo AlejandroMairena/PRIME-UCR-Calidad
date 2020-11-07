@@ -25,6 +25,9 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
         {
             return await _db.Usuarios
                 .Include(u => u.Persona)
+                .Include(u => u.UsuariosYPerfiles)
+                .ThenInclude(p => p.Perfil)
+                .AsNoTracking()
                 .ToListAsync();
         }
 

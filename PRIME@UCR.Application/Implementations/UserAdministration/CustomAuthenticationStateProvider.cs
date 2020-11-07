@@ -58,14 +58,23 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
         {
             List<Claim> claimsAuthentication = new List<Claim>();
 
-            claimsAuthentication.Add(new Claim(ClaimTypes.Name, user.Email));
             var profiles = user.UsuariosYPerfiles.FindAll(p => p.IDUsuario == user.Id);
-
+            var permissionsList = new List<Permiso>();
+            foreach (var profile in profiles)
+            {
+                var permissionsOfProfile = profilesAndPermissions.Find(p => p.NombrePerfil == profile.IDPerfil).PerfilesYPermisos;
+                foreach (var permission in permissionsOfProfile)
+                {
+                    permissionsList.Add(permission.Permiso);
+                }
+            }
+            
+            claimsAuthentication.Add(new Claim(ClaimTypes.Name, user.Email));
+            
             foreach (var permission in Enum.GetValues(typeof(AuthorizationPermissions)).Cast<AuthorizationPermissions>())
             {
-                claimsAuthentication.Add(new Claim(permission.ToString(), PrimeAuthorizarionService.HavePermission((int)permission, profiles, profilesAndPermissions)));
+                claimsAuthentication.Add(new Claim(permission.ToString(), PrimeAuthorizarionService.HavePermission((int)permission, permissionsList) ? "true" : "false"));
             }
-
             return new ClaimsIdentity(claimsAuthentication.ToList(), "apiauth_type");
         }
 
