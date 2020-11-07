@@ -10,32 +10,11 @@
 <h3>Plantillas de listas de chequeo</h3>
 <hr />
 <div class="row">
-    <div class="col-lg-3 mb-4" >
-        @* Contains the list of existing checklists *@
-        <div class="container" >
-            <h6>Listas de chequeo existentes</h6> 
-            <div>
-                <ul class="nav nav-pills flex-column">
-                    @if (lists != null && lists.Count() > 0)
-                    {
-                        @foreach (var tempList in lists)
-                        {
-                            @* Navigation link for each checklist *@
-                            <li class="nav-item mt-2">
-                                <NavLink href='@string.Format("checklist/{0}", @tempList.Id)' class="nav-link" id="a_LC4">
-                                    •  @tempList.Nombre
-                                </NavLink>
-                            </li>
-                        }
-                    }
-                </ul>
-            </div>
-        </div>
-    </div>
+    <CheckListMenu Lists="lists" />
     @*
-    Story: PIG01IIC20-309
-    Tasks: PIG01IIC20-399, PIG01IIC20-346, PIG01IIC20-450
-    Devs: Stephanie Leiton, Juan Pablo Gamboa
+        Story: PIG01IIC20-309
+        Tasks: PIG01IIC20-399, PIG01IIC20-346, PIG01IIC20-450
+        Devs: Stephanie Leiton, Juan Pablo Gamboa
     *@
     <div class="col">
         @* Contains the form to create a new checklist *@
@@ -55,14 +34,14 @@
                     <div class="col-6">
                         @* Input for the type of the checklist with predefined options *@
                         <DropDownMenu Label="Tipo " Data="_types" @bind-Value="checkList.Tipo"
-                                      DefaultText="Seleccione el tipo de la lista de chequeo" 
+                                      DefaultText="Seleccione el tipo de la lista de chequeo"
                                       Required="true" />
                     </div>
                     <div class="col-6">
                         @* Input for the order of the checklist with a recommended value *@
                         <label for="Tipo">Orden <span style=" color:red">*</span></label>
                         <br />
-                        <IntegerInput Label="" @bind-Value="checkList.Orden" Min="0" Required />
+                        <IntegerInput Label="" @bind-Value="checkList.Orden" Min="1" Required />
                     </div>
                 </div>
                 <br />
@@ -89,7 +68,7 @@
                     }
                     else
                     {
-                <button type="submit" class="btn btn-secondary" disabled>Guardar</button>
+                        <button type="submit" class="btn btn-secondary" disabled>Guardar</button>
                     }
                     <a class="btn btn-outline-secondary" href='@string.Format("checklist")' id="a_LC3">Cancelar</a> @*to do: ir a la anterior  *@
                 </div>

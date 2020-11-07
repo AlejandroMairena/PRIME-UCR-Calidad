@@ -19,18 +19,22 @@ namespace PRIME_UCR.Pages.CheckLists
         }
         [Parameter]
         public int id { get; set; }
+        [Parameter]
+        public int plantillaid { get; set; }
+        [Parameter]
+        public string incidentcod { get; set; }
 
-        private bool isDisabled { get; set; } = true;
+        private bool isDisabled { get; set; } = true;//not need
 
-        protected bool createItem { get; set; } = false;
+        protected bool createItem { get; set; } = false;// not neet
 
-        protected IEnumerable<CheckList> lists { get; set; }
+        public InstanceChecklist insanceLC { get; set; }
 
-        protected IEnumerable<Item> items { get; set; }
+        protected IEnumerable<Item> items { get; set; }// to change
 
         public CheckList list { get; set; }
 
-        protected Item tempItem;
+        protected Item tempItem;//to change
 
         protected bool formInvalid = true;
         protected EditContext editContext;
@@ -38,7 +42,7 @@ namespace PRIME_UCR.Pages.CheckLists
         public bool not_complete;
 
         [Inject] protected ICheckListService MyCheckListService { get; set; }
-
+        [Inject] protected IInstanceChecklistService MyCheckInstanceChechistService { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
@@ -47,8 +51,7 @@ namespace PRIME_UCR.Pages.CheckLists
 
         protected async Task RefreshModels()
         {
-            list = await MyCheckListService.GetById(id);
-            lists = await MyCheckListService.GetAll();
+            list = await MyCheckListService.GetById(plantillaid);
             items = await MyCheckListService.GetItemsByCheckListId(id);
         }
 
@@ -66,19 +69,9 @@ namespace PRIME_UCR.Pages.CheckLists
             createItem = false;
             StateHasChanged();
         }
-
-        protected async Task AddCheckListItem(Item item)
-        {
-            await MyCheckListService.InsertCheckListItem(item);
-            createItem = false;
-            formInvalid = true;
-            await RefreshModels();
-            StateHasChanged();
-        }
-
         protected void StartNewItemCreation()
         {
-            createItem = true;
+            createItem = true;  //to change for item instance
             tempItem = new Item();
             tempItem.IDLista = id;
             tempItem.Orden = items.Count() + 1;
@@ -101,7 +94,7 @@ namespace PRIME_UCR.Pages.CheckLists
 
         protected async Task HandleValidSubmit()
         {
-            await AddCheckListItem(tempItem);
+            
         }
 
         protected override async Task OnParametersSetAsync()
@@ -111,7 +104,48 @@ namespace PRIME_UCR.Pages.CheckLists
         protected async Task Update()
         {
             await MyCheckListService.UpdateCheckList(list);
+            await MyCheckInstanceChechistService.UpdateInstanceChecklist(insanceLC);
             await RefreshModels();
+        }
+        public async Task GetName(int id)
+        {
+
+            list = await MyCheckListService.GetById(id);
+
+        }
+        public async Task GetTipo(int id)
+        {
+
+            list = await MyCheckListService.GetById(id);
+
+        }
+        public async Task GetDescp(int id)
+        {
+
+            list = await MyCheckListService.GetById(id);
+
+        }
+        public string GetName2(int id)
+        {
+            GetName(id);
+            return list.Nombre;
+        }
+
+        public string GetTipo2(int id)
+        {
+            GetTipo(id);
+            return list.Tipo;
+        }
+        public string GetDescp2(int id)
+        {
+            GetDescp(id);
+            return list.Descripcion;
+        }
+        public bool Getincident()
+        {
+            //consultar incidente
+            //to change
+            return true;
         }
     }
 }

@@ -40,6 +40,7 @@ namespace PRIME_UCR.Pages.CheckLists
         protected List<int> orderedListLevel;
 
         public CheckList list { get; set; }
+        public CheckList editedList { get; set; }
 
         protected Item tempItem;
         protected int parentItemId { get; set; }
@@ -49,9 +50,9 @@ namespace PRIME_UCR.Pages.CheckLists
 
         [Inject] protected ICheckListService MyCheckListService { get; set; }
 
-
         protected override async Task OnInitializedAsync()
         {
+            editedList = new CheckList();
             await RefreshModels();
         }
 
@@ -70,6 +71,21 @@ namespace PRIME_UCR.Pages.CheckLists
             foreach (var item in coreItems) {
                 GenerateOrderedList(item, 0);
             }
+            editContext = new EditContext(list);
+            editContext.OnFieldChanged += HandleFieldChanged;
+            editedList.Nombre = list.Nombre;
+            editedList.Descripcion = list.Descripcion;
+            editedList.Tipo = list.Tipo;
+            editedList.Orden = list.Orden;
+        }
+
+        protected void HandleFieldChanged(object sender, FieldChangedEventArgs e)
+        {
+            formInvalid = editContext.Validate();
+            if (formInvalid == true)
+            {
+                StateHasChanged();
+            }
         }
 
         /**
@@ -84,10 +100,12 @@ namespace PRIME_UCR.Pages.CheckLists
             StateHasChanged();
         }
 
-        public void Dispose()
+        public async Task Dispose()
         {
             createItem = false;
             createSubItem = false;
+            formInvalid = false;
+            await RefreshModels();
             StateHasChanged();
         }
 
@@ -123,10 +141,15 @@ namespace PRIME_UCR.Pages.CheckLists
             await RefreshModels();
         }
 
-        protected async Task Update()
+        protected async Task UpdateCheckList()
         {
+            list.Nombre = editedList.Nombre;
+            list.Descripcion = editedList.Descripcion;
+            list.Tipo = editedList.Tipo;
+            list.Orden = editedList.Orden;
             await MyCheckListService.UpdateCheckList(list);
             await RefreshModels();
+            formInvalid = false;
         }
 
         protected async Task UpdateItem()
