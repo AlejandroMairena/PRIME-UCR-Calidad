@@ -35,7 +35,7 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
 
         public async Task<IEnumerable<EspecialistaTécnicoMédico>> GetAllAsync()
         {
-            await primeSecurityService.CheckIfIsAuthorizedAsync(MethodBase.GetCurrentMethod());
+            await primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             using (var connection = new SqlConnection(_db.DbConnection.ConnectionString))
             {
                 var result = await connection.ExecuteQueryAsync<EspecialistaTécnicoMédico>(@"

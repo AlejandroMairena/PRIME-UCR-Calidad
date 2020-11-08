@@ -27,7 +27,7 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
 
         public async Task<List<Funcionario>> GetAllAsync()
         {
-            await primeSecurityService.CheckIfIsAuthorizedAsync(MethodBase.GetCurrentMethod());
+            await primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             return await _db.Functionaries.ToListAsync();
 
         }

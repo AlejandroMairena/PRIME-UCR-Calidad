@@ -5,11 +5,13 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using PRIME_UCR.Domain.Constants;
+using System.Runtime.CompilerServices;
 
 namespace PRIME_UCR.Application.Services.UserAdministration
 {
     public interface IPrimeSecurityService
     {
-        Task CheckIfIsAuthorizedAsync(MethodBase method);
+
+        Task CheckIfIsAuthorizedAsync(Type type, [CallerMemberName]string methodName = null);
     }
 }

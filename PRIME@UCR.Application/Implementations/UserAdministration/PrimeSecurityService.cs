@@ -10,6 +10,8 @@ using System.Text;
 using System.Threading.Tasks;
 using PRIME_UCR.Domain.Attributes;
 using PRIME_UCR.Domain.Constants;
+using System.ComponentModel.DataAnnotations;
+using System.Runtime.CompilerServices;
 
 namespace PRIME_UCR.Application.Implementations.UserAdministration
 {
@@ -26,15 +28,15 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
             authenticationStateProvider = _authenticationStateProvider;
         }
 
-        public async Task CheckIfIsAuthorizedAsync(MethodBase method)
+
+        public async Task CheckIfIsAuthorizedAsync(Type type, [CallerMemberName] string methodName = null)
         {
-            if (method == null) throw new ArgumentNullException("method");
+            if (methodName == null) throw new ArgumentNullException("method");
 
             var permissions =
-                method.DeclaringType
-                    .GetCustomAttribute<AuthorizationTypeAttribute>()
-                    .AuthorizationClassType
-                    .GetMethod(method.Name)
+                    type.GetCustomAttribute<MetadataTypeAttribute>()
+                    .MetadataClassType
+                    .GetMethod(methodName)
                     .GetCustomAttribute<RequirePermissions>()
                     .Permissions;
             
@@ -42,7 +44,7 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
             var isAuthorized = true;
             foreach (var permission in permissions)
             {
-                if ((await authorizationService.AuthorizeAsync(user, permission.ToString())).Succeeded)
+                if (!(await authorizationService.AuthorizeAsync(user, permission.ToString())).Succeeded)
                 {
                     isAuthorized = false;
                     break;
@@ -54,5 +56,6 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
                 throw new NotAuthorizedException();
             }
         }
+
     }
 }

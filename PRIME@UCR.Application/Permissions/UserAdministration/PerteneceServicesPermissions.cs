@@ -7,10 +7,6 @@ using System.Threading.Tasks;
 
 namespace PRIME_UCR.Application.Permissions.UserAdministration
 {
-    [AuthorizationType(typeof(PerteneceServiceAuthorization))]
-    public partial class PerteneceService
-    {
-    }
 
     public abstract class PerteneceServiceAuthorization
     {

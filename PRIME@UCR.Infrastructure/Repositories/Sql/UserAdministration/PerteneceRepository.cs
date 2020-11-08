@@ -30,7 +30,7 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
 
         public async Task DeleteUserFromProfileAsync(string idUser, string idProfile)
         {
-            await _primeSecurityService.CheckIfIsAuthorizedAsync(MethodBase.GetCurrentMethod());
+            await _primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             await Task.Run(() =>
             {
                 using (var cmd = _db.DbConnection.CreateCommand())
@@ -53,7 +53,7 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
 
         public async Task InsertUserToProfileAsync(string idUser, string idProfile)
         {
-            await _primeSecurityService.CheckIfIsAuthorizedAsync(MethodBase.GetCurrentMethod());
+            await _primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
 
             await Task.Run(() =>
             {

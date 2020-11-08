@@ -30,7 +30,7 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
 
         public async Task DeletePermissionAsync(string idProfile, int idPermission) 
         {
-            await primeSecurityService.CheckIfIsAuthorizedAsync(MethodBase.GetCurrentMethod());
+            await primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
 
             await Task.Run(() =>
             {
@@ -53,7 +53,7 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
         }
         public async Task InsertPermissionAsync(string idProfile, int idPermission)
         {
-            await primeSecurityService.CheckIfIsAuthorizedAsync(MethodBase.GetCurrentMethod());
+            await primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
 
             await Task.Run(() =>
             {

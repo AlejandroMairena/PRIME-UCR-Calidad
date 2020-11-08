@@ -7,11 +7,6 @@ using System.Threading.Tasks;
 
 namespace PRIME_UCR.Application.Permissions.UserAdministration
 {
-    [AuthorizationType(typeof(NumeroTelefonoServiceAuthorization))]
-    public partial class NumeroTelefonoService
-    {
-    }
-
     public abstract class NumeroTelefonoServiceAuthorization
     {
         [RequirePermissions(new[] { AuthorizationPermissions.CanCreateUsers, AuthorizationPermissions.CanModifyUsers })]

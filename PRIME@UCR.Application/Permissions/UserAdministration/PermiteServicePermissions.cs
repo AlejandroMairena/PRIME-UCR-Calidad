@@ -7,11 +7,6 @@ using System.Threading.Tasks;
 
 namespace PRIME_UCR.Application.Permissions.UserAdministration
 {
-    [AuthorizationType(typeof(PermiteServiceAuthorization))]
-    public partial class PermiteService
-    {
-    }
-
     public abstract class PermiteServiceAuthorization
     {
         [RequirePermissions(new[] { AuthorizationPermissions.CanCreateUsers, AuthorizationPermissions.CanModifyUsers })]

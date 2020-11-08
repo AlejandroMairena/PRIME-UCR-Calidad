@@ -28,7 +28,7 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
 
         public async Task DeleteAsync(string cedPersona)
         {
-            await primeSecurityService.CheckIfIsAuthorizedAsync(MethodBase.GetCurrentMethod());
+            await primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             var person = await _db.People.FindAsync(cedPersona);
             if(person != null)
             {
@@ -39,13 +39,13 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
 
         public async Task<Persona> GetByKeyPersonaAsync(string id)
         {
-            await primeSecurityService.CheckIfIsAuthorizedAsync(MethodBase.GetCurrentMethod());
+            await primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             return await _db.People.FindAsync(id);
         }
 
         public async Task<Persona> GetWithDetailsAsync(string id)
         {
-            await primeSecurityService.CheckIfIsAuthorizedAsync(MethodBase.GetCurrentMethod());
+            await primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             return await _db.People
                     .Include(i => i.Cédula)
                     .Include(i => i.Nombre)
@@ -57,7 +57,7 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
 
         public async Task InsertAsync(Persona persona)
         {
-            await primeSecurityService.CheckIfIsAuthorizedAsync(MethodBase.GetCurrentMethod());
+            await primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             _db.People.Add(persona);
             await _db.SaveChangesAsync();
         }

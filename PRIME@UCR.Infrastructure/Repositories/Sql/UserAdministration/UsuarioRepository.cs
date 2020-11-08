@@ -44,7 +44,7 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
 
         public async Task<Usuario> GetUserByEmailAsync(string email)
         {
-            await _primeSecurityService.CheckIfIsAuthorizedAsync(MethodBase.GetCurrentMethod());
+            await _primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             return await _db.Usuarios
             .Include(u => u.Persona)
             .Include(u => u.UsuariosYPerfiles)
@@ -53,7 +53,7 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
 
         public async Task<Usuario> GetWithDetailsAsync(string id)
         {
-            await _primeSecurityService.CheckIfIsAuthorizedAsync(MethodBase.GetCurrentMethod());
+            await _primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             return await _db.Usuarios
             .Include(u => u.UsuariosYPerfiles)
             .Include(u => u.Persona)

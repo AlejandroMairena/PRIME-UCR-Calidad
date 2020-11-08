@@ -9,10 +9,6 @@ using System.Threading.Tasks;
 
 namespace PRIME_UCR.Application.Permissions.UserAdministration
 {
-    [AuthorizationType(typeof(PersonServiceAuthorization))]
-    public partial class PersonService
-    {
-    }
 
     public abstract class PersonServiceAuthorization
     {

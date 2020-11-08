@@ -33,7 +33,7 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
 
         public async Task<Paciente> InsertPatientOnlyAsync(Paciente entity)
         {
-            await primeSecurityService.CheckIfIsAuthorizedAsync(MethodBase.GetCurrentMethod());
+            await primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             using (var connection = new SqlConnection(_db.DbConnection.ConnectionString))
             {
                 await connection.ExecuteNonQueryAsync(
@@ -47,7 +47,7 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
 
         public async Task<Paciente> GetByKeyAsync(string key)
         {
-            await primeSecurityService.CheckIfIsAuthorizedAsync(MethodBase.GetCurrentMethod());
+            await primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             using (var connection = new SqlConnection(_db.DbConnection.ConnectionString))
             {
                 var result = await connection.ExecuteQueryAsync<Paciente>(@"
@@ -61,7 +61,7 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
 
         public async Task<IEnumerable<Paciente>> GetAllAsync()
         {
-            await primeSecurityService.CheckIfIsAuthorizedAsync(MethodBase.GetCurrentMethod());
+            await primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             using (var connection = new SqlConnection(_db.DbConnection.ConnectionString))
             {
                 var result = await connection.ExecuteQueryAsync<Paciente>(@"
@@ -74,7 +74,7 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
 
         public async Task<IEnumerable<Paciente>> GetByConditionAsync(Expression<Func<Paciente, bool>> expression)
         {
-            await primeSecurityService.CheckIfIsAuthorizedAsync(MethodBase.GetCurrentMethod());
+            await primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             using (var connection = new SqlConnection(_db.DbConnection.ConnectionString))
             {
                 return await connection.QueryAsync(expression);
@@ -83,7 +83,7 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
 
         public async Task<Paciente> InsertAsync(Paciente model)
         {
-            await primeSecurityService.CheckIfIsAuthorizedAsync(MethodBase.GetCurrentMethod());
+            await primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             using (var connection = new SqlConnection(_db.DbConnection.ConnectionString))
             {
                 var result = (await connection.QueryAsync<Persona>(model.Cédula)).FirstOrDefault();
@@ -99,7 +99,7 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
 
         public async Task DeleteAsync(string key)
         {
-            await primeSecurityService.CheckIfIsAuthorizedAsync(MethodBase.GetCurrentMethod());
+            await primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             using (var connection = new SqlConnection(_db.DbConnection.ConnectionString))
             {
                 await connection.DeleteAsync(nameof(Paciente), key as object);
@@ -108,7 +108,7 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
 
         public async Task UpdateAsync(Paciente model)
         {
-            await primeSecurityService.CheckIfIsAuthorizedAsync(MethodBase.GetCurrentMethod());
+            await primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             using (var connection = new SqlConnection(_db.DbConnection.ConnectionString))
             {
                 await connection.UpdateAsync(nameof(Paciente), new {model.Cédula});

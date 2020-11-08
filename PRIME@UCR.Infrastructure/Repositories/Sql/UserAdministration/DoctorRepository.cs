@@ -31,7 +31,7 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
 
         public async Task<Médico> GetByKeyAsync(string key)
         {
-            await primeSecurityService.CheckIfIsAuthorizedAsync(MethodBase.GetCurrentMethod());
+            await primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             using (var connection = new SqlConnection(_db.DbConnection.ConnectionString))
             {
                 var result = await connection.ExecuteQueryAsync<Médico>($@"
@@ -46,7 +46,7 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
 
         public async Task<IEnumerable<Médico>> GetAllAsync()
         {
-            await primeSecurityService.CheckIfIsAuthorizedAsync(MethodBase.GetCurrentMethod());
+            await primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             using (var connection = new SqlConnection(_db.DbConnection.ConnectionString))
             {
                 return await connection.ExecuteQueryAsync<Médico>($@"
@@ -58,7 +58,7 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
 
         public async Task<IEnumerable<Médico>> GetByConditionAsync(Expression<Func<Médico, bool>> expression)
         {
-            await primeSecurityService.CheckIfIsAuthorizedAsync(MethodBase.GetCurrentMethod());
+            await primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             using (var connection = new SqlConnection(_db.DbConnection.ConnectionString))
             {
                 return await connection.QueryAsync(expression);
@@ -67,7 +67,7 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
 
         public async Task<Médico> InsertAsync(Médico model)
         {
-            await primeSecurityService.CheckIfIsAuthorizedAsync(MethodBase.GetCurrentMethod());
+            await primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             using (var connection = new SqlConnection(_db.DbConnection.ConnectionString))
             {
                 var result = (await connection.QueryAsync<Persona>(model.Cédula)).FirstOrDefault();
@@ -83,7 +83,7 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
 
         public async Task DeleteAsync(string key)
         {
-            await primeSecurityService.CheckIfIsAuthorizedAsync(MethodBase.GetCurrentMethod());
+            await primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             using (var connection = new SqlConnection(_db.DbConnection.ConnectionString))
             {
                 await connection.DeleteAsync(nameof(Médico), key as object);
@@ -92,7 +92,7 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
 
         public async Task UpdateAsync(Médico model)
         {
-            await primeSecurityService.CheckIfIsAuthorizedAsync(MethodBase.GetCurrentMethod());
+            await primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             using (var connection = new SqlConnection(_db.DbConnection.ConnectionString))
             {
                 await connection.UpdateAsync(nameof(Médico), new {model.Cédula});

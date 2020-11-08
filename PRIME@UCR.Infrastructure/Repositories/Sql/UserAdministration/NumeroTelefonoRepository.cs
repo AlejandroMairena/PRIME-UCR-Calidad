@@ -27,7 +27,7 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
 
         public async Task AddPhoneNumberAsync(NúmeroTeléfono phoneNumber)
         {
-            await primeSecurityService.CheckIfIsAuthorizedAsync(MethodBase.GetCurrentMethod());
+            await primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             await _db.PhoneNumbers.AddAsync(phoneNumber);
             await _db.SaveChangesAsync();
         }

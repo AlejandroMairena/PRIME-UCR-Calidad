@@ -8,10 +8,6 @@ using System.Threading.Tasks;
 
 namespace PRIME_UCR.Application.Permissions.UserAdministration
 {
-    [AuthorizationType(typeof(PatientServiceAuthorization))]
-    public partial class PatientService
-    {
-    }
 
     public abstract class PatientServiceAuthorization
     {

@@ -29,4 +29,7 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
             return await _profilesRepository.GetPerfilesWithDetailsAsync();
         }
     }
+
+
+
 }
