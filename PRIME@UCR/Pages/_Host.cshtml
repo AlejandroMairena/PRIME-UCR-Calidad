@@ -24,6 +24,21 @@
     <!---to add files, it is still on testing, it probably wont stay here that long-->
     <script src="_content/BlazorInputFile/inputfile.js"></script>
 
+    <!-- Atenienses ++ chart style-->
+    <style>
+        #chartdiv {
+            width: 100%;
+            height: 500px;
+        }
+        #mapGraphDiv {
+            width: 100%;
+            height: 500px;
+        }
+        #IncidentsVsTimeChartComponentJS {
+            width: 100%;
+            height: 500px;
+        }
+    </style>
 </head>
 
 <body>
@@ -65,5 +80,18 @@
     <!-- Diosvier scripts to include MatBlazor-->
     <script src="_content/MatBlazor/dist/matBlazor.js"></script>
     <script src="_content/Radzen.Blazor/Radzen.Blazor.js"></script>
+
+    <!-- Atenienses++ scripts for graph creation-->
+    <script src="https://cdn.amcharts.com/lib/4/core.js"></script>
+    <script src="https://cdn.amcharts.com/lib/4/charts.js"></script>
+    <script src="https://cdn.amcharts.com/lib/4/themes/frozen.js"></script>
+    <script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
+    <!--Graph Maps-->
+    <script src="https://cdn.amcharts.com/lib/4/maps.js"></script>
+    <script src="https://cdn.amcharts.com/lib/4/geodata/data/countries2.js"></script>
+
+    <script src="~/js/AmChart.js"></script>
+    <script src="~/js/MapGraph.js"></script>
+    <script src="~/js/IncidentsVsTimeChartComponentJS.js"></script>
 </body>
 </html>

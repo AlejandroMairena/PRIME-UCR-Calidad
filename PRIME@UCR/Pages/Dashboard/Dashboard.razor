@@ -24,28 +24,15 @@
 </AuthorizeView>
 
 
-<div class="row">
-    <div class="col-md-4">
-        <PieGraphComponent></PieGraphComponent>
-    </div>
-    <div class="col-md-4">
-        <PieGraphComponent></PieGraphComponent>
-    </div>
-    <div class="col-md-4">
-        <PieGraphComponent></PieGraphComponent>
-    </div>
 
-    <br />
-
-    @*<LineGraphComponent></LineGraphComponent>*@
-</div>
 
 <div class="row">
     <div class="col-lg-6 col-md-12">
         <PRIME_UCR.Components.Dashboard.IncidentsVsTimeChartComponent />
     </div>
     <div class="col-lg-6 col-md-12">
-        <PRIME_UCR.Components.Dashboard.IncidentVSTransportTypeChartComponent />
+        <IncidentsVsTimeChartComponentJS/>
+        
     </div>
 </div>
 
@@ -53,9 +40,14 @@
 
 <div class="row">
     <div class="col-lg-6 col-md-12">
-        <PieGraphComponent></PieGraphComponent>
+        <AmTestGraph />
     </div>
     <div class="col-lg-6 col-md-12">
-        <PRIME_UCR.Components.Dashboard.IncidentsVsTimeChartComponent />
+        <PRIME_UCR.Components.Dashboard.IncidentVSTransportTypeChartComponent />
     </div>
 </div>
+
+<!--
+    <AmMapTest/>
+
+-->
