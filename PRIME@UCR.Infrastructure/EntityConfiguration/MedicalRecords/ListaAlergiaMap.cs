@@ -17,7 +17,6 @@ namespace PRIME_UCR.Infrastructure.EntityConfiguration.MedicalRecords
             builder
                 .HasMany(e => e.Alergia)
                 .WithOne();
-
         }
     }
 }
