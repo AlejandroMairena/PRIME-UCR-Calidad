@@ -14,37 +14,42 @@
     }
 </style>
 
-    <Loading IsLoading="medical_records == null">
-        <Table TableItem="Expediente" Items="medical_records" PageSize="5" @ref="MedicalRecordsModel" ColumnReorder="true" ShowSearchBar="true" class="table table-bordered">
-            <Column TableItem="Expediente" Title="Numero Expediente" Field="@(x => x.Id)" Width="20%">
-                <Template>
-                    <a href="@get_record_link(context.Id)">@context.Id</a>
-                </Template>
-            </Column>
+<Loading IsLoading="medical_records == null">
+    <Table TableItem="Expediente" Items="medical_records" PageSize="@page_size" @ref="MedicalRecordsModel" ColumnReorder="true" ShowSearchBar="true" class="table table-bordered">
+        <Column TableItem="Expediente" Title="Numero Expediente" Field="@(x => x.Id)" Width="20%">
+            <Template>
+                <a href="@get_record_link(context.Id)">@context.Id</a>
+            </Template>
+        </Column>
 
-            <Column TableItem="Expediente" Title="Cédula" Field="@(x => x.CedulaPaciente)" Width="20%">
-            </Column>
+        <Column TableItem="Expediente" Title="Cédula" Field="@(x => x.CedulaPaciente)" Width="20%">
+        </Column>
 
-            <Column TableItem="Expediente" Title="Nombre" Field="@(x => x.Paciente.Nombre)" Width="20%">
-            </Column>
+        <Column TableItem="Expediente" Title="Nombre" Field="@(x => x.Paciente.Nombre)" Width="20%">
+        </Column>
 
-            <Column TableItem="Expediente" Title="Primer Apellido" Field="@(x => x.Paciente.PrimerApellido)" Width="20%">
-            </Column>
+        <Column TableItem="Expediente" Title="Primer Apellido" Field="@(x => x.Paciente.PrimerApellido)" Width="20%">
+        </Column>
 
-            <Column TableItem="Expediente" Title="Segundo Apellido" Field="@(x => x.Paciente.SegundoApellido)" Width="20%">
-            </Column>
+        <Column TableItem="Expediente" Title="Segundo Apellido" Field="@(x => x.Paciente.SegundoApellido)" Width="20%">
+        </Column>
 
-            <EmptyDataTemplate>
-                <div class="text-center">
-                    No se encontraron expedientes en el sistema. 
-                </div>
-            </EmptyDataTemplate>
+        <EmptyDataTemplate>
+            <div class="text-center">
+                No se encontraron expedientes en el sistema.
+            </div>
+        </EmptyDataTemplate>
 
-            <Pager ShowPageNumber="true" ShowTotalCount="true" />
-        </Table>
-    </Loading>
+        <Pager ShowPageNumber="true" ShowTotalCount="true" />
+        <PaginationDropdown changeSize="size_changed" MaxElements="medical_records.Count"> </PaginationDropdown>
+    </Table>
+</Loading>
+
+
 
 @code {
+
+    public int page_size { get; set; } = 5;
 
     public List<Expediente> medical_records { get; set; }
 
@@ -61,7 +66,12 @@
         medical_records = records.ToList();
     }
 
-     public string get_record_link(int recordId)
+
+    private async Task size_changed(int new_size) {
+        page_size = new_size; 
+    }
+
+    public string get_record_link(int recordId)
     {
         return $"/medicalrecord/{recordId}";
     }

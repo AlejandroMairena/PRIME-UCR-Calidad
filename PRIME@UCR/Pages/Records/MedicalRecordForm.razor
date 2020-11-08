@@ -1,49 +1,340 @@
 ﻿@using PRIME_UCR.Domain.Models.MedicalRecords
+@using PRIME_UCR.Domain.Models.UserAdministration
+@inject PRIME_UCR.Application.Services.UserAdministration.IPersonService person_service;
+@inject PRIME_UCR.Application.Services.UserAdministration.IPatientService patient_service;
+@inject PRIME_UCR.Application.Services.MedicalRecords.IMedicalRecordService medical_record_service;
+@inject PRIME_UCR.Application.Services.UserAdministration.IDoctorService doctor_service;
+@inject PRIME_UCR.Application.Services.Incidents.ILocationService location_service;
+
+@if (medic_status != -1)
+{
+    <StatusMessage Message="Ingrese una cedula de un funcionario valida" Class="warning"></StatusMessage>
+}
+
+<Loading IsLoading="is_loading">
+
+    @if (RecordModel.Paciente != null)
+    {
+        @switch (patient_status)
+        {
+            case 0:
+                <StatusMessage Message="El Expediente que desea registrar ya se encuentra registrado, complete la información faltante" Class="primary"></StatusMessage>
+                break;
+
+            case 1:
+                <StatusMessage Message="Expediente creado, complete la información faltante" Class="primary"></StatusMessage>
+                break;
+
+            case 2:
+                <StatusMessage Message="Los datos ingresados no se encuentran registrados, favor llenar el formulario" Class="primary"></StatusMessage>
+                break;
+
+        }
+    }
+    else
+    {
+        @switch (patient_status)
+        {
+            case -1:
+                <StatusMessage Message="Ingrese la cedula del paciente" Class="primary"></StatusMessage>
+                break;
+        }
+    }
+
+    <EditForm EditContext="_context">
+        <FluentValidationValidator />
+        <TextBox Label="Cédula del paciente" Value="@RecordModel.CedPaciente" ValueExpression="() => RecordModel.CedPaciente" ValueChanged="(string id) => SetPatientCed(id)" />
+        @if (RecordModel.Paciente == null)
+        {
+            <div class="mt-2">
+                <button class="btn btn-primary">Guardar</button>
+            </div>
+        }
+    </EditForm>
+</Loading>
 
 
-<EditForm Model="@Expediente" OnValidSubmit="@OnValidSubmit">
-    <DataAnnotationsValidator />
+@if (RecordModel.Expediente != null)
+{
+<EditForm EditContext="RecordContext" OnValidSubmit="SaveRecordData">
+    <FluentValidationValidator />
+    @if (RecordModel?.Expediente.CedulaMedicoDuenno == null)
+    {
+        <TextBox Label="Cédula médico creador" ValueExpression="() => RecordModel.CedMedicoDuenno" ValueChanged="(string id) => SetMedicCed(id)" />
+    }
+    else
+    {
+        <TextBox Disabled="true" @bind-Value="RecordModel.CedMedicoDuenno" Label="Cédula médico creador" />
+    }
 
-    <div class="form-group">
-        <label for="Clinica">Clinica</label>
-        <InputText id="Clinica" @bind-Value="@Expediente.Clinica" class="form-control"></InputText>
-        <ValidationMessage For="@(() => Expediente.Clinica)" />
-    </div>
 
-    <div class="form-group">
+    @if (RecordModel?.Expediente.Clinica == null)
+    {
 
-        <label for="Paciente">Cedula Paciente</label>
-        <InputText id="Clinica" @bind-Value="@Expediente.CedulaPaciente" class="form-control"></InputText>
-        <ValidationMessage For="@(() => Expediente.CedulaPaciente)" />
-    </div>
+        <DropDownMenu T="string" Data="Clinicas" Label="Centro Médico" DefaultText="Seleccione una Clinica" TextProperty="Nombre" Value="@clinica" ValueExpression="() => clinica" ValueChanged="@((string mc) => MedicalCenterSelected(mc))" />
 
-    <div class="form-group">
+    }
 
-        <label for="Medico">Cedula Medico</label>
-        <InputText id="Clinica" @bind-Value="@Expediente.CedulaMedicoDuenno" class="form-control"></InputText>
-        <ValidationMessage For="@(() => Expediente.CedulaMedicoDuenno)" />
-    </div>
-
-    <button class="btn btn-dark">@Submit_msg</button>
-
+    <button class="btn btn-dark">Guardar</button>
 </EditForm>
+
+}
+
+
+@if (RecordModel.Paciente != null && form_2_done)
+{
+
+    <EditForm EditContext="PatientContext" OnValidSubmit="SavePatientData">
+        <FluentValidationValidator />
+        <TextBox Disabled="patient_status != 2" @bind-Value="RecordModel.Paciente.Nombre" Label="Nombre" />
+    </EditForm>
+
+
+
+
+}
 
 
 
 @code {
 
-    [Parameter] public Expediente Expediente { get; set; }
+    private bool form_2_done = false;
+
+    public bool is_loading = false;
+
+    private EditContext _context;
+
+    private EditContext RecordContext;
+
+    private EditContext PatientContext;
+
+    private Paciente patient;
+
+    private Expediente record;
+
+    public int patient_status = -1;
+
+    public int medic_status = -1;
+
+    public string clinica { get; set; }
+
+    public List<string> Clinicas  = new List<string>() {
+        "Centro Nacional de Rehabilitación Humberto Araya Rojas", "Hospital México", "Hospital Cima", "Hospital CEACO"
+    };
+
+
+    public CentroMedico medical_center = new CentroMedico();
+
+    [Parameter] public RecordModel RecordModel { get; set; }
+    //[Parameter] public Expediente Expediente { get; set; }
     //[Parameter] public string Msg_dropdown { get; set; }
     [Parameter] public string Submit_msg { get; set; }
     //[Parameter] public List<string> Medicos { get; set; }
     //[Parameter] public List<string> Pacientes { get; set; }
     [Parameter] public EventCallback OnValidSubmit { get; set; }
 
+
+    private async Task SaveRecordData()
+    {
+        RecordModel.Expediente.Clinica = RecordModel.Clinica;
+        RecordModel.Expediente.CedulaMedicoDuenno = RecordModel.CedMedicoDuenno;
+
+        form_2_done = true; 
+        //hacer lo correspondiente para guardar la información en la base de datos. 
+    }
+
+    private async Task SavePatientData()
+    {
+
+
+    }
+
+    /*
+    private async Task MedicalCenterSelected(CentroMedico mc)
+    {
+
+        RecordModel.Expediente.Clinica = mc.Nombre;
+
+    }
+    */
+
+    private async Task MedicalCenterSelected(string mc)
+    {
+
+        RecordModel.Clinica = mc;
+
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        patient = new Paciente();
+        record = new Expediente();
+
+        //ALGO AQUI NO SIRVE .
+        //IEnumerable<CentroMedico> cm = await medical_record_service.GetMedicalCentersAsync();
+        //Clinicas = cm.ToList();
+
+        RecordContext = new EditContext(record);
+        PatientContext = new EditContext(patient);
+        _context = new EditContext(RecordModel);
+    }
+
+
+    private async Task SetMedicCed(string ced)
+    {
+
+        RecordModel.CedMedicoDuenno = ced;
+        record.CedulaMedicoDuenno = ced;
+
+        if (RecordContext.Validate())
+        {
+
+            Médico medic = await doctor_service.GetDoctorByIdAsync(ced);
+            if (medic != null)
+            {
+                medic_status = -1;
+
+            }
+            else
+            {
+                medic_status = 0;
+            }
+
+
+        }
+        else
+        {
+
+        }
+
+
+    }
+
+
+    private async Task SetPatientCed(string ced)
+    {
+        is_loading = true;
+        //StateHasChanged();
+        RecordModel.CedPaciente = ced;
+
+        if (_context.Validate())
+        {
+
+            Persona person = await person_service.GetPersonByIdAsync(ced);
+
+            if (person != null)
+            {
+                //ya existe la persona.
+                Paciente patient = await patient_service.GetPatientByIdAsync(ced);
+
+                if (patient != null)
+                {
+                    //ya existe el paciente
+                    RecordModel.Paciente = patient;
+                    _context = new EditContext(RecordModel);
+                }
+                else
+                {
+                    //existe la persona, pero no el paciente.
+                    RecordModel.Paciente = new Paciente()
+                    {
+                        Cédula = person.Cédula,
+                        Nombre = person.Nombre,
+                        PrimerApellido = person.PrimerApellido,
+                        SegundoApellido = person.SegundoApellido,
+                        FechaNacimiento = person.FechaNacimiento,
+                        Sexo = person.Sexo
+                    };
+
+                    _context = new EditContext(RecordModel);
+                    await patient_service.InsertPatientOnlyAsync(RecordModel.Paciente);
+                }
+
+                Expediente record = await medical_record_service.GetByPatientIdAsync(ced);
+                if (record != null)
+                {
+                    RecordModel.Paciente = patient;
+                    //el expediente ya se encuentra en la base de datos.
+                    RecordModel.Expediente = record;
+                    patient_status = 0;
+                }
+                else
+                {
+
+                    RecordModel.Paciente = patient;
+
+                    //el expediente aún no se encuentra en la base de datos.
+                    RecordModel.Expediente = new Expediente()
+                    {
+                        CedulaPaciente = ced
+                    };
+
+                    //aún falta agregar la información de clinica y medico dueño, por eso aún no se agrega. s
+                    patient_status = 1;
+                }
+
+            }
+            else
+            {
+                //no existe la persona.
+                RecordModel.Paciente = new Paciente()
+                {
+                    Cédula = ced
+                };
+
+                _context = new EditContext(RecordModel);
+
+                patient_status = 2;
+            }
+        }
+        is_loading = false;
+    }
+
 }
 
 
 
-@*<div class="form-group">
+@*
+
+               <DropDownMenu T="String" Data="Clinicas" Label="Centro Médico" DefaultText="Seleccione una Clinica" TextProperty="Nombre" Value="@clinica" ValueExpression="() => clinica" ValueChanged="@((CentroMedico mc) => MedicalCenterSelected(mc))"/>
+
+
+        @if (RecordModel.Paciente == null)
+    {
+        <div class="mt-2">
+            <button class="btn btn-primary">Guardar</button>
+            <button class="btn btn-outline-secondary" @onclick="LoadExistingValues" @onclick:preventDefault>Descartar</button>
+        </div>
+    }
+
+
+        <div class="form-group">
+        <label for="Clinica">Clinica</label>
+        <InputText id="Clinica" @bind-Value="@RecordModel.Expediente.Clinica" class="form-control"></InputText>
+        <ValidationMessage For="@(() => RecordModel.Expediente.Clinica)" />
+    </div>
+
+    <div class="form-group">
+
+        <label for="Paciente">Cedula Paciente</label>
+        <InputText id="Clinica" @bind-Value="@RecordModel.Expediente.CedulaPaciente" class="form-control"></InputText>
+        <ValidationMessage For="@(() => RecordModel.Expediente.CedulaPaciente)" />
+    </div>
+
+    <div class="form-group">
+
+        <label for="Medico">Cedula Medico</label>
+        <InputText id="Clinica" @bind-Value="@RecordModel.Expediente.CedulaMedicoDuenno" class="form-control"></InputText>
+        <ValidationMessage For="@(() => RecordModel.Expediente.CedulaMedicoDuenno)" />
+    </div>
+
+    <button class="btn btn-dark">@Submit_msg</button>
+
+
+
+
+
+    <div class="form-group">
         <InputSelect @bind-Value="Expediente.CedMedicoDuenno" class="form-control">
             <option>@Msg_dropdown</option>
             @for (int index_ced_medicos = 0; index_ced_medicos < Medicos.Count; ++index_ced_medicos)
@@ -84,4 +375,4 @@
         <InputText id="Clinica" @bind-Value="@Expediente.Clinica" class="form-control"></InputText>
         <ValidationMessage For="@(() => Expediente.Clinica)" />
     </div>
-    *@
+*@
