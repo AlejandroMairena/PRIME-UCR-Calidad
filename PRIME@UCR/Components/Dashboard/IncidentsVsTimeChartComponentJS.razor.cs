@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using PRIME_UCR.Application.Services.Dashboard;
+using PRIME_UCR.Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -30,12 +31,12 @@ namespace PRIME_UCR.Components.Dashboard
 
             var incidentsPerDay = incidentsData.GroupBy(i => i.Cita.FechaHoraCreacion.DayOfYear);
 
-             var incidentes = new List<Point> { };
+             var incidentes = new List<List<Incidente>> { };
 
             foreach (var incident in incidentsPerDay)
             {
                 Debug.WriteLine(new Point(incident.Key, incident.ToList().Count()));
-                incidentes.Add(new Point(incident.Key, incident.ToList().Count()));
+                incidentes.Add( incident.ToList());
             }
 
             await JS.InvokeVoidAsync("CreateIncidentsVsTimeChartComponent", (object)incidentes);

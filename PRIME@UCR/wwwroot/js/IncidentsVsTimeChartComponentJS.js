@@ -1,7 +1,21 @@
 ﻿function CreateIncidentsVsTimeChartComponent(incidentsPerDay) {
 
     console.log(incidentsPerDay);
+    console.log(incidentsPerDay[0][0].cita.fechaHoraEstimada.substring(0,10));
     am4core.ready(function () {
+        var chartData = [];
+
+        incidentsPerDay.forEach((perDayList) => {
+            var date = perDayList[0].cita.fechaHoraCreacion.substring(0, 10);
+            var quantity = perDayList.length;
+
+            console.log(date, quantity);
+
+            chartData.push({
+                "date": date,
+                "value": quantity
+            });
+        });
 
         // Themes begin
         am4core.useTheme(am4themes_frozen);
@@ -20,77 +34,7 @@
         chart.scrollbarX = new am4core.Scrollbar();
 
         // Add data
-        chart.data = [{
-            "date": "2012-01-01",
-            "value": 8
-        }, {
-            "date": "2012-01-02",
-            "value": 10
-        }, {
-            "date": "2012-01-03",
-            "value": 12
-        }, {
-            "date": "2012-01-04",
-            "value": 14
-        }, {
-            "date": "2012-01-05",
-            "value": 11
-        }, {
-            "date": "2012-01-06",
-            "value": 6
-        }, {
-            "date": "2012-01-07",
-            "value": 7
-        }, {
-            "date": "2012-01-08",
-            "value": 9
-        }, {
-            "date": "2012-01-09",
-            "value": 13
-        }, {
-            "date": "2012-01-10",
-            "value": 15
-        }, {
-            "date": "2012-01-11",
-            "value": 19
-        }, {
-            "date": "2012-01-12",
-            "value": 21
-        }, {
-            "date": "2012-01-13",
-            "value": 22
-        }, {
-            "date": "2012-01-14",
-            "value": 20
-        }, {
-            "date": "2012-01-15",
-            "value": 18
-        }, {
-            "date": "2012-01-16",
-            "value": 14
-        }, {
-            "date": "2012-01-17",
-            "value": 16,
-            "opacity": 0
-        }, {
-            "date": "2012-01-18",
-            "value": 18
-        }, {
-            "date": "2012-01-19",
-            "value": 17
-        }, {
-            "date": "2012-01-20",
-            "value": 15
-        }, {
-            "date": "2012-01-21",
-            "value": 12
-        }, {
-            "date": "2012-01-22",
-            "value": 10
-        }, {
-            "date": "2012-12-23",
-            "value": 8
-        }];
+        chart.data = chartData;
 
         // Create axes
         var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
@@ -109,15 +53,15 @@
         series.dataFields.dateX = "date";
         series.strokeDasharray = 3;
         series.strokeWidth = 2
-        series.strokeOpacity = 0.3;
+        //series.strokeOpacity = 0.3;
         series.strokeDasharray = "3,3"
 
         var bullet = series.bullets.push(new am4charts.CircleBullet());
         bullet.strokeWidth = 2;
         bullet.stroke = am4core.color("#fff");
         bullet.setStateOnChildren = true;
-        bullet.propertyFields.fillOpacity = "opacity";
-        bullet.propertyFields.strokeOpacity = "opacity";
+        //bullet.propertyFields.fillOpacity = "opacity";
+        //bullet.propertyFields.strokeOpacity = "opacity";
 
         var hoverState = bullet.states.create("hover");
         hoverState.properties.scale = 1.7;
@@ -142,20 +86,21 @@
             return trend;
         };
 
-        createTrendLine([
-            { "date": "2012-01-02", "value": 10 },
-            { "date": "2012-01-11", "value": 19 }
-        ]);
+        
+       // createTrendLine([
+           // { "date": "2012-01-02", "value": 10 },
+           // { "date": "2012-01-11", "value": 19 }
+        //]);
 
-        var lastTrend = createTrendLine([
-            { "date": "2012-01-17", "value": 16 },
-            { "date": "2012-01-22", "value": 10 }
-        ]);
+        //var lastTrend = createTrendLine([
+           // { "date": "2012-01-17", "value": 16 },
+           // { "date": "2012-01-22", "value": 10 }
+        //]);
 
         // Initial zoom once chart is ready
-        lastTrend.events.once("datavalidated", function () {
-            series.xAxis.zoomToDates(new Date(2012, 0, 2), new Date(2012, 0, 13));
-        });
+       // lastTrend.events.once("datavalidated", function () {
+           // series.xAxis.zoomToDates(new Date(2012, 0, 2), new Date(2012, 0, 13));
+        //});
 
     }); // end am4core.ready()
 }

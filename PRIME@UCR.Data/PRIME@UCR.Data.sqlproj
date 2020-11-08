@@ -72,6 +72,7 @@
     <Folder Include="StoredProcedures\UserAdministration" />
     <Folder Include="StoredProcedures\Multimedia" />
     <Folder Include="StoredProcedures\CheckLists" />
+    <Folder Include="Index" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\CheckLists\CheckList.sql" />
@@ -146,5 +147,6 @@
     <None Include="Scripts\PostDeployment\Users_PostDeployment.sql" />
     <None Include="Scripts\PostDeployment\Appointments_PostDeployment.sql" />
     <None Include="Scripts\PostDeployment\MedicalRecords_PostDeployment.sql" />
+    <None Include="Index\IndexCita.sql" />
   </ItemGroup>
 </Project>
