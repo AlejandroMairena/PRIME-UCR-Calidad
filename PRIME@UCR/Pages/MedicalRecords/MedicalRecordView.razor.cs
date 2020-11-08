@@ -9,6 +9,7 @@ using PRIME_UCR.Domain.Models.UserAdministration;
 using System.Runtime.CompilerServices;
 using PRIME_UCR.Application.DTOs.MedicalRecords;
 using System.Linq;
+using PRIME_UCR.Application.Services.MedicalRecords;
 
 namespace PRIME_UCR.Pages.MedicalRecords
 {
@@ -32,7 +33,7 @@ namespace PRIME_UCR.Pages.MedicalRecords
 
         private RecordViewModel viewModel = new RecordViewModel();
 
-        Expediente medical_record_with_details { get; set; }
+        private Task<IEnumerable <Antecedente>> antecedentes;
 
         private void FillTabStates()
         {
@@ -57,14 +58,11 @@ namespace PRIME_UCR.Pages.MedicalRecords
         {
             int identification = Int32.Parse(Id);
             viewModel = await MedicalRecordService.GetIncidentDetailsAsync(identification);
+            antecedentes = MBGS.GetBackgroundByRecordId(identification);
             if (viewModel == null)
                 exists = false;
             else
                 FillTabStates();
-
-            //en teoria en este tiene las citas, entonces nadamas saca la info de aqui. 
-            //de momento el único paciente que tiene citas es el que tiene el expediente con id 28
-            medical_record_with_details = await MedicalRecordService.GetMedicalRecordDetailsLinkedAsync(identification); 
         }
 
 

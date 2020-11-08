@@ -57,6 +57,9 @@ namespace PRIME_UCR.Infrastructure.DataProviders.Implementations
         public DbSet<Pertenece> BelongsTo { get; set; }
         public DbSet<TienePerfil> HasProfile { get; set; }
         public DbSet<Permite> HasPermissionOf { get; set; }
+        public DbSet<Antecedente> MedicalBackground { get; set; }
+        public DbSet<ListaAntecedentes> MedicalBackgroundList { get; set; }
+
         public DbSet<Alergia> Alergies { get; set; }
         public DbSet<ListaAlergia> ListAlergies { get; set; }
         public ApplicationDbContext(DbContextOptions options) : base(options)
@@ -109,6 +112,8 @@ namespace PRIME_UCR.Infrastructure.DataProviders.Implementations
             builder.ApplyConfiguration(new MetricasMap());
             builder.ApplyConfiguration(new MetricasIncidenteMap());
             builder.ApplyConfiguration(new MetricasCitaMedicaMap());
+            builder.ApplyConfiguration(new AntecedenteMap());
+            builder.ApplyConfiguration(new ListaAntecedenteMap());
             builder.ApplyConfiguration(new AlergiaMap());
             builder.ApplyConfiguration(new ListaAlergiaMap());
         }
