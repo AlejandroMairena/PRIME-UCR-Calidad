@@ -2,7 +2,7 @@
 
 <AllChecklistSingleIncident IncidentCod="@Incident.Code" />
 
-@if (Incident.CurrentState == "En proceso de cración" || Incident.CurrentState == "Creado" || Incident.CurrentState == "Rechazado")
+@if (Incident.CurrentState == "En proceso de creación" || Incident.CurrentState == "Creado" || Incident.CurrentState == "Rechazado")
 {
     <MatThemeProvider Theme="@AddButtonTheme">
         <MatFAB Icon="@MatIconNames.Add" Class="app-fab--absolute" OnClick="@(_ => Redirect())"></MatFAB>

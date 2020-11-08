@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[InstanceChecklist]
 (
-	[InstanciadoId] INT NOT NULL,
+	[InstanciadoId] INT IDENTITY (1, 1) NOT NULL,
 	[PlantillaId] int not null,
 	Foreign key (PlantillaId) References CheckList (Id),
 	[IncidentCod] varchar(50) not null ,

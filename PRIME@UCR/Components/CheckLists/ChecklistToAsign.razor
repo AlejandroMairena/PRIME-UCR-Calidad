@@ -12,7 +12,7 @@
         Llenar();//llena todo el vector en false
         //AsignIncidentCode("2020-11-04-0001-IT-TER");
     }
-     
+     dd
     <div  class="rounded" style="background-color: white;padding-left: 10px;padding-right: 10px; padding-top:10px;">
         <h5>Listas de chequeo disponibles</h5>
         <EditForm Model="lists">
@@ -44,7 +44,7 @@
     <br />
     <div  class="rounded" style="background-color: white;padding-left: 10px;padding-right: 10px;padding-top:10px;">
         <h5>Listas de chequeo instanciadas</h5>
-        <EditForm Model="lists">
+        <EditForm Model="lists" OnValidSubmit="@HandleSubmit">
             <Table TableItem="CheckList" Items="lists" PageSize="12">
                 <Column TableItem="CheckList" Title="Nombre" Field="@( x => x.Nombre)" Width="30%">
                     <Template Context="tempList">
@@ -76,10 +76,10 @@
                     </div>
                 </EmptyDataTemplate>
             </Table>
+            <div align="center">
+                <button type="submit" class="btn btn-primary" id="BP_LC0" disabled="@dont_save">Guardar</button>
+                <a class="btn btn-outline-secondary" @onclick="CancelAsignment" id="a_LC3" >Cancelar</a>
+            </div>
         </EditForm>
-    </div>
-    <div align="center">
-        <button type="submit" class="btn btn-primary" id="BP_LC0" disabled="@dont_save">Guardar</button>
-        <a class="btn btn-outline-secondary" @onclick="Dispose" id="a_LC3" >Cancelar</a>
     </div>
 </Loading>
