@@ -51,7 +51,7 @@ namespace PRIME_UCR.Infrastructure.DataProviders
         DbSet<MultimediaContent> Multimedia_Contents { get; set; }
         DbSet<Cita> Appointments { get; set; }
         DbSet<Accion> Actions { get; set; }
-        DbSet<Antecedente> MedicalBackground { get; set; }
+        DbSet<Antecedentes> MedicalBackground { get; set; }
         DbSet<ListaAntecedentes> MedicalBackgroundList { get; set; }
         DbSet<Alergia> Alergies { get; set; }
         DbSet<ListaAlergia> ListAlergies { get; set; }

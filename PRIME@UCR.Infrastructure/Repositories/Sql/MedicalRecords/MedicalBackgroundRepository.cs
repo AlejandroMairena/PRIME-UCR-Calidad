@@ -10,7 +10,7 @@ using PRIME_UCR.Infrastructure.DataProviders;
 
 namespace PRIME_UCR.Infrastructure.Repositories.Sql.MedicalRecords
 {
-    public class MedicalBackgroundRepository : GenericRepository<Antecedente, int>, IMedicalBackgroundRepository
+    public class MedicalBackgroundRepository : GenericRepository<Antecedentes, int>, IMedicalBackgroundRepository
     {
         public MedicalBackgroundRepository(ISqlDataProvider dataProvider) : base(dataProvider)
         {

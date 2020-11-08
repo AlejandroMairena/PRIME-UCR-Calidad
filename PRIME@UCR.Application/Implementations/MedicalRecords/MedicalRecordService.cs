@@ -10,6 +10,7 @@ using PRIME_UCR.Application.Services.MedicalRecords;
 using PRIME_UCR.Domain.Models;
 using PRIME_UCR.Domain.Models.MedicalRecords;
 using PRIME_UCR.Domain.Models.UserAdministration;
+using PRIME_UCR.Infrastructure.Repositories.Sql.MedicalRecords;
 
 namespace PRIME_UCR.Application.Implementations.MedicalRecords
 {
@@ -20,16 +21,18 @@ namespace PRIME_UCR.Application.Implementations.MedicalRecords
         private readonly IPacienteRepository _patientrepo;
         private readonly IFuncionarioRepository _medicrepo;
         private readonly IIncidentRepository _incidentrepo;
-        private readonly IMedicalCenterRepository _mcrepo; 
+        private readonly IMedicalCenterRepository _mcrepo;
+        private readonly IMedicalBackgroundRepository _mbrepo;
 
-        public MedicalRecordService(IMedicalRecordRepository repo, IPersonaRepository personRepo, IPacienteRepository repo1, IFuncionarioRepository repo2, IIncidentRepository incidentrepo, IMedicalCenterRepository mcs)
+        public MedicalRecordService(IMedicalRecordRepository repo, IPersonaRepository personRepo, IPacienteRepository repo1, IFuncionarioRepository repo2, IIncidentRepository incidentrepo, IMedicalCenterRepository mcs, IMedicalBackgroundRepository mbs)
         {
             _repo = repo;
             _personRepo = personRepo;
             _patientrepo = repo1;
             _medicrepo = repo2;
             _incidentrepo = incidentrepo;
-            _mcrepo = mcs; 
+            _mcrepo = mcs;
+            _mbrepo = mbs;
         }
 
 
@@ -178,6 +181,11 @@ namespace PRIME_UCR.Application.Implementations.MedicalRecords
             }
 
             return null;
+        }
+        public async Task<IEnumerable<Antecedentes>> GetBackgroundByRecordId(int recordId)
+        {
+            IEnumerable<Antecedentes> test = await _mbrepo.GetByConditionAsync(i => i.IdExpediente == recordId);
+            return test;
         }
     }
 }

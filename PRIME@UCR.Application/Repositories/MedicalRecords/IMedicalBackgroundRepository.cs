@@ -6,7 +6,7 @@ using PRIME_UCR.Application.Repositories;
 
 namespace PRIME_UCR.Infrastructure.Repositories.Sql.MedicalRecords
 {
-    public interface IMedicalBackgroundRepository : IGenericRepository<Antecedente, int>
+    public interface IMedicalBackgroundRepository : IGenericRepository<Antecedentes, int>
     {
 
     }

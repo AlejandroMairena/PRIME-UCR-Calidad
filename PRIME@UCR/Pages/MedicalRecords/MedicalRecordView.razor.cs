@@ -33,7 +33,7 @@ namespace PRIME_UCR.Pages.MedicalRecords
 
         private RecordViewModel viewModel = new RecordViewModel();
 
-        private Task<IEnumerable <Antecedente>> antecedentes;
+        private List<Antecedentes> antecedentes;
 
         private void FillTabStates()
         {
@@ -58,7 +58,7 @@ namespace PRIME_UCR.Pages.MedicalRecords
         {
             int identification = Int32.Parse(Id);
             viewModel = await MedicalRecordService.GetIncidentDetailsAsync(identification);
-            antecedentes = MBGS.GetBackgroundByRecordId(identification);
+            antecedentes = (await MedicalRecordService.GetBackgroundByRecordId(identification)).ToList();
             if (viewModel == null)
                 exists = false;
             else

@@ -7,22 +7,22 @@ using System.Text;
 
 namespace PRIME_UCR.Infrastructure.EntityConfiguration.MedicalRecords
 {
-    public class AntecedenteMap : IEntityTypeConfiguration<Antecedente>
+    public class AntecedenteMap : IEntityTypeConfiguration<Antecedentes>
     {
-        public void Configure(EntityTypeBuilder<Antecedente> builder)
+        public void Configure(EntityTypeBuilder<Antecedentes> builder)
         {
-            builder.ToTable("Antecedente");
-            builder.HasKey("Id", "IdExpediente", "IdListaAntecedente");
+            builder.ToTable("Antecedentes");
+            builder.HasKey("Id", "IdExpediente", "IdListaAntecedentes");
 
             builder
                 .HasOne(e => e.Expediente)
-                .WithOne()
-                .HasForeignKey<Antecedente>(e => e.IdExpediente);
+                .WithMany(e => e.Antecedentes)
+                .HasForeignKey(e => e.IdExpediente);
 
             builder
                 .HasOne(e => e.ListaAntecedentes)
-                .WithMany(e => e.Antecedente)
-                .HasForeignKey(e => e.IdListaAntecedente);
+                .WithMany(e => e.Antecedentes)
+                .HasForeignKey(e => e.IdListaAntecedentes);
 
         }
     }

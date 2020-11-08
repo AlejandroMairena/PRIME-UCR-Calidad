@@ -13,11 +13,6 @@ namespace PRIME_UCR.Infrastructure.EntityConfiguration.MedicalRecords
         {
             builder.ToTable("ListaAntecedentes");
             builder.HasKey("Id");
-
-            builder
-                .HasMany(e => e.Antecedente)
-                .WithOne();
-
         }
     }
 }

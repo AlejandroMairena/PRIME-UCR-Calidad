@@ -57,7 +57,7 @@ namespace PRIME_UCR.Infrastructure.DataProviders.Implementations
         public DbSet<Pertenece> BelongsTo { get; set; }
         public DbSet<TienePerfil> HasProfile { get; set; }
         public DbSet<Permite> HasPermissionOf { get; set; }
-        public DbSet<Antecedente> MedicalBackground { get; set; }
+        public DbSet<Antecedentes> MedicalBackground { get; set; }
         public DbSet<ListaAntecedentes> MedicalBackgroundList { get; set; }
 
         public DbSet<Alergia> Alergies { get; set; }
