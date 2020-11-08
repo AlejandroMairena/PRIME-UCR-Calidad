@@ -5,35 +5,39 @@
     @if (Active == DetailsTab.Info)
     {
         <PermissionAuthorizeView Permission="@AuthorizationPermissions.CanSeeBasicDetailsOfIncidents">
-            <InfoTab DetailsModel="@Incident" OnSave="@Save"/>
+            <InfoTab DetailsModel="@Incident" OnSave="@Save" />
         </PermissionAuthorizeView>
     }
     else if (Active == DetailsTab.Origin)
     {
         <PermissionAuthorizeView Permission="@AuthorizationPermissions.CanEditBasicDetailsOfIncident">
-            <OriginTab Origin="@Incident.Origin" OnSave="@SaveOrigin"/>
+            <OriginTab Origin="@Incident.Origin" OnSave="@SaveOrigin" />
         </PermissionAuthorizeView>
     }
     else if (Active == DetailsTab.Destination)
     {
         <PermissionAuthorizeView Permission="@AuthorizationPermissions.CanEditBasicDetailsOfIncident">
-            <DestinationTab Destination="@Incident.Destination" OnSave="@SaveDestination"/>
+            <DestinationTab Destination="@Incident.Destination" OnSave="@SaveDestination" />
         </PermissionAuthorizeView>
     }
     else if (Active == DetailsTab.Patient)
     {
-        <PatientTab Incident="@Incident" OnSave="@SavePatient"/>
+        <PermissionAuthorizeView Permission="@AuthorizationPermissions.CanSeeInfoOfIncidentsPatient">
+            <PatientTab Incident="@Incident" OnSave="@SavePatient" />
+        </PermissionAuthorizeView>
     }
     else if (Active == DetailsTab.Multimedia)
     {
-        <MultimediaTab Incident="@Incident"/>
+        <MultimediaTab Incident="@Incident" />
     }
     else if (Active == DetailsTab.Assignment)
     {
-        <Assignment Incident="@Incident" />
+        <PermissionAuthorizeView Permission="@AuthorizationPermissions.CanAssignIncidents">
+            <Assignment Incident="@Incident" />
+        </PermissionAuthorizeView>
     }
     else
     {
-        <h4 class="text-danger">Not found</h4>
-    }
-</div>
+    <h4 class="text-danger">Not found</h4>
+            }
+    </div>

@@ -3,6 +3,9 @@
         @ChildContent
     </Authorized>
     <NotAuthorized>
-        <AuthenticationStateMessage/>
-    </NotAuthorized>
+        @if (ShowDeniedPermissionMessage) 
+        { 
+            <AuthenticationStateMessage />        
+        }
+    </NotAuthorized>     
 </AuthorizeView>

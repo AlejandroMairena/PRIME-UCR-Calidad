@@ -13,5 +13,7 @@ namespace PRIME_UCR.Components.UserAdministration
         public RenderFragment ChildContent { get; set; }
         [Parameter]
         public AuthorizationPermissions Permission { get; set; }
+        [Parameter]
+        public bool ShowDeniedPermissionMessage { get; set; } = true;
     }
 }
