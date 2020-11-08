@@ -29,5 +29,7 @@ namespace PRIME_UCR.Application.Services.MedicalRecords
         Task<Expediente> GetMedicalRecordDetailsLinkedAsync(int identification); 
 
         Task<IEnumerable<Incidente>> GetMedicalRecordIncidents(int recordId);
+
+        Task<IEnumerable<CentroMedico>> GetMedicalCentersAsync(); 
     }
 }

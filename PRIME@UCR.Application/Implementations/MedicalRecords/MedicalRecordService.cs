@@ -20,14 +20,22 @@ namespace PRIME_UCR.Application.Implementations.MedicalRecords
         private readonly IPacienteRepository _patientrepo;
         private readonly IFuncionarioRepository _medicrepo;
         private readonly IIncidentRepository _incidentrepo;
+        private readonly IMedicalCenterRepository _mcrepo; 
 
-        public MedicalRecordService(IMedicalRecordRepository repo, IPersonaRepository personRepo, IPacienteRepository repo1, IFuncionarioRepository repo2, IIncidentRepository incidentrepo)
+        public MedicalRecordService(IMedicalRecordRepository repo, IPersonaRepository personRepo, IPacienteRepository repo1, IFuncionarioRepository repo2, IIncidentRepository incidentrepo, IMedicalCenterRepository mcs)
         {
             _repo = repo;
             _personRepo = personRepo;
             _patientrepo = repo1;
             _medicrepo = repo2;
             _incidentrepo = incidentrepo;
+            _mcrepo = mcs; 
+        }
+
+
+
+        public async Task<IEnumerable<CentroMedico>> GetMedicalCentersAsync() {
+            return await _mcrepo.GetAllAsync(); 
         }
 
         public async Task<IEnumerable<Expediente>> GeyByConditionAsync(string name)
