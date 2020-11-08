@@ -105,8 +105,10 @@
             </div>
         </div>
     }
-    else
+    else if (!_isLoading && !_isAuthorized)
     {
-        <StatusMessage Message="Usted no puede acceder a esta información porque no está asignado a este incidente." Class="danger"></StatusMessage>
+        <StatusMessage
+            Message="Usted no puede acceder a esta información porque no está asignado a este incidente."
+            Class="danger" />
     }
 </Loading>

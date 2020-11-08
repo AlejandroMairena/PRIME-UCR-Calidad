@@ -148,13 +148,14 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
         protected override async Task OnInitializedAsync()
         {
             _context = new EditContext(_model);
-            await LoadExistingValues();
             
             // check if the logged in user is authorized to view this patient's details
             var emailUser = (await AuthenticationState).User.Identity.Name;
             var user = await UserService.getPersonWithDetailstAsync(emailUser);
             _isAuthorized = user != null &&
                             await AssignmentService.IsAuthorizedToViewPatient(Incident.Code, user.Cédula);
+            
+            await LoadExistingValues();
             
             _isLoading = false;
         }
