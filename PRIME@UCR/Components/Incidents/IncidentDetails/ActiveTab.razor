@@ -4,15 +4,21 @@
 <div class="container">
     @if (Active == DetailsTab.Info)
     {
-        <InfoTab DetailsModel="@Incident" OnSave="@Save"/>
+        <PermissionAuthorizeView Permission="@AuthorizationPermissions.CanSeeBasicDetailsOfIncidents">
+            <InfoTab DetailsModel="@Incident" OnSave="@Save"/>
+        </PermissionAuthorizeView>
     }
     else if (Active == DetailsTab.Origin)
     {
-        <OriginTab Origin="@Incident.Origin" OnSave="@SaveOrigin"/>
+        <PermissionAuthorizeView Permission="@AuthorizationPermissions.CanEditBasicDetailsOfIncident">
+            <OriginTab Origin="@Incident.Origin" OnSave="@SaveOrigin"/>
+        </PermissionAuthorizeView>
     }
     else if (Active == DetailsTab.Destination)
     {
-        <DestinationTab Destination="@Incident.Destination" OnSave="@SaveDestination"/>
+        <PermissionAuthorizeView Permission="@AuthorizationPermissions.CanEditBasicDetailsOfIncident">
+            <DestinationTab Destination="@Incident.Destination" OnSave="@SaveDestination"/>
+        </PermissionAuthorizeView>
     }
     else if (Active == DetailsTab.Patient)
     {
