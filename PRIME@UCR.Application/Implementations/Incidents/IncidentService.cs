@@ -243,5 +243,20 @@ namespace PRIME_UCR.Application.Implementations.Incidents
             incident.CedulaRevisor = reviewerId;
             await _incidentRepository.UpdateAsync(incident);
         }
+
+        public async Task<string> GetNextIncidentState(string code)
+        {
+            var currentState = await _statesRepository.GetCurrentStateByIncidentId(code);
+            var nextState = "";
+            for (var index = 0; index < IncidentStates.IncidentStatesList.Count - 1; ++index)
+            {
+                if(currentState.Nombre == IncidentStates.IncidentStatesList[index].Nombre)
+                {
+                    nextState = IncidentStates.IncidentStatesList[index + 1].Nombre;
+                    break;
+                }
+            }
+            return nextState;
+        }
     }
 }

@@ -6,31 +6,37 @@
     @foreach (var state in IncidentStatesList)
     {
         <RadzenMenuItem Text=@state />
-                <!--
-                        <p>
-                            <MatButton Label="@state" OnClick="@OnClick" @ref="Button2" />
-                            <MatMenu @ref="Menu2">
-                                <MatList>
-                                    <MatListItem>En progreso</MatListItem>
-                                </MatList>
-                            </MatMenu>
-                        </p>       -->
     }
     </RadzenMenu>
 
 </div>
 <br />
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th scope="col">Siguiente estado</th>
-            <th scope="col">Pendiente</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>Aceptado</td>
-            <td>En revisión por un coordinador</td>
-        </tr>
-    </tbody>
-</table>
+@if(Incident.CurrentState != "Finalizado")
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Siguiente estado</th>
+                <th scope="col">Pendiente</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@nextState</td>
+                <td>
+                    @if (PendingTasks != null)
+                    {
+                        <p>
+                        @foreach (var task in PendingTasks)
+                        {
+                            @task            
+
+                        }
+                        </p>
+                    }
+                </td>
+            </tr>
+        </tbody>
+    </table>
+}
+
