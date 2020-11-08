@@ -61,7 +61,7 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
             return await _instanceItemRepository.InsertAsync(instanceItem);
         }
 
-        public async Task<IEnumerable<InstanciaItem>> GetByIncidentCodAndCheckListId(string incidentCode, int checklistId) 
+        public async Task<IEnumerable<InstanciaItem>> GetItemsByIncidentCodAndCheckListId(string incidentCode, int checklistId) 
         {
             IEnumerable<InstanciaItem> items = await _instanceItemRepository.GetByIncidentCodAndCheckListId(incidentCode, checklistId);
             return items;
