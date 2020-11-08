@@ -1,10 +1,10 @@
 ﻿CREATE TABLE [dbo].[InstanceChecklist]
 (
-	[InstanciadoId] INT IDENTITY (1, 1) NOT NULL,
+	[InstanciadoId] INT not null,
 	[PlantillaId] int not null,
-	Foreign key (PlantillaId) References CheckList (Id),
+	Foreign key (PlantillaId) References CheckList (Id) On Delete Cascade,
 	[IncidentCod] varchar(50) not null ,
-	Foreign key (IncidentCod) References Incidente (Codigo),
+	Foreign key (IncidentCod) References Incidente (Codigo) On Delete Cascade,
 	[Completado] bit null default(0),
 	[FechaHoraInicio] DATETIME null,
 	[FechaHoraFinal] DATETIME null, 

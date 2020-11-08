@@ -152,7 +152,7 @@ namespace PRIME_UCR.Components.CheckLists
                 if (tempList.IsDone)
                 {
                     ++countlist;
-                    //instance.InstanciadoId = count;//to review
+                    instance.InstanciadoId = tempList.idd;//to review
                     instance.IncidentCod = incidentCod;
                     instance.PlantillaId = tempList.idd;
                     await MyInstanceChecklistService.InsertInstanceChecklist(instance);

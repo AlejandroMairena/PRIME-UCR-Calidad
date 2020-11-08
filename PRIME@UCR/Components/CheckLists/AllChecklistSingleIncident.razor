@@ -26,7 +26,7 @@
                         <Column TableItem="InstanceChecklist" Title="Nombre" Field="@( x => x.InstanciadoId)" Width="30%">
                             <Template Context="tempList">
                                 <a>
-                                    @GetName2(tempList.InstanciadoId);
+                                    @GetName2(tempList.InstanciadoId)
                                 </a>
                             </Template>
 
@@ -34,14 +34,14 @@
                         <Column TableItem="InstanceChecklist" Title="Tipo" Field="@(x => x.InstanciadoId)" Width="20%">
                             <Template Context="tempList">
                                 <a>
-                                    @GetTipo2(tempList.InstanciadoId);
+                                    @GetTipo2(tempList.InstanciadoId)
                                 </a>
                             </Template>
                         </Column>
                         <Column TableItem="InstanceChecklist" Title="Descripción" Field="@(x => x.InstanciadoId)" Width="20%">
                             <Template Context="tempList">
                                 <a>
-                                    @GetDescp2(tempList.InstanciadoId);
+                                    @GetDescp2(tempList.InstanciadoId)
                                 </a>
                             </Template>
                         </Column>
