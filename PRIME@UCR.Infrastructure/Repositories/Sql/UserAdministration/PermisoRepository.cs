@@ -7,15 +7,17 @@ using PRIME_UCR.Application.Repositories.UserAdministration;
 using PRIME_UCR.Application.Services.UserAdministration;
 using PRIME_UCR.Domain.Models.UserAdministration;
 using PRIME_UCR.Infrastructure.DataProviders;
+using PRIME_UCR.Infrastructure.Permissions.UserAdministration;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
 {
-    public class PermisoRepository : IPermisoRepository
+    public partial class PermisoRepository : IPermisoRepository
     {
         private readonly IPrimeSecurityService primeSecurityService;
 
@@ -33,5 +35,10 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
             await primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             return await _db.Permissions.ToListAsync();
         }
+    }
+
+    [MetadataType(typeof(PermisoRepositoryAuthorization))]
+    public partial class PermisoRepository
+    {
     }
 }

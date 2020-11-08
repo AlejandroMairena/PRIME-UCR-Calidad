@@ -6,15 +6,17 @@ using PRIME_UCR.Application.Repositories.UserAdministration;
 using PRIME_UCR.Application.Services.UserAdministration;
 using PRIME_UCR.Domain.Models.UserAdministration;
 using PRIME_UCR.Infrastructure.DataProviders;
+using PRIME_UCR.Infrastructure.Permissions.UserAdministration;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
 {
-    public class PerteneceRepository : IPerteneceRepository
+    public partial class PerteneceRepository : IPerteneceRepository
     {
         private readonly IPrimeSecurityService _primeSecurityService;
 
@@ -73,7 +75,11 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
 
                 }
             });
-
         }
+    }
+
+    [MetadataType(typeof(PerteneceRepositoryAuthorization))]
+    public partial class PerteneceRepository
+    {
     }
 }

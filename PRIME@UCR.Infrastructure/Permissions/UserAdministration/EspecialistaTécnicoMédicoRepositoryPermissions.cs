@@ -9,11 +9,6 @@ using System.Threading.Tasks;
 
 namespace PRIME_UCR.Infrastructure.Permissions.UserAdministration
 {
-    [AuthorizationType(typeof(EspecialistaTécnicoMédicoRepositoryAuthorization))]
-    public partial class EspecialistaTécnicoMédicoRepository
-    {
-    }
-
     public abstract class EspecialistaTécnicoMédicoRepositoryAuthorization
     {
         [RequirePermissions(new[] { AuthorizationPermissions.CanAssignIncidents })]

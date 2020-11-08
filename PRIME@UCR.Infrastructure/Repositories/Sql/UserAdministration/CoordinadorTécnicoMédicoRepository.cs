@@ -13,10 +13,12 @@ using PRIME_UCR.Application.Services.UserAdministration;
 using PRIME_UCR.Application.DTOs.UserAdministration;
 using PRIME_UCR.Application.Exceptions.UserAdministration;
 using System.Reflection;
+using PRIME_UCR.Infrastructure.Permissions.UserAdministration;
+using System.ComponentModel.DataAnnotations;
 
 namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
 {
-    public class CoordinadorTécnicoMédicoRepository : ICoordinadorTécnicoMédicoRepository
+    public partial class CoordinadorTécnicoMédicoRepository : ICoordinadorTécnicoMédicoRepository
     {
         private readonly ISqlDataProvider _db;
 
@@ -81,5 +83,10 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
         {
             throw new NotImplementedException();
         }
+    }
+
+    [MetadataType(typeof(CoordinadorTécnicoMédicoRepositoryAuthorization))]
+    public partial class CoordinadorTécnicoMédicoRepository
+    {
     }
 }

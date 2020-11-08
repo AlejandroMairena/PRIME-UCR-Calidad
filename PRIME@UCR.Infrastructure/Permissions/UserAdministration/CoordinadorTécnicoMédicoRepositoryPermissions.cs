@@ -8,11 +8,6 @@ using System.Threading.Tasks;
 
 namespace PRIME_UCR.Infrastructure.Permissions.UserAdministration
 {
-    [AuthorizationType(typeof(CoordinadorTécnicoMédicoRepositoryAuthorization))]
-    public partial class CoordinadorTécnicoMédicoRepository
-    {
-    }
-
     public abstract class CoordinadorTécnicoMédicoRepositoryAuthorization
     {
         [RequirePermissions(new[] { AuthorizationPermissions.CanAssignIncidents })]

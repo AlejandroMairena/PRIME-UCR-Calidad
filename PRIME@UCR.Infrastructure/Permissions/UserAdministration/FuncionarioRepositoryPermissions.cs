@@ -9,11 +9,6 @@ using System.Threading.Tasks;
 
 namespace PRIME_UCR.Infrastructure.Permissions.UserAdministration
 {
-    [AuthorizationType(typeof(FuncionarioRepositoryAuthorization))]
-    public partial class FuncionarioRepository
-    {
-    }
-
     public abstract class FuncionarioRepositoryAuthorization
     {
         [RequirePermissions(new[] { AuthorizationPermissions.CanAssignIncidents })]

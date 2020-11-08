@@ -24,6 +24,9 @@ namespace PRIME_UCR.Components.UserAdministration
         [Inject]
         public IPermiteService permiteService { get; set; }
 
+        [Inject]
+        public AuthenticationStateProvider authenticationStateProvider { get; set; }
+
         public List<Permiso> ListPermissions { get; set; }
 
         [Parameter]
@@ -75,6 +78,7 @@ namespace PRIME_UCR.Components.UserAdministration
                     Value.StatusMessage = "El permiso \"" + Permission.DescripciónPermiso + "\" fue removido del perfil " + Value.ProfileName + ". Para que los usuarios afectados puedan notar los cambios, deberán reiniciar su sesión.";
                     Value.StatusMessageType = "warning";
                 }
+                await authenticationStateProvider.GetAuthenticationStateAsync();
                 Value.CheckedPermissions[idPermission-1] = (bool)e.Value;
                 await ValueChanged.InvokeAsync(Value);
             }

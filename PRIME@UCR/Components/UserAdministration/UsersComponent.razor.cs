@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using PRIME_UCR.Application.DTOs.UserAdministration;
+using Microsoft.AspNetCore.Components.Authorization;
 
 namespace PRIME_UCR.Components.UserAdministration
 {
@@ -22,6 +23,9 @@ namespace PRIME_UCR.Components.UserAdministration
 
         [Inject]
         public IPerteneceService perteneceService { get; set; }
+
+        [Inject]
+        public AuthenticationStateProvider authenticationStateProvider { get; set; }
 
         public List<Usuario> ListUsers { get; set; }
 
@@ -79,6 +83,7 @@ namespace PRIME_UCR.Components.UserAdministration
                     Value.StatusMessageType = "warning";
                 }
                 Value.CheckedUsers[(Value.CheckedUsers.FindIndex(p => p.Item1 == IdUser))] =  new Tuple<string, bool>(IdUser,(bool)e.Value);
+                await authenticationStateProvider.GetAuthenticationStateAsync();
                 await ValueChanged.InvokeAsync(Value);
             }
         }

@@ -5,8 +5,10 @@ using PRIME_UCR.Application.Repositories.UserAdministration;
 using PRIME_UCR.Application.Services.UserAdministration;
 using PRIME_UCR.Domain.Models.UserAdministration;
 using PRIME_UCR.Infrastructure.DataProviders;
+using PRIME_UCR.Infrastructure.Permissions.UserAdministration;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Reflection;
 using System.Text;
@@ -14,7 +16,7 @@ using System.Threading.Tasks;
 
 namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
 {
-    public class UsuarioRepository : IUsuarioRepository
+    public partial class UsuarioRepository : IUsuarioRepository
     {
 
         private readonly ISqlDataProvider _db;
@@ -59,5 +61,10 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
             .Include(u => u.Persona)
             .FirstAsync(u => u.Id == id);
         }
+    }
+
+    [MetadataType(typeof(UsuarioRepositoryAuthorization))]
+    public partial class UsuarioRepository
+    {
     }
 }

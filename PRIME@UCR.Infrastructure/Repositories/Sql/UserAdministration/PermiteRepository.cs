@@ -11,10 +11,12 @@ using PRIME_UCR.Application.Services.UserAdministration;
 using PRIME_UCR.Application.DTOs.UserAdministration;
 using PRIME_UCR.Application.Exceptions.UserAdministration;
 using System.Reflection;
+using PRIME_UCR.Infrastructure.Permissions.UserAdministration;
+using System.ComponentModel.DataAnnotations;
 
 namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
 {
-    public class PermiteRepository : IPermiteRepository
+    public partial class PermiteRepository : IPermiteRepository
     {
         
         private readonly ISqlDataProvider _db;
@@ -74,5 +76,10 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
                 }
             });
         }
+    }
+
+    [MetadataType(typeof(PermiteRepositoryAuthorization))]
+    public partial class PermiteRepository
+    {
     }
 }

@@ -13,10 +13,12 @@ using PRIME_UCR.Application.Services.UserAdministration;
 using PRIME_UCR.Application.Exceptions.UserAdministration;
 using PRIME_UCR.Application.DTOs.UserAdministration;
 using System.Reflection;
+using PRIME_UCR.Infrastructure.Permissions.UserAdministration;
+using System.ComponentModel.DataAnnotations;
 
 namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
 {
-    public class DoctorRepository : IDoctorRepository
+    public partial class DoctorRepository : IDoctorRepository
     {
         private readonly ISqlDataProvider _db;
 
@@ -98,5 +100,10 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
                 await connection.UpdateAsync(nameof(Médico), new {model.Cédula});
             }
         }
+    }
+
+    [MetadataType(typeof(DoctorRepositoryAuthorization))]
+    public partial class DoctorRepository
+    {
     }
 }

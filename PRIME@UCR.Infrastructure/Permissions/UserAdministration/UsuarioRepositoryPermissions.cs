@@ -8,10 +8,6 @@ using System.Threading.Tasks;
 
 namespace PRIME_UCR.Infrastructure.Permissions.UserAdministration
 {
-    [AuthorizationType(typeof(UsuarioRepositoryAuthorization))]
-    public partial class UsuarioRepository
-    {
-    }
     public abstract class UsuarioRepositoryAuthorization
     {
         [RequirePermissions(new[] {AuthorizationPermissions.CanCreateUsers, AuthorizationPermissions.CanModifyUsers})]
