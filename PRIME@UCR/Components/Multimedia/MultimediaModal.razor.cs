@@ -4,6 +4,7 @@ using PRIME_UCR.Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Threading.Tasks;
 
 namespace PRIME_UCR.Components.Multimedia
@@ -24,12 +25,29 @@ namespace PRIME_UCR.Components.Multimedia
         public bool ShowImage { get; set; } = false;
         [Parameter]
         public MultimediaContent MContent { get; set; }
-
+        [Parameter]
+        public bool ShowText { get; set; } = false;
 
         async Task CloseImageView()
         {
             Show = false;
             await OnClose.InvokeAsync(Show);
+        }
+        string getSrc() {
+            //string src = MContent.Archivo; 
+            //AQUI HAY QUE DESENCRIPTAR EL ARCHIVO Y EL PATH PARA HACERLO DINAMICO
+            string src = "img/practica.png";
+            return src;
+        }
+        string getName() {
+            string src = "practica.png";
+            return src;
+        }
+        async Task getText() {
+            //AQUI HAY QUE DESENCRIPTAR EL ARCHIVO Y EL PATH PARA HACERLO DINAMICO
+            //string path = MContent.Archivo;
+            string path = "img/prueba.pdf";
+            await JS.InvokeAsync<bool>("showTxt", path);
         }
 
     }

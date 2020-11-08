@@ -32,6 +32,7 @@ namespace PRIME_UCR.Components.Multimedia
         bool showCamera = false;
         bool showMicrophone = false;
         bool showImage = false;
+        bool showText = false;
         MultimediaContent modalMContent = null;
 
         protected override void OnInitialized()
@@ -136,12 +137,16 @@ namespace PRIME_UCR.Components.Multimedia
             string pathQuemadoPDF = "img/prueba.pdf";
 
             //SE LLAMA A UN METODO GENERAL QUE DIFERENCIA LAS VISTAS DE LOS TIPOS
-            await JS.InvokeAsync<bool>("showMultimedia", pathQuemadoImg, nombreQuemadoImg, type);
+            //await JS.InvokeAsync<bool>("showMultimedia", pathQuemadoImg, nombreQuemadoImg, type);
+            switch (type) {
+                case "image/png":
+                    OpenImage(mcontent); //AQUI SE LLAMA AL ABRIR IMAGEN
+                    break;
+                case "application/pdf":
+                    OpenText(mcontent);
+                    break;
+            }
         }
-        async Task CloseImageView() {
-            await JS.InvokeAsync<bool>("closeView");
-        }
-
         string InvalidTypeMessage()
         {
             string datas = "El archivo seleccionado no se encuentra dentro de los archivos válidos. Por favor seleccione un archivo con las siguientes extensiones: ";
@@ -165,32 +170,40 @@ namespace PRIME_UCR.Components.Multimedia
             }
             return name; 
         }
-
-
-
         void OpenCamera()
         {
             showModal = true;
             showCamera = true;
             showMicrophone = false;
             showImage = false;
+            showText = false;
             modalMContent = null;
         }
-
-        void OpenMicrophone()
+        void OpenMicrophone(MultimediaContent mcontent)
         {
             showModal = true;
             showCamera = false;
             showMicrophone = true;
             showImage = false;
+            showText = false;
             modalMContent = null;
         }
         void OpenImage(MultimediaContent mcontent)
         {
             showModal = true;
             showCamera = false;
-            showMicrophone = true;
+            showMicrophone = false;
             showImage = true;
+            showText = false;
+            modalMContent = mcontent;
+        }
+        void OpenText(MultimediaContent mcontent) 
+        {
+            showModal = false;
+            showCamera = false;
+            showMicrophone = false;
+            showImage = false;
+            showText = true;
             modalMContent = mcontent;
         }
 

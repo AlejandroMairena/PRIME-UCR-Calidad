@@ -14,10 +14,21 @@
     }
     @if (ShowImage)
     {
-        <img class="modal-content-image-mc">
+        string imgSrc = getSrc();
+        string captionName = getName();
+        <img src=@imgSrc class="modal-content-image-mc">
+        <div id="caption">@captionName</div>
     }
-
-    <div id="caption"></div>
+    if(ShowAudio){
+        
+    
+    }
 </div>
 }
+else {
+    if (ShowText) {
+       getText();
+    }
+}
+
 
