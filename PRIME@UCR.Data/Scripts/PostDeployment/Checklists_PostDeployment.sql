@@ -1,5 +1,9 @@
 ﻿DELETE FROM CheckList
 DELETE FROM Item
+DELETE FROM InstanceChecklist
+DELETE FROM InstanciaItemHoja
+DELETE FROM InstanciaItemPadre
+DELETE FROM InstanciaItem
 
 DBCC CHECKIDENT ('CheckList', RESEED, 0)
 DBCC CHECKIDENT ('Item', RESEED, 0)

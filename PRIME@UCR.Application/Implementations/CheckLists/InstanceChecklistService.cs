@@ -19,11 +19,13 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
     public class InstanceChecklistService : IInstanceChecklistService
     {
         private readonly IInstanceChecklistRepository _instancechecklistRepository;
-       // private readonly IItemRepository _itemRepository;
+        private readonly IInstanceItemRepository _instanceItemRepository;
+        // private readonly IItemRepository _itemRepository;
 
-        public InstanceChecklistService(IInstanceChecklistRepository instancechecklistRepository)//, IItemRepository itemRepository)
+        public InstanceChecklistService(IInstanceChecklistRepository instancechecklistRepository, IInstanceItemRepository instanceItemRepository)//, IItemRepository itemRepository)
         {
             _instancechecklistRepository = instancechecklistRepository;
+            _instanceItemRepository = instanceItemRepository;
             //_itemRepository = itemRepository;
         }
 
@@ -52,6 +54,17 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
         {
             await _instancechecklistRepository.UpdateAsync(list);
             return list;
+        }
+
+        public async Task<InstanciaItem> InsertInstanceItem(InstanciaItem instanceItem)
+        {
+            return await _instanceItemRepository.InsertAsync(instanceItem);
+        }
+
+        public async Task<IEnumerable<InstanciaItem>> GetByIncidentCodAndCheckListId(string incidentCode, int checklistId) 
+        {
+            IEnumerable<InstanciaItem> items = await _instanceItemRepository.GetByIncidentCodAndCheckListId(incidentCode, checklistId);
+            return items;
         }
     }
 }
