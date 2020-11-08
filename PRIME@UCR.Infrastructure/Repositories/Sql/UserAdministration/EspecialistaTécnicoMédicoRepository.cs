@@ -11,6 +11,7 @@ using RepoDb;
 using PRIME_UCR.Application.Services.UserAdministration;
 using PRIME_UCR.Application.DTOs.UserAdministration;
 using PRIME_UCR.Application.Exceptions.UserAdministration;
+using System.Reflection;
 
 namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
 {
@@ -34,6 +35,7 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
 
         public async Task<IEnumerable<EspecialistaTécnicoMédico>> GetAllAsync()
         {
+            await primeSecurityService.CheckIfIsAuthorizedAsync(MethodBase.GetCurrentMethod());
             using (var connection = new SqlConnection(_db.DbConnection.ConnectionString))
             {
                 var result = await connection.ExecuteQueryAsync<EspecialistaTécnicoMédico>(@"

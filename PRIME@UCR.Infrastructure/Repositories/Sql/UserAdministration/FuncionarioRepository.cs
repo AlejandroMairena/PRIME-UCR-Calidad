@@ -8,6 +8,7 @@ using PRIME_UCR.Infrastructure.DataProviders;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -26,15 +27,9 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
 
         public async Task<List<Funcionario>> GetAllAsync()
         {
-            if ((await primeSecurityService.isAuthorizedAsync(AuthorizationPolicies.CanManageMedicalRecords)))
-            {
-                return await _db.Functionaries.ToListAsync();
+            await primeSecurityService.CheckIfIsAuthorizedAsync(MethodBase.GetCurrentMethod());
+            return await _db.Functionaries.ToListAsync();
 
-            }
-            else
-            {
-                throw new NotAuthorizedException();
-            }
         }
     }
 }

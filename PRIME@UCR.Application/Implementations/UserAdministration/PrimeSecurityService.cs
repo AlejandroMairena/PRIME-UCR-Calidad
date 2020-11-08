@@ -29,7 +29,7 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
         public async Task CheckIfIsAuthorizedAsync(MethodBase method)
         {
             if (method == null) throw new ArgumentNullException("method");
-            
+
             var permissions =
                 method.DeclaringType
                     .GetCustomAttribute<AuthorizationTypeAttribute>()
