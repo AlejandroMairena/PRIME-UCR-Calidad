@@ -25,6 +25,7 @@ function showImage(path, filename) {
     captionText.innerHTML = filename;
     return true;
 }
+
 function showPdf(path,filename) {
     console.log("ESTOY MOSTRANDO UN PDF");
     let win = window.open(path,'_blank');

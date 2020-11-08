@@ -27,6 +27,12 @@ namespace PRIME_UCR.Components.Multimedia
         string ddMenuClass = "dropdown-menu";
         string invalidMessage = "";
 
+        // Modal Variables 
+        bool showModal = false;
+        bool showCamera = false;
+        bool showMicrophone = false;
+        bool showImage = false;
+        MultimediaContent modalMContent = null;
 
         protected override void OnInitialized()
         {
@@ -115,12 +121,7 @@ namespace PRIME_UCR.Components.Multimedia
             return false;
         }
 
-        async Task OpenCamera()
-        {
-            showCamera = !showCamera;
-            if (showCamera)
-                await JS.InvokeAsync<bool>("openCamera", new object[1] { videoElement });
-        }
+       
         async Task ShowPopUp(MultimediaContent mcontent) {
             //para probar, esta con una imagen y path quemadas
             string name = mcontent.Nombre; //
@@ -141,7 +142,7 @@ namespace PRIME_UCR.Components.Multimedia
             await JS.InvokeAsync<bool>("closeView");
         }
 
-        string invalidType()
+        string InvalidTypeMessage()
         {
             string datas = "El archivo seleccionado no se encuentra dentro de los archivos válidos. Por favor seleccione un archivo con las siguientes extensiones: ";
             for (int i = 0; i < validTypeFiles.Count(); ++i)
@@ -154,7 +155,7 @@ namespace PRIME_UCR.Components.Multimedia
             }
             return datas;
         }
-        string getButonName(MultimediaContent mcontent) {
+        string GetButonName(MultimediaContent mcontent) {
             string name = "";
             if (mcontent.Tipo == "audio/mpeg") {
                 name = "Escuchar";
@@ -163,6 +164,34 @@ namespace PRIME_UCR.Components.Multimedia
                 name = "Ver"; 
             }
             return name; 
+        }
+
+
+
+        void OpenCamera()
+        {
+            showModal = true;
+            showCamera = true;
+            showMicrophone = false;
+            showImage = false;
+            modalMContent = null;
+        }
+
+        void OpenMicrophone()
+        {
+            showModal = true;
+            showCamera = false;
+            showMicrophone = true;
+            showImage = false;
+            modalMContent = null;
+        }
+        void OpenImage(MultimediaContent mcontent)
+        {
+            showModal = true;
+            showCamera = false;
+            showMicrophone = true;
+            showImage = true;
+            modalMContent = mcontent;
         }
 
     }
