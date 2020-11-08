@@ -19,9 +19,17 @@
         <img src=@imgSrc class="modal-content-image-mc">
         <div id="caption">@captionName</div>
     }
-    if(ShowAudio){
-        
-    
+    @if(ShowAudio){
+        string path = getAudio();
+        <audio controls="controls">
+             <source src=@path type="audio/mpeg">
+        </audio>
+    }
+    @if(ShowVideo){
+        string vid = getVideo();
+        <video width="1280" height="720" controls="controls">
+             <source src=@vid type="video/mp4">
+        </video>
     }
 </div>
 }

@@ -27,7 +27,8 @@ namespace PRIME_UCR.Components.Multimedia
         public MultimediaContent MContent { get; set; }
         [Parameter]
         public bool ShowText { get; set; } = false;
-
+        [Parameter]
+        public bool ShowAudio { get; set; } = false;
         async Task CloseImageView()
         {
             Show = false;
@@ -40,14 +41,23 @@ namespace PRIME_UCR.Components.Multimedia
             return src;
         }
         string getName() {
+            //MContent tiene el name, hay que sacarlo de ahi para que sea dinamico
             string src = "practica.png";
             return src;
         }
         async Task getText() {
             //AQUI HAY QUE DESENCRIPTAR EL ARCHIVO Y EL PATH PARA HACERLO DINAMICO
             //string path = MContent.Archivo;
-            string path = "img/prueba.pdf";
+            string path = "img/prueba.txt";
             await JS.InvokeAsync<bool>("showTxt", path);
+        }
+        string getAudio() {
+            string path = "img/prueba.mp3";
+            return path;
+        }
+        string getVideo() {
+            string path = "img/prueba.mp4";
+            return path;
         }
 
     }

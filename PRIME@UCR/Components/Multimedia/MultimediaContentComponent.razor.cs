@@ -30,9 +30,10 @@ namespace PRIME_UCR.Components.Multimedia
         // Modal Variables 
         bool showModal = false;
         bool showCamera = false;
-        bool showMicrophone = false;
+        bool showAudio = false;
         bool showImage = false;
         bool showText = false;
+        bool showVideo = false;
         MultimediaContent modalMContent = null;
 
         protected override void OnInitialized()
@@ -128,14 +129,6 @@ namespace PRIME_UCR.Components.Multimedia
             string name = mcontent.Nombre; //
             string pathEncrypted = mcontent.Archivo; //AQUI EL PATH ESTA ENCRIPTADO
             string type = mcontent.Tipo;
-
-            //hacer query para encontrar el archivo por el ID y desencriptar el path y el archivo
-            //SOLO FUNCIONA CON IMAGENES
-            string nombreQuemadoImg = "practica.png";
-            string pathQuemadoImg = "img/practica.png";
-            string nombreQuemadoPDF = "prueba.pdf";
-            string pathQuemadoPDF = "img/prueba.pdf";
-
             //SE LLAMA A UN METODO GENERAL QUE DIFERENCIA LAS VISTAS DE LOS TIPOS
             //await JS.InvokeAsync<bool>("showMultimedia", pathQuemadoImg, nombreQuemadoImg, type);
             switch (type) {
@@ -143,6 +136,15 @@ namespace PRIME_UCR.Components.Multimedia
                     OpenImage(mcontent); //AQUI SE LLAMA AL ABRIR IMAGEN
                     break;
                 case "application/pdf":
+                    OpenText(mcontent);
+                    break;
+                case "audio/mpeg":
+                    OpenAudio(mcontent);
+                    break;
+                case "video/mp4":
+                    OpenVideo(mcontent);
+                    break;
+                case "text/plain":
                     OpenText(mcontent);
                     break;
             }
@@ -174,38 +176,51 @@ namespace PRIME_UCR.Components.Multimedia
         {
             showModal = true;
             showCamera = true;
-            showMicrophone = false;
+            showAudio = false;
             showImage = false;
             showText = false;
+            showVideo = false;
             modalMContent = null;
         }
-        void OpenMicrophone(MultimediaContent mcontent)
+        void OpenAudio(MultimediaContent mcontent)
         {
             showModal = true;
             showCamera = false;
-            showMicrophone = true;
+            showAudio = true;
             showImage = false;
             showText = false;
-            modalMContent = null;
+            showVideo = false;
+            modalMContent = mcontent;
         }
         void OpenImage(MultimediaContent mcontent)
         {
             showModal = true;
             showCamera = false;
-            showMicrophone = false;
+            showAudio = false;
             showImage = true;
             showText = false;
+            showVideo = false;
             modalMContent = mcontent;
         }
         void OpenText(MultimediaContent mcontent) 
         {
             showModal = false;
             showCamera = false;
-            showMicrophone = false;
+            showAudio = false;
             showImage = false;
             showText = true;
+            showVideo = false;
             modalMContent = mcontent;
         }
+        void OpenVideo(MultimediaContent mcontent) {
+            showModal = true;
+            showCamera = false;
+            showAudio = false;
+            showImage = false;
+            showText = false;
+            showVideo = true;
+            modalMContent = mcontent;
 
+        }
     }
 }
