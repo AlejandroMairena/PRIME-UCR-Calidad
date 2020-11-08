@@ -17,12 +17,12 @@ namespace PRIME_UCR.Infrastructure.EntityConfiguration.MedicalRecords
             builder
                 .HasOne(e => e.Expediente)
                 .WithOne()
-                .HasForeignKey<Alergia>(e => e.Expediente);
+                .HasForeignKey<Alergia>(e => e.IdExpediente);
 
             builder
                 .HasOne(e => e.ListaAlergia)
                 .WithMany(e => e.Alergia)
-                .HasForeignKey(e => e.ListaAlergia);
+                .HasForeignKey(e => e.IdListaAlergia);
 
         }
     }

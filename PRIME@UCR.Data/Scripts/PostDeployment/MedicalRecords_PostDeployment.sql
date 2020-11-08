@@ -30,7 +30,7 @@ VALUES
     ('Hipertension'),
     ('Problemas del corazón');
 
-INSERT INTO Antecedentes(IdListaAntecedentes, IdExpediente)
-VALUES
-    (4,1002);
+--INSERT INTO Antecedentes(IdListaAntecedentes, IdExpediente)
+--VALUES
+--    (4,1002);
 

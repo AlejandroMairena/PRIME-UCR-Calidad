@@ -12,17 +12,17 @@ namespace PRIME_UCR.Infrastructure.EntityConfiguration.MedicalRecords
         public void Configure(EntityTypeBuilder<Antecedente> builder)
         {
             builder.ToTable("Antecedente");
-            builder.HasKey("Id", "IdExpediente", "IdListaAntecedentes");
+            builder.HasKey("Id", "IdExpediente", "IdListaAntecedente");
 
             builder
                 .HasOne(e => e.Expediente)
                 .WithOne()
-                .HasForeignKey<Antecedente>(e => e.Expediente);
+                .HasForeignKey<Antecedente>(e => e.IdExpediente);
 
             builder
                 .HasOne(e => e.ListaAntecedentes)
                 .WithMany(e => e.Antecedente)
-                .HasForeignKey(e => e.ListaAntecedentes);
+                .HasForeignKey(e => e.IdListaAntecedente);
 
         }
     }

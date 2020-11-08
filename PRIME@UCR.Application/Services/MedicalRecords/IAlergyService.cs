@@ -10,10 +10,6 @@ namespace PRIME_UCR.Application.Services.MedicalRecords
 {
     public interface IAlergyService
     {
-        Task<IEnumerable<Alergia>> GetAllAsync();
-
-        Task<Alergia> InsertAsync(Alergia alergia);
-
-        Task<Expediente> GetByMedicalRecordIdAsync(int id);
+        Task<IEnumerable<Alergia>> GetAlergyByRecordId(int recordId);
     }
 }

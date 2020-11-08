@@ -18,24 +18,15 @@ namespace PRIME_UCR.Application.Implementations.MedicalRecords
     public class AlergyService : IAlergyService
     {
         private readonly IAlergyRepository _repo;
-        public async Task<Alergia> GetByIdAsync(int id, int idExpediente, int idListaAlergias)
+
+        public AlergyService(IAlergyRepository repo)
         {
-            //hacer metodo para retornar valor de llaves conjuntas
-            return await _repo.GetByKeyAsync(id,idExpediente,idListaAlergias);
-        }
-        public async Task<IEnumerable<Alergia>> GetAllAsync()
-        {
-            return await _repo.GetAllAsync();
+            _repo = repo;
         }
 
-        public async Task<Alergia> InsertAsync(Alergia alergia)
+        public async Task<IEnumerable<Alergia>> GetAlergyByRecordId(int recordId)
         {
-            return await _repo.InsertAsync(alergia);
-        }
-
-        public async Task<Alergia> GetByMedicalRecordIdAsync(int id)
-        {
-            return await _repo.GetByMedicalRecordIdAsync(id);
+            return await _repo.GetByConditionAsync(i => i.IdExpediente == recordId);
         }
     }
 }
