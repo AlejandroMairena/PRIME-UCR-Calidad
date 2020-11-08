@@ -8,6 +8,7 @@ using PRIME_UCR.Domain.Models.UserAdministration;
 using PRIME_UCR.Infrastructure.DataProviders;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -29,59 +30,49 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
 
         public async Task DeleteUserFromProfileAsync(string idUser, string idProfile)
         {
-            if ((await _primeSecurityService.isAuthorizedAsync(AuthorizationPolicies.CanManageUsers)))
+            await _primeSecurityService.CheckIfIsAuthorizedAsync(MethodBase.GetCurrentMethod());
+            await Task.Run(() =>
             {
-                await Task.Run(() =>
+                using (var cmd = _db.DbConnection.CreateCommand())
                 {
-                    using (var cmd = _db.DbConnection.CreateCommand())
+                    while (cmd.Connection.State != System.Data.ConnectionState.Open)
                     {
-                        while (cmd.Connection.State != System.Data.ConnectionState.Open)
-                        {
-                            cmd.Connection.Open();
-                        }
-                        if (cmd.Connection.State == System.Data.ConnectionState.Open)
-                        {
-                            cmd.CommandText =
-                                $"EXECUTE dbo.DeleteUserFromProfile @idUser='{idUser}', @idProfile='{idProfile}'";
-
-                            cmd.ExecuteNonQuery();
-                        }
-
+                        cmd.Connection.Open();
                     }
-                });
-            }
-            else
-            {
-                throw new NotAuthorizedException();
-            }
+                    if (cmd.Connection.State == System.Data.ConnectionState.Open)
+                    {
+                        cmd.CommandText =
+                            $"EXECUTE dbo.DeleteUserFromProfile @idUser='{idUser}', @idProfile='{idProfile}'";
+
+                        cmd.ExecuteNonQuery();
+                    }
+
+                }
+            });
         }
 
         public async Task InsertUserToProfileAsync(string idUser, string idProfile)
         {
-            if((await _primeSecurityService.isAuthorizedAsync(AuthorizationPolicies.CanManageUsers)))
+            await _primeSecurityService.CheckIfIsAuthorizedAsync(MethodBase.GetCurrentMethod());
+
+            await Task.Run(() =>
             {
-                await Task.Run(() =>
+                using (var cmd = _db.DbConnection.CreateCommand())
                 {
-                    using (var cmd = _db.DbConnection.CreateCommand())
+                    while (cmd.Connection.State != System.Data.ConnectionState.Open)
                     {
-                        while (cmd.Connection.State != System.Data.ConnectionState.Open)
-                        {
-                            cmd.Connection.Open();
-                        }
-                        if (cmd.Connection.State == System.Data.ConnectionState.Open)
-                        {
-                            cmd.CommandText =
-                                $"EXECUTE dbo.InsertUserToProfile @idUsuario='{idUser}', @nombrePerfil='{idProfile}'";
-
-                            cmd.ExecuteNonQuery();
-                        }
-
+                        cmd.Connection.Open();
                     }
-                });
-            } else
-            {
-                throw new NotAuthorizedException();
-            }
+                    if (cmd.Connection.State == System.Data.ConnectionState.Open)
+                    {
+                        cmd.CommandText =
+                            $"EXECUTE dbo.InsertUserToProfile @idUsuario='{idUser}', @nombrePerfil='{idProfile}'";
+
+                        cmd.ExecuteNonQuery();
+                    }
+
+                }
+            });
 
         }
     }

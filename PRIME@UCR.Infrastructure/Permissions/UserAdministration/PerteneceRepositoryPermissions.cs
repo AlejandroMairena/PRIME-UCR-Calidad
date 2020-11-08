@@ -1,24 +1,23 @@
 ﻿using PRIME_UCR.Domain.Attributes;
 using PRIME_UCR.Domain.Constants;
-using PRIME_UCR.Domain.Models.UserAdministration;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PRIME_UCR.Application.Permissions.UserAdministration
+namespace PRIME_UCR.Infrastructure.Permissions.UserAdministration
 {
-    [AuthorizationType(typeof(DoctorServiceAuthorization))]
-    public partial class DoctorService
+    [AuthorizationType(typeof(PerteneceRepositoryAuthorization))]
+    public partial class PerteneceRepository
     {
     }
-
-    public abstract class DoctorServiceAuthorization
+    public abstract class PerteneceRepositoryAuthorization
     {
         [RequirePermissions(new[] { AuthorizationPermissions.CanCreateUsers, AuthorizationPermissions.CanModifyUsers })]
-        public abstract Task<Médico> GetDoctorByIdAsync(string id);
+        public abstract Task DeleteUserFromProfileAsync(string idUser, string idProfile);
 
         [RequirePermissions(new[] { AuthorizationPermissions.CanCreateUsers, AuthorizationPermissions.CanModifyUsers })]
-        public abstract Task<IEnumerable<Médico>> GetAllDoctorsAsync();
+        public abstract Task InsertUserToProfileAsync(string idUser, string idProfile);
+
     }
 }

@@ -8,6 +8,7 @@ using PRIME_UCR.Infrastructure.DataProviders;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -43,32 +44,20 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
 
         public async Task<Usuario> GetUserByEmailAsync(string email)
         {
-            if ((await _primeSecurityService.isAuthorizedAsync(AuthorizationPolicies.CanManageUsers)))
-            {
-                return await _db.Usuarios
-                .Include(u => u.Persona)
-                .Include(u => u.UsuariosYPerfiles)
-                .FirstAsync(u => u.Email == email);
-            }
-            else
-            {
-                throw new NotAuthorizedException();
-            }
+            await _primeSecurityService.CheckIfIsAuthorizedAsync(MethodBase.GetCurrentMethod());
+            return await _db.Usuarios
+            .Include(u => u.Persona)
+            .Include(u => u.UsuariosYPerfiles)
+            .FirstAsync(u => u.Email == email);
         }
 
         public async Task<Usuario> GetWithDetailsAsync(string id)
         {
-            if ((await _primeSecurityService.isAuthorizedAsync(AuthorizationPolicies.CanManageUsers)))
-            {
-                return await _db.Usuarios
-                .Include(u => u.UsuariosYPerfiles)
-                .Include(u => u.Persona)
-                .FirstAsync(u => u.Id == id);
-            }
-            else
-            {
-                throw new NotAuthorizedException();
-            }
+            await _primeSecurityService.CheckIfIsAuthorizedAsync(MethodBase.GetCurrentMethod());
+            return await _db.Usuarios
+            .Include(u => u.UsuariosYPerfiles)
+            .Include(u => u.Persona)
+            .FirstAsync(u => u.Id == id);
         }
     }
 }

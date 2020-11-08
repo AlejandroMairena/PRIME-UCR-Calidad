@@ -6,6 +6,7 @@ using PRIME_UCR.Domain.Models.UserAdministration;
 using PRIME_UCR.Infrastructure.DataProviders;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -26,15 +27,9 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
 
         public async Task AddPhoneNumberAsync(NúmeroTeléfono phoneNumber)
         {
-            if ((await primeSecurityService.isAuthorizedAsync(AuthorizationPolicies.CanManageUsers))) 
-            { 
-                await _db.PhoneNumbers.AddAsync(phoneNumber);
-                await _db.SaveChangesAsync();
-            }
-            else
-            {
-                throw new NotAuthorizedException();
-            }
+            await primeSecurityService.CheckIfIsAuthorizedAsync(MethodBase.GetCurrentMethod());
+            await _db.PhoneNumbers.AddAsync(phoneNumber);
+            await _db.SaveChangesAsync();
         }
     }
 }

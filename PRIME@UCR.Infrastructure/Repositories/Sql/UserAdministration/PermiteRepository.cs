@@ -10,6 +10,7 @@ using System.Data.Common;
 using PRIME_UCR.Application.Services.UserAdministration;
 using PRIME_UCR.Application.DTOs.UserAdministration;
 using PRIME_UCR.Application.Exceptions.UserAdministration;
+using System.Reflection;
 
 namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
 {
@@ -29,60 +30,49 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
 
         public async Task DeletePermissionAsync(string idProfile, int idPermission) 
         {
-            if ((await primeSecurityService.isAuthorizedAsync(AuthorizationPolicies.CanManageUsers)))
+            await primeSecurityService.CheckIfIsAuthorizedAsync(MethodBase.GetCurrentMethod());
+
+            await Task.Run(() =>
             {
-                await Task.Run(() =>
+                using (var cmd = _db.DbConnection.CreateCommand())
                 {
-                    using (var cmd = _db.DbConnection.CreateCommand())
+                    while (cmd.Connection.State != System.Data.ConnectionState.Open) 
                     {
-                        while (cmd.Connection.State != System.Data.ConnectionState.Open) 
-                        {
-                            cmd.Connection.Open();
-                        }
-                        if (cmd.Connection.State == System.Data.ConnectionState.Open) 
-                        {
-                            cmd.CommandText =
-                                $"EXECUTE dbo.DeletePermissionFromProfile @idPermission='{idPermission}', @idProfile='{idProfile}'";
-
-                            cmd.ExecuteNonQuery();
-                        }
-                    
+                        cmd.Connection.Open();
                     }
-                });
-            } else
-            {
-                throw new NotAuthorizedException();
-            }
+                    if (cmd.Connection.State == System.Data.ConnectionState.Open) 
+                    {
+                        cmd.CommandText =
+                            $"EXECUTE dbo.DeletePermissionFromProfile @idPermission='{idPermission}', @idProfile='{idProfile}'";
 
+                        cmd.ExecuteNonQuery();
+                    }
+                    
+                }
+            });
         }
         public async Task InsertPermissionAsync(string idProfile, int idPermission)
         {
-            if ((await primeSecurityService.isAuthorizedAsync(AuthorizationPolicies.CanManageUsers)))
+            await primeSecurityService.CheckIfIsAuthorizedAsync(MethodBase.GetCurrentMethod());
+
+            await Task.Run(() =>
             {
-                await Task.Run(() =>
+                using (var cmd = _db.DbConnection.CreateCommand())
                 {
-                    using (var cmd = _db.DbConnection.CreateCommand())
+                    while (cmd.Connection.State != System.Data.ConnectionState.Open)
                     {
-                        while (cmd.Connection.State != System.Data.ConnectionState.Open)
-                        {
-                            cmd.Connection.Open();
-                        }
-                        if (cmd.Connection.State == System.Data.ConnectionState.Open)
-                        {
-                            cmd.CommandText =
-                                $"EXECUTE dbo.InsertPermissionToProfile @idPermission='{idPermission}', @idProfile='{idProfile}'";
-
-                            cmd.ExecuteNonQuery();
-                        }
-
+                        cmd.Connection.Open();
                     }
-                });
-            }
-            else 
-            {
-                throw new NotAuthorizedException();
-            }
+                    if (cmd.Connection.State == System.Data.ConnectionState.Open)
+                    {
+                        cmd.CommandText =
+                            $"EXECUTE dbo.InsertPermissionToProfile @idPermission='{idPermission}', @idProfile='{idProfile}'";
 
+                        cmd.ExecuteNonQuery();
+                    }
+
+                }
+            });
         }
     }
 }
