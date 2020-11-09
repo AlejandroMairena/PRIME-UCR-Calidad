@@ -12,16 +12,16 @@ namespace PRIME_UCR.Application.Permissions.UserAdministration
     
     public abstract class UserServiceAuthorization
     {
-        [RequirePermissions(new[]{ AuthorizationPermissions.CanModifyUsers })] 
+        [RequirePermissions(new[]{ AuthorizationPermissions.CanManageUsers })] 
         public abstract Task<Persona> getPersonWithDetailstAsync(string email);
 
-        [RequirePermissions(new[] { AuthorizationPermissions.CanCreateUsers, AuthorizationPermissions.CanModifyUsers })]
+        [RequirePermissions(new[] { AuthorizationPermissions.CanManageUsers })]
         public abstract Task<UserFormModel> GetUserFormFromRegisterUserFormAsync(RegisterUserFormModel userToRegister);
 
-        [RequirePermissions(new[] { AuthorizationPermissions.CanCreateUsers, AuthorizationPermissions.CanModifyUsers })]
+        [RequirePermissions(new[] { AuthorizationPermissions.CanManageUsers })]
         public abstract Task<Usuario> GetUserFromUserModelAsync(UserFormModel userToRegister);
 
-        [RequirePermissions(new[] { AuthorizationPermissions.CanCreateUsers })]
+        [RequirePermissions(new[] { AuthorizationPermissions.CanManageUsers })]
         public abstract Task<bool> StoreUserAsync(UserFormModel userToRegist, string password);
     }
 }

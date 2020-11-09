@@ -10,7 +10,7 @@ namespace PRIME_UCR.Infrastructure.Permissions.UserAdministration
 {
     public abstract class PermisoRepositoryAuthorization
     {
-        [RequirePermissions(new[] { AuthorizationPermissions.CanCreateUsers, AuthorizationPermissions.CanModifyUsers })]
+        [RequirePermissions(new[] { AuthorizationPermissions.CanManageUsers })]
         public abstract Task<List<Permiso>> GetAllAsync();
     }
 }

@@ -10,10 +10,10 @@ namespace PRIME_UCR.Application.Permissions.UserAdministration
 
     public abstract class PerteneceServiceAuthorization
     {
-        [RequirePermissions(new[] { AuthorizationPermissions.CanCreateUsers, AuthorizationPermissions.CanModifyUsers })]
+        [RequirePermissions(new[] { AuthorizationPermissions.CanManageUsers })]
         public abstract Task DeleteUserOfProfileAsync(string idUser, string idProfile);
 
-        [RequirePermissions(new[] { AuthorizationPermissions.CanCreateUsers, AuthorizationPermissions.CanModifyUsers })]
+        [RequirePermissions(new[] { AuthorizationPermissions.CanManageUsers })]
         public abstract Task InsertUserOfProfileAsync(string idUser, string idProfile);
     }
 

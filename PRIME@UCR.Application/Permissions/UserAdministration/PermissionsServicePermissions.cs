@@ -10,7 +10,7 @@ namespace PRIME_UCR.Application.Permissions.UserAdministration
 {
     public abstract class PermissionServiceAuthorization
     {
-        [RequirePermissions(new[] { AuthorizationPermissions.CanCreateUsers, AuthorizationPermissions.CanModifyUsers })]
+        [RequirePermissions(new[] { AuthorizationPermissions.CanManageUsers })]
         public abstract Task<IEnumerable<Permiso>> GetPermisos();
     }
 }

@@ -1,7 +1,6 @@
 ﻿@page  "/user_administration"
 
-@attribute [HasPermission(AuthorizationPermissions.CanModifyUsers)]
-@attribute [HasPermission(AuthorizationPermissions.CanCreateUsers)]
+@attribute [HasPermission(AuthorizationPermissions.CanManageUsers)]
 
 @using ChartJs.Blazor.Charts
 @using PRIME_UCR.Application.Implementations.UserAdministration;

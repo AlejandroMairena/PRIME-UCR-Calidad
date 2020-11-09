@@ -11,13 +11,13 @@ namespace PRIME_UCR.Application.Permissions.UserAdministration
 
     public abstract class PatientServiceAuthorization
     {
-        [RequirePermissions(new[] { AuthorizationPermissions.CanCreateUsers, AuthorizationPermissions.CanModifyUsers })]
+        [RequirePermissions(new[] { AuthorizationPermissions.CanManageUsers })]
         public abstract Task<Paciente> GetPatientByIdAsync(string id);
 
-        [RequirePermissions(new[] { AuthorizationPermissions.CanCreateUsers, AuthorizationPermissions.CanModifyUsers })]
+        [RequirePermissions(new[] { AuthorizationPermissions.CanManageUsers })]
         public abstract Task<Paciente> CreatePatientAsync(Paciente entity);
 
-        [RequirePermissions(new[] { AuthorizationPermissions.CanCreateUsers, AuthorizationPermissions.CanModifyUsers })]
+        [RequirePermissions(new[] { AuthorizationPermissions.CanManageUsers })]
         public abstract Task<Paciente> InsertPatientOnlyAsync(Paciente entity);
     }
 }

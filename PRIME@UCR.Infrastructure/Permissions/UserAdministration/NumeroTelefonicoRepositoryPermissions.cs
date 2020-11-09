@@ -10,7 +10,7 @@ namespace PRIME_UCR.Infrastructure.Permissions.UserAdministration
 {
     public abstract class NumeroTelefonicoRepositoryAuthorization
     {
-        [RequirePermissions(new[] { AuthorizationPermissions.CanCreateUsers })]
+        [RequirePermissions(new[] { AuthorizationPermissions.CanManageUsers })]
         public abstract Task AddPhoneNumberAsync(NúmeroTeléfono phoneNumber);
     }
 }

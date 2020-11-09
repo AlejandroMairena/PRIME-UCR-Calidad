@@ -26,8 +26,7 @@
 
     public enum AuthorizationPermissions
     {
-        CanCreateUsers = 1,
-        CanModifyUsers,
+        CanManageUsers = 1,
         CanCreateChecklist,
         CanInstantiateChecklist,
         CanSeeIncidentsList,
@@ -47,6 +46,5 @@
         CanEditMedicalInfoOfIncidentsPatient,
         CanAssignIncidents,
         CanCreateIncidents,
-        CanAccessDashboard,
     }
 }

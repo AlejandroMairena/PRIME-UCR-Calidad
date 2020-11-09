@@ -9,10 +9,10 @@ namespace PRIME_UCR.Infrastructure.Permissions.UserAdministration
 {
     public abstract class PerteneceRepositoryAuthorization
     {
-        [RequirePermissions(new[] { AuthorizationPermissions.CanCreateUsers, AuthorizationPermissions.CanModifyUsers })]
+        [RequirePermissions(new[] { AuthorizationPermissions.CanManageUsers })]
         public abstract Task DeleteUserFromProfileAsync(string idUser, string idProfile);
 
-        [RequirePermissions(new[] { AuthorizationPermissions.CanCreateUsers, AuthorizationPermissions.CanModifyUsers })]
+        [RequirePermissions(new[] { AuthorizationPermissions.CanManageUsers })]
         public abstract Task InsertUserToProfileAsync(string idUser, string idProfile);
 
     }

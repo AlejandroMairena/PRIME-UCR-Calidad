@@ -10,10 +10,10 @@ namespace PRIME_UCR.Infrastructure.Permissions.UserAdministration
 {
     public abstract class UsuarioRepositoryAuthorization
     {
-        [RequirePermissions(new[] {AuthorizationPermissions.CanCreateUsers, AuthorizationPermissions.CanModifyUsers})]
+        [RequirePermissions(new[] {AuthorizationPermissions.CanManageUsers })]
         public abstract Task<Usuario> GetUserByEmailAsync(string email);
 
-        [RequirePermissions(new[] { AuthorizationPermissions.CanCreateUsers, AuthorizationPermissions.CanModifyUsers })]
+        [RequirePermissions(new[] { AuthorizationPermissions.CanManageUsers })]
         public abstract Task<Usuario> GetWithDetailsAsync(string id);
 
     }
