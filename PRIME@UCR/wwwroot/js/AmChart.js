@@ -13,6 +13,9 @@
         // Create chart instance
         var chart = am4core.create("chartdiv", am4charts.XYChart3D);
 
+        //Change language 
+        chart.language.locale = am4lang_es_ES;
+
         var dataArray = [];
 
         var aerialIncidents = 0;

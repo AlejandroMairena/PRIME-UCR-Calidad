@@ -25,6 +25,9 @@
         var chart = am4core.create("IncidentsVsDestinationLocationComponentJS", am4charts.XYChart);
         chart.padding(40, 40, 40, 40);
 
+        //Change language 
+        chart.language.locale = am4lang_es_ES;
+
         var categoryAxis = chart.yAxes.push(new am4charts.CategoryAxis());
         categoryAxis.renderer.grid.template.location = 0;
         categoryAxis.dataFields.category = "destination";

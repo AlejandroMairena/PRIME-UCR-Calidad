@@ -25,6 +25,9 @@
         // Create chart instance
         var chart = am4core.create("IncidentsVsTimeChartComponentJS", am4charts.XYChart);
 
+        //Change language 
+        chart.language.locale = am4lang_es_ES;
+
         // Enable chart cursor
         chart.cursor = new am4charts.XYCursor();
         chart.cursor.lineX.disabled = true;
@@ -48,7 +51,7 @@
 
         // Create series
         var series = chart.series.push(new am4charts.LineSeries());
-        series.tooltipText = "{date}\n[bold font-size: 17px]value: {valueY}[/]";
+        series.tooltipText = "{date}\n[bold font-size: 17px]# Incidentes: {valueY}[/]";
         series.dataFields.valueY = "value";
         series.dataFields.dateX = "date";
         series.strokeDasharray = 3;
