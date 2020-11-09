@@ -17,12 +17,8 @@ namespace PRIME_UCR.Pages.CheckLists
         public CheckListToInstanceBase()
         {
             llenado = false;
-           /* foreach (var templist in lists)
-            {
-                TempDetail.Add(false);
-                //int idd = @templist.Id;
-                //TempsIds.Add(idd);
-            }*/
+            count = 0;
+            dont_save = true;
         }
         protected IEnumerable<CheckList> lists { get; set; }
         public bool llenado;
@@ -30,7 +26,9 @@ namespace PRIME_UCR.Pages.CheckLists
         public List<CheckList> TempInstance = new List<CheckList>();
         public List<Todo> TempDetail = new List<Todo>();
         public List<int> TempsIds = new List<int>();
-
+        public int count;
+        public bool dont_save;
+        [Parameter] public string incidentcod { get; set; }
         protected override async Task OnInitializedAsync()
         {
             await RefreshModels();
@@ -47,8 +45,13 @@ namespace PRIME_UCR.Pages.CheckLists
         }
         public void Dispose()
         {
-            TempsIds.Clear();
-            TempDetail.Clear();
+            foreach (var temp in TempDetail)
+            {
+                temp.IsDone = false;
+            }
+            Update();
+            OnInitialized();
+            dont_save = true;
         }
         /*protected bool CheckIempList(int id)
         {
@@ -68,6 +71,34 @@ namespace PRIME_UCR.Pages.CheckLists
             StateHasChanged();
             return resultado;
         }*/
+        protected void CheckIempList(int idd, ChangeEventArgs e)
+        {
+            if ((bool)e.Value)
+            {
+                TempDetail[TempsIds.IndexOf(idd)].IsDone = true;
+                count++;
+                update_save();
+            }
+            else
+            {
+                TempDetail[TempsIds.IndexOf(idd)].IsDone = false;
+                count--;
+                update_save();
+            }
+        }
+
+        public void update_save()
+        {
+            if (count > 0)
+            {
+                dont_save = false;
+            }
+            else
+            {
+                dont_save = true;
+            }
+        }
+
         protected void toggleItemChangeComponent()
         {
         }
