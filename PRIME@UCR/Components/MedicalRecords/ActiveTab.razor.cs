@@ -29,5 +29,8 @@ namespace PRIME_UCR.Components.MedicalRecords
 
         [Parameter] 
         public List<Alergias> Alergias { get; set; }
+
+        [Parameter] 
+        public List<ListaAlergia> ListaAlergia { get; set; }
     }
 }

@@ -1,6 +1,6 @@
 ﻿<h3>MedicalBackgroundTab</h3>
 @using PRIME_UCR.Domain.Models.MedicalRecords
-<EditForm EditContext="_cont">
+<EditForm EditContext="_contAnte">
     <DropDownMenu T="ListaAntecedentes" Data="ListaAntecedentes"
                   Label="Antecedentes Medicos"
                   TextProperty="NombreAntecedente"
@@ -8,4 +8,14 @@
                   Required="false"
                   Disabled="false"
                   @bind-Value="@antecedetePrueba" />
+</EditForm>
+
+<EditForm EditContext="_contAle">
+    <DropDownMenu T="ListaAlergia" Data="ListaAlergia"
+                  Label="Antecedentes Medicos"
+                  TextProperty="NombreAlergia"
+                  DefaultText="Seleccione una alergia"
+                  Required="false"
+                  Disabled="false"
+                  @bind-Value="@AlergiaPrueba" />
 </EditForm>

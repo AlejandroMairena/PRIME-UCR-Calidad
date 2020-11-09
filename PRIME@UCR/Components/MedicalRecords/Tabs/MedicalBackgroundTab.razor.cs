@@ -11,19 +11,21 @@ namespace PRIME_UCR.Components.MedicalRecords.Tabs
     public partial class MedicalBackgroundTab
     {
         [Parameter] public List<Antecedentes> Antecedentes { get; set; }
-
         [Parameter] public List<ListaAntecedentes> ListaAntecedentes { get; set; }
         [Parameter] public List<Alergias> Alergias { get; set; }
-
-        private EditContext _cont;
+        [Parameter] public List<ListaAlergia> ListaAlergia { get; set; }
+        private EditContext _contAnte;
+        private EditContext _contAle;
 
         List<string> prueba = new List<string>() { "Uws", "Uwus", "Uwo", "Uwu" };
 
         public ListaAntecedentes antecedetePrueba;
+        public ListaAlergia AlergiaPrueba;
 
         protected override async Task OnInitializedAsync()
         {
-            _cont = new EditContext(ListaAntecedentes);
+            _contAnte = new EditContext(ListaAntecedentes);
+            _contAle = new EditContext(ListaAlergia);
         }
     }
 }
