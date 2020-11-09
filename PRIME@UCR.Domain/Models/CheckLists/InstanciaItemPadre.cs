@@ -4,8 +4,11 @@ using System.Text;
 
 namespace PRIME_UCR.Domain.Models.CheckLists
 {
-    public class InstanciaItemPadre : InstanciaItem
+    public class InstanciaItemPadre
     {
+        public int ItemId { get; set; }
+        public int PlantillaId { get; set; }
+        public string IncidentCod { get; set; }
         public DateTime? FechaHoraInicio { get; set; }
         public DateTime? FechaHoraFinal { get; set; }
         public List<InstanciaItemHoja> ItemsHoja { get; set; }

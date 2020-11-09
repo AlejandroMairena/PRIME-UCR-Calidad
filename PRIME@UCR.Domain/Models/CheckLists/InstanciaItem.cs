@@ -4,7 +4,7 @@ using System.Text;
 
 namespace PRIME_UCR.Domain.Models.CheckLists
 {
-    public abstract class InstanciaItem
+    public class InstanciaItem
     {
         public int ItemId { get; set; }
         public int PlantillaId { get; set; }

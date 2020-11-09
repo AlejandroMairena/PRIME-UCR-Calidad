@@ -10,7 +10,19 @@ namespace PRIME_UCR.Infrastructure.EntityConfiguration.CheckLists
         public void Configure(EntityTypeBuilder<InstanciaItemHoja> builder)
         {
             builder.ToTable("InstanciaItemHoja");
-            // no key because it is a derived type
+            builder
+                .Property(i => i.ItemId)
+                .HasColumnName("Id_Item")
+                .IsRequired();
+            builder
+                .Property(i => i.PlantillaId)
+                .HasColumnName("Id_Lista")
+                .IsRequired();
+            builder
+                .Property(i => i.IncidentCod)
+                .HasColumnName("Codigo_Incidente")
+                .IsRequired();
+            builder.HasKey(k => new { k.ItemId, k.PlantillaId, k.IncidentCod });
             builder
                 .HasOne<InstanciaItem>()
                 .WithMany()
