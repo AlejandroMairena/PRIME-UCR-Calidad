@@ -19,5 +19,10 @@ namespace PRIME_UCR.Domain.Models.MedicalRecords
 
         public string Clinica { get; set; }
 
+        public Gender Sexo { get; set;  }
+
+        public string Genero { get; set; }
+
+        public CentroMedico CentroMedico { get; set; }
     }
 }

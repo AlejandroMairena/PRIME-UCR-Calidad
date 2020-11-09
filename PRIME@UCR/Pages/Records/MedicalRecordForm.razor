@@ -18,14 +18,17 @@
         @switch (patient_status)
         {
             case 0:
+                //el expediente ya existe en la base de datos.
                 <StatusMessage Message="El Expediente que desea registrar ya se encuentra registrado, complete la información faltante" Class="primary"></StatusMessage>
                 break;
 
             case 1:
+                //el paciente ya se encuentra en la base de datos, pero no existe expediente relacionado al paciente.
                 <StatusMessage Message="Expediente creado, complete la información faltante" Class="primary"></StatusMessage>
                 break;
 
             case 2:
+                //no existe ni paciente ni expediente.
                 <StatusMessage Message="Los datos ingresados no se encuentran registrados, favor llenar el formulario" Class="primary"></StatusMessage>
                 break;
 
@@ -41,54 +44,108 @@
         }
     }
 
-    <EditForm EditContext="_context">
-        <FluentValidationValidator />
-        <TextBox Label="Cédula del paciente" Value="@RecordModel.CedPaciente" ValueExpression="() => RecordModel.CedPaciente" ValueChanged="(string id) => SetPatientCed(id)" />
-        @if (RecordModel.Paciente == null)
-        {
-            <div class="mt-2">
-                <button class="btn btn-primary">Guardar</button>
-            </div>
-        }
-    </EditForm>
+    <div class="row">
+        <div class="col-xl-4 col-lg-6">
+            <EditForm EditContext="_context">
+                <FluentValidationValidator />
+                <TextBox Label="Cédula del paciente" Value="@RecordModel.CedPaciente" ValueExpression="() => RecordModel.CedPaciente" ValueChanged="(string id) => SetPatientCed(id)" />
+            </EditForm>
+        </div>
+    </div>
 </Loading>
 
 
 @if (RecordModel.Expediente != null)
 {
-<EditForm EditContext="RecordContext" OnValidSubmit="SaveRecordData">
-    <FluentValidationValidator />
-    @if (RecordModel?.Expediente.CedulaMedicoDuenno == null)
-    {
-        <TextBox Label="Cédula médico creador" ValueExpression="() => RecordModel.CedMedicoDuenno" ValueChanged="(string id) => SetMedicCed(id)" />
-    }
-    else
-    {
-        <TextBox Disabled="true" @bind-Value="RecordModel.CedMedicoDuenno" Label="Cédula médico creador" />
-    }
+    <div class="row">
+        <div class="col-xl-4 col-lg-6">
+            <EditForm EditContext="RecordContext" OnValidSubmit="SaveRecordData">
+                <FluentValidationValidator />
+
+                @if (RecordModel?.Expediente.CedulaMedicoDuenno == null)
+                {
+                    <TextBox Label="Cédula médico creador" ValueExpression="() => RecordModel.CedMedicoDuenno" ValueChanged="(string id) => SetMedicCed(id)" />
+                }
+                else
+                {
+                    <TextBox Disabled="true" @bind-Value="RecordModel.CedMedicoDuenno" Label="Cédula médico creador" />
+                }
 
 
-    @if (RecordModel?.Expediente.Clinica == null)
-    {
+                @if (RecordModel?.Expediente.Clinica == null)
+                {
 
-        <DropDownMenu T="string" Data="Clinicas" Label="Centro Médico" DefaultText="Seleccione una Clinica" TextProperty="Nombre" Value="@clinica" ValueExpression="() => clinica" ValueChanged="@((string mc) => MedicalCenterSelected(mc))" />
+                    <DropDownMenu T="CentroMedico" Data="clinics" Label="Centro Médico" DefaultText="Seleccione una Clinica" TextProperty="Nombre" Value="@clinic" ValueExpression="() => clinic" ValueChanged="@((CentroMedico mc) => MedicalCenterSelected(mc))" />
 
-    }
+                    /*<DropDownMenu T="CentroMedico" Data="clinics" Label="Centro Médico" DefaultText="Seleccione una Clinica" TextExpression="@((CentroMedico mc) => EnumUtils.GetDescription(mc))"
+                                  Required="false" Disabled="patient_status != 2" @bind-Value="RecordModel.CentroMedico" /> */
 
-    <button class="btn btn-dark">Guardar</button>
-</EditForm>
+                }
+
+                <button class="btn btn-dark">Guardar</button>
+            </EditForm>
+        </div>
+    </div>
 
 }
 
+<hr />
 
-@if (RecordModel.Paciente != null && form_2_done)
+
+@if (RecordModel.Paciente != null)
 {
+    @switch (patient_status)
+    {
+        case 0:
+            //el expediente ya existe en la base de datos.
+            <StatusMessage Message="El paciente se encuentra registrado" Class="primary"></StatusMessage>
+            break;
 
-    <EditForm EditContext="PatientContext" OnValidSubmit="SavePatientData">
-        <FluentValidationValidator />
-        <TextBox Disabled="patient_status != 2" @bind-Value="RecordModel.Paciente.Nombre" Label="Nombre" />
-    </EditForm>
+        case 1:
+            //el paciente ya se encuentra en la base de datos, pero no existe expediente relacionado al paciente.
+            <StatusMessage Message="El expediente se encuentra registrado" Class="primary"></StatusMessage>
+            break;
 
+        case 2:
+            //no existe ni paciente ni expediente.
+            <StatusMessage Message="El paciente no se encuentra registrado" Class="primary"></StatusMessage>
+            break;
+
+    }
+}
+
+
+@if (RecordModel.Paciente != null)
+{
+    <div class="row">
+        <div class="col-xl-4 col-lg-6">
+            <EditForm EditContext="PatientContext" OnValidSubmit="SavePatientData">
+                <FluentValidationValidator />
+                <TextBox Disabled="patient_status != 2" @bind-Value="RecordModel.Paciente.Nombre" Label="Nombre" />
+                <TextBox Disabled="patient_status != 2" @bind-Value="RecordModel.Paciente.PrimerApellido" Label="Primer Apellido" />
+
+                @*no esta registrado ó no se encuentra vacio*@
+                @if (patient_status == 2 || !String.IsNullOrEmpty(RecordModel.Paciente.SegundoApellido))
+                {
+                    <TextBox Disabled="patient_status != 2" Required="false" @bind-Value="RecordModel.Paciente.SegundoApellido" Label="Segundo apellido" />
+                }
+
+                @if (patient_status == 2 || RecordModel?.Paciente?.FechaNacimiento != null)
+                {
+                    <DatePicker Disabled="patient_status != 2" @bind-Value="RecordModel.Paciente.FechaNacimiento" Label="Fecha de nacimiento" Max="@DateTime.Today" Min="@DateTime.Today.AddYears(-120)" Required="false" />
+                }
+
+                @if (patient_status == 2 || RecordModel?.Paciente?.Sexo != null)
+                {
+
+                    <DropDownMenu T="Gender" Data="genders" Label="Sexo" DefaultText="Seleccione un sexo" TextExpression="@((Gender g) => EnumUtils.GetDescription(g))"
+                        Required="false" Disabled="patient_status != 2" @bind-Value="RecordModel.Sexo" />
+                }
+
+                <button class="btn btn-dark">Guardar</button>
+            </EditForm>
+        </div>
+    </div>
 
 
 
@@ -97,6 +154,7 @@
 
 
 @code {
+
 
     private bool form_2_done = false;
 
@@ -116,54 +174,48 @@
 
     public int medic_status = -1;
 
-    public string clinica { get; set; }
+    public CentroMedico clinic { get; set; }
 
-    public List<string> Clinicas  = new List<string>() {
-        "Centro Nacional de Rehabilitación Humberto Araya Rojas", "Hospital México", "Hospital Cima", "Hospital CEACO"
+    public Gender gender = new Gender();
+
+
+    public List<CentroMedico> clinics = new List<CentroMedico>
+    {
+        new CentroMedico { Nombre = "Centro Nacional de Rehabilitación Humberto Araya Rojas"},
+        new CentroMedico { Nombre = "Hospital México"},
+        new CentroMedico { Nombre = "Hospital Cima" },
+        new CentroMedico { Nombre = "Hospital CEACO"}
+
     };
 
+    public List<Gender> genders;
 
     public CentroMedico medical_center = new CentroMedico();
 
     [Parameter] public RecordModel RecordModel { get; set; }
-    //[Parameter] public Expediente Expediente { get; set; }
-    //[Parameter] public string Msg_dropdown { get; set; }
     [Parameter] public string Submit_msg { get; set; }
-    //[Parameter] public List<string> Medicos { get; set; }
-    //[Parameter] public List<string> Pacientes { get; set; }
     [Parameter] public EventCallback OnValidSubmit { get; set; }
 
+    private readonly List<Gender?> Genders = new List<Gender?>();
 
     private async Task SaveRecordData()
     {
-        RecordModel.Expediente.Clinica = RecordModel.Clinica;
+        RecordModel.Expediente.Clinica = RecordModel.CentroMedico.Nombre;
         RecordModel.Expediente.CedulaMedicoDuenno = RecordModel.CedMedicoDuenno;
 
-        form_2_done = true; 
-        //hacer lo correspondiente para guardar la información en la base de datos. 
+        //hacer lo correspondiente para guardar la información en la base de datos.
+
     }
 
     private async Task SavePatientData()
     {
+        RecordModel.Paciente.Sexo = RecordModel.Sexo.ToString();
 
 
-    }
-
-    /*
-    private async Task MedicalCenterSelected(CentroMedico mc)
-    {
-
-        RecordModel.Expediente.Clinica = mc.Nombre;
+        //hacer lo correspondiente para guardar la información en la base de datos.
 
     }
-    */
 
-    private async Task MedicalCenterSelected(string mc)
-    {
-
-        RecordModel.Clinica = mc;
-
-    }
 
     protected override async Task OnInitializedAsync()
     {
@@ -173,6 +225,15 @@
         //ALGO AQUI NO SIRVE .
         //IEnumerable<CentroMedico> cm = await medical_record_service.GetMedicalCentersAsync();
         //Clinicas = cm.ToList();
+
+        genders = new List<Gender>();
+        Gender pivote_gender = new Gender();
+        pivote_gender = Gender.Male;
+        genders.Add(pivote_gender);
+        pivote_gender = Gender.Female;
+        genders.Add(pivote_gender);
+        pivote_gender = Gender.Unspecified;
+        genders.Add(pivote_gender);
 
         RecordContext = new EditContext(record);
         PatientContext = new EditContext(patient);
@@ -208,6 +269,10 @@
         }
 
 
+    }
+
+    private void MedicalCenterSelected(CentroMedico mc) { 
+    
     }
 
 
@@ -285,6 +350,9 @@
                 _context = new EditContext(RecordModel);
 
                 patient_status = 2;
+
+                RecordModel.Expediente = new Expediente() { CedulaPaciente = ced };
+
             }
         }
         is_loading = false;
@@ -292,87 +360,3 @@
 
 }
 
-
-
-@*
-
-               <DropDownMenu T="String" Data="Clinicas" Label="Centro Médico" DefaultText="Seleccione una Clinica" TextProperty="Nombre" Value="@clinica" ValueExpression="() => clinica" ValueChanged="@((CentroMedico mc) => MedicalCenterSelected(mc))"/>
-
-
-        @if (RecordModel.Paciente == null)
-    {
-        <div class="mt-2">
-            <button class="btn btn-primary">Guardar</button>
-            <button class="btn btn-outline-secondary" @onclick="LoadExistingValues" @onclick:preventDefault>Descartar</button>
-        </div>
-    }
-
-
-        <div class="form-group">
-        <label for="Clinica">Clinica</label>
-        <InputText id="Clinica" @bind-Value="@RecordModel.Expediente.Clinica" class="form-control"></InputText>
-        <ValidationMessage For="@(() => RecordModel.Expediente.Clinica)" />
-    </div>
-
-    <div class="form-group">
-
-        <label for="Paciente">Cedula Paciente</label>
-        <InputText id="Clinica" @bind-Value="@RecordModel.Expediente.CedulaPaciente" class="form-control"></InputText>
-        <ValidationMessage For="@(() => RecordModel.Expediente.CedulaPaciente)" />
-    </div>
-
-    <div class="form-group">
-
-        <label for="Medico">Cedula Medico</label>
-        <InputText id="Clinica" @bind-Value="@RecordModel.Expediente.CedulaMedicoDuenno" class="form-control"></InputText>
-        <ValidationMessage For="@(() => RecordModel.Expediente.CedulaMedicoDuenno)" />
-    </div>
-
-    <button class="btn btn-dark">@Submit_msg</button>
-
-
-
-
-
-    <div class="form-group">
-        <InputSelect @bind-Value="Expediente.CedMedicoDuenno" class="form-control">
-            <option>@Msg_dropdown</option>
-            @for (int index_ced_medicos = 0; index_ced_medicos < Medicos.Count; ++index_ced_medicos)
-            {
-                <option>@Medicos[index_ced_medicos]</option>
-            }
-        </InputSelect>
-        <ValidationMessage For="@(() => Expediente.CedMedicoDuenno)" />
-    </div>*@
-
-
-@*<div class="form-group">
-        <InputSelect @bind-Value="Expediente.CedPaciente" class="form-control">
-            <option>@Msg_dropdown</option>
-            @for (int index_ced_pacientes = 0; index_ced_pacientes < Pacientes.Count; ++index_ced_pacientes)
-            {
-                <option>@Pacientes[index_ced_pacientes]</option>
-            }
-        </InputSelect>
-        <ValidationMessage For="@(() => Expediente.CedPaciente)" />
-    </div>*@
-
-
-
-
-@*<div class="form-group">
-
-        <label for="FechaHoraCreacion">Fecha/Hora de Creacion</label>
-        <InputDate id="FechaHoraCreacion" @bind-Value="@Expediente.FechaHoraCreacion" class="form-control"></InputDate>
-        <ValidationMessage For="@(() => Expediente.FechaHoraCreacion)" />
-    </div>*@
-
-
-
-@*
-    <div class="form-group">
-        <label for="Clinica">Clinica</label>
-        <InputText id="Clinica" @bind-Value="@Expediente.Clinica" class="form-control"></InputText>
-        <ValidationMessage For="@(() => Expediente.Clinica)" />
-    </div>
-*@
