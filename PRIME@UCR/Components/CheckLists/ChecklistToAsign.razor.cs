@@ -8,45 +8,40 @@ using PRIME_UCR.Components.CheckLists;
 using Microsoft.AspNetCore.Components.Forms;
 using System.Linq;
 using PRIME_UCR.Domain.Models.CheckLists;
+using Radzen;
 
 namespace PRIME_UCR.Components.CheckLists
 {
     public class ChecklistToAsignBase : ComponentBase
     {
-
-        public ChecklistToAsignBase()
+        public class Todo
         {
-            llenado = false;
-            count = min;
-            dont_save = true;
+            public bool IsDone { get; set; }
+            public int idd;
         }
-        protected IEnumerable<CheckList> lists { get; set; }
-        protected IEnumerable<InstanceChecklist> instancelists { get; set; }
 
-        protected InstanceChecklist instanceCL = new InstanceChecklist();
-        public bool llenado;
         [Inject] protected ICheckListService MyService { get; set; }
         [Inject] protected IInstanceChecklistService MyInstanceChecklistService { get; set; }
         [Inject] public NavigationManager NavManager { get; set; }
 
+        [Parameter] public string incidentCod { get; set; }
+
+        protected IEnumerable<CheckList> lists { get; set; }
+        protected IEnumerable<InstanceChecklist> instancelists { get; set; }
+        
         public List<CheckList> TempInstance = new List<CheckList>();
         public List<Todo> TempDetail = new List<Todo>();
         public List<int> TempsIds = new List<int>();
-        public int count;
-        public bool dont_save;
+        
+        public bool dont_save = true;
         public int min = 0;//sumar 1
+        public int count = 0;
         public string afterUrl;
-        [Parameter] public string incidentCod { get; set; }
-        /*
-         * asig incident code
-         */
-        public void AsignIncidentCode(string cod)
-        {
-            incidentCod = cod;
-        }
+
         protected override async Task OnInitializedAsync()
         {
             await RefreshModels();
+            Llenar();
         }
         /**
          * Gets the list of checklists and list of instance checklists in the database
@@ -54,109 +49,89 @@ namespace PRIME_UCR.Components.CheckLists
         protected async Task RefreshModels()
         {
             lists = await MyService.GetAll();
-            instancelists = await MyInstanceChecklistService.GetAll();
+            instancelists = await MyInstanceChecklistService.GetByIncidentCod(incidentCod);
         }
 
         protected async Task Update()
         {
-            await MyService.UpdateCheckList((CheckList)lists);
+            foreach (CheckList list in lists)
+            {
+                await MyService.UpdateCheckList(list);
+            }
             await RefreshModels();
         }
+
         public void Dispose()
         {
             foreach (var temp in TempDetail)
             {
                 temp.IsDone = false;
             }
-            Update();
             OnInitialized();
             count = min;
             dont_save = true;
-
         }
+
+        public void CancelAsignment() {
+            Dispose();
+            NavManager.NavigateTo($"/incidents/{incidentCod}");
+        }
+
         protected void CheckIempList(int idd, ChangeEventArgs e)
         {
-            if ((bool)e.Value)
-            {
-                TempDetail[TempsIds.IndexOf(idd)].IsDone = true;
-                count++;
-                update_save();
-            }
-            else
-            {
-                TempDetail[TempsIds.IndexOf(idd)].IsDone = false;
-                count--;
-                update_save();
-            }
+            TempDetail[TempsIds.IndexOf(idd)].IsDone = (bool)e.Value;
+            count += (bool)e.Value ? 1 : -1;
+            update_save(idd, (bool)e.Value);
         }
 
-        public void update_save()
+        public void update_save(int idd, bool asign)
         {
-            if (count > 0)
-            {
-                dont_save = false;
-            }
-            else
+            if (asign && instancelists.Any(p => p.PlantillaId == idd && p.IncidentCod == incidentCod))
             {
                 dont_save = true;
             }
-        }
-
-        protected void upate_Count()
-        {
-            int mycount = 0;
-            foreach (var temp in TempDetail)
+            else
             {
-                if (temp.IsDone == true)
-                {
-                    mycount++;
-                }
+                dont_save = false;
             }
-            count = mycount;
-            Update();
-            update_save();
         }
 
-        protected void toggleItemChangeComponent()
-        {
-        }
-        public class Todo
-        {
-            public bool IsDone { get; set; }
-            public int idd;
-        }
         /*
          * rellena el arreglo de la cantidad de listas de chequeo en falso
          */
         public void Llenar()
         {
-            if (llenado == false)
+            foreach (var templist in lists)
             {
-                foreach (var templist in lists)
+                Todo TodoItem = new Todo();
+                int idds = @templist.Id;
+                TodoItem.idd = idds;
+                if (instancelists.Any(p => p.PlantillaId == idds && p.IncidentCod == incidentCod))
                 {
-                    Todo TodoItem = new Todo();
-                    int idds = @templist.Id;
-                    TodoItem.idd = idds;
-                    TempDetail.Add(TodoItem);
-                    TempsIds.Add(idds);
+                    TodoItem.IsDone = true;
                 }
-                llenado = true;
+                TempDetail.Add(TodoItem);
+                TempsIds.Add(idds);
             }
         }
-        /*
-         * Checks if the required fields of the checklist are valid
-         * */
-        protected void HandleFieldChanged(object sender, FieldChangedEventArgs e)
-        {
 
-        }
         /**
          * Inserts the new instance checklist into the database
          * */
-        protected async Task AddInstanceCheckList(InstanceChecklist tempList)
+        protected async Task AddInstanceCheckList(InstanceChecklist instance)
         {
-            await MyInstanceChecklistService.InsertInstanceChecklist(tempList);
-            await RefreshModels();
+            if (!instancelists.Any(p => p.PlantillaId == instance.PlantillaId && p.IncidentCod == incidentCod))
+            {
+                await MyInstanceChecklistService.InsertInstanceChecklist(instance);
+            }
+        }
+
+        protected async Task DeleteInstanceCheckList(InstanceChecklist instance)
+        {
+            if (instancelists.Any(p => p.PlantillaId == instance.PlantillaId && p.IncidentCod == incidentCod))
+            {
+                await MyInstanceChecklistService.DeleteInstanceChecklist(instance.PlantillaId, instance.IncidentCod);
+            }
         }
 
         /**
@@ -164,33 +139,34 @@ namespace PRIME_UCR.Components.CheckLists
         * */
         protected async Task AddAsign()
         {
-            InstanceChecklist instance = new InstanceChecklist();
             int countlist = min;
-            foreach ( var tempList in TempDetail)
+            foreach (var tempList in TempDetail)
             {
+                InstanceChecklist instance = new InstanceChecklist();
+                instance.IncidentCod = incidentCod;
+                instance.PlantillaId = tempList.idd;
                 if (tempList.IsDone)
                 {
-                    countlist++;
-                    instance.InstanciadoId = count;//to review
-                    instance.IncidentCod = incidentCod;
-                    instance.PlantillaId = tempList.idd;
-                    await MyInstanceChecklistService.InsertInstanceChecklist(instance);
+                    ++countlist;
+                    await AddInstanceCheckList(instance);
+                }
+                else
+                {
+                    await DeleteInstanceCheckList(instance);
                 }
             }
-            RefreshModels();
-            
+            await RefreshModels();
         }
 
         /**
-         * Registers the new checklist and navigates to its page
+         * 
          * */
-        protected async Task HandleValidSubmit()
+        protected async Task HandleSubmit()
         {
-            //instanceCL.InstanciadoId = 2;
-            //await AddInstanceCheckList(instanceCL);
             await AddAsign();
-            afterUrl = "/checklist/" + "1";// instanceCL.InstanciadoId;
-            NavManager.NavigateTo(afterUrl); // to do: agregar a pagina anterior
+            //afterUrl = "/incidents/" + "1";// instanceCL.InstanciadoId;
+            //NavManager.NavigateTo(afterUrl); // to do: go to checklist panel
+            NavManager.NavigateTo($"/incidents/{incidentCod}");
         }
     }
 }

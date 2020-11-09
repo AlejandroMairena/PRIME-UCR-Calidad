@@ -23,25 +23,25 @@
                 <EditForm Model="instancelists">
                     <Table TableItem="InstanceChecklist" Items="instancelists" PageSize="12">
 
-                        <Column TableItem="InstanceChecklist" Title="Nombre" Field="@( x => x.InstanciadoId)" Width="30%">
+                        <Column TableItem="InstanceChecklist" Title="Nombre" Field="@( x => x.PlantillaId)" Width="30%">
                             <Template Context="tempList">
                                 <a>
-                                    @GetName2(tempList.InstanciadoId);
+                                    @GetName2(tempList.PlantillaId)
                                 </a>
                             </Template>
 
                         </Column>
-                        <Column TableItem="InstanceChecklist" Title="Tipo" Field="@(x => x.InstanciadoId)" Width="20%">
+                        <Column TableItem="InstanceChecklist" Title="Tipo" Field="@(x => x.PlantillaId)" Width="20%">
                             <Template Context="tempList">
                                 <a>
-                                    @GetTipo2(tempList.InstanciadoId);
+                                    @GetTipo2(tempList.PlantillaId)
                                 </a>
                             </Template>
                         </Column>
-                        <Column TableItem="InstanceChecklist" Title="Descripción" Field="@(x => x.InstanciadoId)" Width="20%">
+                        <Column TableItem="InstanceChecklist" Title="Descripción" Field="@(x => x.PlantillaId)" Width="20%">
                             <Template Context="tempList">
                                 <a>
-                                    @GetDescp2(tempList.InstanciadoId);
+                                    @GetDescp2(tempList.PlantillaId)
                                 </a>
                             </Template>
                         </Column>

@@ -10,7 +10,6 @@ namespace PRIME_UCR.Domain.Models.CheckLists
         {
             //InstanceItems = new List<InstanceItem>();
         }
-        public int InstanciadoId { get; set; }
         public int PlantillaId { get; set; }
         public string IncidentCod { get; set; }
         public bool Completado { get; set; }
