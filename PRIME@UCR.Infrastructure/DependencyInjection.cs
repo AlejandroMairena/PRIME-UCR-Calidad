@@ -4,6 +4,7 @@ using PRIME_UCR.Application.Implementations.Multimedia;
 using PRIME_UCR.Application.Repositories;
 using PRIME_UCR.Application.Repositories.Appointments;
 using PRIME_UCR.Application.Repositories.CheckLists;
+using PRIME_UCR.Application.Repositories.Dashboard;
 using PRIME_UCR.Application.Repositories.Incidents;
 using PRIME_UCR.Application.Repositories.MedicalRecords;
 using PRIME_UCR.Application.Repositories.Multimedia;
@@ -14,6 +15,7 @@ using PRIME_UCR.Infrastructure.DataProviders.Implementations;
 using PRIME_UCR.Infrastructure.Repositories.Sql;
 using PRIME_UCR.Infrastructure.Repositories.Sql.Appointments;
 using PRIME_UCR.Infrastructure.Repositories.Sql.CheckLists;
+using PRIME_UCR.Infrastructure.Repositories.Sql.Dashboard;
 using PRIME_UCR.Infrastructure.Repositories.Sql.Incidents;
 using PRIME_UCR.Infrastructure.Repositories.Sql.MedicalRecords;
 using PRIME_UCR.Infrastructure.Repositories.Sql.Multimedia;
@@ -76,6 +78,9 @@ namespace PRIME_UCR.Infrastructure
             services.AddTransient<IPerteneceRepository, PerteneceRepository>();
             services.AddTransient<INumeroTelefonoRepository, NumeroTelefonoRepository>();
             services.AddTransient<IAuthenticationRepository, AuthenticationRepository>();
+
+            //dashboard repositories
+            services.AddTransient<IDashboardRepository, DashboardRepository>();
 
             // temporary file service with no encryption
             services.AddTransient<ITempFileServiceNoEncryption, TempFileServiceNoEncryption>();

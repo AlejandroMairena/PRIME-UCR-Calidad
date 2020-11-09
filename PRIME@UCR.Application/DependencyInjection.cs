@@ -15,6 +15,8 @@ using PRIME_UCR.Application.Repositories.Incidents;
 using PRIME_UCR.Application.Services.Appointments;
 using PRIME_UCR.Application.Services.MedicalRecords;
 using Microsoft.AspNetCore.Components.Authorization;
+using PRIME_UCR.Application.Services.Dashboard;
+using PRIME_UCR.Application.Implementations.Dashboard;
 
 namespace PRIME_UCR.Application
 {
@@ -50,7 +52,9 @@ namespace PRIME_UCR.Application
             services.AddTransient<IAppointmentService, AppointmentService>();
             services.AddTransient<IAuthenticationService, AuthenticationService>();
             services.AddTransient<IPrimeSecurityService, PrimeSecurityService>();
-            
+            //Dashboard 
+            services.AddTransient<IDashboardService, DashboardService>();
+
             return services;
         }
     }
