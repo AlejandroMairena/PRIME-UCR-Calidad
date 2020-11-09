@@ -62,6 +62,8 @@
 			-- build code
 			DECLARE @code varchar(50);
 			SET @code =
+			RTRIM(
+			    
 				RIGHT(REPLICATE('0', 4) + CAST(YEAR(@fecha) AS varchar(10)), 4) + 
 				'-' +
 				RIGHT(REPLICATE('0', 2) + CAST(MONTH(@fecha) AS varchar(10)), 2) + 
@@ -72,7 +74,8 @@
 				'-' +
 				'IT' +
 				'-' +
-				@mod;
+				@mod
+            );
 
             INSERT INTO Incidente
                 OUTPUT INSERTED.Codigo

@@ -1,9 +1,10 @@
-﻿@attribute [HasPolicy(AuthorizationPolicies.CanManageUsers)]
-@page "/user_administration/registerUser"
+﻿@page "/user_administration/registerUser"
 
-@using PRIME_UCR.Application.DTOs.UserAdministration
+@attribute [HasPermission(AuthorizationPermissions.CanManageUsers)]
+
 @using PRIME_UCR.Application.Implementations.UserAdministration
 @using PRIME_UCR.Components.UserAdministration
+@using PRIME_UCR.Domain.Constants
 
 <h3>Registrar usuarios en la aplicación</h3>
 

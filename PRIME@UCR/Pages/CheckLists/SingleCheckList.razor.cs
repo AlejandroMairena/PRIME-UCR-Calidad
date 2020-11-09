@@ -10,6 +10,7 @@ using PRIME_UCR.Domain.Models.CheckLists;
 using System.Linq;
 using System.Threading;
 using Microsoft.AspNetCore.Components.Rendering;
+using MatBlazor;
 
 namespace PRIME_UCR.Pages.CheckLists
 {
@@ -25,7 +26,7 @@ namespace PRIME_UCR.Pages.CheckLists
         private bool isDisabled { get; set; } = true;
 
         protected bool createItem { get; set; } = false;
-        protected string createItemText { get; set; }
+        protected bool createSubItem { get; set; } = false;
 
         protected IEnumerable<CheckList> lists { get; set; }
 
@@ -41,8 +42,9 @@ namespace PRIME_UCR.Pages.CheckLists
         public CheckList list { get; set; }
 
         protected Item tempItem;
+        protected int parentItemId { get; set; }
 
-        protected bool formInvalid = true;
+        protected bool formInvalid = false;
         protected EditContext editContext;
 
         [Inject] protected ICheckListService MyCheckListService { get; set; }
@@ -71,53 +73,35 @@ namespace PRIME_UCR.Pages.CheckLists
         }
 
         /**
-         * Checks if the required fields of the item are valid
+         * Refreshes de page models and flags when an item creation is completed
          * */
-        protected void HandleFieldChanged(object sender, FieldChangedEventArgs e)
+        protected async Task creatingFinished()
         {
-            if (tempItem.Nombre != null)
-            {
-                formInvalid = !editContext.Validate();
-            }
+            createItem = false;
+            createSubItem = false;
+            formInvalid = false;
+            await RefreshModels();
+            StateHasChanged();
         }
 
         public void Dispose()
         {
-            editContext.OnFieldChanged -= HandleFieldChanged;
             createItem = false;
+            createSubItem = false;
             StateHasChanged();
         }
 
-        /**
-         * Inserts a new item into the database
-         * */
-        protected async Task AddCheckListItem(Item item)
-        {
-            if (item.ImagenDescriptiva == null)
-            {
-                item.ImagenDescriptiva = "/images/defaultCheckList.svg";
-            }
-            await MyCheckListService.InsertCheckListItem(item);
-            createItem = false;
-            formInvalid = true;
-            await RefreshModels();
-            StateHasChanged();
-        }
 
         /**
          * Sets flags to display the item creation form
          * */
         protected void StartNewItemCreation() 
         {
-            createItemText = "Crear Item";
-            createItem = true;
             tempItem = new Item();
             tempItem.IDSuperItem = null;
             tempItem.IDLista = id;
             tempItem.Orden = coreItems.Count() + 1;
-            editContext = new EditContext(tempItem);
-            editContext.OnFieldChanged += HandleFieldChanged;
-            StateHasChanged();
+            createItem = true;
         }
 
         /**
@@ -125,24 +109,13 @@ namespace PRIME_UCR.Pages.CheckLists
          * */
         protected async Task CreateSubItem(int itemId)
         {
-            createItemText = "Crear SubItem";
             subItems = await MyCheckListService.GetItemsBySuperitemId(itemId);
-            createItem = true;
             tempItem = new Item();
             tempItem.IDLista = id;
             tempItem.IDSuperItem = itemId;
             tempItem.Orden = subItems.Count() + 1;
-            editContext = new EditContext(tempItem);
-            editContext.OnFieldChanged += HandleFieldChanged;
-            StateHasChanged();
-        }
-
-        /**
-         * Registers the new item
-         * */
-        protected async Task HandleValidSubmit()
-        {
-            await AddCheckListItem(tempItem);
+            parentItemId = itemId;
+            createSubItem = true;
         }
 
         protected override async Task OnParametersSetAsync()
@@ -163,6 +136,9 @@ namespace PRIME_UCR.Pages.CheckLists
             return itemsList.FindIndex(item => item.Id == itemInList.Id);
         }
 
+        /**
+         * Generates an ordered list of an item's subitems based on its level
+         * */
         private void GenerateOrderedList(Item item, int level) 
         {
             orderedList.Add(item);
@@ -177,6 +153,10 @@ namespace PRIME_UCR.Pages.CheckLists
                 }
             }
         }
+
+        /**
+         * Checks if an item has subitems
+         * */
         protected bool HasSubItems(Item item)
         {
             List<Item> subItems = itemsList.FindAll(tempItem => tempItem.IDSuperItem == item.Id);

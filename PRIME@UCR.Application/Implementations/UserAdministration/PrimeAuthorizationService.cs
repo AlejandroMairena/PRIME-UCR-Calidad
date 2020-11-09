@@ -3,6 +3,7 @@ using PRIME_UCR.Application.Services.UserAdministration;
 using PRIME_UCR.Domain.Models.UserAdministration;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
 
 namespace PRIME_UCR.Application.Implementations
@@ -15,36 +16,9 @@ namespace PRIME_UCR.Application.Implementations
         /**
          * Method used to handle the authorization of an user to the aplication.
          */
-        public bool HavePolicy(int policy, List<Permiso> permissionsList)
+        public bool HavePermission(int permission, List<Permiso> permissionsList)
         {
-            switch (policy)
-            {
-                case (int)AuthorizationPolicies.CanManageUsers:
-                    return CanManageUsers(permissionsList);
-                case (int)AuthorizationPolicies.CanCreateCheckList:
-                    return CanCreateChecklist(permissionsList);
-                case (int)AuthorizationPolicies.CanManageDashboard:
-                    return CanManageDashboard(permissionsList);
-            }
-            return false;
-        }
-
-        private bool CanManageUsers(List<Permiso> permissionsList)
-        {
-            return permissionsList.Exists(p => p.IDPermiso == (int)AuthorizationPermissions.CanDoAnything)
-                    || permissionsList.Exists(p => p.IDPermiso == (int)AuthorizationPermissions.CanManageUsers);
-        }
-
-        private bool CanCreateChecklist(List<Permiso> permissionsList)
-        {
-            return permissionsList.Exists(p => p.IDPermiso == (int)AuthorizationPermissions.CanCreateCheckList)
-                    || permissionsList.Exists(p => p.IDPermiso == (int)AuthorizationPermissions.CanDoAnything);
-        }
-
-        private bool CanManageDashboard(List<Permiso> permissionsList)
-        {
-            return permissionsList.Exists(p => p.IDPermiso == (int)AuthorizationPermissions.CanManageDashboard)
-                    || permissionsList.Exists(p => p.IDPermiso == (int)AuthorizationPermissions.CanDoAnything);
+            return permissionsList.Exists(p => p.IDPermiso == permission);
         }
     }
 }
