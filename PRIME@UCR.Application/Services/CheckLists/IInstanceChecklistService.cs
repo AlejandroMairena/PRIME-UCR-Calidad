@@ -15,10 +15,12 @@ namespace PRIME_UCR.Application.Services.CheckLists
         Task<IEnumerable<InstanceChecklist>> GetByIncidentCod(string cod);
         Task<InstanceChecklist> UpdateInstanceChecklist(InstanceChecklist list);
         Task DeleteInstanceChecklist(int id, string cod);
+        Task<InstanciaItem> InsertInstanceItem(InstanciaItem instanceItem);
+        Task<IEnumerable<InstanciaItem>> GetItemsByIncidentCodAndCheckListId(string incidentCode, int checklistId);
         //Task<Item> InsertInstanceChecklistItem(Item item);
         //Task<IEnumerable<Item>> GetItemsByInstanceChecklistId(int checkListId);
         //Task<IEnumerable<Item>> GetItemsBySuperitemId(int superItemId);
-        // Task<IEnumerable<Item>> GetCoreItems(int checkListId);
+       // Task<IEnumerable<Item>> GetCoreItems(int checkListId);
         //Task<Item> SaveImageItem(Item item);
         //Task<Item> UpdateItem(Item item);
     }
