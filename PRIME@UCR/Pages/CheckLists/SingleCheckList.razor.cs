@@ -85,6 +85,17 @@ namespace PRIME_UCR.Pages.CheckLists
             StateHasChanged();
         }
 
+        /**
+         * Refreshes de page models and flags when an item edition is completed
+         * */
+        protected async Task editingFinished()
+        {
+            editItem = false;
+            formInvalid = false;
+            await RefreshModels();
+            StateHasChanged();
+        }
+
         public void Dispose()
         {
             createItem = false;
@@ -122,7 +133,8 @@ namespace PRIME_UCR.Pages.CheckLists
         protected async Task EditItem(int itemId)
         {
             tempItem = await MyCheckListService.GetItemById(itemId);
-
+            parentItemId = itemId;
+            editItem = true;
         }
 
         protected override async Task OnParametersSetAsync()

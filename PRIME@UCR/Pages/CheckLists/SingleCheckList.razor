@@ -92,57 +92,59 @@ else
                                 <thead>
                                 </thead>
                                 <tbody>
-                                    @for (int itemIndex = 0; itemIndex < orderedList.Count(); itemIndex++)
+                                   @for (int itemIndex = 0; itemIndex < orderedList.Count(); itemIndex++)
                                     {
 
                                         PRIME_UCR.Domain.Models.CheckLists.Item itemInList = orderedList[itemIndex];
                                         string style = orderedListLevel[itemIndex] * 2.5 + "em";
 
 
-                                        <tr>
-                                            <td class="align-middle" style="padding-left: @style;">
-                                                @* Displys the image of the item *@
+                                <tr>
+                                    <td class="align-middle" style="padding-left: @style;">
+                                        @* Displys the image of the item *@
 
-                                                <div style="min-width: 110px;">
-                                                    ⁞⁞
-                                                    <button type="button" class="none" data-toggle="dropdown" id="BN_LC">
+                                        <div style="min-width: 110px;">
+                                            ⁞⁞
+                                            <button type="button" class="none" data-toggle="dropdown" id="BN_LC">
 
-                                                        <img src="@itemInList.ImagenDescriptiva" width="50" height="50" data-toggle="tooltip" title="Cambiar imagen" />
-                                                    </button>
+                                                <img src="@itemInList.ImagenDescriptiva" width="50" height="50" data-toggle="tooltip" title="Cambiar imagen" />
+                                            </button>
 
-                                                    @* Drop zone for the image of the item, displyed in a dropdown menu for the item image *@
-                                                    <ul class="dropdown-menu customLoadImage" role="menu">
-                                                        <li><LoadImageComponent @bind-item="itemsList[getItemIndex(itemInList)]" update="update" /></li>
-                                                    </ul>
-                                                </div>
-
-                                            </td>
-
-                                            <th scope="row" class="align-middle" style="padding-left: @style;"> @itemInList.Nombre</th>
-                                            <td class="align-middle" style="padding-left: @style;"> @itemInList.Descripcion </td>
-                                            <td class="align-middle">
-                                                @* Drop down button to show additional options *@
-                                                <button type="button" class="btn btn-default " data-toggle="dropdown">
-                                                    ⋮<span class="caret"></span>
-                                                    <span class="sr-only">Desplegar menú</span>
-                                                </button>
-                                                @* Button to create a new sub item *@
-                                            <ul class="dropdown-menu" role="menu">
-                                                <li><button class="dropdown-item" @onclick="() => CreateSubItem(itemInList.Id)">Agregar Subítem</button></li>
-                                                <li><button class="dropdown-item" @onclick="() => EditItem(itemInList.Id)">Editar ítem</button></li>
+                                            @* Drop zone for the image of the item, displyed in a dropdown menu for the item image *@
+                                            <ul class="dropdown-menu customLoadImage" role="menu">
+                                                <li><LoadImageComponent @bind-item="itemsList[getItemIndex(itemInList)]" update="update" /></li>
                                             </ul>
-                                            </td>
-                                        </tr>
-                                           @if (createSubItem == true && parentItemId == itemInList.Id)
-                                           {
-                                                <tr>
-                                                    <td colspan="3">
-                                                        <CreateItem @bind-item="tempItem" creating="createSubItem" OnCreatingChanged="creatingFinished">Crear SubItem</CreateItem>
-                                                    </td>
-                                                </tr>
+                                        </div>
 
-                                            }
-}
+                                    </td>
+
+                                    <th scope="row" class="align-middle" style="padding-left: @style;"> @itemInList.Nombre</th>
+                                    <td class="align-middle" style="padding-left: @style;"> @itemInList.Descripcion </td>
+                                    <td class="align-middle">
+                                        @* Drop down button to show additional options *@
+                                        <button type="button" class="btn btn-default " data-toggle="dropdown">
+                                            ⋮<span class="caret"></span>
+                                            <span class="sr-only">Desplegar menú</span>
+                                        </button>
+                                        @* Button to create a new sub item *@
+                                        <ul class="dropdown-menu" role="menu">
+                                            <li><button class="dropdown-item" @onclick="() => CreateSubItem(itemInList.Id)">Agregar Subítem</button></li>
+                                            <li><button class="dropdown-item" @onclick="() => EditItem(itemInList.Id)">Editar ítem</button></li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                               @if (createSubItem == true && parentItemId == itemInList.Id)                      {
+                                <tr>
+                                    <td colspan="3">
+                                        <CreateItem @bind-item="tempItem" creating="createSubItem" OnCreatingChanged="creatingFinished">Crear SubItem</CreateItem>
+                                    </td>
+                                </tr>}
+                               @if (editItem == true && parentItemId == itemInList.Id) { 
+                                    <tr>
+                                        <td colspan="3">
+                                            <EditItem @bind-item="tempItem" editing="editItem" OnEditingChanged="editingFinished">Editar Item</EditItem>
+                                        </td>
+                                    </tr>}}
                                 </tbody>
                             </table>}
 
