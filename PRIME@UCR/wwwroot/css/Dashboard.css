@@ -1,0 +1,24 @@
+﻿#chartdiv {
+    width: 100%;
+    height: 500px;
+}
+
+#mapGraphDiv {
+    width: 100%;
+    height: 500px;
+}
+
+#IncidentsVsTimeChartComponentJS {
+    width: 100%;
+    height: 500px;
+}
+
+#IncidentsVsOriginLocationComponentJS {
+    width: 100%;
+    height: 500px;
+}
+
+#IncidentsVsDestinationLocationComponentJS {
+    width: 100%;
+    height: 500px;
+}

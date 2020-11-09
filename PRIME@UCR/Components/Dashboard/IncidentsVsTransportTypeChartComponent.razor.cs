@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace PRIME_UCR.Components.Dashboard
 {
-    public partial class IncidentVSTransportTypeChartComponent
+    public partial class IncidentsVsTransportTypeChartComponent
     {
         BarConfig _config;
         ChartJsBarChart _barChartJs;

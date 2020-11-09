@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace PRIME_UCR.Components.Dashboard
 {
-    public partial class AmTestGraph
+    public partial class IncidentsVsTransportTypeComponentJS
     {
         [Inject]
         IJSRuntime JS { get; set; }

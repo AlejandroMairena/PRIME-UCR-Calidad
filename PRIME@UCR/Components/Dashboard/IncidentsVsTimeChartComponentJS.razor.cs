@@ -35,7 +35,6 @@ namespace PRIME_UCR.Components.Dashboard
 
             foreach (var incident in incidentsPerDay)
             {
-                Debug.WriteLine(new Point(incident.Key, incident.ToList().Count()));
                 incidentes.Add( incident.ToList());
             }
 
