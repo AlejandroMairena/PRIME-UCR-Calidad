@@ -26,6 +26,8 @@ namespace PRIME_UCR.Pages.CheckLists
         private bool isDisabled { get; set; } = true;
 
         protected bool createItem { get; set; } = false;
+
+        protected bool editItem { get; set; } = false;
         protected bool createSubItem { get; set; } = false;
 
         protected IEnumerable<CheckList> lists { get; set; }
@@ -95,6 +97,17 @@ namespace PRIME_UCR.Pages.CheckLists
         {
             createItem = false;
             createSubItem = false;
+            editItem = false;
+            formInvalid = false;
+            await RefreshModels();
+            StateHasChanged();
+        }
+
+        protected async Task editingFinished()
+        {
+            createItem = false;
+            createSubItem = false;
+            editItem = false;
             formInvalid = false;
             await RefreshModels();
             StateHasChanged();
@@ -134,6 +147,13 @@ namespace PRIME_UCR.Pages.CheckLists
             tempItem.Orden = subItems.Count() + 1;
             parentItemId = itemId;
             createSubItem = true;
+        }
+
+        protected async Task EditItem(int itemId)
+        {
+            tempItem = await MyCheckListService.GetItemById(itemId);
+            parentItemId = itemId;
+            editItem = true;
         }
 
         protected override async Task OnParametersSetAsync()
