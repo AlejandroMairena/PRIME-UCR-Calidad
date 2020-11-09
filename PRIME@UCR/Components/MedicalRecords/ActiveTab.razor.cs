@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using PRIME_UCR.Application.Dtos.Incidents;
 using PRIME_UCR.Application.DTOs.MedicalRecords;
@@ -19,5 +20,14 @@ namespace PRIME_UCR.Components.MedicalRecords
 
         [Parameter]
         public Expediente MedicalRecord { get; set;  }
+
+        [Parameter] 
+        public List<ListaAntecedentes> ListaAntecedentes { get; set; }
+
+        [Parameter] 
+        public List<Antecedentes> Antecedentes { get; set; }
+
+        [Parameter] 
+        public List<Alergia> Alergias { get; set; }
     }
 }

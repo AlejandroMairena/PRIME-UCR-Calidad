@@ -1,0 +1,11 @@
+﻿<h3>MedicalBackgroundTab</h3>
+@using PRIME_UCR.Domain.Models.MedicalRecords
+<EditForm EditContext="_cont">
+    <DropDownMenu T="ListaAntecedentes" Data="ListaAntecedentes"
+                  Label="Antecedentes Medicos"
+                  TextProperty="NombreAntecdedente"
+                  DefaultText="Seleccione un Antecedente"
+                  Required="false"
+                  Disabled="false"
+                  @bind-Value="@antecedetePrueba" />
+</EditForm>

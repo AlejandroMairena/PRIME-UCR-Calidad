@@ -35,6 +35,10 @@ namespace PRIME_UCR.Pages.MedicalRecords
 
         private List<Antecedentes> antecedentes;
 
+        private List<Alergia> alergias;
+
+        private List<ListaAntecedentes> ListaAntecedentes;
+
         private void FillTabStates()
         {
             _tabs.Clear();
@@ -49,6 +53,9 @@ namespace PRIME_UCR.Pages.MedicalRecords
                     case DetailsTab.Appointments:
                         _tabs.Add(new Tuple<DetailsTab, string>(DetailsTab.Appointments, ""));
                         break;
+                    case DetailsTab.MedicalBackgroundTab:
+                        _tabs.Add(new Tuple<DetailsTab, string>(DetailsTab.MedicalBackgroundTab, ""));
+                        break;
                 }
             }
         }
@@ -59,6 +66,7 @@ namespace PRIME_UCR.Pages.MedicalRecords
             int identification = Int32.Parse(Id);
             viewModel = await MedicalRecordService.GetIncidentDetailsAsync(identification);
             antecedentes = (await MedicalRecordService.GetBackgroundByRecordId(identification)).ToList();
+            //alergias = (await AlergyService.GetAlergyByRecordId(identification)).ToList();
             if (viewModel == null)
                 exists = false;
             else

@@ -71,7 +71,14 @@
     @if (RecordModel?.Expediente.Clinica == null)
     {
 
-        <DropDownMenu T="string" Data="Clinicas" Label="Centro Médico" DefaultText="Seleccione una Clinica" TextProperty="Nombre" Value="@clinica" ValueExpression="() => clinica" ValueChanged="@((string mc) => MedicalCenterSelected(mc))" />
+        <DropDownMenu T="string" 
+                      Data="Clinicas" 
+                      Label="Centro Médico" 
+                      DefaultText="Seleccione una Clinica" 
+                      TextProperty="Nombre" 
+                      Value="@clinica" 
+                      ValueExpression="() => clinica" 
+                      ValueChanged="@((string mc) => MedicalCenterSelected(mc))" />
 
     }
 

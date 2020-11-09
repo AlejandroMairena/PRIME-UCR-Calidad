@@ -5,6 +5,7 @@
 @attribute [Authorize]
 @*@inject IMedicalBackgroundService MedicalBackgroundService*@
 @inject IMedicalRecordService MedicalRecordService
+@*@inject IAlergyService AlergyService*@
 @inject NavigationManager NavigationManager
 
 <h1>Detalles del expediente</h1>
@@ -17,7 +18,12 @@
                 <TabMenu Tabs="_tabs" DefaultTab="DefaultTab" IsVertical="true" @bind-Value="_activeTab" />
             </div>
             <div class="col">
-                <ActiveTab Active="@_activeTab" Expediente="@viewModel" />
+                <ActiveTab Active="@_activeTab" Expediente="@viewModel"
+                                                MedicalRecord="@record" 
+                                                Alergias="@alergias" 
+                                                Antecedentes="@antecedentes"
+                                                ListaAntecedentes="@ListaAntecedentes"
+                           />
             </div>
         </div>
     </Loading>
