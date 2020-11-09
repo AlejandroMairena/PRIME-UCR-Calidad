@@ -1,7 +1,7 @@
 ﻿function CreateIncidentsVsTimeChartComponent(incidentsPerDay) {
 
-    console.log(incidentsPerDay);
-    console.log(incidentsPerDay[0][0].cita.fechaHoraEstimada.substring(0,10));
+    //console.log(incidentsPerDay);
+    //console.log(incidentsPerDay[0][0].cita.fechaHoraEstimada.substring(0,10));
     am4core.ready(function () {
         var chartData = [];
 

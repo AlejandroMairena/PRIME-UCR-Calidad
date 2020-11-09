@@ -1,5 +1,4 @@
 ﻿function CreateMapGraph() {
-    console.log("Map Graph Enter");
     am4core.ready(function () {
 
         // Themes begin

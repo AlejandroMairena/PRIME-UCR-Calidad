@@ -1,8 +1,8 @@
 ﻿function CreateColumnChart(incidentsData) {
 
 
-    console.log(incidentsData);
-    console.log(incidentsData[1]);
+    //console.log(incidentsData);
+    //console.log(incidentsData[1]);
 
     am4core.ready(function () {
         // Themes begin
