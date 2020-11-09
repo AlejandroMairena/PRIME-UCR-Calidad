@@ -53,5 +53,10 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
             await _instancechecklistRepository.UpdateAsync(list);
             return list;
         }
+
+        public async Task DeleteInstanceChecklist(int id, string cod)
+        {
+            await _instancechecklistRepository.DeleteAsync(id, cod);
+        }
     }
 }

@@ -33,22 +33,15 @@ namespace PRIME_UCR.Components.CheckLists
         public List<Todo> TempDetail = new List<Todo>();
         public List<int> TempsIds = new List<int>();
         
-        public bool llenado = false;
         public bool dont_save = true;
         public int min = 0;//sumar 1
         public int count = 0;
         public string afterUrl;
 
-        /*
-         * asig incident code
-         
-        public void AsignIncidentCode(string cod)
-        {
-            incidentCod = cod;
-        }*/
         protected override async Task OnInitializedAsync()
         {
             await RefreshModels();
+            Llenar();
         }
         /**
          * Gets the list of checklists and list of instance checklists in the database
@@ -56,7 +49,7 @@ namespace PRIME_UCR.Components.CheckLists
         protected async Task RefreshModels()
         {
             lists = await MyService.GetAll();
-            instancelists = await MyInstanceChecklistService.GetAll();
+            instancelists = await MyInstanceChecklistService.GetByIncidentCod(incidentCod);
         }
 
         protected async Task Update()
@@ -74,7 +67,6 @@ namespace PRIME_UCR.Components.CheckLists
             {
                 temp.IsDone = false;
             }
-            //await Update();
             OnInitialized();
             count = min;
             dont_save = true;
@@ -89,27 +81,19 @@ namespace PRIME_UCR.Components.CheckLists
         {
             TempDetail[TempsIds.IndexOf(idd)].IsDone = (bool)e.Value;
             count += (bool)e.Value ? 1 : -1;
-            update_save();
+            update_save(idd, (bool)e.Value);
         }
 
-        public void update_save()
+        public void update_save(int idd, bool asign)
         {
-            dont_save = (count > 0) ? false : true;
-        }
-
-        protected void upate_Count()
-        {
-            int mycount = 0;
-            foreach (var temp in TempDetail)
+            if (asign && instancelists.Any(p => p.PlantillaId == idd && p.IncidentCod == incidentCod))
             {
-                if (temp.IsDone == true)
-                {
-                    ++mycount;
-                }
+                dont_save = true;
             }
-            count = mycount;
-            Update();
-            update_save();
+            else
+            {
+                dont_save = false;
+            }
         }
 
         /*
@@ -117,27 +101,37 @@ namespace PRIME_UCR.Components.CheckLists
          */
         public void Llenar()
         {
-            if (llenado == false)
+            foreach (var templist in lists)
             {
-                foreach (var templist in lists)
+                Todo TodoItem = new Todo();
+                int idds = @templist.Id;
+                TodoItem.idd = idds;
+                if (instancelists.Any(p => p.PlantillaId == idds && p.IncidentCod == incidentCod))
                 {
-                    Todo TodoItem = new Todo();
-                    int idds = @templist.Id;
-                    TodoItem.idd = idds;
-                    TempDetail.Add(TodoItem);
-                    TempsIds.Add(idds);
+                    TodoItem.IsDone = true;
                 }
-                llenado = true;
+                TempDetail.Add(TodoItem);
+                TempsIds.Add(idds);
             }
         }
 
         /**
          * Inserts the new instance checklist into the database
          * */
-        protected async Task AddInstanceCheckList(InstanceChecklist tempList)
+        protected async Task AddInstanceCheckList(InstanceChecklist instance)
         {
-            await MyInstanceChecklistService.InsertInstanceChecklist(tempList);
-            await RefreshModels();
+            if (!instancelists.Any(p => p.PlantillaId == instance.PlantillaId && p.IncidentCod == incidentCod))
+            {
+                await MyInstanceChecklistService.InsertInstanceChecklist(instance);
+            }
+        }
+
+        protected async Task DeleteInstanceCheckList(InstanceChecklist instance)
+        {
+            if (instancelists.Any(p => p.PlantillaId == instance.PlantillaId && p.IncidentCod == incidentCod))
+            {
+                await MyInstanceChecklistService.DeleteInstanceChecklist(instance.PlantillaId, instance.IncidentCod);
+            }
         }
 
         /**
@@ -145,17 +139,20 @@ namespace PRIME_UCR.Components.CheckLists
         * */
         protected async Task AddAsign()
         {
-            InstanceChecklist instance = new InstanceChecklist();
             int countlist = min;
             foreach (var tempList in TempDetail)
             {
+                InstanceChecklist instance = new InstanceChecklist();
+                instance.IncidentCod = incidentCod;
+                instance.PlantillaId = tempList.idd;
                 if (tempList.IsDone)
                 {
                     ++countlist;
-                    instance.InstanciadoId = tempList.idd;//to review
-                    instance.IncidentCod = incidentCod;
-                    instance.PlantillaId = tempList.idd;
-                    await MyInstanceChecklistService.InsertInstanceChecklist(instance);
+                    await AddInstanceCheckList(instance);
+                }
+                else
+                {
+                    await DeleteInstanceCheckList(instance);
                 }
             }
             await RefreshModels();

@@ -6,13 +6,7 @@
 <link href="css/Checklist.css" rel="stylesheet" />
 
 
-<Loading IsLoading="lists == null">
-    @if (llenado == false)
-    {
-        Llenar();//llena todo el vector en false
-        //AsignIncidentCode("2020-11-04-0001-IT-TER");
-    }
-     
+<Loading IsLoading="lists == null">     
     <div  class="rounded" style="background-color: white;padding-left: 10px;padding-right: 10px; padding-top:10px;">
         <h5>Listas de chequeo disponibles</h5>
         <EditForm Model="lists">
