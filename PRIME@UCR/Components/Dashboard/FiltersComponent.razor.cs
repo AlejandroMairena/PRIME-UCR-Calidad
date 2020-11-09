@@ -1,4 +1,5 @@
-﻿using PRIME_UCR.Application.DTOs.Dashboard;
+﻿using Microsoft.AspNetCore.Components;
+using PRIME_UCR.Application.DTOs.Dashboard;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,14 @@ namespace PRIME_UCR.Components.Dashboard
 {
     public partial class FiltersComponent
     {
-        public FilterModel FilterInfo = new FilterModel();
+        [Parameter] public FilterModel Value { get; set; }
+        [Parameter] public EventCallback<FilterModel> ValueChanged { get; set; }
+        [Parameter] public EventCallback OnDiscard { get; set; }
+
+        private async Task ClearFilters()
+        {
+            Value = new FilterModel();
+            await ValueChanged.InvokeAsync(Value);
+        }
     }
 }

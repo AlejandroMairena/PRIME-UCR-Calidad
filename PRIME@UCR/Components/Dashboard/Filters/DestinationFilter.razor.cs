@@ -19,6 +19,8 @@ namespace PRIME_UCR.Components.Dashboard.Filters
         [Inject] public ILocationService LocationService { get; set; }
         [Parameter] public FilterModel Value { get; set; }
         [Parameter] public EventCallback<FilterModel> ValueChanged { get; set; }
+        [Parameter] public EventCallback OnDiscard { get; set; }
+
 
         private List<CentroMedico> _medicalCenters;
         private bool _isLoading = true;
@@ -26,6 +28,14 @@ namespace PRIME_UCR.Components.Dashboard.Filters
         async Task OnChangeMedicalCenter(CentroMedico medicalCenter)
         {
             Value.MedicalCenterDestination.MedicalCenter = medicalCenter;
+            if (medicalCenter != null)
+            {
+                Value.ButtonEnabled = true;
+            }
+            else
+            {
+                Value.ButtonEnabled = false;
+            }
             await ValueChanged.InvokeAsync(Value);
         }
 

@@ -27,6 +27,7 @@ namespace PRIME_UCR.Application.DTOs.Dashboard
         public HouseholdModel HouseholdOriginFilter { get; set; }
         public InternationalModel InternationalOriginFilter { get; set; }
         public MedicalCenterLocationModel MedicalCenterOriginFilter { get; set; }
+        public bool ButtonEnabled { get; set; }
 
     }
 }

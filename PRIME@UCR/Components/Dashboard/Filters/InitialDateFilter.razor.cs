@@ -11,10 +11,20 @@ namespace PRIME_UCR.Components.Dashboard.Filters
     {
         [Parameter] public FilterModel Value { get; set; }
         [Parameter] public EventCallback<FilterModel> ValueChanged { get; set; }
+        [Parameter] public EventCallback OnDiscard { get; set; }
+
 
         private async Task OnPickedDate(DateTime? date)
         {
             Value.InitialDateFilter = date;
+            if (date != null)
+            {
+                Value.ButtonEnabled = true;
+            }
+            else
+            {
+                Value.ButtonEnabled = false;
+            }
             await ValueChanged.InvokeAsync(Value);
         }
 

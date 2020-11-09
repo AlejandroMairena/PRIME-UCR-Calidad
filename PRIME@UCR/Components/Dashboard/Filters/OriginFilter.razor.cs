@@ -32,8 +32,9 @@ namespace PRIME_UCR.Components.Dashboard.Filters
 
         [Inject] private ILocationService LocationService { get; set; }
         [Inject] private IDoctorService DoctorService { get; set; }
-        [Parameter] public EventCallback<FilterModel> ValueChanged { get; set; }
         [Parameter] public FilterModel Value { get; set; }
+        [Parameter] public EventCallback<FilterModel> ValueChanged { get; set; }
+        [Parameter] public EventCallback OnDiscard { get; set; }
 
         // Origin needed attributes
 
@@ -66,10 +67,30 @@ namespace PRIME_UCR.Components.Dashboard.Filters
         {
             _selectedOriginType = type;
             Value.OriginType = type.Item2;
-            if (Value.OriginType == "Domicilio")
+            if (Value.OriginType == "Sin filtro") 
+            {
+                Value.HouseholdOriginFilter.District = null;
+                Value.HouseholdOriginFilter.Canton = null;
+                Value.HouseholdOriginFilter.Province = null;
+                Value.MedicalCenterOriginFilter.MedicalCenter = null;
+                Value.InternationalOriginFilter.Country = null;
+                if (Value.InitialDateFilter == null &&
+                    Value.FinalDateFilter == null &&
+                    Value.ModalityFilter == null &&
+                    Value.StateFilter == null)
+                {
+                    Value.ButtonEnabled = false;
+                }
+                else 
+                {
+                    Value.ButtonEnabled = true;
+                }
+            }
+            else if (Value.OriginType == "Domicilio")
             {
                 Value.InternationalOriginFilter.Country = null;
                 Value.MedicalCenterOriginFilter.MedicalCenter = null;
+                Value.ButtonEnabled = true;
             }
             else if (Value.OriginType == "Internacional")
             {
@@ -77,6 +98,7 @@ namespace PRIME_UCR.Components.Dashboard.Filters
                 Value.HouseholdOriginFilter.Canton = null;
                 Value.HouseholdOriginFilter.Province = null;
                 Value.MedicalCenterOriginFilter.MedicalCenter = null;
+                Value.ButtonEnabled = true;
             }
             else 
             {
@@ -84,6 +106,7 @@ namespace PRIME_UCR.Components.Dashboard.Filters
                 Value.HouseholdOriginFilter.Canton = null;
                 Value.HouseholdOriginFilter.Province = null;
                 Value.InternationalOriginFilter.Country = null;
+                Value.ButtonEnabled = true;
             }
             await ValueChanged.InvokeAsync(Value);
         }

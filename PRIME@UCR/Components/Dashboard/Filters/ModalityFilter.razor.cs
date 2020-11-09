@@ -13,9 +13,9 @@ namespace PRIME_UCR.Components.Dashboard.Filters
     {
         [Inject]
         public IIncidentService IncidentService { get; set; }
-        [Parameter]
-        public FilterModel Value { get; set; }
+        [Parameter] public FilterModel Value { get; set; }
         [Parameter] public EventCallback<FilterModel> ValueChanged { get; set; }
+        [Parameter] public EventCallback OnDiscard { get; set; }
 
         private List<Modalidad> _modes;
         private bool _isLoading = true;
@@ -31,6 +31,14 @@ namespace PRIME_UCR.Components.Dashboard.Filters
         private async Task OnModalityChange(Modalidad modalidad) 
         {
             Value.ModalityFilter = modalidad;
+            if (modalidad != null)
+            {
+                Value.ButtonEnabled = true;
+            }
+            else
+            {
+                Value.ButtonEnabled = false;
+            }
             await ValueChanged.InvokeAsync(Value);        
         }
     }

@@ -13,6 +13,7 @@ namespace PRIME_UCR.Components.Dashboard.Filters
         public List<String> _stateTypes;
         [Parameter] public FilterModel Value { get; set; }
         [Parameter] public EventCallback<FilterModel> ValueChanged { get; set; }
+        [Parameter] public EventCallback OnDiscard { get; set; }
 
         protected override void OnInitialized()
         {
@@ -33,6 +34,13 @@ namespace PRIME_UCR.Components.Dashboard.Filters
         private async Task OnStateChange(string state) 
         {
             Value.StateFilter = state;
+            if (state != null) { 
+                Value.ButtonEnabled = true;            
+            }
+            else
+            {
+                Value.ButtonEnabled = false;
+            }
             await ValueChanged.InvokeAsync(Value);
         }
     }

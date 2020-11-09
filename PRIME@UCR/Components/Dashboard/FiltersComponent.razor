@@ -3,21 +3,32 @@
 <h3>Filtros</h3>
 <div class="row">
     <div class="col">
-        <OriginFilter @bind-value="FilterInfo" />
+        <OriginFilter @bind-value="Value" />
     </div>
     <div class="col">
-        <DestinationFilter @bind-value="FilterInfo" />
+        <DestinationFilter @bind-value="Value" />
     </div>
     <div class="col">
-        <InitialDateFilter @bind-value="FilterInfo" />
+        <InitialDateFilter @bind-value="Value" />
     </div>
     <div class="col">
-        <FinalDateFilter @bind-value="FilterInfo" />
+        <FinalDateFilter @bind-value="Value" />
     </div>
     <div class="col">
-        <ModalityFilter @bind-value="FilterInfo" />
+        <ModalityFilter @bind-value="Value" />
     </div>
     <div class="col">
-        <StateFilter @bind-Value="FilterInfo" />
+        <StateFilter @bind-Value="Value" />
+    </div>
+    <div class="col">
+        @if (Value.ButtonEnabled)
+        {
+            <button role="button" @onclick:preventDefault @onclick="@ClearFilters" class="btn btn-outline-secondary">Limpiar filtros</button>
+        }
+        else
+        {
+            <button disabled class="btn btn-outline-secondary">Limpiar filtros</button>
+        }
+
     </div>
 </div>
