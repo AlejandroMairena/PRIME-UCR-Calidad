@@ -10,6 +10,8 @@ namespace PRIME_UCR.Application.Services.MedicalRecords
 {
     public interface IAlergyService
     {
-        Task<IEnumerable<Alergia>> GetAlergyByRecordId(int recordId);
+        Task<IEnumerable<Alergias>> GetAlergyByRecordId(int recordId);
+
+        Task<IEnumerable<ListaAlergia>> GetAll();
     }
 }

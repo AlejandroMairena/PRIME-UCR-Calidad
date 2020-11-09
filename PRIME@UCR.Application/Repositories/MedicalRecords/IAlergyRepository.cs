@@ -5,7 +5,7 @@ using PRIME_UCR.Application.DTOs.MedicalRecords;
 
 namespace PRIME_UCR.Application.Repositories.MedicalRecords
 {
-    public interface IAlergyRepository : IGenericRepository<Alergia, int>
+    public interface IAlergyRepository : IGenericRepository<Alergias, int>
     {
     }
 }

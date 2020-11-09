@@ -4,7 +4,7 @@ using System.Text;
 
 namespace PRIME_UCR.Domain.Models.MedicalRecords
 {
-    public class Alergia
+    public class Alergias
     {
         public int Id { set; get; } //Llave parcial para identificar la alergia con respecto al expediente
 

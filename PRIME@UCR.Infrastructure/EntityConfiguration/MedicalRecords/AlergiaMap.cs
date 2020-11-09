@@ -7,11 +7,11 @@ using System.Text;
 
 namespace PRIME_UCR.Infrastructure.EntityConfiguration.MedicalRecords
 {
-    public class AlergiaMap : IEntityTypeConfiguration<Alergia>
+    public class AlergiaMap : IEntityTypeConfiguration<Alergias>
     {
-        public void Configure(EntityTypeBuilder<Alergia> builder)
+        public void Configure(EntityTypeBuilder<Alergias> builder)
         {
-            builder.ToTable("Alergia");
+            builder.ToTable("Alergias");
             builder.HasKey("Id","IdExpediente","IdListaAlergia");
 
             builder

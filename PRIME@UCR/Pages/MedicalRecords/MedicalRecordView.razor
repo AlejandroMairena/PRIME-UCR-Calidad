@@ -3,9 +3,9 @@
 @using PRIME_UCR.Components.MedicalRecords
 @using PRIME_UCR.Components.Controls
 @attribute [Authorize]
-@*@inject IMedicalBackgroundService MedicalBackgroundService*@
 @inject IMedicalRecordService MedicalRecordService
-@*@inject IAlergyService AlergyService*@
+@inject IMedicalBackgroundService MedicalBackgroundService
+@inject IAlergyService AlergyService
 @inject NavigationManager NavigationManager
 
 <h1>Detalles del expediente</h1>
@@ -19,11 +19,10 @@
             </div>
             <div class="col">
                 <ActiveTab Active="@_activeTab" Expediente="@viewModel"
-                                                MedicalRecord="@record" 
-                                                Alergias="@alergias" 
-                                                Antecedentes="@antecedentes"
-                                                ListaAntecedentes="@ListaAntecedentes"
-                           />
+                           MedicalRecord="@record"
+                           Alergias="@alergias"
+                           Antecedentes="@antecedentes"
+                           ListaAntecedentes="@ListaAntecedentes" />
             </div>
         </div>
     </Loading>

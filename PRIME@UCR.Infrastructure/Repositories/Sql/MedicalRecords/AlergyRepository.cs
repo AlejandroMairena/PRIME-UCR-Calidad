@@ -10,7 +10,7 @@ using PRIME_UCR.Infrastructure.DataProviders;
 
 namespace PRIME_UCR.Infrastructure.Repositories.Sql.MedicalRecords
 {
-    public class AlergyRepository : GenericRepository<Alergia, int>, IAlergyRepository
+    public class AlergyRepository : GenericRepository<Alergias, int>, IAlergyRepository
     {
         public AlergyRepository(ISqlDataProvider dataProvider) : base(dataProvider) 
         {

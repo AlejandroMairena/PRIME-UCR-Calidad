@@ -13,7 +13,7 @@ namespace PRIME_UCR.Components.MedicalRecords.Tabs
         [Parameter] public List<Antecedentes> Antecedentes { get; set; }
 
         [Parameter] public List<ListaAntecedentes> ListaAntecedentes { get; set; }
-        [Parameter] public List<Alergia> Alergias { get; set; }
+        [Parameter] public List<Alergias> Alergias { get; set; }
 
         private EditContext _cont;
 

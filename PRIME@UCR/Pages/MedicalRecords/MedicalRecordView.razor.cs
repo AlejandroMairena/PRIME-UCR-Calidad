@@ -35,9 +35,11 @@ namespace PRIME_UCR.Pages.MedicalRecords
 
         private List<Antecedentes> antecedentes;
 
-        private List<Alergia> alergias;
+        private List<Alergias> alergias;
 
         private List<ListaAntecedentes> ListaAntecedentes;
+
+        private List<ListaAlergia> ListaAlergias;
 
         private void FillTabStates()
         {
@@ -65,8 +67,27 @@ namespace PRIME_UCR.Pages.MedicalRecords
         {
             int identification = Int32.Parse(Id);
             viewModel = await MedicalRecordService.GetIncidentDetailsAsync(identification);
-            antecedentes = (await MedicalRecordService.GetBackgroundByRecordId(identification)).ToList();
-            //alergias = (await AlergyService.GetAlergyByRecordId(identification)).ToList();
+
+            //          Obtener listas como monos que si saben hacer injects
+            //Obtiene el modelo del expediente
+            antecedentes = (await MedicalBackgroundService.GetBackgroundByRecordId(identification)).ToList();
+            //Optiene los antecedentes medicos relacionados al expediente
+            alergias = (await AlergyService.GetAlergyByRecordId(identification)).ToList();
+            //Optiene las alergias relacionados al expediente
+            ListaAntecedentes = (await MedicalBackgroundService.GetAll()).ToList();
+            //Optiene los antecedentes disponibles en la bd
+            ListaAlergias = (await AlergyService.GetAll()).ToList();
+
+            ////          Obtener listas como monos que no saben hacer injects
+            //antecedentes = (await MedicalRecordService.GetBackgroundByRecordId(identification)).ToList();
+            ////Optiene los antecedentes medicos relacionados al expediente
+            //alergias = (await MedicalRecordService.GetAlergyByRecordId(identification)).ToList();
+            ////Optiene las alergias relacionados al expediente
+            //ListaAntecedentes = (await MedicalRecordService.GetAll()).ToList();
+            ////Optiene los antecedentes disponibles en la bd
+            //ListaAlergias = (await MedicalRecordService.GetAllAlergies()).ToList();
+            ////Optiene las alergias disponibles en la bd
+
             if (viewModel == null)
                 exists = false;
             else

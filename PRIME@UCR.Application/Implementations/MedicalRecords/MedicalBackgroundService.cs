@@ -17,16 +17,21 @@ namespace PRIME_UCR.Application.Implementations.MedicalRecords
     public class MedicalBackgroundService : IMedicalBackgroundService
     {
         private readonly IMedicalBackgroundRepository _repo;
-
-        public MedicalBackgroundService(IMedicalBackgroundRepository repo)
+        private readonly IMedicalBackgroundListRepository _repoLista;
+        public MedicalBackgroundService(IMedicalBackgroundRepository repo, IMedicalBackgroundListRepository repoLista)
         {
             _repo = repo;
+            _repoLista = repoLista;
         }
 
         public async Task<IEnumerable<Antecedentes>> GetBackgroundByRecordId(int recordId)
         {
             IEnumerable<Antecedentes> test = await _repo.GetByConditionAsync(i => i.IdExpediente == recordId);
             return test;
+        }
+        public async Task<IEnumerable<ListaAntecedentes>> GetAll()
+        {
+            return await _repoLista.GetAllAsync();
         }
     }
 }

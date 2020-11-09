@@ -11,5 +11,7 @@ namespace PRIME_UCR.Application.Services.MedicalRecords
     public interface IMedicalBackgroundService
     {
         Task<IEnumerable<Antecedentes>> GetBackgroundByRecordId(int recordId);
+
+        Task<IEnumerable<ListaAntecedentes>> GetAll();
     }
 }

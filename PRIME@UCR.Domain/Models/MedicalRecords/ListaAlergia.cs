@@ -10,6 +10,6 @@ namespace PRIME_UCR.Domain.Models.MedicalRecords
 
         public string NombreAlergia { set; get; }
 
-        public List<Alergia> Alergias { set; get; }
+        public List<Alergias> Alergias { set; get; }
     }
 }

@@ -28,6 +28,6 @@ namespace PRIME_UCR.Components.MedicalRecords
         public List<Antecedentes> Antecedentes { get; set; }
 
         [Parameter] 
-        public List<Alergia> Alergias { get; set; }
+        public List<Alergias> Alergias { get; set; }
     }
 }

@@ -23,8 +23,20 @@ namespace PRIME_UCR.Application.Implementations.MedicalRecords
         private readonly IIncidentRepository _incidentrepo;
         private readonly IMedicalCenterRepository _mcrepo;
         private readonly IMedicalBackgroundRepository _mbrepo;
-
-        public MedicalRecordService(IMedicalRecordRepository repo, IPersonaRepository personRepo, IPacienteRepository repo1, IFuncionarioRepository repo2, IIncidentRepository incidentrepo, IMedicalCenterRepository mcs, IMedicalBackgroundRepository mbs)
+        private readonly IAlergyRepository _arepo;
+        private readonly IAlergyListRepository _larepo;
+        private readonly IMedicalBackgroundListRepository _lantrepo;
+        
+        public MedicalRecordService(IMedicalRecordRepository repo, 
+                                    IPersonaRepository personRepo, 
+                                    IPacienteRepository repo1, 
+                                    IFuncionarioRepository repo2, 
+                                    IIncidentRepository incidentrepo, 
+                                    IMedicalCenterRepository mcs, 
+                                    IMedicalBackgroundRepository mbs,
+                                    IAlergyRepository als,
+                                    IAlergyListRepository alls,
+                                    IMedicalBackgroundListRepository mbls)
         {
             _repo = repo;
             _personRepo = personRepo;
@@ -33,6 +45,9 @@ namespace PRIME_UCR.Application.Implementations.MedicalRecords
             _incidentrepo = incidentrepo;
             _mcrepo = mcs;
             _mbrepo = mbs;
+            _arepo = als;
+            _larepo = alls;
+            _lantrepo = mbls;
         }
 
 
@@ -186,6 +201,20 @@ namespace PRIME_UCR.Application.Implementations.MedicalRecords
         {
             IEnumerable<Antecedentes> test = await _mbrepo.GetByConditionAsync(i => i.IdExpediente == recordId);
             return test;
+        }
+
+        public async Task<IEnumerable<Alergias>> GetAlergyByRecordId(int recordId)
+        {
+            return await _arepo.GetByConditionAsync(i => i.IdExpediente == recordId);
+        }
+
+        public async Task<IEnumerable<ListaAlergia>> GetAllAlergies()
+        {
+            return await _larepo.GetAllAsync();
+        }
+        public async Task<IEnumerable<ListaAntecedentes>> GetAll()
+        {
+            return await _lantrepo.GetAllAsync();
         }
     }
 }

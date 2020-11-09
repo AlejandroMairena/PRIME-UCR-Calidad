@@ -60,7 +60,7 @@ namespace PRIME_UCR.Infrastructure.DataProviders.Implementations
         public DbSet<Antecedentes> MedicalBackground { get; set; }
         public DbSet<ListaAntecedentes> MedicalBackgroundList { get; set; }
 
-        public DbSet<Alergia> Alergies { get; set; }
+        public DbSet<Alergias> Alergies { get; set; }
         public DbSet<ListaAlergia> ListAlergies { get; set; }
         public ApplicationDbContext(DbContextOptions options) : base(options)
         {
