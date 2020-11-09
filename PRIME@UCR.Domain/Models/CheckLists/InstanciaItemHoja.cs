@@ -13,5 +13,6 @@ namespace PRIME_UCR.Domain.Models.CheckLists
         public int PlantillaIdPadre { get; set; }
         public string IncidentCodPadre { get; set; }
         public DateTime? FechaHora { get; set; }
+        public InstanciaItemPadre ItemPadre { get; set; }
     }
 }

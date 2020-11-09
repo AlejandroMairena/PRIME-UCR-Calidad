@@ -28,8 +28,8 @@ namespace PRIME_UCR.Infrastructure.EntityConfiguration.CheckLists
                 .WithMany()
                 .HasForeignKey(k => new { k.ItemId, k.PlantillaId, k.IncidentCod });
             builder
-                .HasOne<InstanciaItemPadre>()
-                .WithMany()
+                .HasOne(i => i.ItemPadre)
+                .WithMany(i => i.ItemsHoja)
                 .HasForeignKey(k => new { k.ItemIdPadre, k.PlantillaIdPadre, k.IncidentCodPadre });
         }
     }
