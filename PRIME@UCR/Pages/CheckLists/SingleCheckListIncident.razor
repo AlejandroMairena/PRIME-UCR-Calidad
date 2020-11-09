@@ -1,8 +1,10 @@
 ﻿@page "/checklist/incident/{id:int}"
 @inherits SingleCheckListIncidentBase
-@using PRIME_UCR.Application.DTOs.UserAdministration;
 @using PRIME_UCR.Application.Implementations.UserAdministration;
-@attribute [HasPolicy(AuthorizationPolicies.CanCreateCheckList)]
+@using PRIME_UCR.Domain.Constants
+
+@attribute [HasPermission(AuthorizationPermissions.CanCreateChecklist)]
+
 <link href="css/Checklist.css" rel="stylesheet" />
 
 <h3>Listas de chequeo</h3>

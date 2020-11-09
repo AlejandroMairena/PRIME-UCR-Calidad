@@ -7,10 +7,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Data.SqlClient;
+using RepoDb;
 
 namespace PRIME_UCR.Infrastructure.Repositories.Sql.Incidents
 {
-    public class TransportUnitRepository : GenericRepository<UnidadDeTransporte, string>, ITransportUnitRepository
+    public class TransportUnitRepository : RepoDbRepository<UnidadDeTransporte, string>, ITransportUnitRepository
     {
         public TransportUnitRepository(ISqlDataProvider dataProvider) : base(dataProvider)
         {
@@ -18,19 +20,32 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Incidents
 
         public async Task<IEnumerable<UnidadDeTransporte>> GetAllTransporUnitsByMode(string mode)
         {
-            return await _db.TransportUnits
-                .AsNoTracking()
-                .Where(t => t.Modalidad == mode)
-                .ToListAsync();
+            using (var connection = new SqlConnection(_db.ConnectionString))
+            {
+                return await connection.QueryAsync<UnidadDeTransporte>(t =>
+                    t.Modalidad == mode
+                );
+            }
         }
 
         public async Task<UnidadDeTransporte> GetTransporUnitByIncidentIdAsync(string incidentId)
         {
-            return await _db.Incidents
-                .Include(i => i.UnidadDeTransporte)
-                .Where(i => i.Codigo == incidentId)
-                .Select(i => i.UnidadDeTransporte)
-                .FirstOrDefaultAsync();
+            using (var connection = new SqlConnection(_db.ConnectionString))
+            {
+                return
+                    (await connection.ExecuteQueryAsync<UnidadDeTransporte>(
+                        @"
+                            select UDT.*
+                            from Incidente
+                            join Unidad_De_Transporte UDT on Incidente.MatriculaTrans = UDT.Matricula
+                            where Incidente.Codigo = @Id
+                        ", new
+                        {
+                            Id = incidentId
+                        }
+                    ))
+                    .FirstOrDefault();
+            }
         }
     }
 }

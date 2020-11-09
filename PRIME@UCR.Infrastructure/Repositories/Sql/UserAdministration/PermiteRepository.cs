@@ -7,17 +7,33 @@ using PRIME_UCR.Application.Repositories.UserAdministration;
 using PRIME_UCR.Infrastructure.DataProviders;
 using System.Threading.Tasks;
 using System.Data.Common;
+using PRIME_UCR.Application.Services.UserAdministration;
+using PRIME_UCR.Application.DTOs.UserAdministration;
+using PRIME_UCR.Application.Exceptions.UserAdministration;
+using System.Reflection;
+using PRIME_UCR.Infrastructure.Permissions.UserAdministration;
+using System.ComponentModel.DataAnnotations;
 
 namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
 {
-    public class PermiteRepository : GenericRepository<Permite, Tuple<string, int>>, IPermiteRepository
+    public partial class PermiteRepository : IPermiteRepository
     {
-        public PermiteRepository(ISqlDataProvider dataProvider) : base(dataProvider)
+        
+        private readonly ISqlDataProvider _db;
+
+        private readonly IPrimeSecurityService primeSecurityService;
+
+        public PermiteRepository(ISqlDataProvider dataProvider, 
+            IPrimeSecurityService _primeSecurityService)
         {
+            _db = dataProvider;
+            primeSecurityService = _primeSecurityService;
         }
 
         public async Task DeletePermissionAsync(string idProfile, int idPermission) 
         {
+            await primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
+
             await Task.Run(() =>
             {
                 using (var cmd = _db.DbConnection.CreateCommand())
@@ -39,6 +55,8 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
         }
         public async Task InsertPermissionAsync(string idProfile, int idPermission)
         {
+            await primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
+
             await Task.Run(() =>
             {
                 using (var cmd = _db.DbConnection.CreateCommand())
@@ -57,7 +75,11 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
 
                 }
             });
-
         }
+    }
+
+    [MetadataType(typeof(PermiteRepositoryAuthorization))]
+    public partial class PermiteRepository
+    {
     }
 }

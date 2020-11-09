@@ -9,42 +9,59 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Data.SqlClient;
 using RepoDb;
+using PRIME_UCR.Application.Services.UserAdministration;
+using PRIME_UCR.Application.DTOs.UserAdministration;
+using PRIME_UCR.Application.Exceptions.UserAdministration;
+using System.Reflection;
+using PRIME_UCR.Infrastructure.Permissions.UserAdministration;
+using System.ComponentModel.DataAnnotations;
 
 namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
 {
-    public class CoordinadorTécnicoMédicoRepository : ICoordinadorTécnicoMédicoRepository
+    public partial class CoordinadorTécnicoMédicoRepository : ICoordinadorTécnicoMédicoRepository
     {
         private readonly ISqlDataProvider _db;
-        
-        public CoordinadorTécnicoMédicoRepository(ISqlDataProvider dataProvider)
+
+        private readonly IPrimeSecurityService primeSecurityService;
+
+        public CoordinadorTécnicoMédicoRepository(ISqlDataProvider dataProvider,
+            IPrimeSecurityService _primeSecurityService)
         {
             _db = dataProvider;
+            primeSecurityService = _primeSecurityService;
         }
 
         public async Task<CoordinadorTécnicoMédico> GetByKeyAsync(string key)
         {
-            await using var connection = new SqlConnection(_db.DbConnection.ConnectionString);
-            var result = await connection.ExecuteQueryAsync<CoordinadorTécnicoMédico>(@"
-                select Persona.Cédula, Persona.Nombre, Persona.PrimerApellido, Persona.SegundoApellido, Persona.Sexo, Persona.FechaNacimiento
-                from Persona
-                join Funcionario F on Persona.Cédula = F.Cédula
-                join CoordinadorTécnicoMédico CTM on F.Cédula = CTM.Cédula
-                where CTM.Cédula = @Ced
-            ", new { Ced = key });
-            
-            return result.FirstOrDefault();
+            await primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
+            using (var connection = new SqlConnection(_db.DbConnection.ConnectionString))
+            {
+                var result = await connection.ExecuteQueryAsync<CoordinadorTécnicoMédico>(@"
+                    select Persona.Cédula, Persona.Nombre, Persona.PrimerApellido, Persona.SegundoApellido, Persona.Sexo, Persona.FechaNacimiento
+                    from Persona
+                    join Funcionario F on Persona.Cédula = F.Cédula
+                    join CoordinadorTécnicoMédico CTM on F.Cédula = CTM.Cédula
+                    where CTM.Cédula = @Ced
+                ", new { Ced = key });
+                
+                return result.FirstOrDefault();
+            }
         }
 
         public async Task<IEnumerable<CoordinadorTécnicoMédico>> GetAllAsync()
         {
-            await using var connection = new SqlConnection(_db.DbConnection.ConnectionString);
-            var result = await connection.ExecuteQueryAsync<CoordinadorTécnicoMédico>(@"
-                select Persona.Cédula, Persona.Nombre, Persona.PrimerApellido, Persona.SegundoApellido, Persona.Sexo, Persona.FechaNacimiento
-                from Persona
-                join Funcionario F on Persona.Cédula = F.Cédula
-                join CoordinadorTécnicoMédico CTM on F.Cédula = CTM.Cédula
-            ");
-            return result;
+            await primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
+            using (var connection = new SqlConnection(_db.DbConnection.ConnectionString))
+            {
+                var result = await connection.ExecuteQueryAsync<CoordinadorTécnicoMédico>(@"
+                    select Persona.Cédula, Persona.Nombre, Persona.PrimerApellido, Persona.SegundoApellido, Persona.Sexo, Persona.FechaNacimiento
+                    from Persona
+                    join Funcionario F on Persona.Cédula = F.Cédula
+                    join CoordinadorTécnicoMédico CTM on F.Cédula = CTM.Cédula
+                ");
+                
+                return result;
+            }
         }
 
         public Task<IEnumerable<CoordinadorTécnicoMédico>> GetByConditionAsync(Expression<Func<CoordinadorTécnicoMédico, bool>> expression)
@@ -66,5 +83,10 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
         {
             throw new NotImplementedException();
         }
+    }
+
+    [MetadataType(typeof(CoordinadorTécnicoMédicoRepositoryAuthorization))]
+    public partial class CoordinadorTécnicoMédicoRepository
+    {
     }
 }

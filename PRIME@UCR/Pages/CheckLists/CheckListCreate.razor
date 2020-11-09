@@ -1,33 +1,16 @@
 ﻿@page "/checklist/create"
 @using PRIME_UCR.Components.Controls
 @inherits CheckListCreateBase
-@using PRIME_UCR.Application.DTOs.UserAdministration;
+
 @using PRIME_UCR.Application.Implementations.UserAdministration;
-@attribute [HasPolicy(AuthorizationPolicies.CanCreateCheckList)]
+@using PRIME_UCR.Domain.Constants;
+@attribute [HasPermission(AuthorizationPermissions.CanCreateChecklist)]
 <link href="css/Checklist.css" rel="stylesheet" />
 
 <h3>Plantillas de listas de chequeo</h3>
 <hr />
 <div class="row">
-    <div class="col-lg-3 mb-4">
-        @* Contains the list of existing checklists *@
-        <div class="container">
-            <h6>Listas de chequeo existentes</h6>
-            <div>
-                <ul class="nav nav-pills flex-column">
-                    @if (lists != null && lists.Count() > 0)
-                    {
-        @foreach (var tempList in lists)
-        {@* Navigation link for each checklist *@
-                            <li class="nav-item mt-2">
-                                <NavLink href='@string.Format("checklist/{0}", @tempList.Id)' class="nav-link" id="a_LC4">
-                                    •  @tempList.Nombre
-                                </NavLink>
-                            </li>}}
-                </ul>
-            </div>
-        </div>
-    </div>
+    <CheckListMenu Lists="lists" />
     @*
         Story: PIG01IIC20-309
         Tasks: PIG01IIC20-399, PIG01IIC20-346, PIG01IIC20-450
@@ -41,8 +24,7 @@
             <EditForm EditContext="@editContext" OnValidSubmit="@HandleValidSubmit">
                 <FluentValidationValidator />
                 @* Input for the name of the checklist *@
-                <label for="Nombre">Nombre <span style=" color:red">*</span></label>
-                <TextBox Label="" @bind-Value="@checkList.Nombre" />
+                <TextBox Label="Nombre " @bind-Value="@checkList.Nombre" Required="true" />
                 <br />
                 @* Input for the description of the checklist *@
                 <label for="description">Descripción </label>
@@ -51,17 +33,15 @@
                 <div class="form-row">
                     <div class="col-6">
                         @* Input for the type of the checklist with predefined options *@
-                        <label for="Tipo">Tipo <span style=" color:red">*</span></label>
-                        <DropDownMenu Label="" Data="_types" @bind-Value="checkList.Tipo"
-                                      DefaultText="Seleccione el tipo de la lista de chequeo" />
-                        <ValidationMessage For="@(() => checkList.Tipo)" />
+                        <DropDownMenu Label="Tipo " Data="_types" @bind-Value="checkList.Tipo"
+                                      DefaultText="Seleccione el tipo de la lista de chequeo"
+                                      Required="true" />
                     </div>
                     <div class="col-6">
                         @* Input for the order of the checklist with a recommended value *@
-                        <label for="order">Orden <span style=" color:red">*</span></label>
+                        <label for="Tipo">Orden <span style=" color:red">*</span></label>
                         <br />
-                        <br />
-                        <InputNumber id="order" @bind-Value="checkList.Orden" class="form-control" />
+                        <IntegerInput Label="" @bind-Value="checkList.Orden" Min="0" Required />
                     </div>
                 </div>
                 <br />
@@ -71,15 +51,25 @@
                     <div class="col-6">
                         <LoadImageComponent @bind-list="checkList" />
                     </div>
-                    <div class="col-6">
-                        <img src="@checkList.ImagenDescriptiva" width="50" height="50" />
-                    </div>
+                    @if (@checkList.ImagenDescriptiva != null)
+                    {
+                        <div class="col-6">
+                            <img src="@checkList.ImagenDescriptiva" width="50" height="50" />
+                        </div>
+                    }
                 </div>
                 <br />
                 <p style="color:red">* Campo requerido</p>
 
                 <div align="center">
-                    <button type="submit" class="btn btn-primary" disabled="@formInvalid" id="BP_LC0">Guardar</button> @*to do: ir a la recien creada *@
+                    @if (formInvalid)
+                    {
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    }
+                    else
+                    {
+                        <button type="submit" class="btn btn-secondary" disabled>Guardar</button>
+                    }
                     <a class="btn btn-outline-secondary" href='@string.Format("checklist")' id="a_LC3">Cancelar</a> @*to do: ir a la anterior  *@
                 </div>
             </EditForm>
