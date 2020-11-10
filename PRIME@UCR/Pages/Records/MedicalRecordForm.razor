@@ -11,7 +11,7 @@
     <StatusMessage Message="Ingrese una cedula de un funcionario valida" Class="warning"></StatusMessage>
 }
 
-@if (medic_status == 2) 
+@if (medic_status == 2)
 {
     <StatusMessage Message="Cedula de funcionario correcta" Class="warning"></StatusMessage>
 }
@@ -61,7 +61,7 @@
 
 
 <Loading IsLoading="is_loading_record">
-    @if (RecordModel.Expediente != null)
+    @if (RecordModel.Expediente != null && !record_inserted)
     {
         <div class="row">
             <div class="col-xl-4 col-lg-6">
@@ -104,10 +104,16 @@
 
 }
 
+@if (record_unfinisehd)
+{
+
+    <StatusMessage Message="Favor complete el resto del formulario para poder crear el expediente" Class="warning"></StatusMessage>
+}
+
 <hr />
 
 
-@if (RecordModel.Paciente != null)
+@if (RecordModel.Paciente != null && !patient_inserted)
 {
     @switch (patient_status)
     {
@@ -211,7 +217,9 @@
 
     public bool is_loading_record = false;
 
-    public bool is_loading_patient = false; 
+    public bool is_loading_patient = false;
+
+    public bool record_unfinisehd = false;
 
     public CentroMedico clinic { get; set; }
 
@@ -259,13 +267,17 @@
         {
             await medical_record_service.InsertAsync(RecordModel.Expediente);
             record_inserted = true;
+            is_loading_record = false;
         }
-        is_loading_record = false;
+        else
+        {
+            record_unfinisehd = true;
+        }
     }
 
     private async Task SavePatientData()
     {
-        is_loading_patient = true; 
+        is_loading_patient = true;
 
         save_patient_data_pushed = true;
 
@@ -280,11 +292,13 @@
             {
                 await medical_record_service.InsertAsync(RecordModel.Expediente);
                 patient_inserted = true;
-                //el expediente fue creado exitosamente.
+                record_inserted = true;
+                record_unfinisehd = false; 
             }
 
         }
-        is_loading_patient = false; 
+        is_loading_record = false; 
+        is_loading_patient = false;
     }
 
 
