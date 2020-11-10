@@ -6,14 +6,19 @@
 @inject PRIME_UCR.Application.Services.UserAdministration.IDoctorService doctor_service;
 @inject PRIME_UCR.Application.Services.Incidents.ILocationService location_service;
 
-@if (medic_status != -1)
+@if (medic_status == 1)
 {
     <StatusMessage Message="Ingrese una cedula de un funcionario valida" Class="warning"></StatusMessage>
 }
 
+@if (medic_status == 2) 
+{
+    <StatusMessage Message="Cedula de funcionario correcta" Class="warning"></StatusMessage>
+}
+
 <Loading IsLoading="is_loading">
 
-    @if (RecordModel.Paciente != null)
+    @if (RecordModel.Paciente != null && !record_inserted)
     {
         @switch (patient_status)
         {
@@ -55,37 +60,47 @@
 </Loading>
 
 
-@if (RecordModel.Expediente != null)
-{
-    <div class="row">
-        <div class="col-xl-4 col-lg-6">
-            <EditForm EditContext="RecordContext" OnValidSubmit="SaveRecordData">
-                <FluentValidationValidator />
+<Loading IsLoading="is_loading_record">
+    @if (RecordModel.Expediente != null)
+    {
+        <div class="row">
+            <div class="col-xl-4 col-lg-6">
+                <EditForm EditContext="RecordContext" OnValidSubmit="SaveRecordData">
+                    <FluentValidationValidator />
 
-                @if (RecordModel?.Expediente.CedulaMedicoDuenno == null)
-                {
-                    <TextBox Label="Cédula médico creador" ValueExpression="() => RecordModel.CedMedicoDuenno" ValueChanged="(string id) => SetMedicCed(id)" />
-                }
-                else
-                {
-                    <TextBox Disabled="true" @bind-Value="RecordModel.CedMedicoDuenno" Label="Cédula médico creador" />
-                }
+                    @if (RecordModel?.Expediente.CedulaMedicoDuenno == null)
+                    {
+                        <TextBox Label="Cédula médico creador" ValueExpression="() => RecordModel.CedMedicoDuenno" ValueChanged="(string id) => SetMedicCed(id)" />
+                    }
+                    else
+                    {
+                        <TextBox Disabled="true" @bind-Value="RecordModel.CedMedicoDuenno" Label="Cédula médico creador" />
+                    }
 
 
-                @if (RecordModel?.Expediente.Clinica == null)
-                {
+                    @if (RecordModel?.Expediente.Clinica == null)
+                    {
 
-                    <DropDownMenu T="CentroMedico" Data="clinics" Label="Centro Médico" DefaultText="Seleccione una Clinica" TextProperty="Nombre" Value="@clinic" ValueExpression="() => clinic" ValueChanged="@((CentroMedico mc) => MedicalCenterSelected(mc))" />
+                        <DropDownMenu T="CentroMedico" Data="clinics" Label="Centro Médico" DefaultText="Seleccione una Clinica" TextProperty="Nombre" Value="@clinic" ValueExpression="() => clinic" ValueChanged="@((CentroMedico mc) => MedicalCenterSelected(mc))" />
 
-                    /*<DropDownMenu T="CentroMedico" Data="clinics" Label="Centro Médico" DefaultText="Seleccione una Clinica" TextExpression="@((CentroMedico mc) => EnumUtils.GetDescription(mc))"
-                                  Required="false" Disabled="patient_status != 2" @bind-Value="RecordModel.CentroMedico" /> */
+                        /*<DropDownMenu T="CentroMedico" Data="clinics" Label="Centro Médico" DefaultText="Seleccione una Clinica" TextExpression="@((CentroMedico mc) => EnumUtils.GetDescription(mc))"
+                                      Required="false" Disabled="patient_status != 2" @bind-Value="RecordModel.CentroMedico" /> */
 
-                }
+                    }
 
-                <button class="btn btn-dark">Guardar</button>
-            </EditForm>
+                    @if (RecordModel?.Expediente.CedulaMedicoDuenno == null || RecordModel?.Expediente.Clinica == null)
+                    {
+                        <button class="btn btn-dark" @onclick="SaveRecordData">Guardar</button>
+                    }
+                </EditForm>
+            </div>
         </div>
-    </div>
+    }
+</Loading>
+
+@if (record_inserted)
+{
+    <StatusMessage Message="Expediente registrado/actualizado exitosamente" Class="warning"></StatusMessage>
 
 }
 
@@ -115,42 +130,54 @@
 }
 
 
-@if (RecordModel.Paciente != null)
-{
-    <div class="row">
-        <div class="col-xl-4 col-lg-6">
-            <EditForm EditContext="PatientContext" OnValidSubmit="SavePatientData">
-                <FluentValidationValidator />
-                <TextBox Disabled="patient_status != 2" @bind-Value="RecordModel.Paciente.Nombre" Label="Nombre" />
-                <TextBox Disabled="patient_status != 2" @bind-Value="RecordModel.Paciente.PrimerApellido" Label="Primer Apellido" />
+<Loading IsLoading="is_loading_patient">
 
-                @*no esta registrado ó no se encuentra vacio*@
-                @if (patient_status == 2 || !String.IsNullOrEmpty(RecordModel.Paciente.SegundoApellido))
-                {
-                    <TextBox Disabled="patient_status != 2" Required="false" @bind-Value="RecordModel.Paciente.SegundoApellido" Label="Segundo apellido" />
-                }
+    @if (RecordModel.Paciente != null && !patient_inserted)
+    {
+        <div class="row">
+            <div class="col-xl-4 col-lg-6">
+                <EditForm EditContext="PatientContext" OnValidSubmit="SavePatientData">
+                    <FluentValidationValidator />
+                    <TextBox Disabled="patient_status != 2" @bind-Value="RecordModel.Paciente.Nombre" Label="Nombre" />
+                    <TextBox Disabled="patient_status != 2" @bind-Value="RecordModel.Paciente.PrimerApellido" Label="Primer Apellido" />
 
-                @if (patient_status == 2 || RecordModel?.Paciente?.FechaNacimiento != null)
-                {
-                    <DatePicker Disabled="patient_status != 2" @bind-Value="RecordModel.Paciente.FechaNacimiento" Label="Fecha de nacimiento" Max="@DateTime.Today" Min="@DateTime.Today.AddYears(-120)" Required="false" />
-                }
+                    @*no esta registrado ó no se encuentra vacio*@
+                    @if (patient_status == 2 || !String.IsNullOrEmpty(RecordModel.Paciente.SegundoApellido))
+                    {
+                        <TextBox Disabled="patient_status != 2" Required="false" @bind-Value="RecordModel.Paciente.SegundoApellido" Label="Segundo apellido" />
+                    }
 
-                @if (patient_status == 2 || RecordModel?.Paciente?.Sexo != null)
-                {
+                    @if (patient_status == 2 || RecordModel?.Paciente?.FechaNacimiento != null)
+                    {
+                        <DatePicker Disabled="patient_status != 2" @bind-Value="RecordModel.Paciente.FechaNacimiento" Label="Fecha de nacimiento" Max="@DateTime.Today" Min="@DateTime.Today.AddYears(-120)" Required="false" />
+                    }
 
-                    <DropDownMenu T="Gender" Data="genders" Label="Sexo" DefaultText="Seleccione un sexo" TextExpression="@((Gender g) => EnumUtils.GetDescription(g))"
-                        Required="false" Disabled="patient_status != 2" @bind-Value="RecordModel.Sexo" />
-                }
+                    @if (patient_status == 2 || RecordModel?.Paciente?.Sexo != null)
+                    {
 
-                <button class="btn btn-dark">Guardar</button>
-            </EditForm>
+                        <DropDownMenu T="Gender" Data="genders" Label="Sexo" DefaultText="Seleccione un sexo" TextExpression="@((Gender g) => EnumUtils.GetDescription(g))"
+                                      Required="false" Disabled="patient_status != 2" @bind-Value="RecordModel.Sexo" />
+                    }
+
+
+                    @if (patient_status == 2)
+                    {
+                        <button class="btn btn-dark" @onclick="SavePatientData">Guardar</button>
+                    }
+
+                </EditForm>
+            </div>
         </div>
-    </div>
 
+    }
 
+</Loading>
+
+@if (patient_inserted)
+{
+    <StatusMessage Message="Paciente registrado exitosamente" Class="warning"></StatusMessage>
 
 }
-
 
 
 @code {
@@ -174,13 +201,25 @@
 
     public int medic_status = -1;
 
+    public bool save_record_data_pushed = false;
+
+    public bool save_patient_data_pushed = false;
+
+    public bool patient_inserted = false;
+
+    public bool record_inserted = false;
+
+    public bool is_loading_record = false;
+
+    public bool is_loading_patient = false; 
+
     public CentroMedico clinic { get; set; }
 
     public Gender gender = new Gender();
 
 
     public List<CentroMedico> clinics = new List<CentroMedico>
-    {
+{
         new CentroMedico { Nombre = "Centro Nacional de Rehabilitación Humberto Araya Rojas"},
         new CentroMedico { Nombre = "Hospital México"},
         new CentroMedico { Nombre = "Hospital Cima" },
@@ -200,20 +239,52 @@
 
     private async Task SaveRecordData()
     {
-        RecordModel.Expediente.Clinica = RecordModel.CentroMedico.Nombre;
-        RecordModel.Expediente.CedulaMedicoDuenno = RecordModel.CedMedicoDuenno;
+        is_loading_record = true;
 
-        //hacer lo correspondiente para guardar la información en la base de datos.
+        medic_status = -1;
 
+        save_record_data_pushed = true;
+
+        if (RecordModel.CentroMedico.Nombre != null)
+        {
+            RecordModel.Expediente.Clinica = RecordModel.CentroMedico.Nombre;
+        }
+
+        if (RecordModel.CedMedicoDuenno != null)
+        {
+            RecordModel.Expediente.CedulaMedicoDuenno = RecordModel.CedMedicoDuenno;
+        }
+
+        if (save_patient_data_pushed || patient_status != 2)
+        {
+            await medical_record_service.InsertAsync(RecordModel.Expediente);
+            record_inserted = true;
+        }
+        is_loading_record = false;
     }
 
     private async Task SavePatientData()
     {
-        RecordModel.Paciente.Sexo = RecordModel.Sexo.ToString();
+        is_loading_patient = true; 
 
+        save_patient_data_pushed = true;
 
-        //hacer lo correspondiente para guardar la información en la base de datos.
+        if (patient_status == 2)
+        {
 
+            RecordModel.Paciente.Sexo = RecordModel.Sexo.ToString();
+
+            await patient_service.CreatePatientAsync(RecordModel.Paciente);
+
+            if (save_record_data_pushed)
+            {
+                await medical_record_service.InsertAsync(RecordModel.Expediente);
+                patient_inserted = true;
+                //el expediente fue creado exitosamente.
+            }
+
+        }
+        is_loading_patient = false; 
     }
 
 
@@ -235,6 +306,8 @@
         pivote_gender = Gender.Unspecified;
         genders.Add(pivote_gender);
 
+        RecordModel.CentroMedico = new CentroMedico();
+
         RecordContext = new EditContext(record);
         PatientContext = new EditContext(patient);
         _context = new EditContext(RecordModel);
@@ -253,15 +326,13 @@
             Médico medic = await doctor_service.GetDoctorByIdAsync(ced);
             if (medic != null)
             {
-                medic_status = -1;
+                medic_status = 2;
 
             }
             else
             {
-                medic_status = 0;
+                medic_status = 1;
             }
-
-
         }
         else
         {
@@ -271,15 +342,15 @@
 
     }
 
-    private void MedicalCenterSelected(CentroMedico mc) { 
-    
+    private void MedicalCenterSelected(CentroMedico mc)
+    {
+
     }
 
 
     private async Task SetPatientCed(string ced)
     {
         is_loading = true;
-        //StateHasChanged();
         RecordModel.CedPaciente = ced;
 
         if (_context.Validate())
@@ -318,29 +389,28 @@
                 Expediente record = await medical_record_service.GetByPatientIdAsync(ced);
                 if (record != null)
                 {
-                    RecordModel.Paciente = patient;
                     //el expediente ya se encuentra en la base de datos.
                     RecordModel.Expediente = record;
                     patient_status = 0;
                 }
                 else
                 {
-
-                    RecordModel.Paciente = patient;
-
                     //el expediente aún no se encuentra en la base de datos.
                     RecordModel.Expediente = new Expediente()
                     {
                         CedulaPaciente = ced
                     };
 
-                    //aún falta agregar la información de clinica y medico dueño, por eso aún no se agrega. s
+                    //aún falta agregar la información de clinica y medico dueño, por eso aún no se agrega.
                     patient_status = 1;
                 }
 
             }
             else
             {
+                //ESTE ES EL CASO 2, TENGO QUE CREAR LA PERSONA EN LA BASE DE DATOS, Y TMBN EL PACIENTE,
+                //Y LUEGO EL EXPEDIENTE.
+
                 //no existe la persona.
                 RecordModel.Paciente = new Paciente()
                 {
