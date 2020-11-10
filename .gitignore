@@ -441,5 +441,4 @@ $RECYCLE.BIN/
 !.vscode/launch.json
 !.vscode/extensions.json
 !/ThirdParty/*
-/PRIME@UCR/wwwroot/images
-/ThirdParty/nuget.exe
+/PRIME@UCR/ThirdParty

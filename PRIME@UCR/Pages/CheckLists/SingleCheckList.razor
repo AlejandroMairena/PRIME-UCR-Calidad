@@ -9,20 +9,12 @@
 <hr />
 @if (list == null)
 {
-   <p><em>Cargando lista de chequeo.</em></p>
-   @*<meta http-equiv="refresh" content="0;url=checklist" /> *@
-   @*Esto me manda a la pagina de chechlist*@
-
-   @*<a href='@string.Format("checklist")'>Listas de chequeo Existentes</a>*@
-
-}
-
+    <p><em>Cargando lista de chequeo.</em></p> }
 else
 {
     <div class="row">
         <CheckListMenu Lists="lists"/>
         <div class="col">
-            
             @* Contains editable information about this checklist *@
             <div class="container" id="contAll_LC" style="background: white;">
                 <h5>Definición de una plantilla de lista de chequeo</h5>
@@ -83,12 +75,11 @@ else
                         <div align="center">
                             @if (formInvalid)
                             {
-                        <button type="submit" class="btn btn-primary">Guardar cambios</button> }
-                    else
-                    {
-                        <button type="submit" class="btn btn-secondary" disabled>Guardar cambios</button>}
+                                <button type="submit" class="btn btn-primary">Guardar cambios</button> }
+                            else {
+                                <button type="submit" class="btn btn-secondary" disabled>Guardar cambios</button>
+                             }
                             <a class="btn btn-outline-secondary" @onclick="Dispose" id="a_LC3">Cancelar</a>
-                            <a class="btn btn-danger" @onclick="() =>Delete(list.Id)">Eliminar Lista</a>
                         </div>
                     </div>
                 </EditForm>
@@ -129,7 +120,7 @@ else
                                         </ul>
                                     </div>
                                 </td>
-                            
+
                                 <th class="align-middle"> @itemInList.Nombre</th>
                                 <td class="align-middle"> @itemInList.Descripcion </td>
                                 <td class="align-middle" align="right" style="width: 54px">
@@ -139,20 +130,27 @@ else
                                         <span class="sr-only">Desplegar menú</span>
                                     </button>
                                     @* Button to create a new sub item *@
-                                <ul class="dropdown-menu" role="menu">
-                                    <li><button class="dropdown-item" @onclick="() => CreateSubItem(itemInList.Id)">Agregar Subítem</button></li>
-                                    <li><button class="dropdown-item" @onclick="() => DeleteItem(itemInList.Id)">Eliminar Item</button></li>
-                                </ul>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li><button class="dropdown-item" @onclick="() => CreateSubItem(itemInList.Id)">Agregar Subítem</button></li>
+                                        <li><button class="dropdown-item" @onclick="() => EditItem(itemInList.Id)">Editar ítem</button></li>
+                                    </ul>
                                 </td>
                             </tr>
                             @if (createSubItem == true && parentItemId == itemInList.Id)
                             {
+                        <tr>
+                            <td colspan="4">
+                                <CreateItem @bind-item="tempItem" creating="createSubItem" OnCreatingChanged="creatingFinished">Crear SubItem</CreateItem>
+                            </td>
+                        </tr>}
+                            @if (editItem == true && parentItemId == itemInList.Id)
+                            {
                                 <tr>
-                                    <td colspan="4">
-                                        <CreateItem @bind-item="tempItem" creating="createSubItem" OnCreatingChanged="creatingFinished">Crear SubItem</CreateItem>
+                                    <td colspan="3">
+                                        <EditItem @bind-item="tempItem" editing="editItem" OnEditingChanged="editingFinished">Editar Item</EditItem>
                                     </td>
                                 </tr>
-                             }
+}
                         </tbody>
                     </table>
                     }

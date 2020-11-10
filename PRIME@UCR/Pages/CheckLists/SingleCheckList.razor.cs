@@ -26,6 +26,8 @@ namespace PRIME_UCR.Pages.CheckLists
         private bool isDisabled { get; set; } = true;
 
         protected bool createItem { get; set; } = false;
+
+        protected bool editItem { get; set; } = false;
         protected bool createSubItem { get; set; } = false;
 
         protected IEnumerable<CheckList> lists { get; set; }
@@ -49,15 +51,6 @@ namespace PRIME_UCR.Pages.CheckLists
         protected EditContext editContext;
 
         [Inject] protected ICheckListService MyCheckListService { get; set; }
-
-        //Esto fue lo que yo pegue
-        [Inject] public NavigationManager NavManager { get; set; }
-
-        private const string CreateUrl = "/checklist/create";
-        // private string beforeUrl = "/checklist"; //mejorar diseño de interfaz
-        private string afterUrl = "";
-
-        //Hasta aqui
 
         protected override async Task OnInitializedAsync()
         {
@@ -104,6 +97,17 @@ namespace PRIME_UCR.Pages.CheckLists
         {
             createItem = false;
             createSubItem = false;
+            editItem = false;
+            formInvalid = false;
+            await RefreshModels();
+            StateHasChanged();
+        }
+
+        protected async Task editingFinished()
+        {
+            createItem = false;
+            createSubItem = false;
+            editItem = false;
             formInvalid = false;
             await RefreshModels();
             StateHasChanged();
@@ -145,6 +149,13 @@ namespace PRIME_UCR.Pages.CheckLists
             createSubItem = true;
         }
 
+        protected async Task EditItem(int itemId)
+        {
+            tempItem = await MyCheckListService.GetItemById(itemId);
+            parentItemId = itemId;
+            editItem = true;
+        }
+
         protected override async Task OnParametersSetAsync()
         {
             await RefreshModels();
@@ -161,11 +172,6 @@ namespace PRIME_UCR.Pages.CheckLists
             formInvalid = false;
         }
 
-        protected async Task UpdateItem()
-        {
-            await MyCheckListService.UpdateItem(tempItem);
-            await RefreshModels();
-        }
         /**
          * Gets an item based on its id
          * */
@@ -204,20 +210,5 @@ namespace PRIME_UCR.Pages.CheckLists
             }
             return hasSubItems;
         }
-
-        protected async Task Delete(int id)
-        {
-            await MyCheckListService.DeleteCheckList(id);
-            afterUrl = "checklist";
-            NavManager.NavigateTo(afterUrl); // to do: agregar a pagina 
-
-        }
-        protected async Task DeleteItem(int id)
-        {
-            await MyCheckListService.DeleteItem(id);
-            await RefreshModels();
-        }
-
-        
     }
 }
