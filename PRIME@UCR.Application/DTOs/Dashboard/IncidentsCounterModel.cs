@@ -8,7 +8,7 @@ namespace PRIME_UCR.Application.DTOs.Dashboard
     {
         public IncidentsCounterModel()
         {
-            assignedIncidentsCounter = 0;
+            isReadyToShowCounters = false;
         }
 
         public int totalIncidentsCounter;
@@ -19,6 +19,6 @@ namespace PRIME_UCR.Application.DTOs.Dashboard
 
         public int maritimeIncidents;
 
-        public int assignedIncidentsCounter;
+        public bool isReadyToShowCounters;
     }
 }
