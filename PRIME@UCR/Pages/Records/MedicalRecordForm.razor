@@ -65,7 +65,7 @@
     {
         <div class="row">
             <div class="col-xl-4 col-lg-6">
-                <EditForm EditContext="RecordContext" OnValidSubmit="SaveRecordData">
+                <EditForm EditContext="RecordContext">
                     <FluentValidationValidator />
 
                     @if (RecordModel?.Expediente.CedulaMedicoDuenno == null)
@@ -287,17 +287,17 @@
             RecordModel.Paciente.Sexo = RecordModel.Sexo.ToString();
 
             await patient_service.CreatePatientAsync(RecordModel.Paciente);
+            patient_inserted = true;
 
             if (save_record_data_pushed)
             {
                 await medical_record_service.InsertAsync(RecordModel.Expediente);
-                patient_inserted = true;
                 record_inserted = true;
-                record_unfinisehd = false; 
+                record_unfinisehd = false;
             }
 
         }
-        is_loading_record = false; 
+        is_loading_record = false;
         is_loading_patient = false;
     }
 
