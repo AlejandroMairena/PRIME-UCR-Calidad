@@ -13,5 +13,7 @@ namespace PRIME_UCR.Application.Services.MedicalRecords
         Task<IEnumerable<Antecedentes>> GetBackgroundByRecordId(int recordId);
 
         Task<IEnumerable<ListaAntecedentes>> GetAll();
+
+        Task<Antecedentes> InsertBackgroundAsync(Antecedentes model);
     }
 }

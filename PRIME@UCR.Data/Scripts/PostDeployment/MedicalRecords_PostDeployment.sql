@@ -23,14 +23,5 @@ VALUES
     ('89012345',NULL,'10/26/2020','clinica'),
     ('90123456',NULL,'10/26/2020','clinica');
 
-INSERT INTO ListaAntecedentes(NombreAntecedente)
-VALUES 
-    ('Cancer'),
-    ('Diabetes'),
-    ('Hipertension'),
-    ('Problemas del corazón');
 
---INSERT INTO Antecedentes(IdListaAntecedentes, IdExpediente)
---VALUES
---    (4,1002);
 

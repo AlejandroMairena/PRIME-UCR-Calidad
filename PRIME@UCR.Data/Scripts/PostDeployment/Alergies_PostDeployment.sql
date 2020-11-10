@@ -12,8 +12,22 @@ Post-Deployment Script Template
 DELETE FROM Alergias
 DELETE FROM ListaAlergia
 
+DELETE FROM Antecedentes
+DELETE FROM ListaAntecedentes
+
 INSERT INTO ListaAlergia(NombreAlergia)
 VALUES
     ('Miel'),
     ('Penisilina'),
     ('Nitrofuranos')
+
+INSERT INTO ListaAntecedentes(NombreAntecedente)
+VALUES 
+    ('Cáncer'),
+    ('Diabetes'),
+    ('Hipertensión'),
+    ('Problemas del corazón');
+
+INSERT INTO Antecedentes(IdExpediente,IdListaAntecedentes)
+VALUES 
+    (10, 1)

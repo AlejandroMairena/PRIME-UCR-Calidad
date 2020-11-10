@@ -35,5 +35,11 @@ namespace PRIME_UCR.Application.Implementations.MedicalRecords
         {
             return await _repoLista.GetAllAsync();    
         }
+
+        public async Task<Alergias> InsertAllergyAsync(Alergias model)
+        {
+            await _repo.InsertAsync(model);
+            return model;
+        }
     }
 }

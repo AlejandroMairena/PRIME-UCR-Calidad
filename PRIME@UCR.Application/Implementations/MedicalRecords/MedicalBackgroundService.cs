@@ -26,12 +26,20 @@ namespace PRIME_UCR.Application.Implementations.MedicalRecords
 
         public async Task<IEnumerable<Antecedentes>> GetBackgroundByRecordId(int recordId)
         {
-            IEnumerable<Antecedentes> test = await _repo.GetByConditionAsync(i => i.IdExpediente == recordId);
-            return test;
+            return await _repo.GetByConditionAsync(i => i.IdExpediente == recordId);
         }
         public async Task<IEnumerable<ListaAntecedentes>> GetAll()
         {
             return await _repoLista.GetAllAsync();
         }
+
+        public async Task<Antecedentes> InsertBackgroundAsync(Antecedentes model)
+        {
+            await _repo.InsertAsync(model);
+            return model;
+        }
+
+        
+
     }
 }
