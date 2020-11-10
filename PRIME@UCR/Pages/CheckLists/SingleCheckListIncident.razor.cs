@@ -31,16 +31,18 @@ namespace PRIME_UCR.Pages.CheckLists
         public InstanceChecklist insanceLC { get; set; }
 
         protected List<Item> items { get; set; }// to change
-        protected IEnumerable<InstanciaItem> itemsInstance { get; set; }
+        protected List<InstanciaItem> itemsInstance { get; set; }
 
         public CheckList list { get; set; }
 
         protected Item tempItem;//to change
 
         protected bool formInvalid = true;
-        protected EditContext editContext;
 
         public bool not_complete;
+
+        protected List<InstanciaItem> orderedList;
+        protected List<int> orderedListLevel;
 
         protected int itemIndex { get; set; } = 0;
 
@@ -55,51 +57,17 @@ namespace PRIME_UCR.Pages.CheckLists
         protected async Task RefreshModels()
         {
             list = await MyCheckListService.GetById(plantillaid);
-            itemsInstance = await MyCheckInstanceChechistService.GetItemsByIncidentCodAndCheckListId(incidentcod, plantillaid);
             IEnumerable<Item> tempItems = await MyCheckListService.GetItemsByCheckListId(plantillaid);
             items = tempItems.ToList();
-        }
-
-        protected void HandleFieldChanged(object sender, FieldChangedEventArgs e)
-        {
-            if (tempItem.Nombre != null)
+            IEnumerable<InstanciaItem> tempInstancedItems = await MyCheckInstanceChechistService.GetItemsByIncidentCodAndCheckListId(incidentcod, plantillaid);
+            itemsInstance = tempInstancedItems.ToList();
+            IEnumerable<InstanciaItem> coreItems = await MyCheckInstanceChechistService.GetCoreItems(incidentcod, plantillaid);
+            orderedList = new List<InstanciaItem>();
+            orderedListLevel = new List<int>();
+            foreach (var item in coreItems)
             {
-                formInvalid = !editContext.Validate();
+                GenerateOrderedList(item, 0);
             }
-        }
-
-        public void Dispose()
-        {
-            editContext.OnFieldChanged -= HandleFieldChanged;
-            createItem = false;
-            StateHasChanged();
-        }
-        protected void StartNewItemCreation()
-        {
-            createItem = true;  //to change for item instance
-            tempItem = new Item();
-            tempItem.IDLista = id;
-            tempItem.Orden = items.Count() + 1;
-            editContext = new EditContext(tempItem);
-            editContext.OnFieldChanged += HandleFieldChanged;
-            StateHasChanged();
-        }
-
-        protected void CreateSubItem(int itemId)
-        {
-            createItem = true;
-            tempItem = new Item();
-            tempItem.IDLista = id;
-            tempItem.IDSuperItem = itemId;
-            // Get the order from ?
-            editContext = new EditContext(tempItem);
-            editContext.OnFieldChanged += HandleFieldChanged;
-            StateHasChanged();
-        }
-
-        protected async Task HandleValidSubmit()
-        {
-            
         }
 
         protected override async Task OnParametersSetAsync()
@@ -108,7 +76,6 @@ namespace PRIME_UCR.Pages.CheckLists
         }
         protected async Task Update()
         {
-            await MyCheckListService.UpdateCheckList(list);
             await MyCheckInstanceChechistService.UpdateInstanceChecklist(insanceLC);
             await RefreshModels();
         }
@@ -157,6 +124,34 @@ namespace PRIME_UCR.Pages.CheckLists
         {
             itemIndex = items.FindIndex(a => a.Id == instance.ItemId);
             return itemIndex;
+        }
+
+        private void GenerateOrderedList(InstanciaItem item, int level)
+        {
+            orderedList.Add(item);
+            orderedListLevel.Add(level);
+            List<InstanciaItem> subItems = itemsInstance.FindAll(tempItem => tempItem.ItemPadreId == item.ItemId);
+            if (subItems.Count() > 0)
+            {
+                foreach (var tempSubtem in subItems)
+                {
+                    GenerateOrderedList(tempSubtem, level + 1);
+                }
+            }
+        }
+
+        /**
+         * Checks if an item has subitems
+         * */
+        protected bool HasSubItems(InstanciaItem item)
+        {
+            List<InstanciaItem> subItems = itemsInstance.FindAll(tempItem => tempItem.ItemPadreId == item.ItemId);
+            bool hasSubItems = false;
+            if (subItems.Count() != 0)
+            {
+                hasSubItems = true;
+            }
+            return hasSubItems;
         }
     }
 }
