@@ -24,5 +24,19 @@ namespace PRIME_UCR.Domain.Models.MedicalRecords
         public string Genero { get; set; }
 
         public CentroMedico CentroMedico { get; set; }
+
+
+        public void set_to_null() {
+            Expediente = null;
+            Persona = null;
+            Paciente = null;
+            CedPaciente = null;
+            CedMedicoDuenno = null;
+            Clinica = null;
+            Sexo = Gender.Unspecified;
+            Genero = null;
+            CentroMedico = null; 
+        
+        }
     }
 }

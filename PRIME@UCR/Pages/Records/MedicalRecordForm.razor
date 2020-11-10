@@ -74,7 +74,7 @@
                     }
                     else
                     {
-                        <TextBox Disabled="true" @bind-Value="RecordModel.CedMedicoDuenno" Label="Cédula médico creador" />
+                        <TextBox Disabled="true" @bind-Value="RecordModel.Expediente.CedulaMedicoDuenno" Label="Cédula médico creador" />
                     }
 
 
@@ -268,6 +268,7 @@
             await medical_record_service.InsertAsync(RecordModel.Expediente);
             record_inserted = true;
             is_loading_record = false;
+            RecordModel.set_to_null(); 
         }
         else
         {
@@ -294,6 +295,7 @@
                 await medical_record_service.InsertAsync(RecordModel.Expediente);
                 record_inserted = true;
                 record_unfinisehd = false;
+                RecordModel.set_to_null(); 
             }
 
         }
@@ -364,6 +366,8 @@
 
     private async Task SetPatientCed(string ced)
     {
+        patient_inserted = false;
+        record_inserted = false;
         is_loading = true;
         RecordModel.CedPaciente = ced;
 
