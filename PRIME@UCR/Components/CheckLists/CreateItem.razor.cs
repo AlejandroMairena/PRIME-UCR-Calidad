@@ -39,6 +39,7 @@ namespace PRIME_UCR.Components.CheckLists
         * */
         [Parameter]
         public EventCallback<int> OnCreatingChanged { get; set; }
+
         [Parameter]
         public bool creating { get; set; }
 
@@ -85,7 +86,6 @@ namespace PRIME_UCR.Components.CheckLists
         public async void Dispose()
         {
             creating = false;
-            await OnitemChanged();
             await OnCreatingChanged.InvokeAsync(0);
             editContext.OnFieldChanged -= HandleFieldChanged;
             StateHasChanged();

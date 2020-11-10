@@ -26,6 +26,8 @@ namespace PRIME_UCR.Pages.CheckLists
         private bool isDisabled { get; set; } = true;
 
         protected bool createItem { get; set; } = false;
+
+        protected bool editItem { get; set; } = false;
         protected bool createSubItem { get; set; } = false;
 
         protected IEnumerable<CheckList> lists { get; set; }
@@ -54,6 +56,13 @@ namespace PRIME_UCR.Pages.CheckLists
         {
             editedList = new CheckList();
             await RefreshModels();
+        }
+
+        protected override void OnParametersSet()
+        {
+            createItem = false;
+            createSubItem = false;
+            editItem = false;
         }
 
         /**
@@ -95,17 +104,28 @@ namespace PRIME_UCR.Pages.CheckLists
         {
             createItem = false;
             createSubItem = false;
+            editItem = false;
             formInvalid = false;
             await RefreshModels();
             StateHasChanged();
         }
 
-        public async Task Dispose()
+        protected async Task editingFinished()
         {
             createItem = false;
             createSubItem = false;
+            editItem = false;
             formInvalid = false;
             await RefreshModels();
+            StateHasChanged();
+        }
+
+        public void Dispose()
+        {
+            createItem = false;
+            createSubItem = false;
+            editItem = false;
+            formInvalid = false;
             StateHasChanged();
         }
 
@@ -113,12 +133,14 @@ namespace PRIME_UCR.Pages.CheckLists
         /**
          * Sets flags to display the item creation form
          * */
-        protected void StartNewItemCreation() 
+        protected void StartNewItemCreation()
         {
             tempItem = new Item();
             tempItem.IDSuperItem = null;
             tempItem.IDLista = id;
             tempItem.Orden = coreItems.Count() + 1;
+            editItem = false;
+            createSubItem = false;
             createItem = true;
         }
 
@@ -133,7 +155,18 @@ namespace PRIME_UCR.Pages.CheckLists
             tempItem.IDSuperItem = itemId;
             tempItem.Orden = subItems.Count() + 1;
             parentItemId = itemId;
+            createItem = false;
+            editItem = false;
             createSubItem = true;
+        }
+
+        protected async Task EditItem(int itemId)
+        {
+            tempItem = await MyCheckListService.GetItemById(itemId);
+            parentItemId = itemId;
+            createItem = false;
+            createSubItem = false;
+            editItem = true;
         }
 
         protected override async Task OnParametersSetAsync()

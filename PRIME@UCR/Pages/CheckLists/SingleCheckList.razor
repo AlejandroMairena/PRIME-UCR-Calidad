@@ -120,7 +120,7 @@ else
                                         </ul>
                                     </div>
                                 </td>
-                            
+
                                 <th class="align-middle"> @itemInList.Nombre</th>
                                 <td class="align-middle"> @itemInList.Descripcion </td>
                                 <td class="align-middle" align="right" style="width: 54px">
@@ -132,6 +132,7 @@ else
                                     @* Button to create a new sub item *@
                                     <ul class="dropdown-menu" role="menu">
                                         <li><button class="dropdown-item" @onclick="() => CreateSubItem(itemInList.Id)">Agregar Subítem</button></li>
+                                        <li><button class="dropdown-item" @onclick="() => EditItem(itemInList.Id)">Editar ítem</button></li>
                                     </ul>
                                 </td>
                             </tr>
@@ -142,7 +143,15 @@ else
                                         <CreateItem @bind-item="tempItem" creating="createSubItem" OnCreatingChanged="creatingFinished">Crear SubItem</CreateItem>
                                     </td>
                                 </tr>
-                             }
+                            }
+                            @if (editItem == true && parentItemId == itemInList.Id)
+                            {
+                                <tr>
+                                    <td colspan="4">
+                                        <EditItem @bind-item="tempItem" editing="editItem" OnEditingChanged="editingFinished">Editar Item</EditItem>
+                                    </td>
+                                </tr>
+}
                         </tbody>
                     </table>
                     }
