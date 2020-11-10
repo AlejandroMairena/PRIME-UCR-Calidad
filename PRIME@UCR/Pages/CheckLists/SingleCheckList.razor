@@ -138,15 +138,16 @@ else
                             </tr>
                             @if (createSubItem == true && parentItemId == itemInList.Id)
                             {
-                        <tr>
-                            <td colspan="4">
-                                <CreateItem @bind-item="tempItem" creating="createSubItem" OnCreatingChanged="creatingFinished">Crear SubItem</CreateItem>
-                            </td>
-                        </tr>}
+                                <tr>
+                                    <td colspan="4">
+                                        <CreateItem @bind-item="tempItem" creating="createSubItem" OnCreatingChanged="creatingFinished">Crear SubItem</CreateItem>
+                                    </td>
+                                </tr>
+                            }
                             @if (editItem == true && parentItemId == itemInList.Id)
                             {
                                 <tr>
-                                    <td colspan="3">
+                                    <td colspan="4">
                                         <EditItem @bind-item="tempItem" editing="editItem" OnEditingChanged="editingFinished">Editar Item</EditItem>
                                     </td>
                                 </tr>

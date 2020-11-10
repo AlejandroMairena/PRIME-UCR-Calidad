@@ -68,7 +68,7 @@ namespace PRIME_UCR.Components.CheckLists
                 item.ImagenDescriptiva = "/images/defaultCheckList.svg";
             }
             formInvalid = false;
-            MyService.UpdateItem(item);
+            await MyService.UpdateItem(item);
             await OnitemChanged();
             await OnEditingChanged.InvokeAsync(0);
             StateHasChanged();
@@ -83,10 +83,13 @@ namespace PRIME_UCR.Components.CheckLists
             }
         }
 
-        public void Dispose()
+        public async void Dispose()
         {
+            editing = false;
+            await OnEditingChanged.InvokeAsync(0);
             editContext.OnFieldChanged -= HandleFieldChanged;
             StateHasChanged();
+
         }
 
         protected async Task HandleValidSubmit()

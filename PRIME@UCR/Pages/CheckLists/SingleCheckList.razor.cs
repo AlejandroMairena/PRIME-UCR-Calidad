@@ -58,6 +58,13 @@ namespace PRIME_UCR.Pages.CheckLists
             await RefreshModels();
         }
 
+        protected override void OnParametersSet()
+        {
+            createItem = false;
+            createSubItem = false;
+            editItem = false;
+        }
+
         /**
          * Gets the checklist corresponding to this page, its items and the list of checklists in the database
          * */
@@ -113,12 +120,12 @@ namespace PRIME_UCR.Pages.CheckLists
             StateHasChanged();
         }
 
-        public async Task Dispose()
+        public void Dispose()
         {
             createItem = false;
             createSubItem = false;
+            editItem = false;
             formInvalid = false;
-            await RefreshModels();
             StateHasChanged();
         }
 
@@ -126,12 +133,14 @@ namespace PRIME_UCR.Pages.CheckLists
         /**
          * Sets flags to display the item creation form
          * */
-        protected void StartNewItemCreation() 
+        protected void StartNewItemCreation()
         {
             tempItem = new Item();
             tempItem.IDSuperItem = null;
             tempItem.IDLista = id;
             tempItem.Orden = coreItems.Count() + 1;
+            editItem = false;
+            createSubItem = false;
             createItem = true;
         }
 
@@ -146,6 +155,8 @@ namespace PRIME_UCR.Pages.CheckLists
             tempItem.IDSuperItem = itemId;
             tempItem.Orden = subItems.Count() + 1;
             parentItemId = itemId;
+            createItem = false;
+            editItem = false;
             createSubItem = true;
         }
 
@@ -153,6 +164,8 @@ namespace PRIME_UCR.Pages.CheckLists
         {
             tempItem = await MyCheckListService.GetItemById(itemId);
             parentItemId = itemId;
+            createItem = false;
+            createSubItem = false;
             editItem = true;
         }
 

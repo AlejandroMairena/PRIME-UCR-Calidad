@@ -86,7 +86,6 @@ namespace PRIME_UCR.Components.CheckLists
         public async void Dispose()
         {
             creating = false;
-            await OnitemChanged();
             await OnCreatingChanged.InvokeAsync(0);
             editContext.OnFieldChanged -= HandleFieldChanged;
             StateHasChanged();
