@@ -1,10 +1,14 @@
 ﻿@if (Content.Count == Values.Count && Content.Count > 0)
 {
-    <div class="@($"alert alert-{Class}")" role="alert">
-        @for (var it = 0; it < Content.Count; ++it)
-        {
-            <b>@Content[it]</b> @Values[it] <br />
-        }
+    <div class="@($"alert alert-{Class}") container" role="alert">
+        <div class="row">
+            @for (var it = 0; it < Content.Count; ++it)
+            {
+                <div class="col text-center">
+                    <b>@Content[it]</b> @Values[it] <br />
+                </div>
+            }
+        </div>
     </div>
 }
 

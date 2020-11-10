@@ -52,8 +52,8 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
         {
             currentStateIndex = IncidentStatesList.FindIndex(i => i.Item1 == Incident.CurrentState);
             nextState = (await IncidentService.GetNextIncidentState(Incident.Code)).ToString();
-            //PendingTasks.Add("Daniel, ");
-            //PendingTasks.Add("Esteban");
+            PendingTasks.Add("Prueba1, ");
+            PendingTasks.Add("Test ");
         }
 
         public string setStateColor(int index)
