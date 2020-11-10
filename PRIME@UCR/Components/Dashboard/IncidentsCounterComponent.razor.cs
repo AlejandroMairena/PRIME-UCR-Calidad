@@ -23,8 +23,9 @@ namespace PRIME_UCR.Components.Dashboard
             incidentsCounter.totalIncidentsCounter = await DashboardService.GetIncidentCounterAsync(String.Empty);
             incidentsCounter.maritimeIncidents = await DashboardService.GetIncidentCounterAsync("Marítimo");
             incidentsCounter.airIncidentsCounter = await DashboardService.GetIncidentCounterAsync("Aéreo");
+            incidentsCounter.groundIncidentsCounter = await DashboardService.GetIncidentCounterAsync("Terrestre");
 
-            incidentsCounter.assignedIncidentsCounter += 3;
+            incidentsCounter.assignedIncidentsCounter += 4;
         }
     }
 }
