@@ -23,12 +23,18 @@ namespace PRIME_UCR.Components.Multimedia
         [Parameter]
         public bool ShowImage { get; set; } = false;
         [Parameter]
+        public bool ShowMicrophone { get; set; }
+        [Parameter]
         public MultimediaContent MContent { get; set; }
 
+        public delegate Task ModalClosed();
+        public event ModalClosed OnModalClosed;
 
         async Task CloseImageView()
         {
             Show = false;
+
+            if (OnModalClosed != null) await OnModalClosed();
             await OnClose.InvokeAsync(Show);
         }
 

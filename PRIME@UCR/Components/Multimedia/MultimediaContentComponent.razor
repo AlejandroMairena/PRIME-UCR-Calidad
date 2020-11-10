@@ -41,17 +41,23 @@
 
                     </div>*@
                     @* Camera Logo *@
-                    @*<div class="col">
-                        <img class="data_btn" src="img/ico-foto-blanco.jpeg" />
-                    </div>*@
-                    <button type="button" class="btn btn-primary" @onclick="OpenCamera">Cámara</button>
+                    <div class="col">
+                        <button class="rt-img-cont" @onclick="OpenCamera">
+                            <img class="data_btn" src="img/ico-foto-blanco.jpeg" />
+                        </button>
+                    </div>
+
                     @* Audio Logo *@
                     <div class="col">
-                        <img class="data_btn" src="img/ico-micro-blanco.jpeg" />
+                        <button class="rt-img-cont" @onclick="OpenMicrophone">
+                            <img class="data_btn" src="img/ico-micro-blanco.jpeg" />
+                        </button>
                     </div>
                     @* Video Logo *@
                     <div class="col">
-                        <img class="data_btn" src="img/ico-video-blanco.jpeg" />
+                        <button class="rt-img-cont">
+                            <img class="data_btn" src="img/ico-video-blanco.jpeg" />
+                        </button>
                     </div>
                 </div>
 
@@ -116,6 +122,7 @@
                  Show="showModal" 
                  ShowCamera="showCamera" 
                  ShowImage="showImage"
+                 ShowMicrophone="showMicrophone"
                  MContent="modalMContent"
                  OnClose="(bool val) => showModal = val">
 </MultimediaModal>

@@ -3,10 +3,8 @@
         navigator.mediaDevices.getUserMedia);
 
     if (has_um) {
-        // Good to go!
         console.log('Good to go!');
     } else {
-        //alert('getUserMedia() is not supported by your browser');
         console.log('Not good to go!');
     }
     return has_um;
@@ -28,16 +26,23 @@ function openCamera(videoRef) {
     return true;
 }
 
-function takePhotograph(canvasRef, videoRef, imageRef) {
+function takePhotograph(canvasRef, videoRef, imageRef, downloadLinkRef) {
     canvasRef.width = videoRef.videoWidth;
     canvasRef.height = videoRef.videoHeight;
     canvasRef.getContext('2d').drawImage(videoRef, 0, 0);
     imageRef.src = canvasRef.toDataURL('image/webp');
+    setImageDowloadLink(imageRef, downloadLinkRef);
     return imageRef.src;
 }
 
 function closeCamera(videoRef) {
-    videoRef.srcObject = null;
+    console.log('Close Camera');
+    if (videoRef.srcObject == null) {
+        return true;
+    }
+    videoRef.srcObject.getTracks().forEach(function (track) {
+        track.stop();
+    });
     return true;
 }
 
@@ -48,4 +53,9 @@ function handleSuccess(stream) {
 
 function handleError(error) {
     console.error('Error: ', error);
+}
+
+function setImageDowloadLink(imageRef, downloadLinkRef) {
+    downloadLinkRef.download = 'download.png';
+    downloadLinkRef.href = imageRef.src;
 }

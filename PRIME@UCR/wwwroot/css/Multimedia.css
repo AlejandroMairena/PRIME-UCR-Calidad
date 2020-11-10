@@ -106,6 +106,12 @@
     width: 50px;
     height: auto;
 }
+
+.rt-img-cont {
+    border: 0px;
+    padding: 0px;
+}
+
 .btn-secondary {
     background-color: #095290;
 }
@@ -254,6 +260,8 @@ button.btn.btn-danger.m-btn.m-btn-rm {
 
 .rt-container {
     width: 500px;
+    display: block;
+    margin: auto;
 }
 
 .rt-box {
@@ -265,6 +273,7 @@ button.btn.btn-danger.m-btn.m-btn-rm {
 
 .rt-button {
     width: 120px;
+    height: 80px;
     margin-left: auto;
     margin-right: auto;
     display:block;
