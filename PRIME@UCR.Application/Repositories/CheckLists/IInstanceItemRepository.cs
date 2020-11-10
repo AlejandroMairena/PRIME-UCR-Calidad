@@ -9,5 +9,7 @@ namespace PRIME_UCR.Application.Repositories.CheckLists
     public interface IInstanceItemRepository : IGenericRepository<InstanciaItem, int>
     {
         Task<IEnumerable<InstanciaItem>> GetByIncidentCodAndCheckListId(string incidentCode, int checklistId);
+        Task<IEnumerable<InstanciaItem>> GetCoreItems(string incidentCode, int checklistId);
+        Task<IEnumerable<InstanciaItem>> GetItemsByFatherId(string incidentCode, int checklistId, int itemId);
     }
 }

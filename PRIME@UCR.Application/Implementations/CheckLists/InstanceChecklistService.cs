@@ -71,5 +71,17 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
             IEnumerable<InstanciaItem> items = await _instanceItemRepository.GetByIncidentCodAndCheckListId(incidentCode, checklistId);
             return items;
         }
+
+        public async Task<IEnumerable<InstanciaItem>> GetCoreItems(string incidentCode, int checklistId) 
+        {
+            IEnumerable<InstanciaItem> items = await _instanceItemRepository.GetCoreItems(incidentCode, checklistId);
+            return items;
+        }
+
+        public async Task<IEnumerable<InstanciaItem>> GetItemsByFatherId(string incidentCode, int checklistId, int itemId)
+        {
+            IEnumerable<InstanciaItem> items = await _instanceItemRepository.GetItemsByFatherId(incidentCode, checklistId, itemId);
+            return items;
+        }
     }
 }

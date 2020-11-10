@@ -24,17 +24,22 @@ namespace PRIME_UCR.Infrastructure.EntityConfiguration.CheckLists
                 .IsRequired();
             builder.HasKey(k => new { k.ItemId, k.PlantillaId, k.IncidentCod });
             builder
+                .Property(i => i.ItemPadreId)
+                .HasColumnName("Id_Item_Padre");
+            builder
+                .Property(i => i.PlantillaPadreId)
+                .HasColumnName("Id_Lista_Padre");
+            builder
+                .Property(i => i.IncidentCodPadre)
+                .HasColumnName("Codigo_Incidente_Padre");
+            builder
                 .HasOne<Item>()
                 .WithMany()
                 .HasForeignKey(i => i.ItemId);
             builder
-                .HasOne<CheckList>()
-                .WithMany()
-                .HasForeignKey(i => i.PlantillaId);
-            builder
-                .HasOne<Incidente>()
-                .WithMany()
-                .HasForeignKey(i => i.IncidentCod);
+                .HasOne(i => i.MyFather)
+                .WithMany(i => i.SubItems)
+                .HasForeignKey(k => new { k.ItemPadreId, k.PlantillaPadreId, k.IncidentCodPadre });
         }
     }
 }

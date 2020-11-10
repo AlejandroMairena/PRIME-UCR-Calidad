@@ -28,11 +28,11 @@ namespace PRIME_UCR.Components.CheckLists
 
         protected IEnumerable<CheckList> lists { get; set; }
         protected IEnumerable<InstanceChecklist> instancelists { get; set; }
-        
+
         public List<CheckList> TempInstance = new List<CheckList>();
         public List<Todo> TempDetail = new List<Todo>();
         public List<int> TempsIds = new List<int>();
-        
+
         public bool dont_save = true;
         public int min = 0;//sumar 1
         public int count = 0;
@@ -123,6 +123,47 @@ namespace PRIME_UCR.Components.CheckLists
             if (!instancelists.Any(p => p.PlantillaId == instance.PlantillaId && p.IncidentCod == incidentCod))
             {
                 await MyInstanceChecklistService.InsertInstanceChecklist(instance);
+                await AddCoreItems(instance);
+            }
+        }
+
+        /**
+         * Starts the recursive method to insert all items
+         * */
+        protected async Task AddCoreItems(InstanceChecklist instance)
+        {
+            IEnumerable<Item> coreItems = await MyService.GetCoreItems(instance.PlantillaId);
+            foreach (var item in coreItems)
+            {
+                await AddAllItems(item, instance.PlantillaId, null);
+            }
+        }
+
+        /**
+         * Recursive method that inserts all items and gives them all their attributes.
+         * */
+        protected async Task AddAllItems(Item item, int checklistId, int? parentItemId)
+        {
+            InstanciaItem itemInstance = new InstanciaItem();
+            itemInstance.ItemId = item.Id;
+            itemInstance.PlantillaId = checklistId;
+            itemInstance.IncidentCod = incidentCod;
+            itemInstance.Completado = false;
+            IEnumerable<Item> subItems = await MyService.GetItemsBySuperitemId(item.Id);
+            if (subItems.Count() == 0)
+            {
+                itemInstance.ItemPadreId = parentItemId;
+                itemInstance.PlantillaPadreId = checklistId;
+                itemInstance.IncidentCodPadre = incidentCod;
+                await MyInstanceChecklistService.InsertInstanceItem(itemInstance);
+            }
+            else
+            {
+                await MyInstanceChecklistService.InsertInstanceItem(itemInstance);
+                foreach (var subItem in subItems) 
+                {
+                    await AddAllItems(subItem, checklistId, item.Id);
+                }
             }
         }
 
