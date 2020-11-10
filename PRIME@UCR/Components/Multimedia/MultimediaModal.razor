@@ -1,41 +1,47 @@
-﻿@inject IJSRuntime JS
+﻿@using PRIME_UCR.Application.Services.Multimedia
+@inject IJSRuntime JS
+@inject IEncryptionService encrypt_service
 <!--POPUP VER-->
 <!-- The Modal -->
 @if (Show)
 {
-<div class="modal-mc">
+    <div class="modal-mc">
 
-    <!-- The Close Button -->
-    <div class="close" @onclick="CloseImageView">x</div>
+        <!-- The Close Button -->
+        <div class="close" @onclick="CloseImageView">x</div>
 
-    @if (ShowCamera)
-    {
-        <CameraComponent></CameraComponent>
-    }
-    @if (ShowImage)
-    {
-        string imgSrc = getSrc();
-        string captionName = getName();
-        <img src=@imgSrc class="modal-content-image-mc">
-        <div id="caption">@captionName</div>
-    }
-    @if(ShowAudio){
-        string path = getAudio();
-        <audio controls="controls">
-             <source src=@path type="audio/mpeg">
-        </audio>
-    }
-    @if(ShowVideo){
-        string vid = getVideo();
-        <video width="1280" height="720" controls="controls">
-             <source src=@vid type="video/mp4">
-        </video>
-    }
-</div>
+        @if (ShowCamera)
+        {
+            <CameraComponent></CameraComponent>
+        }
+        @if (ShowImage)
+        {
+            string imgSrc = getSrc();
+            string captionName = getName();
+            <img src=@imgSrc class="modal-content-image-mc">
+            <div id="caption">@captionName</div>
+        }
+        @if (ShowAudio)
+        {
+            string path = getAudio();
+            <audio controls="controls">
+                <source src=@path type="audio/mpeg">
+            </audio>
+        }
+        @if (ShowVideo)
+        {
+            string vid = getVideo();
+            <video width="1280" height="720" controls="controls">
+                <source src=@vid type="video/mp4">
+            </video>
+        }
+    </div>
 }
-else {
-    if (ShowText) {
-       getText();
+else
+{
+    if (ShowText)
+    {
+        getText();
     }
 }
 

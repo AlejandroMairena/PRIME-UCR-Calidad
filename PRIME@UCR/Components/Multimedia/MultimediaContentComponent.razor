@@ -6,10 +6,12 @@
 @using Microsoft.AspNetCore.Hosting
 @inject IWebHostEnvironment _environment;
 @inject IJSRuntime JS
+@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
 
-@using PRIME_UCR.Infrastructure
+    @using PRIME_UCR.Infrastructure
 
-@* MultimediaContentComponent*@
+    @* MultimediaContentComponent*@
 <div>
     @* Boton Principal *@
     <div class="@divDDClass">
@@ -39,11 +41,11 @@
                     @* Loading Wheel *@
                     @*<div class="col">
 
-                    </div>*@
+                        </div>*@
                     @* Camera Logo *@
                     @*<div class="col">
-                        <img class="data_btn" src="img/ico-foto-blanco.jpeg" />
-                    </div>*@
+                            <img class="data_btn" src="img/ico-foto-blanco.jpeg" />
+                        </div>*@
                     <button type="button" class="btn btn-primary" @onclick="OpenCamera">Cámara</button>
                     @* Audio Logo *@
                     <div class="col">
@@ -91,8 +93,12 @@
                                     <td>@mcontent.Nombre</td>
                                     <td>@mcontent.Tipo</td>
                                     <td>@mcontent.Fecha_Hora</td>
-                                    <td><button type="button" class="btn btn-secondary m-btn m-btn-rm action_buttom" 
-                                                @onclick="(() => ShowPopUp(mcontent))">@GetButonName(mcontent)</button></td>
+                                    <td>
+                                        <button type="button" class="btn btn-secondary m-btn m-btn-rm action_buttom"
+                                                @onclick="(() => ShowPopUp(mcontent))">
+                                            @GetButonName(mcontent)
+                                        </button>
+                                    </td>
                                     <td><button type="button" class="btn btn-danger m-btn m-btn-rm">Eliminar</button></td>
                                 </tr>
                             }
@@ -112,13 +118,13 @@
 </div>
 
 
-<MultimediaModal 
-                 Show="showModal" 
-                 ShowCamera="showCamera" 
+<MultimediaModal Show="showModal"
+                 ShowCamera="showCamera"
                  ShowImage="showImage"
                  MContent="modalMContent"
                  ShowAudio="showAudio"
                  ShowVideo="showVideo"
                  ShowText="showText"
+                 ES="encrypt_service"
                  OnClose="(bool val) => showModal = val">
 </MultimediaModal>

@@ -1,5 +1,6 @@
 ﻿using BlazorInputFile;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Configuration;
 using Microsoft.JSInterop;
 using PRIME_UCR.Domain.Models;
 using System;
@@ -64,6 +65,16 @@ namespace PRIME_UCR.Components.Multimedia
         // to the user. 
         async Task HandleFileSelected(IFileListEntry[] files)
         {
+            //leer llave
+            //leer iv
+            //string keyString = Configuration.GetConnectionString("Key");
+            //string ivString = Configuration.GetConnectionString("IV");
+            string keyString = "qXOctUgD1RQCyF6dl4IjgZLAosrLh8Dn8GCklADSmvo=";
+            string ivString = "fkmYijInbe9eWQbLoWtTNQ==";
+            byte[] ivByte = System.Convert.FromBase64String(ivString);
+            byte[] keyByte = System.Convert.FromBase64String(keyString);
+            file_service.SetKeyIV(ivByte, keyByte);
+            encrypt_service.SetKeyIV(ivByte, keyByte);
             IFileListEntry file = files.FirstOrDefault();
 
             validFileType = ValidateFile(file, validTypeFiles);
@@ -106,7 +117,7 @@ namespace PRIME_UCR.Components.Multimedia
         {
             string filePath = Path.Combine(basePath, fileName);
             byte[] encryptedPathB = encrypt_service.Encrypt(filePath);
-            string encryptedPathS = System.Text.Encoding.UTF8.GetString(encryptedPathB);
+            string encryptedPathS = System.Convert.ToBase64String(encryptedPathB);
             return encryptedPathS;
         }
 
