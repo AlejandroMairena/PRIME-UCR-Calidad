@@ -50,6 +50,15 @@ namespace PRIME_UCR.Pages.CheckLists
 
         [Inject] protected ICheckListService MyCheckListService { get; set; }
 
+        //Esto fue lo que yo pegue
+        [Inject] public NavigationManager NavManager { get; set; }
+
+        private const string CreateUrl = "/checklist/create";
+        // private string beforeUrl = "/checklist"; //mejorar diseño de interfaz
+        private string afterUrl = "";
+
+        //Hasta aqui
+
         protected override async Task OnInitializedAsync()
         {
             editedList = new CheckList();
@@ -199,14 +208,14 @@ namespace PRIME_UCR.Pages.CheckLists
         protected async Task Delete(int id)
         {
             await MyCheckListService.DeleteCheckList(id);
-            await RefreshModels();
-           
+            afterUrl = "checklist";
+            NavManager.NavigateTo(afterUrl); // to do: agregar a pagina 
+
         }
         protected async Task DeleteItem(int id)
         {
             await MyCheckListService.DeleteItem(id);
             await RefreshModels();
-
         }
 
         
