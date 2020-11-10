@@ -16,6 +16,7 @@
     </Table>
     <div>
         <EditForm EditContext="_contAnte">
+            @* HAcer que el dropdown no muestre los qque ya estan*@
             <DropDownMenu T="ListaAntecedentes" Data="ListaAntecedentes"
                           Label="Antecedentes Medicos"
                           TextProperty="NombreAntecedente"
@@ -23,6 +24,10 @@
                           Required="false"
                           Disabled="false"
                           @bind-Value="@antecedetePrueba" />
+            <form>
+                @* Insert *@
+
+            </form>
         </EditForm>
 
 
