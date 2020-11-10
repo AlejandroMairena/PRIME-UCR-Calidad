@@ -1,36 +1,23 @@
 ﻿using Microsoft.AspNetCore.Components;
-using PRIME_UCR.Application.DTOs.Dashboard;
-using PRIME_UCR.Application.Services.Incidents;
-using PRIME_UCR.Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using PRIME_UCR.Application.DTOs.Dashboard;
 
 namespace PRIME_UCR.Components.Dashboard.Filters
 {
-    public partial class ModalityFilter
+    public partial class DateFilter
     {
-        [Inject]
-        public IIncidentService IncidentService { get; set; }
         [Parameter] public FilterModel Value { get; set; }
         [Parameter] public EventCallback<FilterModel> ValueChanged { get; set; }
         [Parameter] public EventCallback OnDiscard { get; set; }
 
-        private List<Modalidad> _modes;
-        private bool _isLoading = true;
         private bool _changesMade = false;
-        protected override async Task OnInitializedAsync()
+        private async Task OnPickedInitialDate(DateTime? date)
         {
-            _modes =
-                (await IncidentService.GetTransportModesAsync())
-                .ToList();
-            _isLoading = false;
-        }
-
-        private async Task OnModalityChange(Modalidad modalidad) 
-        {
-            if (modalidad == Value.ModalityFilter)
+            Value._selectedInitialDate = date;
+            if (date == Value.InitialDateFilter)
             {
                 _changesMade = false;
             }
@@ -38,20 +25,37 @@ namespace PRIME_UCR.Components.Dashboard.Filters
             {
                 _changesMade = true;
             }
-            Value._selectedModality = modalidad;
             await ValueChanged.InvokeAsync(Value);
         }
+        private async Task OnPickedFinalDate(DateTime? date)
+        {
+            Value._selectedFinalDate = date;
+            if (date == Value.FinalDateFilter)
+            {
+                /*              Value.ButtonEnabled = true;*/
+                _changesMade = false;
+            }
+        
+            else
+            {
+                _changesMade = true;
+            }
+            await ValueChanged.InvokeAsync(Value);
+        }
+
         private async Task Discard()
         {
             _changesMade = false;
-            Value._selectedModality = Value.ModalityFilter;
+            Value._selectedInitialDate = Value.InitialDateFilter;
+            Value._selectedFinalDate = Value.FinalDateFilter;
             await ValueChanged.InvokeAsync(Value);
         }
         private async Task Save()
         {
             StateHasChanged();
-            Value.ModalityFilter = Value._selectedModality;
-            if (Value.ModalityFilter != null)
+            Value.InitialDateFilter = Value._selectedInitialDate;
+            Value.FinalDateFilter = Value._selectedFinalDate;
+            if (Value.InitialDateFilter != null|| Value.FinalDateFilter != null)
             {
                 Value.ButtonEnabled = true;
             }
@@ -62,6 +66,6 @@ namespace PRIME_UCR.Components.Dashboard.Filters
             _changesMade = false;
             await ValueChanged.InvokeAsync(Value);
         }
-
     }
+
 }

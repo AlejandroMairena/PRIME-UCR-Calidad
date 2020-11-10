@@ -1,0 +1,28 @@
+﻿@using PRIME_UCR.Components.Controls
+
+<Loading IsLoading="Value == null">
+    <EditForm Model="Value" OnValidSubmit="@Save">
+        <DatePicker Value="Value._selectedInitialDate"
+                    ValueExpression="() => Value._selectedInitialDate"
+                    ValueChanged="@((DateTime? d) => OnPickedInitialDate(d))"
+                    Max="Value._selectedFinalDate == null? DateTime.Today : Value._selectedFinalDate"
+                    Required="false"
+                    Label="Fecha Inicial" />
+        <DatePicker Value="Value._selectedFinalDate"
+                    ValueExpression="() => Value._selectedFinalDate"
+                    ValueChanged="@((DateTime? d) => OnPickedFinalDate(d))"
+                    Min="Value._selectedInitialDate == null? DateTime.Today.AddYears(-20) : Value._selectedInitialDate "
+                    Required="false"
+                    Label="Fecha Final" />
+        @if (!_changesMade)
+        {
+            <button disabled type="submit" class="btn btn-primary">Aplicar filtros</button>
+            <button disabled class="btn btn-outline-secondary">Descartar filtros</button>
+        }
+        else
+        {
+            <button type="submit" class="btn btn-primary">Aplicar filtros</button>
+            <button role="button" @onclick:preventDefault @onclick="@Discard" class="btn btn-outline-secondary">Descartar filtros</button>
+        }
+    </EditForm>
+</Loading>

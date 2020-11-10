@@ -17,6 +17,7 @@ namespace PRIME_UCR.Application.DTOs.Dashboard
             HouseholdOriginFilter = new HouseholdModel();
             InternationalOriginFilter = new InternationalModel();
             MedicalCenterOriginFilter = new MedicalCenterLocationModel();
+
             // selected
             _selectedMedicalCenterDestination = new MedicalCenterLocationModel();
             _selectedHouseholdOrigin = new HouseholdModel();
@@ -24,6 +25,7 @@ namespace PRIME_UCR.Application.DTOs.Dashboard
             _selectedMedicalCenterOrigin = new MedicalCenterLocationModel();
         }
 
+        // final
         public Estado StateFilter { get; set; }
         public DateTime? InitialDateFilter { get; set; }
         public DateTime? FinalDateFilter { get; set; }
@@ -33,6 +35,8 @@ namespace PRIME_UCR.Application.DTOs.Dashboard
         public HouseholdModel HouseholdOriginFilter { get; set; }
         public InternationalModel InternationalOriginFilter { get; set; }
         public MedicalCenterLocationModel MedicalCenterOriginFilter { get; set; }
+
+        // selected
         public Estado _selectedState { get; set; }
         public DateTime? _selectedInitialDate { get; set; }
         public DateTime? _selectedFinalDate { get; set; }

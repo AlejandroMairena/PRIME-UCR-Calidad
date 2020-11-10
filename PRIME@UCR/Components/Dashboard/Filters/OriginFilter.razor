@@ -1,90 +1,95 @@
 ﻿@using PRIME_UCR.Components.Controls
 
-<EditForm Model="Value">
-    <DropDownMenu Data="@_dropdownValuesOrigin" 
-                    Label="Ubicación origen" 
-                    TextProperty="Item2"
-                    Value="_selectedOriginType"
-                    ValueChanged="@((Tuple<OriginType, string> o) => OnOriginTypeChange(o))"
-                    ValueExpression="() => _selectedOriginType"
-                    UseValidation="false" 
-                    Required="false"/>
-</EditForm>
-<Loading IsLoading="@_isLoading">
-    @if(_selectedOriginType.Item1 != OriginType.SinFiltro)
+<EditForm Model="Value" OnValidSubmit="@Save">
+    <Loading IsLoading="@_isLoading">
+        <DropDownMenu Data="@_dropdownValuesOrigin" 
+                        Label="Ubicación origen" 
+                        DefaultText="Sin filtro"
+                        Value="Value._selectedOriginType"
+                        ValueExpression="() => Value._selectedOriginType"
+                        ValueChanged="@((string o) => OnOriginTypeChange(o))"
+                        UseValidation="false" 
+                        Required="false"/>
+
+    @if (Value._selectedOriginType != null)
     {
-        @if (_selectedOriginType.Item1 == OriginType.Household)
-        {
+        @if (Value._selectedOriginType == EnumUtils.GetDescription(OriginType.Household))
+        {            
             <Loading IsLoading="@_isLoading">
-                <EditForm Model="Value">
-                    <FluentValidationValidator />
-                            <DropDownMenu Data="@_provinces"
-                                          Label="Provincia"
-                                          TextProperty="Nombre"
-                                          DefaultText="Sin filtro"
-                                          Value="@Value.HouseholdOriginFilter.Province"
-                                          ValueExpression="() => Value.HouseholdOriginFilter.Province"
-                                          ValueChanged="@((Provincia p) => OnChangeProvince(p))"
-                                          UseValidation="false"
-                                          Required="false" />
-                            @if (Value.HouseholdOriginFilter.Province != null)
-                            {
-                                <DropDownMenu Data="@_cantons"
-                                              Label="Cantón"
-                                              TextProperty="Nombre"
-                                              DefaultText="Sin filtro"
-                                              Value="@Value.HouseholdOriginFilter.Canton"
-                                              ValueExpression="() => Value.HouseholdOriginFilter.Canton"
-                                              ValueChanged="@((Canton c) => OnChangeCanton(c))"
-                                              UseValidation="false"
-                                              Required="false" />
-                                if (Value.HouseholdOriginFilter.Canton != null)
-                                {
-                                    <DropDownMenu Data="@_districts"
-                                                  Label="Distrito"
-                                                  TextProperty="Nombre"
-                                                  DefaultText="Sin filtro"
-                                                  @bind-Value="Value.HouseholdOriginFilter.District"
-                                                  UseValidation="false"
-                                                  Required="false" />
-                                }
-                            }
-                </EditForm>
+                <DropDownMenu Data="@_provinces"
+                                Label="Provincia"
+                                TextProperty="Nombre"
+                                DefaultText="Sin filtro"
+                                Value="@Value._selectedHouseholdOrigin.Province"
+                                ValueChanged="@((Provincia p) => OnChangeProvince(p))"
+                                ValueExpression="() => Value._selectedHouseholdOrigin.Province"
+                                UseValidation="false"
+                                Required="false" />
+                @if (Value._selectedHouseholdOrigin.Province != null)
+                {
+                    <DropDownMenu Data="@_cantons"
+                                    Label="Cantón"
+                                    TextProperty="Nombre"
+                                    DefaultText="Sin filtro"
+                                    Value="@Value._selectedHouseholdOrigin.Canton"
+                                    ValueExpression="() => Value._selectedHouseholdOrigin.Canton"
+                                    ValueChanged="@((Canton c) => OnChangeCanton(c))"
+                                    UseValidation="false"
+                                    Required="false" />
+                    if (Value._selectedHouseholdOrigin.Canton != null)
+                    {
+                        <DropDownMenu Data="@_districts"
+                                        Label="Distrito"
+                                        TextProperty="Nombre"
+                                        DefaultText="Sin filtro"
+                                        Value="@Value._selectedHouseholdOrigin.District"
+                                        ValueExpression="() => Value._selectedHouseholdOrigin.District"
+                                        ValueChanged="@((Distrito d) => OnChangeDistrict(d))"
+                                        UseValidation="false"
+                                        Required="false" />
+                    }
+                }
             </Loading>
         }
-        else if (_selectedOriginType.Item1 == OriginType.International)
+        else if (Value._selectedOriginType == EnumUtils.GetDescription(OriginType.International))
         {
             <Loading IsLoading="_isLoading">
-                <EditForm Model="Value">
-                            <DropDownMenu Data="@_countries"
-                                          T="Pais"
-                                          Label="País"
-                                          TextProperty="Nombre"
-                                          DefaultText="Sin filtro"
-                                          @bind-Value="@Value.InternationalOriginFilter.Country"
-                                          UseValidation="false"
-                                          Required="false" />
-                </EditForm>
+                <DropDownMenu Data="@_countries"
+                                Label="País"
+                                TextProperty="Nombre"
+                                DefaultText="Sin filtro"
+                                Value="@Value._selectedInternationalOrigin.Country"
+                                ValueExpression="() => Value._selectedInternationalOrigin.Country"
+                                ValueChanged="@((Pais p) => OnChangeCountry(p))"
+                                UseValidation="false"
+                                Required="false" />
             </Loading>
         }
         else
         {
             <Loading IsLoading="_isLoading">
-                <EditForm Model="Value">
-                    <FluentValidationValidator />
-                            <DropDownMenu T="CentroMedico" 
-                                          Data="_medicalCenters"
-                                          Label="Centro médico"
-                                          DefaultText="Sin filtro"
-                                          TextProperty="Nombre"
-                                          Value="@Value.MedicalCenterOriginFilter.MedicalCenter"
-                                          ValueExpression="() => Value.MedicalCenterOriginFilter.MedicalCenter"
-                                          ValueChanged="@((CentroMedico mc) => OnChangeMedicalCenter(mc))" 
-                                          UseValidation="false"
-                                          Required="false"/>
-                </EditForm>
+                <DropDownMenu Data="_medicalCenters"
+                                Label="Centro médico"
+                                DefaultText="Sin filtro"
+                                TextProperty="Nombre"
+                                Value="@Value._selectedMedicalCenterOrigin.MedicalCenter"
+                                ValueExpression="() => Value._selectedMedicalCenterOrigin.MedicalCenter"
+                                ValueChanged="@((CentroMedico mc) => OnChangeMedicalCenter(mc))"
+                                UseValidation="false"
+                                Required="false" />
             </Loading>
-
         }
     }
-</Loading>
+    @if (!_changesMade)
+    {
+        <button disabled type="submit" class="btn btn-primary">Aplicar filtros</button>
+        <button disabled class="btn btn-outline-secondary">Descartar filtros</button>
+    }
+    else
+    {
+        <button type="submit" class="btn btn-primary">Aplicar filtros</button>
+        <button role="button" @onclick:preventDefault @onclick="@Discard" class="btn btn-outline-secondary">Descartar filtros</button>
+    }
+
+    </Loading>
+</EditForm>
