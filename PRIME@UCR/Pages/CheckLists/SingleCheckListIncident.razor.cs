@@ -30,7 +30,8 @@ namespace PRIME_UCR.Pages.CheckLists
 
         public InstanceChecklist insanceLC { get; set; }
 
-        protected IEnumerable<Item> items { get; set; }// to change
+        protected List<Item> items { get; set; }// to change
+        protected IEnumerable<InstanciaItem> itemsInstance { get; set; }
 
         public CheckList list { get; set; }
 
@@ -40,6 +41,8 @@ namespace PRIME_UCR.Pages.CheckLists
         protected EditContext editContext;
 
         public bool not_complete;
+
+        protected int itemIndex { get; set; } = 0;
 
         [Inject] protected ICheckListService MyCheckListService { get; set; }
         [Inject] protected IInstanceChecklistService MyCheckInstanceChechistService { get; set; }
@@ -52,7 +55,9 @@ namespace PRIME_UCR.Pages.CheckLists
         protected async Task RefreshModels()
         {
             list = await MyCheckListService.GetById(plantillaid);
-            items = await MyCheckListService.GetItemsByCheckListId(id);
+            itemsInstance = await MyCheckInstanceChechistService.GetItemsByIncidentCodAndCheckListId(incidentcod, plantillaid);
+            IEnumerable<Item> tempItems = await MyCheckListService.GetItemsByCheckListId(plantillaid);
+            items = tempItems.ToList();
         }
 
         protected void HandleFieldChanged(object sender, FieldChangedEventArgs e)
@@ -146,6 +151,12 @@ namespace PRIME_UCR.Pages.CheckLists
             //consultar incidente
             //to change
             return true;
+        }
+
+        protected int GetItemIndex(InstanciaItem instance)
+        {
+            itemIndex = items.FindIndex(a => a.Id == instance.ItemId);
+            return itemIndex;
         }
     }
 }

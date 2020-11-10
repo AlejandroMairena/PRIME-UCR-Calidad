@@ -17,6 +17,7 @@ namespace PRIME_UCR.Domain.Models.CheckLists
         public DateTime? FechaHoraFin { get; set; }
         public List<InstanciaItem> SubItems { get; set; }
         public InstanciaItem MyFather { get; set; }
+        public Item MyItem { get; set; }
 
         public InstanciaItem()
         {

@@ -1,4 +1,4 @@
-﻿@page "/checklist/{incidentcod}/{plantillaid:int}"
+﻿@page "/incidents/{incidentcod}/{plantillaid:int}"
 @inherits SingleCheckListIncidentBase
 @using PRIME_UCR.Components.CheckLists 
 @attribute [Authorize]
@@ -78,27 +78,27 @@ else
             }
             else
             {
-
                 <table class="table table-hover">
                     <thead>
                     </thead>
                     <tbody>
-                        @foreach (var itemInList in items) //to change
+                        @foreach (var itemInList in itemsInstance) //to change
                         {
+                            itemIndex = GetItemIndex(itemInList);
                             <tr>
                                 <td class="align-middle"><input type="checkbox">@*checked="checked"*@&nbsp;</td>
                                 <td class="align-middle">
                                     <p>
-                                        <img src="@itemInList.ImagenDescriptiva" width="50" height="50" />
+                                        <img src="@items[itemIndex].ImagenDescriptiva" width="50" height="50" />
 
                                     </p>
                                 </td>
-                                <th scope="row" class="align-middle"> @itemInList.Nombre</th>
-                                <td class="align-middle"> @itemInList.Descripcion </td>
-                                <td class="align-middle">Temp idItem = @itemInList.Id</td>
-                                @if (itemInList.IDSuperItem != null)
+                                <th scope="row" class="align-middle"> @items[itemIndex].Nombre</th>
+                                <td class="align-middle"> @items[itemIndex].Descripcion </td>
+                                <td class="align-middle">Temp idItem = @items[itemIndex].Id</td>
+                                @if (itemInList.ItemPadreId != null)
                                 {
-                                    <td>Temp idSuperItem = @itemInList.IDSuperItem</td>
+                                    <td>Temp idSuperItem = @itemInList.ItemPadreId</td>
                                 }
 
                                 <td class="align-middle">

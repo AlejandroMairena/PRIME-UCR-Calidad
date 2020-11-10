@@ -33,8 +33,8 @@ namespace PRIME_UCR.Infrastructure.EntityConfiguration.CheckLists
                 .Property(i => i.IncidentCodPadre)
                 .HasColumnName("Codigo_Incidente_Padre");
             builder
-                .HasOne<Item>()
-                .WithMany()
+                .HasOne(i => i.MyItem)
+                .WithMany(I => I.Instances)
                 .HasForeignKey(i => i.ItemId);
             builder
                 .HasOne(i => i.MyFather)
