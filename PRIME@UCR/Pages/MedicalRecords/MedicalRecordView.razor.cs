@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Components;
-using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using PRIME_UCR.Components.MedicalRecords;
 using PRIME_UCR.Domain.Models.MedicalRecords;
@@ -10,6 +9,7 @@ using System.Runtime.CompilerServices;
 using PRIME_UCR.Application.DTOs.MedicalRecords;
 using System.Linq;
 using PRIME_UCR.Application.Services.MedicalRecords;
+using Microsoft.EntityFrameworkCore;
 
 namespace PRIME_UCR.Pages.MedicalRecords
 {
@@ -27,10 +27,6 @@ namespace PRIME_UCR.Pages.MedicalRecords
 
         protected bool exists = true;
 
-        private Expediente record;
-
-        private Persona person;
-
         private RecordViewModel viewModel = new RecordViewModel();
 
         private List<Antecedentes> antecedentes;
@@ -40,6 +36,8 @@ namespace PRIME_UCR.Pages.MedicalRecords
         private List<ListaAntecedentes> ListaAntecedentes;
 
         private List<ListaAlergia> ListaAlergias;
+
+        Expediente medical_record_with_details { get; set; }
 
         private void FillTabStates()
         {
@@ -76,15 +74,15 @@ namespace PRIME_UCR.Pages.MedicalRecords
             ListaAntecedentes = (await MedicalBackgroundService.GetAll()).ToList();
             //Get all available alergies
             ListaAlergias = (await AlergyService.GetAll()).ToList();
-
+            //Get all dates related to the medical record. 
+            medical_record_with_details = await MedicalRecordService.GetMedicalRecordDetailsLinkedAsync(identification);
 
             if (viewModel == null)
                 exists = false;
             else
                 FillTabStates();
+
         }
-
-
 
     }
 }
