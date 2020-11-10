@@ -17,8 +17,6 @@ namespace PRIME_UCR.Components.MedicalRecords.Tabs
         private EditContext _contAnte;
         private EditContext _contAle;
 
-        List<string> prueba = new List<string>() { "Uws", "Uwus", "Uwo", "Uwu" };
-
         public ListaAntecedentes antecedetePrueba;
         public ListaAlergia AlergiaPrueba;
 

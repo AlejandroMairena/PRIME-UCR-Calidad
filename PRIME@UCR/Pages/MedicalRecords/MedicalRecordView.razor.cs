@@ -68,25 +68,15 @@ namespace PRIME_UCR.Pages.MedicalRecords
             int identification = Int32.Parse(Id);
             viewModel = await MedicalRecordService.GetIncidentDetailsAsync(identification);
 
-            //          Obtener listas como monos que si saben hacer injects
-            //Obtiene el modelo del expediente
+            //Get all background item related to a record by its id
             antecedentes = (await MedicalBackgroundService.GetBackgroundByRecordId(identification)).ToList();
-            //Optiene los antecedentes medicos relacionados al expediente
+            //Get all alergies related to a record by its id
             alergias = (await AlergyService.GetAlergyByRecordId(identification)).ToList();
-            //Optiene las alergias relacionados al expediente
+            //Get all available background items.
             ListaAntecedentes = (await MedicalBackgroundService.GetAll()).ToList();
-            //Optiene los antecedentes disponibles en la bd
+            //Get all available alergies
             ListaAlergias = (await AlergyService.GetAll()).ToList();
 
-            ////          Obtener listas como monos que no saben hacer injects
-            //antecedentes = (await MedicalRecordService.GetBackgroundByRecordId(identification)).ToList();
-            ////Optiene los antecedentes medicos relacionados al expediente
-            //alergias = (await MedicalRecordService.GetAlergyByRecordId(identification)).ToList();
-            ////Optiene las alergias relacionados al expediente
-            //ListaAntecedentes = (await MedicalRecordService.GetAll()).ToList();
-            ////Optiene los antecedentes disponibles en la bd
-            //ListaAlergias = (await MedicalRecordService.GetAllAlergies()).ToList();
-            ////Optiene las alergias disponibles en la bd
 
             if (viewModel == null)
                 exists = false;
