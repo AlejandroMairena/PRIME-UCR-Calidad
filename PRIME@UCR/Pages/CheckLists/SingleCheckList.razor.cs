@@ -8,6 +8,7 @@ using PRIME_UCR.Components.CheckLists;
 using Microsoft.AspNetCore.Components.Forms;
 using PRIME_UCR.Domain.Models.CheckLists;
 using System.Linq;
+using System;
 using System.Threading;
 using Microsoft.AspNetCore.Components.Rendering;
 using MatBlazor;
@@ -77,7 +78,8 @@ namespace PRIME_UCR.Pages.CheckLists
             coreItems = await MyCheckListService.GetCoreItems(id);
             orderedList = new List<Item>();
             orderedListLevel = new List<int>();
-            foreach (var item in coreItems) {
+            foreach (var item in coreItems)
+            {
                 GenerateOrderedList(item, 0);
             }
             editContext = new EditContext(list);
@@ -188,14 +190,15 @@ namespace PRIME_UCR.Pages.CheckLists
         /**
          * Gets an item based on its id
          * */
-        protected int getItemIndex(Item itemInList) {
+        protected int getItemIndex(Item itemInList)
+        {
             return itemsList.FindIndex(item => item.Id == itemInList.Id);
         }
 
         /**
          * Generates an ordered list of an item's subitems based on its level
          * */
-        private void GenerateOrderedList(Item item, int level) 
+        private void GenerateOrderedList(Item item, int level)
         {
             orderedList.Add(item);
             orderedListLevel.Add(level);
@@ -203,7 +206,7 @@ namespace PRIME_UCR.Pages.CheckLists
             subItems = subItems.OrderBy(item => item.Orden).ToList<Item>();
             if (subItems.Count() > 0)
             {
-                foreach (var tempSubtem in subItems) 
+                foreach (var tempSubtem in subItems)
                 {
                     GenerateOrderedList(tempSubtem, level + 1);
                 }
@@ -217,11 +220,18 @@ namespace PRIME_UCR.Pages.CheckLists
         {
             List<Item> subItems = itemsList.FindAll(tempItem => tempItem.IDSuperItem == item.Id);
             bool hasSubItems = false;
-            if (subItems.Count() != 0) 
+            if (subItems.Count() != 0)
             {
                 hasSubItems = true;
             }
             return hasSubItems;
+        }
+
+        protected string truncate(string text, int level, int lines)
+        {
+            if (String.IsNullOrEmpty(text)) return "";
+            int maxLength = lines * (65 - level * 5);
+            return text.Length <= maxLength ? text : text.Substring(0, maxLength) + "...";
         }
     }
 }
