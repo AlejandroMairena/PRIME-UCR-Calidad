@@ -2,9 +2,10 @@
 
 
 <h3>Incidentes</h3>
-<Loading IsLoading="incidentsCounter.assignedIncidentsCounter != 2">
+<Loading IsLoading="incidentsCounter.assignedIncidentsCounter != 3">
     <div class="row justify-content-center">
         <TotalIncidentsCounterComponent IncidentsCounter="@incidentsCounter" />
         <MaritimeIncidentsCounterComponent IncidentsCounter="@incidentsCounter" />
+        <AerialIncidentsCounterComponent incidentsCounter="@incidentsCounter" />
     </div>
 </Loading>
