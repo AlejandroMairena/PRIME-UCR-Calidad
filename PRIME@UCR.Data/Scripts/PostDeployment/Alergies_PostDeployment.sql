@@ -30,4 +30,14 @@ VALUES
 
 INSERT INTO Antecedentes(IdExpediente,IdListaAntecedentes)
 VALUES 
-    (10, 1)
+   -- (10, 1),
+    (10, 2),
+    (10, 3),
+    (10, 4),
+    (10, 5)
+
+    INSERT INTO Alergias(Id,IdExpediente,IdListaAlergia)
+VALUES 
+    ('1',10, 4),
+    ('2',10, 5),
+    ('3',10, 6)
