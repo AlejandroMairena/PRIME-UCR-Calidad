@@ -1,14 +1,25 @@
 ﻿@using PRIME_UCR.Components.Controls
 <Loading IsLoading="_isLoading">
-    <EditForm Model="Value">
+    <EditForm Model="Value" OnValidSubmit="@Save">
         <DropDownMenu Data="@_medicalCenters"
-                        Label="Ubicación destino"
-                        TextProperty="Nombre"
-                        DefaultText="Sin filtro"
-                        Value="Value.MedicalCenterDestination.MedicalCenter"
-                        ValueExpression="() => Value.MedicalCenterDestination.MedicalCenter"
-                        ValueChanged="@((CentroMedico mc) => OnChangeMedicalCenter(mc))" 
-                        UseValidation="false"
-                        Required="false"/>
+                      Label="Ubicación destino"
+                      TextProperty="Nombre"
+                      DefaultText="Sin filtro"
+                      Value="Value._selectedMedicalCenterDestination.MedicalCenter"
+                      ValueExpression="() => Value._selectedMedicalCenterDestination.MedicalCenter"
+                      ValueChanged="@((CentroMedico mc) => OnChangeMedicalCenter(mc))"
+                      UseValidation="false"
+                      Required="false" />
+        @if (!_changesMade)
+        {
+            <button disabled type="submit" class="btn btn-primary">Aplicar filtros</button>
+            <button disabled class="btn btn-outline-secondary">Descartar filtros</button>
+        }
+        else
+        {
+            <button type="submit" class="btn btn-primary" >Aplicar filtros</button>
+            <button role="button" @onclick:preventDefault @onclick="@Discard" class="btn btn-outline-secondary">Descartar filtros</button>
+        }
     </EditForm>
+
 </Loading>

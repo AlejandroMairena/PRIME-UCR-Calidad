@@ -19,23 +19,21 @@ namespace PRIME_UCR.Components.Dashboard.Filters
         [Inject] public ILocationService LocationService { get; set; }
         [Parameter] public FilterModel Value { get; set; }
         [Parameter] public EventCallback<FilterModel> ValueChanged { get; set; }
-        [Parameter] public EventCallback OnDiscard { get; set; }
-
 
         private List<CentroMedico> _medicalCenters;
         private bool _isLoading = true;
-
-        async Task OnChangeMedicalCenter(CentroMedico medicalCenter)
+        private bool _changesMade = false;
+        private async Task OnChangeMedicalCenter(CentroMedico medicalCenter)
         {
-            Value.MedicalCenterDestination.MedicalCenter = medicalCenter;
-            if (medicalCenter != null)
+            if(medicalCenter == Value.MedicalCenterDestination.MedicalCenter)
             {
-                Value.ButtonEnabled = true;
+                _changesMade = false;
             }
             else
             {
-                Value.ButtonEnabled = false;
+                _changesMade = true;
             }
+            Value._selectedMedicalCenterDestination.MedicalCenter = medicalCenter;
             await ValueChanged.InvokeAsync(Value);
         }
 
@@ -45,7 +43,7 @@ namespace PRIME_UCR.Components.Dashboard.Filters
                 (await LocationService.GetAllMedicalCentersAsync())
                 .ToList();
             if (!firstRender)
-                Value.MedicalCenterDestination.MedicalCenter = null;
+                Value.MedicalCenterDestination.MedicalCenter = null;                
         }
 
 
@@ -61,5 +59,29 @@ namespace PRIME_UCR.Components.Dashboard.Filters
         {
             await LoadExistingValues();
         }
+
+        private async Task Discard()
+        {
+            _changesMade = false;
+            Value._selectedMedicalCenterDestination.MedicalCenter = Value.MedicalCenterDestination.MedicalCenter;
+            await ValueChanged.InvokeAsync(Value);
+
+        }
+        private async Task Save()
+        {
+            StateHasChanged();
+            Value.MedicalCenterDestination.MedicalCenter = Value._selectedMedicalCenterDestination.MedicalCenter;
+            if (Value.MedicalCenterDestination.MedicalCenter != null)
+            {
+                Value.ButtonEnabled = true;
+            }
+            else
+            {
+                Value.ButtonEnabled = false;
+            }
+            _changesMade = false;
+            await ValueChanged.InvokeAsync(Value);
+        }
+
     }
 }

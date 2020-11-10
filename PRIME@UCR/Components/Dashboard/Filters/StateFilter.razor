@@ -1,12 +1,15 @@
 ﻿@using PRIME_UCR.Components.Controls
 
-<EditForm Model="Value">
-    <DropDownMenu Data="_stateTypes"
-                  Label="Estado"
-                  Value="Value.StateFilter"
-                  ValueChanged="@((string s) => OnStateChange(s))"
-                  ValueExpression="() => Value.StateFilter"
-                  DefaultText="Sin filtro"
-                  UseValidation="false"
-                  Required="false" />
-</EditForm>
+<Loading IsLoading="_isLoading">
+    <EditForm Model="Value">
+        <DropDownMenu Data="_stateTypes"
+                      Label="Estado"
+                      TextProperty="Nombre"
+                      Value="Value.StateFilter"
+                      ValueChanged="@((Estado e) => OnStateChange(e))"
+                      ValueExpression="() => Value.StateFilter"
+                      DefaultText="Sin filtro"
+                      UseValidation="false"
+                      Required="false" />
+    </EditForm>
+</Loading>
