@@ -76,10 +76,13 @@ else
                             @if (formInvalid)
                             {
                                 <button type="submit" class="btn btn-primary">Guardar cambios</button> }
-                            else {
+                            else
+                            {
                                 <button type="submit" class="btn btn-secondary" disabled>Guardar cambios</button>
-                             }
+                            }
                             <a class="btn btn-outline-secondary" @onclick="Dispose" id="a_LC3">Cancelar</a>
+                            <a class="btn btn-danger" @onclick= "()=> Delete(list.Id)">Eliminar Lista</a>
+
                         </div>
                     </div>
                 </EditForm>
@@ -130,10 +133,11 @@ else
                                         <span class="sr-only">Desplegar menú</span>
                                     </button>
                                     @* Button to create a new sub item *@
-                                    <ul class="dropdown-menu" role="menu">
-                                        <li><button class="dropdown-item" @onclick="() => CreateSubItem(itemInList.Id)">Agregar Subítem</button></li>
-                                        <li><button class="dropdown-item" @onclick="() => EditItem(itemInList.Id)">Editar ítem</button></li>
-                                    </ul>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><button class="dropdown-item" @onclick="() => CreateSubItem(itemInList.Id)">Agregar Subítem</button></li>
+                                    <li><button class="dropdown-item" @onclick="() => EditItem(itemInList.Id)">Editar ítem</button></li>
+                                    <li><button class="dropdown-item" @onclick="() => DeleteItem(itemInList.Id)">Eliminar Item</button></li>
+                                </ul>
                                 </td>
                             </tr>
                             @if (createSubItem == true && parentItemId == itemInList.Id)

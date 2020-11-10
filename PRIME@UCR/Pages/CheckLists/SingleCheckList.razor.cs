@@ -52,6 +52,13 @@ namespace PRIME_UCR.Pages.CheckLists
 
         [Inject] protected ICheckListService MyCheckListService { get; set; }
 
+        [Inject] public NavigationManager NavManager { get; set; }
+
+       private const string CreateUrl = "/checklist";
+
+        private string afterUrl = "";
+
+
         protected override async Task OnInitializedAsync()
         {
             editedList = new CheckList();
@@ -210,5 +217,21 @@ namespace PRIME_UCR.Pages.CheckLists
             }
             return hasSubItems;
         }
+
+        
+protected async Task Delete(int id)
+        {
+            await MyCheckListService.DeleteCheckList(id);    
+            afterUrl = "checklist";
+            NavManager.NavigateTo(afterUrl); 
+
+        }
+        protected async Task DeleteItem(int id)
+        {
+            await MyCheckListService.DeleteItem(id);
+            await RefreshModels();
+            
+        }
+
     }
 }
