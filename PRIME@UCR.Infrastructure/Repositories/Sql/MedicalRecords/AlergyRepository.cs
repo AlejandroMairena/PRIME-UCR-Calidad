@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -14,6 +15,12 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.MedicalRecords
     {
         public AlergyRepository(ISqlDataProvider dataProvider) : base(dataProvider) 
         {
+        }
+        public override async Task<IEnumerable<Alergias>> GetByConditionAsync(Expression<Func<Alergias, bool>> expression)
+        {
+            return await _db.Alergies
+                .Include(e => e.Expediente)
+                .Include(e => e.ListaAlergia).Where(expression).ToListAsync();
         }
     }
 }
