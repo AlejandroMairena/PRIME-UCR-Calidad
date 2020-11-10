@@ -1,17 +1,19 @@
-﻿<h3>Estados del Incidente</h3>
+﻿@using PRIME_UCR.Domain.Constants;
+
+<h3>Estados del Incidente</h3>
 <br />
 
 <div class="scrollmenu">
     <RadzenMenu>
-    @foreach (var state in IncidentStatesList)
-    {
-        <RadzenMenuItem Text=@state />
-    }
+        @for (var index = 0; index < IncidentStatesList.Count; ++index)
+        {
+            <RadzenMenuItem Text=@IncidentStatesList[index].Item2 class="@setStateColor(index)" />
+        }
     </RadzenMenu>
-
 </div>
+
 <br />
-@if(Incident.CurrentState != "Finalizado")
+@if (Incident.CurrentState != IncidentStates.Done.Nombre)
 {
     <table class="table table-striped">
         <thead>
@@ -27,16 +29,26 @@
                     @if (PendingTasks != null)
                     {
                         <p>
-                        @foreach (var task in PendingTasks)
-                        {
-                            @task            
-
-                        }
+                            @for (var index = 0; index < PendingTasks.Count; ++index)
+                            {
+                                <a href="@($"/incidents/{Incident.Code}")"> @PendingTasks[index] </a>
+                            }
                         </p>
                     }
                 </td>
             </tr>
         </tbody>
     </table>
+    <div class="text-center">
+        @if (PendingTasks.Count > 0)
+        {
+            <button disabled type="submit" class="btn btn-primary">Siguiente estado</button>
+        }
+        else
+        {
+            <button type="submit" class="btn btn-primary">Siguiente estado</button>
+        }
+    </div>
 }
+
 

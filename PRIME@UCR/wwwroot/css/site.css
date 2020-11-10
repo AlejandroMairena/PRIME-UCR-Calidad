@@ -309,7 +309,7 @@ a.disable {
     background: white;
 }
 
-/* Diosvier -> State Panel*/
+/* Diosvier -> State Panel, scroll horizontal menu functionality.*/
 div.scrollmenu {
     overflow: auto;
     white-space: nowrap;
@@ -325,4 +325,13 @@ div.scrollmenu MatButton {
 
 div.scrollmenu MatButton:hover {
     background-color: #777;
+}
+
+/* Diosvier -> Overwrite in incidents details tab, the text colors of states.*/
+.menu:not(.profile-menu) .navigation-item-link {
+    color: white;
+}
+
+.bg-current-state {
+    background-color: #00c0f3; 
 }
