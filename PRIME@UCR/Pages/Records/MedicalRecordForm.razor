@@ -24,7 +24,7 @@
         {
             case 0:
                 //el expediente ya existe en la base de datos.
-                <StatusMessage Message="El Expediente que desea registrar ya se encuentra registrado, complete la información faltante" Class="primary"></StatusMessage>
+                <StatusMessage Message="El Expediente que desea registrar ya se encuentra registrado, si existe algún campo faltante lo puede llenar" Class="primary"></StatusMessage>
                 break;
 
             case 1:
@@ -81,11 +81,11 @@
                     @if (RecordModel?.Expediente.Clinica == null)
                     {
 
-                        <DropDownMenu T="CentroMedico" Data="clinics" Label="Centro Médico" DefaultText="Seleccione una Clinica" TextProperty="Nombre" Value="@clinic" ValueExpression="() => clinic" ValueChanged="@((CentroMedico mc) => MedicalCenterSelected(mc))" />
+                        <DropDownMenu T="CentroMedico" Data="clinics" Label="Centro Médico" DefaultText="Seleccione una Clinica" TextProperty="Nombre" Required="false" Disabled="RecordModel.Expediente.Clinica != null" @bind-Value="RecordModel.CentroMedico" />
 
-                        /*<DropDownMenu T="CentroMedico" Data="clinics" Label="Centro Médico" DefaultText="Seleccione una Clinica" TextExpression="@((CentroMedico mc) => EnumUtils.GetDescription(mc))"
-                                      Required="false" Disabled="patient_status != 2" @bind-Value="RecordModel.CentroMedico" /> */
-
+                    }
+                    else { 
+                          <TextBox Disabled="true" @bind-Value="RecordModel.Expediente.Clinica" Label="Clinica" />
                     }
 
                     @if (RecordModel?.Expediente.CedulaMedicoDuenno == null || RecordModel?.Expediente.Clinica == null)
@@ -255,7 +255,7 @@
 
         if (patient_status != 0) {
 
-            if (RecordModel.CentroMedico.Nombre != null)
+            if (RecordModel?.CentroMedico.Nombre != null)
             {
                 RecordModel.Expediente.Clinica = RecordModel.CentroMedico.Nombre;
             }
@@ -283,7 +283,13 @@
             is_loading_record = false;
             //an update should happen. 
 
-            RecordModel.Expediente.CedulaMedicoDuenno = RecordModel.CedMedicoDuenno; 
+            if (RecordModel.CedMedicoDuenno != null) {
+                RecordModel.Expediente.CedulaMedicoDuenno = RecordModel.CedMedicoDuenno;
+            }
+            if (RecordModel?.CentroMedico.Nombre != null) {
+                RecordModel.Expediente.Clinica = RecordModel.CentroMedico.Nombre;
+            }
+
             await medical_record_service.UpdateMedicalRecordAsync(RecordModel.Expediente);
             RecordModel.set_to_null();
 
