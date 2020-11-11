@@ -39,7 +39,6 @@ namespace PRIME_UCR.Application.Services.MedicalRecords
         Task<IEnumerable<Alergias>> GetAlergyByRecordId(int recordId);
 
         Task<IEnumerable<ListaAlergia>> GetAllAlergies();
-        Task<IEnumerable<CentroMedico>> GetMedicalCentersAsync();
 
         Task<Expediente> UpdateMedicalRecordAsync(Expediente expediente); 
 
