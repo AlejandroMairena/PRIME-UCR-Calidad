@@ -51,12 +51,11 @@ else
                             @* Editable input for the type of the checklist with predefined options *@
                             <label for="checklistType" class="col-sm-2 col-form-label"><span style="color:black">Tipo </span></label>
                             <div class="col-sm-4">
-                                <InputSelect @bind-Value="editedList.Tipo" class="form-control">
-                                    <option value="Colocación equipo">Colocación equipo</option>
-                                    <option value="Retiro equipo">Retiro equipo</option>
-                                    <option value="Paciente en origen">Paciente en origen</option>
-                                    <option value="Paciente en destino">Paciente en destino</option>
-                                    <option value="Paciente en traslado">Paciente en traslado</option>
+                                <InputSelect @bind-Value="editedList.Tipo" class="custom-select ">
+                                    @for (int index = 0; index < _types.Count(); index++)
+                                    {
+                                    <option value="@_types[index]">@_types[index]</option>
+                                    }
                                 </InputSelect>
 
                             </div>
