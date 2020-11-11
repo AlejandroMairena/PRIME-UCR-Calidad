@@ -48,12 +48,22 @@ namespace PRIME_UCR.Application.Implementations.Incidents
             return await _specialistRepo.GetAllAsync();
         }
 
+        public async Task<Médico> GetAssignedOriginDoctor(string code)
+        {
+            return await _incidentRepository.GetAssignedOriginDoctor(code);
+        }
+
+        public async Task<Médico> GetAssignedDestinationDoctor(string code)
+        {
+            return await _incidentRepository.GetAssignedDestinationDoctor(code);
+        }
+
         public async Task<AssignmentModel> GetAssignmentsByIncidentIdAsync(string code)
         {
             var incident = await _incidentRepository.GetByKeyAsync(code);
             if (incident == null)
             {
-                throw new ArgumentException("Invalid incidnet code");
+                throw new ArgumentException("Invalid incident code");
             }
 
             var coordinator = await _coordinatorRepo.GetByKeyAsync(incident.CedulaTecnicoCoordinador);
@@ -78,6 +88,36 @@ namespace PRIME_UCR.Application.Implementations.Incidents
             await _assignmentRepo.ClearTeamMembers(code);
             if (model.TeamMembers.Count > 0)
                 await _assignmentRepo.AssignToIncident(code, model.TeamMembers);
+        }
+
+        // checks if the personId belongs to a person assigned to this incident or if this is a coordinator
+        public async Task<bool> IsAuthorizedToViewPatient(string code, string personId)
+        {
+            // creates a list with every authorized person
+            var authorizedPeople = new List<Persona>();
+
+            var originDoctor = await _incidentRepository.GetAssignedOriginDoctor(code);
+            if (originDoctor != null)
+            {
+                authorizedPeople.Add(originDoctor);
+            }
+            
+            var destinationDoctor = await _incidentRepository.GetAssignedDestinationDoctor(code);
+            if (destinationDoctor != null)
+            {
+                authorizedPeople.Add(originDoctor);
+            }
+            
+            var assignmentModel = await this.GetAssignmentsByIncidentIdAsync(code);
+            var medicalTechs = assignmentModel.TeamMembers;
+            foreach (var m in medicalTechs)
+            {
+                authorizedPeople.Add(m);
+            }
+
+            // checks if the personId is authorized
+            return authorizedPeople.Exists(p => p.Cédula == personId)
+                   || await _coordinatorRepo.GetByKeyAsync(personId) != null;
         }
     }
 }
