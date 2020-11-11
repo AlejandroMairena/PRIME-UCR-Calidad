@@ -1,31 +1,51 @@
 ﻿@using PRIME_UCR.Components.Dashboard.Filters
 
 <h3>Filtros</h3>
+<table class="table table-borderless">
+    <tbody>
+        <tr>
+            <td>
+                <OriginFilter @bind-value="Value" />
+            </td>
+            <td>
+                <DestinationFilter @bind-value="Value" />
+            </td>
+            <td>
+                <DateFilter @bind-value="Value" />
+            </td>
+            <td>
+                <ModalityFilter @bind-value="Value" />
+            </td>
+            <td>
+                <StateFilter @bind-Value="Value" />
+            </td>
+            <td>
+                <div class="text-center">
+                    @if (Value.ButtonEnabled)
+                    {
+                        <button role="button" @onclick:preventDefault @onclick="@ClearFilters" class="btn btn-outline-secondary">Limpiar filtros</button>
+                    }
+                    else
+                    {
+                            <button disabled class="btn btn-outline-secondary" >Limpiar filtros</button>
+                    }
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
 <div class="row">
     <div class="col">
-        <OriginFilter @bind-value="Value" />
     </div>
     <div class="col">
-        <DestinationFilter @bind-value="Value" />
     </div>
     <div class="col">
-        <DateFilter @bind-value="Value" />
     </div>
     <div class="col">
-        <ModalityFilter @bind-value="Value" />
     </div>
     <div class="col">
-        <StateFilter @bind-Value="Value" />
     </div>
     <div class="col">
-        @if (Value.ButtonEnabled)
-        {
-            <button role="button" @onclick:preventDefault @onclick="@ClearFilters" class="btn btn-outline-secondary">Limpiar filtros</button>
-        }
-        else
-        {
-            <button disabled class="btn btn-outline-secondary">Limpiar filtros</button>
-        }
-
     </div>
 </div>
