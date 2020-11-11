@@ -17,7 +17,9 @@ namespace PRIME_UCR.Application.Repositories.MedicalRecords
 
         Task<IEnumerable<Expediente>> GetRecordsWithPatientAsync();
 
-        Task<Expediente> GetDetailsRecordWithPatientDoctorDatesAsync(int id); 
+        Task<Expediente> GetDetailsRecordWithPatientDoctorDatesAsync(int id);
+
+        Task<Expediente> UpdateMedicalRecordAsync(Expediente expediente); 
     }
 
 }

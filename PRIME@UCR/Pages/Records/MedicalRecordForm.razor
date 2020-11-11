@@ -253,27 +253,42 @@
 
         save_record_data_pushed = true;
 
-        if (RecordModel.CentroMedico.Nombre != null)
-        {
-            RecordModel.Expediente.Clinica = RecordModel.CentroMedico.Nombre;
-        }
+        if (patient_status != 0) {
 
-        if (RecordModel.CedMedicoDuenno != null)
-        {
-            RecordModel.Expediente.CedulaMedicoDuenno = RecordModel.CedMedicoDuenno;
-        }
+            if (RecordModel.CentroMedico.Nombre != null)
+            {
+                RecordModel.Expediente.Clinica = RecordModel.CentroMedico.Nombre;
+            }
 
-        if (save_patient_data_pushed || patient_status != 2)
-        {
-            await medical_record_service.InsertAsync(RecordModel.Expediente);
+            if (RecordModel.CedMedicoDuenno != null)
+            {
+                RecordModel.Expediente.CedulaMedicoDuenno = RecordModel.CedMedicoDuenno;
+            }
+
+            if (save_patient_data_pushed || patient_status != 2)
+            {
+                await medical_record_service.InsertAsync(RecordModel.Expediente);
+                record_inserted = true;
+                is_loading_record = false;
+                RecordModel.set_to_null();
+            }
+            else
+            {
+                record_unfinisehd = true;
+            }
+        }
+        else {
+
             record_inserted = true;
             is_loading_record = false;
-            RecordModel.set_to_null(); 
+            //an update should happen. 
+
+            RecordModel.Expediente.CedulaMedicoDuenno = RecordModel.CedMedicoDuenno; 
+            await medical_record_service.UpdateMedicalRecordAsync(RecordModel.Expediente);
+            RecordModel.set_to_null();
+
         }
-        else
-        {
-            record_unfinisehd = true;
-        }
+
     }
 
     private async Task SavePatientData()
@@ -295,7 +310,7 @@
                 await medical_record_service.InsertAsync(RecordModel.Expediente);
                 record_inserted = true;
                 record_unfinisehd = false;
-                RecordModel.set_to_null(); 
+                RecordModel.set_to_null();
             }
 
         }
@@ -309,7 +324,7 @@
         patient = new Paciente();
         record = new Expediente();
 
-        //ALGO AQUI NO SIRVE .
+        //Something's not working well here. 
         //IEnumerable<CentroMedico> cm = await medical_record_service.GetMedicalCentersAsync();
         //Clinicas = cm.ToList();
 
@@ -378,18 +393,18 @@
 
             if (person != null)
             {
-                //ya existe la persona.
+                //person already exist
                 Paciente patient = await patient_service.GetPatientByIdAsync(ced);
 
                 if (patient != null)
                 {
-                    //ya existe el paciente
+                    //patient already exist 
                     RecordModel.Paciente = patient;
                     _context = new EditContext(RecordModel);
                 }
                 else
                 {
-                    //existe la persona, pero no el paciente.
+                    //person exist but not patient
                     RecordModel.Paciente = new Paciente()
                     {
                         Cédula = person.Cédula,
@@ -407,29 +422,26 @@
                 Expediente record = await medical_record_service.GetByPatientIdAsync(ced);
                 if (record != null)
                 {
-                    //el expediente ya se encuentra en la base de datos.
+                    //the medical record already exist.  
                     RecordModel.Expediente = record;
                     patient_status = 0;
                 }
                 else
                 {
-                    //el expediente aún no se encuentra en la base de datos.
+                    //medical record doesnt exist.
                     RecordModel.Expediente = new Expediente()
                     {
                         CedulaPaciente = ced
                     };
 
-                    //aún falta agregar la información de clinica y medico dueño, por eso aún no se agrega.
+                    //some information might be missing, so, the insert of the record is not automatic. 
                     patient_status = 1;
                 }
 
             }
             else
             {
-                //ESTE ES EL CASO 2, TENGO QUE CREAR LA PERSONA EN LA BASE DE DATOS, Y TMBN EL PACIENTE,
-                //Y LUEGO EL EXPEDIENTE.
-
-                //no existe la persona.
+                //neither the person or the record exist. 
                 RecordModel.Paciente = new Paciente()
                 {
                     Cédula = ced

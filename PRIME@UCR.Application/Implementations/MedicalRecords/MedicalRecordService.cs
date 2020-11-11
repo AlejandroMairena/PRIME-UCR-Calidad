@@ -150,6 +150,10 @@ namespace PRIME_UCR.Application.Implementations.MedicalRecords
         }
 
 
+        public async Task<Expediente> UpdateMedicalRecordAsync(Expediente expediente) {
+            return await _repo.UpdateMedicalRecordAsync(expediente); 
+        }
+
         public async Task<RecordViewModel> GetIncidentDetailsAsync(int id)
         {
             var record = await _repo.GetByKeyAsync(id);

@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using PRIME_UCR.Application.Repositories.MedicalRecords;
 using PRIME_UCR.Domain.Models.MedicalRecords;
 using PRIME_UCR.Infrastructure.DataProviders;
+using RepoDb;
 
 namespace PRIME_UCR.Infrastructure.Repositories.Sql.MedicalRecords
 {
@@ -60,6 +62,47 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.MedicalRecords
                 .Where(p => p.Paciente.Nombre == name && p.Paciente.PrimerApellido == lastname && p.Paciente.SegundoApellido == lastname2)
                 .ToListAsync(); 
 
+        }
+
+        public async Task<Expediente> UpdateMedicalRecordAsync(Expediente expediente) {
+
+            await using var connection = new SqlConnection(_db.DbConnection.ConnectionString);
+
+            if (expediente.CedulaMedicoDuenno != null && expediente.Clinica != null)
+            {
+                var result = await connection.ExecuteQueryAsync<Expediente>
+                (@"UPDATE Expediente SET CedulaMedicoDuenno = @cedMed, Clinica = @clinic WHERE CedulaPaciente = 
+                     @cedP", new
+                {
+                    cedMed = expediente.CedulaMedicoDuenno,
+                    clinic = expediente.Clinica,
+                    cedP = expediente.CedulaPaciente
+                });
+            }
+            else {
+                if (expediente.CedulaMedicoDuenno != null)
+                {
+                    var result = await connection.ExecuteQueryAsync<Expediente>
+                    (@"UPDATE Expediente SET CedulaMedicoDuenno = @cedMed WHERE CedulaPaciente = 
+                     @cedP", new
+                    {
+                        cedMed = expediente.CedulaMedicoDuenno,
+                        cedP = expediente.CedulaPaciente
+                    });
+                }
+                else {
+
+                    var result = await connection.ExecuteQueryAsync<Expediente>
+                    (@"UPDATE Expediente SET Clinica = @clinic WHERE CedulaPaciente = 
+                     @cedP", new
+                    {
+                        clinic = expediente.Clinica,
+                        cedP = expediente.CedulaPaciente
+                    });
+                }
+            
+            }
+            return null; 
         }
 
 
