@@ -23,7 +23,7 @@
                 <EditForm Model="instancelists">
                     <Table TableItem="InstanceChecklist" Items="instancelists" PageSize="12">
 
-                        <Column TableItem="InstanceChecklist" Title="Nombre" Field="@( x => x.PlantillaId)" Width="30%">
+                        <Column TableItem="InstanceChecklist" Title="Nombre" Field="@( x => x.PlantillaId)" Width="25%">
                             <Template Context="tempList">
                                 <a href='@string.Format("incidents/{0}/{1}", @tempList.IncidentCod,@tempList.PlantillaId)'>@GetName2(tempList.PlantillaId)</a>
                             </Template>
@@ -40,6 +40,13 @@
                             <Template Context="tempList">
                                 <a>
                                     @GetDescp2(tempList.PlantillaId)
+                                </a>
+                            </Template>
+                        </Column>
+                        <Column TableItem="InstanceChecklist" Title="Resumen" Field="@(x => x.PlantillaId)" Width="5%">
+                            <Template Context="tempList">
+                                <a>
+                                    @GetSpecificSummary(tempList.PlantillaId)
                                 </a>
                             </Template>
                         </Column>

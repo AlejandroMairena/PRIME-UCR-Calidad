@@ -14,6 +14,8 @@ namespace PRIME_UCR.Application.Services.CheckLists
         Task<InstanceChecklist> GetById(int id);
         Task<IEnumerable<InstanceChecklist>> GetByIncidentCod(string cod);
         Task<InstanceChecklist> UpdateInstanceChecklist(InstanceChecklist list);
+        Task<int> GetNumberOfItems(string incidentCode, int checkListId);
+        Task<int> GetNumberOfCompletedItems(string incidentCode, int checkListId);
         Task DeleteInstanceChecklist(int id, string cod);
         Task<InstanciaItem> InsertInstanceItem(InstanciaItem instanceItem);
         Task<IEnumerable<InstanciaItem>> GetItemsByIncidentCodAndCheckListId(string incidentCode, int checklistId);

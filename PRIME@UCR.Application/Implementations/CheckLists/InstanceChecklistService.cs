@@ -56,6 +56,27 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
             return list;
         }
 
+        public async Task<int> GetNumberOfItems(string incidentCode, int checkListId)
+        {
+            IEnumerable<InstanciaItem> items = await this.GetItemsByIncidentCodAndCheckListId(incidentCode, checkListId);
+            int numberOfItems = items.Count();
+            return numberOfItems;
+        }
+
+        public async Task<int> GetNumberOfCompletedItems(string incidentCode, int checkListId)
+        {
+            IEnumerable<InstanciaItem> items = await this.GetItemsByIncidentCodAndCheckListId(incidentCode, checkListId);
+            int numberOfItems = 0;
+            foreach(var tempItem in items)
+            {
+                if (tempItem.Completado == true)
+                {
+                    numberOfItems++;
+                }
+            }
+            return numberOfItems;
+        }
+
         public async Task DeleteInstanceChecklist(int id, string cod)
         {
             await _instancechecklistRepository.DeleteAsync(id, cod);

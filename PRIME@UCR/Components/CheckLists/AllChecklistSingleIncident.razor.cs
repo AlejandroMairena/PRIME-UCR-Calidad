@@ -28,6 +28,7 @@ namespace PRIME_UCR.Components.CheckLists
         [Inject] protected IInstanceChecklistService MyInstanceService { get; set; }
         [Parameter] public string IncidentCod { get; set; }
         public CheckList Alist = new CheckList(); //templist
+        protected List<string> SummaryList { get; set; }
 
         /* DIOSVIER
          * Se debe hacer Inject de IIncidentService y usar el metodo: GetIncidentStateByIdAsync(Incident id).
@@ -35,6 +36,7 @@ namespace PRIME_UCR.Components.CheckLists
          */
         protected override async Task OnInitializedAsync()
         {
+            SummaryList = new List<string>();
             await RefreshModels();
         }
 
@@ -45,6 +47,10 @@ namespace PRIME_UCR.Components.CheckLists
         {
             lists = await MyCheckListService.GetAll();
             instancelists = await MyInstanceService.GetByIncidentCod(IncidentCod);
+            foreach(var tempList in instancelists)
+            {
+                await GetSummary(tempList.PlantillaId);
+            }
         }
         public async Task GetName (int id)
         {
@@ -79,6 +85,21 @@ namespace PRIME_UCR.Components.CheckLists
         {
             GetDescp(id);
             return Alist.Descripcion;
+        }
+
+        public async Task GetSummary(int checkListId)
+        {
+            int totalItems = await MyInstanceService.GetNumberOfItems(IncidentCod, checkListId);
+            int completedItems = await MyInstanceService.GetNumberOfCompletedItems(IncidentCod, checkListId);
+            string summary = completedItems + "/" + totalItems;
+            SummaryList.Add(summary);
+        }
+
+        public string GetSpecificSummary(int checkListId)
+        {
+            List<InstanceChecklist> tempList = instancelists.ToList();
+            int index = tempList.FindIndex(a => a.PlantillaId == checkListId);
+            return SummaryList[index];
         }
     }
 }
