@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Linq; 
 using Microsoft.AspNetCore.Components.Authorization;
 using PRIME_UCR.Application.Dtos;
 using PRIME_UCR.Application.Dtos.Incidents;
@@ -27,6 +28,7 @@ namespace PRIME_UCR.Application.Implementations.Incidents
         private readonly ITransportUnitRepository _transportUnitRepository;
         private readonly IMedicalRecordRepository _medicalRecordRepository;
         private readonly IPersonaRepository _personRepository;
+        private readonly IAssignemntRepository _assignemntRepository;
 
         public IncidentService(
             IIncidentRepository incidentRepository,
@@ -35,7 +37,8 @@ namespace PRIME_UCR.Application.Implementations.Incidents
             ILocationRepository locationRepository,
             ITransportUnitRepository transportUnitRepository,
             IMedicalRecordRepository medicalRecordRepository,
-            IPersonaRepository personRepository)
+            IPersonaRepository personRepository,
+            IAssignemntRepository assignemntRepository)
         {
             _incidentRepository = incidentRepository;
             _modesRepository = modesRepository;
@@ -44,6 +47,7 @@ namespace PRIME_UCR.Application.Implementations.Incidents
             _transportUnitRepository = transportUnitRepository;
             _medicalRecordRepository = medicalRecordRepository;
             _personRepository = personRepository;
+            _assignemntRepository = assignemntRepository;
         }
 
         public async Task<Incidente> GetIncidentAsync(string code)
@@ -263,7 +267,7 @@ namespace PRIME_UCR.Application.Implementations.Incidents
             return nextState;
         }
 
-        public List<string> GetPendingTasks(IncidentDetailsModel model, string nextState)
+        public async Task<List<string>> GetPendingTasksAsync(IncidentDetailsModel model, string nextState)
         {
             List<string> pendingTasks = new List<string>();
             if(nextState == IncidentStates.Created.Nombre)
@@ -280,7 +284,7 @@ namespace PRIME_UCR.Application.Implementations.Incidents
             }
             else if (nextState == IncidentStates.Assigned.Nombre)
             {
-
+                pendingTasks = await GetAssignedStatePendingTasks(model);
             }
             return pendingTasks;
         }
@@ -305,6 +309,32 @@ namespace PRIME_UCR.Application.Implementations.Incidents
             if(model.MedicalRecord == null)
             {
                 pendingTasks.Add("Agregar paciente");
+            }
+            return pendingTasks;
+        }
+
+        /*
+       * Function: Checks for pending tasks needed to advance to "Assigned" state. Such tasks are: Select TransportUnit, Select Coordinator, Select Team Members
+       * @Param: A DTO with the incident's current state
+       * @Return: A list with all pending tasks needed to advace to "Assigned" state.
+       * */
+
+        public async Task<List<string>> GetAssignedStatePendingTasks(IncidentDetailsModel model)
+        {
+            List<string> pendingTasks = new List<string>();
+            var incident = await _incidentRepository.GetByKeyAsync(model.Code);
+            if(incident.UnidadDeTransporte == null)
+            {
+                pendingTasks.Add("Seleccionar unidad de transporte");
+            }
+            if(incident.CedulaTecnicoCoordinador == null)
+            {
+                pendingTasks.Add("Seleccionar coordinador");
+            }
+            List<EspecialistaTécnicoMédico> teamMembers = (await _assignemntRepository.GetAssignmentsByIncidentIdAsync(incident.Codigo)).ToList();
+            if (teamMembers.Count <= 0)
+            {
+                pendingTasks.Add("Seleccionar técnicos médicos");
             }
             return pendingTasks;
         }
