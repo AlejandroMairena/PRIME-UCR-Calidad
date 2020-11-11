@@ -7,6 +7,6 @@ namespace PRIME_UCR.Application.Services.UserAdministration
 {
     public interface INumeroTelefonoService
     {
-        Task AddNewPhoneNumberAsync(string idUser, string phoneNumber);
+        Task<int> AddNewPhoneNumberAsync(string idUser, string phoneNumber);
     }
 }

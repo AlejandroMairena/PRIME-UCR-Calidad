@@ -16,7 +16,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.UserAdministration
     public class PermissionsServiceTest
     {
         [Fact]
-        public async void getPermisosTestNull()
+        public async Task getPermisosTestNull()
         {
             var mockRepo = new Mock<IPermisoRepository>();
             mockRepo.Setup(u => u.GetAllAsync()).Returns(Task.FromResult(new List<Permiso>()));
@@ -31,7 +31,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.UserAdministration
         }
 
         [Fact]
-        public async void getPermisosTestNotNull()
+        public async Task getPermisosTestNotNull()
         {
             var mockRepo = new Mock<IPermisoRepository>();
             mockRepo.Setup(u => u.GetAllAsync()).Returns(Task.FromResult(new List<Permiso>()

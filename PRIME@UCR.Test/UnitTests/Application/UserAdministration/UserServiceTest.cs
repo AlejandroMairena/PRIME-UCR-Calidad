@@ -18,7 +18,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.UserAdministration
     {
       
         [Fact]
-        public async void getUsuarioWithDetailsReturnsNull()
+        public async Task getUsuarioWithDetailsReturnsNull()
         {
             var mockRepo = new Mock<IUsuarioRepository>();
             mockRepo.Setup(p => p.GetWithDetailsAsync(String.Empty)).Returns(Task.FromResult<Usuario>(null));
@@ -32,7 +32,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.UserAdministration
         }
 
         [Fact]
-        public async void getUsuarioWithDetailsReturnsValidUser()
+        public async Task getUsuarioWithDetailsReturnsValidUser()
         {
             var mockRepo = new Mock<IUsuarioRepository>();
             mockRepo
@@ -68,7 +68,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.UserAdministration
         }
 
         [Fact]
-        public async void GetAllUsersWithDetailsAsyncNoUsersTest()
+        public async Task GetAllUsersWithDetailsAsyncNoUsersTest()
         {
             var mockRepo = new Mock<IUsuarioRepository>();
             mockRepo.Setup(u => u.GetAllUsersWithDetailsAsync()).ReturnsAsync(new List<Usuario>());
@@ -82,7 +82,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.UserAdministration
         }
 
         [Fact]
-        public async void GetAllUsersWithDetailsAsyncFiveUsersTest()
+        public async Task GetAllUsersWithDetailsAsyncFiveUsersTest()
         {
             var mockRepo = new Mock<IUsuarioRepository>();
             mockRepo.Setup(u => u.GetAllUsersWithDetailsAsync()).ReturnsAsync(
@@ -118,7 +118,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.UserAdministration
         }
 
         [Fact]
-        public async void getPersonWithDetailstAsyncNoUserTest()
+        public async Task getPersonWithDetailstAsyncNoUserTest()
         {
             var mockRepo = new Mock<IUsuarioRepository>();
             mockRepo.Setup(u => u.GetUserByEmailAsync(String.Empty)).Returns(Task.FromResult<Usuario>(null));
@@ -132,7 +132,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.UserAdministration
         }
 
         [Fact]
-        public async void getPersonWithDetailstAsyncUserTest()
+        public async Task getPersonWithDetailstAsyncUserTest()
         {
             var store = new Mock<IUserStore<Usuario>>();
             var mockUserManager = new Mock<UserManager<Usuario>>(store.Object, null, null, null, null, null, null, null, null);
