@@ -36,16 +36,13 @@ namespace PRIME_UCR.Components.UserAdministration
 
         public Perfil selectedProfile { get; set; }
 
-        public int counterPermissions;
-
          /*
          * Function:        Method that is used to get all of the profiles in the database loaded in the component
          */
 
         protected override async Task OnInitializedAsync()
         {
-            ListProfiles = (await profilesService.GetPerfiles()).ToList();
-            counterPermissions = (await permissionsService.GetPermisos()).ToList().Count;
+            ListProfiles = (await profilesService.GetPerfilesWithDetailsAsync()).ToList();
         }
 
         /*
@@ -56,7 +53,6 @@ namespace PRIME_UCR.Components.UserAdministration
         {
             selectedProfile = newPerfil;
             Value.ProfileName = newPerfil.NombrePerfil;
-            var ListProfiles = await profilesService.GetPerfilesWithDetailsAsync();
             var profile = (ListProfiles.Find(p => p.NombrePerfil == Value.ProfileName));
             Value.PermissionsList.Clear();
             // adding all of the permissions and users corresponding to the selected profile
@@ -86,7 +82,7 @@ namespace PRIME_UCR.Components.UserAdministration
                 Value.CheckedUsers.Clear();
             }
             Value.CheckedUsers = new List<Tuple<string, bool>>();
-            var usersList = (await userService.GetUsuarios()).ToList();
+            var usersList = (await userService.GetAllUsersWithDetailsAsync()).ToList();
             foreach(var user in usersList)
             {
                 var userChecked = Value.UserLists.Find(p => p.Id == user.Id) == null ? false : true;

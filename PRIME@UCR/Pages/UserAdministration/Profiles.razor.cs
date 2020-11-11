@@ -32,7 +32,7 @@ namespace PRIME_UCR.Pages.UserAdministration
                 profile.CheckedPermissions.Add(false);
             }
             profile.CheckedUsers = new List<Tuple<string,bool>>();
-            var usersList = await userService.GetUsuarios();
+            var usersList = await userService.GetAllUsersWithDetailsAsync();
             foreach(var user in usersList)
             {
                 profile.CheckedUsers.Add(new Tuple<string, bool>(user.Id, false));

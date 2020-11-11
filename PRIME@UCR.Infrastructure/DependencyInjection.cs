@@ -75,6 +75,7 @@ namespace PRIME_UCR.Infrastructure
             services.AddTransient<IPermiteRepository, PermiteRepository>();
             services.AddTransient<IPerteneceRepository, PerteneceRepository>();
             services.AddTransient<INumeroTelefonoRepository, NumeroTelefonoRepository>();
+            services.AddTransient<IAuthenticationRepository, AuthenticationRepository>();
 
             // temporary file service with no encryption
             services.AddTransient<ITempFileServiceNoEncryption, TempFileServiceNoEncryption>();

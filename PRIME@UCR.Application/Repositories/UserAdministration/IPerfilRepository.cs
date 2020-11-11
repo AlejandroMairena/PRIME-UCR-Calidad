@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PRIME_UCR.Application.Repositories.UserAdministration
 {
-    public interface IPerfilRepository : IGenericRepository<Perfil, string>
+    public interface IPerfilRepository
     {
         Task<List<Perfil>> GetPerfilesWithDetailsAsync();
     }

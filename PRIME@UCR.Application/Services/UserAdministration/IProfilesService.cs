@@ -9,8 +9,6 @@ namespace PRIME_UCR.Application.Services.UserAdministration
 {
     public interface IProfilesService
     {
-        Task<IEnumerable<Perfil>> GetPerfiles();
-
         Task<List<Perfil>> GetPerfilesWithDetailsAsync();
     }
 }

@@ -1,17 +1,44 @@
-﻿using PRIME_UCR.Application.Repositories.UserAdministration;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.EntityFrameworkCore;
+using PRIME_UCR.Application.DTOs.UserAdministration;
+using PRIME_UCR.Application.Exceptions.UserAdministration;
+using PRIME_UCR.Application.Repositories.UserAdministration;
+using PRIME_UCR.Application.Services.UserAdministration;
 using PRIME_UCR.Domain.Models.UserAdministration;
 using PRIME_UCR.Infrastructure.DataProviders;
+using PRIME_UCR.Infrastructure.Permissions.UserAdministration;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
 {
-    public class PermisoRepository : GenericRepository<Permiso, int>, IPermisoRepository
+    public partial class PermisoRepository : IPermisoRepository
     {
-        public PermisoRepository(ISqlDataProvider dataProvider) : base(dataProvider)
+        private readonly IPrimeSecurityService primeSecurityService;
+
+        private readonly ISqlDataProvider _db; 
+
+        public PermisoRepository(ISqlDataProvider dataProvider,
+            IPrimeSecurityService _primeSecurityService)
         {
+            _db = dataProvider;
+            primeSecurityService = _primeSecurityService;
         }
+
+        public async Task<List<Permiso>> GetAllAsync()
+        {
+            await primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
+            return await _db.Permissions.ToListAsync();
+        }
+    }
+
+    [MetadataType(typeof(PermisoRepositoryAuthorization))]
+    public partial class PermisoRepository
+    {
     }
 }
