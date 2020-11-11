@@ -149,12 +149,15 @@ namespace PRIME_UCR.Components.CheckLists
             itemInstance.PlantillaId = checklistId;
             itemInstance.IncidentCod = incidentCod;
             itemInstance.Completado = false;
-            IEnumerable<Item> subItems = await MyService.GetItemsBySuperitemId(item.Id);
-            if (subItems.Count() == 0)
+            if (parentItemId != null)
             {
                 itemInstance.ItemPadreId = parentItemId;
                 itemInstance.PlantillaPadreId = checklistId;
                 itemInstance.IncidentCodPadre = incidentCod;
+            }
+            IEnumerable<Item> subItems = await MyService.GetItemsBySuperitemId(item.Id);
+            if (subItems.Count() == 0)
+            {
                 await MyInstanceChecklistService.InsertInstanceItem(itemInstance);
             }
             else

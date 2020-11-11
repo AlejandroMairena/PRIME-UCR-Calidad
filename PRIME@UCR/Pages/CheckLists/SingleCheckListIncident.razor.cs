@@ -7,6 +7,7 @@ using PRIME_UCR.Application.Services.CheckLists;
 using PRIME_UCR.Components.CheckLists;
 using Microsoft.AspNetCore.Components.Forms;
 using PRIME_UCR.Domain.Models.CheckLists;
+using System;
 using System.Linq;
 
 namespace PRIME_UCR.Pages.CheckLists
@@ -27,6 +28,7 @@ namespace PRIME_UCR.Pages.CheckLists
         private bool isDisabled { get; set; } = true;//not need
 
         protected bool createItem { get; set; } = false;// not neet
+        protected IEnumerable<InstanciaItem> coreItems { get; set; }
 
         public InstanceChecklist insanceLC { get; set; }
 
@@ -61,7 +63,7 @@ namespace PRIME_UCR.Pages.CheckLists
             items = tempItems.ToList();
             IEnumerable<InstanciaItem> tempInstancedItems = await MyCheckInstanceChechistService.GetItemsByIncidentCodAndCheckListId(incidentcod, plantillaid);
             itemsInstance = tempInstancedItems.ToList();
-            IEnumerable<InstanciaItem> coreItems = await MyCheckInstanceChechistService.GetCoreItems(incidentcod, plantillaid);
+            coreItems = await MyCheckInstanceChechistService.GetCoreItems(incidentcod, plantillaid);
             orderedList = new List<InstanciaItem>();
             orderedListLevel = new List<int>();
             foreach (var item in coreItems)
@@ -152,6 +154,13 @@ namespace PRIME_UCR.Pages.CheckLists
                 hasSubItems = true;
             }
             return hasSubItems;
+        }
+
+        protected string truncate(string text, int level, int lines)
+        {
+            if (String.IsNullOrEmpty(text)) return "";
+            int maxLength = lines * (65 - level * 5);
+            return text.Length <= maxLength ? text : text.Substring(0, maxLength) + "...";
         }
     }
 }
