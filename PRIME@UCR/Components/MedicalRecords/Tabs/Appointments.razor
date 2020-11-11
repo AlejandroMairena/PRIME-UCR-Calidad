@@ -1,5 +1,6 @@
 ﻿@using BlazorTable
 @using PRIME_UCR.Domain.Models.Appointments
+@using PRIME_UCR.Domain.Models.MedicalRecords
 @inject IIncidentService incident_service; 
 <h3>Lista de Citas</h3>
 
@@ -10,18 +11,28 @@
 </style>
 
 <Loading IsLoading="appointments == null">
-    <Table TableItem="Cita" Items="appointments" PageSize="5" @ref="AppointmentsModel" ColumnReorder="true" ShowSearchBar="true" class="table table-bordered">
-        <Column TableItem="Cita" Title="Numero de Cita" Field="@(x => x.Id)" Width="20%">
+    <Table TableItem="DateIncidentModel" Items="dat_in_link" PageSize="5" @ref="AppointmIncidentModel" ColumnReorder="true" ShowSearchBar="true" class="table table-bordered">
+        <Column TableItem="DateIncidentModel" Title="Numero de Cita" Field="@(x => x.date.Id)" Width="20%">
             <Template>
-                <a href="#">@context.Id</a>
+                <a href="#">@context.date.Id</a>
             </Template>
         </Column>
 
-        <Column TableItem="Cita" Title="Numero de Expediente" Field="@(x => x.IdExpediente)" Width="20%">
+        
+        <Column TableItem="DateIncidentModel" Title="Tipo" Field="@(x => x.type)" Width="20%">
+        </Column>
+        
+        <Column TableItem="DateIncidentModel" Title="Código" Field="@(x => x.incident.Codigo)" Width="20%">
+        </Column>
+
+        <Column TableItem="DateIncidentModel" Title="Numero de expediente" Field="@(x => x.date.IdExpediente)" Width="20%">
         </Column>
 
 
-        <Column TableItem="Cita" Title="Fecha/Hora Creación" Field="@(x => x.FechaHoraCreacion)" Width="20%">
+        <Column TableItem="DateIncidentModel" Title="Fecha/Hora creación" Field="@(x => x.date.FechaHoraCreacion)" Width="20%">
+        </Column>
+
+        <Column TableItem="DateIncidentModel" Title="Lugar de atención" Field="@(x => x.incident.Destino.DisplayName)" Width="20%">
         </Column>
 
         <EmptyDataTemplate>

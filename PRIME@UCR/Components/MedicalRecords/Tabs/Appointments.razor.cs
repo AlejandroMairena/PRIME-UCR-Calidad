@@ -28,7 +28,10 @@ namespace PRIME_UCR.Components.MedicalRecords.Tabs
 
         public ITable<Cita> AppointmentsModel { get; set;  }
 
-        public bool are_there_appointments { get; set; } = false; 
+        public ITable<DateIncidentModel> AppointmIncidentModel { get; set; }
+        public bool are_there_appointments { get; set; } = false;
+
+        public const string inci = "incidente"; 
 
         protected override async Task OnParametersSetAsync()
         {
