@@ -256,6 +256,10 @@ namespace PRIME_UCR.Application.Implementations.Incidents
                     break;
                 }
             }
+            if(nextState == IncidentStates.Rejected.Nombre)
+            {
+                nextState = IncidentStates.Approved.Nombre;
+            }
             return nextState;
         }
 
