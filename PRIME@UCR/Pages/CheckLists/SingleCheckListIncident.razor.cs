@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Components.Forms;
 using PRIME_UCR.Domain.Models.CheckLists;
 using System;
 using System.Linq;
+using MatBlazor;
 
 namespace PRIME_UCR.Pages.CheckLists
 {
@@ -45,11 +46,13 @@ namespace PRIME_UCR.Pages.CheckLists
 
         protected List<InstanciaItem> orderedList;
         protected List<int> orderedListLevel;
+        protected string IncidentURL = "/incidents/";
 
         protected int itemIndex { get; set; } = 0;
 
         [Inject] protected ICheckListService MyCheckListService { get; set; }
         [Inject] protected IInstanceChecklistService MyCheckInstanceChechistService { get; set; }
+        [Inject] private NavigationManager NavManager { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
@@ -161,6 +164,18 @@ namespace PRIME_UCR.Pages.CheckLists
             if (String.IsNullOrEmpty(text)) return "";
             int maxLength = lines * (65 - level * 5);
             return text.Length <= maxLength ? text : text.Substring(0, maxLength) + "...";
+        }
+
+        protected MatTheme AddButtonTheme = new MatTheme()
+        {
+            Primary = "white",
+            Secondary = "#095290"
+        };
+
+        protected void Redirect()
+        {
+            IncidentURL += incidentcod;
+            NavManager.NavigateTo($"{IncidentURL}");
         }
     }
 }
