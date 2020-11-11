@@ -14,6 +14,7 @@ using PRIME_UCR.Application.Services.UserAdministration;
 using PRIME_UCR.Application.Repositories.Incidents;
 using PRIME_UCR.Application.Services.Appointments;
 using PRIME_UCR.Application.Services.MedicalRecords;
+using Microsoft.AspNetCore.Components.Authorization;
 
 namespace PRIME_UCR.Application
 {
@@ -32,15 +33,14 @@ namespace PRIME_UCR.Application
             services.AddTransient<IMultimediaContentService, MultimediaContentService>();
             services.AddTransient<IEncryptionService, EncryptionService>();
             // user administration
-            services.AddTransient<IPermissionsService, PermissionsService>();
-            services.AddTransient<IProfilesService, ProfilesService>();
-            services.AddTransient<IUserService, UsersService>();
+            services.AddScoped<IPermissionsService, PermissionsService>();
+            services.AddScoped<IProfilesService, ProfilesService>();
+            services.AddScoped<IUserService, UsersService>();
             services.AddScoped<IPrimeAuthorizationService, PrimeAuthorizationService>();
             services.AddTransient<IPermiteService, PermiteService>();
             services.AddTransient<IPerteneceService, PerteneceService>();
             services.AddTransient<IPersonService, PersonService>();
             services.AddTransient<IDoctorService, DoctorService>();
-            services.AddTransient<IUserService, UsersService>();
             services.AddScoped<IPrimeAuthorizationService, PrimeAuthorizationService>();
             services.AddTransient<IPersonService, PersonService>();
             services.AddTransient<IPatientService, PatientService>();
@@ -48,6 +48,8 @@ namespace PRIME_UCR.Application
             services.AddTransient<INumeroTelefonoService, NumeroTelefonoService>();
             services.AddTransient<IAssignmentService, AssignmentService>();
             services.AddTransient<IAppointmentService, AppointmentService>();
+            services.AddTransient<IAuthenticationService, AuthenticationService>();
+            services.AddTransient<IPrimeSecurityService, PrimeSecurityService>();
             
             return services;
         }

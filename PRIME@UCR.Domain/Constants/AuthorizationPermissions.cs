@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace PRIME_UCR.Application.DTOs.UserAdministration
+﻿namespace PRIME_UCR.Domain.Constants
 {
     /**     
      * Enumeration used to know each of the policies names to be used in the authorization.
@@ -30,8 +26,7 @@ namespace PRIME_UCR.Application.DTOs.UserAdministration
 
     public enum AuthorizationPermissions
     {
-        CanCreateUsers = 1,
-        CanModifyUsers,
+        CanManageUsers = 1,
         CanCreateChecklist,
         CanInstantiateChecklist,
         CanSeeIncidentsList,
@@ -51,6 +46,5 @@ namespace PRIME_UCR.Application.DTOs.UserAdministration
         CanEditMedicalInfoOfIncidentsPatient,
         CanAssignIncidents,
         CanCreateIncidents,
-        CanAccessDashboard,
     }
 }

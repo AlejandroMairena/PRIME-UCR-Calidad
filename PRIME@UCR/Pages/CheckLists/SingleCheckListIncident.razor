@@ -1,7 +1,7 @@
 ﻿@page "/checklist/incident/{id:int}"
 @inherits SingleCheckListIncidentBase
-@using PRIME_UCR.Application.DTOs.UserAdministration;
 @using PRIME_UCR.Application.Implementations.UserAdministration;
+@using PRIME_UCR.Domain.Constants
 
 @attribute [HasPermission(AuthorizationPermissions.CanCreateChecklist)]
 

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PRIME_UCR.Application.Repositories.UserAdministration
 {
-    public interface IPerteneceRepository : IGenericRepository<Pertenece,Tuple<string,string>>
+    public interface IPerteneceRepository
     {
         Task DeleteUserFromProfileAsync(string idUser, string idProfile);
 

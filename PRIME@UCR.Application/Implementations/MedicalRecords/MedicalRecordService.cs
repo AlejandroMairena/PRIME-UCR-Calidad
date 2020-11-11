@@ -141,8 +141,8 @@ namespace PRIME_UCR.Application.Implementations.MedicalRecords
         public async Task<RecordViewModel> GetIncidentDetailsAsync(int id)
         {
             var record = await _repo.GetByKeyAsync(id);
-            var person = await _personRepo.GetByKeyAsync(record.CedulaPaciente);
-            var doctor = await _personRepo.GetByKeyAsync(record.CedulaMedicoDuenno);
+            var person = await _personRepo.GetByKeyPersonaAsync(record.CedulaPaciente);
+            var doctor = await _personRepo.GetByKeyPersonaAsync(record.CedulaMedicoDuenno);
             if (record != null)
             {
                 var model = new RecordViewModel

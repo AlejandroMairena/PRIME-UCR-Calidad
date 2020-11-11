@@ -83,36 +83,34 @@ VALUES
 INSERT INTO Permiso (IdPermiso, Descripción_Permiso)
 VALUES
     -- Administrador
-    (1,'Puede crear usuarios'),
-    (2,'Puede modificar la asignación de permisos y usuarios propios a un perfil'),
-    (3,'Puede crear listas de chequeo'),
-    (4,'Puede instanciar listas de chequeo'),
+    (1,'Puede administrar las cuentas de usuario'),
+    (2,'Puede crear listas de chequeo'),
+    (3,'Puede instanciar listas de chequeo'),
     -- Especialista técnico médico
-    (5,'Puede ver el listado de incidentes'),
-    (6,'Puede ver la información médica en el listado de incidentes'),
-    (7,'Puede ver los detalles básicos de un incidente'),
-    (8,'Puede ver los detalles médicos de un incidente'),
-    (9,'Puede ver la información del paciente de un incidente'),
+    (4,'Puede ver el listado de incidentes'),
+    (5,'Puede ver la información médica en el listado de incidentes'),
+    (6,'Puede ver los detalles básicos de un incidente'),
+    (7,'Puede ver los detalles médicos de un incidente'),
+    (8,'Puede ver la información del paciente de un incidente'),
     -- Médico
-    (10,'Ver expedientes de sus pacientes'),
+    (9,'Ver expedientes de sus pacientes'),
     -- Gerente médico
-    (11,'Puede ver todos los expedientes médicos'),
-    (12,'Puede manejar la información del dashboard referente a expedientes'),
-    (22,'Puede ver el dashboard'),
+    (10,'Puede ver todos los expedientes médicos'),
+    (11,'Puede manejar la información del dashboard referente a expedientes'),
         -- Se repite el 13
     -- Coordinador técnico médico
-    (13,'Puede manejar la información del dashboard referente a incidentes'),
+    (12,'Puede manejar la información del dashboard referente a incidentes'),
         -- Se repite el 3 y 4
-    (14,'Puede marcar items de las listas de chequeo'),
-    (15,'Puede adjuntar multimedia en las listas de chequeo'),
+    (13,'Puede marcar items de las listas de chequeo'),
+    (14,'Puede adjuntar multimedia en las listas de chequeo'),
         -- Se repite el 5, 6, 7, 8
-    (16,'Puede editar los detalles básicos de los incidentes'),
-    (17,'Puede editar los detalles médicos de los incidentes'),
-    (18,'Puede revisar los incidentes'),
+    (15,'Puede editar los detalles básicos de los incidentes'),
+    (16,'Puede editar los detalles médicos de los incidentes'),
+    (17,'Puede revisar los incidentes'),
         -- Se repite 9
-    (19,'Puede editar la información del paciente de un incidente'),
-    (20,'Puede llevar a cabo la asignación de incidentes'),
-    (21,'Puede crear incidentes');
+    (18,'Puede editar la información del paciente de un incidente'),
+    (19,'Puede llevar a cabo la asignación de incidentes'),
+    (20,'Puede crear incidentes');
         -- Se repite el 22
     -- Administrador del centro de control
         -- Se repite 5, 7, 16 y 21
@@ -129,24 +127,23 @@ INSERT INTO Permite (IdPermiso, NombrePerfil)
 VALUES  (1,'Administrador'),
         (2,'Administrador'),
         (3,'Administrador'),
-        (4,'Administrador'),
+        (4,'Especialista técnico médico'),
         (5,'Especialista técnico médico'),
         (6,'Especialista técnico médico'),
         (7,'Especialista técnico médico'),
         (8,'Especialista técnico médico'),
-        (9,'Especialista técnico médico'),
-        (10,'Médico'),
+        (9,'Médico'),
+        (10,'Gerente médico'),
         (11,'Gerente médico'),
         (12,'Gerente médico'),
-        (13,'Gerente médico'),
-        (22,'Gerente médico'),
+        (2,'Coordinador técnico médico'),
         (3,'Coordinador técnico médico'),
         (4,'Coordinador técnico médico'),
         (5,'Coordinador técnico médico'),
         (6,'Coordinador técnico médico'),
         (7,'Coordinador técnico médico'),
         (8,'Coordinador técnico médico'),
-        (9,'Coordinador técnico médico'),
+        (12,'Coordinador técnico médico'),
         (13,'Coordinador técnico médico'),
         (14,'Coordinador técnico médico'),
         (15,'Coordinador técnico médico'),
@@ -155,12 +152,10 @@ VALUES  (1,'Administrador'),
         (18,'Coordinador técnico médico'),
         (19,'Coordinador técnico médico'),
         (20,'Coordinador técnico médico'),
-        (21,'Coordinador técnico médico'),
-        (22,'Coordinador técnico médico'),
-        (5,'Administrador de la central de control'),
-        (7,'Administrador de la central de control'),
-        (16,'Administrador de la central de control'),
-        (21,'Administrador de la central de control');
+        (4,'Administrador de la central de control'),
+        (6,'Administrador de la central de control'),
+        (15,'Administrador de la central de control'),
+        (20,'Administrador de la central de control');
  
 INSERT INTO Pertenece(IdUsuario, NombrePerfil)
 VALUES ('a6f7aa70-a038-419f-9945-7c77b093d58f','Administrador'),
