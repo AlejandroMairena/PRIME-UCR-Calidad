@@ -107,5 +107,108 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
             Assert.Empty(result);
         }
 
+        [Fact]
+        public async Task GetCantonsByProvinceNameAsyncReturnsEmptyList()
+        {
+            // arrange
+            var mockRepo = new Mock<ICantonRepository>();
+            var data = new List<Canton>();
+
+            mockRepo
+                .Setup(r => r.GetCantonsByProvinceNameAsync("provincia inválida"))
+                .Returns(Task.FromResult<IEnumerable<Canton>>(data));
+
+            var service = new LocationService(
+                null,
+                null, mockRepo.Object, null, null);
+
+            // act 
+            var result = await service.GetCantonsByProvinceNameAsync("provincia inválida");
+            
+            // assert
+            Assert.Empty(result);
+        }
+
+        [Fact]
+        public async Task GetCantonsByProvinceNameAsyncReturnsValidList()
+        {
+            // arrange
+            var mockRepo = new Mock<ICantonRepository>();
+            var data = new List<Canton>
+            {
+                new Canton{ Id = 1,},
+                new Canton{ Id = 2,},
+                new Canton{ Id = 3,},
+                new Canton{ Id = 4,},
+                new Canton{ Id = 5,},
+                new Canton{ Id = 6,},
+            };
+
+            mockRepo
+                .Setup(r => r.GetCantonsByProvinceNameAsync("provincia válida"))
+                .Returns(Task.FromResult<IEnumerable<Canton>>(data));
+
+            var service = new LocationService(
+                null,
+                null, mockRepo.Object, null, null);
+
+            // act 
+            var result = await service.GetCantonsByProvinceNameAsync("provincia válida");
+            
+            // assert
+            Assert.Collection(result,
+                                  canton => Assert.Equal(1, canton.Id),
+                                  canton => Assert.Equal(2, canton.Id),
+                                  canton => Assert.Equal(3, canton.Id),
+                                  canton => Assert.Equal(4, canton.Id),
+                                  canton => Assert.Equal(5, canton.Id),
+                                  canton => Assert.Equal(6, canton.Id)
+                              );
+        }
+
+        [Fact]
+        public async Task GetMedicalCenterByIdReturnsNull()
+        {
+            // arrange
+            var mockRepo = new Mock<IMedicalCenterRepository>();
+            CentroMedico data = null;
+
+            mockRepo
+                .Setup(p => p.GetByKeyAsync(-1))
+                .Returns(Task.FromResult(data));
+
+            var service = new LocationService(
+                null,
+                null, null, null, mockRepo.Object);
+
+            // act 
+            var result = await service.GetMedicalCenterById(-1);
+
+            // assert
+            Assert.Null(result);
+        }
+
+        [Fact]
+        public async Task GetMedicalCenterByIdReturnsValid()
+        {
+            // arrange
+            var mockRepo = new Mock<IMedicalCenterRepository>();
+            var data = new CentroMedico { Id = 1 };
+
+            mockRepo
+                .Setup(p => p.GetByKeyAsync(1))
+                .Returns(Task.FromResult(data));
+
+            var service = new LocationService(
+                null,
+                null, null, null, mockRepo.Object);
+
+            // act 
+            var result = await service.GetMedicalCenterById(1);
+
+            // assert
+            Assert.NotNull(result);
+            Assert.Equal(1, result.Id);
+        }
     }
 }
