@@ -45,6 +45,15 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Incidents
 
             return model;
         }
+
+        public async Task<Incidente> GetIncidentByDateCodeAsync(int id) {
+            return await _db.Incidents
+                    .Include(p => p.Origen)
+                    .Include(p => p.Destino)
+                    .Include(p => p.EstadoIncidentes)
+                    .FirstOrDefaultAsync(i => i.CodigoCita == id); 
+        }
+
         public async Task<Incidente> GetWithDetailsAsync(string code)
         {
             await using var connection = new SqlConnection(_db.DbConnection.ConnectionString);

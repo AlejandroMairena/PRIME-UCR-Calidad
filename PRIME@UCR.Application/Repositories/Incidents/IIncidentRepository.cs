@@ -9,6 +9,9 @@ namespace PRIME_UCR.Application.Repositories.Incidents
     public interface IIncidentRepository : IGenericRepository<Incidente, string>
     {
         Task<Incidente> GetWithDetailsAsync(string code);
+
+        Task<Incidente> GetIncidentByDateCodeAsync(int id); 
+
         Task<IEnumerable<IncidentListModel>> GetIncidentListModelsAsync();
     }
 }
