@@ -101,11 +101,11 @@ else
                 {
                     PRIME_UCR.Domain.Models.CheckLists.Item itemInList = orderedList[itemIndex];
                     string style = orderedListLevel[itemIndex] * 2 + "em";
-                    <table class="table table-hover">
+                    <table class="table">
                         @* Contains information about every item in this checklist *@
                         <tbody>
                             <tr>
-                                <td class="align-middle" style="padding-left: @style; width: 100px;">
+                                <td rowspan="2" class="align-middle" style="padding-left: @style; width: 100px;">
                                     @* Displys the image of the item *@
 
                                     <div style="width: 100%; display:inline-flex;">
@@ -120,10 +120,9 @@ else
                                         </ul>
                                     </div>
                                 </td>
-                            
-                                <th class="align-middle"> @itemInList.Nombre</th>
-                                <td class="align-middle"> @itemInList.Descripcion </td>
-                                <td class="align-middle" align="right" style="width: 54px">
+
+                                <th class="align-middle"  data-toggle="tooltip" title="@itemInList.Nombre">@truncate(itemInList.Nombre, orderedListLevel[itemIndex], 1)</th>
+                                <td rowspan="2" class="align-middle" align="right" style="width: 54px">
                                     @* Drop down button to show additional options *@
                                     <button type="button" class="btn btn-default " data-toggle="dropdown">
                                         ⋮<span class="caret"></span>
@@ -132,8 +131,12 @@ else
                                     @* Button to create a new sub item *@
                                     <ul class="dropdown-menu" role="menu">
                                         <li><button class="dropdown-item" @onclick="() => CreateSubItem(itemInList.Id)">Agregar Subítem</button></li>
+                                        <li><button class="dropdown-item" @onclick="() => EditItem(itemInList.Id)">Editar ítem</button></li>
                                     </ul>
                                 </td>
+                            </tr>
+                            <tr>
+                                <td class="align-middle"  title="@itemInList.Descripcion">@truncate(itemInList.Descripcion, orderedListLevel[itemIndex], 2)</td>
                             </tr>
                             @if (createSubItem == true && parentItemId == itemInList.Id)
                             {
@@ -142,7 +145,15 @@ else
                                         <CreateItem @bind-item="tempItem" creating="createSubItem" OnCreatingChanged="creatingFinished">Crear SubItem</CreateItem>
                                     </td>
                                 </tr>
-                             }
+                            }
+                            @if (editItem == true && parentItemId == itemInList.Id)
+                            {
+                                <tr>
+                                    <td colspan="4">
+                                        <EditItem @bind-item="tempItem" editing="editItem" OnEditingChanged="editingFinished">Editar Item</EditItem>
+                                    </td>
+                                </tr>
+}
                         </tbody>
                     </table>
                     }
