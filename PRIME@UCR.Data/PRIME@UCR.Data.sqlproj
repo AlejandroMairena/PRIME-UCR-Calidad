@@ -65,6 +65,7 @@
     <Folder Include="Tables\CheckLists" />
     <Folder Include="Tables\" />
     <Folder Include="Triggers" />
+    <Folder Include="Indexes" />
     <Folder Include="StoredProcedures" />
     <Folder Include="StoredProcedures\Incidents\" />
     <Folder Include="Tables\Appointments" />
@@ -72,9 +73,11 @@
     <Folder Include="StoredProcedures\UserAdministration" />
     <Folder Include="StoredProcedures\Multimedia" />
     <Folder Include="StoredProcedures\CheckLists" />
+    <Folder Include="Indexes\Incidents\" />
     <Folder Include="StoredProcedures\Dashboard" />
   </ItemGroup>
   <ItemGroup>
+    <Build Include="Indexes\Incidents\ix_incidente_activo.sql" />
     <Build Include="Tables\CheckLists\CheckList.sql" />
     <Build Include="Tables\CheckLists\Item.sql" />
     <Build Include="Tables\Incidents\Pais.sql" />

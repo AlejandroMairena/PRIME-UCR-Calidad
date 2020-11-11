@@ -13,7 +13,7 @@ else if (DetailsModel.CurrentState == IncidentStates.Rejected.Nombre)
     <StatusMessage Message="@($"Rechazado por {DetailsModel.Reviewer.NombreCompleto}")" Class="danger" />
 }
 <ul class="list-group">
-    <ListItem Title="Identificador" Text="@DetailsModel.Code"/>
+    <ListItem Title="Identificador" Text="@DetailsModel.Code" />
     <ListItem Title="Estado" Text="@DetailsModel.CurrentState" />
     <ListItem Title="Modalidad" Text="@DetailsModel.Mode" />
     <ListItem Title="Fecha estimada del traslado"
@@ -23,17 +23,19 @@ else if (DetailsModel.CurrentState == IncidentStates.Rejected.Nombre)
     <ListItem Title="Creado por"
               Text="@(_creator?.NombreCompleto)" />
 </ul>
-@if (DetailsModel.CurrentState == IncidentStates.Created.Nombre)
-{
-    <div class="text-center mt-4">
-        <button class="btn btn-primary" @onclick="@Approve">Aprobar</button>
-        <button class="btn btn-outline-danger" @onclick="@Reject">Rechazar</button>
-    </div>
-}
-else if (DetailsModel.CurrentState == IncidentStates.Rejected.Nombre)
-{
-    <div class="text-center mt-4">
-        <button class="btn btn-primary" @onclick="@Approve">Aprobar</button>
-        <button disabled class="btn btn-outline-danger">Rechazar</button>
-    </div>
-}
+<PermissionAuthorizeView Permission="@AuthorizationPermissions.CanReviewIncidents" ShowDeniedPermissionMessage=false>
+    @if (DetailsModel.CurrentState == IncidentStates.Created.Nombre)
+    {
+        <div class="text-center mt-4">
+            <button class="btn btn-primary" @onclick="@Approve">Aprobar</button>
+            <button class="btn btn-outline-danger" @onclick="@Reject">Rechazar</button>
+        </div>
+    }
+    else if (DetailsModel.CurrentState == IncidentStates.Rejected.Nombre)
+    {
+        <div class="text-center mt-4">
+            <button class="btn btn-primary" @onclick="@Approve">Aprobar</button>
+            <button disabled class="btn btn-outline-danger">Rechazar</button>
+        </div>
+    }
+</PermissionAuthorizeView>

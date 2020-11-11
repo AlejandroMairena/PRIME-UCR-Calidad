@@ -1,6 +1,8 @@
 ﻿@page "/incidents/create"
 @using PRIME_UCR.Components.Controls
-@attribute [Authorize]
+@using PRIME_UCR.Domain.Constants 
+<!-- Only: (control center admin, medical technician coordinator) can create the incidents -->
+@attribute [HasPermission(AuthorizationPermissions.CanCreateIncidents)]
 
 <div class="jumbotron white-panel">
     <h1>Crear incidente</h1>

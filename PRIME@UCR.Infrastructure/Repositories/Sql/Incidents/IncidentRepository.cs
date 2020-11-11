@@ -12,6 +12,7 @@ using PRIME_UCR.Application.Repositories.Incidents;
 using PRIME_UCR.Domain.Models;
 using PRIME_UCR.Domain.Models.Incidents;
 using PRIME_UCR.Domain.Models.MedicalRecords;
+using PRIME_UCR.Domain.Models.UserAdministration;
 using PRIME_UCR.Infrastructure.DataProviders;
 using RepoDb;
 using RepoDb.Extensions;
@@ -162,6 +163,36 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Incidents
             }
         }
 
+        public async Task<Médico> GetAssignedOriginDoctor(string code)
+        {
+            var incident = await _db.Incidents
+                .Include(i => i.Origen)
+                .FirstOrDefaultAsync(i => i.Codigo == code);
+
+            if (incident?.Origen is CentroUbicacion)
+            {
+                var cu = incident.Origen as CentroUbicacion;
+                if (cu != null) return await GetDoctorById(cu.CedulaMedico);
+            }
+
+            return null;
+        }
+
+        public async Task<Médico> GetAssignedDestinationDoctor(string code)
+        {
+            var incident = await _db.Incidents
+                .Include(i => i.Destino)
+                .FirstOrDefaultAsync(i => i.Codigo == code);
+
+            if (incident?.Destino is CentroUbicacion)
+            {
+                var cu = incident.Destino as CentroUbicacion;
+                if (cu != null) return await GetDoctorById(cu.CedulaMedico);
+            }
+
+            return null;
+        }
+
         public override async Task<Incidente> GetByKeyAsync(string key)
         {
             using (var connection = new SqlConnection(_db.ConnectionString))
@@ -176,6 +207,20 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Incidents
                         .FirstOrDefault();
                 
                 return incident;
+            }
+        }
+
+        private async Task<Médico> GetDoctorById(string id)
+        {
+            using (var connection = new SqlConnection(_db.ConnectionString))
+            {
+                return (await connection.ExecuteQueryAsync<Médico>(@"
+                    select Persona.* from Persona
+                    join Funcionario F on Persona.Cédula = F.Cédula
+                    join Médico M on F.Cédula = M.Cédula
+                    where M.Cédula = @Id
+                ", new { Id = id }))
+                .FirstOrDefault();
             }
         }
     }

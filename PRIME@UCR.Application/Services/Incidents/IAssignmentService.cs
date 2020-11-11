@@ -11,7 +11,11 @@ namespace PRIME_UCR.Application.Services.Incidents
         Task<IEnumerable<UnidadDeTransporte>> GetAllTransportUnitsByMode(string mode);
         Task<IEnumerable<CoordinadorTécnicoMédico>> GetCoordinatorsAsync();
         Task<IEnumerable<EspecialistaTécnicoMédico>> GetSpecialistsAsync();
+        Task<Médico> GetAssignedOriginDoctor(string code);
+        Task<Médico> GetAssignedDestinationDoctor(string code);
         Task<AssignmentModel> GetAssignmentsByIncidentIdAsync(string code);
         Task AssignToIncidentAsync(string code, AssignmentModel model);
+        // only assigned doctors, medical techs or coordinators should be authorized
+        public Task<bool> IsAuthorizedToViewPatient(string code, string personId);
     }
 }
