@@ -78,8 +78,8 @@ function gotBuffers(buffers) {
     audioRecorder.exportWAV(doneEncoding);
 }
 
-function toggleRecording(e, downloadLinkRef) {
-    setDownloadLink(downloadLinkRef);
+function toggleRecording(e) {
+    //setDownloadLink(downloadLinkRef);
     if (e.classList.contains("recording")) {
         // stop recording
         audioRecorder.stop();

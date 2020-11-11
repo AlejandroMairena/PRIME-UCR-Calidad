@@ -9,7 +9,7 @@ namespace PRIME_UCR.Components.Multimedia
 {
     public partial class MicrophoneComponent
     {
-        ElementReference actionButtonRef;
+        ElementReference actionImageRef;
         ElementReference downloadLinkRef;
         
         bool recording = false;
@@ -28,7 +28,7 @@ namespace PRIME_UCR.Components.Multimedia
         async Task OnActionButtonClicked()
         {
             recording = !recording;
-            await JS.InvokeAsync<bool>("toggleRecording", actionButtonRef, downloadLinkRef);
+            await JS.InvokeAsync<bool>("toggleRecording", actionImageRef);
         }
 
         async Task OnDownloadButtonClicked()

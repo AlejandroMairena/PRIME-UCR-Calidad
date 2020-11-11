@@ -50,6 +50,7 @@ function init(config) {
 }
 
 function record(inputBuffer) {
+    console.log('Record');
     recBuffersL.push(inputBuffer[0]);
     recBuffersR.push(inputBuffer[1]);
     recLength += inputBuffer[0].length;

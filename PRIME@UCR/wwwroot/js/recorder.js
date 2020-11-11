@@ -31,7 +31,6 @@ DEALINGS IN THE SOFTWARE.
             this.node = this.context.createScriptProcessor(bufferLen, 2, 2);
         }
 
-        var downloadLinkRef = null;
         var worker = new Worker(config.workerPath || WORKER_PATH);
         worker.postMessage({
             command: 'init',
@@ -44,6 +43,8 @@ DEALINGS IN THE SOFTWARE.
 
         this.node.onaudioprocess = function (e) {
             if (!recording) return;
+            console.log('OnAudioProcess');
+            console.log(e);
             worker.postMessage({
                 command: 'record',
                 buffer: [
@@ -100,6 +101,7 @@ DEALINGS IN THE SOFTWARE.
 
         worker.onmessage = function (e) {
             var blob = e.data;
+            console.log(blob);
             currCallback(blob);
         }
 
