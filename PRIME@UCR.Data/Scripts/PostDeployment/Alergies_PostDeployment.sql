@@ -9,19 +9,35 @@ Post-Deployment Script Template
                SELECT * FROM [$(TableName)]					
 --------------------------------------------------------------------------------------
 */
+DELETE FROM Alergias
+DELETE FROM ListaAlergia
 
+DELETE FROM Antecedentes
+DELETE FROM ListaAntecedentes
 
-INSERT INTO Expediente(CedulaPaciente, CedulaMedicoDuenno, FechaCreacion, Clinica)
+INSERT INTO ListaAlergia(NombreAlergia)
 VALUES
-    ('12345678',NULL,'10/26/2020','clinica'),
-    ('23456789',NULL,'10/26/2020','clinica'),
-    ('34567890',NULL,'10/26/2020','clinica'),
-    ('45678901',NULL,'10/26/2020','clinica'),
-    ('56789012',NULL,'10/26/2020','clinica'),
-    ('67890123',NULL,'10/26/2020','clinica'),
-    ('78901234',NULL,'10/26/2020','clinica'),
-    ('89012345',NULL,'10/26/2020','clinica'),
-    ('90123456',NULL,'10/26/2020','clinica');
+    ('Miel'),
+    ('Penisilina'),
+    ('Nitrofuranos')
 
+INSERT INTO ListaAntecedentes(NombreAntecedente)
+VALUES 
+    ('Cáncer'),
+    ('Diabetes'),
+    ('Hipertensión'),
+    ('Problemas del corazón');
 
+INSERT INTO Antecedentes(IdExpediente,IdListaAntecedentes)
+VALUES 
+   -- (10, 1),
+    (10, 2),
+    (10, 3),
+    (10, 4),
+    (10, 5)
 
+    INSERT INTO Alergias(Id,IdExpediente,IdListaAlergia)
+VALUES 
+    ('1',10, 4),
+    ('2',10, 5),
+    ('3',10, 6)

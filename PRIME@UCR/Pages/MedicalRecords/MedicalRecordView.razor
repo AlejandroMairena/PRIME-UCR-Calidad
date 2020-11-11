@@ -2,10 +2,11 @@
 @using PRIME_UCR.Components.MedicalRecords.Tabs
 @using PRIME_UCR.Components.MedicalRecords
 @using PRIME_UCR.Components.Controls
-@using PRIME_UCR.Application.Services.MedicalRecords
 @attribute [Authorize]
-@inject NavigationManager NavigationManager
 @inject IMedicalRecordService MedicalRecordService
+@inject IMedicalBackgroundService MedicalBackgroundService
+@inject IAlergyService AlergyService
+@inject NavigationManager NavigationManager
 
 <h1>Detalles del expediente</h1>
 <hr />
@@ -17,7 +18,12 @@
                 <TabMenu Tabs="_tabs" DefaultTab="DefaultTab" IsVertical="true" @bind-Value="_activeTab" />
             </div>
             <div class="col">
-                <ActiveTab Active="@_activeTab" Expediente="@viewModel" MedicalRecord="medical_record_with_details"/>
+                <ActiveTab Active="@_activeTab" Expediente="@viewModel"
+                           MedicalRecord="@medical_record_with_details"
+                           Alergias="@alergias"
+                           Antecedentes="@antecedentes"
+                           ListaAntecedentes="@ListaAntecedentes"
+                           ListaAlergia="@ListaAlergias"/>
             </div>
         </div>
     </Loading>

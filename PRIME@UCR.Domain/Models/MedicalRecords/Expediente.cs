@@ -15,7 +15,8 @@ namespace PRIME_UCR.Domain.Models.MedicalRecords
         public string Clinica { get; set; }
         public Médico Medico { get; set; }
         public Paciente Paciente { get; set; }
-
+        public List<Alergias> Alergias { get; set; }
+        public List<Antecedentes> Antecedentes { get; set; }
         public List<Cita> Citas { get; set; }
     }
 }
