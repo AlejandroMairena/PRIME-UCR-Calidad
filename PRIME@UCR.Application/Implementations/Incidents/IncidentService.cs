@@ -258,5 +258,51 @@ namespace PRIME_UCR.Application.Implementations.Incidents
             }
             return nextState;
         }
+
+        public List<string> GetPendingTasks(IncidentDetailsModel model, string nextState)
+        {
+            List<string> pendingTasks = new List<string>();
+            if(nextState == IncidentStates.Created.Nombre)
+            {
+                pendingTasks = GetCreatedStatePendingTasks(model);
+            }
+            else if(nextState == IncidentStates.Rejected.Nombre)
+            {
+
+            }
+            else if (nextState == IncidentStates.Approved.Nombre)
+            {
+
+            }
+            else if (nextState == IncidentStates.Assigned.Nombre)
+            {
+
+            }
+            return pendingTasks;
+        }
+
+        /*
+         * Function: Checks for pending tasks needed to advance to "Created" state. Such tasks are: Select Orign, Select Destination, Select patient
+         * @Param: A DTO with the incident's current state
+         * @Return: A list with all pending tasks needed to advace to "Created" state.
+         * */
+
+        public List<string> GetCreatedStatePendingTasks(IncidentDetailsModel model)
+        {
+            List<string> pendingTasks = new List<string>();
+            if(model.Origin == null)
+            {
+                pendingTasks.Add("Seleccionar origen");
+            }
+            if(model.Destination == null)
+            {
+                pendingTasks.Add("Seleccionar destino");
+            }
+            if(model.MedicalRecord == null)
+            {
+                pendingTasks.Add("Agregar paciente");
+            }
+            return pendingTasks;
+        }
     }
 }

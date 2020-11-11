@@ -47,12 +47,17 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
             Tuple.Create(IncidentStates.Delivered.Nombre, "Entregado"),
             Tuple.Create(IncidentStates.Reactivated.Nombre, "Reactivado"),
             Tuple.Create(IncidentStates.Done.Nombre, "Finalizado")
+
+            /*
+             *  Creado: Origen, destino, paciente
+             * */
         };
 
         protected override async Task OnInitializedAsync()
         {
             currentStateIndex = IncidentStatesList.FindIndex(i => i.Item1 == Incident.CurrentState);
             nextState = (await IncidentService.GetNextIncidentState(Incident.Code)).ToString();
+            PendingTasks = IncidentService.GetPendingTasks(Incident, nextState);
             //PendingTasks.Add("Prueba1");
             //PendingTasks.Add("Test ");
         }
@@ -83,14 +88,6 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
         public void OnClick(MouseEventArgs e)
         {
             this.Menu2.OpenAsync(Button2.Ref);
-        }
-
-        public void FormatPendingTasks()
-        {
-            for(int index = 0; index < PendingTasks.Count; ++index)
-            {
-
-            }
         }
     }
 }
