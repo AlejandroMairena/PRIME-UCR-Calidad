@@ -5,6 +5,7 @@ using PRIME_UCR.Domain.Models;
 using PRIME_UCR.Infrastructure.DataProviders;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -27,6 +28,16 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Dashboard
                 .Include(i => i.Cita)
                 .AsNoTracking()
                 .ToListAsync();
+        }
+
+        /**
+         * Method used to get the list of all the incidents join with origin information.
+         * 
+         * Return: List of incidents.
+         */
+        public async Task<List<Distrito>> GetAllDistrictsAsync()
+        {
+            return await _db.Districts.AsNoTracking().ToListAsync();
         }
     }
 }

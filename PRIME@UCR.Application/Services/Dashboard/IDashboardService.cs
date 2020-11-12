@@ -9,5 +9,7 @@ namespace PRIME_UCR.Application.Services.Dashboard
     public interface IDashboardService
     {
         Task<List<Incidente>> GetAllIncidentsAsync();
+
+        Task<List<Distrito>> GetAllDistrictsAsync();
     }
 }

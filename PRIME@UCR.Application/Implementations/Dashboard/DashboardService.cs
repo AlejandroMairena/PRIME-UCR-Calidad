@@ -22,5 +22,10 @@ namespace PRIME_UCR.Application.Implementations.Dashboard
         {
             return await _idashboardRepository.GetAllIncidentsAsync();
         }
+
+        public async Task<List<Distrito>> GetAllDistrictsAsync()
+        {
+            return await _idashboardRepository.GetAllDistrictsAsync();
+        }
     }
 }

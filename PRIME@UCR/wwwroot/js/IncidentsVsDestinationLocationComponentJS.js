@@ -29,6 +29,8 @@
         chart.language.locale = am4lang_es_ES;
 
         var categoryAxis = chart.yAxes.push(new am4charts.CategoryAxis());
+        categoryAxis.title.text = "Destino";
+        categoryAxis.title.fontWeight = "bold";
         categoryAxis.renderer.grid.template.location = 0;
         categoryAxis.dataFields.category = "destination";
         categoryAxis.renderer.minGridDistance = 1;
@@ -37,6 +39,9 @@
 
         var valueAxis = chart.xAxes.push(new am4charts.ValueAxis());
         valueAxis.min = 0;
+        valueAxis.title.text = "Cantidad de Incidentes";
+        valueAxis.title.fontWeight = "bold";
+
 
         var series = chart.series.push(new am4charts.ColumnSeries());
         series.dataFields.categoryY = "destination";
@@ -49,7 +54,7 @@
         var labelBullet = series.bullets.push(new am4charts.LabelBullet())
         labelBullet.label.horizontalCenter = "left";
         labelBullet.label.dx = 10;
-        labelBullet.label.text = "{values.valueX.workingValue.formatNumber('#.0as')}";
+        labelBullet.label.text = "{values.valueX.workingValue.formatNumber('#')}";
         labelBullet.locationX = 1;
 
         // as by default columns of the same series are of the same color, we add adapter which takes colors from chart.colors color set

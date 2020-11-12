@@ -29,6 +29,8 @@
         chart.language.locale = am4lang_es_ES;
 
         var categoryAxis = chart.yAxes.push(new am4charts.CategoryAxis());
+        categoryAxis.title.text = "Origen";
+        categoryAxis.title.fontWeight = "bold";
         categoryAxis.renderer.grid.template.location = 0;
         categoryAxis.dataFields.category = "origin";
         categoryAxis.renderer.minGridDistance = 1;
@@ -36,6 +38,8 @@
         categoryAxis.renderer.grid.template.disabled = true;
 
         var valueAxis = chart.xAxes.push(new am4charts.ValueAxis());
+        valueAxis.title.text = "Cantidad de Incidentes";
+        valueAxis.title.fontWeight = "bold";
         valueAxis.min = 0;
 
         var series = chart.series.push(new am4charts.ColumnSeries());
@@ -45,11 +49,12 @@
         series.columns.template.strokeOpacity = 0;
         series.columns.template.column.cornerRadiusBottomRight = 5;
         series.columns.template.column.cornerRadiusTopRight = 5;
+        series.columns.template.tooltipText = "{valueX}";
 
         var labelBullet = series.bullets.push(new am4charts.LabelBullet())
         labelBullet.label.horizontalCenter = "left";
         labelBullet.label.dx = 10;
-        labelBullet.label.text = "{values.valueX.workingValue.formatNumber('#.0as')}";
+        labelBullet.label.text = "{values.valueX.workingValue.formatNumber('#')}";
         labelBullet.locationX = 1;
 
         // as by default columns of the same series are of the same color, we add adapter which takes colors from chart.colors color set

@@ -26,13 +26,16 @@ namespace PRIME_UCR.Components.Dashboard
         {
             var incidentsData = await _dashboardService.GetAllIncidentsAsync();
 
+            var districtData = await _dashboardService.GetAllDistrictsAsync();
+
             var incidentsPerOrigin = incidentsData.GroupBy(i => i.IdOrigen);
 
             var results = new List<String>();
 
             foreach (var incidents in incidentsPerOrigin)
             {
-                results.Add(incidents.ToList()[0].IdOrigen.ToString());
+                var originName = districtData.Where((district) => district.Id == incidents.ToList().First().IdOrigen).First().Nombre;
+                results.Add(originName);
                 results.Add(incidents.ToList().Count().ToString());
             }
 

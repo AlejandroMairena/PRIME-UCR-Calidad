@@ -9,5 +9,7 @@ namespace PRIME_UCR.Application.Repositories.Dashboard
     public interface IDashboardRepository : IGenericRepository<Incidente, string>
     {
         Task<List<Incidente>> GetAllIncidentsAsync();
+
+        Task<List<Distrito>> GetAllDistrictsAsync();
     }
 }

@@ -59,26 +59,27 @@
         // Create axes
         let categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
         categoryAxis.dataFields.category = "incidentType";
-        categoryAxis.renderer.labels.template.rotation = 270;
+        categoryAxis.renderer.labels.template.rotation = 0;
         categoryAxis.renderer.labels.template.hideOversized = false;
         categoryAxis.renderer.minGridDistance = 20;
-        categoryAxis.renderer.labels.template.horizontalCenter = "right";
+        categoryAxis.renderer.labels.template.horizontalCenter = "middle";
         categoryAxis.renderer.labels.template.verticalCenter = "middle";
         categoryAxis.tooltip.label.rotation = 270;
         categoryAxis.tooltip.label.horizontalCenter = "right";
         categoryAxis.tooltip.label.verticalCenter = "middle";
 
         let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-        valueAxis.title.text = "Tipo de transporte";
+        valueAxis.title.text = "Cantidad de Incidentes";
         valueAxis.title.fontWeight = "bold";
 
         // Create series
         var series = chart.series.push(new am4charts.ColumnSeries3D());
         series.dataFields.valueY = "quantity";
         series.dataFields.categoryX = "incidentType";
-        series.name = "Cantidad";
+        series.name = "Modalidad de transporte";
         series.tooltipText = "{categoryX}: [bold]{valueY}[/]";
         series.columns.template.fillOpacity = .8;
+        series.maxPrecision = 0;
 
         var columnTemplate = series.columns.template;
         columnTemplate.strokeWidth = 2;

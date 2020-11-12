@@ -41,6 +41,8 @@
 
         // Create axes
         var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+        dateAxis.title.text = "Fecha";
+        dateAxis.title.fontWeight = "bold";
         dateAxis.renderer.grid.template.location = 0.5;
         dateAxis.dateFormatter.inputDateFormat = "yyyy-MM-dd";
         dateAxis.renderer.minGridDistance = 40;
@@ -49,15 +51,21 @@
 
         var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
 
+        valueAxis.maxPrecision = 0;
+        valueAxis.title.text = "Cantidad de Incidentes";
+        valueAxis.title.fontWeight = "bold";
+
+
         // Create series
         var series = chart.series.push(new am4charts.LineSeries());
         series.tooltipText = "{date}\n[bold font-size: 17px]# Incidentes: {valueY}[/]";
         series.dataFields.valueY = "value";
         series.dataFields.dateX = "date";
         series.strokeDasharray = 3;
-        series.strokeWidth = 2
-        //series.strokeOpacity = 0.3;
-        series.strokeDasharray = "3,3"
+        series.strokeWidth = 2;
+        series.strokeDasharray = "3,3";
+      
+
 
         var bullet = series.bullets.push(new am4charts.CircleBullet());
         bullet.strokeWidth = 2;

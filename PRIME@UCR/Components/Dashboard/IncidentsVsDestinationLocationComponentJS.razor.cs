@@ -27,17 +27,20 @@ namespace PRIME_UCR.Components.Dashboard
         {
             var incidentsData = await _dashboardService.GetAllIncidentsAsync();
 
-            var incidentsPerOrigin = incidentsData.GroupBy(i => i.IdDestino);
+
+            var districtData = await _dashboardService.GetAllDistrictsAsync();
+
+            var incidentsPerDestination = incidentsData.GroupBy(i => i.IdDestino);
 
             var results = new List<String>();
 
-            foreach (var incidents in incidentsPerOrigin)
+            foreach (var incidents in incidentsPerDestination)
             {
-                Debug.WriteLine(incidents.ToList()[0].IdDestino.ToString());
-                var labelName = incidents.ToList()[0].IdDestino.ToString();
-                if (labelName == "" || labelName == null)
+                var labelName = "No Asignado";
+                var district = districtData.Where((district) => district.Id == incidents.ToList().First().IdDestino);
+                if (district.Any())
                 {
-                    labelName = "No Asignado";
+                    labelName = district.First().Nombre;
                 }
                 results.Add(labelName);
                 results.Add(incidents.ToList().Count().ToString());
