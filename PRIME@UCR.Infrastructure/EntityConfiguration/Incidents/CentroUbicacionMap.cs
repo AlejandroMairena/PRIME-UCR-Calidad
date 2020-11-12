@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PRIME_UCR.Domain.Models;
+using RepoDb;
 
 namespace PRIME_UCR.Infrastructure.EntityConfiguration.Incidents
 {
@@ -8,6 +9,7 @@ namespace PRIME_UCR.Infrastructure.EntityConfiguration.Incidents
     {
         public void Configure(EntityTypeBuilder<CentroUbicacion> builder)
         {
+            // EFCore
             builder.ToTable("Centro_Ubicacion");
             // no key because it is a derived type
             builder
@@ -27,6 +29,12 @@ namespace PRIME_UCR.Infrastructure.EntityConfiguration.Incidents
                 .HasOne(p => p.Médico)
                 .WithMany()
                 .HasForeignKey(p => p.CedulaMedico);
+            
+            // RepoDb
+            FluentMapper.Entity<CentroUbicacion>()
+                .Table("Centro_Ubicacion")
+                .Column(cu => cu.CentroMedicoId, "IdCentro")
+                .Column(cu => cu.CedulaMedico, "CédulaMédico");
         }
     }
 

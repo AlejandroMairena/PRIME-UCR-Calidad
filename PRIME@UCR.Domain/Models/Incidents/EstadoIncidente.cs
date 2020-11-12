@@ -11,6 +11,6 @@ namespace PRIME_UCR.Domain.Models.Incidents
         public string CodigoIncidente { get; set; }
         
         public bool Activo { get; set; }
-        public DateTime FechaModificado { get; set; }
+        public DateTime FechaHora { get; set; }
     }
 }

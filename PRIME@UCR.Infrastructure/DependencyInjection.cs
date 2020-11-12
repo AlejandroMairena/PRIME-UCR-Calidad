@@ -18,7 +18,6 @@ using PRIME_UCR.Infrastructure.Repositories.Sql.Incidents;
 using PRIME_UCR.Infrastructure.Repositories.Sql.MedicalRecords;
 using PRIME_UCR.Infrastructure.Repositories.Sql.Multimedia;
 using PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration;
-using RepoDb;
 
 namespace PRIME_UCR.Infrastructure
 {
@@ -33,8 +32,10 @@ namespace PRIME_UCR.Infrastructure
             // repositories
             // generic repositories
             services.AddTransient(typeof(IGenericRepository<,>), typeof(GenericRepository<,>));
+            services.AddTransient(typeof(IRepoDbRepository<,>), typeof(RepoDbRepository<,>));
             // checklists
             services.AddTransient<ICheckListRepository, SqlCheckListRepository>();
+            services.AddTransient<ICheckListTypeRepository, SqlCheckListTypeRepository>();
             services.AddTransient<IItemRepository, SqlItemRepository>();
             services.AddTransient<IInstanceChecklistRepository, SqlInstanceChecklistRepository>();
             services.AddTransient<IInstanceItemRepository, SqlInstanceItemRepository>();
@@ -77,6 +78,7 @@ namespace PRIME_UCR.Infrastructure
             services.AddTransient<IPermiteRepository, PermiteRepository>();
             services.AddTransient<IPerteneceRepository, PerteneceRepository>();
             services.AddTransient<INumeroTelefonoRepository, NumeroTelefonoRepository>();
+            services.AddTransient<IAuthenticationRepository, AuthenticationRepository>();
 
             // temporary file service with no encryption
             services.AddTransient<ITempFileServiceNoEncryption, TempFileServiceNoEncryption>();

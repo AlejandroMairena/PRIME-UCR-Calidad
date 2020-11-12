@@ -15,15 +15,16 @@ namespace PRIME_UCR.Validators.Incidents
                 .Custom((i, context) =>
                 {
                     var model = (MedicalCenterLocationModel) context.InstanceToValidate;
-                    if (model.IsOrigin && i == null)
+                    // only validate for origin
+                    if (model.IsOrigin)
                     {
-                        context.AddFailure("Debe seleccionar un número de cama.");
-                    }
-                    else
-                    {
-                        if (i < 0)
+                        if (i == null)
                         {
-                            context.AddFailure("El número de cama debe ser mayor o igual a 0.");
+                            context.AddFailure("Debe seleccionar un número de cama.");
+                        }
+                        else if (i <= 0)
+                        {
+                            context.AddFailure("El número de cama debe ser mayor a 0.");
                         }
                     }
                 });

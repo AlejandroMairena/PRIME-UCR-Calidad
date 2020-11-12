@@ -1,7 +1,9 @@
-﻿using PRIME_UCR.Application.Services.UserAdministration;
+﻿using PRIME_UCR.Application.DTOs.UserAdministration;
+using PRIME_UCR.Application.Services.UserAdministration;
 using PRIME_UCR.Domain.Models.UserAdministration;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
 
 namespace PRIME_UCR.Application.Implementations
@@ -14,17 +16,9 @@ namespace PRIME_UCR.Application.Implementations
         /**
          * Method used to handle the authorization of an user to the aplication.
          */
-        public string HavePermission(int permission, List<Pertenece> UsersProfiles, List<Perfil> ProfilesAndPermissions)
+        public bool HavePermission(int permission, List<Permiso> permissionsList)
         {
-            foreach (var profile in UsersProfiles)
-            {
-                if ( (ProfilesAndPermissions.Find(p => p.NombrePerfil == profile.IDPerfil)).
-                        PerfilesYPermisos.Find(p => p.IDPermiso == permission) != null )
-                {
-                    return "true";
-                }
-            }
-            return "false";
+            return permissionsList.Exists(p => p.IDPermiso == permission);
         }
     }
 }

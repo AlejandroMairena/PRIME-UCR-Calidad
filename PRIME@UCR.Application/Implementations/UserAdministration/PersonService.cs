@@ -1,22 +1,33 @@
-﻿using PRIME_UCR.Application.DTOs.UserAdministration;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Components.Authorization;
+using PRIME_UCR.Application.DTOs.UserAdministration;
+using PRIME_UCR.Application.Exceptions.UserAdministration;
+using PRIME_UCR.Application.Permissions.UserAdministration;
 using PRIME_UCR.Application.Repositories.UserAdministration;
 using PRIME_UCR.Application.Services.UserAdministration;
 using PRIME_UCR.Domain.Models.UserAdministration;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Reflection;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace PRIME_UCR.Application.Implementations.UserAdministration
 {
-    public class PersonService : IPersonService
+    public partial class PersonService : IPersonService
     {
 
         private readonly IPersonaRepository PersonRepository;
 
-        public PersonService(IPersonaRepository _personaRepository)
+        private readonly IPrimeSecurityService primeSecurityService;
+
+        public PersonService(IPersonaRepository _personaRepository,
+            IPrimeSecurityService _primeSecurityService)
         {
             PersonRepository = _personaRepository;
+            primeSecurityService = _primeSecurityService;
         }
 
         /**
@@ -24,6 +35,7 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
          */
         public async Task<Persona> GetPersonByIdAsync(string id)
         {
+            await primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             return await PersonRepository.GetByKeyPersonaAsync(id);
         }
 
@@ -32,8 +44,9 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
          * 
          * Return:  A person DTO with its information.
          */
-        public PersonFormModel GetPersonModelFromRegisterModel(RegisterUserFormModel registerUserModel)
+        public async Task<PersonFormModel> GetPersonModelFromRegisterModelAsync(RegisterUserFormModel registerUserModel)
         {
+            await primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             PersonFormModel personModel = new PersonFormModel();
             personModel.IdCardNumber = registerUserModel.IdCardNumber;
             personModel.Name = registerUserModel.Name;
@@ -68,6 +81,7 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
          */
         public async Task StoreNewPersonAsync(PersonFormModel personInfo)
         {
+            await primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             var person = GetPersonaFromPersonModel(personInfo);
             await PersonRepository.InsertAsync(person);
         }
@@ -77,7 +91,11 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
          */
         public async Task DeletePersonAsync(string id)
         {
+            await primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             await PersonRepository.DeleteAsync(id);
         }
     }
+
+    [MetadataType(typeof(PersonServiceAuthorization))]
+    public partial class PersonService { }
 }

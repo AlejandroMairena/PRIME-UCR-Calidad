@@ -28,7 +28,7 @@ namespace PRIME_UCR.Components.UserAdministration
 
         protected override async Task OnInitializedAsync()
         {
-            ListProfiles = (await profilesService.GetPerfiles()).ToList();
+            ListProfiles = (await profilesService.GetPerfilesWithDetailsAsync()).ToList();
         }
 
         //Update the newUser model when different profiles are selected

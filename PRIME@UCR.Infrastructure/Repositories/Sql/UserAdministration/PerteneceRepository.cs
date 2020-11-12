@@ -1,22 +1,38 @@
-﻿using PRIME_UCR.Application.Repositories;
+﻿using PRIME_UCR.Application.DTOs.UserAdministration;
+using PRIME_UCR.Application.Exceptions.UserAdministration;
+using PRIME_UCR.Application.Implementations.UserAdministration;
+using PRIME_UCR.Application.Repositories;
 using PRIME_UCR.Application.Repositories.UserAdministration;
+using PRIME_UCR.Application.Services.UserAdministration;
 using PRIME_UCR.Domain.Models.UserAdministration;
 using PRIME_UCR.Infrastructure.DataProviders;
+using PRIME_UCR.Infrastructure.Permissions.UserAdministration;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
 {
-    public class PerteneceRepository : GenericRepository<Pertenece, Tuple<string, string>>, IPerteneceRepository
+    public partial class PerteneceRepository : IPerteneceRepository
     {
-        public PerteneceRepository(ISqlDataProvider dataProvider) : base(dataProvider)
+        private readonly IPrimeSecurityService _primeSecurityService;
+
+        private readonly ISqlDataProvider _db;
+
+        public PerteneceRepository(ISqlDataProvider dataProvider,
+            IPrimeSecurityService primeSecurityService)
         {
+            _db = dataProvider;
+            _primeSecurityService = primeSecurityService;
+
         }
 
         public async Task DeleteUserFromProfileAsync(string idUser, string idProfile)
         {
+            await _primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             await Task.Run(() =>
             {
                 using (var cmd = _db.DbConnection.CreateCommand())
@@ -39,6 +55,8 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
 
         public async Task InsertUserToProfileAsync(string idUser, string idProfile)
         {
+            await _primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
+
             await Task.Run(() =>
             {
                 using (var cmd = _db.DbConnection.CreateCommand())
@@ -58,5 +76,10 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
                 }
             });
         }
+    }
+
+    [MetadataType(typeof(PerteneceRepositoryAuthorization))]
+    public partial class PerteneceRepository
+    {
     }
 }
