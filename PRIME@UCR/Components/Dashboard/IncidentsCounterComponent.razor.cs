@@ -14,7 +14,10 @@ namespace PRIME_UCR.Components.Dashboard
     {
         [Inject]
         public IDashboardService DashboardService { get; set; }
-
+        [Parameter]
+        public bool Value { get; set; }
+        [Parameter]
+        public EventCallback<bool> ValueChanged { get; set; }
         public IncidentsCounterModel incidentsCounter;
 
         protected override async Task OnInitializedAsync()
@@ -26,6 +29,10 @@ namespace PRIME_UCR.Components.Dashboard
             incidentsCounter.groundIncidentsCounter = await DashboardService.GetIncidentCounterAsync("Terrestre");
 
             incidentsCounter.assignedIncidentsCounter += 4;
+
+            Value = true;
+            await ValueChanged.InvokeAsync(Value);
+
         }
     }
 }
