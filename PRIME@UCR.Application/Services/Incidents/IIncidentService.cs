@@ -24,5 +24,6 @@ namespace PRIME_UCR.Application.Services.Incidents
         public List<string> GetCreatedStatePendingTasks(IncidentDetailsModel model);
         public Task<List<string>> GetAssignedStatePendingTasks(IncidentDetailsModel model);
         public List<string> GetApprovedStatePendingTasks(IncidentDetailsModel model);
+        public Task ChangeState(string code, string nextState);
     }
 }

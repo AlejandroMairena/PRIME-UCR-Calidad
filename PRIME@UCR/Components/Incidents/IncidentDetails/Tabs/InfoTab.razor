@@ -24,22 +24,7 @@ else if (DetailsModel.CurrentState == IncidentStates.Rejected.Nombre)
               Text="@(_creator?.NombreCompleto)" />
 </ul>
 <PermissionAuthorizeView Permission="@AuthorizationPermissions.CanReviewIncidents" ShowDeniedPermissionMessage=false>
-    @if (DetailsModel.CurrentState == IncidentStates.Created.Nombre)
-    {
-        <div class="text-center mt-4">
-            <button class="btn btn-primary" @onclick="@Approve">Aprobar</button>
-            <button class="btn btn-outline-danger" @onclick="@Reject">Rechazar</button>
-        </div>
-    }
-    else if (DetailsModel.CurrentState == IncidentStates.Rejected.Nombre)
-    {
-        <div class="text-center mt-4">
-            <button class="btn btn-primary" @onclick="@Approve">Aprobar</button>
-            <button disabled class="btn btn-outline-danger">Rechazar</button>
-        </div>
-    }
-    <br />
-    <br />
-    <br />
-    <StatePanel Incident="@DetailsModel"/>
+    
+    <StatePanel Incident="@DetailsModel" OnSave="@OnSave" CurrentUser="@_currentUser"/>
+
 </PermissionAuthorizeView>

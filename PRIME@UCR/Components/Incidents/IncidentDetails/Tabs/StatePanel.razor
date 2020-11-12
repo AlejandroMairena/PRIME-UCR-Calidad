@@ -1,5 +1,23 @@
 ﻿@using PRIME_UCR.Domain.Constants;
 
+@if (Incident.CurrentState == IncidentStates.Created.Nombre)
+{
+    <div class="text-center mt-4">
+        <button class="btn btn-primary" @onclick="@Approve">Aprobar</button>
+        <button class="btn btn-outline-danger" @onclick="@Reject">Rechazar</button>
+    </div>
+}
+else if (Incident.CurrentState == IncidentStates.Rejected.Nombre)
+{
+    <div class="text-center mt-4">
+        <button class="btn btn-primary" @onclick="@Approve">Aprobar</button>
+        <button disabled class="btn btn-outline-danger">Rechazar</button>
+    </div>
+}
+<br />
+<br />
+<br />
+
 <h3>Estados del Incidente</h3>
 <div class="container">
     <div class="scrollmenu">
@@ -28,10 +46,11 @@
                 {
                     @if (Incident.CurrentState == IncidentStates.Rejected.Nombre || Incident.CurrentState == IncidentStates.Created.Nombre)
                     {
-                        <th scope="col">Pendiente 
+                        <th scope="col">
+                            Pendiente
                             <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-clock-fill clock-state" xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd" d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z" />
-                            </svg> 
+                            </svg>
                         </th>
                     }
                     else
@@ -76,7 +95,7 @@
         }
         else
         {
-            <button type="submit" class="btn btn-primary">Cambiar a estado @nextState</button>
+            <button @onclick="@ChangeState"  type="submit" class="btn btn-primary">Cambiar a estado @nextState</button>
         }
     </div>
 }

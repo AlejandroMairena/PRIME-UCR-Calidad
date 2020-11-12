@@ -1,10 +1,13 @@
 ﻿using MatBlazor;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
 using PRIME_UCR.Application.Dtos.Incidents;
 using PRIME_UCR.Application.Services.Incidents;
+using PRIME_UCR.Application.Services.UserAdministration;
 using PRIME_UCR.Domain.Constants;
 using PRIME_UCR.Domain.Models.Incidents;
+using PRIME_UCR.Domain.Models.UserAdministration;
 using Radzen;
 using RepoDb.Exceptions;
 using System;
@@ -26,9 +29,15 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
         [Parameter]
         public IncidentDetailsModel Incident { get; set; }
 
+        [Parameter] 
+        public EventCallback OnSave { get; set; }
+
+
         [Inject]
         public IIncidentService IncidentService { get; set; }
 
+        [Parameter]
+        public Persona CurrentUser { get; set; }
 
 
         private int currentStateIndex;
@@ -82,6 +91,26 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
         public void OnClick(MouseEventArgs e)
         {
             this.Menu2.OpenAsync(Button2.Ref);
+        }
+
+        private async Task Approve()
+        {
+            await IncidentService
+                .ApproveIncidentAsync(Incident.Code, CurrentUser.Cédula);
+            await OnSave.InvokeAsync(null);
+        }
+
+        private async Task Reject()
+        {
+            await IncidentService
+                .RejectIncidentAsync(Incident.Code, CurrentUser.Cédula);
+            await OnSave.InvokeAsync(null);
+        }
+
+        private async Task ChangeState()
+        {
+            await IncidentService.ChangeState(Incident.Code, nextState);
+            await OnSave.InvokeAsync(null);
         }
     }
 }

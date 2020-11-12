@@ -361,5 +361,24 @@ namespace PRIME_UCR.Application.Implementations.Incidents
             }
             return pendingTasks;
         }
+
+        public async Task ChangeState(string code, string nextState)
+        {
+            var incident = await _incidentRepository.GetByKeyAsync(code);
+            if (incident == null)
+            {
+                throw new ArgumentException(
+                    $"Invalid incident id {code}.");
+            }
+
+            await _statesRepository.AddState(new EstadoIncidente
+            {
+                CodigoIncidente = code,
+                NombreEstado = nextState,
+                Activo = true,
+                FechaHora = DateTime.Now
+            });
+            await _incidentRepository.UpdateAsync(incident);
+        }
     }
 }
