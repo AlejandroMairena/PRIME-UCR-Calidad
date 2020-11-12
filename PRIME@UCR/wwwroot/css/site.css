@@ -312,19 +312,8 @@ a.disable {
 /* Diosvier -> State Panel, scroll horizontal menu functionality.*/
 div.scrollmenu {
     overflow: auto;
-    white-space: nowrap;
-}
-
-div.scrollmenu MatButton {
-    display: inline-block;
-    color: white;
-    text-align: center;
-    padding: 14px;
-    text-decoration: none;
-}
-
-div.scrollmenu MatButton:hover {
-    background-color: #777;
+    width: 100%;
+   /*white-space: nowrap;*/
 }
 
 /* Diosvier -> Overwrite in incidents details tab, the text colors of states.*/
@@ -332,6 +321,48 @@ div.scrollmenu MatButton:hover {
     color: white;
 }
 
+span.navigation-item-text:hover {
+    color: white;
+}
+
 .bg-current-state {
-    background-color: #00c0f3; 
+    background-color: #00c0f3;
+}
+
+.bg-task {
+    padding: 12px;
+    display: none;
+}
+
+.badge-text {
+    font-size: 14px;
+}
+
+.indicator-color {
+    fill: #00c0f3;
+}
+
+/* Tooltip text */
+.tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+    /* Position the tooltip text - see examples below! */
+    position: absolute;
+    z-index: 1;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+}
+
+.tooltip .tooltiptext {
+    width: 120px;
+    top: 100%;
+    left: 50%;
+    margin-left: -60px; /* Use half of the width (120/2 = 60), to center the tooltip */
 }

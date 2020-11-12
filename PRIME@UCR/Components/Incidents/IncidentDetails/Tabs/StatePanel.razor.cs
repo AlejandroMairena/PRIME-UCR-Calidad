@@ -30,11 +30,12 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
         public IIncidentService IncidentService { get; set; }
 
 
+
         private int currentStateIndex;
         MatButton Button2;
         BaseMatMenu Menu2;
         public List<Tuple<string, string>> IncidentStatesList = new List<Tuple<string, string>> {
-            Tuple.Create(IncidentStates.InCreationProcess.Nombre ,"Creando"),
+            Tuple.Create(IncidentStates.InCreationProcess.Nombre ,"Iniciado"),
             Tuple.Create(IncidentStates.Created.Nombre,"Creado"),
             Tuple.Create(IncidentStates.Rejected.Nombre, "Rechazado"),
             Tuple.Create(IncidentStates.Approved.Nombre, "Aceptado"),
@@ -52,8 +53,8 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
         {
             currentStateIndex = IncidentStatesList.FindIndex(i => i.Item1 == Incident.CurrentState);
             nextState = (await IncidentService.GetNextIncidentState(Incident.Code)).ToString();
-            PendingTasks.Add("Prueba1, ");
-            PendingTasks.Add("Test ");
+            //PendingTasks.Add("Prueba1");
+            //PendingTasks.Add("Test ");
         }
 
         public string setStateColor(int index)
@@ -61,17 +62,23 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
             string className = "";
             if (index < currentStateIndex)
             {
-                className = "bg-primary";
+                className = "bg-primary border  border-light";
             } else if(index > currentStateIndex)
             {
-                className = "bg-secondary";
+                className = "bg-secondary border border-light";
             }
             else
             {
-                className = "bg-current-state";
+                className = "bg-current-state border border-light";
             }
             return className;
         }
+
+        public string setProgressIndicator(int index)
+        {
+            return index == currentStateIndex? "bi bi-caret-down-fill indicator-color" : "bi bi-caret-down-fill invisible";
+        }
+
 
         public void OnClick(MouseEventArgs e)
         {
