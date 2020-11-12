@@ -13,6 +13,7 @@ using PRIME_UCR.Application.Repositories.UserAdministration;
 using PRIME_UCR.Application.Services.Incidents;
 using PRIME_UCR.Application.Services.UserAdministration;
 using PRIME_UCR.Domain.Constants;
+using PRIME_UCR.Domain.Exceptions.Incidents;
 using PRIME_UCR.Domain.Models;
 using PRIME_UCR.Domain.Models.Incidents;
 using PRIME_UCR.Domain.Models.UserAdministration;
@@ -129,45 +130,39 @@ namespace PRIME_UCR.Application.Implementations.Incidents
         public async Task<IncidentDetailsModel> UpdateIncidentDetailsAsync(IncidentDetailsModel model)
         {
             var incident = await _incidentRepository.GetByKeyAsync(model.Code);
-            bool modified = false;
             
-            // update origin
-            if (model.Origin != null)
+            if (model.Origin is CentroUbicacion origin
+                && model.Destination is CentroUbicacion destination)
             {
-                if (incident.IdOrigen == null || incident.IdOrigen != model.Origin.Id)
-                {
-                    var origin = await _locationRepository.InsertAsync(model.Origin);
-                    incident.IdOrigen = origin.Id;
-                    incident.Origen = origin;
-                    modified = true;
-                }
+                // check for medical center duplicates
+                if (origin.CentroMedicoId == destination.CentroMedicoId)
+                    throw new DuplicateMedicalCenterException();
+                
+                // check for doctor assignment duplicates
+                if (origin.CedulaMedico == destination.CedulaMedico)
+                    throw new DuplicateAssignedDoctorException();
             }
+
+            // update origin
+            var modified = await UpdateOrigin(model, incident);
 
             // update destination
-            if (model.Destination != null)
-            {
-                if (incident.IdDestino == null || incident.IdDestino != model.Destination.Id)
-                {
-                    var destination = await _locationRepository.InsertAsync(model.Destination);
-                    incident.IdDestino = destination.Id;
-                    incident.Destino = destination;
-                    modified = true;
-                }
-            }
+            modified = modified || await UpdateDestination(model, incident);
             
-            if (model.TransportUnit != null)
-            {
-                if (incident.MatriculaTrans == null || incident.MatriculaTrans != model.TransportUnit.Matricula)
-                {
-                    model.TransportUnit = await _transportUnitRepository.GetByKeyAsync(model.TransportUnit.Matricula);
-                    incident.MatriculaTrans = model.TransportUnit.Matricula;                   
-                    modified = true;
-                }
-            }
+            // update transport unit
+            modified = modified || await UpdateTransportUnit(model, incident);
 
-            if (modified)
+            if (modified) // write to database if the incident was modified
                 await _incidentRepository.UpdateAsync(incident);
 
+            await UpdateCompletedState(model, incident);
+            
+            return await GetIncidentDetailsAsync(incident.Codigo);
+        }
+
+        // updates the state of the incident to completed if necessary
+        private async Task UpdateCompletedState(IncidentDetailsModel model, Incidente incident)
+        {
             if (!model.Completed && incident.IsCompleted()) // if it was just completed but wasn't previously
             {
                 var incidentState = new EstadoIncidente
@@ -179,8 +174,59 @@ namespace PRIME_UCR.Application.Implementations.Incidents
                 };
                 await _statesRepository.AddState(incidentState);
             }
-            
-            return await GetIncidentDetailsAsync(incident.Codigo);
+        }
+
+        // updates transport unit if it needs to be updated.
+        // returns bool representing weather the incident was modified by this method
+        private async Task<bool> UpdateTransportUnit(IncidentDetailsModel model, Incidente incident)
+        {
+            if (model.TransportUnit != null)
+            {
+                if (incident.MatriculaTrans == null || incident.MatriculaTrans != model.TransportUnit.Matricula)
+                {
+                    model.TransportUnit = await _transportUnitRepository.GetByKeyAsync(model.TransportUnit.Matricula);
+                    incident.MatriculaTrans = model.TransportUnit.Matricula;
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        // updates destination if it needs to be updated.
+        // returns bool representing weather the incident was modified by this method
+        private async Task<bool> UpdateDestination(IncidentDetailsModel model, Incidente incident)
+        {
+            if (model.Destination != null)
+            {
+                if (incident.IdDestino == null || incident.IdDestino != model.Destination.Id)
+                {
+                    var destination = await _locationRepository.InsertAsync(model.Destination);
+                    incident.IdDestino = destination.Id;
+                    incident.Destino = destination;
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        // updates origin if it needs to be updated.
+        // returns bool representing weather the incident was modified by this method
+        private async Task<bool> UpdateOrigin(IncidentDetailsModel model, Incidente incident)
+        {
+            if (model.Origin != null)
+            {
+                if (incident.IdOrigen == null || incident.IdOrigen != model.Origin.Id)
+                {
+                    var origin = await _locationRepository.InsertAsync(model.Origin);
+                    incident.IdOrigen = origin.Id;
+                    incident.Origen = origin;
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         public async Task<IEnumerable<Incidente>> GetAllAsync()

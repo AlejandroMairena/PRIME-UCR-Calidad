@@ -13,16 +13,13 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
     {
         [Parameter] public IncidentDetailsModel DetailsModel { get; set; }
         [Parameter] public EventCallback OnSave { get; set; }
-        [CascadingParameter]
-        public Task<AuthenticationState> AuthState { get; set; }
+        [CascadingParameter] public Task<AuthenticationState> AuthState { get; set; }
         [Inject] public IPersonService PersonService { get; set; }
         [Inject] public IIncidentService IncidentService { get; set; }
-        [Inject]
-        public IUserService UserService { get; set; }
-
-        private Persona _currentUser;
-
+        [Inject] public IUserService UserService { get; set; }
+        
         private Persona _creator;
+        private Persona _currentUser;
         
         protected override async Task OnInitializedAsync()
         {

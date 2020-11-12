@@ -9,7 +9,7 @@
     {
         <StatusMessage Message="Este valor está pendiente para finalizar la creación del incidente." Class="warning"/>
     }
-    <StatusMessage Message="@_statusMessage" Class="success"/>
+    <StatusMessage Message="@StatusMessage" Class="@StatusClass"/>
     <MedicalCenterPicker Value="_medicalCenterModel"
                          IsOrigin="@false"
                          OnSave="@OnMedicalCenterSave"

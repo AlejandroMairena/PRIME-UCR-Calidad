@@ -60,13 +60,17 @@ namespace PRIME_UCR.Application.Implementations.Incidents
             var district =
                 await _districtRepository.GetDistrictWithFullLocationById(districtId);
             
-            return new LocationModel()
+            if(district != null)
             {
-                Country = district.Canton.Provincia.Pais,
-                Province = district.Canton.Provincia,
-                Canton = district.Canton,
-                District = district
-            };
+                return new LocationModel()
+                {
+                    Country = district.Canton.Provincia.Pais,
+                    Province = district.Canton.Provincia,
+                    Canton = district.Canton,
+                    District = district
+                };
+            }
+            return null;
         }
 
         public async Task<IEnumerable<Pais>> GetAllCountriesAsync()

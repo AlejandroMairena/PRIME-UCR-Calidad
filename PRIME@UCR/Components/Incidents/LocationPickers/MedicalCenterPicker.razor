@@ -26,7 +26,7 @@
         {
             <div class="row">
                 <div class="col-md-4">
-                    <IntegerInput Label="Número de cama" @bind-Value="Value.BedNumber" Min="0"/>
+                    <IntegerInput Label="Número de cama" @bind-Value="Value.BedNumber" Min="1"/>
                 </div>
             </div>
         }
@@ -34,7 +34,7 @@
             @if (!_saveButtonEnabled)
             {
                 <button disabled type="submit" class="btn btn-primary">Guardar</button>
-                <button disabled class="btn btn-outline-secondary">Descartar</button>
+                <button role="button" @onclick:preventDefault @onclick="@Discard" class="btn btn-outline-secondary">Descartar</button>
             }
             else
             {
