@@ -323,7 +323,7 @@ namespace PRIME_UCR.Application.Implementations.Incidents
         {
             List<string> pendingTasks = new List<string>();
             var incident = await _incidentRepository.GetByKeyAsync(model.Code);
-            if(incident.UnidadDeTransporte == null)
+            if(incident.MatriculaTrans == null)
             {
                 pendingTasks.Add("Seleccionar unidad de transporte");
             }
