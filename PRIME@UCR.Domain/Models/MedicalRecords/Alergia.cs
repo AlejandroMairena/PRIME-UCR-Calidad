@@ -6,7 +6,6 @@ namespace PRIME_UCR.Domain.Models.MedicalRecords
 {
     public class Alergias
     {
-        public int Id { set; get; } //Llave parcial para identificar la alergia con respecto al expediente
 
         public int IdExpediente { set; get; }  //Foreign key a Expediente, parte de la primary key
 

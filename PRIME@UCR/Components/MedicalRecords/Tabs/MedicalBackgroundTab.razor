@@ -1,11 +1,14 @@
 ﻿@attribute [Authorize]
 @using BlazorTable
 @using PRIME_UCR.Domain.Models.MedicalRecords
+@inject IMedicalBackgroundService MedicalBackgroundService
+@inject IAlergyService AllergyService
 
 <h2>Antecedentes y Alergias</h2>
 <div class="jumbotron white-panel">
+    
     <Table TableItem="Antecedentes" Items="Antecedentes" PageSize="3" class="table table-bordered">
-        <Column TableItem="Antecedentes" Title="Antecedentes del paciente" Field="@(x => x.ListaAntecedentes.NombreAntecedente)" Filterable="true" Sortable="true" Width="18%" />
+        <Column TableItem="Antecedentes" Title="Antecedentes del paciente" Field="@(x => x.ListaAntecedentes.NombreAntecedente)" Width="18%" />
         <EmptyDataTemplate>
             <div class="text-center">
                 No se encontraron antecedentes registrados.
@@ -15,21 +18,32 @@
         <Pager ShowPageNumber="true" ShowTotalCount="true" />
     </Table>
     <div>
-        <EditForm EditContext="_contAnte">
-            @* HAcer que el dropdown no muestre los qque ya estan*@
-            <DropDownMenu T="ListaAntecedentes" Data="ListaAntecedentes"
-                          Label="Antecedentes Medicos"
-                          TextProperty="NombreAntecedente"
-                          DefaultText="Seleccione un Antecedente"
-                          Required="false"
-                          Disabled="false"
-                          @bind-Value="@antecedetePrueba" />
-            <form>
-                @* Insert *@
+        @if (backgroundAlreadyAdded)
+        {
+            <StatusMessage Message="Este antecedente ya fue agregado" Class="warning" />
+        }
+        @if (showBackground == true)
+        {
+            <EditForm EditContext="_contAnte">
+                @* HAcer que el dropdown no muestre los qque ya estan*@
+                <DropDownMenu T="ListaAntecedentes" Data="ListaAntecedentes"
+                              Label="Antecedentes Médicos"
+                              TextProperty="NombreAntecedente"
+                              DefaultText="Seleccione un Antecedente"
+                              Required="false"
+                              Disabled="false"
+                              @bind-Value="@antecedentePrueba" />
+                <form>
+                    @* Insert *@
 
-            </form>
-        </EditForm>
-
+                </form>
+            </EditForm>
+            <button type="submit" class="btn btn-primary mt-4 mb-4" @onclick="insertBackground">Guardar</button>
+        }
+        else
+        {
+            <button type="submit" class="btn btn-primary mt-4 mb-4" @onclick="showBackgroundOptions">Agregar antecedente</button>
+        }
 
     </div>
 </div>
@@ -38,7 +52,7 @@
 <br>
 <div class="jumbotron white-panel">
     <Table TableItem="Alergias" Items="Alergias" PageSize="3" class="table table-bordered">
-        <Column TableItem="Alergias" Title="Alergias del paciente" Field="@(x => x.ListaAlergia.NombreAlergia)" Filterable="true" Sortable="true" Width="18%" />
+        <Column TableItem="Alergias" Title="Alergias del paciente" Field="@(x => x.ListaAlergia.NombreAlergia)" Width="18%" />
         <EmptyDataTemplate>
             <div class="text-center">
                 No se encontraron alergias registradas.
@@ -48,16 +62,27 @@
         <Pager ShowPageNumber="true" ShowTotalCount="true" />
     </Table>
     <div>
-        <EditForm EditContext="_contAle">
-            <DropDownMenu T="ListaAlergia" Data="ListaAlergia"
-                          Label="Alergias"
-                          TextProperty="NombreAlergia"
-                          DefaultText="Seleccione una alergia"
-                          Required="false"
-                          Disabled="false"
-                          @bind-Value="@AlergiaPrueba" />
-        </EditForm>
-
+        @if (allergyAlreadyAdded)
+        {
+            <StatusMessage Message="Esta alergia ya fue agregada" Class="warning" />
+        }
+        @if (showAllergy == true)
+        {
+            <EditForm EditContext="_contAle">
+                <DropDownMenu T="ListaAlergia" Data="ListaAlergia"
+                              Label="Alergias"
+                              TextProperty="NombreAlergia"
+                              DefaultText="Seleccione una alergia"
+                              Required="false"
+                              Disabled="false"
+                              @bind-Value="@AlergiaPrueba" />
+            </EditForm>
+            <button type="submit" class="btn btn-primary mt-4 mb-4" @onclick="insertAllergy">Guardar</button>
+        }
+        else
+        {
+            <button type="submit" class="btn btn-primary mt-4 mb-4" @onclick="showAllergyOptions">Agregar alergia</button>
+        }
 
     </div>
 </div>

@@ -12,7 +12,7 @@ namespace PRIME_UCR.Infrastructure.EntityConfiguration.MedicalRecords
         public void Configure(EntityTypeBuilder<Alergias> builder)
         {
             builder.ToTable("Alergias");
-            builder.HasKey("Id","IdExpediente","IdListaAlergia");
+            builder.HasKey("IdExpediente","IdListaAlergia");
 
             builder
                 .HasOne(e => e.Expediente)
