@@ -2,9 +2,9 @@
 @using PRIME_UCR.Components.Controls
 @inherits CheckListCreateBase
 
-@using PRIME_UCR.Application.DTOs.UserAdministration;
 @using PRIME_UCR.Application.Implementations.UserAdministration;
-@attribute [HasPermission(AuthorizationPermissions.CanCreateCheckList)]
+@using PRIME_UCR.Domain.Constants;
+@attribute [HasPermission(AuthorizationPermissions.CanCreateChecklist)]
 <link href="css/Checklist.css" rel="stylesheet" />
 
 <h3>Plantillas de listas de chequeo</h3>

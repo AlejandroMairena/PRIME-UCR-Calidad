@@ -4,11 +4,12 @@
 <SummaryMessage Content="Summary.Content" Values="Summary.Values" Class="info" />
 <h3>Destino del incidente</h3>
 <br />
-@if (Destination == null)
-{
-<StatusMessage Message="Este valor está pendiente para finalizar la creación del incidente." Class="warning" />}
-<StatusMessage Message="@_statusMessage" Class="success" />
 <Loading IsLoading="_isLoading">
+    @if (Destination == null)
+    {
+        <StatusMessage Message="Este valor está pendiente para finalizar la creación del incidente." Class="warning"/>
+    }
+    <StatusMessage Message="@_statusMessage" Class="success"/>
     <MedicalCenterPicker Value="_medicalCenterModel"
                          IsOrigin="@false"
                          OnSave="@OnMedicalCenterSave"

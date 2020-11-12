@@ -5,10 +5,12 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Forms;
 using PRIME_UCR.Application.Dtos.Incidents;
 using PRIME_UCR.Application.Implementations.Incidents;
 using PRIME_UCR.Application.Services.Appointments;
+using PRIME_UCR.Application.Services.Incidents;
 using PRIME_UCR.Application.Services.MedicalRecords;
 using PRIME_UCR.Application.Services.UserAdministration;
 using PRIME_UCR.Components.Controls;
@@ -25,11 +27,20 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
         [Inject] private IPersonService PersonService { get; set; }
         [Inject] private IMedicalRecordService MedicalRecordService { get; set; }
         [Inject] private IAppointmentService AppointmentService { get; set; }
+        [Inject] private IAssignmentService AssignmentService { get; set; }
         [Inject] private NavigationManager NavigationManager { get; set; }
+        
+        [Inject]
+        public IUserService UserService { get; set; }
         [Parameter] public IncidentDetailsModel Incident { get; set; }
         [Parameter] public EventCallback<PatientModel> OnSave { get; set; }
+        
+        [CascadingParameter]
+        private Task<AuthenticationState> AuthenticationState { get; set; }
+
         // Info for Incident summary that is shown at top of the page
         public IncidentSummary Summary = new IncidentSummary();
+
         private Gender? SelectedGender
         {
             get => _genders.FirstOrDefault(g =>
@@ -43,6 +54,7 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
         private PatientStatus _patientStatus;
         private bool _isLoading = true;
         private string _statusMessage = "";
+        private bool _isAuthorized;
         private readonly List<Gender?> _genders = new List<Gender?>();
 
         enum PatientStatus
@@ -140,8 +152,17 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
 
         protected override async Task OnInitializedAsync()
         {
+            Summary.LoadValues(Incident);
             _context = new EditContext(_model);
+            
+            // check if the logged in user is authorized to view this patient's details
+            var emailUser = (await AuthenticationState).User.Identity.Name;
+            var user = await UserService.getPersonWithDetailstAsync(emailUser);
+            _isAuthorized = user != null &&
+                            await AssignmentService.IsAuthorizedToViewPatient(Incident.Code, user.Cédula);
+            
             await LoadExistingValues();
+            
             _isLoading = false;
         }
 

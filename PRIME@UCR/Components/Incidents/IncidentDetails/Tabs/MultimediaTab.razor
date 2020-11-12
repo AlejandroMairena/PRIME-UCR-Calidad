@@ -2,7 +2,7 @@
 
 <SummaryMessage Content="Summary.Content" Values="Summary.Values" Class="info" />
 <h3>Multimedia de incidente</h3>
-<br />
+<br/>
 <Loading IsLoading="_isLoading">
     <table class="table table-bordered text-center">
         <thead>
@@ -12,17 +12,20 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var i in _actionTypes)
-            {
-<tr>
-    <td>
-        <MultimediaContentComponent MultimediaContent="_existingFiles[_actionTypes.IndexOf(i)]"
-                                    OnFileUpload="(MultimediaContent mc) => OnFileUpload(i, mc)" />
-    </td>
-    <td>
-        @i.Nombre
-    </td>
-</tr>}
+        @foreach (var i in _actionTypes)
+        {
+            <tr>
+                <td class="text-center">
+                    <MultimediaContentComponent MultimediaContent="_existingFiles[_actionTypes.IndexOf(i)]"
+                                                OnFileUpload="(MultimediaContent mc) => OnFileUpload(i, mc)"/>
+                </td>
+                <td>
+                    <div class="text-left">
+                        @i.Nombre
+                    </div>
+                </td>
+            </tr>
+        }
         </tbody>
     </table>
 </Loading>

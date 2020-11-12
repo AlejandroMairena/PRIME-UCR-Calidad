@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PRIME_UCR.Application.Repositories.UserAdministration
 {
-    public interface IPermiteRepository : IGenericRepository<Permite,Tuple<string, int>>
+    public interface IPermiteRepository
     {
         Task DeletePermissionAsync(string idProfile, int idPermission);
 

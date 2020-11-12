@@ -6,10 +6,14 @@ using System.Threading.Tasks;
 
 namespace PRIME_UCR.Application.Repositories.UserAdministration
 {
-    public interface IPersonaRepository : IGenericRepository<Persona, string>
+    public interface IPersonaRepository
     {
         Task<Persona> GetByKeyPersonaAsync(string id);
 
         Task<Persona> GetWithDetailsAsync(string id);
+
+        Task InsertAsync(Persona persona);
+
+        Task DeleteAsync(string cedPersona);
     }
 }

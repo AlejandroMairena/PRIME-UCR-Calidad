@@ -303,7 +303,7 @@ VALUES
     ('En proceso de creación'),
     ('Creado'),
     ('Rechazado'),
-    ('Aceptado'),
+    ('Aprobado'),
     ('Asignado'),
     ('En preparación'),
     ('En ruta a origen'),

@@ -10,11 +10,12 @@ using System.Threading.Tasks;
 
 namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
 {
-    public class PerfilRepository : GenericRepository<Perfil, string>, IPerfilRepository
+    public class PerfilRepository :  IPerfilRepository
     {
-        public PerfilRepository(ISqlDataProvider dataProvider) : base(dataProvider)
+        protected readonly ISqlDataProvider _db;
+        public PerfilRepository(ISqlDataProvider dataProvider) 
         {
-
+            _db = dataProvider;
         }
 
         public Task<List<Perfil>> GetPerfilesWithDetailsAsync()
