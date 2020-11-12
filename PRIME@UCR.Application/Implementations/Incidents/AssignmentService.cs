@@ -63,7 +63,8 @@ namespace PRIME_UCR.Application.Implementations.Incidents
             var incident = await _incidentRepository.GetByKeyAsync(code);
             if (incident == null)
             {
-                throw new ArgumentException("Invalid incident code");
+                return null;
+                //throw new ArgumentException("Invalid incident code");
             }
 
             var coordinator = await _coordinatorRepo.GetByKeyAsync(incident.CedulaTecnicoCoordinador);
