@@ -73,6 +73,7 @@ namespace PRIME_UCR
                 options.SupportedUICultures = supportedCultures;
             });
 
+            services.Configure<MailSettingsModel>(Configuration.GetSection("MailSettings"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

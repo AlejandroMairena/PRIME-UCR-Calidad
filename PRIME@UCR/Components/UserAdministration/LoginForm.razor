@@ -7,7 +7,7 @@
         <TextBox Label="Correo Electrónico:" @bind-Value="@logInInfo.Correo" />
         <TextBox Type="password" Label="Contraseña:" @bind-Value="@logInInfo.Contraseña" />
 
-        <a class="text-secondary disable" href=""><u>Cambiar contraseña</u></a> <!--Falta agregar referencia para cambiar clave-->
+        <a class="text-secondary" href="/requestPasswordRecovery"><u>Cambiar contraseña</u></a>
         <br />
         <div class="text-left @invalidUser">
             <p id="emailHelp" class="text-danger">Ingresó su usuario o contraseña incorrectamente. Intente de nuevo.</p>
