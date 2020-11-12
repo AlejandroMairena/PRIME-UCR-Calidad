@@ -9,10 +9,7 @@
         <DestinationFilter @bind-value="Value" />
     </div>
     <div class="col">
-        <InitialDateFilter @bind-value="Value" />
-    </div>
-    <div class="col">
-        <FinalDateFilter @bind-value="Value" />
+        <DateFilter @bind-value="Value" />
     </div>
     <div class="col">
         <ModalityFilter @bind-value="Value" />
@@ -21,14 +18,15 @@
         <StateFilter @bind-Value="Value" />
     </div>
     <div class="col">
-        @if (Value.ButtonEnabled)
-        {
-            <button role="button" @onclick:preventDefault @onclick="@ClearFilters" class="btn btn-outline-secondary">Limpiar filtros</button>
-        }
-        else
-        {
-            <button disabled class="btn btn-outline-secondary">Limpiar filtros</button>
-        }
-
+        <div class="text-center">
+            @if (Value.ButtonEnabled)
+            {
+                <button role="button" @onclick:preventDefault @onclick="@ClearFilters" class="btn btn-outline-secondary">Limpiar filtros</button>
+            }
+            else
+            {
+                    <button disabled class="btn btn-outline-secondary" >Limpiar filtros</button>
+            }
+        </div>
     </div>
 </div>

@@ -17,8 +17,6 @@ namespace PRIME_UCR.Components.Dashboard.Filters
     // Enum with the options for available origin types
     enum OriginType
     {
-        [Description("Sin filtro")]
-        SinFiltro,
         [Description("Domicilio")]
         Household,
         [Description("Internacional")]
@@ -31,20 +29,17 @@ namespace PRIME_UCR.Components.Dashboard.Filters
     {
 
         [Inject] private ILocationService LocationService { get; set; }
-        [Inject] private IDoctorService DoctorService { get; set; }
         [Parameter] public FilterModel Value { get; set; }
         [Parameter] public EventCallback<FilterModel> ValueChanged { get; set; }
         [Parameter] public EventCallback OnDiscard { get; set; }
 
         // Origin needed attributes
 
-        private Tuple<OriginType, string> _selectedOriginType;
-        private readonly List<Tuple<OriginType, string>> _dropdownValuesOrigin = new List<Tuple<OriginType, string>>
+        private readonly List<string> _dropdownValuesOrigin = new List<string>
         {
-            Tuple.Create(OriginType.SinFiltro, EnumUtils.GetDescription(OriginType.SinFiltro)),
-            Tuple.Create(OriginType.Household, EnumUtils.GetDescription(OriginType.Household)),
-            Tuple.Create(OriginType.International, EnumUtils.GetDescription(OriginType.International)),
-            Tuple.Create(OriginType.MedicalCenter, EnumUtils.GetDescription(OriginType.MedicalCenter))
+            EnumUtils.GetDescription(OriginType.Household),
+            EnumUtils.GetDescription(OriginType.International),
+            EnumUtils.GetDescription(OriginType.MedicalCenter)
         };
 
         // Household needed attributes
@@ -61,52 +56,75 @@ namespace PRIME_UCR.Components.Dashboard.Filters
 
         private List<CentroMedico> _medicalCenters;
 
-        private bool _isLoading;
+        private bool _isLoading = true;
+        private bool _changesMade = false;
 
-        private async Task OnOriginTypeChange(Tuple<OriginType, string> type)
+        private async Task OnOriginTypeChange(string origin)
         {
-            _selectedOriginType = type;
-            Value.OriginType = type.Item2;
-            if (Value.OriginType == "Sin filtro") 
+            Value._selectedOriginType = origin;
+
+            if (Value._selectedOriginType == null)
             {
-                Value.HouseholdOriginFilter.District = null;
-                Value.HouseholdOriginFilter.Canton = null;
-                Value.HouseholdOriginFilter.Province = null;
-                Value.MedicalCenterOriginFilter.MedicalCenter = null;
-                Value.InternationalOriginFilter.Country = null;
-                if (Value.InitialDateFilter == null &&
-                    Value.FinalDateFilter == null &&
-                    Value.ModalityFilter == null &&
-                    Value.StateFilter == null)
+                Value._selectedHouseholdOrigin.District = null;
+                Value._selectedHouseholdOrigin.Canton = null;
+                Value._selectedHouseholdOrigin.Province = null;
+                Value._selectedMedicalCenterOrigin.MedicalCenter = null;
+                Value._selectedInternationalOrigin.Country = null;
+                if(Value.OriginType == null)
                 {
-                    Value.ButtonEnabled = false;
+                    _changesMade = false;
                 }
-                else 
+                else
                 {
-                    Value.ButtonEnabled = true;
+                    _changesMade = true;
                 }
             }
-            else if (Value.OriginType == "Domicilio")
+            else if (Value._selectedOriginType == "Domicilio") 
             {
-                Value.InternationalOriginFilter.Country = null;
-                Value.MedicalCenterOriginFilter.MedicalCenter = null;
-                Value.ButtonEnabled = true;
+                Value._selectedInternationalOrigin.Country = null;
+                Value._selectedMedicalCenterOrigin.MedicalCenter = null;
+                if (Value.OriginType == "Domicilio" &&
+                    Value.HouseholdOriginFilter.Province == null &&
+                    Value.HouseholdOriginFilter.Canton == null &&
+                    Value.HouseholdOriginFilter.District == null)
+                {
+                    _changesMade = false;
+                }
+                else
+                {
+                    _changesMade = true;
+                }
             }
-            else if (Value.OriginType == "Internacional")
+            else if (Value._selectedOriginType == "Internacional")
             {
-                Value.HouseholdOriginFilter.District = null;
-                Value.HouseholdOriginFilter.Canton = null;
-                Value.HouseholdOriginFilter.Province = null;
-                Value.MedicalCenterOriginFilter.MedicalCenter = null;
-                Value.ButtonEnabled = true;
+                Value._selectedHouseholdOrigin.District = null;
+                Value._selectedHouseholdOrigin.Canton = null;
+                Value._selectedHouseholdOrigin.Province = null;
+                Value._selectedMedicalCenterOrigin.MedicalCenter = null;
+                if (Value.OriginType == "Internacional")
+                {
+                    _changesMade = false;
+                }
+                else
+                {
+                    _changesMade = true;
+                }
             }
-            else 
+            else
             {
-                Value.HouseholdOriginFilter.District = null;
-                Value.HouseholdOriginFilter.Canton = null;
-                Value.HouseholdOriginFilter.Province = null;
-                Value.InternationalOriginFilter.Country = null;
-                Value.ButtonEnabled = true;
+                Value._selectedHouseholdOrigin.District = null;
+                Value._selectedHouseholdOrigin.Canton = null;
+                Value._selectedHouseholdOrigin.Province = null;
+                Value._selectedInternationalOrigin.Country = null;
+                if (Value.OriginType == "Centro médico" && 
+                    Value.MedicalCenterOriginFilter.MedicalCenter == null)
+                {
+                    _changesMade = false;
+                }
+                else
+                {
+                    _changesMade = true;
+                }
             }
             await ValueChanged.InvokeAsync(Value);
         }
@@ -116,7 +134,6 @@ namespace PRIME_UCR.Components.Dashboard.Filters
             _isLoading = true;
             StateHasChanged();
             
-            _selectedOriginType = _dropdownValuesOrigin[0];
             //Initialize household attributes
             
             await LoadProvinces(true);
@@ -148,12 +165,23 @@ namespace PRIME_UCR.Components.Dashboard.Filters
                 .ToList();
 
             if (!firstLoad)
-                Value.HouseholdOriginFilter.Province = null;
+                Value._selectedHouseholdOrigin.Province = null;
         }
 
         async Task OnChangeProvince(Provincia province)
         {
-            Value.HouseholdOriginFilter.Province = province;
+            StateHasChanged();
+            Value._selectedHouseholdOrigin.Province = province;
+            if (Value.HouseholdOriginFilter.Province == province &&
+                Value.HouseholdOriginFilter.Canton == null &&
+                Value.HouseholdOriginFilter.District == null)
+            {
+                _changesMade = false;
+            }
+            else
+            {
+                _changesMade = true;
+            }
             await ValueChanged.InvokeAsync(Value);
             await LoadCantons(false);
             await LoadDistricts(false);
@@ -161,35 +189,62 @@ namespace PRIME_UCR.Components.Dashboard.Filters
 
         async Task LoadCantons(bool firstLoad)
         {
-            if (Value.HouseholdOriginFilter.Province != null)
+            if (Value._selectedHouseholdOrigin.Province != null)
                 _cantons =
-                    (await LocationService.GetCantonsByProvinceNameAsync(Value.HouseholdOriginFilter.Province.Nombre))
+                    (await LocationService.GetCantonsByProvinceNameAsync(Value._selectedHouseholdOrigin.Province.Nombre))
                     .ToList();
             else
                 _cantons = new List<Canton>();
 
             if (!firstLoad)
-                Value.HouseholdOriginFilter.Canton = null;
+                Value._selectedHouseholdOrigin.Canton = null;
         }
 
         async Task OnChangeCanton(Canton canton)
         {
-            Value.HouseholdOriginFilter.Canton = canton;
+            StateHasChanged();
+            Value._selectedHouseholdOrigin.Canton = canton;
+            if (Value.HouseholdOriginFilter.Province == Value._selectedHouseholdOrigin.Province &&
+                Value.HouseholdOriginFilter.Canton == canton &&
+                Value.HouseholdOriginFilter.District == null)
+            {
+                _changesMade = false;
+            }
+            else
+            {
+                _changesMade = true;
+            }
             await ValueChanged.InvokeAsync(Value);
             await LoadDistricts(false);
         }
 
         async Task LoadDistricts(bool firstLoad)
         {
-            if (Value.HouseholdOriginFilter.Canton != null)
+            if (Value._selectedHouseholdOrigin.Canton != null)
                 _districts =
-                    (await LocationService.GetDistrictsByCantonIdAsync(Value.HouseholdOriginFilter.Canton.Id))
+                    (await LocationService.GetDistrictsByCantonIdAsync(Value._selectedHouseholdOrigin.Canton.Id))
                     .ToList();
             else
                 _districts = new List<Distrito>();
 
             if (!firstLoad)
-                Value.HouseholdOriginFilter.District = null;
+                Value._selectedHouseholdOrigin.District = null;
+        }
+        private async Task OnChangeDistrict(Distrito distrito)
+        {
+            StateHasChanged();
+            Value._selectedHouseholdOrigin.District = distrito;
+            if (Value.HouseholdOriginFilter.Province == Value._selectedHouseholdOrigin.Province &&
+                Value.HouseholdOriginFilter.Canton == Value._selectedHouseholdOrigin.Canton &&
+                Value.HouseholdOriginFilter.District == distrito)
+            {
+                _changesMade = false;
+            }
+            else
+            {
+                _changesMade = true;
+            }
+            await ValueChanged.InvokeAsync(Value);
         }
 
         // Needed international methods 
@@ -203,11 +258,32 @@ namespace PRIME_UCR.Components.Dashboard.Filters
                 Value.InternationalOriginFilter.Country = null;
 
         }
+        private async Task OnChangeCountry(Pais pais)
+        {
+            Value._selectedInternationalOrigin.Country = pais;
+            if (Value.InternationalOriginFilter.Country == pais)
+            {
+                _changesMade = false;
+            }
+            else
+            {
+                _changesMade = true;
+            }
+            await ValueChanged.InvokeAsync(Value);
+        }
 
         // Needed medical centers methods
         async Task OnChangeMedicalCenter(CentroMedico medicalCenter)
         {
-            Value.MedicalCenterOriginFilter.MedicalCenter = medicalCenter;
+            Value._selectedMedicalCenterOrigin.MedicalCenter = medicalCenter;
+            if (Value.MedicalCenterOriginFilter.MedicalCenter == medicalCenter)
+            {
+                _changesMade = false;
+            }
+            else
+            {
+                _changesMade = true;
+            }
             await ValueChanged.InvokeAsync(Value);
         }
 
@@ -218,7 +294,40 @@ namespace PRIME_UCR.Components.Dashboard.Filters
                 .ToList();
 
             if (!firstRender)
-                Value.MedicalCenterOriginFilter.MedicalCenter = null;
+                Value._selectedMedicalCenterOrigin.MedicalCenter = null;
+        }
+        private async Task Discard()
+        {
+            _changesMade = false;
+            Value._selectedOriginType = Value.OriginType;
+            Value._selectedHouseholdOrigin.Province = Value.HouseholdOriginFilter.Province;
+            Value._selectedHouseholdOrigin.Canton = Value.HouseholdOriginFilter.Canton;
+            Value._selectedHouseholdOrigin.District = Value.HouseholdOriginFilter.District;
+            Value._selectedInternationalOrigin.Country = Value.InternationalOriginFilter.Country;
+            Value._selectedMedicalCenterOrigin.MedicalCenter = Value.MedicalCenterOriginFilter.MedicalCenter;
+            await ValueChanged.InvokeAsync(Value);
+        }
+        private async Task Save()
+        {
+            StateHasChanged();
+            Value.OriginType = Value._selectedOriginType;
+            Value.HouseholdOriginFilter.Province = Value._selectedHouseholdOrigin.Province;
+            Value.HouseholdOriginFilter.Canton = Value._selectedHouseholdOrigin.Canton;
+            Value.HouseholdOriginFilter.District = Value._selectedHouseholdOrigin.District;
+
+            Value.InternationalOriginFilter.Country = Value._selectedInternationalOrigin.Country;
+
+            Value.MedicalCenterOriginFilter.MedicalCenter = Value._selectedMedicalCenterOrigin.MedicalCenter;                
+            if (Value.OriginType != null)
+            {
+                Value.ButtonEnabled = true;
+            }
+            else
+            {
+                Value.ButtonEnabled = false;
+            }
+            _changesMade = false;
+            await ValueChanged.InvokeAsync(Value);
         }
 
     }
