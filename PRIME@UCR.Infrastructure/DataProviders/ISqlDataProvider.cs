@@ -53,6 +53,10 @@ namespace PRIME_UCR.Infrastructure.DataProviders
         DbSet<MultimediaContent> Multimedia_Contents { get; set; }
         DbSet<Cita> Appointments { get; set; }
         DbSet<Accion> Actions { get; set; }
+        DbSet<Antecedentes> MedicalBackground { get; set; }
+        DbSet<ListaAntecedentes> MedicalBackgroundList { get; set; }
+        DbSet<Alergias> Alergies { get; set; }
+        DbSet<ListaAlergia> ListAlergies { get; set; }
         DbSet<T> Set<T>() where T : class;
         Task<int> SaveChangesAsync();     
     }

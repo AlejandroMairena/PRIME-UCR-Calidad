@@ -30,7 +30,7 @@ namespace PRIME_UCR.Components
         private string checklistUrl = "checklist";
         private string dashboardUrl = "dashboard";
         private string usersUrl = "user_administration/profiles";
-        private string recordsUrl = "medical_records";
+        private string recordsUrl = "show_medical_record";
 
         protected string GetUrl()
         {
@@ -71,7 +71,7 @@ namespace PRIME_UCR.Components
                 {
                     showUserAdminMenu();
                 }
-                else if (uri == "medical_records")
+                else if (uri == "show-medical-record")
                 {
                     showMedicalRecordsMenu();
                 }

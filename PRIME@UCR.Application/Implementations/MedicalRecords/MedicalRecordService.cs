@@ -11,6 +11,7 @@ using PRIME_UCR.Application.Services.MedicalRecords;
 using PRIME_UCR.Domain.Models;
 using PRIME_UCR.Domain.Models.MedicalRecords;
 using PRIME_UCR.Domain.Models.UserAdministration;
+using PRIME_UCR.Infrastructure.Repositories.Sql.MedicalRecords;
 
 namespace PRIME_UCR.Application.Implementations.MedicalRecords
 {
@@ -21,14 +22,39 @@ namespace PRIME_UCR.Application.Implementations.MedicalRecords
         private readonly IPacienteRepository _patientrepo;
         private readonly IFuncionarioRepository _medicrepo;
         private readonly IIncidentRepository _incidentrepo;
-
-        public MedicalRecordService(IMedicalRecordRepository repo, IPersonaRepository personRepo, IPacienteRepository repo1, IFuncionarioRepository repo2, IIncidentRepository incidentrepo)
+        private readonly IMedicalCenterRepository _mcrepo;
+        private readonly IMedicalBackgroundRepository _mbrepo;
+        private readonly IAlergyRepository _arepo;
+        private readonly IAlergyListRepository _larepo;
+        private readonly IMedicalBackgroundListRepository _lantrepo;
+        
+        public MedicalRecordService(IMedicalRecordRepository repo, 
+                                    IPersonaRepository personRepo, 
+                                    IPacienteRepository repo1, 
+                                    IFuncionarioRepository repo2, 
+                                    IIncidentRepository incidentrepo, 
+                                    IMedicalCenterRepository mcs, 
+                                    IMedicalBackgroundRepository mbs,
+                                    IAlergyRepository als,
+                                    IAlergyListRepository alls,
+                                    IMedicalBackgroundListRepository mbls)
         {
             _repo = repo;
             _personRepo = personRepo;
             _patientrepo = repo1;
             _medicrepo = repo2;
             _incidentrepo = incidentrepo;
+            _mcrepo = mcs;
+            _mbrepo = mbs;
+            _arepo = als;
+            _larepo = alls;
+            _lantrepo = mbls;
+        }
+
+
+
+        public async Task<IEnumerable<CentroMedico>> GetMedicalCentersAsync() {
+            return await _mcrepo.GetAllAsync(); 
         }
 
         public async Task<IEnumerable<Expediente>> GeyByConditionAsync(string name)
@@ -138,6 +164,16 @@ namespace PRIME_UCR.Application.Implementations.MedicalRecords
         }
 
 
+        public async Task<Expediente> GetMedicalRecordDetailsLinkedAsync(int identification) {
+
+            return await _repo.GetDetailsRecordWithPatientDoctorDatesAsync(identification); 
+        }
+
+
+        public async Task<Expediente> UpdateMedicalRecordAsync(Expediente expediente) {
+            return await _repo.UpdateMedicalRecordAsync(expediente); 
+        }
+
         public async Task<RecordViewModel> GetIncidentDetailsAsync(int id)
         {
             var record = await _repo.GetByKeyAsync(id);
@@ -166,6 +202,25 @@ namespace PRIME_UCR.Application.Implementations.MedicalRecords
             }
 
             return null;
+        }
+        public async Task<IEnumerable<Antecedentes>> GetBackgroundByRecordId(int recordId)
+        {
+            IEnumerable<Antecedentes> test = await _mbrepo.GetByConditionAsync(i => i.IdExpediente == recordId);
+            return test;
+        }
+
+        public async Task<IEnumerable<Alergias>> GetAlergyByRecordId(int recordId)
+        {
+            return await _arepo.GetByConditionAsync(i => i.IdExpediente == recordId);
+        }
+
+        public async Task<IEnumerable<ListaAlergia>> GetAllAlergies()
+        {
+            return await _larepo.GetAllAsync();
+        }
+        public async Task<IEnumerable<ListaAntecedentes>> GetAll()
+        {
+            return await _lantrepo.GetAllAsync();
         }
     }
 }

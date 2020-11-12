@@ -56,6 +56,14 @@ namespace PRIME_UCR.Application.Implementations.Incidents
             return await _modesRepository.GetAllAsync();
         }
 
+
+        public async Task<Incidente> GetIncidentByDateCodeAsync(int id) {
+
+            return await _incidentRepository.GetIncidentByDateCodeAsync(id); 
+
+        }
+
+
         public async Task<Incidente> CreateIncidentAsync(IncidentModel model, Persona person)
         {
             if (model.EstimatedDateOfTransfer == null)
