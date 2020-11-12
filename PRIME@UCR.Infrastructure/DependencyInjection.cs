@@ -36,6 +36,8 @@ namespace PRIME_UCR.Infrastructure
             // checklists
             services.AddTransient<ICheckListRepository, SqlCheckListRepository>();
             services.AddTransient<IItemRepository, SqlItemRepository>();
+            services.AddTransient<IInstanceChecklistRepository, SqlInstanceChecklistRepository>();
+            services.AddTransient<IInstanceItemRepository, SqlInstanceItemRepository>();
             // appointments
             services.AddTransient<IActionTypeRepository, ActionTypeRepository>();
             services.AddTransient<IAssignemntRepository, AssignmentRepository>();
@@ -62,6 +64,7 @@ namespace PRIME_UCR.Infrastructure
             services.AddTransient<IMultimediaContentRepository, MultimediaContentRepository>();
             services.AddTransient<IActionRepository, ActionRepository>();
             services.AddTransient<IFileService, FileService>();
+            services.AddTransient<IMultimediaContentItemRepository, MultimediaContentItemRepository>();
 
             // user administration repositories
             services.AddTransient<IAdministradorRepository, AdministradorRepository>();

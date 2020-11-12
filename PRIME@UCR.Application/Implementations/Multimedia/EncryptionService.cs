@@ -54,6 +54,35 @@ namespace PRIME_UCR.Application.Implementations.Multimedia
             ByteArrayToFile(filePath, encryptedFile);
             return true;
         }
+        public bool DecryptFile(string path, string filename) {
+            string filePath = Path.Combine(path, filename);
+            string fileText = FiletoString(filePath);
+            byte[] encryptedFile = StringToByteArray(fileText);
+            string decryptedString = Decrypt(encryptedFile);
+            StringToFile(filePath, decryptedString);
+            return true;
+        }
+        public byte[] StringToByteArray(string fileText) {
+            byte[] encryptedFile = Encoding.Unicode.GetBytes(fileText);
+            return encryptedFile;
+        }
+        public bool StringToFile(string filePath, string decryptedString) {
+            bool resp = false;
+            try
+            {
+                using (var fs = new FileStream(filePath, FileMode.Create, FileAccess.Write))
+                {
+                    using var sr = new StringWriter((IFormatProvider)fs);
+                    sr.WriteLine(decryptedString);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Exception caught in process: {0}", ex);
+                return false;
+            }
+            return resp;
+        }
 
         public byte[] Encrypt(string plainText)
         {
