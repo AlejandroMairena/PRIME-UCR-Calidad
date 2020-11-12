@@ -5,7 +5,7 @@ using PRIME_UCR.Infrastructure.DataProviders;
 
 namespace PRIME_UCR.Infrastructure.Repositories.Sql.Appointments
 {
-    public class ActionTypeRepository : GenericRepository<TipoAccion, string>, IActionTypeRepository
+    public class ActionTypeRepository : RepoDbRepository<TipoAccion, string>, IActionTypeRepository
     {
         public ActionTypeRepository(ISqlDataProvider dataProvider) : base(dataProvider)
         {

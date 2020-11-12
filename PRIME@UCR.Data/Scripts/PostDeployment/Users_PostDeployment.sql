@@ -80,62 +80,40 @@ VALUES
     ('e8b07151-040d-4b2c-95dd-03314508c40f','11111111'),
     ('95b3d7ae-03ff-4b50-af8b-0e1582750640','90123456');
     
---INSERT INTO Funcionario (Cédula)
---VALUES ('12345678'),
---       ('23456789'),
---       ('34567890'),
---       ('45678901'),
---       ('56789012'),
---       ('67890123'),
---       ('78901234'),
---       ('89012345'),
---       ('90123456'),
---       ('01234567'),
---       ('11111111'),
---       ('22222222');
-
---INSERT INTO Médico(Cédula)
---VALUES ('56789012'),
---       ('67890123');
-
---INSERT INTO Administrador(Cédula)
---VALUES ('12345678'),
---       ('23456789');
-
---INSERT INTO AdministradorCentroDeControl(Cédula)
---VALUES ('11111111'),
---       ('22222222');
-
 INSERT INTO Permiso (IdPermiso, Descripción_Permiso)
 VALUES
     -- Administrador
-    (1,'Puede hacer uso de todos los módulos de la aplicación'),
-    (2,'Puede crear usuarios, así como modificar los perfiles de un usuario y los permisos de un perfil'),
+    (1,'Puede administrar las cuentas de usuario'),
+    (2,'Puede crear listas de chequeo'),
+    (3,'Puede instanciar listas de chequeo'),
     -- Especialista técnico médico
-    (3,'Puede hacer todo lo relacionado a incidentes en aquellos a los que este asignado'),
-    (4,'Puede hacer todo lo relacionado a listas de chequeo instanciadas de aquellos incidentes a los cuales esta asignado'),
-    (5,'Desde el módulo de incidentes puede solamente ver los expedientes de los pacientes que atiende durante el traslado'),
-    (6,'Puede hacer todos los pasos posteriores al de la creación del incidente para los traslados que él atiende'),
-    (7,'Puede ver el expediente solamente en modo de consulta'),
+    (4,'Puede ver el listado de incidentes'),
+    (5,'Puede ver la información médica en el listado de incidentes'),
+    (6,'Puede ver los detalles básicos de un incidente'),
+    (7,'Puede ver los detalles médicos de un incidente'),
+    (8,'Puede ver la información del paciente de un incidente'),
     -- Médico
-    (8,'Puede administrar todo lo que tenga que ver con expedientes para aquellos pacientes que atiende'),
-    (9,'Puede entrar a los incidentes para los cuales él es el encargado'),
-    (10,'Puede adjuntar multimedia a las listas de chequeo de los incidentes de los pacientes atendidos por él'),
-    (11,'Solo puede ver los expedientes de los pacientes de los cuales él es el encargado'),
+    (9,'Ver expedientes de sus pacientes'),
     -- Gerente médico
-    (12,'Puede ver y administrar todos los expedientes sin importar si los pacientes fueron asignados a él'),
-    (13,'Puede entrar a los incidentes por medio de los expedientes, pero unicamente en modo consulta'),
-    (14,'Puede ver las estadisticas del sistema'),
+    (10,'Puede ver todos los expedientes médicos'),
+    (11,'Puede manejar la información del dashboard referente a expedientes'),
+        -- Se repite el 13
     -- Coordinador técnico médico
-    (15,'Puede crear plantillas para las listas de chequeo'),
-    (16,'Puede administrar todos los incidentes, sin importar si fueron asignados a él'),
-        -- se repite el 14
-    (17,'Puede hacer todos los pasos de la creación de incidentes para todos ellos'),
-    (18,'Desde el módulo de incidentes puede ver los expedientes en modo consulta'),
+    (12,'Puede manejar la información del dashboard referente a incidentes'),
+        -- Se repite el 3 y 4
+    (13,'Puede marcar items de las listas de chequeo'),
+    (14,'Puede adjuntar multimedia en las listas de chequeo'),
+        -- Se repite el 5, 6, 7, 8
+    (15,'Puede editar los detalles básicos de los incidentes'),
+    (16,'Puede editar los detalles médicos de los incidentes'),
+    (17,'Puede revisar los incidentes'),
+        -- Se repite 9
+    (18,'Puede editar la información del paciente de un incidente'),
+    (19,'Puede llevar a cabo la asignación de incidentes'),
+    (20,'Puede crear incidentes');
+        -- Se repite el 22
     -- Administrador del centro de control
-    (19,'Puede ver toda la información de los incidentes menos el contenido multimedia'),
-    (20,'Puede solamente registrar un incidente, no puede hacer ningún paso previo a la creación'),
-    (21,'No puede manipular datos médicos, solo información demográfica, fechas, origen, destino, etc');
+        -- Se repite 5, 7, 16 y 21
 
 INSERT INTO Perfil (NombrePerfil)
 VALUES ('Administrador'),
@@ -148,26 +126,36 @@ VALUES ('Administrador'),
 INSERT INTO Permite (IdPermiso, NombrePerfil)
 VALUES  (1,'Administrador'),
         (2,'Administrador'),
-        (3,'Especialista técnico médico'),
+        (3,'Administrador'),
         (4,'Especialista técnico médico'),
         (5,'Especialista técnico médico'),
         (6,'Especialista técnico médico'),
         (7,'Especialista técnico médico'),
-        (8,'Médico'),
+        (8,'Especialista técnico médico'),
         (9,'Médico'),
-        (10,'Médico'),
-        (11,'Médico'),
+        (10,'Gerente médico'),
+        (11,'Gerente médico'),
         (12,'Gerente médico'),
-        (13,'Gerente médico'),
-        (14,'Gerente médico'),
+        (2,'Coordinador técnico médico'),
+        (3,'Coordinador técnico médico'),
+        (4,'Coordinador técnico médico'),
+        (5,'Coordinador técnico médico'),
+        (6,'Coordinador técnico médico'),
+        (7,'Coordinador técnico médico'),
+        (8,'Coordinador técnico médico'),
+        (12,'Coordinador técnico médico'),
+        (13,'Coordinador técnico médico'),
+        (14,'Coordinador técnico médico'),
         (15,'Coordinador técnico médico'),
         (16,'Coordinador técnico médico'),
-        (14,'Coordinador técnico médico'),
         (17,'Coordinador técnico médico'),
         (18,'Coordinador técnico médico'),
-        (19,'Administrador de la central de control'),
-        (20,'Administrador de la central de control'),
-        (21,'Administrador de la central de control');
+        (19,'Coordinador técnico médico'),
+        (20,'Coordinador técnico médico'),
+        (4,'Administrador de la central de control'),
+        (6,'Administrador de la central de control'),
+        (15,'Administrador de la central de control'),
+        (20,'Administrador de la central de control');
  
 INSERT INTO Pertenece(IdUsuario, NombrePerfil)
 VALUES ('a6f7aa70-a038-419f-9945-7c77b093d58f','Administrador'),
