@@ -7,7 +7,9 @@ using PRIME_UCR.Application.Services.CheckLists;
 using PRIME_UCR.Components.CheckLists;
 using Microsoft.AspNetCore.Components.Forms;
 using PRIME_UCR.Domain.Models.CheckLists;
+using System;
 using System.Linq;
+using MatBlazor;
 
 namespace PRIME_UCR.Pages.CheckLists
 {
@@ -19,26 +21,38 @@ namespace PRIME_UCR.Pages.CheckLists
         }
         [Parameter]
         public int id { get; set; }
+        [Parameter]
+        public int plantillaid { get; set; }
+        [Parameter]
+        public string incidentcod { get; set; }
 
-        private bool isDisabled { get; set; } = true;
+        private bool isDisabled { get; set; } = true;//not need
 
-        protected bool createItem { get; set; } = false;
+        protected bool createItem { get; set; } = false;// not neet
+        protected IEnumerable<InstanciaItem> coreItems { get; set; }
 
-        protected IEnumerable<CheckList> lists { get; set; }
+        public InstanceChecklist insanceLC { get; set; }
 
-        protected IEnumerable<Item> items { get; set; }
+        protected List<Item> items { get; set; }// to change
+        protected List<InstanciaItem> itemsInstance { get; set; }
 
         public CheckList list { get; set; }
 
-        protected Item tempItem;
+        protected Item tempItem;//to change
 
         protected bool formInvalid = true;
-        protected EditContext editContext;
 
         public bool not_complete;
 
-        [Inject] protected ICheckListService MyCheckListService { get; set; }
+        protected List<InstanciaItem> orderedList;
+        protected List<int> orderedListLevel;
+        protected string IncidentURL = "/incidents/";
 
+        protected int itemIndex { get; set; } = 0;
+
+        [Inject] protected ICheckListService MyCheckListService { get; set; }
+        [Inject] protected IInstanceChecklistService MyCheckInstanceChechistService { get; set; }
+        [Inject] private NavigationManager NavManager { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
@@ -47,61 +61,18 @@ namespace PRIME_UCR.Pages.CheckLists
 
         protected async Task RefreshModels()
         {
-            list = await MyCheckListService.GetById(id);
-            lists = await MyCheckListService.GetAll();
-            items = await MyCheckListService.GetItemsByCheckListId(id);
-        }
-
-        protected void HandleFieldChanged(object sender, FieldChangedEventArgs e)
-        {
-            if (tempItem.Nombre != null)
+            list = await MyCheckListService.GetById(plantillaid);
+            IEnumerable<Item> tempItems = await MyCheckListService.GetItemsByCheckListId(plantillaid);
+            items = tempItems.ToList();
+            IEnumerable<InstanciaItem> tempInstancedItems = await MyCheckInstanceChechistService.GetItemsByIncidentCodAndCheckListId(incidentcod, plantillaid);
+            itemsInstance = tempInstancedItems.ToList();
+            coreItems = await MyCheckInstanceChechistService.GetCoreItems(incidentcod, plantillaid);
+            orderedList = new List<InstanciaItem>();
+            orderedListLevel = new List<int>();
+            foreach (var item in coreItems)
             {
-                formInvalid = !editContext.Validate();
+                GenerateOrderedList(item, 0);
             }
-        }
-
-        public void Dispose()
-        {
-            editContext.OnFieldChanged -= HandleFieldChanged;
-            createItem = false;
-            StateHasChanged();
-        }
-
-        protected async Task AddCheckListItem(Item item)
-        {
-            await MyCheckListService.InsertCheckListItem(item);
-            createItem = false;
-            formInvalid = true;
-            await RefreshModels();
-            StateHasChanged();
-        }
-
-        protected void StartNewItemCreation()
-        {
-            createItem = true;
-            tempItem = new Item();
-            tempItem.IDLista = id;
-            tempItem.Orden = items.Count() + 1;
-            editContext = new EditContext(tempItem);
-            editContext.OnFieldChanged += HandleFieldChanged;
-            StateHasChanged();
-        }
-
-        protected void CreateSubItem(int itemId)
-        {
-            createItem = true;
-            tempItem = new Item();
-            tempItem.IDLista = id;
-            tempItem.IDSuperItem = itemId;
-            // Get the order from ?
-            editContext = new EditContext(tempItem);
-            editContext.OnFieldChanged += HandleFieldChanged;
-            StateHasChanged();
-        }
-
-        protected async Task HandleValidSubmit()
-        {
-            await AddCheckListItem(tempItem);
         }
 
         protected override async Task OnParametersSetAsync()
@@ -110,8 +81,101 @@ namespace PRIME_UCR.Pages.CheckLists
         }
         protected async Task Update()
         {
-            await MyCheckListService.UpdateCheckList(list);
+            await MyCheckInstanceChechistService.UpdateInstanceChecklist(insanceLC);
             await RefreshModels();
+        }
+        public async Task GetName(int id)
+        {
+
+            list = await MyCheckListService.GetById(id);
+
+        }
+        public async Task GetTipo(int id)
+        {
+
+            list = await MyCheckListService.GetById(id);
+
+        }
+        public async Task GetDescp(int id)
+        {
+
+            list = await MyCheckListService.GetById(id);
+
+        }
+        public string GetName2(int id)
+        {
+            GetName(id);
+            return list.Nombre;
+        }
+
+        public string GetTipo2(int id)
+        {
+            GetTipo(id);
+            return list.Tipo;
+        }
+        public string GetDescp2(int id)
+        {
+            GetDescp(id);
+            return list.Descripcion;
+        }
+        public bool Getincident()
+        {
+            //consultar incidente
+            //to change
+            return true;
+        }
+
+        protected int GetItemIndex(InstanciaItem instance)
+        {
+            itemIndex = items.FindIndex(a => a.Id == instance.ItemId);
+            return itemIndex;
+        }
+
+        private void GenerateOrderedList(InstanciaItem item, int level)
+        {
+            orderedList.Add(item);
+            orderedListLevel.Add(level);
+            List<InstanciaItem> subItems = itemsInstance.FindAll(tempItem => tempItem.ItemPadreId == item.ItemId);
+            if (subItems.Count() > 0)
+            {
+                foreach (var tempSubtem in subItems)
+                {
+                    GenerateOrderedList(tempSubtem, level + 1);
+                }
+            }
+        }
+
+        /**
+         * Checks if an item has subitems
+         * */
+        protected bool HasSubItems(InstanciaItem item)
+        {
+            List<InstanciaItem> subItems = itemsInstance.FindAll(tempItem => tempItem.ItemPadreId == item.ItemId);
+            bool hasSubItems = false;
+            if (subItems.Count() != 0)
+            {
+                hasSubItems = true;
+            }
+            return hasSubItems;
+        }
+
+        protected string truncate(string text, int level, int lines)
+        {
+            if (String.IsNullOrEmpty(text)) return "";
+            int maxLength = lines * (65 - level * 5);
+            return text.Length <= maxLength ? text : text.Substring(0, maxLength) + "...";
+        }
+
+        protected MatTheme AddButtonTheme = new MatTheme()
+        {
+            Primary = "white",
+            Secondary = "#095290"
+        };
+
+        protected void Redirect()
+        {
+            IncidentURL += incidentcod;
+            NavManager.NavigateTo($"{IncidentURL}");
         }
     }
 }

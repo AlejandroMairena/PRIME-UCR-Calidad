@@ -165,6 +165,15 @@ button:hover#BP_LC6.btn.btn-primary {
     border: darkgrey 1px;
     border-style: solid;
 }
+/*Edit items and subitems*/
+#Edit_I-SI_LC {
+    background: transparent;
+    padding: 10px;
+    border-radius: 5px;
+    position: relative;
+    border: darkgrey 1px;
+    border-style: solid;
+}
 
 /* Modify checklist*/
 input#checklistName { /*Name checklist*/
