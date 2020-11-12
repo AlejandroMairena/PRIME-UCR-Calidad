@@ -37,8 +37,7 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
             await OnSave.InvokeAsync(null);
         }
 
-        private async Task Reject()
-        {
+        private async Task Reject() {
             await IncidentService
                 .RejectIncidentAsync(DetailsModel.Code, _currentUser.Cédula);
             await OnSave.InvokeAsync(null);

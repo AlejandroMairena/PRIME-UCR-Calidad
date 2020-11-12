@@ -30,6 +30,9 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
         [Inject] private IDoctorService DoctorService { get; set; }
         [Parameter] public Ubicacion Origin { get; set; }
         [Parameter] public EventCallback<OriginModel> OnSave { get; set; }
+        [Parameter] public string StatusMessage { get; set; }
+        [Parameter] public string StatusClass { get; set; }
+        [CascadingParameter] public Action ClearStatusMessageCallback { get; set; }
         
         // Selected options
         private Tuple<OriginType, string> _selectedOriginType;
@@ -37,7 +40,6 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
         private HouseholdModel _householdModel = new HouseholdModel();
         private InternationalModel _internationalModel = new InternationalModel();
         private MedicalCenterLocationModel _medicalCenterModel = new MedicalCenterLocationModel();
-        private string _statusMessage = "";
         
         // Lists of options
         private readonly List<Tuple<OriginType, string>> _dropdownValuesOrigin = new List<Tuple<OriginType, string>>
@@ -49,7 +51,7 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
 
         private void OnOriginTypeChange(Tuple<OriginType, string> type)
         {
-            _statusMessage = "";
+            ClearStatusMessageCallback();
             _selectedOriginType = type;
         }
 
@@ -107,7 +109,6 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
 
         private async Task Save()
         {
-            _statusMessage = "Se guardaron los cambios exitosamente.";
             await OnSave.InvokeAsync(_model);
         }
 
@@ -157,7 +158,7 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
             }
             
             _model.Origin = Origin;
-            _statusMessage = "";
+            ClearStatusMessageCallback();
             _isLoading = false;
         }
 

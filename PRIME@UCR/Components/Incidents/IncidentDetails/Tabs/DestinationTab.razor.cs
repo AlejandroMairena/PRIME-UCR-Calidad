@@ -16,9 +16,11 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
         [Inject] private IDoctorService DoctorService { get; set; }
         [Parameter] public Ubicacion Destination { get; set; }
         [Parameter] public EventCallback<DestinationModel> OnSave { get; set; }
+        [Parameter] public string StatusMessage { get; set; }
+        [Parameter] public string StatusClass { get; set; }
+        [CascadingParameter] public Action ClearStatusMessageCallback { get; set; }
         
         private DestinationModel _model = new DestinationModel();
-        private string _statusMessage = "";
         private MedicalCenterLocationModel _medicalCenterModel = new MedicalCenterLocationModel();
         private bool _isLoading = false;
 
@@ -37,7 +39,6 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
 
         private async Task Save()
         {
-            _statusMessage = "Se guardaron los cambios exitosamente.";
             await OnSave.InvokeAsync(_model);
         }
 
@@ -59,7 +60,7 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
             }
             
             _model.Destination = Destination;
-            _statusMessage = "";
+            ClearStatusMessageCallback();
             _isLoading = false;
         }
 
