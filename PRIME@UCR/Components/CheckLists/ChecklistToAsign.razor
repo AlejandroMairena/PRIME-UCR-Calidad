@@ -11,7 +11,7 @@
         <div class="rounded" style="background-color: white;padding-left: 10px;padding-right: 10px; padding-top:10px;">
             <h5>Listas de chequeo disponibles</h5>
             <EditForm Model="lists">
-                <Table TableItem="CheckList" Items="lists" PageSize="12">
+                <Table TableItem="CheckList" Items="lists" PageSize="5">
                     <Column TableItem="CheckList" Title="" Field="@(tempList => lists)" Width="1%">
                         <Template Context="checkbox">
                             <center>
@@ -39,7 +39,7 @@
     <div class="rounded" style="background-color: white;padding-left: 10px;padding-right: 10px;padding-top:10px;">
             <h5>Listas de chequeo instanciadas</h5>
             <EditForm Model="lists" OnValidSubmit="@HandleSubmit">
-                <Table TableItem="CheckList" Items="lists" PageSize="12">
+                <Table TableItem="CheckList" Items="lists" PageSize="5">
                     <Column TableItem="CheckList" Title="Nombre" Field="@( x => x.Nombre)" Width="20%">
                         <Template Context="tempList">
                             @if (TempDetail[TempsIds.LastIndexOf(tempList.Id)].IsDone)
