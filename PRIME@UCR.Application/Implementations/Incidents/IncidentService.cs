@@ -315,19 +315,16 @@ namespace PRIME_UCR.Application.Implementations.Incidents
 
         /*
         * Function: Will find the pending tasks in order to change incident's state. Will redirect to the specific method to do so.
-        * @ParamS: A DTO with the incident's current state.
+        * @Params: A DTO with the incident's current state.
         *          A string with the next incident's state.
         * @Return: A list with all pending tasks needed to advace to next state.
         * */
-        public async Task<List<string>> GetPendingTasksAsync(IncidentDetailsModel model, string nextState)
+        public async Task<List<Tuple<string, string>>> GetPendingTasksAsync(IncidentDetailsModel model, string nextState)
         {
-            List<string> pendingTasks = new List<string>();
+            List<Tuple<string, string>> pendingTasks = new List<Tuple<string, string>>();
             if(nextState == IncidentStates.Created.Nombre)
             {
                 pendingTasks = GetCreatedStatePendingTasks(model);
-            }
-            else if(nextState == IncidentStates.Rejected.Nombre)
-            {
             }
             else if (nextState == IncidentStates.Approved.Nombre)
             {
@@ -346,20 +343,20 @@ namespace PRIME_UCR.Application.Implementations.Incidents
          * @Return: A list with all pending tasks needed to advace to "Created" state.
          * */
 
-        public List<string> GetCreatedStatePendingTasks(IncidentDetailsModel model)
+        public List<Tuple<string, string>> GetCreatedStatePendingTasks(IncidentDetailsModel model)
         {
-            List<string> pendingTasks = new List<string>();
+            List<Tuple<string, string>> pendingTasks = new List<Tuple<string, string>>();
             if(model.Origin == null)
             {
-                pendingTasks.Add("Seleccionar origen");
+                pendingTasks.Add(Tuple.Create("Seleccionar origen", "Origin"));
             }
             if(model.Destination == null)
             {
-                pendingTasks.Add("Seleccionar destino");
+                pendingTasks.Add(Tuple.Create("Seleccionar destino", "Destination"));
             }
             if(model.MedicalRecord == null)
             {
-                pendingTasks.Add("Agregar paciente");
+                pendingTasks.Add(Tuple.Create("Agregar paciente", "Patient"));
             }
             return pendingTasks;
         }
@@ -370,22 +367,22 @@ namespace PRIME_UCR.Application.Implementations.Incidents
        * @Return: A list with all pending tasks needed to advace to "Assigned" state.
        * */
 
-        public async Task<List<string>> GetAssignedStatePendingTasks(IncidentDetailsModel model)
+        public async Task<List<Tuple<string, string>>> GetAssignedStatePendingTasks(IncidentDetailsModel model)
         {
-            List<string> pendingTasks = new List<string>();
+            List<Tuple<string, string>> pendingTasks = new List<Tuple<string, string>>();
             var incident = await _incidentRepository.GetByKeyAsync(model.Code);
             if(incident.MatriculaTrans == null)
             {
-                pendingTasks.Add("Seleccionar unidad de transporte");
+                pendingTasks.Add(Tuple.Create("Seleccionar unidad de transporte", "Assignment"));
             }
-            if(incident.CedulaTecnicoCoordinador == null)
+            if (incident.CedulaTecnicoCoordinador == null)
             {
-                pendingTasks.Add("Seleccionar coordinador");
+                pendingTasks.Add(Tuple.Create("Seleccionar coordinador", "Assignment"));
             }
             List<EspecialistaTécnicoMédico> teamMembers = (await _assignmentRepository.GetAssignmentsByIncidentIdAsync(incident.Codigo)).ToList();
             if (teamMembers.Count <= 0)
             {
-                pendingTasks.Add("Seleccionar técnicos médicos");
+                pendingTasks.Add(Tuple.Create("Seleccionar técnicos médicos", "Assignment"));
             }
             return pendingTasks;
         }
@@ -394,16 +391,17 @@ namespace PRIME_UCR.Application.Implementations.Incidents
         * @Param: A DTO with the incident's current state
         * @Return: A list with all pending tasks needed to advace to "Approved" state.
         * */
-        public List<string> GetApprovedStatePendingTasks(IncidentDetailsModel model)
+        public List<Tuple<string, string>> GetApprovedStatePendingTasks(IncidentDetailsModel model)
         {
-            List<string> pendingTasks = new List<string>();
+            List<Tuple<string, string>> pendingTasks = new List<Tuple<string, string>>();
             if (model.CurrentState == IncidentStates.Created.Nombre)
             {
-                pendingTasks.Add("Esperando revisión");
+                pendingTasks.Add(Tuple.Create("Esperando revisión", "Info"));
             }
             else   //When its rejected.     
             {
-                pendingTasks.Add("Esperando una nueva revisión");
+                pendingTasks.Add(Tuple.Create("Esperando una nueva revisión", "Info"));
+
             }
             return pendingTasks;
         }

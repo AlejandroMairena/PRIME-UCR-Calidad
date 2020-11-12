@@ -328,10 +328,20 @@ span.navigation-item-text:hover {
 .bg-current-state {
     background-color: #00c0f3;
 }
-
+/*Diosvier -> Pending task to change incident's state*/
 .bg-task {
     padding: 12px;
     display: none;
+}
+
+.bg-task a:not([href]):not([tabindex]) {
+    color: #095290;
+}
+
+.bg-task a:not([href]):not([tabindex]):hover {
+    color: #095290;
+    text-decoration: underline;
+    cursor: pointer;
 }
 
 .badge-text {

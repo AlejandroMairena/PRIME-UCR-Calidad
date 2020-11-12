@@ -69,8 +69,20 @@ namespace PRIME_UCR.Pages.Incidents
         {
             switch (tabName)
             {
+                case "Info":
+                    return DetailsTab.Info;
+                case "Origin":
+                    return DetailsTab.Origin;
+                case "Destination":
+                    return DetailsTab.Destination;
+                case "Patient":
+                    return DetailsTab.Patient;
                 case "Assignment":
                     return DetailsTab.Assignment;
+                case "Multimedia":
+                    return DetailsTab.Multimedia;
+                //case "Checklists":
+                    //return DetailsTab.Checklists;
                 default:
                     return DefaultTab;
             }

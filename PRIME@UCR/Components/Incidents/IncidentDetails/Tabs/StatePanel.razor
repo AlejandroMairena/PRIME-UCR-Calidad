@@ -88,10 +88,10 @@
                     {
                         <td>
                             <ul class="list-group">
-                                @for (var index = 0; index < PendingTasks.Count; ++index)
+                                @foreach (var task in PendingTasks)
                                 {
-                                    <li class=" bg-task d-flex justify-content-between">
-                                        <a href="@($"/incidents/{Incident.Code}")"> @PendingTasks[index] </a>
+                                    <li class="bg-task d-flex justify-content-between">
+                                        <a class="task-text" @onclick="@( () => RedirectToTab(task.Item2) )"> @task.Item1 </a>
                                         <span class="badge badge-primary badge-pill badge-text">!</span>
                                     </li>
                                 }

@@ -24,21 +24,18 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
 
         public string nextState;
 
-        public List<string> PendingTasks = new List<string>();
+        public List<Tuple<string, string>> PendingTasks = new List<Tuple<string, string>>();
 
         [Parameter]
         public IncidentDetailsModel Incident { get; set; }
-
         [Parameter] 
         public EventCallback OnSave { get; set; }
-
-
-        [Inject]
-        public IIncidentService IncidentService { get; set; }
-
         [Parameter]
         public Persona CurrentUser { get; set; }
-
+        [Inject]
+        public IIncidentService IncidentService { get; set; }
+        [Inject]
+        private NavigationManager NavManager { get; set; }
 
         private int currentStateIndex;
         MatButton Button2;
@@ -124,6 +121,11 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
             await IncidentService.ChangeState(Incident.Code, nextState);
             await OnSave.InvokeAsync(null);
             await LoadValues();
+        }
+
+        public void RedirectToTab(string url)
+        {
+            NavManager.NavigateTo($"{"/incidents/"+Incident.Code+"/"+ url}", forceLoad: true);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using PRIME_UCR.Application.Dtos;
 using PRIME_UCR.Application.Dtos.Incidents;
@@ -20,10 +21,10 @@ namespace PRIME_UCR.Application.Services.Incidents
         public Task ApproveIncidentAsync(string code, string reviewerId);
         public Task RejectIncidentAsync(string code, string reviewerId);
         public Task<string> GetNextIncidentState(string code);
-        public Task<List<string>> GetPendingTasksAsync(IncidentDetailsModel model, string nexState);
-        public List<string> GetCreatedStatePendingTasks(IncidentDetailsModel model);
-        public Task<List<string>> GetAssignedStatePendingTasks(IncidentDetailsModel model);
-        public List<string> GetApprovedStatePendingTasks(IncidentDetailsModel model);
+        public Task<List<Tuple<string, string>>> GetPendingTasksAsync(IncidentDetailsModel model, string nexState);
+        public List<Tuple<string, string>> GetCreatedStatePendingTasks(IncidentDetailsModel model);
+        public Task<List<Tuple<string, string>>> GetAssignedStatePendingTasks(IncidentDetailsModel model);
+        public List<Tuple<string, string>> GetApprovedStatePendingTasks(IncidentDetailsModel model);
         public Task ChangeState(string code, string nextState);
     }
 }
