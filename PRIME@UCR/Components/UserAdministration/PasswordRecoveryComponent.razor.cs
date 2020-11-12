@@ -7,6 +7,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.WebUtilities;
+using System.Text;
+using MimeKit.Text;
+using System.Text.Encodings.Web;
 
 namespace PRIME_UCR.Components.UserAdministration
 {
@@ -33,11 +37,17 @@ namespace PRIME_UCR.Components.UserAdministration
             if(user != null)
             {
                 var passwordRecoveryToken = await UserManager.GeneratePasswordResetTokenAsync(user);
+                var code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(passwordRecoveryToken));
+                var firstHalf = ((int)code.Length / 2);
+                var code1 = code.Substring(0, firstHalf);
+                var code2 = code.Substring(firstHalf, code.Length - firstHalf);
+                
+                var url = "https://localhost:44368/requestPasswordRecovery/" + EmailModel.Email + "/" + code1 + "/" + code2;
                 var emailContent = new EmailContentModel()
                 {
                     Destination = EmailModel.Email,
                     Subject = "PRIME@UCR: Recuperar contraseña",
-                    Body = "<h1>PRIME@UCR</h1>  <h2>Restablecer contraseña</h2> <p>Para restablecer la contraseña presione <a href=\"https://localhost:44368/requestPasswordRecovery/" + passwordRecoveryToken + "\">aquí</a>. </p>"
+                    Body = $"<h1>PRIME@UCR</h1>  <h2>Restablecer contraseña</h2> <p>Para restablecer la contraseña presione <a href=\"{url}\">aquí</a>. </p>"
                 };
                 await MailService.SendEmailAsync(emailContent);
                 EmailModel.Email = String.Empty;
