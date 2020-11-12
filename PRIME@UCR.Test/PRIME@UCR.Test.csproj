@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>PRIME_UCR.Test</RootNamespace>
+
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
+    <PackageReference Include="Moq" Version="4.14.7" />
+    <PackageReference Include="xunit" Version="2.4.0" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.0" />
+    <PackageReference Include="coverlet.collector" Version="1.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="IntegrationTests\" />
+    <Folder Include="UnitTests\Application\Multimedia\" />
+    <Folder Include="UnitTests\Application\MedicalRecords\" />
+    <Folder Include="UnitTests\Application\Incidents\" />
+    <Folder Include="UnitTests\Application\Dashboards\" />
+    <Folder Include="UnitTests\Application\CheckLists\" />
+    <Folder Include="UnitTests\Application\Appointments\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PRIME@UCR.Application\PRIME@UCR.Application.csproj" />
+    <ProjectReference Include="..\PRIME@UCR.Infrastructure\PRIME@UCR.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,90 @@
+﻿@using PRIME_UCR.Components.Controls
+
+<EditForm Model="Value">
+    <DropDownMenu Data="@_dropdownValuesOrigin" 
+                    Label="Ubicación origen" 
+                    TextProperty="Item2"
+                    Value="_selectedOriginType"
+                    ValueChanged="@((Tuple<OriginType, string> o) => OnOriginTypeChange(o))"
+                    ValueExpression="() => _selectedOriginType"
+                    UseValidation="false" 
+                    Required="false"/>
+</EditForm>
+<Loading IsLoading="@_isLoading">
+    @if(_selectedOriginType.Item1 != OriginType.SinFiltro)
+    {
+        @if (_selectedOriginType.Item1 == OriginType.Household)
+        {
+            <Loading IsLoading="@_isLoading">
+                <EditForm Model="Value">
+                    <FluentValidationValidator />
+                            <DropDownMenu Data="@_provinces"
+                                          Label="Provincia"
+                                          TextProperty="Nombre"
+                                          DefaultText="Sin filtro"
+                                          Value="@Value.HouseholdOriginFilter.Province"
+                                          ValueExpression="() => Value.HouseholdOriginFilter.Province"
+                                          ValueChanged="@((Provincia p) => OnChangeProvince(p))"
+                                          UseValidation="false"
+                                          Required="false" />
+                            @if (Value.HouseholdOriginFilter.Province != null)
+                            {
+                                <DropDownMenu Data="@_cantons"
+                                              Label="Cantón"
+                                              TextProperty="Nombre"
+                                              DefaultText="Sin filtro"
+                                              Value="@Value.HouseholdOriginFilter.Canton"
+                                              ValueExpression="() => Value.HouseholdOriginFilter.Canton"
+                                              ValueChanged="@((Canton c) => OnChangeCanton(c))"
+                                              UseValidation="false"
+                                              Required="false" />
+                                if (Value.HouseholdOriginFilter.Canton != null)
+                                {
+                                    <DropDownMenu Data="@_districts"
+                                                  Label="Distrito"
+                                                  TextProperty="Nombre"
+                                                  DefaultText="Sin filtro"
+                                                  @bind-Value="Value.HouseholdOriginFilter.District"
+                                                  UseValidation="false"
+                                                  Required="false" />
+                                }
+                            }
+                </EditForm>
+            </Loading>
+        }
+        else if (_selectedOriginType.Item1 == OriginType.International)
+        {
+            <Loading IsLoading="_isLoading">
+                <EditForm Model="Value">
+                            <DropDownMenu Data="@_countries"
+                                          T="Pais"
+                                          Label="País"
+                                          TextProperty="Nombre"
+                                          DefaultText="Sin filtro"
+                                          @bind-Value="@Value.InternationalOriginFilter.Country"
+                                          UseValidation="false"
+                                          Required="false" />
+                </EditForm>
+            </Loading>
+        }
+        else
+        {
+            <Loading IsLoading="_isLoading">
+                <EditForm Model="Value">
+                    <FluentValidationValidator />
+                            <DropDownMenu T="CentroMedico" 
+                                          Data="_medicalCenters"
+                                          Label="Centro médico"
+                                          DefaultText="Sin filtro"
+                                          TextProperty="Nombre"
+                                          Value="@Value.MedicalCenterOriginFilter.MedicalCenter"
+                                          ValueExpression="() => Value.MedicalCenterOriginFilter.MedicalCenter"
+                                          ValueChanged="@((CentroMedico mc) => OnChangeMedicalCenter(mc))" 
+                                          UseValidation="false"
+                                          Required="false"/>
+                </EditForm>
+            </Loading>
+
+        }
+    }
+</Loading>

@@ -46,12 +46,12 @@ namespace PRIME_UCR.Pages.UserAdministration
         {
             isBusy = true;
             StateHasChanged();
-            var personModel = personService.GetPersonModelFromRegisterModel(infoOfUserToRegister);
+            var personModel = await personService.GetPersonModelFromRegisterModelAsync(infoOfUserToRegister);
             var existPersonInDB = (await personService.GetPersonByIdAsync(personModel.IdCardNumber)) == null ? false : true;
             if (!existPersonInDB)
             {
                 await personService.StoreNewPersonAsync(personModel);
-                var userModel = userService.GetUserFormFromRegisterUserForm(infoOfUserToRegister);
+                var userModel = await userService.GetUserFormFromRegisterUserFormAsync(infoOfUserToRegister);
                 var tempPassword = personModel.Name + "." + personModel.FirstLastName + personModel.PrimaryPhoneNumber;/*Es temporal, luego esto cambiará*/
                 var result = await userService.StoreUserAsync(userModel,tempPassword);
                 if(!result)

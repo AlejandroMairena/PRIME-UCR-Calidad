@@ -1,15 +1,16 @@
 ﻿@page "/dashboard"
 @*Example of policy based authorization in a page*@
 
-@attribute [HasPolicy(AuthorizationPolicies.CanManageDashboard)]
+@attribute [HasPermission(AuthorizationPermissions.CanSeeIncidentsInfoOnDashboard)]
 
 @layout MainLayout
 @using ChartJs.Blazor.Charts
-@using PRIME_UCR.Application.DTOs.UserAdministration;
 @using PRIME_UCR.Application.Implementations.UserAdministration;
+@using PRIME_UCR.Domain.Constants
+
 @*Example of policy based authorization in a piece of code*@
 
-<AuthorizeView Policy="@AuthorizationPermissions.CanManageDashboard.ToString()">
+<AuthorizeView Policy="@AuthorizationPermissions.CanSeeIncidentsInfoOnDashboard.ToString()">
     <Authorized>
         <h1>
             Dashboard
@@ -24,6 +25,13 @@
 </AuthorizeView>
 
 
+
+@*<LineGraphComponent></LineGraphComponent>*@
+<div class="wrapper">
+    <div class="rounded" style="background-color: white;padding-left: 10px;padding-right: 10px;">
+        <FiltersComponent @bind-Value="FilterInfo" />
+    </div>
+</div>
 
 
 <div class="row">
@@ -57,5 +65,6 @@
         <IncidentsVsDestinationLocationComponentJS />
     </div>
 </div>
+
 
 

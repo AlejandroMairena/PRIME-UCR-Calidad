@@ -1,28 +1,41 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using PRIME_UCR.Application.DTOs.UserAdministration;
+using PRIME_UCR.Application.Exceptions.UserAdministration;
 using PRIME_UCR.Application.Repositories.UserAdministration;
 using PRIME_UCR.Application.Services.UserAdministration;
 using PRIME_UCR.Domain.Models.UserAdministration;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using PRIME_UCR.Domain.Constants;
+using PRIME_UCR.Application.Permissions.UserAdministration;
+using PRIME_UCR.Domain.Attributes;
+using System.ComponentModel.DataAnnotations;
 
 namespace PRIME_UCR.Application.Implementations.UserAdministration
 {
-    public class UsersService : IUserService
+    public partial class UsersService : IUserService
     {
         private readonly IUsuarioRepository _usuarioRepository;
 
         private readonly UserManager<Usuario> userManager;
 
+        private readonly IPrimeSecurityService primeSecurityService;
+
         public UsersService(
             IUsuarioRepository usuarioRepository,
-            UserManager<Usuario> _userManager)
+            UserManager<Usuario> _userManager,
+            IPrimeSecurityService _primeSecurityService)
         {
             _usuarioRepository = usuarioRepository;
             userManager = _userManager;
+            primeSecurityService = _primeSecurityService;
         }
 
         /**
@@ -30,8 +43,9 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
          */
         public async Task<Persona> getPersonWithDetailstAsync(string email)
         {
+            await primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             var user = await userManager.FindByEmailAsync(email);
-            var person = await getUsuarioWithDetails(user.Id);
+            var person = await getUsuarioWithDetailsAsync(user.Id);
             return person.Persona;
         }
 
@@ -40,8 +54,9 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
          *
          * Return: A user DTO with the info of the user.
          */
-        public UserFormModel GetUserFormFromRegisterUserForm(RegisterUserFormModel userToRegister)
+        public async Task<UserFormModel> GetUserFormFromRegisterUserFormAsync(RegisterUserFormModel userToRegister)
         {
+            await primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             UserFormModel userModel = new UserFormModel();
             userModel.Email = userToRegister.Email;
             userModel.IdCardNumber = userToRegister.IdCardNumber;
@@ -53,7 +68,7 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
          * 
          * Return: All the info of the user.
          */
-        public async Task<Usuario> getUsuarioWithDetails(string id)
+        public async Task<Usuario> getUsuarioWithDetailsAsync(string id)
         {
             return await _usuarioRepository.GetWithDetailsAsync(id);
         }
@@ -63,8 +78,9 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
          * 
          * Return: A user with the info given in the DTO.
          */
-        private Usuario GetUserFromUserModel(UserFormModel userToRegister)
+        private async Task<Usuario> GetUserFromUserModelAsync(UserFormModel userToRegister)
         {
+            await primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             Usuario user = new Usuario();
             user.Email = user.UserName = userToRegister.Email;
             return user;
@@ -75,7 +91,8 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
          */
         public async Task<bool> StoreUserAsync(UserFormModel userToRegist, string password)
         {
-            var user = GetUserFromUserModel(userToRegist);
+            await primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
+            var user = await GetUserFromUserModelAsync(userToRegist);
             var existInDB = (await userManager.FindByEmailAsync(user.Email)) == null ? false : true;
             if(!existInDB)
             {
@@ -98,4 +115,9 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
             return await _usuarioRepository.GetAllUsersWithDetailsAsync();
         }
     }
+
+    [MetadataType(typeof(UserServiceAuthorization))]
+    public partial class UsersService { }
+
+
 }

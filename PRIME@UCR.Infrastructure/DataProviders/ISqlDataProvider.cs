@@ -11,7 +11,8 @@ namespace PRIME_UCR.Infrastructure.DataProviders
 {
     public interface ISqlDataProvider
     {
-        IDbConnection DbConnection { get; set; }
+        IDbConnection DbConnection { get; }
+        string ConnectionString { get; }
 
         // dbsets
         DbSet<CheckList> CheckList { get; set; }
