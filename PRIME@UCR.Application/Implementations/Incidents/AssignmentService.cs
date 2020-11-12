@@ -17,13 +17,13 @@ namespace PRIME_UCR.Application.Implementations.Incidents
         private readonly ITransportUnitRepository _transportUnitRepository;
         private readonly ICoordinadorTécnicoMédicoRepository _coordinatorRepo;
         private readonly IEspecialistaTécnicoMédicoRepository _specialistRepo;
-        private readonly IAssignemntRepository _assignmentRepo;
+        private readonly IAssignmentRepository _assignmentRepo;
         private readonly IIncidentRepository _incidentRepository;
 
         public AssignmentService(ITransportUnitRepository transportUnitRepository,
             ICoordinadorTécnicoMédicoRepository coordinatorRepo,
             IEspecialistaTécnicoMédicoRepository specialistRepo,
-            IAssignemntRepository assignmentRepo,
+            IAssignmentRepository assignmentRepo,
             IIncidentRepository incidentRepository)
         {
             _transportUnitRepository = transportUnitRepository;

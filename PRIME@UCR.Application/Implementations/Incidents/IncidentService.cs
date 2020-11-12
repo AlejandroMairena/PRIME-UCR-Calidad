@@ -28,7 +28,7 @@ namespace PRIME_UCR.Application.Implementations.Incidents
         private readonly ITransportUnitRepository _transportUnitRepository;
         private readonly IMedicalRecordRepository _medicalRecordRepository;
         private readonly IPersonaRepository _personRepository;
-        private readonly IAssignemntRepository _assignemntRepository;
+        private readonly IAssignmentRepository _assignmentRepository;
 
         public IncidentService(
             IIncidentRepository incidentRepository,
@@ -38,7 +38,7 @@ namespace PRIME_UCR.Application.Implementations.Incidents
             ITransportUnitRepository transportUnitRepository,
             IMedicalRecordRepository medicalRecordRepository,
             IPersonaRepository personRepository,
-            IAssignemntRepository assignemntRepository)
+            IAssignmentRepository assignmentRepository)
         {
             _incidentRepository = incidentRepository;
             _modesRepository = modesRepository;
@@ -47,7 +47,7 @@ namespace PRIME_UCR.Application.Implementations.Incidents
             _transportUnitRepository = transportUnitRepository;
             _medicalRecordRepository = medicalRecordRepository;
             _personRepository = personRepository;
-            _assignemntRepository = assignemntRepository;
+            _assignmentRepository = assignmentRepository;
         }
 
         public async Task<Incidente> GetIncidentAsync(string code)
@@ -331,7 +331,7 @@ namespace PRIME_UCR.Application.Implementations.Incidents
             {
                 pendingTasks.Add("Seleccionar coordinador");
             }
-            List<EspecialistaTécnicoMédico> teamMembers = (await _assignemntRepository.GetAssignmentsByIncidentIdAsync(incident.Codigo)).ToList();
+            List<EspecialistaTécnicoMédico> teamMembers = (await _assignmentRepository.GetAssignmentsByIncidentIdAsync(incident.Codigo)).ToList();
             if (teamMembers.Count <= 0)
             {
                 pendingTasks.Add("Seleccionar técnicos médicos");
