@@ -11,6 +11,7 @@ namespace PRIME_UCR.Application.Services.Multimedia
         public string FilePath { get; set; }
 
         public Task<bool> StoreFile(string fileName, Stream fileStream);
+        public bool StoreFile(string filePath);
 
     }
 }

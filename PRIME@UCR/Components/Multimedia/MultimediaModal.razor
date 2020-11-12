@@ -1,0 +1,27 @@
+﻿@inject IJSRuntime JS
+<!--POPUP VER-->
+<!-- The Modal -->
+@if (Show)
+{
+<div class="modal-mc">
+
+    <!-- The Close Button -->
+    <div class="close" @onclick="CloseImageView">x</div>
+
+    @if (ShowCamera)
+    {
+        <CameraComponent MultimediaModal="this"></CameraComponent>
+    }
+    @if (ShowMicrophone)
+    {
+        <MicrophoneComponent></MicrophoneComponent>
+    }
+    @if (ShowImage)
+    {
+        <img class="modal-content-image-mc">
+    }
+
+    <div id="caption"></div>
+</div>
+}
+

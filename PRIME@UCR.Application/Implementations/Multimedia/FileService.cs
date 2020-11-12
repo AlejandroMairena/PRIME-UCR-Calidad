@@ -29,5 +29,15 @@ namespace PRIME_UCR.Application.Implementations.Multimedia
             ES.EncryptFile(FilePath, fileName);
             return true;
         }
+
+        public bool StoreFile(string filePath)
+        {
+            using (var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+            {
+                // read from file
+            }
+            return false;
+        }
+
     }
 }

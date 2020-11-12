@@ -1,0 +1,26 @@
+﻿@inject IJSRuntime JS
+@inject PRIME_UCR.Application.Services.Multimedia.IFileService  fileService
+
+<div class="rt-container">
+
+    <video autoplay class="@VideoClass()" @ref=videoElement></video>
+
+    <canvas class="@CanvasClass()" @ref=canvasElement></canvas>
+
+    <img src="" class="hidden" @ref=imageElement/>
+
+    <div class="row">
+        <div class="col">
+            <button type="button" class="btn btn-primary rt-button" @onclick="HandleClick">@ButtonText()</button>
+        </div>
+        <div class="col">
+            @if (!photoTaken)
+            {
+                <button class="btn btn-primary" disabled>Guardar</button>
+            }
+            <a class="@DowloadLinkClass()" @ref=downloadLinkRef>Guardar</a>
+            
+        </div>
+    </div>
+     
+</div>

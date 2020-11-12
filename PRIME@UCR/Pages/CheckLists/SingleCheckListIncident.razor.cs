@@ -12,6 +12,7 @@ using PRIME_UCR.Domain.Models.Incidents;
 using System;
 using System.Linq;
 using MatBlazor;
+using PRIME_UCR.Application.Services.Multimedia;
 
 namespace PRIME_UCR.Pages.CheckLists
 {
@@ -58,10 +59,14 @@ namespace PRIME_UCR.Pages.CheckLists
 
         protected int itemIndex { get; set; } = 0;
 
+        protected List<List<MultimediaContent>> MyMultimediaContent { get; set; }
+        protected bool _isLoading { get; set; } = false;
+
         [Inject] protected ICheckListService MyCheckListService { get; set; }
         [Inject] protected IInstanceChecklistService MyCheckInstanceChechistService { get; set; }
         [Inject] protected IIncidentService MyIncidentService { get; set; }
         [Inject] private NavigationManager NavManager { get; set; }
+        [Inject] protected IMultimediaContentService MyMultimediaContentService { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
@@ -74,6 +79,14 @@ namespace PRIME_UCR.Pages.CheckLists
             IEnumerable<Item> tempItems = await MyCheckListService.GetItemsByCheckListId(plantillaid);
             items = tempItems.ToList();
             IEnumerable<InstanciaItem> tempInstancedItems = await MyCheckInstanceChechistService.GetItemsByIncidentCodAndCheckListId(incidentcod, plantillaid);
+            MyMultimediaContent = new List<List<MultimediaContent>>();
+            // _isLoading = new List<bool>();
+            foreach(var item in tempInstancedItems)
+            {
+                List<MultimediaContent> tempList = (await MyMultimediaContentService.GetByCheckListItem(item.ItemId, item.PlantillaId, item.IncidentCod)).ToList();
+                MyMultimediaContent.Add(tempList);
+                // _isLoading.Add(false);
+            }
             itemsInstance = tempInstancedItems.ToList();
             coreItems = await MyCheckInstanceChechistService.GetCoreItems(incidentcod, plantillaid);
             orderedList = new List<InstanciaItem>();
@@ -241,6 +254,24 @@ namespace PRIME_UCR.Pages.CheckLists
         public bool Notcomplet(InstanciaItem Item)
         {
             return !Item.Completado;
+        }
+
+        protected async Task OnFileUpload(InstanciaItem item, MultimediaContent mc)
+        {
+            //var i = _actionTypes.IndexOf(action);
+            //await MultimediaContentService.AddMultContToAction(Incident.AppointmentId, action.Nombre, mc.Id);
+            //_existingFiles[i].Add(mc);
+            _isLoading = true;
+            StateHasChanged();
+
+            MultimediaContentItem MyMultimedia = new MultimediaContentItem
+            {
+                Id_MultCont = mc.Id, Id_Item = item.ItemId, Id_Lista = item.PlantillaId, Codigo_Incidente = item.IncidentCod
+            };
+            await MyMultimediaContentService.AddMultContToCheckListItem(MyMultimedia);
+            int index = itemsInstance.FindIndex(i => i.ItemId == item.ItemId);
+            MyMultimediaContent[index].Add(mc);
+            _isLoading = false;
         }
         protected void getDate(InstanciaItem Item, ChangeEventArgs e)
         {

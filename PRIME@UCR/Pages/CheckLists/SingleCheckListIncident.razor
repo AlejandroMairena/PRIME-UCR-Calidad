@@ -93,13 +93,13 @@
                                 <tbody>
                                     <tr>
                                         <td rowspan="2" class="align-middle" style="padding-left: @style; width: 10px;">
-                                            <p style="margin:auto">⁞⁞</p>
+                                        <p style="margin:auto">⁞⁞</p>
                                         </td>
                                         <td rowspan="2" class="align-middle" style="width: 100px;">
                                             @* Displys the image of the item *@
 
                                             <div style="width: 100%; display:inline-flex;">
-                                                @if (validateEdit == false)
+                                                @if (validateEdit == true)
                                                 {
                                                     <div class="custom-control custom-checkbox" style="margin:auto">
                                                         <input type="checkbox" class="custom-control-input" disabled="@HasSubItems(itemInList)" id="customCheck @itemInList.PlantillaId" checked="@itemInList.Completado" @onchange="((ChangeEventArgs c) => CheckItem(itemInList, c))" />
@@ -113,24 +113,21 @@
                                                         <label class="custom-control-label" for="customCheck @itemInList.PlantillaId"></label>
                                                     </div>
                                                 }
-
                                                 <p>&nbsp;</p> @* to change*@
                                                 <button type="button" class="none" data-toggle="dropdown" id="BN_LC">
                                                     <img src="@items[itemIndex].ImagenDescriptiva" width="50" height="50" data-toggle="tooltip" title="Cambiar imagen" />
                                                 </button>
                                             </div>
                                         </td>
+
                                         <th class="align-middle" data-toggle="tooltip" title="@items[itemIndex].Nombre">@truncate(@items[itemIndex].Nombre, orderedListLevel[itemIndex], 1)</th>
-                                        <td rowspan="2" class="align-middle" style="width: 100px;">
-                                            @*Esto es para poner la hora*@ <p>@itemInList.FechaHoraInicio</p>
-                                        </td>
-                                            @if (!HasSubItems(itemInList))
-                                            {
-                                            <td rowspan="2" class="align-middle" align="right" style="width: 54px">
-                                                <button class="btn btn-primary"> multimedia</button>
-                                            </td>
+                                        @if (!HasSubItems(itemInList))
+                                        {
+                                    <td rowspan="2" class="align-middle" align="right" style="width: 54px">
+                                        <MultimediaContentComponent MultimediaContent="@MyMultimediaContent[tempIndex]" OnFileUpload="(MultimediaContent mc) => OnFileUpload(itemInList, mc)"></MultimediaContentComponent>
+                                    </td>
                                         }
-                                        </tr>
+                                    </tr>
                                     <tr>
                                         <td class="align-middle" title="@items[itemIndex].Descripcion">@truncate(@items[itemIndex].Descripcion, orderedListLevel[itemIndex], 2)</td>
                                     </tr>
