@@ -144,6 +144,7 @@
     <Build Include="Tables\CheckLists\InstanciaItem.sql" />
     <Build Include="Tables\CheckLists\InstanciaItemPadre.sql" />
     <Build Include="Tables\CheckLists\InstanciaItemHoja.sql" />
+    <Build Include="Tables\CheckLists\MultimediaContentItem.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Scripts\Script.PostDeployment.sql" />

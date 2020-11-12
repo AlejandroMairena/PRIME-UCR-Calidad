@@ -60,6 +60,7 @@ namespace PRIME_UCR.Infrastructure
             services.AddTransient<IMultimediaContentRepository, MultimediaContentRepository>();
             services.AddTransient<IActionRepository, ActionRepository>();
             services.AddTransient<IFileService, FileService>();
+            services.AddTransient<IMultimediaContentItemRepository, MultimediaContentItemRepository>();
 
             // user administration repositories
             services.AddTransient<IAdministradorRepository, AdministradorRepository>();
