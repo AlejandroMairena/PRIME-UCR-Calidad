@@ -21,7 +21,7 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
             mailSettings = _mailSettings.Value;
         }
 
-        public async Task SendEmail(EmailContentModel emailContent)
+        public async Task SendEmailAsync(EmailContentModel emailContent)
         {
             var email = new MimeMessage();
             email.Sender = MailboxAddress.Parse(mailSettings.Mail);

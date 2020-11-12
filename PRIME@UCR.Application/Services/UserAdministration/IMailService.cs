@@ -8,6 +8,6 @@ namespace PRIME_UCR.Application.Services.UserAdministration
 {
     public interface IMailService
     {
-        Task SendEmail(EmailContentModel emailContent);
+        Task SendEmailAsync(EmailContentModel emailContent);
     }
 }

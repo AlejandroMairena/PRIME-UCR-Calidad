@@ -47,7 +47,8 @@ namespace PRIME_UCR
             });
             
             services.AddIdentity<Usuario, IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
             
             services.AddBlazoredSessionStorage();
             services.AddScoped<AuthenticationStateProvider,CustomAuthenticationStateProvider>();
