@@ -8,16 +8,6 @@
 
 
 <div class="jumbotron white-panel">
-    @if (medic_status == 1)
-    {
-        <StatusMessage Message="Ingrese una cedula de un funcionario valida" Class="warning"></StatusMessage>
-    }
-
-    @if (medic_status == 2)
-    {
-        <StatusMessage Message="Cedula de funcionario correcta" Class="warning"></StatusMessage>
-    }
-
     <Loading IsLoading="is_loading">
 
         @if (RecordModel.Paciente != null && !record_inserted)
@@ -70,9 +60,19 @@
                     <EditForm EditContext="RecordContext">
                         <FluentValidationValidator />
 
+                        @if (medic_status == 1)
+                        {
+                            <StatusMessage Message="Ingrese una cedula de un funcionario valida" Class="warning"></StatusMessage>
+                        }
+
+                        @if (medic_status == 2)
+                        {
+                            <StatusMessage Message="Cedula de funcionario correcta" Class="warning"></StatusMessage>
+                        }
+
                         @if (RecordModel?.Expediente.CedulaMedicoDuenno == null)
                         {
-                            <TextBox Label="Cédula médico creador" ValueExpression="() => RecordModel.CedMedicoDuenno" ValueChanged="(string id) => SetMedicCed(id)" />
+                            <TextBox Label="Cédula médico creador" ValueExpression="() => record.CedulaMedicoDuenno" ValueChanged="(string id) => SetMedicCed(id)" />
                         }
                         else
                         {
@@ -376,6 +376,7 @@
                     }
                     else
                     {
+                        RecordModel.CedMedicoDuenno = null; 
                         medic_status = 1;
                     }
                 }
