@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 using PRIME_UCR.Application.Services.CheckLists;
 using PRIME_UCR.Components.CheckLists;
 using Microsoft.AspNetCore.Components.Forms;
+using PRIME_UCR.Application.Services.Incidents;
 using PRIME_UCR.Domain.Models.CheckLists;
+using PRIME_UCR.Domain.Models.Incidents;
 using System;
 using System.Linq;
 using MatBlazor;
@@ -19,14 +21,20 @@ namespace PRIME_UCR.Pages.CheckLists
         public SingleCheckListIncidentBase()
         {
             not_complete = true;
-        }
-        [Parameter]
+            validateEdit = false;
+            stateInstanceList= "Pendiente";
+
+         }
+    [Parameter]
         public int id { get; set; }
         [Parameter]
         public int plantillaid { get; set; }
         [Parameter]
         public string incidentcod { get; set; }
+        public Estado state { get; set; }
 
+        public bool validateEdit;
+        public string stateInstanceList;
         private bool isDisabled { get; set; } = true;//not need
 
         protected bool createItem { get; set; } = false;// not neet
@@ -56,6 +64,7 @@ namespace PRIME_UCR.Pages.CheckLists
 
         [Inject] protected ICheckListService MyCheckListService { get; set; }
         [Inject] protected IInstanceChecklistService MyCheckInstanceChechistService { get; set; }
+        [Inject] protected IIncidentService MyIncidentService { get; set; }
         [Inject] private NavigationManager NavManager { get; set; }
         [Inject] protected IMultimediaContentService MyMultimediaContentService { get; set; }
 
@@ -86,6 +95,8 @@ namespace PRIME_UCR.Pages.CheckLists
             {
                 GenerateOrderedList(item, 0);
             }
+            state = await MyIncidentService.GetIncidentStateByIdAsync(incidentcod);
+            updateState();
         }
 
         protected override async Task OnParametersSetAsync()
@@ -96,6 +107,33 @@ namespace PRIME_UCR.Pages.CheckLists
         {
             await MyCheckInstanceChechistService.UpdateInstanceChecklist(insanceLC);
             await RefreshModels();
+
+        }
+        /*
+         * ALL states if incident
+             ('En proceso de creación'),
+            ('Creado'),
+            ('Rechazado'),
+            ('Aceptado'),
+            ('Asignado'),
+            ('En preparación'),
+            ('En ruta a origen'),
+            ('Paciente recolectado en origen'),
+            ('En traslado'),
+            ('Entregado'),
+            ('Reactivación'),
+            ('Finalizado')
+        */
+        public void updateState()
+        {
+            if (state.Nombre == "Asignado" || state.Nombre == "En preparación" || state.Nombre == "En ruta a origen" || state.Nombre == "Paciente recolectado en origen" || state.Nombre == "En traslado" || state.Nombre == "Reactivación")
+            {
+                validateEdit = true;
+            }
+            else
+            { //the state is: "En proceso de creación" || "Creado" || "Rechazdo" || "Aceptado" || "Finalizado" 
+                validateEdit = false;
+            }
         }
         public async Task GetName(int id)
         {
@@ -189,6 +227,21 @@ namespace PRIME_UCR.Pages.CheckLists
         {
             IncidentURL += incidentcod;
             NavManager.NavigateTo($"{IncidentURL}");
+        }
+
+        protected void CheckItem(InstanciaItem itemIn, ChangeEventArgs e)
+        {
+             itemIn.Completado = (bool)e.Value;
+             // metodo //MyCheckInstanceChechistService.UpdateItem(itemIn);
+             //count += (bool)e.Value ? 1 : -1;
+        }
+
+        //metodo para actualizar estado de la lista de cheuqueo 
+        //unpdate
+        // {"Pendiente","En progreso","Completada"};
+        public bool Notcomplet(InstanciaItem Item)
+        {
+            return !Item.Completado;
         }
 
         protected async Task OnFileUpload(InstanciaItem item, MultimediaContent mc)

@@ -25,6 +25,7 @@ namespace PRIME_UCR.Infrastructure.DataProviders.Implementations
         public string ConnectionString => _configuration.GetConnectionString("DevelopmentDbConnection");
         
         public DbSet<CheckList> CheckList { get; set; }
+        public DbSet<TipoListaChequeo> CheckListTypes { get; set; }
         public DbSet<Item> Item { get; set; }
         public DbSet<InstanceChecklist> InstanceChecklist { get; set; }
         public DbSet<InstanciaItem> InstanciaItems { get; set; }
@@ -78,6 +79,7 @@ namespace PRIME_UCR.Infrastructure.DataProviders.Implementations
 
             builder.ApplyConfiguration(new CheckListMap());
             builder.ApplyConfiguration(new ItemMap());
+            builder.ApplyConfiguration(new TipoListaChequeoMap());
             builder.ApplyConfiguration(new InstanceChecklistMap());
             builder.ApplyConfiguration(new InstanciaItemMap());
             builder.ApplyConfiguration(new InstanciaItemPadreMap());

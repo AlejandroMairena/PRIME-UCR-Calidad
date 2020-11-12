@@ -16,7 +16,7 @@
     {
         <div class="row">
             <div class="col-lg-3 mb-4">
-                <CheckListMenuIncident insidentcod=@incidentcod />
+                <CheckListMenuIncident incidentcod=@incidentcod />
             </div>
             <div class="col">
                 <div class="container" id="contAll_LC" style="background:white;">
@@ -58,65 +58,82 @@
                         <p> @list.Id </p>
                     </span>
                 </div>
-
-
                 </p>
             </div>
-            <p>Lista Completada: </p>
-            <br />
-            <br />
+                   <p>
+                       Lista Completada: @stateInstanceList <br /> @*to change*@
+                       Fecha-hora de inicio: xx/xx/xx __:__:__ xm
+                       Fecha-hora de finalizada:  xx/xx/xx __:__:__ xm <br />
+                       Duración: xx días xx horas xx minutos
+                   </p>
             <h5> Items de la lista de chequeo</h5>
             <div id="Body_LC">
-                @*<Loading IsLoading="_isLoading">*@
-                    @if (items == null)
+                @if (items == null)
+                {
+                    <p>Cargando items.</p>
+                }
+                else
+                {
+                    if (items.Count() == 0)
                     {
-                        <p>Cargando items.</p>
+                        <p>No se ha creado ningún item para esta lista de chequeo en este incidente.</p>
                     }
                     else
                     {
-                        if (items.Count() == 0)
+                        @for (int tempIndex = 0; tempIndex < orderedList.Count(); tempIndex++)
                         {
-                            <p>No se ha creado ningún item para esta lista de chequeo en este incidente.</p>
+                            PRIME_UCR.Domain.Models.CheckLists.InstanciaItem itemInList = orderedList[tempIndex];
+                            string style = orderedListLevel[tempIndex] * 2 + "em";
+                            itemIndex = GetItemIndex(itemInList);
+                            <table class="table">
+                                @* Contains information about every item in this checklist *@
+                                <tbody>
+                                    <tr>
+                                        <td rowspan="2" class="align-middle" style="padding-left: @style; width: 10px;">
+                                        <p style="margin:auto">⁞⁞</p>
+                                        </td>
+                                        <td rowspan="2" class="align-middle" style="width: 100px;">
+                                            @* Displys the image of the item *@
+
+                                            <div style="width: 100%; display:inline-flex;">
+                                                @if (validateEdit == true)
+                                                {
+                                                    <div class="custom-control custom-checkbox" style="margin:auto">
+                                                        <input type="checkbox" class="custom-control-input" disabled="@HasSubItems(itemInList)" id="customCheck @itemInList.PlantillaId" checked="@itemInList.Completado" @onchange="((ChangeEventArgs c) => CheckItem(itemInList, c))" />
+                                                        <label class="custom-control-label" for="customCheck @itemInList.PlantillaId"></label>
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    <div class="custom-control custom-checkbox" style="margin:auto">
+                                                        <input type="checkbox" class="custom-control-input" disabled="@true" id="customCheck @itemInList.PlantillaId" checked="@itemInList.Completado" />
+                                                        <label class="custom-control-label" for="customCheck @itemInList.PlantillaId"></label>
+                                                    </div>
+                                                }
+                                                <p>&nbsp;</p> @* to change*@
+                                                <button type="button" class="none" data-toggle="dropdown" id="BN_LC">
+                                                    <img src="@items[itemIndex].ImagenDescriptiva" width="50" height="50" data-toggle="tooltip" title="Cambiar imagen" />
+                                                </button>
+                                            </div>
+                                        </td>
+
+                                        <th class="align-middle" data-toggle="tooltip" title="@items[itemIndex].Nombre">@truncate(@items[itemIndex].Nombre, orderedListLevel[itemIndex], 1)</th>
+                                        @if (!HasSubItems(itemInList))
+                                        {
+                                    <td rowspan="2" class="align-middle" align="right" style="width: 54px">
+                                        <MultimediaContentComponent MultimediaContent="@MyMultimediaContent[tempIndex]" OnFileUpload="(MultimediaContent mc) => OnFileUpload(itemInList, mc)"></MultimediaContentComponent>
+                                    </td>
+                                        }
+                                    </tr>
+                                    <tr>
+                                        <td class="align-middle" title="@items[itemIndex].Descripcion">@truncate(@items[itemIndex].Descripcion, orderedListLevel[itemIndex], 2)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         }
-                        else
-                        {
-                            @for (int tempIndex = 0; tempIndex < orderedList.Count(); tempIndex++)
-                            {
-                                PRIME_UCR.Domain.Models.CheckLists.InstanciaItem itemInList = orderedList[tempIndex];
-                                string style = orderedListLevel[tempIndex] * 2 + "em";
-                                itemIndex = GetItemIndex(itemInList);
-                                <table class="table">
-                                    @* Contains information about every item in this checklist *@
-                                    <tbody>
-                                        <tr>
-                                            <td rowspan="2" class="align-middle" style="padding-left: @style; width: 10px;"><input type="checkbox">@*checked="checked"*@</td>
-                                            <td rowspan="2" class="align-middle" style="width: 100px;">
-                                                @* Displys the image of the item *@
-
-                                                <div style="width: 100%; display:inline-flex;">
-                                                    <p style="margin:auto">⁞⁞</p>
-                                                    <button type="button" class="none" data-toggle="dropdown" id="BN_LC">
-                                                        <img src="@items[itemIndex].ImagenDescriptiva" width="50" height="50" data-toggle="tooltip" title="Cambiar imagen" />
-                                                    </button>
-                                                </div>
-                                            </td>
-
-                                            <th class="align-middle" data-toggle="tooltip" title="@items[itemIndex].Nombre">@truncate(@items[itemIndex].Nombre, orderedListLevel[itemIndex], 1)</th>
-                                            <td rowspan="2" class="align-middle" align="right" style="width: 54px">
-                                                <MultimediaContentComponent MultimediaContent="@MyMultimediaContent[tempIndex]" OnFileUpload="(MultimediaContent mc) => OnFileUpload(itemInList, mc)"></MultimediaContentComponent>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="align-middle" title="@items[itemIndex].Descripcion">@truncate(@items[itemIndex].Descripcion, orderedListLevel[itemIndex], 2)</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            }
-                        }
-
                     }
-                @*</Loading>*@
 
+                }
             </div>
         </div>
         </div>
