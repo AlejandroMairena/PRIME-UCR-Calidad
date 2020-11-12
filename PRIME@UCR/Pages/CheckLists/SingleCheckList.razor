@@ -2,7 +2,8 @@
 @inherits SingleCheckListBase
 @using PRIME_UCR.Application.DTOs.UserAdministration;
 @using PRIME_UCR.Application.Implementations.UserAdministration;
-@attribute [HasPermission(AuthorizationPermissions.CanCreateCheckList)]
+@using PRIME_UCR.Domain.Constants
+@attribute [HasPermission(AuthorizationPermissions.CanCreateChecklist)]
 <link href="css/Checklist.css" rel="stylesheet" />
 
 <h3>Plantillas de listas de chequeo</h3>
@@ -13,7 +14,7 @@
 else
 {
     <div class="row">
-        <CheckListMenu Lists="lists"/>
+        <CheckListMenu Lists="lists" />
         <div class="col">
             @* Contains editable information about this checklist *@
             <div class="container" id="contAll_LC" style="background: white;">
@@ -53,9 +54,9 @@ else
                             <div class="col-sm-4">
                                 <InputSelect @bind-Value="editedList.Tipo" class="custom-select ">
                                     @for (int index = 0; index < _types.Count(); index++)
-                                    {
-                                    <option value="@_types[index]">@_types[index]</option>
-                                    }
+                                        {
+                                        <option value="@_types[index]">@_types[index]</option>
+                                        }
                                 </InputSelect>
 
                             </div>
@@ -75,9 +76,10 @@ else
                             @if (formInvalid)
                             {
                                 <button type="submit" class="btn btn-primary">Guardar cambios</button> }
-                            else {
+                            else
+                            {
                                 <button type="submit" class="btn btn-secondary" disabled>Guardar cambios</button>
-                             }
+                            }
                             <a class="btn btn-outline-secondary" @onclick="Dispose" id="a_LC3">Cancelar</a>
                         </div>
                     </div>
@@ -88,82 +90,82 @@ else
                 <div id="Body_LC">
                     @if (items == null)
                     {
-                <p>Cargando items.</p> }
-            else
-            {
-                if (items.Count() == 0)
-                {
-                <p>No se ha creado ningún item para esta lista de chequeo. Presione el botón de crear item para agregarle un item.</p> }
-            else
-            {
-                @for (int itemIndex = 0; itemIndex < orderedList.Count(); itemIndex++)
-                {
-                    PRIME_UCR.Domain.Models.CheckLists.Item itemInList = orderedList[itemIndex];
-                    string style = orderedListLevel[itemIndex] * 2 + "em";
-                    <table class="table">
-                        @* Contains information about every item in this checklist *@
-                        <tbody>
-                            <tr>
-                                <td rowspan="2" class="align-middle" style="padding-left: @style; width: 100px;">
-                                    @* Displys the image of the item *@
-
-                                    <div style="width: 100%; display:inline-flex;">
-                                        <p style="margin:auto">⁞⁞</p>
-                                        <button type="button" class="none" data-toggle="dropdown" id="BN_LC">
-                                            <img src="@itemInList.ImagenDescriptiva" width="50" height="50" data-toggle="tooltip" title="Cambiar imagen" />
-                                        </button>
-
-                                        @* Drop zone for the image of the item, displyed in a dropdown menu for the item image *@
-                                        <ul class="dropdown-menu customLoadImage" role="menu">
-                                            <li><LoadImageComponent @bind-item="itemsList[getItemIndex(itemInList)]" update="update" /></li>
-                                        </ul>
-                                    </div>
-                                </td>
-
-                                <th class="align-middle"  data-toggle="tooltip" title="@itemInList.Nombre">@truncate(itemInList.Nombre, orderedListLevel[itemIndex], 1)</th>
-                                <td rowspan="2" class="align-middle" align="right" style="width: 54px">
-                                    @* Drop down button to show additional options *@
-                                    <button type="button" class="btn btn-default " data-toggle="dropdown">
-                                        ⋮<span class="caret"></span>
-                                        <span class="sr-only">Desplegar menú</span>
-                                    </button>
-                                    @* Button to create a new sub item *@
-                                    <ul class="dropdown-menu" role="menu">
-                                        <li><button class="dropdown-item" @onclick="() => CreateSubItem(itemInList.Id)">Agregar Subítem</button></li>
-                                        <li><button class="dropdown-item" @onclick="() => EditItem(itemInList.Id)">Editar ítem</button></li>
-                                    </ul>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="align-middle"  title="@itemInList.Descripcion">@truncate(itemInList.Descripcion, orderedListLevel[itemIndex], 2)</td>
-                            </tr>
-                            @if (createSubItem == true && parentItemId == itemInList.Id)
+                        <p>Cargando items.</p> }
+                    else
+                    {
+                        if (items.Count() == 0)
+                        {
+                            <p>No se ha creado ningún item para esta lista de chequeo. Presione el botón de crear item para agregarle un item.</p> }
+                        else
+                        {
+                            @for (int itemIndex = 0; itemIndex < orderedList.Count(); itemIndex++)
                             {
-                                <tr>
-                                    <td colspan="4">
-                                        <CreateItem @bind-item="tempItem" creating="createSubItem" OnCreatingChanged="creatingFinished">Crear SubItem</CreateItem>
-                                    </td>
-                                </tr>
+                                PRIME_UCR.Domain.Models.CheckLists.Item itemInList = orderedList[itemIndex];
+                                string style = orderedListLevel[itemIndex] * 2 + "em";
+                                <table class="table">
+                                    @* Contains information about every item in this checklist *@
+                                    <tbody>
+                                        <tr>
+                                            <td rowspan="2" class="align-middle" style="padding-left: @style; width: 100px;">
+                                                @* Displys the image of the item *@
+
+                                                <div style="width: 100%; display:inline-flex;">
+                                                    <p style="margin:auto">⁞⁞</p>
+                                                    <button type="button" class="none" data-toggle="dropdown" id="BN_LC">
+                                                        <img src="@itemInList.ImagenDescriptiva" width="50" height="50" data-toggle="tooltip" title="Cambiar imagen" />
+                                                    </button>
+
+                                                    @* Drop zone for the image of the item, displyed in a dropdown menu for the item image *@
+                                                    <ul class="dropdown-menu customLoadImage" role="menu">
+                                                        <li><LoadImageComponent @bind-item="itemsList[getItemIndex(itemInList)]" update="update" /></li>
+                                                    </ul>
+                                                </div>
+                                            </td>
+
+                                            <th class="align-middle" data-toggle="tooltip" title="@itemInList.Nombre">@truncate(itemInList.Nombre, orderedListLevel[itemIndex], 1)</th>
+                                            <td rowspan="2" class="align-middle" align="right" style="width: 54px">
+                                                @* Drop down button to show additional options *@
+                                                <button type="button" class="btn btn-default " data-toggle="dropdown">
+                                                    ⋮<span class="caret"></span>
+                                                    <span class="sr-only">Desplegar menú</span>
+                                                </button>
+                                                @* Button to create a new sub item *@
+                                                <ul class="dropdown-menu" role="menu">
+                                                    <li><button class="dropdown-item" @onclick="() => CreateSubItem(itemInList.Id)">Agregar Subítem</button></li>
+                                                    <li><button class="dropdown-item" @onclick="() => EditItem(itemInList.Id)">Editar ítem</button></li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="align-middle" title="@itemInList.Descripcion">@truncate(itemInList.Descripcion, orderedListLevel[itemIndex], 2)</td>
+                                        </tr>
+                                        @if (createSubItem == true && parentItemId == itemInList.Id)
+                                        {
+                                            <tr>
+                                                <td colspan="4">
+                                                    <CreateItem @bind-item="tempItem" creating="createSubItem" OnCreatingChanged="creatingFinished">Crear SubItem</CreateItem>
+                                                </td>
+                                            </tr>
+                                        }
+                                        @if (editItem == true && parentItemId == itemInList.Id)
+                                        {
+                                            <tr>
+                                                <td colspan="4">
+                                                    <EditItem @bind-item="tempItem" editing="editItem" OnEditingChanged="editingFinished">Editar Item</EditItem>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
                             }
-                            @if (editItem == true && parentItemId == itemInList.Id)
-                            {
-                                <tr>
-                                    <td colspan="4">
-                                        <EditItem @bind-item="tempItem" editing="editItem" OnEditingChanged="editingFinished">Editar Item</EditItem>
-                                    </td>
-                                </tr>
-}
-                        </tbody>
-                    </table>
+                        }
                     }
-                                    }
-                                }
                     <hr />
                     @if (createItem == false)
                     {@* Button to create a new item *@
-                                        <button class="btn btn-primary" @onclick="StartNewItemCreation" id="BP_LC6">+</button><a>Crear ítem</a> }
-                                    else
-                                    {
+                    <button class="btn btn-primary" @onclick="StartNewItemCreation" id="BP_LC6">+</button><a>Crear ítem</a> }
+                else
+                {
                     <CreateItem @bind-item="tempItem" creating="createItem" OnCreatingChanged="creatingFinished">Crear Item</CreateItem>}
                 </div>
             </div>

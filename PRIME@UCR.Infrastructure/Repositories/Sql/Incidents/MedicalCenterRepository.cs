@@ -2,14 +2,16 @@
 using PRIME_UCR.Domain.Models;
 using PRIME_UCR.Infrastructure.DataProviders;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using PRIME_UCR.Domain.Models.UserAdministration;
+using RepoDb;
 
 namespace PRIME_UCR.Infrastructure.Repositories.Sql.Incidents
 {
-    public class MedicalCenterRepository : GenericRepository<CentroMedico, int>, IMedicalCenterRepository
+    public class MedicalCenterRepository : RepoDbRepository<CentroMedico, int>, IMedicalCenterRepository
     {
         public MedicalCenterRepository(ISqlDataProvider dataProvider) : base(dataProvider)
         {
@@ -17,12 +19,19 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Incidents
 
         public async Task<IEnumerable<Médico>> GetDoctorsByMedicalCenterId(int id)
         {
-            return await _db.WorksOn
-                .AsNoTracking()
-                .Include(w => w.Médico)
-                .Where(w => w.CentroMedicoId == id)
-                .Select(w => w.Médico)
-                .ToListAsync();
+            using (var connection = new SqlConnection(_db.ConnectionString))
+            {
+                return await connection.ExecuteQueryAsync<Médico>(
+                    @"
+                    select P.*
+                    from Trabaja_En
+                    join Médico M on Trabaja_En.CédulaMédico = M.Cédula
+                    join Funcionario F on M.Cédula = F.Cédula
+                    join Persona P on F.Cédula = P.Cédula
+                    where Trabaja_En.CentroMedicoId = @Id",
+                    new {Id = id}
+                );
+            }
         }
     }
 }

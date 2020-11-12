@@ -8,7 +8,7 @@ using PRIME_UCR.Infrastructure.DataProviders;
 
 namespace PRIME_UCR.Infrastructure.Repositories.Sql.Incidents
 {
-    public class DistrictRepository : GenericRepository<Distrito, int>, IDistrictRepository
+    public class DistrictRepository : RepoDbRepository<Distrito, int>, IDistrictRepository
     {
         public DistrictRepository(ISqlDataProvider dataProvider) : base(dataProvider)
         {
