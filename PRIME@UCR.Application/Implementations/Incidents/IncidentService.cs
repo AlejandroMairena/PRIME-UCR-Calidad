@@ -267,6 +267,12 @@ namespace PRIME_UCR.Application.Implementations.Incidents
             return nextState;
         }
 
+        /*
+        * Function: Will find the pending tasks in order to change incident's state. Will redirect to the specific method to do so.
+        * @ParamS: A DTO with the incident's current state.
+        *          A string with the next incident's state.
+        * @Return: A list with all pending tasks needed to advace to next state.
+        * */
         public async Task<List<string>> GetPendingTasksAsync(IncidentDetailsModel model, string nextState)
         {
             List<string> pendingTasks = new List<string>();
@@ -276,11 +282,10 @@ namespace PRIME_UCR.Application.Implementations.Incidents
             }
             else if(nextState == IncidentStates.Rejected.Nombre)
             {
-
             }
             else if (nextState == IncidentStates.Approved.Nombre)
             {
-
+                pendingTasks = GetApprovedStatePendingTasks(model);
             }
             else if (nextState == IncidentStates.Assigned.Nombre)
             {
@@ -335,6 +340,24 @@ namespace PRIME_UCR.Application.Implementations.Incidents
             if (teamMembers.Count <= 0)
             {
                 pendingTasks.Add("Seleccionar técnicos médicos");
+            }
+            return pendingTasks;
+        }
+        /*
+        * Function: Checks for pending tasks needed to advance to "Approved" state. The only task is to wait for revision.
+        * @Param: A DTO with the incident's current state
+        * @Return: A list with all pending tasks needed to advace to "Approved" state.
+        * */
+        public List<string> GetApprovedStatePendingTasks(IncidentDetailsModel model)
+        {
+            List<string> pendingTasks = new List<string>();
+            if (model.CurrentState == IncidentStates.Created.Nombre)
+            {
+                pendingTasks.Add("Esperando revisión");
+            }
+            else   //When its rejected.     
+            {
+                pendingTasks.Add("Esperando una nueva revisión");
             }
             return pendingTasks;
         }

@@ -23,5 +23,6 @@ namespace PRIME_UCR.Application.Services.Incidents
         public Task<List<string>> GetPendingTasksAsync(IncidentDetailsModel model, string nexState);
         public List<string> GetCreatedStatePendingTasks(IncidentDetailsModel model);
         public Task<List<string>> GetAssignedStatePendingTasks(IncidentDetailsModel model);
+        public List<string> GetApprovedStatePendingTasks(IncidentDetailsModel model);
     }
 }

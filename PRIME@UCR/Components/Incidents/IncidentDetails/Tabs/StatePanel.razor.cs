@@ -38,7 +38,7 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
             Tuple.Create(IncidentStates.InCreationProcess.Nombre ,"Iniciado"),
             Tuple.Create(IncidentStates.Created.Nombre,"Creado"),
             Tuple.Create(IncidentStates.Rejected.Nombre, "Rechazado"),
-            Tuple.Create(IncidentStates.Approved.Nombre, "Aceptado"),
+            Tuple.Create(IncidentStates.Approved.Nombre, "Aprobado"),
             Tuple.Create(IncidentStates.Assigned.Nombre, "Asignado"),
             Tuple.Create(IncidentStates.Preparing.Nombre, "Preparación"),
             Tuple.Create(IncidentStates.InOriginRoute.Nombre, "Hacia origen"),
@@ -54,8 +54,6 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
             currentStateIndex = IncidentStatesList.FindIndex(i => i.Item1 == Incident.CurrentState);
             nextState = (await IncidentService.GetNextIncidentState(Incident.Code)).ToString();
             PendingTasks = await IncidentService.GetPendingTasksAsync(Incident, nextState);
-            //PendingTasks.Add("Prueba1");
-            //PendingTasks.Add("Test ");
         }
 
         public string setStateColor(int index)

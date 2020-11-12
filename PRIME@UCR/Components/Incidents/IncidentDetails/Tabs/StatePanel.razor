@@ -23,9 +23,21 @@
         <thead>
             <tr>
                 <th scope="col">Siguiente estado</th>
+
                 @if (PendingTasks.Count > 0)
                 {
-                    <th scope="col">Pendiente <span class="badge badge-primary badge-pill badge-text">!</span> </th>
+                    @if (Incident.CurrentState == IncidentStates.Rejected.Nombre || Incident.CurrentState == IncidentStates.Created.Nombre)
+                    {
+                        <th scope="col">Pendiente 
+                            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-clock-fill clock-state" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z" />
+                            </svg> 
+                        </th>
+                    }
+                    else
+                    {
+                        <th scope="col">Pendiente <span class="badge badge-primary badge-pill badge-text">!</span> </th>
+                    }
                 }
                 else
                 {
@@ -60,11 +72,11 @@
     <div class="text-center">
         @if (PendingTasks.Count > 0)
         {
-            <button disabled type="submit" class="btn btn-primary">Siguiente estado</button>
+            <button disabled type="submit" class="btn btn-primary">Cambiar a estado @nextState</button>
         }
         else
         {
-            <button type="submit" class="btn btn-primary">Siguiente estado</button>
+            <button type="submit" class="btn btn-primary">Cambiar a estado @nextState</button>
         }
     </div>
 }
