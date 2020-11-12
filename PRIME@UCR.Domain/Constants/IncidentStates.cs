@@ -16,7 +16,7 @@ namespace PRIME_UCR.Domain.Constants
         public static readonly Estado PatientInOrigin = new Estado { Nombre = "Paciente recolectado en origen" };
         public static readonly Estado InRoute = new Estado { Nombre = "En traslado" };
         public static readonly Estado Delivered = new Estado { Nombre = "Entregado" };
-        public static readonly Estado Reactivated = new Estado { Nombre = "Reactivado" };
+        public static readonly Estado Reactivated = new Estado { Nombre = "Reactivación" };
         public static readonly Estado Done = new Estado { Nombre = "Finalizado" };
         public static readonly List<Estado> IncidentStatesList = new List<Estado>{
             InCreationProcess,

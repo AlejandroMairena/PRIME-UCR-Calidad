@@ -43,6 +43,8 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
         private int currentStateIndex;
         MatButton Button2;
         BaseMatMenu Menu2;
+        private bool _isLoading = true;
+
         public List<Tuple<string, string>> IncidentStatesList = new List<Tuple<string, string>> {
             Tuple.Create(IncidentStates.InCreationProcess.Nombre ,"Iniciado"),
             Tuple.Create(IncidentStates.Created.Nombre,"Creado"),
@@ -54,15 +56,23 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
             Tuple.Create(IncidentStates.PatientInOrigin.Nombre, "Colecta"),
             Tuple.Create(IncidentStates.InRoute.Nombre, "Traslado"),
             Tuple.Create(IncidentStates.Delivered.Nombre, "Entregado"),
-            Tuple.Create(IncidentStates.Reactivated.Nombre, "Reactivado"),
+            Tuple.Create(IncidentStates.Reactivated.Nombre, "Reactivación"),
             Tuple.Create(IncidentStates.Done.Nombre, "Finalizado")
         };
 
         protected override async Task OnInitializedAsync()
         {
+            await LoadValues();
+        }
+
+        public async Task LoadValues()
+        {
+            _isLoading = true;
+            StateHasChanged();
             currentStateIndex = IncidentStatesList.FindIndex(i => i.Item1 == Incident.CurrentState);
             nextState = (await IncidentService.GetNextIncidentState(Incident.Code)).ToString();
             PendingTasks = await IncidentService.GetPendingTasksAsync(Incident, nextState);
+            _isLoading = false;
         }
 
         public string setStateColor(int index)
@@ -98,6 +108,7 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
             await IncidentService
                 .ApproveIncidentAsync(Incident.Code, CurrentUser.Cédula);
             await OnSave.InvokeAsync(null);
+            await LoadValues();
         }
 
         private async Task Reject()
@@ -105,12 +116,14 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
             await IncidentService
                 .RejectIncidentAsync(Incident.Code, CurrentUser.Cédula);
             await OnSave.InvokeAsync(null);
+            await LoadValues();
         }
 
         private async Task ChangeState()
         {
             await IncidentService.ChangeState(Incident.Code, nextState);
             await OnSave.InvokeAsync(null);
+            await LoadValues();
         }
     }
 }
