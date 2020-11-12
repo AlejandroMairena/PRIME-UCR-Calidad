@@ -60,12 +60,15 @@
                 </div>
                 </p>
             </div>
-                   <p>
-                       Lista Completada: @stateInstanceList <br /> @*to change*@
-                       Fecha-hora de inicio: xx/xx/xx __:__:__ xm
-                       Fecha-hora de finalizada:  xx/xx/xx __:__:__ xm <br />
-                       Duración: xx días xx horas xx minutos
-                   </p>
+            <p>
+                Lista Completada: @stateInstanceList <br /> @*to change*@
+                <br />
+                Fecha-hora de inicio: @itemsInstance.First().FechaHoraInicio;
+                <br />
+                Fecha-hora de finalizada:  xx/xx/xx __:__:__ xm <br />
+                <br />
+                Duración: xx días xx horas xx minutos
+            </p>
             <h5> Items de la lista de chequeo</h5>
             <div id="Body_LC">
                 @if (items == null)
@@ -90,13 +93,13 @@
                                 <tbody>
                                     <tr>
                                         <td rowspan="2" class="align-middle" style="padding-left: @style; width: 10px;">
-                                        <p style="margin:auto">⁞⁞</p>
+                                            <p style="margin:auto">⁞⁞</p>
                                         </td>
                                         <td rowspan="2" class="align-middle" style="width: 100px;">
                                             @* Displys the image of the item *@
 
                                             <div style="width: 100%; display:inline-flex;">
-                                                @if (validateEdit == true)
+                                                @if (validateEdit == false)
                                                 {
                                                     <div class="custom-control custom-checkbox" style="margin:auto">
                                                         <input type="checkbox" class="custom-control-input" disabled="@HasSubItems(itemInList)" id="customCheck @itemInList.PlantillaId" checked="@itemInList.Completado" @onchange="((ChangeEventArgs c) => CheckItem(itemInList, c))" />
@@ -110,21 +113,24 @@
                                                         <label class="custom-control-label" for="customCheck @itemInList.PlantillaId"></label>
                                                     </div>
                                                 }
+
                                                 <p>&nbsp;</p> @* to change*@
                                                 <button type="button" class="none" data-toggle="dropdown" id="BN_LC">
                                                     <img src="@items[itemIndex].ImagenDescriptiva" width="50" height="50" data-toggle="tooltip" title="Cambiar imagen" />
                                                 </button>
                                             </div>
                                         </td>
-
                                         <th class="align-middle" data-toggle="tooltip" title="@items[itemIndex].Nombre">@truncate(@items[itemIndex].Nombre, orderedListLevel[itemIndex], 1)</th>
-                                        @if (!HasSubItems(itemInList))
-                                        {
-                                        <td rowspan="2" class="align-middle" align="right" style="width: 54px">
-                                            <button class="btn btn-primary"> multimedia</button>
+                                        <td rowspan="2" class="align-middle" style="width: 100px;">
+                                            @*Esto es para poner la hora*@ <p>@itemInList.FechaHoraInicio</p>
                                         </td>
+                                            @if (!HasSubItems(itemInList))
+                                            {
+                                            <td rowspan="2" class="align-middle" align="right" style="width: 54px">
+                                                <button class="btn btn-primary"> multimedia</button>
+                                            </td>
                                         }
-                                    </tr>
+                                        </tr>
                                     <tr>
                                         <td class="align-middle" title="@items[itemIndex].Descripcion">@truncate(@items[itemIndex].Descripcion, orderedListLevel[itemIndex], 2)</td>
                                     </tr>

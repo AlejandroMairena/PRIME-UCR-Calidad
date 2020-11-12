@@ -139,6 +139,7 @@ namespace PRIME_UCR.Pages.CheckLists
 
             list = await MyCheckListService.GetById(id);
 
+
         }
         public string GetName2(int id)
         {
@@ -219,9 +220,20 @@ namespace PRIME_UCR.Pages.CheckLists
         protected void CheckItem(InstanciaItem itemIn, ChangeEventArgs e)
         {
              itemIn.Completado = (bool)e.Value;
-             // metodo //MyCheckInstanceChechistService.UpdateItem(itemIn);
-             //count += (bool)e.Value ? 1 : -1;
+            // metodo //MyCheckInstanceChechistService.UpdateItem(itemIn);
+            //count += (bool)e.Value ? 1 : -1;
+            getDate(itemIn, e);
+            
+            MyCheckInstanceChechistService.UpdateItemInstance(itemIn);
+            RefreshModels();
         }
+
+        ///Borrar
+        // protected async Task updateItemInstance(InstanciaItem item) {
+        //     await MyCheckInstanceChechistService.UpdateItemInstance(item);
+        //     await RefreshModels();
+        // }
+        //
 
         //metodo para actualizar estado de la lista de cheuqueo 
         //unpdate
@@ -229,6 +241,19 @@ namespace PRIME_UCR.Pages.CheckLists
         public bool Notcomplet(InstanciaItem Item)
         {
             return !Item.Completado;
+        }
+        protected void getDate(InstanciaItem Item, ChangeEventArgs e)
+        {
+            if ((bool)e.Value == true)
+            {
+                Item.FechaHoraInicio = DateTime.Now;
+            }
+            else {
+                Item.FechaHoraInicio = null;
+            }
+
+           RefreshModels();
+            
         }
     }
 }

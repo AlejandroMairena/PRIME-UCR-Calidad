@@ -104,5 +104,11 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
             IEnumerable<InstanciaItem> items = await _instanceItemRepository.GetItemsByFatherId(incidentCode, checklistId, itemId);
             return items;
         }
+
+        public async Task<InstanciaItem> UpdateItemInstance(InstanciaItem item)
+        {
+            await _instanceItemRepository.UpdateAsync(item);
+            return item;
+        }
     }
 }
