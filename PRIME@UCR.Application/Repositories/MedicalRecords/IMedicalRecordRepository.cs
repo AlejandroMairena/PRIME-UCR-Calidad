@@ -9,8 +9,6 @@ namespace PRIME_UCR.Application.Repositories.MedicalRecords
     {
         Task<Expediente> GetByPatientIdAsync(string id);
 
-        Task<Expediente> GetWithDetailsAsync(int id);
-
         Task<IEnumerable<Expediente>> GetByNameAndLastnameAsync(string name, string lastname);
 
         Task<IEnumerable<Expediente>> GetByNameAndLastnameLastnameAsync(string name, string lastname, string lastname2);

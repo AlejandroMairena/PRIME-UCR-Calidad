@@ -90,7 +90,8 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
 
         public void Dispose()
         {
-            _context.OnFieldChanged -= ToggleSaveButton;
+            if (_context != null)
+                _context.OnFieldChanged -= ToggleSaveButton;
         }
     }
 }

@@ -87,7 +87,7 @@ namespace PRIME_UCR.Application.Implementations.Incidents
             {
                 NombreEstado = IncidentStates.InCreationProcess.Nombre,
                 CodigoIncidente = entity.Codigo,
-                FechaModificado = DateTime.Now,
+                FechaHora = DateTime.Now,
                 Activo = true
             };
 
@@ -179,7 +179,7 @@ namespace PRIME_UCR.Application.Implementations.Incidents
                     CodigoIncidente = incident.Codigo,
                     NombreEstado = IncidentStates.Created.Nombre,
                     Activo = true,
-                    FechaModificado = DateTime.Now
+                    FechaHora = DateTime.Now
                 };
                 await _statesRepository.AddState(incidentState);
             }
@@ -218,7 +218,7 @@ namespace PRIME_UCR.Application.Implementations.Incidents
                 CodigoIncidente = code,
                 NombreEstado = IncidentStates.Approved.Nombre,
                 Activo = true,
-                FechaModificado = DateTime.Now
+                FechaHora = DateTime.Now
             });
 
             incident.CedulaRevisor = reviewerId;
@@ -245,7 +245,7 @@ namespace PRIME_UCR.Application.Implementations.Incidents
                 CodigoIncidente = code,
                 NombreEstado = IncidentStates.Rejected.Nombre,
                 Activo = true,
-                FechaModificado = DateTime.Now
+                FechaHora = DateTime.Now
             });
 
             incident.CedulaRevisor = reviewerId;

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -142,12 +143,13 @@ namespace PRIME_UCR.Application.Implementations.MedicalRecords
 
         public async Task<Expediente> InsertAsync(Expediente expediente)
         {
-
+            expediente.FechaCreacion = DateTime.Now;
             return await _repo.InsertAsync(expediente);
         }
 
         public async Task<Expediente> CreateMedicalRecordAsync(Expediente entity)
         {
+            entity.FechaCreacion = DateTime.Now;
             return await _repo.InsertAsync(entity);
         }
 
@@ -175,8 +177,8 @@ namespace PRIME_UCR.Application.Implementations.MedicalRecords
         public async Task<RecordViewModel> GetIncidentDetailsAsync(int id)
         {
             var record = await _repo.GetByKeyAsync(id);
-            var person = await _personRepo.GetByKeyAsync(record.CedulaPaciente);
-            var doctor = await _personRepo.GetByKeyAsync(record.CedulaMedicoDuenno);
+            var person = await _personRepo.GetByKeyPersonaAsync(record.CedulaPaciente);
+            var doctor = await _personRepo.GetByKeyPersonaAsync(record.CedulaMedicoDuenno);
             if (record != null)
             {
                 var model = new RecordViewModel
