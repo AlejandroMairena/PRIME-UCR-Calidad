@@ -1,43 +1,59 @@
 ﻿@using PRIME_UCR.Domain.Constants;
 
-<Loading IsLoading="@_isLoading">
-    @if (Incident.CurrentState == IncidentStates.Created.Nombre)
-    {
-        <div class="text-center mt-4">
-            <button class="btn btn-primary" @onclick="@Approve">Aprobar</button>
-            <button class="btn btn-outline-danger" @onclick="@Reject">Rechazar</button>
-        </div>
-    }
-    else if (Incident.CurrentState == IncidentStates.Rejected.Nombre)
-    {
-        <div class="text-center mt-4">
-            <button class="btn btn-primary" @onclick="@Approve">Aprobar</button>
-            <button disabled class="btn btn-outline-danger">Rechazar</button>
-        </div>
-    }
-    <br />
-    <br />
-    <br />
-
+@if (Incident.CurrentState != IncidentStates.Done.Nombre)
+{
     <h3>Estados del Incidente</h3>
-    <div class="container">
-        <div class="scrollmenu">
-            <RadzenMenu>
-                @for (var index = 0; index < IncidentStatesList.Count; ++index)
-                {
-                    <div class="text-center">
-                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="@setProgressIndicator(index)" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
-                        </svg>
-                        <RadzenMenuItem Text=@IncidentStatesList[index].Item2 class="@setStateColor(index)" />
-                    </div>
-                }
-            </RadzenMenu>
+    <Loading IsLoading="@_isLoading">
+        <div class="container">
+            <div class="scrollmenu">
+                <RadzenMenu>
+                    @for (var index = 0; index < IncidentStatesList.Count; ++index)
+                    {
+                        <div class="text-center">
+                            <svg width="1em" height="1em" viewBox="0 0 16 16" class="@setProgressIndicator(index)" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
+                            </svg>
+                            <RadzenMenuItem Text=@IncidentStatesList[index].Item2 class="@setStateColor(index)" />
+                        </div>
+                    }
+                </RadzenMenu>
+            </div>
         </div>
-    </div>
-    <br />
-    @if (Incident.CurrentState != IncidentStates.Done.Nombre)
-    {
+        <br />
+
+        @if (Incident.CurrentState == IncidentStates.Created.Nombre || Incident.CurrentState == IncidentStates.Rejected.Nombre)
+        {
+            @if (Incident.CurrentState == IncidentStates.Created.Nombre)
+            {
+                <div class="text-center mt-4">
+                    <button class="btn btn-primary" @onclick="@Approve">Aprobar</button>
+                    <button class="btn btn-outline-danger" @onclick="@Reject">Rechazar</button>
+                </div>
+            }
+            else if (Incident.CurrentState == IncidentStates.Rejected.Nombre)
+            {
+                <div class="text-center mt-4">
+                    <button class="btn btn-primary" @onclick="@Approve">Aprobar</button>
+                    <button disabled class="btn btn-outline-danger">Rechazar</button>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="text-center">
+                @if (PendingTasks.Count > 0)
+                {
+                    <button disabled type="submit" class="btn btn-primary">Cambiar a estado @nextState</button>
+                }
+                else
+                {
+                    <button @onclick="@ChangeState" type="submit" class="btn btn-primary">Cambiar a estado @nextState</button>
+                }
+            </div>
+        }
+        <br />
+        <br />
+
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -89,17 +105,7 @@
                 </tr>
             </tbody>
         </table>
-        <div class="text-center">
-            @if (PendingTasks.Count > 0)
-            {
-                <button disabled type="submit" class="btn btn-primary">Cambiar a estado @nextState</button>
-            }
-            else
-            {
-                <button @onclick="@ChangeState" type="submit" class="btn btn-primary">Cambiar a estado @nextState</button>
-            }
-        </div>
-    }
-</Loading>
+    </Loading>
+}
 
 

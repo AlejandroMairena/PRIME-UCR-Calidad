@@ -6,12 +6,10 @@
 <br />
 @if (DetailsModel.CurrentState == IncidentStates.Approved.Nombre)
 {
-    <StatusMessage Message="@($"Aprobado por {DetailsModel.Reviewer.NombreCompleto}")" Class="primary" />
-}
-else if (DetailsModel.CurrentState == IncidentStates.Rejected.Nombre)
-{
-    <StatusMessage Message="@($"Rechazado por {DetailsModel.Reviewer.NombreCompleto}")" Class="danger" />
-}
+<StatusMessage Message="@($"Aprobado por {DetailsModel.Reviewer.NombreCompleto}")" Class="primary" /> }
+            else if (DetailsModel.CurrentState == IncidentStates.Rejected.Nombre)
+            {
+<StatusMessage Message="@($"Rechazado por {DetailsModel.Reviewer.NombreCompleto}")" Class="danger" />}
 <ul class="list-group">
     <ListItem Title="Identificador" Text="@DetailsModel.Code" />
     <ListItem Title="Estado" Text="@DetailsModel.CurrentState" />
@@ -23,8 +21,9 @@ else if (DetailsModel.CurrentState == IncidentStates.Rejected.Nombre)
     <ListItem Title="Creado por"
               Text="@(_creator?.NombreCompleto)" />
 </ul>
+<br />
+<br />
+<br />
 <PermissionAuthorizeView Permission="@AuthorizationPermissions.CanReviewIncidents" ShowDeniedPermissionMessage=false>
-    
-    <StatePanel Incident="@DetailsModel" OnSave="@OnSave" CurrentUser="@_currentUser"/>
-
+    <StatePanel Incident="@DetailsModel" OnSave="@OnSave" CurrentUser="@_currentUser" />
 </PermissionAuthorizeView>
