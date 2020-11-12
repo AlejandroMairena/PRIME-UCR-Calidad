@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using Xunit;
 using System.Linq;
 using NuGet.Frameworks;
+using PRIME_UCR.Application.Dtos.Incidents;
 
 namespace PRIME_UCR.Test.UnitTests.Application.Incidents
 {
