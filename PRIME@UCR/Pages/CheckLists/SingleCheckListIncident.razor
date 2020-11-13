@@ -1,6 +1,7 @@
 ﻿@page "/incidents/{incidentcod}/{plantillaid:int}"
 @inherits SingleCheckListIncidentBase
 @using PRIME_UCR.Components.CheckLists
+@using PRIME_UCR.Domain.Constants;
 @attribute [Authorize]
 <link href="css/Checklist.css" rel="stylesheet" />
 
@@ -20,6 +21,7 @@
             </div>
             <div class="col">
                 <div class="container" id="contAll_LC" style="background:white;">
+                    <SummaryMessage Content="Summary.Content" Values="Summary.Values" Class="info" />
                     <h5>Definición de la lista de chequeo</h5>
                     <div id="def_LC">
                         <p>
@@ -64,60 +66,59 @@
 
                 Lista Completada: @stateInstanceList <br /> @*to change*@
                 @*Probar
-                     <br />
-                     @if (@itemsInstance.FirstOrDefault(x => x.FechaHoraInicio != null) != null)
-                        {
-                     <a> Fecha-hora de inicio: @itemsInstance.FirstOrDefault(x => x.FechaHoraInicio != null).FechaHoraInicio</a>
-                     }
-                     else
-                     {
-                        <a>Fecha - hora de inicio:</a>
-                        }
+                    <br />
+                    @if (@itemsInstance.FirstOrDefault(x => x.FechaHoraInicio != null) != null)
+                       {
+                    <a> Fecha-hora de inicio: @itemsInstance.FirstOrDefault(x => x.FechaHoraInicio != null).FechaHoraInicio</a>
+                    }
+                    else
+                    {
+                       <a>Fecha - hora de inicio:</a>
+                       }
 
-                                    <br />
-                        Fecha-hora de finalizada:  @itemsInstance.Last().FechaHoraInicio
-                         <br />
+                                   <br />
+                       Fecha-hora de finalizada:  @itemsInstance.Last().FechaHoraInicio
+                        <br />
 
                 *@
-                   Lista Completada: @stateInstanceList <br /> @*to change*@
-                 <br />
-                 Fecha-hora de inicio: @itemsInstance.First().FechaHoraInicio;
-                 <br />
-                 Fecha-hora de finalizada:  xx/xx/xx __:__:__ xm <br />
-                 <br />
-                 Duración: xx días xx horas xx minutos
+                <br />
+                Fecha-hora de inicio: @itemsInstance.First().FechaHoraInicio;
+                <br />
+                Fecha-hora de finalizada:  xx/xx/xx __:__:__ xm <br />
+                <br />
+                Duración: xx días xx horas xx minutos
             </p>
-        <h5> Items de la lista de chequeo</h5>
-        <div id="Body_LC">
-            @if (items == null)
-            {
-                <p>Cargando items.</p>
-            }
-            else
-            {
-                if (items.Count() == 0)
+            <h5> Items de la lista de chequeo</h5>
+            <div id="Body_LC">
+                @if (items == null)
                 {
-                    <p>No se ha creado ningún item para esta lista de chequeo en este incidente.</p>
+                    <p>Cargando items.</p>
                 }
                 else
                 {
-                    @for (int tempIndex = 0; tempIndex < orderedList.Count(); tempIndex++)
+                    if (items.Count() == 0)
                     {
-                        PRIME_UCR.Domain.Models.CheckLists.InstanciaItem itemInList = orderedList[tempIndex];
-                        string style = orderedListLevel[tempIndex] * 2 + "em";
-                        itemIndex = GetItemIndex(itemInList);
-                        <table class="table">
-                            @* Contains information about every item in this checklist *@
-                <tbody>
-                    <tr>
-                        <td rowspan="2" class="align-middle" style="padding-left: @style; width: 10px;">
-<p style="margin:auto">⁞⁞</p>
+                        <p>No se ha creado ningún item para esta lista de chequeo en este incidente.</p>
+                    }
+                    else
+                    {
+                        @for (int tempIndex = 0; tempIndex < orderedList.Count(); tempIndex++)
+                        {
+                            PRIME_UCR.Domain.Models.CheckLists.InstanciaItem itemInList = orderedList[tempIndex];
+                            string style = orderedListLevel[tempIndex] * 2 + "em";
+                            itemIndex = GetItemIndex(itemInList);
+                            <table class="table">
+                                @* Contains information about every item in this checklist *@
+                                <tbody>
+                                    <tr>
+                                        <td rowspan="2" class="align-middle" style="padding-left: @style; width: 10px;">
+                                            <p style="margin:auto">⁞⁞</p>
                                         </td>
                                         <td rowspan="2" class="align-middle" style="width: 100px;">
                                             @* Displys the image of the item *@
 
                                             <div style="width: 100%; display:inline-flex;">
-                                                @if (validateEdit == false)
+                                                @if (validateEdit == true)
                                                 {
                                                     <div class="custom-control custom-checkbox" style="margin:auto">
                                                         <input type="checkbox" class="custom-control-input" disabled="@HasSubItems(itemInList)" id="customCheck @itemInList.ItemId" checked="@itemInList.Completado" @onchange="((ChangeEventArgs c) => CheckItem(itemInList, c))" />
@@ -139,10 +140,10 @@
                                         </td>
 
                                         <th class="align-middle" data-toggle="tooltip" title="@items[itemIndex].Nombre">@truncate(@items[itemIndex].Nombre, orderedListLevel[itemIndex], 1)</th>
-                                        <td rowspan="2" class="align-middle" style="width: 100px;">
-                                            <p>@itemInList.FechaHoraInicio</p>
+                                        <td rowspan="2" class="align-middle" style="margin:auto; width: 100px;">
+                                            <p style=" padding-top: 27px; ">@itemInList.FechaHoraInicio</p>
                                         </td>
-                                        @if (!HasSubItems(itemInList) && validateEdit == false)
+                                        @if (!HasSubItems(itemInList) && validateEdit == true)
                                         {
 
                                             <td rowspan="2" class="align-middle" align="right" style="width: 54px">

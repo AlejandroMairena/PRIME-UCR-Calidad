@@ -42,7 +42,7 @@
                                 </a>
                             </Template>
                         </Column>
-                        <Column TableItem="InstanceChecklist" Title="Resumen" Field="@(x => x.PlantillaId)" Width="5%">
+                        <Column TableItem="InstanceChecklist" Title="Completados" Field="@(x => x.PlantillaId)" Width="5%">
                             <Template Context="tempList">
                                 <a>
                                     @GetSpecificSummary(tempList.PlantillaId)
@@ -55,7 +55,7 @@
                                 No se encontraron listas de chequeo instanciadaa
                             </div>
                         </EmptyDataTemplate>
-
+                        <Pager ShowPageNumber="true" />
                     </Table>
                 </EditForm>
                 </div>

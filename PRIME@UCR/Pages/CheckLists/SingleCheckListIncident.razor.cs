@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using PRIME_UCR.Application.Services.CheckLists;
 using PRIME_UCR.Components.CheckLists;
+using PRIME_UCR.Application.Dtos.Incidents;
+using PRIME_UCR.Components.Incidents.IncidentDetails.Constants;
 using Microsoft.AspNetCore.Components.Forms;
 using PRIME_UCR.Application.Services.Incidents;
 using PRIME_UCR.Domain.Models.CheckLists;
@@ -67,7 +69,11 @@ namespace PRIME_UCR.Pages.CheckLists
         [Inject] protected IIncidentService MyIncidentService { get; set; }
         [Inject] private NavigationManager NavManager { get; set; }
         [Inject] protected IMultimediaContentService MyMultimediaContentService { get; set; }
+        //detals for state incident
+        [Parameter] public IncidentDetailsModel Incident { get; set; }
 
+        // Info for Incident summary that is shown at top of the page
+        public IncidentSummary Summary = new IncidentSummary();
         protected override async Task OnInitializedAsync()
         {
             await RefreshModels();
@@ -81,7 +87,7 @@ namespace PRIME_UCR.Pages.CheckLists
             IEnumerable<InstanciaItem> tempInstancedItems = await MyCheckInstanceChechistService.GetItemsByIncidentCodAndCheckListId(incidentcod, plantillaid);
             MyMultimediaContent = new List<List<MultimediaContent>>();
             // _isLoading = new List<bool>();
-            foreach(var item in tempInstancedItems)
+            foreach (var item in tempInstancedItems)
             {
                 List<MultimediaContent> tempList = (await MyMultimediaContentService.GetByCheckListItem(item.ItemId, item.PlantillaId, item.IncidentCod)).ToList();
                 MyMultimediaContent.Add(tempList);
@@ -96,6 +102,8 @@ namespace PRIME_UCR.Pages.CheckLists
                 GenerateOrderedList(item, 0);
             }
             state = await MyIncidentService.GetIncidentStateByIdAsync(incidentcod);
+            Incident = await MyIncidentService.GetIncidentDetailsAsync(incidentcod);
+            Summary.LoadValues(Incident);
             updateState();
         }
 
@@ -126,7 +134,7 @@ namespace PRIME_UCR.Pages.CheckLists
         */
         public void updateState()
         {
-            if (state.Nombre == "Asignado" || state.Nombre == "En preparación" || state.Nombre == "En ruta a origen" || state.Nombre == "Paciente recolectado en origen" || state.Nombre == "En traslado" || state.Nombre == "Reactivación")
+            if (state.Nombre == "Asignado" || state.Nombre == "En preparación" || state.Nombre == "En ruta a origen" || state.Nombre == "Paciente recolectado en origen" || state.Nombre == "En traslado" || state.Nombre ==  "Entregado" || state.Nombre == "Reactivación")
             {
                 validateEdit = true;
             }
@@ -227,6 +235,7 @@ namespace PRIME_UCR.Pages.CheckLists
         protected void Redirect()
         {
             IncidentURL += incidentcod;
+            IncidentURL += "/Checklist";
             NavManager.NavigateTo($"{IncidentURL}");
         }
 
@@ -251,10 +260,6 @@ namespace PRIME_UCR.Pages.CheckLists
         //metodo para actualizar estado de la lista de cheuqueo 
         //unpdate
         // {"Pendiente","En progreso","Completada"};
-        public bool Notcomplet(InstanciaItem Item)
-        {
-            return !Item.Completado;
-        }
 
         protected async Task OnFileUpload(InstanciaItem item, MultimediaContent mc)
         {
