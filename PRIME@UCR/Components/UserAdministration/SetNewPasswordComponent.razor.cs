@@ -43,7 +43,7 @@ namespace PRIME_UCR.Components.UserAdministration
             {
                 return;
             }
-            await Task.Delay(1500);
+            await Task.Delay(2000);
             NavigationManager.NavigateTo("/");
         }
     }

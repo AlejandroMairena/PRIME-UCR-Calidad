@@ -55,6 +55,7 @@ namespace PRIME_UCR
             services.Configure<IdentityOptions>(options =>
             {
                 options.Tokens.PasswordResetTokenProvider = passwordResetProvider;
+                options.Password.RequiredLength = 8;
             });
 
             services.Configure<PasswordRecoveryTokenProviderOptions>(conf =>

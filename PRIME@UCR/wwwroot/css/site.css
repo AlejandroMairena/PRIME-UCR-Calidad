@@ -26,6 +26,17 @@ a, .btn-link {
         background: #00c0f3;
     }
 
+.btn-primary-noHover {
+    background: #095290;
+    height: 100%;
+    margin-top: 0;
+    z-index: 2;
+    position: relative;
+}
+    .btn-primary-noHover:hover {
+        background: #095290;
+    }
+
 .btn-secondary {
     background: #676766;
     height: 100%;
