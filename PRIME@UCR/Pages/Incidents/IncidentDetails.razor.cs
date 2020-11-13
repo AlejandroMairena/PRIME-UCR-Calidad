@@ -84,8 +84,8 @@ namespace PRIME_UCR.Pages.Incidents
                     return DetailsTab.Assignment;
                 case "Multimedia":
                     return DetailsTab.Multimedia;
-                //case "Checklists":
-                    //return DetailsTab.Checklists;
+                case "Checklist":
+                    return DetailsTab.Checklist;
                 default:
                     return DefaultTab;
             }
