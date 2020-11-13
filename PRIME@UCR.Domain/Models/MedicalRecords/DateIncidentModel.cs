@@ -10,6 +10,8 @@ namespace PRIME_UCR.Domain.Models.MedicalRecords
 
         public Incidente incident { get; set; }
 
+        public CentroMedico medical_center { get; set; }
+
         public string type { get; set; } = "incidente"; 
     }
 }

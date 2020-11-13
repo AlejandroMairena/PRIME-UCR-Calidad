@@ -40,7 +40,9 @@ namespace PRIME_UCR.Application.Services.MedicalRecords
 
         Task<IEnumerable<ListaAlergia>> GetAllAlergies();
 
-        Task<Expediente> UpdateMedicalRecordAsync(Expediente expediente); 
+        Task<Expediente> UpdateMedicalRecordAsync(Expediente expediente);
+
+        Task<CentroMedico> GetMedicalCenterByUbicationCenterIdAsync(int id); 
 
     }
 }
