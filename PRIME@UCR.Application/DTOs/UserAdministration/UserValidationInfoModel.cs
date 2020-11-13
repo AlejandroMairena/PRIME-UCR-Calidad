@@ -7,11 +7,18 @@ namespace PRIME_UCR.Application.DTOs.UserAdministration
 {
     public class UserValidationInfoModel
     {
+        public UserValidationInfoModel()
+        {
+            PasswordModel = new NewPasswordModel();
+        }
+
         public string EmailEncoded { get; set; }
 
         public string Code1Encoded { get; set; }
 
         public string Code2Encoded { get; set; }
+
+        public NewPasswordModel PasswordModel { get; set; }
 
         public string Email { get
         {

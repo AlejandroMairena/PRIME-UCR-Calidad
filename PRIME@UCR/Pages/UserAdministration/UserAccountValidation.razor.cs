@@ -23,9 +23,17 @@ namespace PRIME_UCR.Pages.UserAdministration
         [Inject]
         public UserManager<Usuario> UserManager { get; set; }
 
+        [Inject]
+        public NavigationManager NavigationManager { get; set; }
+        
         public UserValidationInfoModel UserValidationInfo;
 
-        public bool InvalidValidation = false;
+        public char ValidationState = 'N';
+
+        public char ResultOfRecovery;
+
+        public bool isBusy;
+
 
         protected override async Task OnParametersSetAsync()
         {
@@ -42,12 +50,35 @@ namespace PRIME_UCR.Pages.UserAdministration
             var result = await UserManager.ConfirmEmailAsync(user, UserValidationInfo.EmailValidationToken);
             if(result.Succeeded)
             {
-
+                ValidationState = 'T';
             }
             else 
             {
-                InvalidValidation = true;
+                ValidationState = 'F';
             }
+        }
+
+        public async Task SetPassword()
+        {
+            isBusy = true;
+            var user = await UserManager.FindByEmailAsync(UserValidationInfo.Email);
+            if (user != null)
+            {
+                var result = await UserManager.AddPasswordAsync(user, UserValidationInfo.PasswordModel.Password);
+                ResultOfRecovery = result.Succeeded ? 'T' : 'F';
+            }
+            else
+            {
+                ResultOfRecovery = 'F';
+            }
+            isBusy = false;
+            StateHasChanged();
+            if (ResultOfRecovery == 'F')
+            {
+                return;
+            }
+            await Task.Delay(2000);
+            NavigationManager.NavigateTo("/");
         }
     }
 }

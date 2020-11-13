@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Identity;
 using PRIME_UCR.Application.DTOs.UserAdministration;
+using PRIME_UCR.Domain.Models.UserAdministration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,18 +20,51 @@ namespace PRIME_UCR.Pages.UserAdministration
         [Parameter]
         public string EmailEncoded { get; set; }
 
-        public RecoveryPasswordInfoModel recoveryPasswordInfo;
+        [Inject]
+        public UserManager<Usuario> UserManager { get; set; }
+
+        [Inject]
+        public NavigationManager NavigationManager { get; set; }
+
+        public RecoveryPasswordInfoModel RecoveryPasswordInfo;
+
+        public char ResultOfRecovery;
+
+        public bool isBusy;
 
         protected override void OnInitialized()
         {
-            recoveryPasswordInfo = new RecoveryPasswordInfoModel();
+            RecoveryPasswordInfo = new RecoveryPasswordInfoModel();
         }
 
         protected override void OnParametersSet()
         {
-            recoveryPasswordInfo.EmailEncoded = EmailEncoded;
-            recoveryPasswordInfo.PasswordRecoveryToken1Encoded = PasswordRecoveryToken1Encoded;
-            recoveryPasswordInfo.PasswordRecoveryToken2Encoded = PasswordRecoveryToken2Encoded;
+            RecoveryPasswordInfo.EmailEncoded = EmailEncoded;
+            RecoveryPasswordInfo.PasswordRecoveryToken1Encoded = PasswordRecoveryToken1Encoded;
+            RecoveryPasswordInfo.PasswordRecoveryToken2Encoded = PasswordRecoveryToken2Encoded;
+        }
+
+        public async Task ChangePassword()
+        {
+            isBusy = true;
+            var user = await UserManager.FindByEmailAsync(RecoveryPasswordInfo.Email);
+            if (user != null)
+            {
+                var result = await UserManager.ResetPasswordAsync(user, RecoveryPasswordInfo.PasswordRecoveryToken, RecoveryPasswordInfo.PasswordModel.Password);
+                ResultOfRecovery = result.Succeeded ? 'T' : 'F';
+            }
+            else
+            {
+                ResultOfRecovery = 'F';
+            }
+            isBusy = false;
+            StateHasChanged();
+            if (ResultOfRecovery == 'F')
+            {
+                return;
+            }
+            await Task.Delay(2000);
+            NavigationManager.NavigateTo("/");
         }
     }
 }

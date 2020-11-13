@@ -13,38 +13,17 @@ namespace PRIME_UCR.Components.UserAdministration
     public partial class SetNewPasswordComponent
     {
         [Parameter]
-        public RecoveryPasswordInfoModel RecoveryPasswordInfo { get; set; }
+        public NewPasswordModel PasswordModel { get; set; }
 
-        [Inject]
-        public UserManager<Usuario> UserManager { get; set; }
+        [Parameter]
+        public EventCallback<NewPasswordModel> PasswordModelChanged { get; set; }
 
-        [Inject]
-        public NavigationManager NavigationManager { get; set; }
+        [Parameter]
+        public bool IsBusy { get; set; }
 
-        public bool _isBusy = false;
+        [Parameter]
+        public EventCallback<bool> IsBusyChanged { get; set; }
 
-        public char resultOfRecovery;
 
-        public async void ChangePassword()
-        {
-            _isBusy = true;
-            var user = await UserManager.FindByEmailAsync(RecoveryPasswordInfo.Email);
-            if(user != null)
-            {
-                var result = await UserManager.ResetPasswordAsync(user, RecoveryPasswordInfo.PasswordRecoveryToken, RecoveryPasswordInfo.PasswordModel.Password);
-                resultOfRecovery = result.Succeeded ? 'T' : 'F';
-            } else
-            {
-                resultOfRecovery = 'F';
-            }
-            _isBusy = false;
-            StateHasChanged();
-            if(resultOfRecovery == 'F')
-            {
-                return;
-            }
-            await Task.Delay(2000);
-            NavigationManager.NavigateTo("/");
-        }
     }
 }
