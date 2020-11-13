@@ -34,7 +34,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
         [Fact]
         public async Task GetAllTransportUnitsByModeReturnsQuantity()
         {
-            /*If there are coordinators registered, the service should not return an empty array. 
+            /*If there are coordinators registered, the service should not return an empty array.
              */
             var mockRepo = new Mock<ITransportUnitRepository>();
             List<UnidadDeTransporte> MyList = new List<UnidadDeTransporte>
@@ -62,15 +62,15 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
             var mockRepo = new Mock<IIncidentRepository>();
             var mockRepo1 = new Mock<ICoordinadorTécnicoMédicoRepository>();
             var mockRepo2 = new Mock<ITransportUnitRepository>();
-            var mockRepo3 = new Mock<IAssignemntRepository>();
-            var incident = new Incidente 
-            { 
+            var mockRepo3 = new Mock<IAssignmentRepository>();
+            var incident = new Incidente
+            {
                 Codigo = "12",
                 CedulaTecnicoCoordinador = "11111111",
                 MatriculaTrans = "XYX"
             };
             var coordinator = new CoordinadorTécnicoMédico {};
-            var TUnit = new UnidadDeTransporte 
+            var TUnit = new UnidadDeTransporte
             {
                 Matricula = "XYX"
             };
@@ -105,11 +105,11 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
         [Fact]
         public async Task GetCoordinatorsAsyncReturnsEmpty()
         {
-            /*If there are no coordinators registered, the service should return an empty array. 
+            /*If there are no coordinators registered, the service should return an empty array.
              */
             var mockRepo = new Mock<ICoordinadorTécnicoMédicoRepository>();
             mockRepo
-                .Setup(p => 
+                .Setup(p =>
                     p.GetAllAsync()).
                         Returns(Task.FromResult<IEnumerable<CoordinadorTécnicoMédico>>(new List<CoordinadorTécnicoMédico>())
                 );
@@ -121,7 +121,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
         [Fact]
         public async Task GetCoordinatorsAsyncReturnsQuantity()
         {
-            /*If there are coordinators registered, the service should not return an empty array. 
+            /*If there are coordinators registered, the service should not return an empty array.
              */
             var mockRepo = new Mock<ICoordinadorTécnicoMédicoRepository>();
             List<CoordinadorTécnicoMédico> MyList = new List<CoordinadorTécnicoMédico>
@@ -145,18 +145,18 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
         [Fact]
         public async Task AssignToIncidentAsyncRuns()
         {
-            /*If the service receives valid entries it should run flawlessly. 
+            /*If the service receives valid entries it should run flawlessly.
              */
             var IncidentRepo = new Mock<IIncidentRepository>();
-            var AssignmentRepo = new Mock<IAssignemntRepository>();
+            var AssignmentRepo = new Mock<IAssignmentRepository>();
             string ParameterCode = "TestValue";
             Incidente IncidentToReturn = new Incidente();
-            
+
             IncidentRepo
-                .Setup(p => 
+                .Setup(p =>
                     p.GetByKeyAsync(ParameterCode))
                         .Returns(Task.FromResult<Incidente>(IncidentToReturn));
-            
+
             UnidadDeTransporte TransportUnitToTest = new UnidadDeTransporte
             {
                 Matricula = "1234567"
@@ -165,10 +165,10 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
             {
                 Cédula = "1234567"
             };
-            AssignmentModel ParameterModel = new AssignmentModel 
-            { 
+            AssignmentModel ParameterModel = new AssignmentModel
+            {
                 Coordinator = AssignedCoordinatorToTest,
-                TransportUnit = TransportUnitToTest            
+                TransportUnit = TransportUnitToTest
             };
             var AssignmentService = new AssignmentService(null, null, null, AssignmentRepo.Object, IncidentRepo.Object);
             await AssignmentService.AssignToIncidentAsync(ParameterCode, ParameterModel);
