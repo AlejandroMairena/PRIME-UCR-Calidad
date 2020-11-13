@@ -11,6 +11,7 @@ using PRIME_UCR.Domain.Models.UserAdministration;
 using System.Reflection;
 using System.Threading.Tasks;
 using PRIME_UCR.Application.Services.UserAdministration;
+using PRIME_UCR.Application.DTOs.UserAdministration;
 
 namespace PRIME_UCR.Test.UnitTests.Application.UserAdministration
 {
@@ -158,5 +159,63 @@ namespace PRIME_UCR.Test.UnitTests.Application.UserAdministration
             var result = await userService.getPersonWithDetailstAsync("luis.sanchez@prime.com");
             Assert.Equal("12345678",result.Cédula);
         }
+
+        //Task<UserFormModel> GetUserFormFromRegisterUserFormAsync(RegisterUserFormModel userToRegister);
+        [Fact]
+        public async Task GetUserFormFromRegisterUserFormAsyncReturnNullTest()
+        {
+            var mockRepo = new Mock<IUsuarioRepository>();
+             
+            var store = new Mock<IUserStore<Usuario>>();
+            var mockUserManager = new Mock<UserManager<Usuario>>(store.Object, null, null, null, null, null, null, null, null);
+             
+            var mockSecurity = new Mock<IPrimeSecurityService>();
+            mockSecurity.Setup(s => s.CheckIfIsAuthorizedAsync(typeof(UsersService), "GetUserFormFromRegisterUserFormAsync"));
+
+            var userService = new UsersService(mockRepo.Object, mockUserManager.Object, mockSecurity.Object);
+
+            RegisterUserFormModel registerUserForm = null;
+
+            var result = await userService.GetUserFormFromRegisterUserFormAsync(registerUserForm);
+            Assert.Null(result);
+        }
+
+
+        [Fact]
+        public async Task GetUserFormFromRegisterUserFormAsyncReturnValidUserFormTest()
+        {
+            var mockRepo = new Mock<IUsuarioRepository>();
+             
+            var store = new Mock<IUserStore<Usuario>>();
+            var mockUserManager = new Mock<UserManager<Usuario>>(store.Object, null, null, null, null, null, null, null, null);
+             
+            var mockSecurity = new Mock<IPrimeSecurityService>();
+            mockSecurity.Setup(s => s.CheckIfIsAuthorizedAsync(typeof(UsersService), "GetUserFormFromRegisterUserFormAsync"));
+
+            var userService = new UsersService(mockRepo.Object, mockUserManager.Object, mockSecurity.Object);
+
+            RegisterUserFormModel registerUserForm = new RegisterUserFormModel {
+                IdCardNumber = "12345678", 
+                Name = "Juan", 
+                FirstLastName = "Guzman",
+                Email = "juan.guzman@prime.com"
+            };
+
+            var result = await userService.GetUserFormFromRegisterUserFormAsync(registerUserForm);
+            Assert.Equal("12345678", result.IdCardNumber);
+            Assert.Equal("juan.guzman@prime.com", result.Email);
+        }
+
+        /*
+
+        //Task<bool> StoreUserAsync(UserFormModel userToRegist, string password);
+        [Fact]
+        public async Task StoreUserAsyncTest()
+        {
+
+        }
+        */
+
+
     }
 }
