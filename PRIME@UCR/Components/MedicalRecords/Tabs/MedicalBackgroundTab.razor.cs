@@ -87,42 +87,47 @@ namespace PRIME_UCR.Components.MedicalRecords.Tabs
 
         private async Task insertBackground()
         {
-            if (!ifExistsBackground(antecedentePrueba.Id))
-            {
-                Antecedentes background = new Antecedentes()
+            if (antecedentePrueba != null) { 
+                if (!ifExistsBackground(antecedentePrueba.Id))
                 {
-                    IdListaAntecedentes = antecedentePrueba.Id,
-                    IdExpediente = idExpediente
-                };
-                showBackground = false;
-                backgroundAlreadyAdded = false;
-                await MedicalBackgroundService.InsertBackgroundAsync(background);
-                Antecedentes = (await MedicalBackgroundService.GetBackgroundByRecordId(idExpediente)).ToList();
-                //StateHasChanged();
-            }
-            else
-            {
-                backgroundAlreadyAdded = true;
+                    Antecedentes background = new Antecedentes()
+                    {
+                        IdListaAntecedentes = antecedentePrueba.Id,
+                        IdExpediente = idExpediente
+                    };
+                    showBackground = false;
+                    backgroundAlreadyAdded = false;
+                    await MedicalBackgroundService.InsertBackgroundAsync(background);
+                    Antecedentes = (await MedicalBackgroundService.GetBackgroundByRecordId(idExpediente)).ToList();
+                    //StateHasChanged();
+                }
+                else
+                {
+                    backgroundAlreadyAdded = true;
+                }
             }
         }
 
         private async Task insertAllergy()
         {
-            if (!ifExistsAllergy(AlergiaPrueba.Id))
+            if (AlergiaPrueba != null)
             {
-                Alergias allergy = new Alergias()
+                if (!ifExistsAllergy(AlergiaPrueba.Id))
                 {
-                    IdListaAlergia = AlergiaPrueba.Id,
-                    IdExpediente = idExpediente
-                };
-                showAllergy = false;
-                allergyAlreadyAdded = false;
-                await AllergyService.InsertAllergyAsync(allergy);
-                Alergias = (await AllergyService.GetAlergyByRecordId(idExpediente)).ToList();
-            }
-            else
-            {
-                allergyAlreadyAdded = true;
+                    Alergias allergy = new Alergias()
+                    {
+                        IdListaAlergia = AlergiaPrueba.Id,
+                        IdExpediente = idExpediente
+                    };
+                    showAllergy = false;
+                    allergyAlreadyAdded = false;
+                    await AllergyService.InsertAllergyAsync(allergy);
+                    Alergias = (await AllergyService.GetAlergyByRecordId(idExpediente)).ToList();
+                }
+                else
+                {
+                    allergyAlreadyAdded = true;
+                }
             }
         }
 
