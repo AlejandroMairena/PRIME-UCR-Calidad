@@ -41,8 +41,8 @@ namespace PRIME_UCR.Components.UserAdministration
                 var firstHalf = ((int)code.Length / 2);
                 var code1 = code.Substring(0, firstHalf);
                 var code2 = code.Substring(firstHalf, code.Length - firstHalf);
-                
-                var url = "https://localhost:44368/requestPasswordRecovery/" + EmailModel.Email + "/" + code1 + "/" + code2;
+                var emailCoded = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(EmailModel.Email));
+                var url = "https://localhost:44368/requestPasswordRecovery/" + emailCoded + "/" + code1 + "/" + code2;
                 var emailContent = new EmailContentModel()
                 {
                     Destination = EmailModel.Email,

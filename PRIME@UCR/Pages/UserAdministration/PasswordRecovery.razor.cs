@@ -10,13 +10,13 @@ namespace PRIME_UCR.Pages.UserAdministration
     public partial class PasswordRecovery
     {
         [Parameter]
-        public string PasswordRecoveryToken1 { get; set; }
+        public string PasswordRecoveryToken1Encoded { get; set; }
 
         [Parameter]
-        public string PasswordRecoveryToken2 { get; set; }
+        public string PasswordRecoveryToken2Encoded { get; set; }
 
         [Parameter]
-        public string Email { get; set; }
+        public string EmailEncoded { get; set; }
 
         public RecoveryPasswordInfoModel recoveryPasswordInfo;
 
@@ -27,9 +27,9 @@ namespace PRIME_UCR.Pages.UserAdministration
 
         protected override void OnParametersSet()
         {
-            recoveryPasswordInfo.Email = Email;
-            recoveryPasswordInfo.PasswordRecoveryToken1 = PasswordRecoveryToken1;
-            recoveryPasswordInfo.PasswordRecoveryToken2 = PasswordRecoveryToken2;
+            recoveryPasswordInfo.EmailEncoded = EmailEncoded;
+            recoveryPasswordInfo.PasswordRecoveryToken1Encoded = PasswordRecoveryToken1Encoded;
+            recoveryPasswordInfo.PasswordRecoveryToken2Encoded = PasswordRecoveryToken2Encoded;
         }
     }
 }

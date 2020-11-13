@@ -19,6 +19,10 @@ using PRIME_UCR.Validators;
 using PRIME_UCR.Application.DTOs.UserAdministration;
 using System.Linq;
 using PRIME_UCR.Domain.Constants;
+using Microsoft.AspNetCore.DataProtection;
+using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Logging;
+using PRIME_UCR.Application.TokenProviders;
 
 namespace PRIME_UCR
 {
@@ -45,10 +49,22 @@ namespace PRIME_UCR
                 options.UseSqlServer(Configuration.GetConnectionString("DevelopmentDbConnection"));
                 //options.UseSqlServer(Configuration.GetConnectionString("ProductionDbConnection"));
             });
-            
+
+            var passwordResetProvider = "RecoveryPasswordProvider";
+
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.Tokens.PasswordResetTokenProvider = passwordResetProvider;
+            });
+
+            services.Configure<PasswordRecoveryTokenProviderOptions>(conf =>
+                conf.TokenLifespan = TimeSpan.FromMinutes(15));
+
             services.AddIdentity<Usuario, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
+                .AddDefaultTokenProviders()
+                .AddTokenProvider<PasswordRecoveryTokenProvider<Usuario>>(passwordResetProvider);
+
             
             services.AddBlazoredSessionStorage();
             services.AddScoped<AuthenticationStateProvider,CustomAuthenticationStateProvider>();
