@@ -41,7 +41,7 @@ namespace PRIME_UCR.Infrastructure
             services.AddTransient<IInstanceItemRepository, SqlInstanceItemRepository>();
             // appointments
             services.AddTransient<IActionTypeRepository, ActionTypeRepository>();
-            services.AddTransient<IAssignemntRepository, AssignmentRepository>();
+            services.AddTransient<IAssignmentRepository, AssignmentRepository>();
             services.AddTransient<IAppointmentRepository, AppointmentRepository>();
             // incidents repositories
             services.AddTransient<ICountryRepository, CountryRepository>();

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Linq; 
 using Microsoft.AspNetCore.Components.Authorization;
 using PRIME_UCR.Application.Dtos;
 using PRIME_UCR.Application.Dtos.Incidents;
@@ -12,6 +13,7 @@ using PRIME_UCR.Application.Repositories.UserAdministration;
 using PRIME_UCR.Application.Services.Incidents;
 using PRIME_UCR.Application.Services.UserAdministration;
 using PRIME_UCR.Domain.Constants;
+using PRIME_UCR.Domain.Exceptions.Incidents;
 using PRIME_UCR.Domain.Models;
 using PRIME_UCR.Domain.Models.Incidents;
 using PRIME_UCR.Domain.Models.UserAdministration;
@@ -27,6 +29,7 @@ namespace PRIME_UCR.Application.Implementations.Incidents
         private readonly ITransportUnitRepository _transportUnitRepository;
         private readonly IMedicalRecordRepository _medicalRecordRepository;
         private readonly IPersonaRepository _personRepository;
+        private readonly IAssignmentRepository _assignmentRepository;
 
         public IncidentService(
             IIncidentRepository incidentRepository,
@@ -35,7 +38,8 @@ namespace PRIME_UCR.Application.Implementations.Incidents
             ILocationRepository locationRepository,
             ITransportUnitRepository transportUnitRepository,
             IMedicalRecordRepository medicalRecordRepository,
-            IPersonaRepository personRepository)
+            IPersonaRepository personRepository,
+            IAssignmentRepository assignmentRepository)
         {
             _incidentRepository = incidentRepository;
             _modesRepository = modesRepository;
@@ -44,6 +48,7 @@ namespace PRIME_UCR.Application.Implementations.Incidents
             _transportUnitRepository = transportUnitRepository;
             _medicalRecordRepository = medicalRecordRepository;
             _personRepository = personRepository;
+            _assignmentRepository = assignmentRepository;
         }
 
         public async Task<Incidente> GetIncidentAsync(string code)
@@ -125,45 +130,39 @@ namespace PRIME_UCR.Application.Implementations.Incidents
         public async Task<IncidentDetailsModel> UpdateIncidentDetailsAsync(IncidentDetailsModel model)
         {
             var incident = await _incidentRepository.GetByKeyAsync(model.Code);
-            bool modified = false;
             
-            // update origin
-            if (model.Origin != null)
+            if (model.Origin is CentroUbicacion origin
+                && model.Destination is CentroUbicacion destination)
             {
-                if (incident.IdOrigen == null || incident.IdOrigen != model.Origin.Id)
-                {
-                    var origin = await _locationRepository.InsertAsync(model.Origin);
-                    incident.IdOrigen = origin.Id;
-                    incident.Origen = origin;
-                    modified = true;
-                }
+                // check for medical center duplicates
+                if (origin.CentroMedicoId == destination.CentroMedicoId)
+                    throw new DuplicateMedicalCenterException();
+                
+                // check for doctor assignment duplicates
+                if (origin.CedulaMedico == destination.CedulaMedico)
+                    throw new DuplicateAssignedDoctorException();
             }
+
+            // update origin
+            var modified = await UpdateOrigin(model, incident);
 
             // update destination
-            if (model.Destination != null)
-            {
-                if (incident.IdDestino == null || incident.IdDestino != model.Destination.Id)
-                {
-                    var destination = await _locationRepository.InsertAsync(model.Destination);
-                    incident.IdDestino = destination.Id;
-                    incident.Destino = destination;
-                    modified = true;
-                }
-            }
+            modified = modified || await UpdateDestination(model, incident);
             
-            if (model.TransportUnit != null)
-            {
-                if (incident.MatriculaTrans == null || incident.MatriculaTrans != model.TransportUnit.Matricula)
-                {
-                    model.TransportUnit = await _transportUnitRepository.GetByKeyAsync(model.TransportUnit.Matricula);
-                    incident.MatriculaTrans = model.TransportUnit.Matricula;                   
-                    modified = true;
-                }
-            }
+            // update transport unit
+            modified = modified || await UpdateTransportUnit(model, incident);
 
-            if (modified)
+            if (modified) // write to database if the incident was modified
                 await _incidentRepository.UpdateAsync(incident);
 
+            await UpdateCompletedState(model, incident);
+            
+            return await GetIncidentDetailsAsync(incident.Codigo);
+        }
+
+        // updates the state of the incident to completed if necessary
+        private async Task UpdateCompletedState(IncidentDetailsModel model, Incidente incident)
+        {
             if (!model.Completed && incident.IsCompleted()) // if it was just completed but wasn't previously
             {
                 var incidentState = new EstadoIncidente
@@ -175,8 +174,59 @@ namespace PRIME_UCR.Application.Implementations.Incidents
                 };
                 await _statesRepository.AddState(incidentState);
             }
-            
-            return await GetIncidentDetailsAsync(incident.Codigo);
+        }
+
+        // updates transport unit if it needs to be updated.
+        // returns bool representing weather the incident was modified by this method
+        private async Task<bool> UpdateTransportUnit(IncidentDetailsModel model, Incidente incident)
+        {
+            if (model.TransportUnit != null)
+            {
+                if (incident.MatriculaTrans == null || incident.MatriculaTrans != model.TransportUnit.Matricula)
+                {
+                    model.TransportUnit = await _transportUnitRepository.GetByKeyAsync(model.TransportUnit.Matricula);
+                    incident.MatriculaTrans = model.TransportUnit.Matricula;
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        // updates destination if it needs to be updated.
+        // returns bool representing weather the incident was modified by this method
+        private async Task<bool> UpdateDestination(IncidentDetailsModel model, Incidente incident)
+        {
+            if (model.Destination != null)
+            {
+                if (incident.IdDestino == null || incident.IdDestino != model.Destination.Id)
+                {
+                    var destination = await _locationRepository.InsertAsync(model.Destination);
+                    incident.IdDestino = destination.Id;
+                    incident.Destino = destination;
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        // updates origin if it needs to be updated.
+        // returns bool representing weather the incident was modified by this method
+        private async Task<bool> UpdateOrigin(IncidentDetailsModel model, Incidente incident)
+        {
+            if (model.Origin != null)
+            {
+                if (incident.IdOrigen == null || incident.IdOrigen != model.Origin.Id)
+                {
+                    var origin = await _locationRepository.InsertAsync(model.Origin);
+                    incident.IdOrigen = origin.Id;
+                    incident.Origen = origin;
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         public async Task<IEnumerable<Incidente>> GetAllAsync()
@@ -244,7 +294,136 @@ namespace PRIME_UCR.Application.Implementations.Incidents
             await _incidentRepository.UpdateAsync(incident);
         }
 
+        public async Task<string> GetNextIncidentState(string code)
+        {
+            var currentState = await _statesRepository.GetCurrentStateByIncidentId(code);
+            var nextState = "";
+            for (var index = 0; index < IncidentStates.IncidentStatesList.Count - 1; ++index)
+            {
+                if(currentState.Nombre == IncidentStates.IncidentStatesList[index].Nombre)
+                {
+                    nextState = IncidentStates.IncidentStatesList[index + 1].Nombre;
+                    break;
+                }
+            }
+            if(nextState == IncidentStates.Rejected.Nombre)
+            {
+                nextState = IncidentStates.Approved.Nombre;
+            }
+            return nextState;
+        }
 
+        /*
+        * Function: Will find the pending tasks in order to change incident's state. Will redirect to the specific method to do so.
+        * @Params: A DTO with the incident's current state.
+        *          A string with the next incident's state.
+        * @Return: A list with all pending tasks needed to advace to next state.
+        * */
+        public async Task<List<Tuple<string, string>>> GetPendingTasksAsync(IncidentDetailsModel model, string nextState)
+        {
+            List<Tuple<string, string>> pendingTasks = new List<Tuple<string, string>>();
+            if(nextState == IncidentStates.Created.Nombre)
+            {
+                pendingTasks = GetCreatedStatePendingTasks(model);
+            }
+            else if (nextState == IncidentStates.Approved.Nombre)
+            {
+                pendingTasks = GetApprovedStatePendingTasks(model);
+            }
+            else if (nextState == IncidentStates.Assigned.Nombre)
+            {
+                pendingTasks = await GetAssignedStatePendingTasks(model);
+            }
+            return pendingTasks;
+        }
+
+        /*
+         * Function: Checks for pending tasks needed to advance to "Created" state. Such tasks are: Select Orign, Select Destination, Select patient
+         * @Param: A DTO with the incident's current state
+         * @Return: A list with all pending tasks needed to advace to "Created" state.
+         * */
+
+        public List<Tuple<string, string>> GetCreatedStatePendingTasks(IncidentDetailsModel model)
+        {
+            List<Tuple<string, string>> pendingTasks = new List<Tuple<string, string>>();
+            if(model.Origin == null)
+            {
+                pendingTasks.Add(Tuple.Create("Seleccionar origen", "Origin"));
+            }
+            if(model.Destination == null)
+            {
+                pendingTasks.Add(Tuple.Create("Seleccionar destino", "Destination"));
+            }
+            if(model.MedicalRecord == null)
+            {
+                pendingTasks.Add(Tuple.Create("Agregar paciente", "Patient"));
+            }
+            return pendingTasks;
+        }
+
+        /*
+       * Function: Checks for pending tasks needed to advance to "Assigned" state. Such tasks are: Select TransportUnit, Select Coordinator, Select Team Members
+       * @Param: A DTO with the incident's current state
+       * @Return: A list with all pending tasks needed to advace to "Assigned" state.
+       * */
+
+        public async Task<List<Tuple<string, string>>> GetAssignedStatePendingTasks(IncidentDetailsModel model)
+        {
+            List<Tuple<string, string>> pendingTasks = new List<Tuple<string, string>>();
+            var incident = await _incidentRepository.GetByKeyAsync(model.Code);
+            if(incident.MatriculaTrans == null)
+            {
+                pendingTasks.Add(Tuple.Create("Seleccionar unidad de transporte", "Assignment"));
+            }
+            if (incident.CedulaTecnicoCoordinador == null)
+            {
+                pendingTasks.Add(Tuple.Create("Seleccionar coordinador", "Assignment"));
+            }
+            List<EspecialistaTécnicoMédico> teamMembers = (await _assignmentRepository.GetAssignmentsByIncidentIdAsync(incident.Codigo)).ToList();
+            if (teamMembers.Count <= 0)
+            {
+                pendingTasks.Add(Tuple.Create("Seleccionar técnicos médicos", "Assignment"));
+            }
+            return pendingTasks;
+        }
+        /*
+        * Function: Checks for pending tasks needed to advance to "Approved" state. The only task is to wait for revision.
+        * @Param: A DTO with the incident's current state
+        * @Return: A list with all pending tasks needed to advace to "Approved" state.
+        * */
+        public List<Tuple<string, string>> GetApprovedStatePendingTasks(IncidentDetailsModel model)
+        {
+            List<Tuple<string, string>> pendingTasks = new List<Tuple<string, string>>();
+            if (model.CurrentState == IncidentStates.Created.Nombre)
+            {
+                pendingTasks.Add(Tuple.Create("Esperando revisión", "Info"));
+            }
+            else   //When its rejected.     
+            {
+                pendingTasks.Add(Tuple.Create("Esperando una nueva revisión", "Info"));
+
+            }
+            return pendingTasks;
+        }
+
+        public async Task ChangeState(string code, string nextState)
+        {
+            var incident = await _incidentRepository.GetByKeyAsync(code);
+            if (incident == null)
+            {
+                throw new ArgumentException(
+                    $"Invalid incident id {code}.");
+            }
+
+            await _statesRepository.AddState(new EstadoIncidente
+            {
+                CodigoIncidente = code,
+                NombreEstado = nextState,
+                Activo = true,
+                FechaHora = DateTime.Now
+            });
+            await _incidentRepository.UpdateAsync(incident);
+        }
         /*
          * Function:     This method will search for the current state of an incident
          * 
@@ -255,6 +434,5 @@ namespace PRIME_UCR.Application.Implementations.Incidents
         {
             return await _statesRepository.GetCurrentStateByIncidentId(code);
         }
-
     }
 }
