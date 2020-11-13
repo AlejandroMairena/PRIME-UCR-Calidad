@@ -22,3 +22,11 @@
     [Parameter]
     public string Class { get; set; }
 }
+
+@*
+    Poner esto en el razor: <SummaryMessage Content="Summary.Content"Values="Summary.Values" Class="info" />
+    Luego, en el cs:
+                public IncidentSummary Summary = new IncidentSummary();
+                Dentro del metodo de On Initialized (para que sea en el primer metodo cuando carga la pag) ponen:
+                      Summary.LoadValues(Incident); -> Aqui el incident es un objeto IncidentDetailsModel del incidente actual      
+*@

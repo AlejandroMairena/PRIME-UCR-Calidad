@@ -5,20 +5,25 @@
     <h3>Estados del Incidente</h3>
     <Loading IsLoading="@_isLoading">
         <div class="container">
-            <div class="scrollmenu">
-                <RadzenMenu>
-                    @for (var index = 0; index < IncidentStatesList.Count; ++index)
-                    {
-                        <div class="text-center">
-                            <svg width="1em" height="1em" viewBox="0 0 16 16" class="@setProgressIndicator(index)" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
-                            </svg>
-                            <RadzenMenuItem Text=@IncidentStatesList[index].Item2 class="@setStateColor(index)" />
-                        </div>
-                    }
-                </RadzenMenu>
+            <div class="table-responsive">
+                <table class="table">
+                    <tbody>
+                        <RadzenMenu>
+                            @for (var index = 0; index < IncidentStatesList.Count; ++index)
+                            {
+                                <div class="text-center">
+                                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="@setProgressIndicator(index)" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
+                                    </svg>
+                                    <RadzenMenuItem Text=@IncidentStatesList[index].Item2 class="@setStateColor(index)" />
+                                </div>
+                            }
+                        </RadzenMenu>
+                    </tbody>
+                </table>
             </div>
         </div>
+
         <br />
 
         @if (Incident.CurrentState == IncidentStates.Created.Nombre || Incident.CurrentState == IncidentStates.Rejected.Nombre)
@@ -91,7 +96,7 @@
                                 @foreach (var task in PendingTasks)
                                 {
                                     <li class="bg-task d-flex justify-content-between">
-                                        <a class="task-text" @onclick="@( () => RedirectToTab(task.Item2) )"> @task.Item1 </a>
+                                        <a data-toggle="tooltip" title="Prueba" @onclick="@( () => RedirectToTab(task.Item2) )"> @task.Item1  </a>
                                         <span class="badge badge-primary badge-pill badge-text">!</span>
                                     </li>
                                 }
