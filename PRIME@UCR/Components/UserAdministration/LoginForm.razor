@@ -12,19 +12,22 @@
         <div class="text-left @invalidUser">
             <p id="emailHelp" class="text-danger">Ingresó su usuario o contraseña incorrectamente. Intente de nuevo.</p>
         </div>
+        <div class="text-left @notRegistered">
+            <p id="emailHelp" class="text-warning">Su cuenta no ha sido validada, le hemos enviado un correo con un enlace de validación.</p>
+        </div>
         <div class="text-center">
             @if (isBusy) // Loading button
             {
                 <button class="btn btn-light width:13em mt-2" type="button">
                     <span class="spinner-border spinner-border-sm" style="background-color:white" role="status" aria-hidden="true"></span>
                     Validando información
-                </button> 
+                </button>
             }
             else
             {
-                @if (isFormValid) // Disable button if form is not valid 
+                @if (isFormValid) // Disable button if form is not valid
                 {
-                    <button type="submit" style="width:13em" class="btn btn-light mt-2">Ingresar</button> 
+                    <button type="submit" style="width:13em" class="btn btn-light mt-2">Ingresar</button>
                 }
                 else
                 {

@@ -51,20 +51,26 @@ namespace PRIME_UCR
             });
 
             var passwordResetProvider = "RecoveryPasswordProvider";
+            var emailValidationProvider = "EmailValidationProvider";
 
             services.Configure<IdentityOptions>(options =>
             {
                 options.Tokens.PasswordResetTokenProvider = passwordResetProvider;
+                options.Tokens.EmailConfirmationTokenProvider = emailValidationProvider;
                 options.Password.RequiredLength = 8;
             });
 
             services.Configure<PasswordRecoveryTokenProviderOptions>(conf =>
                 conf.TokenLifespan = TimeSpan.FromMinutes(15));
 
+            services.Configure<EmailValidationTokenProviderOptions>(conf =>
+                conf.TokenLifespan = TimeSpan.FromDays(2));
+
             services.AddIdentity<Usuario, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders()
-                .AddTokenProvider<PasswordRecoveryTokenProvider<Usuario>>(passwordResetProvider);
+                .AddTokenProvider<PasswordRecoveryTokenProvider<Usuario>>(passwordResetProvider)
+                .AddTokenProvider<EmailValidationTokenProvider<Usuario>>(emailValidationProvider);
 
             
             services.AddBlazoredSessionStorage();

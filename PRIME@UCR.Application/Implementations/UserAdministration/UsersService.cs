@@ -89,7 +89,7 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
         /**
          * Method used to store a user in the database given all the necessary info of the new user.
          */
-        public async Task<bool> StoreUserAsync(UserFormModel userToRegist, string password)
+        public async Task<bool> StoreUserAsync(UserFormModel userToRegist)
         {
             await primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             var user = await GetUserFromUserModelAsync(userToRegist);
@@ -97,7 +97,7 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
             if(!existInDB)
             {
                 user.CedPersona = userToRegist.IdCardNumber;
-                var result = await userManager.CreateAsync(user, password);
+                var result = await userManager.CreateAsync(user);
                 return result.Succeeded;
             } else
             {

@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.WebUtilities;
 using PRIME_UCR.Application.DTOs.UserAdministration;
 using PRIME_UCR.Application.Services.UserAdministration;
 using PRIME_UCR.Domain.Models.UserAdministration;
@@ -6,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace PRIME_UCR.Pages.UserAdministration
@@ -24,6 +27,11 @@ namespace PRIME_UCR.Pages.UserAdministration
         [Inject]
         public IPerteneceService perteneceService { get; set; }
         
+        [Inject]
+        public IMailService mailService { get; set; }
+
+        [Inject]
+        public UserManager<Usuario> userManager { get; set; }
 
         private string statusMessage;
 
@@ -53,7 +61,7 @@ namespace PRIME_UCR.Pages.UserAdministration
                 await personService.StoreNewPersonAsync(personModel);
                 var userModel = await userService.GetUserFormFromRegisterUserFormAsync(infoOfUserToRegister);
                 var tempPassword = personModel.Name + "." + personModel.FirstLastName + personModel.PrimaryPhoneNumber;/*Es temporal, luego esto cambiará*/
-                var result = await userService.StoreUserAsync(userModel,tempPassword);
+                var result = await userService.StoreUserAsync(userModel);
                 if(!result)
                 {
                     await personService.DeletePersonAsync(userModel.IdCardNumber);
@@ -74,7 +82,23 @@ namespace PRIME_UCR.Pages.UserAdministration
                         await perteneceService.InsertUserOfProfileAsync(user.Id, profileName);
                     }
                     infoOfUserToRegister = new RegisterUserFormModel();
-                    statusMessage = "El usuario indicado se ha registrado en la aplicación.";
+                    var emailConfirmedToken = await userManager.GenerateEmailConfirmationTokenAsync(user);
+                    
+                    var code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(emailConfirmedToken));
+                    var firstHalf = ((int)code.Length / 2);
+                    var code1 = code.Substring(0, firstHalf);
+                    var code2 = code.Substring(firstHalf, code.Length - firstHalf);
+                    var emailCoded = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(user.Email));
+                    var url = "https://localhost:44368/validateUserAccount/" + emailCoded + "/" + code1 + "/" + code2;
+                    var message = new EmailContentModel()
+                    {
+                        Destination = userModel.Email,
+                        Subject = "PRIME@UCR: Validación nueva cuenta de usuario",
+                        Body = $"<h1>PRIME@UCR</h1>  <h2>Validación de cuenta de usuario.</h2> <p>Para validar su cuenta, presione <a href=\"{url}\">acá</a>. </p>"
+                    };
+
+                    await mailService.SendEmailAsync(message);
+                    statusMessage = "El usuario indicado se ha registrado en la aplicación y se le ha enviado un correo de validación de cuenta.";
                     messageType = "success";
                 }
             } else
