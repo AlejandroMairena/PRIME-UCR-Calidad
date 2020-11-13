@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System;
 using FluentValidation;
 using PRIME_UCR.Domain.Models.MedicalRecords;
+using FluentValidation.Results;
 
 namespace PRIME_UCR.Validators.Records
 {
@@ -18,6 +19,5 @@ namespace PRIME_UCR.Validators.Records
                 .WithMessage("Debe ingresar una cedula valida (9 caracteres)")
                 .Must(ced => Int32.TryParse(ced, out _));
         }
-
     }
 }

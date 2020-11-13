@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using FluentValidation.Results;
 using PRIME_UCR.Domain.Models.MedicalRecords;
 using System;
 using System.Collections.Generic;
