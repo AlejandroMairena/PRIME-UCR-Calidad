@@ -26,7 +26,6 @@ namespace PRIME_UCR.Application.DTOs.UserAdministration
 
         public string PasswordRecoveryToken { get
             {
-
                 return Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(PasswordRecoveryToken1Encoded + PasswordRecoveryToken2Encoded));
             } }
     }

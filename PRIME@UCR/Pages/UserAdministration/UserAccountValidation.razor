@@ -1,0 +1,7 @@
+﻿@page  "/validateUserAccount/{EmailEncoded}/{Code1Encoded}/{Code2Encoded}"
+
+@if(InvalidValidation)
+{
+    <StatusMessage Message="Ha ocurrido un error, por favor contacte al administrador de la página web." 
+                   Class="danger"/>
+}
