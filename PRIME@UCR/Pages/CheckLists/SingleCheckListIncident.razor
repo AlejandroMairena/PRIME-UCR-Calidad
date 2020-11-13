@@ -61,45 +61,63 @@
                 </p>
             </div>
             <p>
+
                 Lista Completada: @stateInstanceList <br /> @*to change*@
-                <br />
-                Fecha-hora de inicio: @itemsInstance.First().FechaHoraInicio;
-                <br />
-                Fecha-hora de finalizada:  xx/xx/xx __:__:__ xm <br />
-                <br />
-                Duración: xx días xx horas xx minutos
+                @*Probar
+                     <br />
+                     @if (@itemsInstance.FirstOrDefault(x => x.FechaHoraInicio != null) != null)
+                        {
+                     <a> Fecha-hora de inicio: @itemsInstance.FirstOrDefault(x => x.FechaHoraInicio != null).FechaHoraInicio</a>
+                     }
+                     else
+                     {
+                        <a>Fecha - hora de inicio:</a>
+                        }
+
+                                    <br />
+                        Fecha-hora de finalizada:  @itemsInstance.Last().FechaHoraInicio
+                         <br />
+
+                *@
+                   Lista Completada: @stateInstanceList <br /> @*to change*@
+                 <br />
+                 Fecha-hora de inicio: @itemsInstance.First().FechaHoraInicio;
+                 <br />
+                 Fecha-hora de finalizada:  xx/xx/xx __:__:__ xm <br />
+                 <br />
+                 Duración: xx días xx horas xx minutos
             </p>
-            <h5> Items de la lista de chequeo</h5>
-            <div id="Body_LC">
-                @if (items == null)
+        <h5> Items de la lista de chequeo</h5>
+        <div id="Body_LC">
+            @if (items == null)
+            {
+                <p>Cargando items.</p>
+            }
+            else
+            {
+                if (items.Count() == 0)
                 {
-                    <p>Cargando items.</p>
+                    <p>No se ha creado ningún item para esta lista de chequeo en este incidente.</p>
                 }
                 else
                 {
-                    if (items.Count() == 0)
+                    @for (int tempIndex = 0; tempIndex < orderedList.Count(); tempIndex++)
                     {
-                        <p>No se ha creado ningún item para esta lista de chequeo en este incidente.</p>
-                    }
-                    else
-                    {
-                        @for (int tempIndex = 0; tempIndex < orderedList.Count(); tempIndex++)
-                        {
-                            PRIME_UCR.Domain.Models.CheckLists.InstanciaItem itemInList = orderedList[tempIndex];
-                            string style = orderedListLevel[tempIndex] * 2 + "em";
-                            itemIndex = GetItemIndex(itemInList);
-                            <table class="table">
-                                @* Contains information about every item in this checklist *@
-                                <tbody>
-                                    <tr>
-                                        <td rowspan="2" class="align-middle" style="padding-left: @style; width: 10px;">
-                                            <p style="margin:auto">⁞⁞</p>
+                        PRIME_UCR.Domain.Models.CheckLists.InstanciaItem itemInList = orderedList[tempIndex];
+                        string style = orderedListLevel[tempIndex] * 2 + "em";
+                        itemIndex = GetItemIndex(itemInList);
+                        <table class="table">
+                            @* Contains information about every item in this checklist *@
+                <tbody>
+                    <tr>
+                        <td rowspan="2" class="align-middle" style="padding-left: @style; width: 10px;">
+<p style="margin:auto">⁞⁞</p>
                                         </td>
                                         <td rowspan="2" class="align-middle" style="width: 100px;">
                                             @* Displys the image of the item *@
 
                                             <div style="width: 100%; display:inline-flex;">
-                                                @if (validateEdit == true)
+                                                @if (validateEdit == false)
                                                 {
                                                     <div class="custom-control custom-checkbox" style="margin:auto">
                                                         <input type="checkbox" class="custom-control-input" disabled="@HasSubItems(itemInList)" id="customCheck @itemInList.ItemId" checked="@itemInList.Completado" @onchange="((ChangeEventArgs c) => CheckItem(itemInList, c))" />
@@ -121,11 +139,12 @@
                                         </td>
 
                                         <th class="align-middle" data-toggle="tooltip" title="@items[itemIndex].Nombre">@truncate(@items[itemIndex].Nombre, orderedListLevel[itemIndex], 1)</th>
-                                        @if (!HasSubItems(itemInList) && validateEdit == true)
+                                        <td rowspan="2" class="align-middle" style="width: 100px;">
+                                            <p>@itemInList.FechaHoraInicio</p>
+                                        </td>
+                                        @if (!HasSubItems(itemInList) && validateEdit == false)
                                         {
-                                            <td rowspan="2" class="align-middle" style="width: 100px;">
-                                                <p>@itemInList.FechaHoraInicio</p>
-                                            </td>
+
                                             <td rowspan="2" class="align-middle" align="right" style="width: 54px">
                                                 <MultimediaContentComponent MultimediaContent="@MyMultimediaContent[tempIndex]" OnFileUpload="(MultimediaContent mc) => OnFileUpload(itemInList, mc)"></MultimediaContentComponent>
                                             </td>
