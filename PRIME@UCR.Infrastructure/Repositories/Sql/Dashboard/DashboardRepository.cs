@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using PRIME_UCR.Application.DTOs.Dashboard;
 using PRIME_UCR.Application.Repositories.Dashboard;
 using PRIME_UCR.Application.Services.UserAdministration;
 using PRIME_UCR.Domain.Models;

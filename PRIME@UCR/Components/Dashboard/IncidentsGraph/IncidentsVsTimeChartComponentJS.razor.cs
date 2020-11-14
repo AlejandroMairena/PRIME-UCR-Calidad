@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
+using PRIME_UCR.Application.DTOs.Dashboard;
 using PRIME_UCR.Application.Services.Dashboard;
 using PRIME_UCR.Domain.Models;
 using System;
@@ -9,10 +10,14 @@ using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace PRIME_UCR.Components.Dashboard
+namespace PRIME_UCR.Components.Dashboard.IncidentsGraph
 {
     public partial class IncidentsVsTimeChartComponentJS
     {
+        [Parameter] public FilterModel Value { get; set; }
+        [Parameter] public EventCallback<FilterModel> ValueChanged { get; set; }
+        [Parameter] public EventCallback OnDiscard { get; set; }
+
         private int eventQuantity { get; set; }
 
         [Inject]
@@ -22,18 +27,18 @@ namespace PRIME_UCR.Components.Dashboard
         public IDashboardService _dashboardService { get; set; }
 
 
-        protected override async Task OnInitializedAsync()
+        protected override async Task OnParametersSetAsync()
         {
             await GenerateColumnChart();
         }
 
         private async Task GenerateColumnChart()
         {
-            var incidentsData = await _dashboardService.GetAllIncidentsAsync();
+            var incidentsData =  await _dashboardService.GetFilteredIncidentsList(Value);
 
             eventQuantity = incidentsData.Count();
 
-            var incidentsPerDay = incidentsData.GroupBy(i => i.Cita.FechaHoraCreacion.DayOfYear);
+            var incidentsPerDay = incidentsData.GroupBy(i => i.Cita.FechaHoraEstimada.DayOfYear);
 
              var incidentes = new List<List<Incidente>> { };
 

@@ -18,41 +18,14 @@
 
         var dataArray = [];
 
-        var aerialIncidents = 0;
-        var maritimeIncidents = 0;
-        var landIncidents = 0;
+        for (var i = 0; i < incidentsData.length; i += 2) {
+            dataArray.push({
+                "incidentType": incidentsData[i],
+                "quantity": incidentsData[i+1],
+            })
+        }
 
-
-        incidentsData.forEach( (incident) => {
-            switch (incident.modalidad) {
-                case "Aéreo":
-                    aerialIncidents += 1;
-                    break;
-                case "Terrestre":
-                    landIncidents += 1;
-                    break;
-                case "Marítimo":
-                    maritimeIncidents += 1;
-                    break;
-                default:
-                    break;
-            }
-        });
-
-        chart.data = [
-            {
-                "incidentType": "Aereos",
-                "quantity": aerialIncidents,
-            },
-            {
-                "incidentType": "Terrestres",
-                "quantity": landIncidents,
-            },
-            {
-                "incidentType": "Maritimos",
-                "quantity": maritimeIncidents,
-            },
-        ];
+        chart.data = dataArray;
 
 
 

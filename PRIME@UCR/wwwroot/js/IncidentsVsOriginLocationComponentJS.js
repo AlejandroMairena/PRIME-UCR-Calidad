@@ -54,7 +54,7 @@
         series.columns.template.strokeOpacity = 0;
         series.columns.template.column.cornerRadiusBottomRight = 5;
         series.columns.template.column.cornerRadiusTopRight = 5;
-        series.columns.template.tooltipText = "{valueX}";
+        series.columns.template.tooltipText = "{categoryY}: [bold]{valueX}";
 
         var labelBullet = series.bullets.push(new am4charts.LabelBullet())
         labelBullet.label.horizontalCenter = "left";

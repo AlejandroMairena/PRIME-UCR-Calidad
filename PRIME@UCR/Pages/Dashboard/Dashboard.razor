@@ -6,6 +6,7 @@
 @layout MainLayout
 @using ChartJs.Blazor.Charts
 @using PRIME_UCR.Application.Implementations.UserAdministration;
+@using PRIME_UCR.Components.Dashboard.IncidentsGraph;
 @using PRIME_UCR.Domain.Constants
 
 @*Example of policy based authorization in a piece of code*@
@@ -29,7 +30,7 @@
 @*<LineGraphComponent></LineGraphComponent>*@
 <div class="wrapper">
     <div class="rounded" style="background-color: white;padding: 10px">
-        <IncidentsCounterComponent @bind-Value="_finishedLoadingCounters"/>
+        <IncidentsCounterComponent @bind-Value="_finishedLoadingCounters" />
     </div>
 </div>
 
@@ -38,21 +39,21 @@
 <Loading IsLoading="!_finishedLoadingCounters">
     <div class="wrapper">
         <div class="rounded" style="background-color: white;padding-left: 10px;padding-right: 10px;">
-            <FiltersComponent @bind-Value="FilterInfo"/>
+            <FiltersComponent @bind-Value="FilterInfo" />
             <br>
         </div>
     </div>
 </Loading>
 
 
-<br/>
+<br />
 
 <div class="row">
     <div class="col-lg-6 col-md-12">
-        <IncidentsVsTransportTypeComponentJS />
+        <IncidentsVsTransportTypeComponentJS @bind-Value="FilterInfo" />
     </div>
     <div class="col-lg-6 col-md-12">
-        <IncidentsVsTimeChartComponentJS />
+        <IncidentsVsTimeChartComponentJS @bind-Value="FilterInfo" />
     </div>
 </div>
 
@@ -61,14 +62,14 @@
 <div class="row">
     <div class="col-lg-6 col-md-12">
 
-        <IncidentsVsOriginLocationComponentJS />
+        <IncidentsVsOriginLocationComponentJS @bind-Value="FilterInfo" />
     </div>
     <div class="col-lg-6 col-md-12">
-        <IncidentsVsDestinationLocationComponentJS />
+        <IncidentsVsDestinationLocationComponentJS @bind-Value="FilterInfo" />
     </div>
 </div>
 
-<br/>
+<br />
 
 
 

@@ -20,6 +20,7 @@
         <StateFilter @bind-Value="Value" />
     </div>
     <div class="col">
+        <button class="btn btn-primary" @onclick:preventDefault @onclick="@ApplyFilters">Aplicar filtro</button>
         <div class="text-center">
             @if (Value.ButtonEnabled)
             {

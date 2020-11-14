@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace PRIME_UCR.Components.Dashboard
+namespace PRIME_UCR.Components.Dashboard.IncidentsGraph
 {
     public partial class GraphContainer
     {

@@ -1,4 +1,5 @@
-﻿using PRIME_UCR.Domain.Models;
+﻿using PRIME_UCR.Application.DTOs.Dashboard;
+using PRIME_UCR.Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -11,6 +12,9 @@ namespace PRIME_UCR.Application.Services.Dashboard
         Task<List<Incidente>> GetAllIncidentsAsync();
 
         Task<List<Distrito>> GetAllDistrictsAsync();
+
+        Task<List<Incidente>> GetFilteredIncidentsList(FilterModel Value);
+
         Task<int> GetIncidentCounterAsync(string modality);
     }
 }
