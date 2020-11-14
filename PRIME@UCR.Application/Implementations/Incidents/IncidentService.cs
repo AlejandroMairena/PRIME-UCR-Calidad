@@ -17,10 +17,13 @@ using PRIME_UCR.Domain.Exceptions.Incidents;
 using PRIME_UCR.Domain.Models;
 using PRIME_UCR.Domain.Models.Incidents;
 using PRIME_UCR.Domain.Models.UserAdministration;
+using PRIME_UCR.Application.Services.UserAdministration;
+using System.ComponentModel.DataAnnotations;
+using PRIME_UCR.Application.Permissions.Incidents;
 
 namespace PRIME_UCR.Application.Implementations.Incidents
 {
-    public class IncidentService : IIncidentService
+    public partial class IncidentService : IIncidentService
     {
         private readonly IIncidentRepository _incidentRepository;
         private readonly IModesRepository _modesRepository;
@@ -30,6 +33,7 @@ namespace PRIME_UCR.Application.Implementations.Incidents
         private readonly IMedicalRecordRepository _medicalRecordRepository;
         private readonly IPersonaRepository _personRepository;
         private readonly IAssignmentRepository _assignmentRepository;
+        private readonly IPrimeSecurityService _primeSecurityService;
 
         public IncidentService(
             IIncidentRepository incidentRepository,
@@ -39,7 +43,8 @@ namespace PRIME_UCR.Application.Implementations.Incidents
             ITransportUnitRepository transportUnitRepository,
             IMedicalRecordRepository medicalRecordRepository,
             IPersonaRepository personRepository,
-            IAssignmentRepository assignmentRepository)
+            IAssignmentRepository assignmentRepository,
+            IPrimeSecurityService primeSecurityService)
         {
             _incidentRepository = incidentRepository;
             _modesRepository = modesRepository;
@@ -49,6 +54,7 @@ namespace PRIME_UCR.Application.Implementations.Incidents
             _medicalRecordRepository = medicalRecordRepository;
             _personRepository = personRepository;
             _assignmentRepository = assignmentRepository;
+            _primeSecurityService = primeSecurityService;
         }
 
         public async Task<Incidente> GetIncidentAsync(string code)
@@ -239,8 +245,15 @@ namespace PRIME_UCR.Application.Implementations.Incidents
             return await _incidentRepository.GetIncidentListModelsAsync();
         }
 
+        /*
+        * Function: Will mark the respective incident as "Approved"
+        * @Params: The incident´s code.
+        *          The reviewer´s Id.
+        * @Return: Void
+        * */
         public async Task ApproveIncidentAsync(string code, string reviewerId)
         {
+            await _primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             var incident = await _incidentRepository.GetByKeyAsync(code);
             if (incident == null)
             {
@@ -266,9 +279,16 @@ namespace PRIME_UCR.Application.Implementations.Incidents
             incident.CedulaRevisor = reviewerId;
             await _incidentRepository.UpdateAsync(incident);
         }
-        
+
+        /*
+        * Function: Will mark the respective incident as "Rejected"
+        * @Params: The incident´s code.
+        *          The reviewer´s Id.
+        * @Return: Void
+        * */
         public async Task RejectIncidentAsync(string code, string reviewerId)
         {
+            await _primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             var incident = await _incidentRepository.GetByKeyAsync(code);
             if (incident == null)
             {
@@ -435,4 +455,7 @@ namespace PRIME_UCR.Application.Implementations.Incidents
             return await _statesRepository.GetCurrentStateByIncidentId(code);
         }
     }
+
+    [MetadataType(typeof(IncidentServiceAuthorization))]
+    public partial class IncidentService { }
 }
