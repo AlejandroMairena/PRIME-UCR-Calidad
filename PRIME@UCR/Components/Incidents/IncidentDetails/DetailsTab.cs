@@ -17,5 +17,7 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
         Assignment,
         [Description("Multimedia")]
         Multimedia,
+        [Description("Listas de chequeo")]
+        Checklist,
     }
 }

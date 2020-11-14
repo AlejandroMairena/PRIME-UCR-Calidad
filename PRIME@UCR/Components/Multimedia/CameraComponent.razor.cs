@@ -11,9 +11,13 @@ namespace PRIME_UCR.Components.Multimedia
 
     public partial class CameraComponent
     {
+        [Parameter]
+        public MultimediaModal MultimediaModal { get; set; }
+
         ElementReference videoElement;
         ElementReference canvasElement;
         ElementReference imageElement;
+        ElementReference downloadLinkRef;
         bool cameraOpen = false;
         bool photoTaken = false;
 
@@ -22,15 +26,20 @@ namespace PRIME_UCR.Components.Multimedia
             //await OpenCamera();
         }
 
-        void HandleClick()
+        protected override void OnInitialized()
+        {
+            MultimediaModal.OnModalClosed += CloseComponent;
+        }
+
+        async Task HandleClick()
         {
             if (!cameraOpen)
             {
-                OpenCamera();
+                await OpenCamera();
             }
             else if (cameraOpen && !photoTaken)
             {
-                TakePhotograph();
+                await TakePhotograph();
             }
             else
             {
@@ -38,21 +47,26 @@ namespace PRIME_UCR.Components.Multimedia
             }
         }
 
-        async Task<bool> OpenCamera()
+        async Task OpenCamera()
         {
+            await JS.InvokeAsync<bool>("openCamera", videoElement);
             cameraOpen = true;
-            return await JS.InvokeAsync<bool>("openCamera", videoElement);
+        }
+
+        async Task CloseComponent()
+        {
+            await CloseCamera();
+            MultimediaModal.OnModalClosed -= CloseComponent;
         }
 
         async Task<bool> CloseCamera()
         {
             return await JS.InvokeAsync<bool>("closeCamera", videoElement);
         }
-        string test = "";
         async Task TakePhotograph()
         {
             photoTaken = true;
-            test = await JS.InvokeAsync<string>("takePhotograph", canvasElement, videoElement, imageElement);
+            await JS.InvokeAsync<string>("takePhotograph", canvasElement, videoElement, imageElement, downloadLinkRef);
         }
 
         void CancelPhotograph()
@@ -84,5 +98,10 @@ namespace PRIME_UCR.Components.Multimedia
                 return "Cancelar";
             }
         }
+        string DowloadLinkClass()
+        {
+            return photoTaken ? "btn btn-primary" : "btn btn-primary hidden";
+        }
+
     }
 }

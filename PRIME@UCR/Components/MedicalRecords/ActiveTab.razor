@@ -3,14 +3,21 @@
 <div class="container">
     @if (Active == DetailsTab.Info)
     {
-        <GeneralInfoTab record="@Expediente"/>
+        <GeneralInfoTab record="@Expediente" />
     }
     else if (Active == DetailsTab.Appointments)
     {
-        //<OriginTab Origin="@Incident.Origin" OnSave="@SaveOrigin"/>
+        <Appointments medical_record="@MedicalRecord" />
     }
-    else
+    else if (Active == DetailsTab.MedicalBackgroundTab)
     {
-        <h4 class="text-danger">Not found</h4>
+        <MedicalBackgroundTab Antecedentes="@Antecedentes" 
+                              Alergias="@Alergias" 
+                              ListaAntecedentes="@ListaAntecedentes" 
+                              ListaAlergia="@ListaAlergia"
+                              idExpediente="@Expediente.IdExpediente"/>
+    }else
+    {
+    <h4 class="text-danger">Not found</h4>
     }
 </div>

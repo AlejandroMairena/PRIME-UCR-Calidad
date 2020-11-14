@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using PRIME_UCR.Application.DTOs.UserAdministration;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.AspNetCore.Http;
 
 namespace PRIME_UCR.Components.UserAdministration
 {
@@ -21,13 +22,12 @@ namespace PRIME_UCR.Components.UserAdministration
         public IPermissionsService permissionsService { get; set; }
 
         [Inject]
-        public IProfilesService profileService { get; set; }
-
-        [Inject]
         public IPermiteService permiteService { get; set; }
 
-        public List<Permiso> ListPermissions { get; set; }
+        [Inject]
+        public AuthenticationStateProvider authenticationStateProvider { get; set; }
 
+        public List<Permiso> ListPermissions { get; set; }
 
         [Parameter]
         public ProfileModel Value { get; set; }
@@ -68,14 +68,17 @@ namespace PRIME_UCR.Components.UserAdministration
                 {
                     Value.PermissionsList.Add(Permission);
                     await permiteService.InsertPermissionAsync(Value.ProfileName, idPermission);
-                    Value.StatusMessage = "El permiso \"" + Permission.DescripciónPermiso + "\" fue agregado al perfil " + Value.ProfileName + ". Para notar los cambios, deberá reiniciar su sesión.";
+                    Value.StatusMessage = "El permiso \"" + Permission.DescripciónPermiso + "\" fue agregado al perfil " + Value.ProfileName + ". Para que los usuarios afectados puedan notar los cambios, deberán reiniciar su sesión.";
+                    Value.StatusMessageType = "success";
                 }
                 else 
                 {
                     Value.PermissionsList.Remove(Permission);
                     await permiteService.DeletePermissionAsync(Value.ProfileName,idPermission);
-                    Value.StatusMessage = "El permiso \"" + Permission.DescripciónPermiso + "\" fue removido del perfil " + Value.ProfileName +". Para notar los cambios, deberá reiniciar su sesión." ;
+                    Value.StatusMessage = "El permiso \"" + Permission.DescripciónPermiso + "\" fue removido del perfil " + Value.ProfileName + ". Para que los usuarios afectados puedan notar los cambios, deberán reiniciar su sesión.";
+                    Value.StatusMessageType = "warning";
                 }
+                await authenticationStateProvider.GetAuthenticationStateAsync();
                 Value.CheckedPermissions[idPermission-1] = (bool)e.Value;
                 await ValueChanged.InvokeAsync(Value);
             }

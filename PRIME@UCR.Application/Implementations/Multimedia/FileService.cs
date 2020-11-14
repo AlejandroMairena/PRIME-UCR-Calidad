@@ -27,8 +27,7 @@ namespace PRIME_UCR.Application.Implementations.Multimedia
         public async Task<bool> StoreFile(string fileName, Stream fileStream)
         {
             DirectoryInfo info = new DirectoryInfo(FilePath);
-         
-            //if (!info.Exists) info.Create();
+            if (!info.Exists) info.Create();
 
             string path = Path.Combine(FilePath, fileName);
             using (FileStream outputFileStream = new FileStream(path, FileMode.Create))
@@ -41,6 +40,16 @@ namespace PRIME_UCR.Application.Implementations.Multimedia
             //FilePath = "datas/";
             return true;
         }
+
+        public bool StoreFile(string filePath)
+        {
+            using (var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+            {
+                // read from file
+            }
+            return false;
+        }
+
         public void SetKeyIV(byte[] iv, byte[] key) {
             ES.SetKeyIV(iv, key);
         }

@@ -1,0 +1,48 @@
+﻿@using BlazorTable
+@using PRIME_UCR.Domain.Models.Appointments
+@using PRIME_UCR.Domain.Models.MedicalRecords
+@inject IIncidentService incident_service
+@inject IMedicalRecordService medical_record_service
+<h3>Lista de Citas</h3>
+
+<style>
+    body {
+        background-color: white;
+    }
+</style>
+
+
+<ListItem Title="Paciente" Text="@get_patient_name()" />
+<ListItem Title="Número de expediente" Text="@get_record_id()" />
+<ListItem Title="Cédula del paciente" Text="@get_patient_identification()" />
+
+<Loading IsLoading="appointments == null">
+    <Table TableItem="DateIncidentModel" Items="dat_in_link" PageSize="5" @ref="AppointmIncidentModel" ColumnReorder="true" ShowSearchBar="true" class="table table-bordered">
+        <Column TableItem="DateIncidentModel" Title="Numero de Cita" Field="@(x => x.date.Id)" Width="20%">
+            <Template>
+                <a href="#">@context.date.Id</a>
+            </Template>
+        </Column>
+
+
+        <Column TableItem="DateIncidentModel" Title="Tipo" Field="@(x => x.type)" Width="20%">
+        </Column>
+
+        <Column TableItem="DateIncidentModel" Title="Código" Field="@(x => x.incident.Codigo)" Width="20%">
+        </Column>
+
+        <Column TableItem="DateIncidentModel" Title="Fecha creación" Field="@(x => x.date.FechaHoraCreacion)" Width="20%">
+        </Column>
+
+        <Column TableItem="DateIncidentModel" Title="Lugar de atención" Field="@(x => x.medical_center.Nombre)" Width="20%">
+        </Column>
+
+        <EmptyDataTemplate>
+            <div class="text-center">
+                No se encontraron citas relacionadas al expediente.
+            </div>
+        </EmptyDataTemplate>
+
+        <Pager ShowPageNumber="true" ShowTotalCount="true" />
+    </Table>
+</Loading>

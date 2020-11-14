@@ -1,4 +1,5 @@
 ﻿@inject IJSRuntime JS
+@inject PRIME_UCR.Application.Services.Multimedia.IFileService  fileService
 
 <div class="rt-container">
 
@@ -8,9 +9,18 @@
 
     <img src="" class="hidden" @ref=imageElement/>
 
-    <button type="button" class="btn btn-primary rt-button" @onclick="HandleClick">@ButtonText()</button>
-
+    <div class="row">
+        <div class="col">
+            <button type="button" class="btn btn-primary rt-button" @onclick="HandleClick">@ButtonText()</button>
+        </div>
+        <div class="col">
+            @if (!photoTaken)
+            {
+                <button class="btn btn-primary" disabled>Guardar</button>
+            }
+            <a class="@DowloadLinkClass()" @ref=downloadLinkRef>Guardar</a>
+            
+        </div>
+    </div>
      
 </div>
-
-@*<button type="button" class="btn btn-primary" @onclick="CloseCamera">Cerrar Camara</button>*@

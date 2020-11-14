@@ -12,6 +12,8 @@ namespace PRIME_UCR.Application.Services.Multimedia
         public string KeyString { get; set; }
         public string IVString { get; set; }
         public Task<bool> StoreFile(string fileName, Stream fileStream);
+        public bool StoreFile(string filePath);
+
         public void SetKeyIV(byte[] iv, byte[] key);
     }
 }

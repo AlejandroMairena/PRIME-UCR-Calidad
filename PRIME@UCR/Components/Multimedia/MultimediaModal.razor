@@ -12,7 +12,11 @@
 
     @if (ShowCamera)
     {
-        <CameraComponent></CameraComponent>
+        <CameraComponent MultimediaModal="this"></CameraComponent>
+    }
+    @if (ShowMicrophone)
+    {
+        <MicrophoneComponent></MicrophoneComponent>
     }
     @if (ShowImage)
     {

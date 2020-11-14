@@ -1,30 +1,44 @@
 @using PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
-@using PRIME_UCR.Application.DTOs.UserAdministration
+@using PRIME_UCR.Domain.Constants
 
 <div class="container">
     @if (Active == DetailsTab.Info)
     {
-        <InfoTab DetailsModel="@Incident" OnSave="@Save"/>
+        <PermissionAuthorizeView Permission="@AuthorizationPermissions.CanSeeBasicDetailsOfIncidents">
+            <InfoTab DetailsModel="@Incident" OnSave="@Save" />
+        </PermissionAuthorizeView>
     }
     else if (Active == DetailsTab.Origin)
     {
-        <OriginTab Origin="@Incident.Origin" OnSave="@SaveOrigin"/>
+        <PermissionAuthorizeView Permission="@AuthorizationPermissions.CanEditBasicDetailsOfIncident">
+            <OriginTab Origin="@Incident.Origin" OnSave="@SaveOrigin" />
+        </PermissionAuthorizeView>
     }
     else if (Active == DetailsTab.Destination)
     {
-        <DestinationTab Destination="@Incident.Destination" OnSave="@SaveDestination"/>
+        <PermissionAuthorizeView Permission="@AuthorizationPermissions.CanEditBasicDetailsOfIncident">
+            <DestinationTab Destination="@Incident.Destination" OnSave="@SaveDestination" />
+        </PermissionAuthorizeView>
     }
     else if (Active == DetailsTab.Patient)
     {
-        <PatientTab Incident="@Incident" OnSave="@SavePatient"/>
+        <PermissionAuthorizeView Permission="@AuthorizationPermissions.CanSeeInfoOfIncidentsPatient">
+            <PatientTab Incident="@Incident" OnSave="@SavePatient" />
+        </PermissionAuthorizeView>
     }
     else if (Active == DetailsTab.Multimedia)
     {
-        <MultimediaTab Incident="@Incident"/>
+        <MultimediaTab Incident="@Incident" />
     }
     else if (Active == DetailsTab.Assignment)
     {
-        <Assignment Incident="@Incident" />
+        <PermissionAuthorizeView Permission="@AuthorizationPermissions.CanAssignIncidents">
+            <Assignment Incident="@Incident" />
+        </PermissionAuthorizeView>
+    }
+    else if (Active == DetailsTab.Checklist)
+    {
+        <CheckList Incident="@Incident" />
     }
     else
     {

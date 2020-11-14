@@ -23,6 +23,10 @@ namespace PRIME_UCR.Infrastructure.EntityConfiguration.MedicalRecords
                 .HasOne(e => e.Medico)
                 .WithMany()
                 .HasForeignKey(e => e.CedulaMedicoDuenno);
+
+            builder
+                .HasMany(e => e.Citas)
+                .WithOne(e => e.Expediente);
         }
     }
 }

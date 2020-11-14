@@ -25,6 +25,8 @@ namespace PRIME_UCR.Components.Multimedia
         [Parameter]
         public bool ShowImage { get; set; } = false;
         [Parameter]
+        public bool ShowMicrophone { get; set; }
+        [Parameter]
         public MultimediaContent MContent { get; set; }
         [Parameter]
         public bool ShowText { get; set; } = false;
@@ -33,9 +35,14 @@ namespace PRIME_UCR.Components.Multimedia
         [Parameter]
         public IEncryptionService ES { get; set; }
 
+        public delegate Task ModalClosed();
+        public event ModalClosed OnModalClosed;
+
         async Task CloseImageView()
         {
             Show = false;
+
+            if (OnModalClosed != null) await OnModalClosed();
             string pathEncrypted = MContent.Archivo;
             byte[] pathEncryptedByte = System.Convert.FromBase64String(pathEncrypted);
             setKeyIV();
