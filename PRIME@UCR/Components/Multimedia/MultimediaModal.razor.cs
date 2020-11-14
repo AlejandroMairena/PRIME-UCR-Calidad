@@ -43,14 +43,19 @@ namespace PRIME_UCR.Components.Multimedia
             Show = false;
 
             if (OnModalClosed != null) await OnModalClosed();
-            string pathEncrypted = MContent.Archivo;
-            byte[] pathEncryptedByte = System.Convert.FromBase64String(pathEncrypted);
-            setKeyIV();
-            string pathDecrypted = encrypt_service.Decrypt(pathEncryptedByte);
-            encrypt_service.EncryptFile(pathDecrypted);
-            await OnClose.InvokeAsync(Show);
-            
+            if (ShowMicrophone == true || ShowCamera == true)
+            {
+                await OnClose.InvokeAsync(Show);
 
+            }
+            else {
+                string pathEncrypted = MContent.Archivo;
+                byte[] pathEncryptedByte = System.Convert.FromBase64String(pathEncrypted);
+                setKeyIV();
+                string pathDecrypted = encrypt_service.Decrypt(pathEncryptedByte);
+                encrypt_service.EncryptFile(pathDecrypted);
+                await OnClose.InvokeAsync(Show);
+            }
         }
         string getSrc() {
             //string src = MContent.Archivo; 

@@ -31,6 +31,7 @@ namespace PRIME_UCR.Components.Multimedia
         // Modal Variables 
         bool showModal = false;
         bool showCamera = false;
+        bool showMicrophone = false;
         bool showAudio = false;
         bool showImage = false;
         bool showText = false;
@@ -190,6 +191,7 @@ namespace PRIME_UCR.Components.Multimedia
             showCamera = true;
             showAudio = false;
             showImage = false;
+            showMicrophone = false;
             showText = false;
             showVideo = false;
             modalMContent = null;
@@ -200,6 +202,7 @@ namespace PRIME_UCR.Components.Multimedia
             showCamera = false;
             showAudio = true;
             showImage = false;
+            showMicrophone = false;
             showText = false;
             showVideo = false;
             modalMContent = mcontent;
@@ -210,6 +213,7 @@ namespace PRIME_UCR.Components.Multimedia
             showCamera = false;
             showAudio = false;
             showImage = true;
+            showMicrophone = false;
             showText = false;
             showVideo = false;
             modalMContent = mcontent;
@@ -220,6 +224,7 @@ namespace PRIME_UCR.Components.Multimedia
             showCamera = false;
             showAudio = false;
             showImage = false;
+            showMicrophone = false;
             showText = true;
             showVideo = false;
             modalMContent = mcontent;
@@ -229,10 +234,21 @@ namespace PRIME_UCR.Components.Multimedia
             showCamera = false;
             showAudio = false;
             showImage = false;
+            showMicrophone = false;
             showText = false;
             showVideo = true;
             modalMContent = mcontent;
-
+        }
+        void OpenMicrophone()
+        {
+            showModal = true;
+            showCamera = false;
+            showAudio = false;
+            showImage = false;
+            showMicrophone = true;
+            showText = false;
+            showVideo = false;
+            modalMContent = null;
         }
     }
 }
