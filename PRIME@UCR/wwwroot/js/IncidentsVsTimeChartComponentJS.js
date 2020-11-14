@@ -6,7 +6,7 @@
         var chartData = [];
 
         incidentsPerDay.forEach((perDayList) => {
-            var date = perDayList[0].cita.fechaHoraCreacion.substring(0, 10);
+            var date = perDayList[0].cita.fechaHoraEstimada.substring(0, 10);
             var quantity = perDayList.length;
 
             console.log(date, quantity);
