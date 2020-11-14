@@ -36,8 +36,13 @@ namespace PRIME_UCR.Components.Multimedia
         async Task CloseImageView()
         {
             Show = false;
+            string pathEncrypted = MContent.Archivo;
+            byte[] pathEncryptedByte = System.Convert.FromBase64String(pathEncrypted);
+            setKeyIV();
+            string pathDecrypted = encrypt_service.Decrypt(pathEncryptedByte);
+            encrypt_service.EncryptFile(pathDecrypted);
             await OnClose.InvokeAsync(Show);
-
+            
 
         }
         string getSrc() {
@@ -47,9 +52,10 @@ namespace PRIME_UCR.Components.Multimedia
             byte[] pathEncryptedByte = System.Convert.FromBase64String(pathEncrypted);
             setKeyIV();
             string pathDecrypted = encrypt_service.Decrypt(pathEncryptedByte);
-
-            //string path = "img/prueba.mp4";
-            return pathDecrypted;
+            string filename = MContent.Nombre;
+            encrypt_service.DecryptFile(pathDecrypted);
+            string path = pathDecrypted.Replace("wwwroot/","");
+            return path;
         }
         string getName() {
             //MContent tiene el name, hay que sacarlo de ahi para que sea dinamico
@@ -57,15 +63,19 @@ namespace PRIME_UCR.Components.Multimedia
             string src = MContent.Nombre;
             return src;
         }
-        async Task getText() {
+        async Task getText() {//REVISAR
             //AQUI HAY QUE DESENCRIPTAR EL ARCHIVO Y EL PATH PARA HACERLO DINAMICO
             string pathEncrypted = MContent.Archivo;
             byte[] pathEncryptedByte = System.Convert.FromBase64String(pathEncrypted);
             setKeyIV();
             string pathDecrypted = encrypt_service.Decrypt(pathEncryptedByte);
+            string filename = MContent.Nombre;
+            encrypt_service.DecryptFile(pathDecrypted);
 
+            string path = pathDecrypted.Replace("wwwroot/", "");
+           
             //string path = "img/prueba.txt";
-            await JS.InvokeAsync<bool>("showTxt", pathDecrypted);
+            await JS.InvokeAsync<bool>("showTxt", path);
 
 
 
@@ -77,18 +87,18 @@ namespace PRIME_UCR.Components.Multimedia
             string pathDecrypted = encrypt_service.Decrypt(pathEncryptedByte);
             string filename = MContent.Nombre;
             encrypt_service.DecryptFile(pathDecrypted);
-
-            //string path = "img/prueba.mp4";
-            return pathDecrypted;
+            string path = pathDecrypted.Replace("wwwroot/", "");
+            return path;
         }
         string getVideo() {
             string pathEncrypted = MContent.Archivo;
             byte[] pathEncryptedByte = System.Convert.FromBase64String(pathEncrypted);
             setKeyIV();
             string pathDecrypted = encrypt_service.Decrypt(pathEncryptedByte);
-
-            //string path = "img/prueba.mp4";
-            return pathDecrypted;
+            string filename = MContent.Nombre;
+            encrypt_service.DecryptFile(pathDecrypted);
+            string path = pathDecrypted.Replace("wwwroot/", "");
+            return path;
         }
         void setKeyIV() {
             //string keyString = Configuration.GetConnectionString("Key");

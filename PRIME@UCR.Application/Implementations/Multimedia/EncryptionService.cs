@@ -78,8 +78,8 @@ namespace PRIME_UCR.Application.Implementations.Multimedia
             }
         }
 
-        public bool EncryptFile(string path, string fileName) {
-            string filePath = Path.Combine(path, fileName);
+        public bool EncryptFile(string path) {
+            string filePath = path;
             string fileText = FiletoString(filePath);
             byte[] encryptedFile = Encrypt(fileText);
             //string encryptedFileData = Encrypt(fileText);

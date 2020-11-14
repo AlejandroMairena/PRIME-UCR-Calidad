@@ -1,7 +1,0 @@
-Lab 5, Ingenieria de Software
-
-Adrian Cordoba Soto, B82348
-Gustavo Jimenez Hernandez, B84060
-
-Repositorio: https://bitbucket.org/gustavojh1/ecci_ci0126_ii2020_lab2_b84060/src/master/
-

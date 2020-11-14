@@ -92,8 +92,9 @@ namespace PRIME_UCR.Components.Multimedia
         async Task<MultimediaContent> StoreMultimediaContent(IFileListEntry file)
         {
             if (file == null) return null;
-
+            //string path = "datas/";
             string filePath = EncryptFilePath(file_service.FilePath, file.Name);
+            //string filePath = EncryptFilePath(path, file.Name);
             MultimediaContent mcontent = FileToMultimediaContent(file, filePath);
             return await multimedia_content_service.AddMultimediaContent(mcontent);
         }
@@ -215,7 +216,7 @@ namespace PRIME_UCR.Components.Multimedia
         }
         void OpenText(MultimediaContent mcontent) 
         {
-            showModal = false;
+            showModal = true;
             showCamera = false;
             showAudio = false;
             showImage = false;
