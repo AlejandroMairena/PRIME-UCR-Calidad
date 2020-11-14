@@ -28,5 +28,8 @@ namespace PRIME_UCR.Application.Permissions.Incidents
 
         [RequirePermissions(new[] { AuthorizationPermissions.CanEditBasicDetailsOfIncident })]
         public abstract Task<IncidentDetailsModel> UpdateIncidentDetailsAsync(IncidentDetailsModel model);
+
+        [RequirePermissions(new[] { AuthorizationPermissions.CanCreateIncidents })]
+        public abstract Task<Incidente> CreateIncidentAsync(IncidentModel model, Persona person);
     }
 }

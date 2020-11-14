@@ -67,8 +67,15 @@ namespace PRIME_UCR.Application.Implementations.Incidents
             return await _modesRepository.GetAllAsync();
         }
 
+        /*
+         * Function: Create a new incident and adds it to the databse
+         * @param: IncidentModel that contains all details in incident. And a Persona
+         * that will be the administrator of that incident.
+         * @return: The incident just created.
+         */
         public async Task<Incidente> CreateIncidentAsync(IncidentModel model, Persona person)
         {
+            await _primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             if (model.EstimatedDateOfTransfer == null)
             {
                 throw new ArgumentNullException("model.EstimatedDateOfTransfer");
