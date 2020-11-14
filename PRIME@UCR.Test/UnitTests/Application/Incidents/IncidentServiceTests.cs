@@ -12,6 +12,7 @@ using Xunit;
 using PRIME_UCR.Application.Dtos.Incidents;
 using PRIME_UCR.Domain.Models.MedicalRecords;
 using System;
+using PRIME_UCR.Application.DTOs.Incidents;
 
 namespace PRIME_UCR.Test.UnitTests.Application.Incidents
 {
@@ -302,7 +303,101 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
             await incidentServiceToTest.RejectIncidentAsync(code, reviewerId);
         }
 
+        [Fact]
+        public async Task GetTransportModesAsyncReturnsNonEmptyList()
+        {
+            // arrange
+            var _MockIncidentRepository = new Mock<IIncidentRepository>();
+            var _MockModesRepository = new Mock<IModesRepository>();
+            var ter = new Modalidad { Tipo = "Terrestre" };
+            var mar = new Modalidad { Tipo = "Marítimo" };
+            var aer = new Modalidad { Tipo = "Aéreo" };
+            List<Modalidad> expected = new List<Modalidad> { ter, mar, aer, ter};
 
+            _MockModesRepository
+                .Setup(p => p.GetAllAsync())
+                .Returns(Task.FromResult<IEnumerable<Modalidad>>(expected));
 
+            var service = new IncidentService(
+                _MockIncidentRepository.Object,
+                _MockModesRepository.Object, null, null, null, null, null, null);
+
+            // act
+            var result = (await service.GetTransportModesAsync()).ToList();
+
+            // assert
+            Assert.Equal(expected, result);
+        }
+
+        [Fact]
+        public async Task GetTransportModesAsyncReturnsEmptyList()
+        {
+            // arrange
+            var _MockIncidentRepository = new Mock<IIncidentRepository>();
+            var _MockModesRepository = new Mock<IModesRepository>();
+
+            List<Modalidad> expected = new List<Modalidad>();
+
+            _MockModesRepository
+                .Setup(p => p.GetAllAsync())
+                .Returns(Task.FromResult<IEnumerable<Modalidad>>(expected));
+
+            var service = new IncidentService(
+                _MockIncidentRepository.Object,
+                _MockModesRepository.Object, null, null, null, null, null, null);
+
+            // act
+            var result = (await service.GetTransportModesAsync()).ToList();
+           
+            // assert
+            Assert.Equal(expected, result);
+        }
+
+        [Fact]
+        public async Task GetIncidentListModelsAsyncReturnsNonEmptyList()
+        {
+            // arrange
+            var _MockIncidentRepository = new Mock<IIncidentRepository>();
+            var incident1 = new IncidentListModel { Codigo = "123abc" };
+            var incident2 = new IncidentListModel { Codigo = "456def" };
+            var incident3 = new IncidentListModel { Codigo = "789ghi" };
+
+            List<IncidentListModel> expected = new List<IncidentListModel> { incident1, incident2, incident3};
+
+            _MockIncidentRepository
+                .Setup(p => p.GetIncidentListModelsAsync())
+                .Returns(Task.FromResult<IEnumerable<IncidentListModel>>(expected));
+
+            var service = new IncidentService(
+                _MockIncidentRepository.Object,
+                null, null, null, null, null, null, null);
+
+            // act
+            var result = (await service.GetIncidentListModelsAsync()).ToList();
+            // assert
+            Assert.Equal(expected, result);
+        }
+
+        [Fact]
+        public async Task GetIncidentListModelsAsyncReturnsEmptyList()
+        {
+            // arrange
+            var _MockIncidentRepository = new Mock<IIncidentRepository>();
+
+            List<IncidentListModel> expected = new List<IncidentListModel>();
+
+            _MockIncidentRepository
+                .Setup(p => p.GetIncidentListModelsAsync())
+                .Returns(Task.FromResult<IEnumerable<IncidentListModel>>(expected));
+
+            var service = new IncidentService(
+                _MockIncidentRepository.Object,
+                null, null, null, null, null, null, null);
+
+            // act
+            var result = (await service.GetIncidentListModelsAsync()).ToList();
+            // assert
+            Assert.Equal(expected, result);
+        }
     }
 }
