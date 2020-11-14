@@ -49,6 +49,10 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
             return lists;
         }
 
+        public async Task<IEnumerable<InstanceChecklist>> GetByIdAndIncidentCode(int checkListId, string incidentCode)
+        {
+            return await _instancechecklistRepository.GetById(checkListId, incidentCode);
+        }
 
         public async Task<InstanceChecklist> UpdateInstanceChecklist(InstanceChecklist list)
         {

@@ -89,6 +89,10 @@ namespace PRIME_UCR.Pages.CheckLists
         public List<string> states = new List<string>();
         public List<string> details = new List<string>();
         public int validateEdit;
+
+        public string StartTime;
+        public string EndTime;
+        public string MyDuration;
         protected override async Task OnInitializedAsync()
         {
             await RefreshModels();
@@ -97,6 +101,8 @@ namespace PRIME_UCR.Pages.CheckLists
         protected async Task RefreshModels()
         {
             list = await MyCheckListService.GetById(plantillaid);
+            IEnumerable<InstanceChecklist> MyInstance = await MyCheckInstanceChechistService.GetByIdAndIncidentCode(plantillaid, incidentcod);
+            insanceLC = MyInstance.First();
             IEnumerable<Item> tempItems = await MyCheckListService.GetItemsByCheckListId(plantillaid);
             items = tempItems.ToList();
             IEnumerable<InstanciaItem> tempInstancedItems = await MyCheckInstanceChechistService.GetItemsByIncidentCodAndCheckListId(incidentcod, plantillaid);
@@ -119,9 +125,9 @@ namespace PRIME_UCR.Pages.CheckLists
             state = await MyIncidentService.GetIncidentStateByIdAsync(incidentcod);
             Incident = await MyIncidentService.GetIncidentDetailsAsync(incidentcod);
             Summary.LoadValues(Incident);
-            await GetNumAllItems();
-            await GetNumComplete();
-            updateChecklistState();
+            totalItems = await MyCheckInstanceChechistService.GetNumberOfItems(incidentcod, plantillaid);
+            completedItems = await MyCheckInstanceChechistService.GetNumberOfCompletedItems(incidentcod, plantillaid);
+            await updateChecklistState();
             updateState();
         }
 
@@ -133,7 +139,7 @@ namespace PRIME_UCR.Pages.CheckLists
         {
             await MyCheckInstanceChechistService.UpdateInstanceChecklist(insanceLC);
             await RefreshModels();
-
+            StateHasChanged();
         }
         /*
          * ALL states if incident
@@ -174,27 +180,51 @@ namespace PRIME_UCR.Pages.CheckLists
                 stateInstanceList = "Completado";
                 insanceLC.Completado = true;
                 await MyCheckInstanceChechistService.UpdateInstanceChecklist(insanceLC);
+                DateTime? tempStartTime = DateTime.Now;
+                foreach (var instance in itemsInstance)
+                {
+                    if (instance.FechaHoraInicio < tempStartTime)
+                    {
+                        tempStartTime = instance.FechaHoraInicio;
+                    }
+                }
+                StartTime = tempStartTime.ToString();
+                DateTime? tempEndTime = itemsInstance.First().FechaHoraInicio;
+                foreach (var instance in itemsInstance)
+                {
+                    if (instance.FechaHoraInicio > tempEndTime)
+                    {
+                        tempEndTime = instance.FechaHoraInicio;
+                    }
+                }
+                EndTime = tempEndTime.ToString();
+                StartTime = tempStartTime.ToString();
+                TimeSpan duration = (TimeSpan)(tempEndTime - tempStartTime);
+                MyDuration = "Duración: " + duration.Days + " dia(s) " + duration.Hours + " hora(s) " + duration.Minutes + " minuto(s).";
             }
-            else if (totalItems > completedItems)
+            else if (totalItems > completedItems && completedItems != 0)
             {
                 stateInstanceList = "En proceso";
                 insanceLC.Completado = false;
                 await MyCheckInstanceChechistService.UpdateInstanceChecklist(insanceLC);
+                DateTime? tempTime = DateTime.Now;
+                foreach (var instance in itemsInstance)
+                {
+                    if (instance.FechaHoraInicio < tempTime)
+                    {
+                        tempTime = instance.FechaHoraInicio;
+                    }
+                }
+                StartTime = tempTime.ToString();
+                EndTime = "";
             }
             else if (0 == completedItems)
             {
                 stateInstanceList = "Pendiente";
                 insanceLC.Completado = false;
                 await MyCheckInstanceChechistService.UpdateInstanceChecklist(insanceLC);
+                StartTime = "";
             }
-        }
-        public async Task GetNumComplete()
-        {
-            completedItems = await MyCheckInstanceChechistService.GetNumberOfCompletedItems(incidentcod, plantillaid);
-        }
-        public async Task GetNumAllItems()
-        {
-            totalItems = await MyCheckInstanceChechistService.GetNumberOfItems(incidentcod, plantillaid);
         }
 
         public async Task GetName(int id)
@@ -293,15 +323,16 @@ namespace PRIME_UCR.Pages.CheckLists
             NavManager.NavigateTo($"{IncidentURL}");
         }
 
-        protected void CheckItem(InstanciaItem itemIn, ChangeEventArgs e)
+        protected async Task CheckItem(InstanciaItem itemIn, ChangeEventArgs e)
         {
              itemIn.Completado = (bool)e.Value;
             // metodo //MyCheckInstanceChechistService.UpdateItem(itemIn);
             //count += (bool)e.Value ? 1 : -1;
             getDate(itemIn, e);
             
-            MyCheckInstanceChechistService.UpdateItemInstance(itemIn);
-            RefreshModels();
+            await MyCheckInstanceChechistService.UpdateItemInstance(itemIn);
+            await RefreshModels();
+            StateHasChanged();
         }
 
         ///Borrar
@@ -341,9 +372,6 @@ namespace PRIME_UCR.Pages.CheckLists
             else {
                 Item.FechaHoraInicio = null;
             }
-
-           RefreshModels();
-            
         }
     }
 }

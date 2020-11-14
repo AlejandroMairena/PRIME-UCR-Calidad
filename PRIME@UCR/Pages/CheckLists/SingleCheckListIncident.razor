@@ -82,9 +82,12 @@
                         <br />
 
                 *@
-                Fecha-hora de inicio: @itemsInstance.First().FechaHoraInicio <br />
-                Fecha-hora de finalizada:  xx/xx/xx __:__:__ xm <br />
-                Duración: xx días xx horas xx minutos
+                Fecha-hora de inicio: @StartTime <br />
+                Fecha-hora de finalizada:  @EndTime <br />
+                @if (EndTime != "")
+                {
+                    @MyDuration
+                }
             </p>
             <h5> Items de la lista de chequeo</h5>
                     <SummaryMessage Content="states" Values="details" Class="info" /> @*checklist in incident state*@
