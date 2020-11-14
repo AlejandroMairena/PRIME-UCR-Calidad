@@ -158,7 +158,7 @@ namespace PRIME_UCR.Pages.CheckLists
         */
         public void updateState()
         {
-            if (state.Nombre =="En proceso de creación" || state.Nombre == "Creado" || state.Nombre == "Rechazdo" || state.Nombre == "Aceptado" ){
+            if (state.Nombre =="En proceso de creación" || state.Nombre == "Creado" || state.Nombre == "Rechazado" || state.Nombre == "Aprobado" ){
                 validateEdit = 0;
                 details[0] = state.Nombre;
                 details[1] = instruct[0];
