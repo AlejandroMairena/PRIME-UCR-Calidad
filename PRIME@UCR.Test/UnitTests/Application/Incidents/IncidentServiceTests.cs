@@ -18,6 +18,88 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
     public class IncidentServiceTests
     {
         [Fact]
+        public async Task CreateIncidentAsyncThrowsNullException()
+        {
+            var service = new IncidentService(
+                null,
+                null, null, null, null, null, null, null);
+ 
+             DateTime date = new DateTime(2069, 11, 25);
+ 
+             var person = new Persona { Cédula = "123" };
+             var personCedulaNull = new Persona { };
+             var model = new IncidentModel { EstimatedDateOfTransfer = date };
+             var modelDateNull = new IncidentModel { };
+ 
+             // assert
+             await Assert.ThrowsAsync<ArgumentNullException>(() => service.CreateIncidentAsync(modelDateNull, person));
+             await Assert.ThrowsAsync<ArgumentNullException>(() => service.CreateIncidentAsync(model, personCedulaNull));
+        }
+ 
+         [Fact]
+         public async Task CreateIncidentAsyncReturnsValid()
+         {
+             var mockRepoIncident = new Mock<IIncidentRepository>();
+             var mockRepoState = new Mock<IIncidentStateRepository>();
+ 
+            var service = new IncidentService(
+                mockRepoIncident.Object,
+                null, mockRepoState.Object, null, null, null, null, null);
+ 
+             DateTime date = new DateTime(2069, 11, 25);
+             var mode = new Modalidad { Tipo = "Accion" };
+             var person = new Persona { Cédula = "123" };
+             var model = new IncidentModel { EstimatedDateOfTransfer = date, Mode = mode };
+ 
+             var result = await service.CreateIncidentAsync(model, person);
+ 
+             Assert.Equal(result.Modalidad, model.Mode.Tipo);
+             Assert.Equal(result.CedulaAdmin, person.Cédula);
+             Assert.Equal(result.Cita.FechaHoraEstimada, model.EstimatedDateOfTransfer);
+         }
+
+        [Fact]
+        public async Task ApproveIncidentAsyncThrowsNullException()
+        {
+            var mockIncident = new Mock<IIncidentRepository>();
+
+            mockIncident
+                .Setup(p => p.GetByKeyAsync(String.Empty))
+                .Returns(Task.FromResult<Incidente>(null));
+
+            var service = new IncidentService(
+                mockIncident.Object,
+                null, null, null, null, null, null, null);
+
+            await Assert.ThrowsAsync<ArgumentException>(() => service.ApproveIncidentAsync("",""));
+
+        }
+
+        [Fact]
+        public async Task ApproveIncidentAsyncThrowsApplicationException()
+        {
+            var mockIncident = new Mock<IIncidentRepository>();
+            var mockState = new Mock<IIncidentStateRepository>();
+
+
+            var incident = new Incidente { Codigo = "1312"};
+            var state = new Estado { Nombre = "Aprobado" };
+
+            mockIncident
+                .Setup(p => p.GetByKeyAsync(String.Empty))
+                .Returns(Task.FromResult<Incidente>(incident));
+            mockState
+                .Setup(p => p.GetCurrentStateByIncidentId(String.Empty))
+                .Returns(Task.FromResult<Estado>(state));
+
+            var service = new IncidentService(
+                mockIncident.Object,
+                null, mockState.Object, null, null, null, null, null);
+
+            await Assert.ThrowsAsync<ApplicationException>(() => service.ApproveIncidentAsync("",""));
+        }
+
+        [Fact]
         public async Task GetAllAsyncReturnsEmptyList()
         {
             // arrange

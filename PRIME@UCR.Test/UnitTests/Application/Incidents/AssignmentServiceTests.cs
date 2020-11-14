@@ -92,14 +92,13 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
         }
 
         [Fact]
-        public async Task GetAssignmentsByIncidentIdAsyncReturnsNull()
+        public async Task GetAssignmentsByIncidentIdAsyncThrowsNullException()
         {
             var mockRepo = new Mock<IIncidentRepository>();
             mockRepo.Setup(p => p.GetByKeyAsync(String.Empty))
                 .Returns(Task.FromResult<Incidente>(null));
             var assignmentService = new AssignmentService(null, null, null, null, mockRepo.Object);
-            var result = await assignmentService.GetAssignmentsByIncidentIdAsync(String.Empty);
-            Assert.Null(result);
+            await Assert.ThrowsAsync<ArgumentException>(() => assignmentService.GetAssignmentsByIncidentIdAsync(String.Empty));
         }
 
         [Fact]

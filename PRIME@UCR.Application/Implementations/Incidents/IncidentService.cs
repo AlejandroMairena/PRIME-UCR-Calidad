@@ -67,6 +67,11 @@ namespace PRIME_UCR.Application.Implementations.Incidents
             {
                 throw new ArgumentNullException("model.EstimatedDateOfTransfer");
             }
+
+            if (person.Cédula == null)
+            {
+                throw new ArgumentNullException("person.Cedula");
+            }
             
             var entity = new Incidente
             {
