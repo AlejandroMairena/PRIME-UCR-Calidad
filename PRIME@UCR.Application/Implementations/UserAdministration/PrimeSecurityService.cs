@@ -39,7 +39,7 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
                     .GetMethod(methodName)
                     .GetCustomAttribute<RequirePermissions>()
                     .Permissions;
-            
+
             var user = (await authenticationStateProvider.GetAuthenticationStateAsync()).User;
             var isAuthorized = true;
             foreach (var permission in permissions)
@@ -53,7 +53,7 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
             }
             if(!isAuthorized)
             {
-                //throw new NotAuthorizedException();
+                throw new NotAuthorizedException();
             }
         }
 
