@@ -17,6 +17,8 @@ using PRIME_UCR.Application.Services.MedicalRecords;
 using PRIME_UCR.Application.Services.Dashboard;
 using PRIME_UCR.Application.Implementations.Dashboard;
 using Microsoft.AspNetCore.Components.Authorization;
+using PRIME_UCR.Application.Services.Dashboard;
+using PRIME_UCR.Application.Implementations.Dashboard;
 
 namespace PRIME_UCR.Application
 {
@@ -40,12 +42,10 @@ namespace PRIME_UCR.Application
             services.AddScoped<IPermissionsService, PermissionsService>();
             services.AddScoped<IProfilesService, ProfilesService>();
             services.AddScoped<IUserService, UsersService>();
-            services.AddScoped<IPrimeAuthorizationService, PrimeAuthorizationService>();
             services.AddTransient<IPermiteService, PermiteService>();
             services.AddTransient<IPerteneceService, PerteneceService>();
             services.AddTransient<IPersonService, PersonService>();
             services.AddTransient<IDoctorService, DoctorService>();
-            services.AddScoped<IPrimeAuthorizationService, PrimeAuthorizationService>();
             services.AddTransient<IPersonService, PersonService>();
             services.AddTransient<IPatientService, PatientService>();
             services.AddTransient<IDoctorService, DoctorService>();
@@ -55,7 +55,9 @@ namespace PRIME_UCR.Application
             services.AddTransient<IDashboardService, DashboardService>();
             services.AddTransient<IAuthenticationService, AuthenticationService>();
             services.AddTransient<IPrimeSecurityService, PrimeSecurityService>();
-            
+            //Dashboard 
+            services.AddTransient<IDashboardService, DashboardService>();
+
             return services;
         }
     }

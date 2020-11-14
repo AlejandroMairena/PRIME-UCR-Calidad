@@ -72,7 +72,7 @@
     <Folder Include="StoredProcedures\UserAdministration" />
     <Folder Include="StoredProcedures\Multimedia" />
     <Folder Include="StoredProcedures\CheckLists" />
-    <Folder Include="Index" />
+    <Folder Include="StoredProcedures\Dashboard" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\CheckLists\CheckList.sql" />
@@ -138,6 +138,7 @@
     <Build Include="StoredProcedures\Multimedia\ObtenerContenidoMultimediaCita.sql" />
     <Build Include="StoredProcedures\Multimedia\FObtenerContendidoMultimediaCita.sql" />
     <Build Include="StoredProcedures\Incidents\InsertarAccion.sql" />
+    <Build Include="StoredProcedures\Dashboard\GetIncidentsCounter.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Scripts\Script.PostDeployment.sql" />
@@ -147,6 +148,5 @@
     <None Include="Scripts\PostDeployment\Users_PostDeployment.sql" />
     <None Include="Scripts\PostDeployment\Appointments_PostDeployment.sql" />
     <None Include="Scripts\PostDeployment\MedicalRecords_PostDeployment.sql" />
-    <None Include="Index\IndexCita.sql" />
   </ItemGroup>
 </Project>

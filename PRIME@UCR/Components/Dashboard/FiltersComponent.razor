@@ -1,7 +1,9 @@
 ﻿@using PRIME_UCR.Components.Dashboard.Filters
 
-<h3>Filtros</h3>
 <div class="row">
+    <div class="col">
+        Filtros
+    </div>
     <div class="col">
         <OriginFilter @bind-value="Value" />
     </div>
@@ -25,7 +27,7 @@
             }
             else
             {
-                    <button disabled class="btn btn-outline-secondary" >Limpiar filtros</button>
+                <button disabled class="btn btn-outline-secondary">Limpiar filtros</button>
             }
         </div>
     </div>

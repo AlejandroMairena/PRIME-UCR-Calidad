@@ -11,5 +11,6 @@ namespace PRIME_UCR.Application.Services.Dashboard
         Task<List<Incidente>> GetAllIncidentsAsync();
 
         Task<List<Distrito>> GetAllDistrictsAsync();
+        Task<int> GetIncidentCounterAsync(string modality);
     }
 }

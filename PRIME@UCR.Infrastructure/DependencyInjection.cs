@@ -81,6 +81,9 @@ namespace PRIME_UCR.Infrastructure
             services.AddTransient<IDashboardRepository, DashboardRepository>();
             services.AddTransient<IAuthenticationRepository, AuthenticationRepository>();
 
+            //dashboard repositories
+            services.AddTransient<IDashboardRepository, DashboardRepository>();
+
             // temporary file service with no encryption
             services.AddTransient<ITempFileServiceNoEncryption, TempFileServiceNoEncryption>();
 

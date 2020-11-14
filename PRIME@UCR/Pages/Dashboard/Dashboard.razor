@@ -28,10 +28,22 @@
 
 @*<LineGraphComponent></LineGraphComponent>*@
 <div class="wrapper">
-    <div class="rounded" style="background-color: white;padding-left: 10px;padding-right: 10px;">
-        <FiltersComponent @bind-Value="FilterInfo" />
+    <div class="rounded" style="background-color: white;padding: 10px">
+        <IncidentsCounterComponent @bind-Value="_finishedLoadingCounters"/>
     </div>
 </div>
+
+<br />
+
+<Loading IsLoading="!_finishedLoadingCounters">
+    <div class="wrapper">
+        <div class="rounded" style="background-color: white;padding-left: 10px;padding-right: 10px;">
+            <FiltersComponent @bind-Value="FilterInfo"/>
+            <br>
+        </div>
+    </div>
+</Loading>
+
 
 <br/>
 
