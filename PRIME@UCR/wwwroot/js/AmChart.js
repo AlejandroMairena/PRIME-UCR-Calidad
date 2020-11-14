@@ -69,6 +69,10 @@
         categoryAxis.tooltip.label.verticalCenter = "middle";
 
         let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+        //Chart Scale
+        valueAxis.min = 0;
+        valueAxis.max = 30;
+
         valueAxis.title.text = "Cantidad de Incidentes";
         valueAxis.title.fontWeight = "bold";
 

@@ -50,6 +50,10 @@
         dateAxis.dateFormats.setKey("day", "dd");
 
         var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+        //Chart Scale
+        valueAxis.min = 0;
+        valueAxis.max = 30;
+
 
         valueAxis.maxPrecision = 0;
         valueAxis.title.text = "Cantidad de Incidentes";

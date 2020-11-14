@@ -38,6 +38,10 @@
         categoryAxis.renderer.grid.template.disabled = true;
 
         var valueAxis = chart.xAxes.push(new am4charts.ValueAxis());
+        //Chart Scale
+        valueAxis.min = 0;
+        valueAxis.max = 50;
+
         valueAxis.min = 0;
         valueAxis.title.text = "Cantidad de Incidentes";
         valueAxis.title.fontWeight = "bold";

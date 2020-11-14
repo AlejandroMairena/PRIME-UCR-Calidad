@@ -11,6 +11,8 @@ namespace PRIME_UCR.Components.Dashboard
 {
     public partial class IncidentsVsDestinationLocationComponentJS
     {
+        private int eventQuantity { get; set; }
+
         [Inject]
         IJSRuntime JS { get; set; }
 
@@ -27,6 +29,7 @@ namespace PRIME_UCR.Components.Dashboard
         {
             var incidentsData = await _dashboardService.GetAllIncidentsAsync();
 
+            eventQuantity = incidentsData.Count();
 
             var districtData = await _dashboardService.GetAllDistrictsAsync();
 

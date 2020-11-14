@@ -38,6 +38,10 @@
         categoryAxis.renderer.grid.template.disabled = true;
 
         var valueAxis = chart.xAxes.push(new am4charts.ValueAxis());
+        //Chart Scale
+        valueAxis.min = 0;
+        valueAxis.max = 50;
+
         valueAxis.title.text = "Cantidad de Incidentes";
         valueAxis.title.fontWeight = "bold";
         valueAxis.min = 0;
@@ -45,7 +49,8 @@
         var series = chart.series.push(new am4charts.ColumnSeries());
         series.dataFields.categoryY = "origin";
         series.dataFields.valueX = "quantity";
-        series.tooltipText = "{valueX.value}"
+        //series.tooltipText = "{categoryY}: [bold]{valueX}"
+        //series.tooltipText = "{valueX.value}"
         series.columns.template.strokeOpacity = 0;
         series.columns.template.column.cornerRadiusBottomRight = 5;
         series.columns.template.column.cornerRadiusTopRight = 5;

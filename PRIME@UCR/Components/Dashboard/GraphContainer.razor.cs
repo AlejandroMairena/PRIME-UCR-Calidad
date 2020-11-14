@@ -12,6 +12,9 @@ namespace PRIME_UCR.Components.Dashboard
         public string Title { get; set; }
 
         [Parameter]
+        public int EventQuantity { get; set; }
+
+        [Parameter]
         public RenderFragment ChildContent { get; set; }
 
 
