@@ -98,8 +98,15 @@ namespace PRIME_UCR.Application.Implementations.Incidents
             
             return entity;
         }
+
+        /*
+         * Function: Gets all specific details in an incident
+         * @param: incident code
+         * @return: IncidentDetailsModel with all the details attributes
+         */
         public async Task<IncidentDetailsModel> GetIncidentDetailsAsync(string code)
         {
+            await _primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             var incident = await _incidentRepository.GetWithDetailsAsync(code);
             if (incident != null)
             {
@@ -133,8 +140,15 @@ namespace PRIME_UCR.Application.Implementations.Incidents
             return null;
         }
 
+        /*
+         * Function: Updates to database the modified info of incident
+         * @param: IncidentDetailsModel that will contain all the new info to be added into the database 
+         * for the update.
+         * @return: the just added incidentListModel.
+         */
         public async Task<IncidentDetailsModel> UpdateIncidentDetailsAsync(IncidentDetailsModel model)
         {
+            await _primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             var incident = await _incidentRepository.GetByKeyAsync(model.Code);
             
             if (model.Origin is CentroUbicacion origin
@@ -235,8 +249,13 @@ namespace PRIME_UCR.Application.Implementations.Incidents
             return false;
         }
 
+        /*
+         * Function: Will return all incidents in a list
+         * @return: IEnumerable<Incidente>
+         */
         public async Task<IEnumerable<Incidente>> GetAllAsync()
         {
+            await _primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             return await _incidentRepository.GetAllAsync();
         }
 
