@@ -7,7 +7,9 @@
 @if (Incident.CurrentState == IncidentStates.InCreationProcess.Nombre || Incident.CurrentState == IncidentStates.Created.Nombre
                                                                         || Incident.CurrentState == IncidentStates.Rejected.Nombre)
 {
-    <MatThemeProvider Theme="@AddButtonTheme">
+<MatThemeProvider Theme="@AddButtonTheme" >
+    <div data-toggle="tooltip" title="Presione para instanciar una nueva lista de chequeo">
         <MatFAB Icon="@MatIconNames.Add" Class="app-fab--absolute" OnClick="@(_ => Redirect())"></MatFAB>
-    </MatThemeProvider>
+    </div>
+</MatThemeProvider>
 }
