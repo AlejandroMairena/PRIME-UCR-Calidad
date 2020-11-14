@@ -259,5 +259,54 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
             Assert.True(result);
         }
 
+        [Fact]
+        public async Task GetAssignedDestinationDoctorReturnsValid()
+        {
+            // arrange
+            var _MockIncidentRepository = new Mock<IIncidentRepository>();
+            var incident1 = new IncidentListModel { Codigo = "123abc" };
+            var incident2 = new IncidentListModel { Codigo = "456def" };
+            var incident3 = new IncidentListModel { Codigo = "789ghi" };
+            string code = "código válido";
+            Médico expected = new Médico { Cédula = "122873402" };
+
+            _MockIncidentRepository
+                .Setup(p => p.GetAssignedDestinationDoctor(code))
+                .Returns(Task.FromResult(expected));
+
+
+            var AssignmentService = new AssignmentService(null, null, null, null, _MockIncidentRepository.Object);
+
+
+            // act
+            var result = (await AssignmentService.GetAssignedDestinationDoctor(code));
+            // assert
+            Assert.Equal(expected, result);
+        }
+
+        [Fact]
+        public async Task GetAssignedDestinationDoctorReturnsNull()
+        {
+            // arrange
+            var _MockIncidentRepository = new Mock<IIncidentRepository>();
+            var incident1 = new IncidentListModel { Codigo = "123abc" };
+            var incident2 = new IncidentListModel { Codigo = "456def" };
+            var incident3 = new IncidentListModel { Codigo = "789ghi" };
+            string code = "código válido";
+            Médico expected = null;
+
+            _MockIncidentRepository
+                .Setup(p => p.GetAssignedDestinationDoctor(code))
+                .Returns(Task.FromResult(expected));
+
+
+            var AssignmentService = new AssignmentService(null, null, null, null, _MockIncidentRepository.Object);
+
+
+            // act
+            var result = (await AssignmentService.GetAssignedDestinationDoctor(code));
+            // assert
+            Assert.Equal(expected, result);
+        }
     }
 }
