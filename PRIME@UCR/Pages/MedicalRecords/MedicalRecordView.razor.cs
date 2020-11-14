@@ -19,6 +19,11 @@ namespace PRIME_UCR.Pages.MedicalRecords
         [Parameter]
         public string Id { get; set; }
 
+        [Parameter]
+        public string state { get; set; }
+
+        public bool new_record { get; set; } = false; 
+
         private readonly List<Tuple<DetailsTab, string>> _tabs = new List<Tuple<DetailsTab, string>>();
 
         const DetailsTab DefaultTab = DetailsTab.Info;
@@ -81,6 +86,10 @@ namespace PRIME_UCR.Pages.MedicalRecords
                 exists = false;
             else
                 FillTabStates();
+
+            if (state != null && state == "created") {
+                new_record = true; 
+            }
 
         }
 
