@@ -62,6 +62,8 @@ namespace PRIME_UCR.Infrastructure
             services.AddTransient<IMedicalBackgroundListRepository, MedicalBackgroundListRepository>();
             services.AddTransient<IAlergyRepository, AlergyRepository>();
             services.AddTransient<IAlergyListRepository, AlergyListRepository>();
+            services.AddTransient<IChronicConditionRepository, ChronicConditionRepository>();
+            services.AddTransient<IChronicConditionListRepository, ChronicConditionListRepository>();
             // multimedia
             services.AddTransient<IMultimediaContentRepository, MultimediaContentRepository>();
             services.AddTransient<IActionRepository, ActionRepository>();
