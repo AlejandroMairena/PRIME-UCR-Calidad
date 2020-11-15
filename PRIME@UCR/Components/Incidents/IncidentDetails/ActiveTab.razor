@@ -1,5 +1,7 @@
 @using PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
+@using PRIME_UCR.Components.UserAdministration 
 @using PRIME_UCR.Domain.Constants
+@using PRIME_UCR.Application.DTOs.UserAdministration
 
 <div class="container">
     @if (Active == DetailsTab.Info)
@@ -11,13 +13,15 @@
     else if (Active == DetailsTab.Origin)
     {
         <PermissionAuthorizeView Permission="@AuthorizationPermissions.CanEditBasicDetailsOfIncident">
-            <OriginTab Origin="@Incident.Origin" OnSave="@SaveOrigin" />
+            <OriginTab Incident="@Incident" OnSave="@SaveOrigin"
+                       StatusMessage="@StatusMessage" StatusClass="@StatusClass"/>
         </PermissionAuthorizeView>
     }
     else if (Active == DetailsTab.Destination)
     {
         <PermissionAuthorizeView Permission="@AuthorizationPermissions.CanEditBasicDetailsOfIncident">
-            <DestinationTab Destination="@Incident.Destination" OnSave="@SaveDestination" />
+            <DestinationTab Incident="@Incident" OnSave="@SaveDestination"
+                        StatusMessage="@StatusMessage" StatusClass="@StatusClass"/>
         </PermissionAuthorizeView>
     }
     else if (Active == DetailsTab.Patient)

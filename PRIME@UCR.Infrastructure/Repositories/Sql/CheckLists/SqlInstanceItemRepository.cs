@@ -12,10 +12,11 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using RepoDb;
+using System.Linq;
 
 namespace PRIME_UCR.Infrastructure.Repositories.Sql.CheckLists
 {
-    class SqlInstanceItemRepository : GenericRepository<InstanciaItem, int>, IInstanceItemRepository
+    class SqlInstanceItemRepository : RepoDbRepository<InstanciaItem, int>, IInstanceItemRepository
     {
         public SqlInstanceItemRepository(ISqlDataProvider dataProvider) : base(dataProvider)
         {
@@ -23,17 +24,44 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.CheckLists
 
         public async Task<IEnumerable<InstanciaItem>> GetByIncidentCodAndCheckListId(string incidentCode, int checklistId)
         {
-            return await this.GetByConditionAsync(i => i.IncidentCod == incidentCode && i.PlantillaId == checklistId);
+            using (var connection = new SqlConnection(_db.ConnectionString))
+            {
+                return await connection.ExecuteQueryAsync<InstanciaItem>(
+                    @"
+                    select *
+                    from InstanciaItem
+                    where Codigo_Incidente = @IncidentCode and Id_Lista = @ChecklistId",
+                    new { IncidentCode = incidentCode, ChecklistId = checklistId }
+                );
+            }
         }
 
         public async Task<IEnumerable<InstanciaItem>> GetCoreItems(string incidentCode, int checklistId)
         {
-            return await this.GetByConditionAsync(itemModel => itemModel.IncidentCod == incidentCode && itemModel.PlantillaId == checklistId && itemModel.ItemPadreId == null);
+            using (var connection = new SqlConnection(_db.ConnectionString))
+            {
+                return await connection.ExecuteQueryAsync<InstanciaItem>(
+                    @"
+                    select *
+                    from InstanciaItem
+                    where Codigo_Incidente = @IncidentCode and Id_Lista = @ChecklistId and Id_Item_Padre is null",
+                    new { IncidentCode = incidentCode, ChecklistId = checklistId }
+                );
+            }
         }
 
         public async Task<IEnumerable<InstanciaItem>> GetItemsByFatherId(string incidentCode, int checklistId, int itemId)
         {
-            return await this.GetByConditionAsync(itemModel => itemModel.IncidentCodPadre == incidentCode && itemModel.PlantillaPadreId == checklistId && itemModel.ItemPadreId == itemId);
+            using (var connection = new SqlConnection(_db.ConnectionString))
+            {
+                return await connection.ExecuteQueryAsync<InstanciaItem>(
+                    @"
+                    select *
+                    from InstanciaItem
+                    where Codigo_Incidente_Padre = @IncidentCode and Id_Lista_Padre = @ChecklistId and Id_Item_Padre = @ItemId",
+                    new { IncidentCode = incidentCode, ChecklistId = checklistId, ItemId = itemId }
+                );
+            }
         }
     }
 }

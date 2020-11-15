@@ -53,7 +53,7 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
             }
             if(!isAuthorized)
             {
-                throw new NotAuthorizedException();
+                //throw new NotAuthorizedException();
             }
         }
 

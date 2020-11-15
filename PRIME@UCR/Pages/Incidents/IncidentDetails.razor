@@ -1,4 +1,5 @@
 ﻿@page "/incidents/{Code}"
+@page "/incidents/{Code}/{StartingTab}"
 @using PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
 @using PRIME_UCR.Components.Incidents.IncidentDetails
 @using PRIME_UCR.Components.Controls
@@ -18,9 +19,14 @@
                          TooltipText="Campo pendiente"
                          @bind-Value="_activeTab"/>
             </div> 
-            <div class="col">
+            <div class="col col-xl-10 col-lg-9">
                 <div class="jumbotron white-panel">
-                    <ActiveTab Active="@_activeTab" Incident="_incidentModel" OnSave="@Save"/>
+                    <CascadingValue Value="ClearStatusMessageCallback">
+                        <CascadingValue Value="ChangeActiveTabCallback">
+                            <ActiveTab Active="@_activeTab" Incident="_incidentModel" OnSave="@Save"
+                                StatusMessage="@_statusMessage" StatusClass="@_statusClass"/>
+                        </CascadingValue>
+                    </CascadingValue>
                 </div>
             </div>
         </div>

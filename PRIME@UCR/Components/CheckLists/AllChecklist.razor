@@ -28,7 +28,8 @@
                                 <a href='@string.Format("checklist/{0}", @tempList.Id)'>
                                     <b>
                                         @tempList.Nombre
-                                    </b></a>
+                                    </b>
+                                </a>
                             </Template>
 
                         </Column>
@@ -58,7 +59,7 @@
                                 No se encontraron plantillas de listas de chequeo
                             </div>
                         </EmptyDataTemplate>
-
+                        <Pager ShowPageNumber="true" />
                     </Table>
                 </EditForm>
             </div>
