@@ -23,37 +23,37 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
         {
             var service = new IncidentService(
                 null,
-                null, null, null, null, null, null, null);
- 
+                null, null, null, null, null, null, null, new AuthorizationMock().Object);
+
              DateTime date = new DateTime(2069, 11, 25);
- 
+
              var person = new Persona { Cédula = "123" };
              var personCedulaNull = new Persona { };
              var model = new IncidentModel { EstimatedDateOfTransfer = date };
              var modelDateNull = new IncidentModel { };
- 
+
              // assert
              await Assert.ThrowsAsync<ArgumentNullException>(() => service.CreateIncidentAsync(modelDateNull, person));
              await Assert.ThrowsAsync<ArgumentNullException>(() => service.CreateIncidentAsync(model, personCedulaNull));
         }
- 
+
          [Fact]
          public async Task CreateIncidentAsyncReturnsValid()
          {
              var mockRepoIncident = new Mock<IIncidentRepository>();
              var mockRepoState = new Mock<IIncidentStateRepository>();
- 
+
             var service = new IncidentService(
                 mockRepoIncident.Object,
-                null, mockRepoState.Object, null, null, null, null, null);
- 
+                null, mockRepoState.Object, null, null, null, null, null, new AuthorizationMock().Object);
+
              DateTime date = new DateTime(2069, 11, 25);
              var mode = new Modalidad { Tipo = "Accion" };
              var person = new Persona { Cédula = "123" };
              var model = new IncidentModel { EstimatedDateOfTransfer = date, Mode = mode };
- 
+
              var result = await service.CreateIncidentAsync(model, person);
- 
+
              Assert.Equal(result.Modalidad, model.Mode.Tipo);
              Assert.Equal(result.CedulaAdmin, person.Cédula);
              Assert.Equal(result.Cita.FechaHoraEstimada, model.EstimatedDateOfTransfer);
@@ -70,7 +70,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
 
             var service = new IncidentService(
                 mockIncident.Object,
-                null, null, null, null, null, null, null);
+                null, null, null, null, null, null, null, new AuthorizationMock().Object);
 
             await Assert.ThrowsAsync<ArgumentException>(() => service.ApproveIncidentAsync("",""));
 
@@ -95,7 +95,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
 
             var service = new IncidentService(
                 mockIncident.Object,
-                null, mockState.Object, null, null, null, null, null);
+                null, mockState.Object, null, null, null, null, null, new AuthorizationMock().Object);
 
             await Assert.ThrowsAsync<ApplicationException>(() => service.ApproveIncidentAsync("",""));
         }
@@ -113,7 +113,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
 
             var service = new IncidentService(
                 mockRepo.Object,
-                null, null, null, null, null, null, null);
+                null, null, null, null, null, null, null, new AuthorizationMock().Object);
 
             // act
             var result = await service.GetAllAsync();
@@ -143,7 +143,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
 
             var service = new IncidentService(
                 mockRepo.Object,
-                null, null, null, null, null, null, null);
+                null, null, null, null, null, null, null, new AuthorizationMock().Object);
 
             // act
             var result = await service.GetAllAsync();
@@ -172,7 +172,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
 
             var service = new IncidentService(
                 mockRepo.Object,
-                null, null, null, null, null, null, null);
+                null, null, null, null, null, null, null, new AuthorizationMock().Object);
 
             // act
             var result = await service.GetIncidentAsync("código inválido");
@@ -194,7 +194,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
 
             var service = new IncidentService(
                 mockRepo.Object,
-                null, null, null, null, null, null, null);
+                null, null, null, null, null, null, null, new AuthorizationMock().Object);
 
             // act
             var result = await service.GetIncidentAsync("código válido");
@@ -253,7 +253,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
             _MockStateRepository
                 .Setup(p => p.GetCurrentStateByIncidentId(IncidentToTest.Codigo))
                 .Returns(Task.FromResult(StateToTest));
-            var incidentServiceToTest = new IncidentService(_MockIncidentRepository.Object, null, _MockStateRepository.Object, null, _MockTransportUnitRepository.Object, null, _MockPersonRepository.Object, null);
+            var incidentServiceToTest = new IncidentService(_MockIncidentRepository.Object, null, _MockStateRepository.Object, null, _MockTransportUnitRepository.Object, null, _MockPersonRepository.Object, null, new AuthorizationMock().Object);
 
             IncidentDetailsModel result =  await incidentServiceToTest.GetIncidentDetailsAsync(CodeToTest);
             Assert.True
@@ -298,7 +298,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
             _MockStateRepository
                 .Setup(p => p.GetCurrentStateByIncidentId(code))
                 .Returns(Task.FromResult(StateToTest));
-            var incidentServiceToTest = new IncidentService(_MockIncidentRepository.Object, null, _MockStateRepository.Object, null, null, null, null, null);
+            var incidentServiceToTest = new IncidentService(_MockIncidentRepository.Object, null, _MockStateRepository.Object, null, null, null, null, null, new AuthorizationMock().Object);
 
             await incidentServiceToTest.RejectIncidentAsync(code, reviewerId);
         }
@@ -320,7 +320,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
 
             var service = new IncidentService(
                 _MockIncidentRepository.Object,
-                _MockModesRepository.Object, null, null, null, null, null, null);
+                _MockModesRepository.Object, null, null, null, null, null, null, new AuthorizationMock().Object);
 
             // act
             var result = (await service.GetTransportModesAsync()).ToList();
@@ -344,11 +344,11 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
 
             var service = new IncidentService(
                 _MockIncidentRepository.Object,
-                _MockModesRepository.Object, null, null, null, null, null, null);
+                _MockModesRepository.Object, null, null, null, null, null, null, new AuthorizationMock().Object);
 
             // act
             var result = (await service.GetTransportModesAsync()).ToList();
-           
+
             // assert
             Assert.Equal(expected, result);
         }
@@ -370,7 +370,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
 
             var service = new IncidentService(
                 _MockIncidentRepository.Object,
-                null, null, null, null, null, null, null);
+                null, null, null, null, null, null, null, new AuthorizationMock().Object);
 
             // act
             var result = (await service.GetIncidentListModelsAsync()).ToList();
@@ -392,7 +392,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
 
             var service = new IncidentService(
                 _MockIncidentRepository.Object,
-                null, null, null, null, null, null, null);
+                null, null, null, null, null, null, null, new AuthorizationMock().Object);
 
             // act
             var result = (await service.GetIncidentListModelsAsync()).ToList();

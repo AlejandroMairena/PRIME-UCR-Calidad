@@ -10,10 +10,10 @@ namespace PRIME_UCR.Application.Permissions.UserAdministration
 {
     public abstract class DoctorServiceAuthorization
     {
-        [RequirePermissions(new[] { AuthorizationPermissions.CanManageUsers })]
+        [RequirePermissions(new[] { AuthorizationPermissions.CanSeeBasicDetailsOfIncidents })]
         public abstract Task<Médico> GetDoctorByIdAsync(string id);
 
-        [RequirePermissions(new[] { AuthorizationPermissions.CanManageUsers })]
+        [RequirePermissions(new[] { AuthorizationPermissions.CanSeeBasicDetailsOfIncidents })]
         public abstract Task<IEnumerable<Médico>> GetAllDoctorsAsync();
     }
 }
