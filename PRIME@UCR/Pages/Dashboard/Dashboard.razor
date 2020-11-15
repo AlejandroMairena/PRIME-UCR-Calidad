@@ -23,9 +23,11 @@
     </NotAuthorized>
 </AuthorizeView>
 
+<link href="css/Dashboard.css" rel="stylesheet" />
+
 <div class="wrapper">
     <div class="rounded" style="background-color: white;padding: 10px">
-        <IncidentsCounterComponent @bind-Value="_finishedLoadingCounters"/>
+        <IncidentsCounterComponent @bind-Value="_finishedLoadingCounters" />
     </div>
 </div>
 
@@ -34,8 +36,7 @@
 <Loading IsLoading="!_finishedLoadingCounters">
     <div class="wrapper">
         <div class="rounded" style="background-color: white;padding-left: 10px;padding-right: 10px;">
-            <FiltersComponent @bind-Value="FilterInfo"/>
-            <br>
+            <FiltersComponent @bind-Value="FilterInfo" />
         </div>
     </div>
 </Loading>
