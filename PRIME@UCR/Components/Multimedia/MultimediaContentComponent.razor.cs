@@ -150,23 +150,14 @@ namespace PRIME_UCR.Components.Multimedia
             string type = mcontent.Tipo;
             //SE LLAMA A UN METODO GENERAL QUE DIFERENCIA LAS VISTAS DE LOS TIPOS
             //await JS.InvokeAsync<bool>("showMultimedia", pathQuemadoImg, nombreQuemadoImg, type);
-            switch (type) {
-                case "image/png":
-                    OpenImage(mcontent); //AQUI SE LLAMA AL ABRIR IMAGEN
-                    break;
-                case "application/pdf":
-                    OpenText(mcontent);
-                    break;
-                case "audio/mpeg":
-                    OpenAudio(mcontent);
-                    break;
-                case "video/mp4":
-                    OpenVideo(mcontent);
-                    break;
-                case "text/plain":
-                    OpenText(mcontent);
-                    break;
-            }
+            if (type == "image/png")
+                OpenImage(mcontent);
+            else if (type == "application/pdf" || type == "text/plain")
+                OpenText(mcontent);
+            else if (type == "video/mp4" || type == "video/webm")
+                OpenVideo(mcontent);
+            else if (type == "audio/mpeg" || type == "audio/ogg")
+                OpenAudio(mcontent);
         }
         string InvalidTypeMessage()
         {
@@ -183,7 +174,7 @@ namespace PRIME_UCR.Components.Multimedia
         }
         string GetButonName(MultimediaContent mcontent) {
             string name = "";
-            if (mcontent.Tipo == "audio/mpeg") {
+            if (mcontent.Tipo == "audio/mpeg" || mcontent.Tipo == "audio/ogg") {
                 name = "Escuchar";
             }
             else {
