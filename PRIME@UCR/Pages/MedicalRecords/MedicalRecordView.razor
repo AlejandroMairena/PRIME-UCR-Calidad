@@ -19,21 +19,21 @@
 
 @if (exists)
 {
-    <Loading IsLoading="viewModel == null">
-        <div class="row">
-            <div class="col-lg-2 mb-4">
-                <TabMenu Tabs="_tabs" DefaultTab="DefaultTab" IsVertical="true" @bind-Value="_activeTab" />
-            </div>
-            <div class="col">
-                <ActiveTab Active="@_activeTab" Expediente="@viewModel"
-                           MedicalRecord="@medical_record_with_details"
-                           Alergias="@alergias"
-                           Antecedentes="@antecedentes"
-                           ListaAntecedentes="@ListaAntecedentes"
-                           ListaAlergia="@ListaAlergias" />
-            </div>
+<Loading IsLoading="viewModel == null">
+    <div class="row">
+        <div class="col-lg-2 mb-4">
+            <TabMenu Tabs="_tabs" DefaultTab="DefaultTab" IsVertical="true" @bind-Value="_activeTab" />
         </div>
-    </Loading>
+        <div class="col">
+            <ActiveTab Active="@_activeTab" Expediente="@viewModel"
+                       MedicalRecord="@medical_record_with_details"
+                       Alergias="@alergias"
+                       Antecedentes="@antecedentes"
+                       ListaAntecedentes="@ListaAntecedentes"
+                       ListaAlergia="@ListaAlergias" />
+        </div>
+    </div>
+</Loading>
 }
 else
 {
