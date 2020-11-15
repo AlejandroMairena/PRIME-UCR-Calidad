@@ -25,6 +25,9 @@ namespace PRIME_UCR.Infrastructure.EntityConfiguration.CheckLists
                 .HasOne(p => p.ItemList)
                 .WithMany(p => p.SubItems)
                 .HasForeignKey(p => p.IDSuperItem);
+            builder
+                .HasMany(p => p.Instances)
+                .WithOne(p => p.MyItem);
         }
     }
 }
