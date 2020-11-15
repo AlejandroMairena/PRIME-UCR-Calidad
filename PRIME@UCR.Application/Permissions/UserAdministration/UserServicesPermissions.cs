@@ -12,7 +12,7 @@ namespace PRIME_UCR.Application.Permissions.UserAdministration
     
     public abstract class UserServiceAuthorization
     {
-        [RequirePermissions(new[]{ AuthorizationPermissions.CanManageUsers })] 
+        [RequirePermissions(new[]{ AuthorizationPermissions.CanSeeBasicDetailsOfIncidents })] 
         public abstract Task<Persona> getPersonWithDetailstAsync(string email);
 
         [RequirePermissions(new[] { AuthorizationPermissions.CanManageUsers })]

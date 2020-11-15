@@ -1,7 +1,9 @@
 @page "/incidents"
 @using BlazorTable
 @using PRIME_UCR.Application.DTOs.Incidents
-@attribute [Authorize]
+@using PRIME_UCR.Domain.Constants
+<!-- Only: (control center admin, coordinator and technical medical specialist) can view the incident list -->
+@attribute [HasPermission(AuthorizationPermissions.CanSeeIncidentsList)]
 
 <Loading IsLoading="incidentsList == null">
     <div class="jumbotron white-panel">

@@ -2,9 +2,9 @@
 @using PRIME_UCR.Components.Controls
 @inherits CheckListCreateBase
 
+@using PRIME_UCR.Application.DTOs.UserAdministration;
 @using PRIME_UCR.Application.Implementations.UserAdministration;
-@using PRIME_UCR.Domain.Constants;
-@attribute [HasPermission(AuthorizationPermissions.CanCreateChecklist)]
+@*@attribute [HasPermission(AuthorizationPermissions.CanCreateCheckList)]*@
 <link href="css/Checklist.css" rel="stylesheet" />
 
 <h3>Plantillas de listas de chequeo</h3>
@@ -41,7 +41,7 @@
                         @* Input for the order of the checklist with a recommended value *@
                         <label for="Tipo">Orden <span style=" color:red">*</span></label>
                         <br />
-                        <IntegerInput Label="" @bind-Value="checkList.Orden" Min="0" Required />
+                        <IntegerInput Label="" @bind-Value="checkList.Orden" Min="1" Required />
                     </div>
                 </div>
                 <br />

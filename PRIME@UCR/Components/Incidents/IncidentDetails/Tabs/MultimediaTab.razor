@@ -14,12 +14,14 @@
         @foreach (var i in _actionTypes)
         {
             <tr>
-                <td>
+                <td class="text-center">
                     <MultimediaContentComponent MultimediaContent="_existingFiles[_actionTypes.IndexOf(i)]"
-                        OnFileUpload="(MultimediaContent mc) => OnFileUpload(i, mc)"/>
+                                                OnFileUpload="(MultimediaContent mc) => OnFileUpload(i, mc)"/>
                 </td>
                 <td>
-                    @i.Nombre
+                    <div class="text-left">
+                        @i.Nombre
+                    </div>
                 </td>
             </tr>
         }

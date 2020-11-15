@@ -8,6 +8,8 @@ namespace PRIME_UCR.Components.MedicalRecords
         [Description("Informacion general")]
         Info,
         [Description("Citas anteriores")]
-        Appointments
+        Appointments,
+        [Description("Antecedentes Medicos y Alergias")]
+        MedicalBackgroundTab
     }
 }

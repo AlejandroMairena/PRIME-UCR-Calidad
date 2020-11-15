@@ -56,6 +56,14 @@ namespace PRIME_UCR.Application.Implementations.Incidents
             return await _modesRepository.GetAllAsync();
         }
 
+
+        public async Task<Incidente> GetIncidentByDateCodeAsync(int id) {
+
+            return await _incidentRepository.GetIncidentByDateCodeAsync(id); 
+
+        }
+
+
         public async Task<Incidente> CreateIncidentAsync(IncidentModel model, Persona person)
         {
             if (model.EstimatedDateOfTransfer == null)
@@ -243,5 +251,18 @@ namespace PRIME_UCR.Application.Implementations.Incidents
             incident.CedulaRevisor = reviewerId;
             await _incidentRepository.UpdateAsync(incident);
         }
+
+
+        /*
+         * Function:     This method will search for the current state of an incident
+         * 
+         * Param:       Code -> Incident ID
+         * Returns:     The current state of the incident given.
+         */
+        public async Task<Estado> GetIncidentStateByIdAsync(string code)
+        {
+            return await _statesRepository.GetCurrentStateByIncidentId(code);
+        }
+
     }
 }

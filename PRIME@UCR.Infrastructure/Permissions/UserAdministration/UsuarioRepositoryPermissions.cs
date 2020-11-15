@@ -13,7 +13,7 @@ namespace PRIME_UCR.Infrastructure.Permissions.UserAdministration
         [RequirePermissions(new[] {AuthorizationPermissions.CanManageUsers })]
         public abstract Task<Usuario> GetUserByEmailAsync(string email);
 
-        [RequirePermissions(new[] { AuthorizationPermissions.CanManageUsers })]
+        [RequirePermissions(new[] { AuthorizationPermissions.CanSeeBasicDetailsOfIncidents })]
         public abstract Task<Usuario> GetWithDetailsAsync(string id);
 
     }

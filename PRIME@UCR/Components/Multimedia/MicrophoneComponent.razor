@@ -1,0 +1,27 @@
+﻿@inject IJSRuntime JS
+
+<div class="rt-container">
+    @*<button type="button"
+                class="btn btn-primary rt-microphone-button"
+                @ref=actionImageRef
+                @onclick="OnActionButtonClicked">
+            @ActionButtonText()
+    </button>*@
+    
+    <img class="data_btn" 
+         src="img/ico-micro-blanco.jpeg"
+         @ref=actionImageRef
+         @onclick="OnActionButtonClicked"/>
+
+
+    @*<button type="button"
+                class="btn btn-primary"
+                @onclick="OnDownloadButtonClicked">
+                Guardar
+        </button>*@
+
+    <a id="audio-dowload-link" href="#" class="badge badge-primary" @ref=downloadLinkRef>Descargar</a>
+
+    <p>@ActionButtonText()</p>
+
+</div>

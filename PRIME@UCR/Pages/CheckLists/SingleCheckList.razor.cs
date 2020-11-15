@@ -8,6 +8,7 @@ using PRIME_UCR.Components.CheckLists;
 using Microsoft.AspNetCore.Components.Forms;
 using PRIME_UCR.Domain.Models.CheckLists;
 using System.Linq;
+using System;
 using System.Threading;
 using Microsoft.AspNetCore.Components.Rendering;
 using MatBlazor;
@@ -26,6 +27,8 @@ namespace PRIME_UCR.Pages.CheckLists
         private bool isDisabled { get; set; } = true;
 
         protected bool createItem { get; set; } = false;
+
+        protected bool editItem { get; set; } = false;
         protected bool createSubItem { get; set; } = false;
 
         protected IEnumerable<CheckList> lists { get; set; }
@@ -40,6 +43,7 @@ namespace PRIME_UCR.Pages.CheckLists
         protected List<int> orderedListLevel;
 
         public CheckList list { get; set; }
+        public CheckList editedList { get; set; }
 
         protected Item tempItem;
         protected int parentItemId { get; set; }
@@ -49,10 +53,17 @@ namespace PRIME_UCR.Pages.CheckLists
 
         [Inject] protected ICheckListService MyCheckListService { get; set; }
 
-
         protected override async Task OnInitializedAsync()
         {
+            editedList = new CheckList();
             await RefreshModels();
+        }
+
+        protected override void OnParametersSet()
+        {
+            createItem = false;
+            createSubItem = false;
+            editItem = false;
         }
 
         /**
@@ -67,8 +78,24 @@ namespace PRIME_UCR.Pages.CheckLists
             coreItems = await MyCheckListService.GetCoreItems(id);
             orderedList = new List<Item>();
             orderedListLevel = new List<int>();
-            foreach (var item in coreItems) {
+            foreach (var item in coreItems)
+            {
                 GenerateOrderedList(item, 0);
+            }
+            editContext = new EditContext(list);
+            editContext.OnFieldChanged += HandleFieldChanged;
+            editedList.Nombre = list.Nombre;
+            editedList.Descripcion = list.Descripcion;
+            editedList.Tipo = list.Tipo;
+            editedList.Orden = list.Orden;
+        }
+
+        protected void HandleFieldChanged(object sender, FieldChangedEventArgs e)
+        {
+            formInvalid = editContext.Validate();
+            if (formInvalid == true)
+            {
+                StateHasChanged();
             }
         }
 
@@ -79,6 +106,17 @@ namespace PRIME_UCR.Pages.CheckLists
         {
             createItem = false;
             createSubItem = false;
+            editItem = false;
+            formInvalid = false;
+            await RefreshModels();
+            StateHasChanged();
+        }
+
+        protected async Task editingFinished()
+        {
+            createItem = false;
+            createSubItem = false;
+            editItem = false;
             formInvalid = false;
             await RefreshModels();
             StateHasChanged();
@@ -88,6 +126,8 @@ namespace PRIME_UCR.Pages.CheckLists
         {
             createItem = false;
             createSubItem = false;
+            editItem = false;
+            formInvalid = false;
             StateHasChanged();
         }
 
@@ -95,12 +135,14 @@ namespace PRIME_UCR.Pages.CheckLists
         /**
          * Sets flags to display the item creation form
          * */
-        protected void StartNewItemCreation() 
+        protected void StartNewItemCreation()
         {
             tempItem = new Item();
             tempItem.IDSuperItem = null;
             tempItem.IDLista = id;
             tempItem.Orden = coreItems.Count() + 1;
+            editItem = false;
+            createSubItem = false;
             createItem = true;
         }
 
@@ -115,7 +157,18 @@ namespace PRIME_UCR.Pages.CheckLists
             tempItem.IDSuperItem = itemId;
             tempItem.Orden = subItems.Count() + 1;
             parentItemId = itemId;
+            createItem = false;
+            editItem = false;
             createSubItem = true;
+        }
+
+        protected async Task EditItem(int itemId)
+        {
+            tempItem = await MyCheckListService.GetItemById(itemId);
+            parentItemId = itemId;
+            createItem = false;
+            createSubItem = false;
+            editItem = true;
         }
 
         protected override async Task OnParametersSetAsync()
@@ -123,23 +176,29 @@ namespace PRIME_UCR.Pages.CheckLists
             await RefreshModels();
         }
 
-        protected async Task Update()
+        protected async Task UpdateCheckList()
         {
+            list.Nombre = editedList.Nombre;
+            list.Descripcion = editedList.Descripcion;
+            list.Tipo = editedList.Tipo;
+            list.Orden = editedList.Orden;
             await MyCheckListService.UpdateCheckList(list);
             await RefreshModels();
+            formInvalid = false;
         }
 
         /**
          * Gets an item based on its id
          * */
-        protected int getItemIndex(Item itemInList) {
+        protected int getItemIndex(Item itemInList)
+        {
             return itemsList.FindIndex(item => item.Id == itemInList.Id);
         }
 
         /**
          * Generates an ordered list of an item's subitems based on its level
          * */
-        private void GenerateOrderedList(Item item, int level) 
+        private void GenerateOrderedList(Item item, int level)
         {
             orderedList.Add(item);
             orderedListLevel.Add(level);
@@ -147,7 +206,7 @@ namespace PRIME_UCR.Pages.CheckLists
             subItems = subItems.OrderBy(item => item.Orden).ToList<Item>();
             if (subItems.Count() > 0)
             {
-                foreach (var tempSubtem in subItems) 
+                foreach (var tempSubtem in subItems)
                 {
                     GenerateOrderedList(tempSubtem, level + 1);
                 }
@@ -161,11 +220,18 @@ namespace PRIME_UCR.Pages.CheckLists
         {
             List<Item> subItems = itemsList.FindAll(tempItem => tempItem.IDSuperItem == item.Id);
             bool hasSubItems = false;
-            if (subItems.Count() != 0) 
+            if (subItems.Count() != 0)
             {
                 hasSubItems = true;
             }
             return hasSubItems;
+        }
+
+        protected string truncate(string text, int level, int lines)
+        {
+            if (String.IsNullOrEmpty(text)) return "";
+            int maxLength = lines * (65 - level * 5);
+            return text.Length <= maxLength ? text : text.Substring(0, maxLength) + "...";
         }
     }
 }
