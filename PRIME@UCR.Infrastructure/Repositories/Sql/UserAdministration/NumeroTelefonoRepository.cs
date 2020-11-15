@@ -27,11 +27,12 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
             primeSecurityService = _primeSecurityService;
         }
 
-        public async Task AddPhoneNumberAsync(NúmeroTeléfono phoneNumber)
+        public async Task<int> AddPhoneNumberAsync(NúmeroTeléfono phoneNumber)
         {
             await primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             await _db.PhoneNumbers.AddAsync(phoneNumber);
-            await _db.SaveChangesAsync();
+            var returnValue = await _db.SaveChangesAsync();
+            return returnValue;
         }
     }
 

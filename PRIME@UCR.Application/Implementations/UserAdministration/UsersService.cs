@@ -47,10 +47,14 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
         public async Task<UserFormModel> GetUserFormFromRegisterUserFormAsync(RegisterUserFormModel userToRegister)
         {
             await primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
-            UserFormModel userModel = new UserFormModel();
-            userModel.Email = userToRegister.Email;
-            userModel.IdCardNumber = userToRegister.IdCardNumber;
-            return userModel;
+            if(userToRegister != null)
+            {
+                UserFormModel userModel = new UserFormModel();
+                userModel.Email = userToRegister.Email;
+                userModel.IdCardNumber = userToRegister.IdCardNumber;
+                return userModel;
+            }
+            return null; 
         }
 
         /**

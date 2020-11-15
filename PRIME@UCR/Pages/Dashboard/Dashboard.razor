@@ -25,14 +25,17 @@
 
 <div class="wrapper">
     <div class="rounded" style="background-color: white;padding: 10px">
-        <IncidentsCounterComponent />
+        <IncidentsCounterComponent @bind-Value="_finishedLoadingCounters"/>
     </div>
 </div>
 
 <br />
 
-<div class="wrapper">
-    <div class="rounded" style="background-color: white;padding-left: 10px;padding-right: 10px;">
-        <FiltersComponent />
+<Loading IsLoading="!_finishedLoadingCounters">
+    <div class="wrapper">
+        <div class="rounded" style="background-color: white;padding-left: 10px;padding-right: 10px;">
+            <FiltersComponent @bind-Value="FilterInfo"/>
+            <br>
+        </div>
     </div>
-</div>
+</Loading>

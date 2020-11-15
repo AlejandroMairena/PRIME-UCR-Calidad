@@ -14,7 +14,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.UserAdministration
     public class ProfileServiceTest
     {
         [Fact]
-        public async void GetPerfilesWithDetailsAsyncTestEmpty()
+        public async Task GetPerfilesWithDetailsAsyncTestEmpty()
         {
             var mockRepo = new Mock<IPerfilRepository>();
             mockRepo.Setup(u => u.GetPerfilesWithDetailsAsync()).Returns(Task.FromResult(new List<Perfil>()));
@@ -28,7 +28,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.UserAdministration
         }
 
         [Fact]
-        public async void GetPerfilesWithDetailsAsyncTestNotEmpty()
+        public async Task GetPerfilesWithDetailsAsyncTestNotEmpty()
         {
             var mockRepo = new Mock<IPerfilRepository>();
             mockRepo.Setup(u => u.GetPerfilesWithDetailsAsync()).Returns(Task.FromResult(new List<Perfil>()

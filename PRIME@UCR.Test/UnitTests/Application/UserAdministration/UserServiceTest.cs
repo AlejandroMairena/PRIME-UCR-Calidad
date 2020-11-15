@@ -11,6 +11,7 @@ using PRIME_UCR.Domain.Models.UserAdministration;
 using System.Reflection;
 using System.Threading.Tasks;
 using PRIME_UCR.Application.Services.UserAdministration;
+using PRIME_UCR.Application.DTOs.UserAdministration;
 
 namespace PRIME_UCR.Test.UnitTests.Application.UserAdministration
 {
@@ -18,7 +19,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.UserAdministration
     {
         /*
         [Fact]
-        public async void getUsuarioWithDetailsReturnsNull()
+        public async Task getUsuarioWithDetailsReturnsNull()
         {
             var mockRepo = new Mock<IUsuarioRepository>();
             mockRepo.Setup(p => p.GetWithDetailsAsync(String.Empty)).Returns(Task.FromResult<Usuario>(null));
@@ -32,7 +33,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.UserAdministration
         }
 
         [Fact]
-        public async void getUsuarioWithDetailsReturnsValidUser()
+        public async Task getUsuarioWithDetailsReturnsValidUser()
         {
             var mockRepo = new Mock<IUsuarioRepository>();
             mockRepo
@@ -68,7 +69,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.UserAdministration
         }
 
         [Fact]
-        public async void GetAllUsersWithDetailsAsyncNoUsersTest()
+        public async Task GetAllUsersWithDetailsAsyncNoUsersTest()
         {
             var mockRepo = new Mock<IUsuarioRepository>();
             mockRepo.Setup(u => u.GetAllUsersWithDetailsAsync()).ReturnsAsync(new List<Usuario>());
@@ -82,7 +83,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.UserAdministration
         }
 
         [Fact]
-        public async void GetAllUsersWithDetailsAsyncFiveUsersTest()
+        public async Task GetAllUsersWithDetailsAsyncFiveUsersTest()
         {
             var mockRepo = new Mock<IUsuarioRepository>();
             mockRepo.Setup(u => u.GetAllUsersWithDetailsAsync()).ReturnsAsync(
@@ -118,7 +119,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.UserAdministration
         }
 
         [Fact]
-        public async void getPersonWithDetailstAsyncNoUserTest()
+        public async Task getPersonWithDetailstAsyncNoUserTest()
         {
             var mockRepo = new Mock<IUsuarioRepository>();
             mockRepo.Setup(u => u.GetUserByEmailAsync(String.Empty)).Returns(Task.FromResult<Usuario>(null));
@@ -132,7 +133,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.UserAdministration
         }
 
         [Fact]
-        public async void getPersonWithDetailstAsyncUserTest()
+        public async Task getPersonWithDetailstAsyncUserTest()
         {
             var store = new Mock<IUserStore<Usuario>>();
             var mockUserManager = new Mock<UserManager<Usuario>>(store.Object, null, null, null, null, null, null, null, null);
@@ -158,5 +159,63 @@ namespace PRIME_UCR.Test.UnitTests.Application.UserAdministration
             var result = await userService.getPersonWithDetailstAsync("luis.sanchez@prime.com");
             Assert.Equal("12345678",result.Cédula);
         }
+
+        //Task<UserFormModel> GetUserFormFromRegisterUserFormAsync(RegisterUserFormModel userToRegister);
+        [Fact]
+        public async Task GetUserFormFromRegisterUserFormAsyncReturnNullTest()
+        {
+            var mockRepo = new Mock<IUsuarioRepository>();
+             
+            var store = new Mock<IUserStore<Usuario>>();
+            var mockUserManager = new Mock<UserManager<Usuario>>(store.Object, null, null, null, null, null, null, null, null);
+             
+            var mockSecurity = new Mock<IPrimeSecurityService>();
+            mockSecurity.Setup(s => s.CheckIfIsAuthorizedAsync(typeof(UsersService), "GetUserFormFromRegisterUserFormAsync"));
+
+            var userService = new UsersService(mockRepo.Object, mockUserManager.Object, mockSecurity.Object);
+
+            RegisterUserFormModel registerUserForm = null;
+
+            var result = await userService.GetUserFormFromRegisterUserFormAsync(registerUserForm);
+            Assert.Null(result);
+        }
+
+
+        [Fact]
+        public async Task GetUserFormFromRegisterUserFormAsyncReturnValidUserFormTest()
+        {
+            var mockRepo = new Mock<IUsuarioRepository>();
+             
+            var store = new Mock<IUserStore<Usuario>>();
+            var mockUserManager = new Mock<UserManager<Usuario>>(store.Object, null, null, null, null, null, null, null, null);
+             
+            var mockSecurity = new Mock<IPrimeSecurityService>();
+            mockSecurity.Setup(s => s.CheckIfIsAuthorizedAsync(typeof(UsersService), "GetUserFormFromRegisterUserFormAsync"));
+
+            var userService = new UsersService(mockRepo.Object, mockUserManager.Object, mockSecurity.Object);
+
+            RegisterUserFormModel registerUserForm = new RegisterUserFormModel {
+                IdCardNumber = "12345678", 
+                Name = "Juan", 
+                FirstLastName = "Guzman",
+                Email = "juan.guzman@prime.com"
+            };
+
+            var result = await userService.GetUserFormFromRegisterUserFormAsync(registerUserForm);
+            Assert.Equal("12345678", result.IdCardNumber);
+            Assert.Equal("juan.guzman@prime.com", result.Email);
+        }
+
+        /*
+
+        //Task<bool> StoreUserAsync(UserFormModel userToRegist, string password);
+        [Fact]
+        public async Task StoreUserAsyncTest()
+        {
+
+        }
+        */
+
+
     }
 }

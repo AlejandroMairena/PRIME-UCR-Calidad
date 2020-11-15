@@ -31,6 +31,8 @@ namespace PRIME_UCR.Application
             // incidents
             services.AddTransient<IIncidentService, IncidentService>();
             services.AddTransient<ILocationService, LocationService>();
+            services.AddTransient<IIncidentService, IncidentService>();
+            services.AddTransient<IStateService, StateService>();
             // medical records
             services.AddTransient<IMedicalRecordService, MedicalRecordService>();
             services.AddTransient<IMedicalBackgroundService, MedicalBackgroundService>();

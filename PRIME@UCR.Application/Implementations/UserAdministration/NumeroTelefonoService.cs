@@ -28,13 +28,13 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
             primeSecurityService = _primeSecurityService;
         }
 
-        public async Task AddNewPhoneNumberAsync(string idUser, string phoneNumber)
+        public async Task<int> AddNewPhoneNumberAsync(string idUser, string phoneNumber)
         {
             await primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             NúmeroTeléfono userPhoneNumber = new NúmeroTeléfono();
             userPhoneNumber.CedPersona = idUser;
             userPhoneNumber.NúmeroTelefónico = phoneNumber;
-            await numeroTelefonoRepository.AddPhoneNumberAsync(userPhoneNumber);
+            return await numeroTelefonoRepository.AddPhoneNumberAsync(userPhoneNumber);
         }
     }
 
