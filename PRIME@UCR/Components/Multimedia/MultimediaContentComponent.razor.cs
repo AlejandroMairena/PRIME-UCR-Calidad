@@ -252,7 +252,6 @@ namespace PRIME_UCR.Components.Multimedia
             showText = false;
             showVideo = true;
             modalMContent = mcontent;
-            showVideo = false;
             showVideoComponent = false;
             showTextComponent = false;
         }
@@ -266,9 +265,8 @@ namespace PRIME_UCR.Components.Multimedia
             showImage = false;
             showMicrophone = false;
             showText = false;
-            showVideo = true;
-            modalMContent = null;
             showVideo = false;
+            modalMContent = null;
             showVideoComponent = true;
             showTextComponent = false;
         }
@@ -282,7 +280,6 @@ namespace PRIME_UCR.Components.Multimedia
             showText = false;
             showVideo = false;
             modalMContent = null;
-            showVideo = false;
             showVideoComponent = false;
             showTextComponent = false;
         }
