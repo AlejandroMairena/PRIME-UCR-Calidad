@@ -144,12 +144,12 @@ input#file-upload-button {
 }
 button.btn.btn-danger.m-btn.m-btn-rm {
     /*PARA ACTIVAR:*/
-    /*background-color: rgb(238,64,55);   COLOR ROJO*/
+    background-color: rgb(238,64,55);
     /*PARA DESACTIVAR:*/
-    background-color: #676766;
+    /*background-color: #676766;
     border-color: #676766;
     cursor: not-allowed;
-    pointer-events: none;
+    pointer-events: none;*/
 }
 
 /* Loading Wheel */
