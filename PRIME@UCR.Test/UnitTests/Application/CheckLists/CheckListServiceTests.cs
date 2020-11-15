@@ -112,5 +112,44 @@ namespace PRIME_UCR.Test.UnitTests.Application.CheckLists
                                     type => Assert.Equal("Paciente en traslado", type.Nombre)
                             );
         }
+
+        [Fact]
+        public async Task GetByIdReturnsNull()
+        {
+            // arrange
+            var mockRepo = new Mock<ICheckListRepository>();
+            CheckList data = null;
+            mockRepo
+                .Setup(p => p.GetByKeyAsync(1))
+                .Returns(Task.FromResult(data));
+            var service = new CheckListService(
+                mockRepo.Object, null, null);
+
+            // act
+            var result = await service.GetById(1);
+
+            // assert
+            Assert.Null(result);
+        }
+
+        [Fact]
+        public async Task GetByIdReturnsValid()
+        {
+            // arrange
+            var mockRepo = new Mock<ICheckListRepository>();
+            CheckList data = new CheckList { Id = 1 };
+            mockRepo
+                .Setup(p => p.GetByKeyAsync(1))
+                .Returns(Task.FromResult(data));
+            var service = new CheckListService(
+                mockRepo.Object, null, null);
+
+            // act
+            var result = await service.GetById(1);
+
+            // assert
+            Assert.NotNull(result);
+            Assert.Equal(1, result.Id);
+        }
     }
 }
