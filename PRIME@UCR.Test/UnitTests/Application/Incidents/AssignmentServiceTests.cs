@@ -26,7 +26,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
             var mockRepo = new Mock<ITransportUnitRepository>();
             mockRepo.Setup(p => p.GetAllTransporUnitsByMode(String.Empty))
                 .Returns(Task.FromResult<IEnumerable<UnidadDeTransporte>>(new List<UnidadDeTransporte>()));
-            var assignmentService = new AssignmentService(mockRepo.Object, null, null, null, null);
+            var assignmentService = new AssignmentService(mockRepo.Object, null, null, null, null, new AuthorizationMock().Object);
             var result = await assignmentService.GetAllTransportUnitsByMode(String.Empty);
             Assert.Empty(result);
         }
@@ -49,7 +49,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
                     p.GetAllTransporUnitsByMode("Accion"))
                         .Returns(Task.FromResult<IEnumerable<UnidadDeTransporte>>(MyList)
                 );
-            var assignmentService = new AssignmentService(mockRepo.Object, null, null, null, null);
+            var assignmentService = new AssignmentService(mockRepo.Object, null, null, null, null, new AuthorizationMock().Object);
             var result = await assignmentService.GetAllTransportUnitsByMode("Accion");
             Assert.NotEmpty(result);
             Assert.Equal(MyList, result.ToList());
@@ -86,7 +86,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
                 .Returns(Task.FromResult<UnidadDeTransporte>(TUnit));
             mockRepo3.Setup(p => p.GetAssignmentsByIncidentIdAsync(incident.Codigo))
                 .Returns(Task.FromResult<IEnumerable<EspecialistaTécnicoMédico>>(specialist));
-            var assignmentService = new AssignmentService(mockRepo2.Object, mockRepo1.Object, null, mockRepo3.Object, mockRepo.Object);
+            var assignmentService = new AssignmentService(mockRepo2.Object, mockRepo1.Object, null, mockRepo3.Object, mockRepo.Object, new AuthorizationMock().Object);
             var result = await assignmentService.GetAssignmentsByIncidentIdAsync(incident.Codigo);
             Assert.Equal(incident.MatriculaTrans, result.TransportUnit.Matricula);
         }
@@ -97,7 +97,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
             var mockRepo = new Mock<IIncidentRepository>();
             mockRepo.Setup(p => p.GetByKeyAsync(String.Empty))
                 .Returns(Task.FromResult<Incidente>(null));
-            var assignmentService = new AssignmentService(null, null, null, null, mockRepo.Object);
+            var assignmentService = new AssignmentService(null, null, null, null, mockRepo.Object, new AuthorizationMock().Object);
             var result = await assignmentService.GetAssignmentsByIncidentIdAsync(String.Empty);
             Assert.Null(result);
         }
@@ -113,7 +113,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
                     p.GetAllAsync()).
                         Returns(Task.FromResult<IEnumerable<CoordinadorTécnicoMédico>>(new List<CoordinadorTécnicoMédico>())
                 );
-            var AssignmentService = new AssignmentService(null, mockRepo.Object, null, null, null);
+            var AssignmentService = new AssignmentService(null, mockRepo.Object, null, null, null, new AuthorizationMock().Object);
             var result = await AssignmentService.GetCoordinatorsAsync();
             Assert.Empty(result);
         }
@@ -136,7 +136,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
                     p.GetAllAsync())
                         .Returns(Task.FromResult<IEnumerable<CoordinadorTécnicoMédico>>(MyList)
                 );
-            var AssignmentService = new AssignmentService(null, mockRepo.Object, null, null, null);
+            var AssignmentService = new AssignmentService(null, mockRepo.Object, null, null, null, new AuthorizationMock().Object);
             var result = await AssignmentService.GetCoordinatorsAsync();
             Assert.NotEmpty(result);
             Assert.Equal(MyList, result.ToList());
@@ -170,7 +170,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
                 Coordinator = AssignedCoordinatorToTest,
                 TransportUnit = TransportUnitToTest
             };
-            var AssignmentService = new AssignmentService(null, null, null, AssignmentRepo.Object, IncidentRepo.Object);
+            var AssignmentService = new AssignmentService(null, null, null, AssignmentRepo.Object, IncidentRepo.Object, new AuthorizationMock().Object);
             await AssignmentService.AssignToIncidentAsync(ParameterCode, ParameterModel);
         }
     }

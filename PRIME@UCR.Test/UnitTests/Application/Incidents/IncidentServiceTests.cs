@@ -30,7 +30,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
 
             var service = new IncidentService(
                 mockRepo.Object,
-                null, null, null, null, null, null, null);
+                null, null, null, null, null, null, null, new AuthorizationMock().Object);
 
             // act
             var result = await service.GetAllAsync();
@@ -60,7 +60,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
 
             var service = new IncidentService(
                 mockRepo.Object,
-                null, null, null, null, null, null, null);
+                null, null, null, null, null, null, null, new AuthorizationMock().Object);
 
             // act
             var result = await service.GetAllAsync();
@@ -89,7 +89,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
 
             var service = new IncidentService(
                 mockRepo.Object,
-                null, null, null, null, null, null, null);
+                null, null, null, null, null, null, null, new AuthorizationMock().Object);
 
             // act
             var result = await service.GetIncidentAsync("código inválido");
@@ -111,7 +111,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
 
             var service = new IncidentService(
                 mockRepo.Object,
-                null, null, null, null, null, null, null);
+                null, null, null, null, null, null, null, new AuthorizationMock().Object);
 
             // act
             var result = await service.GetIncidentAsync("código válido");
@@ -170,7 +170,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
             _MockStateRepository
                 .Setup(p => p.GetCurrentStateByIncidentId(IncidentToTest.Codigo))
                 .Returns(Task.FromResult(StateToTest));
-            var incidentServiceToTest = new IncidentService(_MockIncidentRepository.Object, null, _MockStateRepository.Object, null, _MockTransportUnitRepository.Object, null, _MockPersonRepository.Object, null);
+            var incidentServiceToTest = new IncidentService(_MockIncidentRepository.Object, null, _MockStateRepository.Object, null, _MockTransportUnitRepository.Object, null, _MockPersonRepository.Object, null, new AuthorizationMock().Object);
 
             IncidentDetailsModel result =  await incidentServiceToTest.GetIncidentDetailsAsync(CodeToTest);
             Assert.True
@@ -215,7 +215,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
             _MockStateRepository
                 .Setup(p => p.GetCurrentStateByIncidentId(code))
                 .Returns(Task.FromResult(StateToTest));
-            var incidentServiceToTest = new IncidentService(_MockIncidentRepository.Object, null, _MockStateRepository.Object, null, null, null, null, null);
+            var incidentServiceToTest = new IncidentService(_MockIncidentRepository.Object, null, _MockStateRepository.Object, null, null, null, null, null, new AuthorizationMock().Object);
 
             await incidentServiceToTest.RejectIncidentAsync(code, reviewerId);
         }
