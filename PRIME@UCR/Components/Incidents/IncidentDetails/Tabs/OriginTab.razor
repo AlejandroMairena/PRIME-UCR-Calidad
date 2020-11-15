@@ -2,6 +2,8 @@
 @using PRIME_UCR.Components.Incidents.LocationPickers
 @using Microsoft.AspNetCore.Connections
 
+<SummaryMessage Content="Summary.Content"Values="Summary.Values" Class="info" />
+
 <h3>Origen del incidente</h3>
 <br />
 <Loading IsLoading="@_isLoading">
@@ -9,7 +11,7 @@
     {
         <StatusMessage Message="Este valor está pendiente para finalizar la creación del incidente." Class="warning"/>
     }
-    <StatusMessage Message="@_statusMessage" Class="success"/>
+    <StatusMessage Message="@StatusMessage" Class="@StatusClass"/>
     <div class="row">
         <div class="col-md-4">
             <EditForm Model="_selectedOriginType">

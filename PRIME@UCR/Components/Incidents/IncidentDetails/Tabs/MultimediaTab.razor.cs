@@ -10,6 +10,7 @@ using PRIME_UCR.Application.Services.Appointments;
 using PRIME_UCR.Application.Services.Multimedia;
 using PRIME_UCR.Domain.Models;
 using PRIME_UCR.Domain.Models.Appointments;
+using PRIME_UCR.Components.Incidents.IncidentDetails.Constants;
 
 namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
 {
@@ -21,9 +22,12 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
         private List<TipoAccion> _actionTypes;
         private List<List<MultimediaContent>> _existingFiles;
         private bool _isLoading = true;
+        // Info for Incident summary that is shown at top of the page
+        public IncidentSummary Summary = new IncidentSummary();
 
         protected override async Task OnInitializedAsync()
         {
+            Summary.LoadValues(Incident);
             _actionTypes =
                 (await AppointmentService.GetActionTypesAsync())
                 .ToList();

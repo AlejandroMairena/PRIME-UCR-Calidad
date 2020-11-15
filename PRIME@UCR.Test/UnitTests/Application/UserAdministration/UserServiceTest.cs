@@ -15,7 +15,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.UserAdministration
 {
     public class UserServiceTest
     {
-        /*
+      
         [Fact]
         public async void getUsuarioWithDetailsReturnsNull()
         {
@@ -23,8 +23,8 @@ namespace PRIME_UCR.Test.UnitTests.Application.UserAdministration
             mockRepo.Setup(p => p.GetWithDetailsAsync(String.Empty)).Returns(Task.FromResult<Usuario>(null));
             var store = new Mock<IUserStore<Usuario>>();
             var mockUserManager = new Mock<UserManager<Usuario>>(store.Object, null, null, null, null, null, null, null, null);
-            var userService = new UsersService(mockRepo.Object, mockUserManager.Object);
-            var result = await userService.getUsuarioWithDetails(String.Empty);
+            var userService = new UsersService(mockRepo.Object, mockUserManager.Object, null);
+            var result = await userService.getUsuarioWithDetailsAsync(String.Empty);
             Assert.Null(result);
         }
 
@@ -54,13 +54,13 @@ namespace PRIME_UCR.Test.UnitTests.Application.UserAdministration
                 })) ;
             var store = new Mock<IUserStore<Usuario>>();
             var mockUserManager = new Mock<UserManager<Usuario>>(store.Object, null, null, null, null, null, null, null, null);
-            var userService = new UsersService(mockRepo.Object, mockUserManager.Object);
-            var result = await userService.getUsuarioWithDetails("a6f7aa70-a038-419f-9945-7c77b093d58f");
+            var userService = new UsersService(mockRepo.Object, mockUserManager.Object, null);
+            var result = await userService.getUsuarioWithDetailsAsync("a6f7aa70-a038-419f-9945-7c77b093d58f");
             Assert.Equal("a6f7aa70-a038-419f-9945-7c77b093d58f" , result.Id);
             Assert.Equal("juan.guzman@prime.com", result.Email);
             Assert.Equal("AQAAAAEAACcQAAAAEKBfjZVSMkEvJ3kJikd/FETuy1hxI3csK3qM2EwHBlQpgixfBX3tUaxpposHbUfakg==" , result.PasswordHash);
             Assert.Equal("M7SUOG4MXMPBKLX2BN34HVOG7GRGNIDQ" , result.SecurityStamp);
         }
-        */
+
     }
 }

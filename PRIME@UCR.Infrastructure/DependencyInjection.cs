@@ -35,12 +35,13 @@ namespace PRIME_UCR.Infrastructure
             services.AddTransient(typeof(IRepoDbRepository<,>), typeof(RepoDbRepository<,>));
             // checklists
             services.AddTransient<ICheckListRepository, SqlCheckListRepository>();
+            services.AddTransient<ICheckListTypeRepository, SqlCheckListTypeRepository>();
             services.AddTransient<IItemRepository, SqlItemRepository>();
             services.AddTransient<IInstanceChecklistRepository, SqlInstanceChecklistRepository>();
             services.AddTransient<IInstanceItemRepository, SqlInstanceItemRepository>();
             // appointments
             services.AddTransient<IActionTypeRepository, ActionTypeRepository>();
-            services.AddTransient<IAssignemntRepository, AssignmentRepository>();
+            services.AddTransient<IAssignmentRepository, AssignmentRepository>();
             services.AddTransient<IAppointmentRepository, AppointmentRepository>();
             services.AddTransient<IUbicationCenterRepository, UbicationCenterRepository>();
             services.AddTransient<IMedCenterRepository, MedCenterRepository>(); 

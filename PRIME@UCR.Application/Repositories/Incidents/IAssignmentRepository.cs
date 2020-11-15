@@ -4,7 +4,7 @@ using PRIME_UCR.Domain.Models.UserAdministration;
 
 namespace PRIME_UCR.Application.Repositories.Incidents
 {
-    public interface IAssignemntRepository
+    public interface IAssignmentRepository
     {
         Task<IEnumerable<EspecialistaTécnicoMédico>> GetAssignmentsByIncidentIdAsync(string code);
         Task AssignToIncident(string code, IEnumerable<EspecialistaTécnicoMédico> specialistId);

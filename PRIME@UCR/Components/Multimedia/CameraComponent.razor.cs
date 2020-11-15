@@ -19,89 +19,51 @@ namespace PRIME_UCR.Components.Multimedia
         ElementReference imageElement;
         ElementReference downloadLinkRef;
         bool cameraOpen = false;
+        bool cameraClose => !cameraOpen;
         bool photoTaken = false;
-
-        protected override async Task OnInitializedAsync()
-        {
-            //await OpenCamera();
-        }
+        bool photoNotTaken => !photoTaken;
 
         protected override void OnInitialized()
         {
             MultimediaModal.OnModalClosed += CloseComponent;
         }
 
-        async Task HandleClick()
+        // Open Close Camera Button Code
+        async Task HandleOpenCloseButtonClick()
         {
-            if (!cameraOpen)
-            {
-                await OpenCamera();
-            }
-            else if (cameraOpen && !photoTaken)
-            {
-                await TakePhotograph();
-            }
-            else
-            {
-                CancelPhotograph(); 
-            }
+            if (!cameraOpen) await OpenCamera();
+            else await CloseCamera();
         }
-
         async Task OpenCamera()
         {
             await JS.InvokeAsync<bool>("openCamera", videoElement);
             cameraOpen = true;
         }
+        async Task CloseCamera()
+        {
+            await JS.InvokeAsync<bool>("closeCamera", videoElement);
+            cameraOpen = false;
+        }
+        string OpenCloseButtonText()
+        {
+            return !cameraOpen ? "Abrir Cámara" : "Cerrar Cámara";
+        }
 
+
+        async Task TakePhotograph()
+        {
+            await JS.InvokeAsync<string>("takePhotograph", canvasElement, videoElement, imageElement, downloadLinkRef);
+            photoTaken = true;
+        }
+        async Task CancelPhotograph()
+        {
+            photoTaken = false;
+            await JS.InvokeAsync<bool>("clearCanvas", canvasElement);
+        }
         async Task CloseComponent()
         {
             await CloseCamera();
             MultimediaModal.OnModalClosed -= CloseComponent;
         }
-
-        async Task<bool> CloseCamera()
-        {
-            return await JS.InvokeAsync<bool>("closeCamera", videoElement);
-        }
-        async Task TakePhotograph()
-        {
-            photoTaken = true;
-            await JS.InvokeAsync<string>("takePhotograph", canvasElement, videoElement, imageElement, downloadLinkRef);
-        }
-
-        void CancelPhotograph()
-        {
-            photoTaken = false;
-        }
-
-        string VideoClass()
-        {
-            return photoTaken ? "hidden" : "rt-box";
-        }
-        string CanvasClass()
-        {
-            return !photoTaken ? "hidden" : "rt-box";
-        }
-
-        string ButtonText()
-        {
-            if (!cameraOpen)
-            {
-                return "Abrir Cámara";
-            }
-            else if (cameraOpen && !photoTaken)
-            {
-                return "Tomar Fotografía";
-            }
-            else
-            {
-                return "Cancelar";
-            }
-        }
-        string DowloadLinkClass()
-        {
-            return photoTaken ? "btn btn-primary" : "btn btn-primary hidden";
-        }
-
     }
 }

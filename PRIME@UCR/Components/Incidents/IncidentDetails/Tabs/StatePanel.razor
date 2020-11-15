@@ -1,0 +1,116 @@
+﻿@using PRIME_UCR.Domain.Constants;
+
+@if (Incident.CurrentState != IncidentStates.Done.Nombre)
+{
+    <h3>Estados del Incidente</h3>
+    <Loading IsLoading="@_isLoading">
+        <div class="container">
+            <div class="table-responsive">
+                <table class="table">
+                    <tbody>
+                        <RadzenMenu>
+                            @for (var index = 0; index < IncidentStatesList.Count; ++index)
+                            {
+                                <div class="text-center">
+                                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="@setProgressIndicator(index)" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
+                                    </svg>
+                                    <RadzenMenuItem Text=@IncidentStatesList[index].Item2 class="@setStateColor(index)" />
+                                </div>
+                            }
+                        </RadzenMenu>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <br />
+
+        @if (Incident.CurrentState == IncidentStates.Created.Nombre || Incident.CurrentState == IncidentStates.Rejected.Nombre)
+        {
+            @if (Incident.CurrentState == IncidentStates.Created.Nombre)
+            {
+                <div class="text-center mt-4">
+                    <button class="btn btn-primary" @onclick="@Approve">Aprobar</button>
+                    <button class="btn btn-outline-danger" @onclick="@Reject">Rechazar</button>
+                </div>
+            }
+            else if (Incident.CurrentState == IncidentStates.Rejected.Nombre)
+            {
+                <div class="text-center mt-4">
+                    <button class="btn btn-primary" @onclick="@Approve">Aprobar</button>
+                    <button disabled class="btn btn-outline-danger">Rechazar</button>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="text-center">
+                @if (PendingTasks.Count > 0)
+                {
+                    <button disabled type="submit" class="btn btn-primary">Cambiar a estado @nextState</button>
+                }
+                else
+                {
+                    <button @onclick="@ChangeState" type="submit" class="btn btn-primary">Cambiar a estado @nextState</button>
+                }
+            </div>
+        }
+        <br />
+        <br />
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Siguiente estado</th>
+
+                    @if (PendingTasks.Count > 0)
+                    {
+                        @if (Incident.CurrentState == IncidentStates.Rejected.Nombre || Incident.CurrentState == IncidentStates.Created.Nombre)
+                        {
+                            <th scope="col">
+                                Pendiente
+                                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-clock-fill clock-state" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z" />
+                                </svg>
+                            </th>
+                        }
+                        else
+                        {
+                            <th scope="col">Pendiente <span class="badge badge-primary badge-pill badge-text">!</span> </th>
+                        }
+                    }
+                    else
+                    {
+                        <th scope="col">Pendiente <span class="badge badge-success badge-pill badge-text">✓</span> </th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>@nextState</td>
+                    @if (PendingTasks != null && PendingTasks.Count > 0)
+                    {
+                        <td>
+                            <ul class="list-group">
+                                @foreach (var task in PendingTasks)
+                                {
+                                    <li class="bg-task d-flex justify-content-between">
+                                        <a data-toggle="tooltip" title="Prueba" @onclick="@( () => RedirectToTab(task.Item2) )"> @task.Item1  </a>
+                                        <span class="badge badge-primary badge-pill badge-text">!</span>
+                                    </li>
+                                }
+                            </ul>
+                        </td>
+                    }
+                    else
+                    {
+                        <td>No hay información pendiente por agregar</td>
+                    }
+                </tr>
+            </tbody>
+        </table>
+    </Loading>
+}
+
+
