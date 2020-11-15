@@ -63,5 +63,10 @@ namespace PRIME_UCR.Application.Implementations.Multimedia
         {
             return await mcItemRepository.GetByCheckListItem(itemId, listId, incidentCode);
         }
+        public async Task DeleteMultimediaContent(MultimediaContent mcontent)
+        {
+            await mcRepository.DeleteAsync(mcontent.Id);
+        }
+
     }
 }

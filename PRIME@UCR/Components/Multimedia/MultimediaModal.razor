@@ -50,6 +50,12 @@
     {
         <VideoComponent MultimediaModal="this"></VideoComponent>
     }
+    @if (ShowTextComponent)
+    {
+        <TextComponent OnFileUpload="OnFileUpload"
+                       EncryptionService="encrypt_service"
+                       ></TextComponent>
+    }
 
 </div>
 }

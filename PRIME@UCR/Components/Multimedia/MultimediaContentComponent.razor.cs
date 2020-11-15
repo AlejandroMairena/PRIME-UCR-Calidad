@@ -37,6 +37,7 @@ namespace PRIME_UCR.Components.Multimedia
         bool showText = false;
         bool showVideo = false;
         bool showVideoComponent = false;
+        bool showTextComponent = false;
 
         bool showDropdown = false;
         MultimediaContent modalMContent = null;
@@ -198,6 +199,7 @@ namespace PRIME_UCR.Components.Multimedia
             modalMContent = null;
             showVideo = false;
             showVideoComponent = false;
+            showTextComponent = false;
         }
         void OpenAudio(MultimediaContent mcontent)
         {
@@ -222,6 +224,7 @@ namespace PRIME_UCR.Components.Multimedia
             showVideo = false;
             modalMContent = mcontent;
             showVideoComponent = false;
+            showTextComponent = false;
         }
         void OpenText(MultimediaContent mcontent) 
         {
@@ -234,7 +237,7 @@ namespace PRIME_UCR.Components.Multimedia
             showVideo = false;
             modalMContent = mcontent;
             showVideoComponent = false;
-
+            showTextComponent = false;
         }
         void OpenVideo(MultimediaContent mcontent) {
             showModal = true;
@@ -247,7 +250,7 @@ namespace PRIME_UCR.Components.Multimedia
             modalMContent = mcontent;
             showVideo = false;
             showVideoComponent = false;
-
+            showTextComponent = false;
         }
 
 
@@ -263,6 +266,7 @@ namespace PRIME_UCR.Components.Multimedia
             modalMContent = null;
             showVideo = false;
             showVideoComponent = true;
+            showTextComponent = false;
         }
         void OpenMicrophone()
         {
@@ -276,6 +280,33 @@ namespace PRIME_UCR.Components.Multimedia
             modalMContent = null;
             showVideo = false;
             showVideoComponent = false;
+            showTextComponent = false;
         }
+
+        void OpenTextComponent()
+        {
+            showModal = true;
+            showCamera = false;
+            showAudio = false;
+            showImage = false;
+            showMicrophone = false;
+            showText = false;
+            showVideo = false;
+            modalMContent = null;
+            showVideo = false;
+            showVideoComponent = false;
+            showTextComponent = true;
+        }
+
+        async Task DeleteMultimediaContent(MultimediaContent mcontent)
+        {
+            await multimedia_content_service.DeleteMultimediaContent(mcontent);
+            MultimediaContent.Remove(mcontent);
+            byte[] bEPath = Convert.FromBase64String(mcontent.Archivo);
+            string path = encrypt_service.Decrypt(bEPath);
+            file_service.DeleteFile(path);
+        }
+
+
     }
 }

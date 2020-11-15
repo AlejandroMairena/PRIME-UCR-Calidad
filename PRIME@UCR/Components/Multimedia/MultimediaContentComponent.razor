@@ -61,6 +61,12 @@
                             <img class="data_btn" src="img/ico-video-blanco.jpeg" />
                         </button>
                     </div>
+                    @* Text Logo *@
+                <div class="col">
+                    <button class="rt-img-cont" @onclick="OpenTextComponent">
+                        <img class="data_btn" src="img/ico-texto.jpg" />
+                    </button>
+                </div>
                 </div>
 
                 @* Lista de Archivos asociados *@
@@ -105,7 +111,7 @@
                                             @GetButonName(mcontent)
                                         </button>
                                     </td>
-                                    <td><button type="button" class="btn btn-danger m-btn m-btn-rm">Eliminar</button></td>
+                                    <td><button type="button" class="btn btn-danger m-btn m-btn-rm" @onclick="(()=> DeleteMultimediaContent(mcontent))">Eliminar</button></td>
                                 </tr>
                             }
                         </tbody>
@@ -133,6 +139,7 @@
                  ShowVideo="showVideo"
                  ShowVideoComponent="showVideoComponent"
                  ShowText="showText"
-                 ES="encrypt_service"
+                 ShowTextComponent="showTextComponent"
+                 OnFileUpload="OnFileUpload"
                  OnClose="(bool val) => showModal = val">
 </MultimediaModal>
