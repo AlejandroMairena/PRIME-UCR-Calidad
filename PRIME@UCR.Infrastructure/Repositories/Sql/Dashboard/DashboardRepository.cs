@@ -53,7 +53,7 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Dashboard
             return await Task.FromResult(result);
         }
 
-    /**
+        /**
          * Method used to get the list of all the incidents.
          * 
          * Return: List of incidents.

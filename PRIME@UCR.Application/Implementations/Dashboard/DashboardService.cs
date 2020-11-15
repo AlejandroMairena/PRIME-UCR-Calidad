@@ -66,13 +66,21 @@ namespace PRIME_UCR.Application.Implementations.Dashboard
                 filteredList = filteredList.Where((incident) => modality == incident.Modalidad).ToList();
             }
 
-            /*
+            //Origin
             if(Value.HouseholdOriginFilter.District != null)
             {
                 var disctrictID = Value.HouseholdOriginFilter.District.Id;
-                filteredList = filteredList.Where((incident) => disctrictID == incident.Origen.Id).ToList();
+                filteredList = filteredList.Where((incident) => disctrictID == incident.IdOrigen).ToList();
             }
 
+            /*Destination
+            if (Value.HouseholdOriginFilter.District != null)
+            {
+                var disctrictID = Value.HouseholdOriginFilter.District.Id;
+                filteredList = filteredList.Where((incident) => disctrictID == incident.IdOrigen).ToList();
+            }*/
+
+            /*
             if (Value.HouseholdOriginFilter != null)
             {
                 var disctrictID = Value.MedicalCenterDestination.i;
@@ -81,8 +89,6 @@ namespace PRIME_UCR.Application.Implementations.Dashboard
 
             return filteredList;
         }
-
-        
     }
 
     [MetadataType(typeof(DashboardServicePermissions))]
