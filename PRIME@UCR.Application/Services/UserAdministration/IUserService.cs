@@ -18,5 +18,7 @@ namespace PRIME_UCR.Application.Services.UserAdministration
         Task<UserFormModel> GetUserFormFromRegisterUserFormAsync(RegisterUserFormModel userToRegister);
 
         Task<bool> StoreUserAsync(UserFormModel userToRegist);
+
+        Task<List<Usuario>> GetNotAuthenticatedUsers();
     }
 }

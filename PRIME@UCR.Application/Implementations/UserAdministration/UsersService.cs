@@ -114,6 +114,19 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
         {
             return await _usuarioRepository.GetAllUsersWithDetailsAsync();
         }
+
+
+        /**
+         * Method used to get all the users that aren't validated yet.
+         * 
+         * Return: A list with all the users that have not been validated in the app.
+         */
+        public async Task<List<Usuario>> GetNotAuthenticatedUsers()
+        {
+            return await _usuarioRepository.GetNotAuthenticatedUsers();
+        }
+
+
     }
 
     [MetadataType(typeof(UserServiceAuthorization))]

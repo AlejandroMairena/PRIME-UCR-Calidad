@@ -13,6 +13,9 @@ namespace PRIME_UCR.Application.Repositories.UserAdministration
         Task<List<Usuario>> GetAllUsersWithDetailsAsync();
 
         Task<Usuario> GetUserByEmailAsync(string email);
+
+        Task<List<Usuario>> GetNotAuthenticatedUsers();
+
     }
 
 
