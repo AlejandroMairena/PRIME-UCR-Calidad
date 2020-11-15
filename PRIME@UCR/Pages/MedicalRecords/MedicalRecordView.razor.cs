@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Components;
-using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using PRIME_UCR.Components.MedicalRecords;
 using PRIME_UCR.Domain.Models.MedicalRecords;
@@ -9,6 +8,8 @@ using PRIME_UCR.Domain.Models.UserAdministration;
 using System.Runtime.CompilerServices;
 using PRIME_UCR.Application.DTOs.MedicalRecords;
 using System.Linq;
+using PRIME_UCR.Application.Services.MedicalRecords;
+using Microsoft.EntityFrameworkCore;
 
 namespace PRIME_UCR.Pages.MedicalRecords
 {
@@ -18,6 +19,11 @@ namespace PRIME_UCR.Pages.MedicalRecords
         [Parameter]
         public string Id { get; set; }
 
+        [Parameter]
+        public string state { get; set; }
+
+        public bool new_record { get; set; } = false; 
+
         private readonly List<Tuple<DetailsTab, string>> _tabs = new List<Tuple<DetailsTab, string>>();
 
         const DetailsTab DefaultTab = DetailsTab.Info;
@@ -26,11 +32,17 @@ namespace PRIME_UCR.Pages.MedicalRecords
 
         protected bool exists = true;
 
-        private Expediente record;
-
-        private Persona person;
-
         private RecordViewModel viewModel = new RecordViewModel();
+
+        private List<Antecedentes> antecedentes;
+
+        private List<Alergias> alergias;
+
+        private List<ListaAntecedentes> ListaAntecedentes;
+
+        private List<ListaAlergia> ListaAlergias;
+
+        Expediente medical_record_with_details { get; set; }
 
         private void FillTabStates()
         {
@@ -46,6 +58,9 @@ namespace PRIME_UCR.Pages.MedicalRecords
                     case DetailsTab.Appointments:
                         _tabs.Add(new Tuple<DetailsTab, string>(DetailsTab.Appointments, ""));
                         break;
+                    case DetailsTab.MedicalBackgroundTab:
+                        _tabs.Add(new Tuple<DetailsTab, string>(DetailsTab.MedicalBackgroundTab, ""));
+                        break;
                 }
             }
         }
@@ -55,13 +70,28 @@ namespace PRIME_UCR.Pages.MedicalRecords
         {
             int identification = Int32.Parse(Id);
             viewModel = await MedicalRecordService.GetIncidentDetailsAsync(identification);
+
+            //Get all background item related to a record by its id
+            antecedentes = (await MedicalBackgroundService.GetBackgroundByRecordId(identification)).ToList();
+            //Get all alergies related to a record by its id
+            alergias = (await AlergyService.GetAlergyByRecordId(identification)).ToList();
+            //Get all available background items.
+            ListaAntecedentes = (await MedicalBackgroundService.GetAll()).ToList();
+            //Get all available alergies
+            ListaAlergias = (await AlergyService.GetAll()).ToList();
+            //Get all dates related to the medical record. 
+            medical_record_with_details = await MedicalRecordService.GetMedicalRecordDetailsLinkedAsync(identification);
+
             if (viewModel == null)
                 exists = false;
             else
                 FillTabStates();
+
+            if (state != null && state == "created") {
+                new_record = true; 
+            }
+
         }
-
-
 
     }
 }

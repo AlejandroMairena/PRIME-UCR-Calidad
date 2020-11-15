@@ -56,6 +56,9 @@ namespace PRIME_UCR.Pages.Incidents
                     case DetailsTab.Multimedia:
                         _tabs.Add(new Tuple<DetailsTab, string>(DetailsTab.Multimedia, ""));
                         break;
+                    case DetailsTab.Checklist:
+                        _tabs.Add(new Tuple<DetailsTab, string>(DetailsTab.Checklist, ""));
+                        break;
                 }
             }
         }

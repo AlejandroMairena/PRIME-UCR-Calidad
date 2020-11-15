@@ -15,7 +15,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.UserAdministration
 {
     public class UserServiceTest
     {
-      
+        /*
         [Fact]
         public async void getUsuarioWithDetailsReturnsNull()
         {
@@ -61,6 +61,6 @@ namespace PRIME_UCR.Test.UnitTests.Application.UserAdministration
             Assert.Equal("AQAAAAEAACcQAAAAEKBfjZVSMkEvJ3kJikd/FETuy1hxI3csK3qM2EwHBlQpgixfBX3tUaxpposHbUfakg==" , result.PasswordHash);
             Assert.Equal("M7SUOG4MXMPBKLX2BN34HVOG7GRGNIDQ" , result.SecurityStamp);
         }
-
+        */
     }
 }
