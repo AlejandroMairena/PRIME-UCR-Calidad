@@ -17,6 +17,7 @@ namespace PRIME_UCR.Infrastructure.DataProviders
         // dbsets
         DbSet<CheckList> CheckList { get; set; }
         DbSet<Item> Item { get; set; }
+        DbSet<TipoListaChequeo> CheckListTypes { get; set; }
         DbSet<InstanceChecklist> InstanceChecklist { get; set; }
         DbSet<InstanciaItem> InstanciaItem { get; set; }
         DbSet<Pais> Countries { get; set; }
