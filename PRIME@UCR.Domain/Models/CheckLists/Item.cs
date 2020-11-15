@@ -19,6 +19,7 @@ namespace PRIME_UCR.Domain.Models.CheckLists
         // List of subitems in this item
         public List<Item> SubItems { get; set; }
         public Item ItemList { get; set; } // parent item
+        public List<InstanciaItem> Instances { get; set; }
 
         public override bool Equals(object obj)
         {

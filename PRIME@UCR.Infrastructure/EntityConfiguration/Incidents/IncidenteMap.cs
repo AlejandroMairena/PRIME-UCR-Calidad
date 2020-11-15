@@ -36,8 +36,8 @@ namespace PRIME_UCR.Infrastructure.EntityConfiguration.Incidents
                 .HasForeignKey(p => p.MatriculaTrans);
             builder
                 .HasOne(i => i.Cita)
-                .WithOne()
-                .HasForeignKey<Incidente>(i => i.CodigoCita);
+                .WithMany(p => p.Incidentes)
+                .HasForeignKey(i => i.CodigoCita);
             builder
                 .HasOne<CoordinadorTécnicoMédico>()
                 .WithMany()

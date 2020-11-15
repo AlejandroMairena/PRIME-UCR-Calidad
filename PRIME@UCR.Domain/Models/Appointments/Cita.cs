@@ -21,5 +21,7 @@ namespace PRIME_UCR.Domain.Models
 
         public List<Metricas> Metricas { get; set; }
 
+        public List<Incidente> Incidentes { get; set; }
+
     }
 }

@@ -28,6 +28,7 @@ namespace PRIME_UCR.Pages.CheckLists
         public List<int> TempsIds = new List<int>();
         public int count;
         public bool dont_save;
+        [Parameter] public string incidentcod { get; set; }
         protected override async Task OnInitializedAsync()
         {
             await RefreshModels();
