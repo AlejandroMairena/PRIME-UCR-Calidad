@@ -17,6 +17,7 @@ using PRIME_UCR.Application.Services.MedicalRecords;
 using Microsoft.AspNetCore.Components.Authorization;
 using PRIME_UCR.Application.Services.Dashboard;
 using PRIME_UCR.Application.Implementations.Dashboard;
+using PRIME_UCR.Infrastructure.Repositories.Sql.MedicalRecords;
 
 namespace PRIME_UCR.Application
 {
@@ -26,11 +27,14 @@ namespace PRIME_UCR.Application
         {
             // services
             services.AddTransient<ICheckListService, CheckListService>();
+            services.AddTransient<IInstanceChecklistService, InstanceChecklistService>();
             // incidents
             services.AddTransient<IIncidentService, IncidentService>();
             services.AddTransient<ILocationService, LocationService>();
             // medical records
             services.AddTransient<IMedicalRecordService, MedicalRecordService>();
+            services.AddTransient<IMedicalBackgroundService, MedicalBackgroundService>();
+            services.AddTransient<IAlergyService, AlergyService>();
             // multimedia
             services.AddTransient<IMultimediaContentService, MultimediaContentService>();
             services.AddTransient<IEncryptionService, EncryptionService>();
