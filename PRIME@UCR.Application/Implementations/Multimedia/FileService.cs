@@ -10,14 +10,22 @@ namespace PRIME_UCR.Application.Implementations.Multimedia
     public class FileService : IFileService
     {
         public string FilePath { get; set; }
+        public string KeyString { get; set; }
+        public string IVString { get; set; }
+        public EncryptionService ES { get; set; }
+
         public FileService()
         {
-            FilePath = Path.GetTempPath() + "\\PRIME@UCR_Files";
+            //FilePath = Path.GetTempPath() + "/PRIME@UCR_Files"; //CAMBIAR PATH
+            //FilePath = "C:/Users/gusta/Desktop/UCR/II SEMESTRE 2020/Proyecto integrador/PROYECTO/PRIME@UCR/wwwroot/data";
+            //KeyString = key;
+            FilePath = "wwwroot/datas/";
+            //IVString = iv;
+            ES = new EncryptionService();
         }
 
         public async Task<bool> StoreFile(string fileName, Stream fileStream)
         {
-            EncryptionService ES = new EncryptionService();
             DirectoryInfo info = new DirectoryInfo(FilePath);
             if (!info.Exists) info.Create();
 
@@ -26,7 +34,10 @@ namespace PRIME_UCR.Application.Implementations.Multimedia
             {
                 await fileStream.CopyToAsync(outputFileStream);
             }
-            ES.EncryptFile(FilePath, fileName);
+            ES.EncryptFile(path);
+            //string keyString = System.Convert.ToBase64String(ES.Key);
+            //string ivString = System.Convert.ToBase64String(ES.IV);
+            //FilePath = "datas/";
             return true;
         }
 
@@ -39,5 +50,8 @@ namespace PRIME_UCR.Application.Implementations.Multimedia
             return false;
         }
 
+        public void SetKeyIV(byte[] iv, byte[] key) {
+            ES.SetKeyIV(iv, key);
+        }
     }
 }

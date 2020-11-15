@@ -1,4 +1,6 @@
-﻿@inject IJSRuntime JS
+﻿@using PRIME_UCR.Application.Services.Multimedia
+@inject IJSRuntime JS
+@inject IEncryptionService encrypt_service
 <!--POPUP VER-->
 <!-- The Modal -->
 @if (Show)
@@ -18,10 +20,34 @@
     }
     @if (ShowImage)
     {
-        <img class="modal-content-image-mc">
+        string imgSrc = getSrc();
+        //string imgSrc = "datas/Untitled Diagram.png";
+
+        string captionName = getName();
+        <img src=@imgSrc class="modal-content-image-mc">
+        <div id="caption">@captionName</div>
+    }
+    @if (ShowAudio)
+    {
+        string path = getAudio();
+        <audio controls="controls">
+            <source src=@path type="audio/mpeg">
+        </audio>
+    }
+    @if (ShowVideo)
+    {
+        string vid = getVideo();
+        <video width="1280" height="720" controls="controls">
+            <source src=@vid type="video/mp4">
+        </video>
+    }
+    @if (ShowText)
+    {
+     <div id="caption">Se ha abierto una nueva pestaña para mostrar el archivo...</div>
+     getText();
     }
 
-    <div id="caption"></div>
 </div>
 }
+
 

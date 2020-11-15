@@ -20,6 +20,9 @@ namespace PRIME_UCR.Application.Services.Incidents
         Task<IncidentDetailsModel> UpdateIncidentDetailsAsync(IncidentDetailsModel model);
         Task<IEnumerable<Incidente>> GetAllAsync();
         Task<IEnumerable<IncidentListModel>> GetIncidentListModelsAsync();
+
+        Task<Incidente> GetIncidentByDateCodeAsync(int id); 
+
         public Task ApproveIncidentAsync(string code, string reviewerId);
         public Task RejectIncidentAsync(string code, string reviewerId);
         public Task<string> GetNextIncidentState(string code);
