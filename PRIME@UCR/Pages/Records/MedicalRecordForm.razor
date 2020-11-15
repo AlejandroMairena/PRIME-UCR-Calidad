@@ -125,73 +125,73 @@
 
 @if (RecordModel.Paciente != null && !patient_inserted && (save_record_data_pushed || patient_status != 2))
 {
-    <div class="jumbotron white-panel">
+<div class="jumbotron white-panel">
 
-        @switch (patient_status)
-        {
-            case 0:
-                //el expediente ya existe en la base de datos.
-                <StatusMessage Message="El paciente se encuentra registrado" Class="primary"></StatusMessage>
-                break;
-
-            case 1:
-                //el paciente ya se encuentra en la base de datos, pero no existe expediente relacionado al paciente.
-                <StatusMessage Message="Datos personales del paciente" Class="primary"></StatusMessage>
-                break;
-
-            case 2:
-                //no existe ni paciente ni expediente.
-                <StatusMessage Message="El paciente no se encuentra registrado" Class="primary"></StatusMessage>
-                break;
-
-        }
-
-        <Loading IsLoading="is_loading_patient">
-            <div class="row">
-                <div class="col-xl-4 col-lg-6">
-                    <EditForm EditContext="PatientContext" OnValidSubmit="SavePatientData">
-                        <FluentValidationValidator />
-                        <TextBox Disabled="patient_status != 2" @bind-Value="RecordModel.Paciente.Nombre" Label="Nombre" />
-                        <TextBox Disabled="patient_status != 2" @bind-Value="RecordModel.Paciente.PrimerApellido" Label="Primer Apellido" />
-
-                        @*no esta registrado ó no se encuentra vacio*@
-                        @if (patient_status == 2 || !String.IsNullOrEmpty(RecordModel.Paciente.SegundoApellido))
-                        {
-                            <TextBox Disabled="patient_status != 2" Required="false" @bind-Value="RecordModel.Paciente.SegundoApellido" Label="Segundo apellido" />
-                        }
-
-                        @if (patient_status == 2 || RecordModel?.Paciente?.FechaNacimiento != null)
-                        {
-                            <DatePicker Disabled="patient_status != 2" @bind-Value="RecordModel.Paciente.FechaNacimiento" Label="Fecha de nacimiento" Max="@DateTime.Today" Min="@DateTime.Today.AddYears(-120)" Required="false" />
-                        }
-
-                        @if (patient_status == 2 || RecordModel?.Paciente?.Sexo != null)
-                        {
-
-                            <DropDownMenu T="Gender" Data="genders" Label="Sexo" DefaultText="Seleccione un sexo" TextExpression="@((Gender g) => EnumUtils.GetDescription(g))"
-                                          Required="false" Disabled="patient_status != 2" @bind-Value="RecordModel.Sexo" />
-                        }
-
-
-                        @if (patient_status == 2)
-                        {
-                            <button class="btn btn-dark" @onclick="SavePatientData">Guardar</button>
-                        }
-
-                    </EditForm>
-                </div>
-            </div>
-        </Loading>
-    </div>
-}
-
-@*
-    @if (patient_inserted)
+    @switch (patient_status)
     {
-        <StatusMessage Message="Paciente registrado exitosamente" Class="success"></StatusMessage>
+        case 0:
+            //el expediente ya existe en la base de datos.
+            <StatusMessage Message="El paciente se encuentra registrado" Class="primary"></StatusMessage>
+            break;
+
+        case 1:
+            //el paciente ya se encuentra en la base de datos, pero no existe expediente relacionado al paciente.
+            <StatusMessage Message="Datos personales del paciente" Class="primary"></StatusMessage>
+            break;
+
+        case 2:
+            //no existe ni paciente ni expediente.
+            <StatusMessage Message="El paciente no se encuentra registrado" Class="primary"></StatusMessage>
+            break;
 
     }
-*@
+
+    <Loading IsLoading="is_loading_patient">
+        <div class="row">
+            <div class="col-xl-4 col-lg-6">
+                <EditForm EditContext="PatientContext" OnValidSubmit="SavePatientData">
+                    <FluentValidationValidator />
+                    <TextBox Disabled="patient_status != 2" @bind-Value="RecordModel.Paciente.Nombre" Label="Nombre" />
+                    <TextBox Disabled="patient_status != 2" @bind-Value="RecordModel.Paciente.PrimerApellido" Label="Primer Apellido" />
+
+                    @*no esta registrado ó no se encuentra vacio*@
+                    @if (patient_status == 2 || !String.IsNullOrEmpty(RecordModel.Paciente.SegundoApellido))
+                    {
+                        <TextBox Disabled="patient_status != 2" Required="false" @bind-Value="RecordModel.Paciente.SegundoApellido" Label="Segundo apellido" />
+                    }
+
+                    @if (patient_status == 2 || RecordModel?.Paciente?.FechaNacimiento != null)
+                    {
+                        <DatePicker Disabled="patient_status != 2" @bind-Value="RecordModel.Paciente.FechaNacimiento" Label="Fecha de nacimiento" Max="@DateTime.Today" Min="@DateTime.Today.AddYears(-120)" Required="false" />
+                    }
+
+                    @if (patient_status == 2 || RecordModel?.Paciente?.Sexo != null)
+                    {
+
+                        <DropDownMenu T="Gender" Data="genders" Label="Sexo" DefaultText="Seleccione un sexo" TextExpression="@((Gender g) => EnumUtils.GetDescription(g))"
+                                      Required="false" Disabled="patient_status != 2" @bind-Value="RecordModel.Sexo" />
+                    }
+
+
+                    @if (patient_status == 2)
+                    {
+                        <button class="btn btn-dark" @onclick="SavePatientData">Guardar</button>
+                    }
+
+                </EditForm>
+            </div>
+        </div>
+    </Loading>
+    @if (not_done)
+    {
+        <hr />
+        <StatusMessage Message="Debe ingresar los datos obligatorios" Class="warning"></StatusMessage>
+
+    }
+</div>
+}
+
+
 
 @code {
 
@@ -232,6 +232,7 @@
 
     public Gender gender = new Gender();
 
+    public bool not_done = false; 
 
     public List<CentroMedico> clinics = new List<CentroMedico>
 {
@@ -279,7 +280,7 @@
                 record_inserted = true;
                 is_loading_record = false;
 
-                await redirect(); 
+                await redirect();
                 RecordModel.set_to_null();
             }
             else
@@ -320,20 +321,26 @@
 
             RecordModel.Paciente.Sexo = RecordModel.Sexo.ToString();
 
-            await patient_service.CreatePatientAsync(RecordModel.Paciente);
-            patient_inserted = true;
+            if (RecordModel.Paciente.Nombre != null && RecordModel.Paciente.PrimerApellido != null) {
 
-            if (save_record_data_pushed)
-            {
-                await medical_record_service.InsertAsync(RecordModel.Expediente);
-                record_inserted = true;
-                record_unfinisehd = false;
-                await redirect(); 
-                RecordModel.set_to_null();
+                await patient_service.CreatePatientAsync(RecordModel.Paciente);
+                patient_inserted = true;
+
+                if (save_record_data_pushed)
+                {
+                    await medical_record_service.InsertAsync(RecordModel.Expediente);
+                    record_inserted = true;
+                    record_unfinisehd = false;
+                    await redirect();
+                    RecordModel.set_to_null();
+                }
+                is_loading_record = false;
+            }
+            else {
+                not_done = true; 
             }
 
         }
-        is_loading_record = false;
         is_loading_patient = false;
     }
 
