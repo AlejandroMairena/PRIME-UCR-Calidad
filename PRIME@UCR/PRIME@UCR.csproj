@@ -32,4 +32,6 @@
     <ProjectReference Include="..\PRIME@UCR.Infrastructure\PRIME@UCR.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
+
 </Project>

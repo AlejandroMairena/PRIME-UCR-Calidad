@@ -55,7 +55,7 @@
                     </div>
                     @* Video Logo *@
                     <div class="col">
-                        <button class="rt-img-cont">
+                        <button class="rt-img-cont" @onclick="OpenVideo">
                             <img class="data_btn" src="img/ico-video-blanco.jpeg" />
                         </button>
                     </div>
@@ -123,6 +123,7 @@
                  ShowCamera="showCamera" 
                  ShowImage="showImage"
                  ShowMicrophone="showMicrophone"
+                 ShowVideo="showVideo"
                  MContent="modalMContent"
                  OnClose="(bool val) => showModal = val">
 </MultimediaModal>

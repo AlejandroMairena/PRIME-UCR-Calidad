@@ -32,6 +32,7 @@ namespace PRIME_UCR.Components.Multimedia
         bool showCamera = false;
         bool showMicrophone = false;
         bool showImage = false;
+        bool showVideo = false;
         MultimediaContent modalMContent = null;
 
         protected override void OnInitialized()
@@ -175,6 +176,7 @@ namespace PRIME_UCR.Components.Multimedia
             showMicrophone = false;
             showImage = false;
             modalMContent = null;
+            showVideo = false;
         }
 
         void OpenMicrophone()
@@ -184,6 +186,7 @@ namespace PRIME_UCR.Components.Multimedia
             showMicrophone = true;
             showImage = false;
             modalMContent = null;
+            showVideo = false;
         }
         void OpenImage(MultimediaContent mcontent)
         {
@@ -192,6 +195,18 @@ namespace PRIME_UCR.Components.Multimedia
             showMicrophone = true;
             showImage = true;
             modalMContent = mcontent;
+            showVideo = false;
+        }
+
+
+        void OpenVideo()
+        {
+            showModal = true;
+            showCamera = false;
+            showMicrophone = false;
+            showImage = false;
+            modalMContent = null;
+            showVideo = true;
         }
 
     }
