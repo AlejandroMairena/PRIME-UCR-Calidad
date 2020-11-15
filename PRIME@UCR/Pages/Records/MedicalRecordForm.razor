@@ -16,7 +16,7 @@
             {
                 case 0:
                     //medical record and patient already registered. 
-                    <StatusMessage Message="El Expediente que desea registrar ya se encuentra registrado, si existe algún campo faltante lo puede llenar" Class="primary"></StatusMessage>
+                    <StatusMessage Message="El expediente que desea registrar ya se encuentra registrado, si existe algún campo faltante lo puede llenar" Class="primary"></StatusMessage>
                     break;
 
                 case 1:
@@ -123,7 +123,7 @@
 
 <hr />
 
-@if (RecordModel.Paciente != null && !patient_inserted && (save_record_data_pushed || patient_status == 1))
+@if (RecordModel.Paciente != null && !patient_inserted && (save_record_data_pushed || patient_status != 2))
 {
     <div class="jumbotron white-panel">
 
