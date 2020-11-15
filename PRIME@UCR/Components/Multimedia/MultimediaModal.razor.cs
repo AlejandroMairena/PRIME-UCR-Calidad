@@ -23,6 +23,8 @@ namespace PRIME_UCR.Components.Multimedia
         [Parameter]
         public bool ShowVideo { get; set; } = false;
         [Parameter]
+        public bool ShowVideoComponent { get; set; } = false;
+        [Parameter]
         public bool ShowImage { get; set; } = false;
         [Parameter]
         public bool ShowMicrophone { get; set; }
@@ -43,7 +45,7 @@ namespace PRIME_UCR.Components.Multimedia
             Show = false;
 
             if (OnModalClosed != null) await OnModalClosed();
-            if (ShowMicrophone == true || ShowCamera == true)
+            if (ShowMicrophone == true || ShowCamera == true || ShowVideoComponent == true)
             {
                 await OnClose.InvokeAsync(Show);
 

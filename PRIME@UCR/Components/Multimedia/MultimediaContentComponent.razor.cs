@@ -36,6 +36,8 @@ namespace PRIME_UCR.Components.Multimedia
         bool showImage = false;
         bool showText = false;
         bool showVideo = false;
+        bool showVideoComponent = false;
+
         bool showDropdown = false;
         MultimediaContent modalMContent = null;
 
@@ -195,6 +197,7 @@ namespace PRIME_UCR.Components.Multimedia
             showVideo = false;
             modalMContent = null;
             showVideo = false;
+            showVideoComponent = false;
         }
         void OpenAudio(MultimediaContent mcontent)
         {
@@ -206,6 +209,7 @@ namespace PRIME_UCR.Components.Multimedia
             showText = false;
             showVideo = false;
             modalMContent = mcontent;
+            showVideoComponent = false;
         }
         void OpenImage(MultimediaContent mcontent)
         {
@@ -217,6 +221,7 @@ namespace PRIME_UCR.Components.Multimedia
             showText = false;
             showVideo = false;
             modalMContent = mcontent;
+            showVideoComponent = false;
         }
         void OpenText(MultimediaContent mcontent) 
         {
@@ -228,6 +233,8 @@ namespace PRIME_UCR.Components.Multimedia
             showText = true;
             showVideo = false;
             modalMContent = mcontent;
+            showVideoComponent = false;
+
         }
         void OpenVideo(MultimediaContent mcontent) {
             showModal = true;
@@ -239,6 +246,8 @@ namespace PRIME_UCR.Components.Multimedia
             showVideo = true;
             modalMContent = mcontent;
             showVideo = false;
+            showVideoComponent = false;
+
         }
 
 
@@ -246,10 +255,14 @@ namespace PRIME_UCR.Components.Multimedia
         {
             showModal = true;
             showCamera = false;
-            showMicrophone = false;
+            showAudio = false;
             showImage = false;
-            modalMContent = null;
+            showMicrophone = false;
+            showText = false;
             showVideo = true;
+            modalMContent = null;
+            showVideo = false;
+            showVideoComponent = true;
         }
         void OpenMicrophone()
         {
@@ -261,6 +274,8 @@ namespace PRIME_UCR.Components.Multimedia
             showText = false;
             showVideo = false;
             modalMContent = null;
+            showVideo = false;
+            showVideoComponent = false;
         }
     }
 }
