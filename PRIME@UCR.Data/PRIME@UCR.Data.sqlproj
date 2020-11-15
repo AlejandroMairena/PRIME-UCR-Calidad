@@ -161,6 +161,6 @@
     <None Include="Scripts\PostDeployment\Alergies_PostDeployment.sql" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Scripts\PostDeployment\MultimediaContent_PostDeployment.sql" />
+    <None Include="Triggers\DeleteMultimediaContent.sql" />
   </ItemGroup>
 </Project>

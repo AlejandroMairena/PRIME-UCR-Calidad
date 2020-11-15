@@ -44,7 +44,7 @@ namespace PRIME_UCR.Components.Multimedia
 
         protected override void OnInitialized()
         {
-            validTypeFiles = new List<string>() { "mpeg", "pdf", "doc", "docx", "xls", "txt", "mp3", "jpg", "png", "mp4", "wmv", "avi", "text/plain" };
+            validTypeFiles = new List<string>() { "ogg", "oga", "jpeg", "webm", "mpeg", "pdf", "doc", "docx", "xls", "txt", "mp3", "jpg", "png", "mp4", "wmv", "avi", "text/plain" };
         }
 
         protected override async Task OnInitializedAsync()
@@ -82,7 +82,7 @@ namespace PRIME_UCR.Components.Multimedia
             encrypt_service.SetKeyIV(ivByte, keyByte);
             IFileListEntry file = files.FirstOrDefault();
 
-            validFileType = ValidateFile(file, validTypeFiles);
+            validFileType = ValidateFile(file);
 
             if (!validFileType) return; // archivo invalido
 
@@ -126,14 +126,18 @@ namespace PRIME_UCR.Components.Multimedia
         }
 
         // Method to Validate File Type according to accepted types
-        bool ValidateFile(IFileListEntry file, List<string> validFileTypes)
+        bool ValidateFile(IFileListEntry file)
         {
             if (file == null) return false;
 
             string type = file.Type;
 
             foreach (string validType in validTypeFiles)
-                if (type.Contains(validType) || type == validType) return true;
+            {
+                bool b1 = type.Contains(validType);
+                bool b2 = type == validType;
+                if (b1 || b2) return true;
+            }
 
             return false;
         }
