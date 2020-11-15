@@ -6,10 +6,12 @@
 @using Microsoft.AspNetCore.Hosting
 @inject IWebHostEnvironment _environment;
 @inject IJSRuntime JS
+@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
 
-@using PRIME_UCR.Infrastructure
+    @using PRIME_UCR.Infrastructure
 
-@* MultimediaContentComponent*@
+    @* MultimediaContentComponent*@
 <div>
     @* Boton Principal *@
     <div class="@divDDClass">
@@ -29,7 +31,7 @@
             </svg>
         </button>
         @* Dropdown del boton *@
-        <div class="@ddMenuClass" aria-labelledby="dropdownMenuButton">
+        <div class="@ddMenuClass" aria-labelledby="dropdownMenuButton" id="multiMenu">
             <div class="m-menu-div">
                 <div class="row">
                     @* InputFileComponent *@
@@ -39,7 +41,7 @@
                     @* Loading Wheel *@
                     @*<div class="col">
 
-                    </div>*@
+                        </div>*@
                     @* Camera Logo *@
                     <div class="col">
                         <button class="rt-img-cont" @onclick="OpenCamera">
@@ -97,8 +99,12 @@
                                     <td>@mcontent.Nombre</td>
                                     <td>@mcontent.Tipo</td>
                                     <td>@mcontent.Fecha_Hora</td>
-                                    <td><button type="button" class="btn btn-secondary m-btn m-btn-rm action_buttom" 
-                                                @onclick="(() => ShowPopUp(mcontent))">@GetButonName(mcontent)</button></td>
+                                    <td>
+                                        <button type="button" class="btn btn-secondary m-btn m-btn-rm action_buttom"
+                                                @onclick="(() => ShowPopUp(mcontent))">
+                                            @GetButonName(mcontent)
+                                        </button>
+                                    </td>
                                     <td><button type="button" class="btn btn-danger m-btn m-btn-rm">Eliminar</button></td>
                                 </tr>
                             }
@@ -118,12 +124,15 @@
 </div>
 
 
-<MultimediaModal 
-                 Show="showModal" 
-                 ShowCamera="showCamera" 
+<MultimediaModal Show="showModal"
+                 ShowCamera="showCamera"
                  ShowImage="showImage"
                  ShowMicrophone="showMicrophone"
                  ShowVideo="showVideo"
                  MContent="modalMContent"
+                 ShowAudio="showAudio"
+                 ShowVideo="showVideo"
+                 ShowText="showText"
+                 ES="encrypt_service"
                  OnClose="(bool val) => showModal = val">
 </MultimediaModal>

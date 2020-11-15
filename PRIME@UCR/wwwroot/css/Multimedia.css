@@ -63,10 +63,12 @@
     opacity: 1;
     background-color: #095290;
 }
-
+.row {
+    flex-wrap: unset;
+}
 .counter-append {
-    position: absolute;
-    bottom: 0;
+    position: relative;
+    bottom: 15px;
     right: 0;
     z-index: 1;
     color: white;
@@ -76,15 +78,9 @@
     height: 26px;
     font-size: 12px;
     text-align: center;
-    align-content: center;
-    /*display: inline;*/
     border-radius: 50%;
-    top: 50%;
     line-height: 2;
-    /*Posicionar apendice*/
-    position: relative;
-    left: 50px;
-    top: -16px;
+    margin:auto;
 }
 .dropdown-menu {
     transform: none;
@@ -97,6 +93,9 @@
     padding-top: 15px;
     padding-left: 20px;
     padding-right: 20px;
+    will-change: none;
+    position: initial;
+
 }
 .data_btn:hover {
     border-color: #fbc51a;
@@ -178,7 +177,7 @@ button.btn.btn-danger.m-btn.m-btn-rm {
     display: block; /* Hidden by default */
     position: fixed; /* Stay in place */
     z-index: 10; /* Sit on top */
-    padding-top: 100px; /* Location of the box */
+    padding-top: 50px; /* Location of the box */
     left: 0;
     top: 0;
     width: 100%; /* Full width */
@@ -295,3 +294,17 @@ button.btn.btn-danger.m-btn.m-btn-rm {
 .hidden {
     display: none;
 }
+.multMenu {
+    display: none;
+    transform: none;
+    transition: none;
+    padding-bottom: 15px;
+    padding-top: 15px;
+    padding-left: 20px;
+    padding-right: 20px;
+    will-change: none;
+    position: initial;
+}
+    .multMenu.show {
+        display: block;
+    }

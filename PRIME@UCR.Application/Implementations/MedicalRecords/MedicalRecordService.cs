@@ -12,6 +12,7 @@ using PRIME_UCR.Domain.Models;
 using PRIME_UCR.Domain.Models.MedicalRecords;
 using PRIME_UCR.Domain.Models.UserAdministration;
 using PRIME_UCR.Infrastructure.Repositories.Sql.MedicalRecords;
+using PRIME_UCR.Application.Repositories.Appointments;
 
 namespace PRIME_UCR.Application.Implementations.MedicalRecords
 {
@@ -27,6 +28,8 @@ namespace PRIME_UCR.Application.Implementations.MedicalRecords
         private readonly IAlergyRepository _arepo;
         private readonly IAlergyListRepository _larepo;
         private readonly IMedicalBackgroundListRepository _lantrepo;
+        private readonly IUbicationCenterRepository _ubcrepo;
+        private readonly IMedCenterRepository _medcenrepo; 
         
         public MedicalRecordService(IMedicalRecordRepository repo, 
                                     IPersonaRepository personRepo, 
@@ -37,7 +40,9 @@ namespace PRIME_UCR.Application.Implementations.MedicalRecords
                                     IMedicalBackgroundRepository mbs,
                                     IAlergyRepository als,
                                     IAlergyListRepository alls,
-                                    IMedicalBackgroundListRepository mbls)
+                                    IMedicalBackgroundListRepository mbls,
+                                    IUbicationCenterRepository ubc, 
+                                    IMedCenterRepository mcr)
         {
             _repo = repo;
             _personRepo = personRepo;
@@ -49,6 +54,8 @@ namespace PRIME_UCR.Application.Implementations.MedicalRecords
             _arepo = als;
             _larepo = alls;
             _lantrepo = mbls;
+            _ubcrepo = ubc;
+            _medcenrepo = mcr; 
         }
 
 
@@ -56,6 +63,7 @@ namespace PRIME_UCR.Application.Implementations.MedicalRecords
         public async Task<IEnumerable<CentroMedico>> GetMedicalCentersAsync() {
             return await _mcrepo.GetAllAsync(); 
         }
+
 
         public async Task<IEnumerable<Expediente>> GeyByConditionAsync(string name)
         {
@@ -125,6 +133,11 @@ namespace PRIME_UCR.Application.Implementations.MedicalRecords
 
         }
 
+        public async Task<CentroMedico> GetMedicalCenterByUbicationCenterIdAsync(int id) {
+
+            CentroUbicacion cu = await _ubcrepo.GetByKeyAsync(id);
+            return await _medcenrepo.GetByKeyAsync(cu.CentroMedicoId); 
+        }
 
         public async Task<IEnumerable<Paciente>> GetPatients()
         {

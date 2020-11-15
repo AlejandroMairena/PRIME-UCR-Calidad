@@ -31,7 +31,19 @@ namespace PRIME_UCR.Components.MedicalRecords.Tabs
         public ITable<DateIncidentModel> AppointmIncidentModel { get; set; }
         public bool are_there_appointments { get; set; } = false;
 
-        public const string inci = "incidente"; 
+        public const string inci = "incidente";
+
+        public string get_patient_name() {
+            return medical_record.Paciente.NombreCompleto; 
+        }
+
+        public string get_record_id() {
+            return medical_record.Id.ToString(); 
+        }
+
+        public string get_patient_identification() {
+            return medical_record.Paciente.Cédula; 
+        }
 
         protected override async Task OnParametersSetAsync()
         {
@@ -62,12 +74,20 @@ namespace PRIME_UCR.Components.MedicalRecords.Tabs
             for (int index = 0; index < appointments.Count; ++index) {
 
                 Incidente incident = await incident_service.GetIncidentByDateCodeAsync(appointments[index].Id);
+
                 if (incident != null)
                 {
+                    CentroMedico mc = new CentroMedico();
+                    if (incident.IdDestino != null) {
+
+                        mc = await medical_record_service.GetMedicalCenterByUbicationCenterIdAsync((int)incident.IdDestino); 
+                    }
+
                     DateIncidentModel d_i = new DateIncidentModel()
                     {
                         date = appointments[index],
-                        incident = incident
+                        incident = incident,
+                        medical_center = mc
                     };
 
                     dat_in_link.Add(d_i);
