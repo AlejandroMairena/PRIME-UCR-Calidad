@@ -25,7 +25,7 @@ namespace PRIME_UCR.Components.Multimedia
 
         bool open = false;
         string divDDClass = "dropdown";
-        string ddMenuClass = "dropdown-menu";
+        string ddMenuClass = "dropdown-menu dropdown-menu-right";
         string invalidMessage = "";
 
         // Modal Variables 
@@ -36,6 +36,7 @@ namespace PRIME_UCR.Components.Multimedia
         bool showImage = false;
         bool showText = false;
         bool showVideo = false;
+        bool showDropdown = false;
         MultimediaContent modalMContent = null;
 
         protected override void OnInitialized()
@@ -53,7 +54,7 @@ namespace PRIME_UCR.Components.Multimedia
         public void Open()
         {
             divDDClass = open ? "dropdown" : "dropdown show";
-            ddMenuClass = open ? "dropdown-menu" : "dropdown-menu show";
+            ddMenuClass = open ? "dropdown-menu dropdown-menu-right" : "dropdown-menu dropdown-menu-right show";
 
             open = !open;
         }
