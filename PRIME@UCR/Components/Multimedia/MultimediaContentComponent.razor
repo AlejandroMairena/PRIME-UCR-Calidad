@@ -41,10 +41,11 @@
                     @* Loading Wheel *@
                     @*<div class="col">
 
-                        </div>*@
+        </div>*@
                     @* Camera Logo *@
                     <div class="col">
                         <button class="rt-img-cont" @onclick="OpenCamera">
+                            <span class="tooltiptext">Capturar imagen</span>
                             <img class="data_btn" src="img/ico-foto-blanco.jpeg" />
                         </button>
                     </div>
@@ -52,21 +53,24 @@
                     @* Audio Logo *@
                     <div class="col">
                         <button class="rt-img-cont" @onclick="OpenMicrophone">
+                            <span class="tooltiptext">Capturar audio</span>
                             <img class="data_btn" src="img/ico-micro-blanco.jpeg" />
                         </button>
                     </div>
                     @* Video Logo *@
                     <div class="col">
                         <button class="rt-img-cont" @onclick="OpenVideo">
+                            <span class="tooltiptext">Capturar vídeo</span>
                             <img class="data_btn" src="img/ico-video-blanco.jpeg" />
                         </button>
                     </div>
                     @* Text Logo *@
-                <div class="col">
-                    <button class="rt-img-cont" @onclick="OpenTextComponent">
-                        <img class="data_btn" src="img/ico-texto.jpg" />
-                    </button>
-                </div>
+                    <div class="col">
+                        <button class="rt-img-cont" @onclick="OpenTextComponent">
+                            <span class="tooltiptext">Capturar texto</span>
+                            <img class="data_btn" src="img/ico-texto.jpg" />
+                        </button>
+                    </div>
                 </div>
 
                 @* Lista de Archivos asociados *@
