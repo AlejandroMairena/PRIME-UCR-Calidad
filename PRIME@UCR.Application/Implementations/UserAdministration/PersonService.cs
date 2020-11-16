@@ -47,16 +47,19 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
         public async Task<PersonFormModel> GetPersonModelFromRegisterModelAsync(RegisterUserFormModel registerUserModel)
         {
             await primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
-            PersonFormModel personModel = new PersonFormModel();
-            personModel.IdCardNumber = registerUserModel.IdCardNumber;
-            personModel.Name = registerUserModel.Name;
-            personModel.FirstLastName = registerUserModel.FirstLastName;
-            personModel.SecondLastName = registerUserModel.SecondLastName;
-            personModel.Sex = registerUserModel.Sex.ToString();
-            personModel.BirthDate = registerUserModel.BirthDate;
-            personModel.PrimaryPhoneNumber = registerUserModel.PrimaryPhoneNumber;
-            personModel.SecondaryPhoneNumber = registerUserModel.SecondaryPhoneNumber;
-            return personModel;
+            if (registerUserModel != null) { 
+                PersonFormModel personModel = new PersonFormModel();
+                personModel.IdCardNumber = registerUserModel.IdCardNumber;
+                personModel.Name = registerUserModel.Name;
+                personModel.FirstLastName = registerUserModel.FirstLastName;
+                personModel.SecondLastName = registerUserModel.SecondLastName;
+                personModel.Sex = registerUserModel.Sex.ToString();
+                personModel.BirthDate = registerUserModel.BirthDate;
+                personModel.PrimaryPhoneNumber = registerUserModel.PrimaryPhoneNumber;
+                personModel.SecondaryPhoneNumber = registerUserModel.SecondaryPhoneNumber;
+                return personModel;
+            }
+            return null; 
         }
 
         /**
