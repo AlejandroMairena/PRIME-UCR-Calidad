@@ -11,27 +11,26 @@ namespace PRIME_UCR.Infrastructure.Permissions.UserAdministration
 {
     public abstract class PacienteRepositoryAuthorization
     {
-        [RequirePermissions(new[] { AuthorizationPermissions.CanAssignIncidents })]
+        [RequirePermissions(new AuthorizationPermissions[] {})]
         public abstract Task<Paciente> InsertPatientOnlyAsync(Paciente entity);
 
-        [RequirePermissions(new[] { AuthorizationPermissions.CanAssignIncidents })]
+        [RequirePermissions(new AuthorizationPermissions[] {})]
         public abstract Task<Paciente> GetByKeyAsync(string key);
 
-        [RequirePermissions(new[] { AuthorizationPermissions.CanAssignIncidents })]
+        [RequirePermissions(new AuthorizationPermissions[] {})]
         public abstract Task<IEnumerable<Paciente>> GetAllAsync();
 
-        [RequirePermissions(new[] { AuthorizationPermissions.CanAssignIncidents })]
+        [RequirePermissions(new AuthorizationPermissions[] {})]
         public abstract Task<IEnumerable<Paciente>> GetByConditionAsync(Expression<Func<Paciente, bool>> expression);
 
-        [RequirePermissions(new[] { AuthorizationPermissions.CanAssignIncidents })]
+        [RequirePermissions(new AuthorizationPermissions[] {})]
         public abstract Task<Paciente> InsertAsync(Paciente model);
 
-        [RequirePermissions(new[] { AuthorizationPermissions.CanAssignIncidents })]
+        [RequirePermissions(new AuthorizationPermissions[] {})]
         public abstract Task DeleteAsync(string key);
 
-        [RequirePermissions(new[] { AuthorizationPermissions.CanAssignIncidents })]
+        [RequirePermissions(new AuthorizationPermissions[] {})]
         public abstract Task UpdateAsync(Paciente model);
 
     }
 }
-

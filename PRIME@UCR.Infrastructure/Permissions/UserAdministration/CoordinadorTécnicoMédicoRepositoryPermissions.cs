@@ -10,11 +10,10 @@ namespace PRIME_UCR.Infrastructure.Permissions.UserAdministration
 {
     public abstract class CoordinadorTécnicoMédicoRepositoryAuthorization
     {
-        [RequirePermissions(new[] { AuthorizationPermissions.CanAssignIncidents })]
+        [RequirePermissions(new AuthorizationPermissions[] {})]
         public abstract Task<CoordinadorTécnicoMédico> GetByKeyAsync(string key);
 
-        [RequirePermissions(new[] { AuthorizationPermissions.CanAssignIncidents })]
+        [RequirePermissions(new AuthorizationPermissions[] {})]
         public abstract Task<IEnumerable<CoordinadorTécnicoMédico>> GetAllAsync();
     }
 }
-
