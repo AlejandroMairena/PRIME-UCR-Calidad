@@ -12,7 +12,26 @@ namespace PRIME_UCR.Pages.Dashboard
 {
     public partial class Dashboard
     {
-        public FilterModel FilterInfo = new FilterModel();
+        public FilterModel Value = new FilterModel();
         public bool _finishedLoadingCounters = false;
+
+
+        //FILTER COMPONENT
+
+        [Parameter] public EventCallback<FilterModel> ValueChanged { get; set; }
+        [Parameter] public EventCallback OnDiscard { get; set; }
+
+        private async Task ClearFilters()
+        {
+            Value = new FilterModel();
+            await ValueChanged.InvokeAsync(Value);
+        }
+
+        private async Task ApplyFilters()
+        {
+            await ValueChanged.InvokeAsync(Value);
+        }
+
+
     }
 }
