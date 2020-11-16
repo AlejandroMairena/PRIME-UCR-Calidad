@@ -41,6 +41,7 @@ namespace PRIME_UCR.Pages.CheckLists
 
         protected List<Item> orderedList;
         protected List<int> orderedListLevel;
+        protected List<string> _types { get; set; }
 
         public CheckList list { get; set; }
         public CheckList editedList { get; set; }
@@ -78,6 +79,12 @@ namespace PRIME_UCR.Pages.CheckLists
             coreItems = await MyCheckListService.GetCoreItems(id);
             orderedList = new List<Item>();
             orderedListLevel = new List<int>();
+            _types = new List<string>();
+            IEnumerable<TipoListaChequeo> types = await MyCheckListService.GetTypes();
+            foreach (var type in types)
+            {
+                _types.Add(type.Nombre);
+            }
             foreach (var item in coreItems)
             {
                 GenerateOrderedList(item, 0);

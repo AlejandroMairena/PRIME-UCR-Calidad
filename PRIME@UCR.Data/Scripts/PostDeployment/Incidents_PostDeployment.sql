@@ -45,7 +45,7 @@ INSERT INTO Canton (NombreProvincia, Nombre)
 VALUES
     ('San José','San José'),
     ('San José','Escazú'),
-    ('San José','Desamparados'), 
+    ('San José','Desamparados'),
     ('San José','Puriscal'),
     ('San José','Terrazú'),
     ('San José','Aserrí'),
@@ -59,7 +59,7 @@ VALUES
     ('San José','Moravia'),
     ('San José','Montes de Oca'),
     ('San José','Turrubares'),
-    ('San José','Dota'), 
+    ('San José','Dota'),
     ('San José','Curridabat'),
     ('San José','Pérez Zeledón'),
     ('San José','León Cortés Castro'),
@@ -76,7 +76,7 @@ VALUES
     ('Alajuela','San Carlos'),
     ('Alajuela','Zarcero'),
     ('Alajuela','Sarchí'),
-    ('Alajuela','Upala'), 
+    ('Alajuela','Upala'),
     ('Alajuela','Los Chiles'),
     ('Alajuela','Guatuso'),
     ('Alajuela','Río Cuarto'),
@@ -87,10 +87,10 @@ VALUES
     ('Cartago','Jiménez'),
     ('Cartago','Turrialba'),
     ('Cartago','Alvarado'),
-    ('Cartago','Oreamuno'), 
+    ('Cartago','Oreamuno'),
     ('Cartago','El Guarco'),
 
-    ('Heredia','Heredia'), 
+    ('Heredia','Heredia'),
     ('Heredia','Barva'),
     ('Heredia','Santo Domingo'),
     ('Heredia','Santa Bárbara'),
@@ -99,7 +99,7 @@ VALUES
     ('Heredia','Belén'),
     ('Heredia','Flores'),
     ('Heredia','San Pablo'),
-    ('Heredia','Sarapiquí'), 
+    ('Heredia','Sarapiquí'),
 
     ('Guanacaste','Liberia'),
     ('Guanacaste','Nicoya'),
@@ -111,7 +111,7 @@ VALUES
     ('Guanacaste','Tilarán'),
     ('Guanacaste','Nandayure'),
     ('Guanacaste','La Cruz'),
-    ('Guanacaste','Hojancha'), 
+    ('Guanacaste','Hojancha'),
 
     ('Limón','Limón'),
     ('Limón','Pococí'),
@@ -119,9 +119,9 @@ VALUES
     ('Limón','Talamanca'),
     ('Limón','Matina'),
     ('Limón','Guácimo'),
-    
+
     ('Puntarenas','Puntarenas'),
-    ('Puntarenas','Esparza'), 
+    ('Puntarenas','Esparza'),
     ('Puntarenas','Buenos Aires'),
     ('Puntarenas','Montes de Oro'),
     ('Puntarenas','Osa'),
@@ -130,7 +130,7 @@ VALUES
     ('Puntarenas','Coto Brus'),
     ('Puntarenas','Parrita'),
     ('Puntarenas','Corredores'),
-    ('Puntarenas','Garabito'); 
+    ('Puntarenas','Garabito');
 
 -- Distritos
 INSERT INTO Distrito (IdCanton, Nombre)
@@ -212,7 +212,7 @@ VALUES
     (69, 'Bribri'),
     (70, 'Matina'),
     (71, 'Guácimo'),
-    
+
     (72, 'Puntarenas'),
     (73, 'Esparza'),
     (74, 'Buenos Aires'),
@@ -245,7 +245,7 @@ VALUES
 
 -- Internacional
 INSERT INTO Internacional (Id, NombrePais)
-VALUES 
+VALUES
     (3, 'Costa Rica'),
     (4, 'Panamá'),
     (5, 'Nicaragua');
@@ -260,7 +260,7 @@ VALUES
 
 -- Centro_Ubicacion
 INSERT INTO Centro_Ubicacion (Id, IdCentro, NumeroCama, CédulaMédico)
-VALUES 
+VALUES
     (6, 1, 15, '89012345'),
     (7, 2, 6,  '89012345'),
     (8, 3, 12, '22222222'),
@@ -274,7 +274,7 @@ VALUES
     ('22222222', 3),
     ('22222222', 4);
 
--- Modalidad 
+-- Modalidad
 INSERT INTO Modalidad (Tipo)
 VALUES
     ('Terrestre'),
@@ -317,29 +317,28 @@ VALUES
 INSERT INTO EstadoIncidente
 VALUES
 (
-	RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) + 
+	RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) +
 	'-' +
-	RIGHT(REPLICATE('0', 2) + CAST(MONTH(GETDATE()) AS varchar(10)), 2) + 
+	RIGHT(REPLICATE('0', 2) + CAST(MONTH(GETDATE()) AS varchar(10)), 2) +
 	'-' +
-	RIGHT(REPLICATE('0', 2) + CAST(DAY(GETDATE()) AS varchar(10)), 2) + 
+	RIGHT(REPLICATE('0', 2) + CAST(DAY(GETDATE()) AS varchar(10)), 2) +
 	'-' +
-	RIGHT(REPLICATE('0', 4) + '1', 4) + 
+	RIGHT(REPLICATE('0', 4) + '1', 4) +
 	'-' +
 	'IT' +
 	'-' +
 	'TER', 'En proceso de creación', GETDATE(), 1
 ),
 (
-	RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) + 
+	RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) +
 	'-' +
-	RIGHT(REPLICATE('0', 2) + CAST(MONTH(GETDATE()) AS varchar(10)), 2) + 
+	RIGHT(REPLICATE('0', 2) + CAST(MONTH(GETDATE()) AS varchar(10)), 2) +
 	'-' +
-	RIGHT(REPLICATE('0', 2) + CAST(DAY(GETDATE()) AS varchar(10)), 2) + 
+	RIGHT(REPLICATE('0', 2) + CAST(DAY(GETDATE()) AS varchar(10)), 2) +
 	'-' +
-	RIGHT(REPLICATE('0', 4) + '2', 4) + 
+	RIGHT(REPLICATE('0', 4) + '2', 4) +
 	'-' +
 	'IT' +
 	'-' +
 	'AER', 'En proceso de creación', GETDATE(), 1
 )
-

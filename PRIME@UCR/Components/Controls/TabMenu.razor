@@ -5,7 +5,7 @@
     {
         <TabItem OnTabSetCallback="@((TEnum tab) => OnTabSet(tab))"
                  Tab="tuple.Item1"
-                 CurrentTab="_currentTab"
+                 CurrentTab="Value"
                  Icon="@tuple.Item2"
                  TabName="@(EnumUtils.GetDescription(tuple.Item1))"
                  TooltipText="@TooltipText"/>
