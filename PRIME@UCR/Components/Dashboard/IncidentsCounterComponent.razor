@@ -1,0 +1,12 @@
+﻿@using PRIME_UCR.Components.Dashboard.IncidentsCounter
+
+
+<h3>Incidentes</h3>
+<Loading IsLoading="incidentsCounter.assignedIncidentsCounter != 4">
+    <div class="row justify-content-center">
+        <TotalIncidentsCounterComponent IncidentsCounter="@incidentsCounter" />
+        <MaritimeIncidentsCounterComponent IncidentsCounter="@incidentsCounter" />
+        <AerialIncidentsCounterComponent incidentsCounter="@incidentsCounter" />
+        <TerrestrialIncidentsCounterComponent incidentsCounter="@incidentsCounter" />
+    </div>
+</Loading>

@@ -27,21 +27,17 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
 
         protected readonly UserManager<Usuario> UserManager;
 
-        private readonly IPrimeAuthorizationService PrimeAuthorizarionService;
-
         private readonly IAuthenticationService authenticationService;
 
         public CustomAuthenticationStateProvider(
             SignInManager<Usuario> _signInManager, 
             UserManager<Usuario> _userManager, 
             ISessionStorageService _sessionStorageService, 
-            IPrimeAuthorizationService _primeAuthorizationService, 
             IAuthenticationService _authenticationService)
         {
             SignInManager = _signInManager;
             UserManager = _userManager;
             SessionStorageService = _sessionStorageService;
-            PrimeAuthorizarionService = _primeAuthorizationService;
             authenticationService = _authenticationService;
         }
 
@@ -55,14 +51,20 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
         {
             List<Claim> claimsAuthentication = new List<Claim>();
 
-            var profiles = user.UsuariosYPerfiles.FindAll(p => p.IDUsuario == user.Id);
+            var profiles = user.UsuariosYPerfiles;
             var permissionsList = new List<Permiso>();
-            foreach (var profile in profiles)
+            if(profiles != null && profiles.Count != 0)
             {
-                var permissionsOfProfile = profilesAndPermissions.Find(p => p.NombrePerfil == profile.IDPerfil).PerfilesYPermisos;
-                foreach (var permission in permissionsOfProfile)
+                foreach (var profile in profiles)
                 {
-                    permissionsList.Add(permission.Permiso);
+                    var permissionsOfProfile = profilesAndPermissions?.Find(p => p.NombrePerfil == profile.IDPerfil)?.PerfilesYPermisos;
+                    if (permissionsOfProfile != null && permissionsOfProfile.Count > 0)
+                    {
+                        foreach (var permission in permissionsOfProfile)
+                        {
+                            permissionsList.Add(permission.Permiso);
+                        }
+                    }
                 }
             }
             
@@ -70,7 +72,7 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
             
             foreach (var permission in Enum.GetValues(typeof(AuthorizationPermissions)).Cast<AuthorizationPermissions>())
             {
-                claimsAuthentication.Add(new Claim(permission.ToString(), PrimeAuthorizarionService.HavePermission((int)permission, permissionsList) ? "true" : "false"));
+                claimsAuthentication.Add(new Claim(permission.ToString(), permissionsList.Exists(p => p.IDPermiso == (int)permission) ? "true" : "false"));
             }
             return new ClaimsIdentity(claimsAuthentication.ToList(), "apiauth_type");
         }
@@ -90,7 +92,8 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
             {
                 var userToRegister = await authenticationService.GetUserByEmailAsync(emailAddress);
                 var profilesAndPermissions = await authenticationService.GetAllProfilesWithDetailsAsync();
-                identity = GetClaimIdentity(userToRegister, profilesAndPermissions);
+                if(userToRegister != null && profilesAndPermissions != null)
+                    identity = GetClaimIdentity(userToRegister, profilesAndPermissions);
             }
             
             var user = new ClaimsPrincipal(identity);
@@ -118,7 +121,6 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
 
                 if (loginResult.Succeeded)
                 {
-                    //TODO: Check other tables for conflicts with persona
                     userToCheck = await authenticationService.GetUserWithDetailsAsync(userToCheck.Id);
                     var profilesAndPermissions = await authenticationService.GetAllProfilesWithDetailsAsync();
                     identity = GetClaimIdentity(userToCheck, profilesAndPermissions);
