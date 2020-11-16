@@ -151,5 +151,38 @@ namespace PRIME_UCR.Test.UnitTests.Application.CheckLists
             Assert.NotNull(result);
             Assert.Equal(1, result.Id);
         }
+
+        [Fact]
+        public async Task GetItemByIdReturnsNull()
+        {
+            var mockRepo = new Mock<IItemRepository>();
+            Item data = null;
+            mockRepo
+                .Setup(p => p.GetByKeyAsync(1))
+                .Returns(Task.FromResult(data));
+            var service = new CheckListService(
+                 null, null, mockRepo.Object);
+            var result = await service.GetItemById(1);
+
+            Assert.Null(result);
+        }
+
+
+        [Fact]
+        public async Task GetItemByIdReturnsValid()
+        {
+            var mockRepo = new Mock<IItemRepository>();
+            Item data = new Item { Id = 1 };
+            mockRepo
+                .Setup(p => p.GetByKeyAsync(1))
+                .Returns(Task.FromResult(data));
+            var service = new CheckListService(
+                 null, null, mockRepo.Object);
+            var result = await service.GetItemById(1);
+            Assert.NotNull(result);
+            Assert.Equal(1, result.Id);
+        }
+
+
     }
 }
