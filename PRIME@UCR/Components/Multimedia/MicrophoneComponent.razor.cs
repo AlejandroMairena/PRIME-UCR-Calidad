@@ -9,31 +9,20 @@ namespace PRIME_UCR.Components.Multimedia
 {
     public partial class MicrophoneComponent
     {
-        ElementReference actionImageRef;
-        ElementReference downloadLinkRef;
-        
-        bool recording = false;
+        ElementReference recordButton;
+        ElementReference stopButton;
+        ElementReference audio;
+        ElementReference timer;
+
 
         protected override async Task OnInitializedAsync()
         {
-            await JS.InvokeAsync<bool>("initAudio");
-            //await JS.InvokeAsync<bool>("setDownloadLink", downloadLinkRef);
+            //await JS.InvokeAsync<bool>("initAudio", recordButton, stopButton, audio);
         }
 
-        string ActionButtonText()
+        protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-            return !recording ? "Grabar" : "Detener";
-        }
-
-        async Task OnActionButtonClicked()
-        {
-            recording = !recording;
-            await JS.InvokeAsync<bool>("toggleRecording", actionImageRef);
-        }
-
-        async Task OnDownloadButtonClicked()
-        {
-            await JS.InvokeAsync<bool>("saveAudio");
+            await JS.InvokeAsync<bool>("initAudio", recordButton, stopButton, audio, timer);
         }
 
     }

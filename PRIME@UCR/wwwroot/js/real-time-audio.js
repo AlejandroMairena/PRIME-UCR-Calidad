@@ -1,104 +1,83 @@
-﻿window.AudioContext = window.AudioContext || window.webkitAudioContext;
+﻿let timerRef;
+let timerInterval;
+let counter = 0;
 
-var audioContext = new AudioContext();
-var audioInput = null,
-    realAudioInput = null,
-    inputPoint = null,
-    audioRecorder = null;
-var rafID = null;
-var analyserContext = null;
-var canvasWidth, canvasHeight;
-var recIndex = 0;
 
-function gotStream(stream) {
-    inputPoint = audioContext.createGain();
+function initAudio(record, stop, audio, _timerRef) {
+    timerRef = _timerRef;
+    if (navigator.mediaDevices.getUserMedia) {
+        console.log('getUserMedia supported.');
 
-    // Create an AudioNode from the stream.
-    realAudioInput = audioContext.createMediaStreamSource(stream);
-    audioInput = realAudioInput;
-    audioInput.connect(inputPoint);
+        const constraints = { audio: true };
+        let chunks = [];
 
-    //    audioInput = convertToMono( input );
+        let onSuccess = function (stream) {
+            const mediaRecorder = new MediaRecorder(stream);
 
-    analyserNode = audioContext.createAnalyser();
-    analyserNode.fftSize = 2048;
-    inputPoint.connect(analyserNode);
+            record.onclick = function () {
+                timerInterval = setInterval(increaseCounter, 1000);
+                timerRef.innerText = '0 segundos';
 
-    audioRecorder = new Recorder(inputPoint);
+                mediaRecorder.start();
+                console.log(mediaRecorder.state);
+                console.log("recorder started");
 
-    zeroGain = audioContext.createGain();
-    zeroGain.gain.value = 0.0;
-    inputPoint.connect(zeroGain);
-    zeroGain.connect(audioContext.destination);
-    //updateAnalysers();
-}
-
-function initAudio() {
-    if (!navigator.getUserMedia)
-        navigator.getUserMedia = navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
-
-    navigator.getUserMedia(
-        {
-            "audio": {
-                "mandatory": {
-                    "googEchoCancellation": "false",
-                    "googAutoGainControl": "false",
-                    "googNoiseSuppression": "false",
-                    "googHighpassFilter": "false"
-                },
-                "optional": []
-            },
-        }, gotStream, function (e) {
-                alert('Error getting audio');
-                console.log(e);
-                return false;
+                stop.disabled = false;
+                record.disabled = true;
             }
-    );
-    return true;
-}
 
-function setDownloadLink(downloadLinkRef) {
-    audioRecorder.downloadLinkRef = downloadLinkRef;
-    return true;
-}
+            stop.onclick = function () {
+                clearInterval(timerInterval);
+                timerRef.innerText = '';
 
-function doneEncoding(blob) {
-    filename = "myRecording" + ((recIndex < 10) ? "0" : "") + recIndex + ".wav";
-    Recorder.setupDownload(blob, filename);
-    recIndex++;
-}
+                mediaRecorder.stop();
+                console.log(mediaRecorder.state);
+                console.log("recorder stopped");
 
-function gotBuffers(buffers) {
-    //var canvas = document.getElementById("wavedisplay");
+                stop.disabled = true;
+                record.disabled = false;
+            }
 
-    //drawBuffer(canvas.width, canvas.height, canvas.getContext('2d'), buffers[0]);
+            mediaRecorder.onstop = function (e) {
+                console.log("data available after MediaRecorder.stop() called.");
 
-    // the ONLY time gotBuffers is called is right after a new recording is completed - 
-    // so here's where we should set up the download.
-    audioRecorder.exportWAV(doneEncoding);
-}
+                //const clipName = 'audio';
 
-function toggleRecording(e) {
-    //setDownloadLink(downloadLinkRef);
-    if (e.classList.contains("recording")) {
-        // stop recording
-        audioRecorder.stop();
-        e.classList.remove("recording");
-        audioRecorder.getBuffers(gotBuffers);
+                audio.setAttribute('controls', '');
+
+                audio.controls = true;
+                const blob = new Blob(chunks, { 'type': 'audio/ogg; codecs=opus' });
+                chunks = [];
+                const audioURL = window.URL.createObjectURL(blob);
+                audio.src = audioURL;
+                console.log("recorder stopped");
+
+            }
+
+            mediaRecorder.ondataavailable = function (e) {
+                chunks.push(e.data);
+            }
+        }
+
+        let onError = function (err) {
+            console.log('The following error occured: ' + err);
+        }
+
+        navigator.mediaDevices.getUserMedia(constraints).then(onSuccess, onError);
+        return true;
+
     } else {
-        // start recording
-        if (!audioRecorder)
-            return;
-        e.classList.add("recording");
-        audioRecorder.clear();
-        audioRecorder.record();
+        console.log('getUserMedia not supported on your browser!');
+        return false;
     }
-    return true;
 }
 
-
-function saveAudio() {
-    audioRecorder.exportWAV(doneEncoding);
-    // could get mono instead by saying
-    // audioRecorder.exportMonoWAV( doneEncoding );
+function increaseCounter() {
+    counter++;
+    if (counter == 1) {
+        timerRef.innerText = counter + ' segundo';
+    }
+    else {
+        timerRef.innerText = counter + ' segundos';
+    }
 }

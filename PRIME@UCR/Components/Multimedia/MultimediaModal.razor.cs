@@ -23,6 +23,10 @@ namespace PRIME_UCR.Components.Multimedia
         [Parameter]
         public bool ShowVideo { get; set; } = false;
         [Parameter]
+        public bool ShowVideoComponent { get; set; } = false;
+        [Parameter]
+        public bool ShowTextComponent { get; set; } = false;
+        [Parameter]
         public bool ShowImage { get; set; } = false;
         [Parameter]
         public bool ShowMicrophone { get; set; }
@@ -33,7 +37,7 @@ namespace PRIME_UCR.Components.Multimedia
         [Parameter]
         public bool ShowAudio { get; set; } = false;
         [Parameter]
-        public IEncryptionService ES { get; set; }
+        public EventCallback<MultimediaContent> OnFileUpload { get; set; }
 
         public delegate Task ModalClosed();
         public event ModalClosed OnModalClosed;
@@ -43,7 +47,7 @@ namespace PRIME_UCR.Components.Multimedia
             Show = false;
 
             if (OnModalClosed != null) await OnModalClosed();
-            if (ShowMicrophone == true || ShowCamera == true)
+            if (ShowMicrophone == true || ShowCamera == true || ShowVideoComponent == true || ShowTextComponent == true)
             {
                 await OnClose.InvokeAsync(Show);
 
@@ -51,7 +55,6 @@ namespace PRIME_UCR.Components.Multimedia
             else {
                 string pathEncrypted = MContent.Archivo;
                 byte[] pathEncryptedByte = System.Convert.FromBase64String(pathEncrypted);
-                setKeyIV();
                 string pathDecrypted = encrypt_service.Decrypt(pathEncryptedByte);
                 encrypt_service.EncryptFile(pathDecrypted);
                 await OnClose.InvokeAsync(Show);
@@ -62,7 +65,6 @@ namespace PRIME_UCR.Components.Multimedia
             //AQUI HAY QUE DESENCRIPTAR EL ARCHIVO Y EL PATH PARA HACERLO DINAMICO
             string pathEncrypted = MContent.Archivo;
             byte[] pathEncryptedByte = System.Convert.FromBase64String(pathEncrypted);
-            setKeyIV();
             string pathDecrypted = encrypt_service.Decrypt(pathEncryptedByte);
             string filename = MContent.Nombre;
             encrypt_service.DecryptFile(pathDecrypted);
@@ -79,7 +81,6 @@ namespace PRIME_UCR.Components.Multimedia
             //AQUI HAY QUE DESENCRIPTAR EL ARCHIVO Y EL PATH PARA HACERLO DINAMICO
             string pathEncrypted = MContent.Archivo;
             byte[] pathEncryptedByte = System.Convert.FromBase64String(pathEncrypted);
-            setKeyIV();
             string pathDecrypted = encrypt_service.Decrypt(pathEncryptedByte);
             string filename = MContent.Nombre;
             encrypt_service.DecryptFile(pathDecrypted);
@@ -95,7 +96,6 @@ namespace PRIME_UCR.Components.Multimedia
         string getAudio() {
             string pathEncrypted = MContent.Archivo;
             byte[] pathEncryptedByte = System.Convert.FromBase64String(pathEncrypted);
-            setKeyIV();
             string pathDecrypted = encrypt_service.Decrypt(pathEncryptedByte);
             string filename = MContent.Nombre;
             encrypt_service.DecryptFile(pathDecrypted);
@@ -105,22 +105,13 @@ namespace PRIME_UCR.Components.Multimedia
         string getVideo() {
             string pathEncrypted = MContent.Archivo;
             byte[] pathEncryptedByte = System.Convert.FromBase64String(pathEncrypted);
-            setKeyIV();
             string pathDecrypted = encrypt_service.Decrypt(pathEncryptedByte);
             string filename = MContent.Nombre;
             encrypt_service.DecryptFile(pathDecrypted);
             string path = pathDecrypted.Replace("wwwroot/", "");
             return path;
         }
-        void setKeyIV() {
-            //string keyString = Configuration.GetConnectionString("Key");
-            //string ivString = Configuration.GetConnectionString("IV");
-            string keyString = "qXOctUgD1RQCyF6dl4IjgZLAosrLh8Dn8GCklADSmvo=";
-            string ivString = "fkmYijInbe9eWQbLoWtTNQ==";
-            byte[] ivByte = System.Convert.FromBase64String(ivString);
-            byte[] keyByte = System.Convert.FromBase64String(keyString);
-            encrypt_service.SetKeyIV(ivByte, keyByte);
-        }
+        
 
 
     }

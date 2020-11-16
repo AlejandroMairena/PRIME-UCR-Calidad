@@ -39,15 +39,15 @@ namespace PRIME_UCR.Pages.CheckLists
         protected async Task RefreshModels()
         {
             lists = await MyService.GetAll();
+            IEnumerable<TipoListaChequeo> types = await MyService.GetTypes();
+            foreach (var type in types)
+            {
+                _types.Add(type.Nombre);
+            }
         }
 
         protected override async Task OnInitializedAsync()
         {
-            _types.Add("Colocación equipo");
-            _types.Add("Retiro equipo");
-            _types.Add("Paciente en origen");
-            _types.Add("Paciente en destino");
-            _types.Add("Paciente en traslado");
             editContext = new EditContext(checkList);
             editContext.OnFieldChanged += HandleFieldChanged;
             await RefreshModels();

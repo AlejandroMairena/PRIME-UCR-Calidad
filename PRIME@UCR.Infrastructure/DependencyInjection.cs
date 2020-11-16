@@ -4,6 +4,7 @@ using PRIME_UCR.Application.Implementations.Multimedia;
 using PRIME_UCR.Application.Repositories;
 using PRIME_UCR.Application.Repositories.Appointments;
 using PRIME_UCR.Application.Repositories.CheckLists;
+using PRIME_UCR.Application.Repositories.Dashboard;
 using PRIME_UCR.Application.Repositories.Incidents;
 using PRIME_UCR.Application.Repositories.MedicalRecords;
 using PRIME_UCR.Application.Repositories.Multimedia;
@@ -14,6 +15,7 @@ using PRIME_UCR.Infrastructure.DataProviders.Implementations;
 using PRIME_UCR.Infrastructure.Repositories.Sql;
 using PRIME_UCR.Infrastructure.Repositories.Sql.Appointments;
 using PRIME_UCR.Infrastructure.Repositories.Sql.CheckLists;
+using PRIME_UCR.Infrastructure.Repositories.Sql.Dashboard;
 using PRIME_UCR.Infrastructure.Repositories.Sql.Incidents;
 using PRIME_UCR.Infrastructure.Repositories.Sql.MedicalRecords;
 using PRIME_UCR.Infrastructure.Repositories.Sql.Multimedia;
@@ -35,12 +37,13 @@ namespace PRIME_UCR.Infrastructure
             services.AddTransient(typeof(IRepoDbRepository<,>), typeof(RepoDbRepository<,>));
             // checklists
             services.AddTransient<ICheckListRepository, SqlCheckListRepository>();
+            services.AddTransient<ICheckListTypeRepository, SqlCheckListTypeRepository>();
             services.AddTransient<IItemRepository, SqlItemRepository>();
             services.AddTransient<IInstanceChecklistRepository, SqlInstanceChecklistRepository>();
             services.AddTransient<IInstanceItemRepository, SqlInstanceItemRepository>();
             // appointments
             services.AddTransient<IActionTypeRepository, ActionTypeRepository>();
-            services.AddTransient<IAssignemntRepository, AssignmentRepository>();
+            services.AddTransient<IAssignmentRepository, AssignmentRepository>();
             services.AddTransient<IAppointmentRepository, AppointmentRepository>();
             services.AddTransient<IUbicationCenterRepository, UbicationCenterRepository>();
             services.AddTransient<IMedCenterRepository, MedCenterRepository>(); 
@@ -56,6 +59,7 @@ namespace PRIME_UCR.Infrastructure
             services.AddTransient<ILocationRepository, LocationRepository>();
             services.AddTransient<ITransportUnitRepository, TransportUnitRepository>();
             services.AddTransient<IActionTypeRepository, ActionTypeRepository>();
+            services.AddTransient<IStateRepository, StateRepository>();
             // medical records
             services.AddTransient<IMedicalRecordRepository, MedicalRecordRepository>();
             services.AddTransient<IMedicalBackgroundRepository, MedicalBackgroundRepository>();
@@ -85,6 +89,9 @@ namespace PRIME_UCR.Infrastructure
             services.AddTransient<IPerteneceRepository, PerteneceRepository>();
             services.AddTransient<INumeroTelefonoRepository, NumeroTelefonoRepository>();
             services.AddTransient<IAuthenticationRepository, AuthenticationRepository>();
+
+            //dashboard repositories
+            services.AddTransient<IDashboardRepository, DashboardRepository>();
 
             // temporary file service with no encryption
             services.AddTransient<ITempFileServiceNoEncryption, TempFileServiceNoEncryption>();
