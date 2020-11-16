@@ -1,8 +1,11 @@
-﻿<h3>Listas de chequeo del incidente</h3>
+﻿@using PRIME_UCR.Domain.Constants;
 
+<SummaryMessage Content="Summary.Content" Values="Summary.Values" Class="info" />
+
+<h3>Listas de chequeo del incidente</h3>
 <AllChecklistSingleIncident IncidentCod="@Incident.Code" />
-
-@if (Incident.CurrentState == "En proceso de creación" || Incident.CurrentState == "Creado" || Incident.CurrentState == "Rechazado")
+@if (Incident.CurrentState == IncidentStates.InCreationProcess.Nombre || Incident.CurrentState == IncidentStates.Created.Nombre
+                                                                        || Incident.CurrentState == IncidentStates.Rejected.Nombre)
 {
     <MatThemeProvider Theme="@AddButtonTheme">
         <MatFAB Icon="@MatIconNames.Add" Class="app-fab--absolute" OnClick="@(_ => Redirect())"></MatFAB>

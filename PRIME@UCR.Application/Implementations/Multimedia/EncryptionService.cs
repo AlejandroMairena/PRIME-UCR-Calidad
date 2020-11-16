@@ -13,16 +13,20 @@ namespace PRIME_UCR.Application.Implementations.Multimedia
         public byte[] IV { get; set; }
 
         public EncryptionService() {
-            //using (RijndaelManaged myRijndael = new RijndaelManaged())
-            //{
-                //myRijndael.GenerateKey();
-                //myRijndael.GenerateIV();
-                //Key = myRijndael.Key;
-                //IV = myRijndael.IV;
-                //Key = key;
-                //IV = iv;
-            //}
+            setKeyIV();
         }
+
+        void setKeyIV()
+        {
+            //string keyString = Configuration.GetConnectionString("Key");
+            //string ivString = Configuration.GetConnectionString("IV");
+            string keyString = "qXOctUgD1RQCyF6dl4IjgZLAosrLh8Dn8GCklADSmvo=";
+            string ivString = "fkmYijInbe9eWQbLoWtTNQ==";
+            byte[] ivByte = Convert.FromBase64String(ivString);
+            byte[] keyByte = Convert.FromBase64String(keyString);
+            SetKeyIV(ivByte, keyByte);
+        }
+
         public void SetKeyIV(byte [] iv, byte [] key) {
             Key = key;
             IV = iv;

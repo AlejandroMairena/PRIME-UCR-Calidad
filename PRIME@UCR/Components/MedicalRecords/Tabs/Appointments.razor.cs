@@ -33,6 +33,7 @@ namespace PRIME_UCR.Components.MedicalRecords.Tabs
 
         public const string inci = "incidente";
 
+        /*
         public string get_patient_name() {
             return medical_record.Paciente.NombreCompleto; 
         }
@@ -44,6 +45,7 @@ namespace PRIME_UCR.Components.MedicalRecords.Tabs
         public string get_patient_identification() {
             return medical_record.Paciente.Cédula; 
         }
+        */
 
         protected override async Task OnParametersSetAsync()
         {

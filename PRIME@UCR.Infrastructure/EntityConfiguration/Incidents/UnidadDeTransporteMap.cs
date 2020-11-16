@@ -23,7 +23,9 @@ namespace PRIME_UCR.Infrastructure.EntityConfiguration.Incidents
             
             // RepoDb
             FluentMapper.Entity<UnidadDeTransporte>()
-                .Table("Unidad_De_Transporte");
+                        .Table("Unidad_De_Transporte")
+                        .Primary(u => u.Matricula);
+
         }
     }
 }

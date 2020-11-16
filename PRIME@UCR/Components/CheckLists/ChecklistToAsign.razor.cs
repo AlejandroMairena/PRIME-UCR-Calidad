@@ -74,7 +74,7 @@ namespace PRIME_UCR.Components.CheckLists
 
         public void CancelAsignment() {
             Dispose();
-            NavManager.NavigateTo($"/incidents/{incidentCod}");
+            NavManager.NavigateTo($"/incidents/{incidentCod}/Checklist");
         }
 
         protected void CheckIempList(int idd, ChangeEventArgs e)
@@ -210,7 +210,7 @@ namespace PRIME_UCR.Components.CheckLists
             await AddAsign();
             //afterUrl = "/incidents/" + "1";// instanceCL.InstanciadoId;
             //NavManager.NavigateTo(afterUrl); // to do: go to checklist panel
-            NavManager.NavigateTo($"/incidents/{incidentCod}");
+            NavManager.NavigateTo($"/incidents/{incidentCod}/Checklist");
         }
     }
 }

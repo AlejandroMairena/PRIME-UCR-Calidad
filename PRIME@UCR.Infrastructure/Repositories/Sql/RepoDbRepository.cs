@@ -49,6 +49,8 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql
 
         public virtual async Task<T> GetByKeyAsync(TKey key)
         {
+            if (key == null)
+                return null;
             using (var connection = new SqlConnection(_db.ConnectionString))
             {
                 return (await connection.QueryAsync<T>(key)).FirstOrDefault();

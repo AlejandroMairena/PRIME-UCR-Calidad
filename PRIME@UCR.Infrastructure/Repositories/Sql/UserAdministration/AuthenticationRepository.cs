@@ -1,9 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using PRIME_UCR.Application.Repositories.UserAdministration;
 using PRIME_UCR.Domain.Models.UserAdministration;
 using PRIME_UCR.Infrastructure.DataProviders;
+using RepoDb;
+using RepoDb.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,15 +33,50 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
 
         public async Task<List<Perfil>> GetPerfilesWithDetailsAsync()
         {
-            return await _db.Profiles
-                .Include(p => p.FuncionariosYPerfiles)
-                .ThenInclude(p => p.Funcionario)
-                .Include(p => p.PerfilesYPermisos)
-                .ThenInclude(p => p.Permiso)
-                .Include(p => p.UsuariosYPerfiles)
-                .ThenInclude(p => p.Usuario)
-                .AsNoTracking()
-                .ToListAsync();
+            var profiles = new List<Perfil>();
+            using (var connection = new SqlConnection(_db.DbConnection.ConnectionString))
+            {
+                var extractor = await connection.ExecuteQueryMultipleAsync(@"
+                    SELECT *
+                    FROM Usuario as U
+                        JOIN AspNetUsers as ANU ON U.Id = ANU.Id;
+
+                    SELECT P.*
+                    FROM Usuario U
+                    JOIN AspNetUsers ASP on U.Id = ASP.Id
+                    JOIN Pertenece P on P.IdUsuario = U.Id;
+
+                    SELECT PER.*
+                    FROM Perfil PERF
+                    JOIN Permite PER on PER.NombrePerfil = PERF.NombrePerfil;
+
+                    SELECT *
+                    FROM Permiso;
+
+                    SELECT *
+                    FROM Perfil;
+                ");
+
+                var users = extractor.Extract<Usuario>().AsList(); 
+                var userProfiles = extractor.Extract<Pertenece>().AsList();
+                var allowed = extractor.Extract<Permite>().AsList();
+                var permissions = extractor.Extract<Permiso>().AsList();
+                profiles = extractor.Extract<Perfil>().AsList();
+
+                userProfiles.ForEach(userProfile => 
+                    userProfile.Usuario = users.FirstOrDefault(u => u.Id == userProfile.IDUsuario));
+
+                allowed.ForEach(allow => 
+                    allow.Permiso = permissions.FirstOrDefault(p => p.IDPermiso == allow.IDPermiso));
+
+                profiles.ForEach(profile => {
+                    profile.UsuariosYPerfiles = userProfiles.Where(userProfile => userProfile.IDPerfil == profile.NombrePerfil).ToList();
+                    profile.PerfilesYPermisos = allowed.Where(allow => allow.IDPerfil == profile.NombrePerfil).ToList();
+                });
+
+            }
+
+            return profiles;
         }
 
         public async Task<Usuario> GetUserByEmailAsync(string email)

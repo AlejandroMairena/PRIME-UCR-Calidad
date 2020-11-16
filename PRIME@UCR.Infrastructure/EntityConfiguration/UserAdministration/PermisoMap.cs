@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PRIME_UCR.Domain.Models.UserAdministration;
+using RepoDb;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -29,6 +30,9 @@ namespace PRIME_UCR.Infrastructure.EntityConfiguration.UserAdministration
             builder
                 .HasMany(p => p.PerfilesYPermisos)
                 .WithOne(p => p.Permiso);
+
+            FluentMapper.Entity<Permiso>().Column((p => p.IDPermiso), "IDPermiso");
+            FluentMapper.Entity<Permiso>().Column((p => p.DescripciónPermiso), "Descripción_Permiso");
         }
     }
 }

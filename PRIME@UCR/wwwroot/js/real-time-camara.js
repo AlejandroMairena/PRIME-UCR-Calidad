@@ -59,3 +59,10 @@ function setImageDowloadLink(imageRef, downloadLinkRef) {
     downloadLinkRef.download = 'download.png';
     downloadLinkRef.href = imageRef.src;
 }
+
+function clearCanvas(canvasRef) {
+    var ctx = canvasRef.getContext('2d');
+    ctx.fillStyle = "#000000";
+    ctx.fillRect(0, 0, canvasRef.width, canvasRef.height);
+    return true;
+}
