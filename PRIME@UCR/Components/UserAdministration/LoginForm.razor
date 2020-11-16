@@ -4,8 +4,10 @@
 <div class="container mt-5 text-white">
     <EditForm EditContext="_context" OnValidSubmit="@ValidateUser">
         <DataAnnotationsValidator />
+
         <TextBox Label="Correo Electrónico:" @bind-Value="@logInInfo.Correo" />
-        <TextBox Type="password" Label="Contraseña:" @bind-Value="@logInInfo.Contraseña" />
+
+        <PasswordTextBoxComponent Label="Contraseña:" @bind-Value="@logInInfo.Contraseña" />
 
         <a class="text-secondary" href="/requestPasswordRecovery"><u>Recuperar contraseña</u></a>
         <br />
