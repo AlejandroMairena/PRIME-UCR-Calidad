@@ -29,6 +29,7 @@ namespace PRIME_UCR.Components.Dashboard.IncidentsGraph
 
         [Inject]
         IModalService Modal { get; set; }
+
         protected override async Task OnParametersSetAsync()
         {
             await GenerateColumnChart();
@@ -39,12 +40,8 @@ namespace PRIME_UCR.Components.Dashboard.IncidentsGraph
             var resultDB = await _dashboardService.GetFilteredIncidentsList(Value);
             eventQuantity = resultDB.Count();
 
-
-
             var incidentsData = await _dashboardService.GetFilteredIncidentsList(Value);
-
             eventQuantity = incidentsData.Count();
-
 
             var incidentsPerModality = incidentsData.GroupBy(i => i.Modalidad);
 

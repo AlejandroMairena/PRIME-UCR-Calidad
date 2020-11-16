@@ -73,6 +73,13 @@ namespace PRIME_UCR.Application.Implementations.Dashboard
                 filteredList = filteredList.Where((incident) => disctrictID == incident.IdOrigen).ToList();
             }
 
+            // State
+            if (Value.StateFilter != null && Value.StateFilter.Nombre != String.Empty)
+            {
+                var state = Value.StateFilter.Nombre;
+                filteredList = filteredList.Where((incident) => incident.EstadoIncidentes.Exists(i => i.NombreEstado == state)).ToList();
+            }
+
             /*Destination
             if (Value.HouseholdOriginFilter.District != null)
             {
