@@ -20,10 +20,11 @@
         <StateFilter @bind-Value="Value" />
     </div>
     <div class="col">
-        <button class="btn btn-primary" @onclick:preventDefault @onclick="@ApplyFilters">Aplicar filtro</button>
+        
         <div class="text-center">
             @if (Value.ButtonEnabled)
             {
+                <button  class="btn btn-primary mt-1 mb-1" @onclick:preventDefault @onclick="@ApplyFilters">Refrescar</button>
                 <button role="button" @onclick:preventDefault @onclick="@ClearFilters" class="btn btn-outline-secondary">Limpiar filtros</button>
             }
             else
