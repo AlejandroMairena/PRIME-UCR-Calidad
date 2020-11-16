@@ -13,7 +13,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.CheckLists
 {
     public class CheckListServiceTests
     {
-        [Fact] 
+        [Fact]
         public async Task GetAllReturnsEmpty()
         {
             // arrange
@@ -183,6 +183,82 @@ namespace PRIME_UCR.Test.UnitTests.Application.CheckLists
             Assert.Equal(1, result.Id);
         }
 
+        [Fact]
+
+        public async Task GetItemsBySuperItemIDEmpty() {
+            var mockRepo = new Mock<IItemRepository>();
+            var data = new List<Item>();
+            mockRepo
+                .Setup(p => p.GetBySuperitemId(1))
+                .Returns(Task.FromResult<IEnumerable<Item>>(data));
+            var service = new CheckListService(
+                null, null, mockRepo.Object);
+            var result = await service.GetItemsBySuperitemId(1);
+
+            Assert.Empty(result);
+        }
+        [Fact]
+        public async Task GetItemsBySuperItemIDReturnsValid()
+        {
+            var mockRepo = new Mock<IItemRepository>();
+            var data = new List<Item>()
+            {
+                new Item {Id=1,IDSuperItem=1},
+                new Item { Id=2,IDSuperItem=1}
+
+            };
+            mockRepo
+                .Setup(p => p.GetBySuperitemId(1))
+                .Returns(Task.FromResult<IEnumerable<Item>>(data));
+            var service = new CheckListService(
+                null, null, mockRepo.Object);
+
+            var result = await service.GetItemsBySuperitemId(1);
+          
+            Assert.Collection(result,
+                item => Assert.Equal(1, item.Id),
+                item => Assert.Equal(2, item.Id)
+                );
+        }
+
+        [Fact]
+        public async Task GetItemsByCheckListIdReturnsValid()
+        {
+            var mockRepo = new Mock<IItemRepository>();
+            var data = new List<Item>()
+            {
+                new Item {Id=1,IDLista=1},
+                new Item { Id=2,IDLista=1},
+
+            };
+            mockRepo
+                .Setup(p => p.GetByCheckListId(1))
+                .Returns(Task.FromResult<IEnumerable<Item>>(data));
+            var service = new CheckListService(
+                null, null, mockRepo.Object);
+
+            var result = await service.GetItemsByCheckListId(1);
+
+            Assert.Collection(result,
+                item => Assert.Equal(1,item.Id),
+                item => Assert.Equal(2, item.Id)
+                );
+        }
+        [Fact]
+        public async Task GetItemsByCheckListIdReturns()
+        {
+            var mockRepo = new Mock<IItemRepository>();
+            var data = new List<Item>();
+            mockRepo
+                .Setup(p => p.GetByCheckListId(1))
+                .Returns(Task.FromResult<IEnumerable<Item>>(data));
+            var service = new CheckListService(
+                null, null, mockRepo.Object);
+            var result = await service.GetItemsByCheckListId(1);
+
+            Assert.Empty(result);
+        }
 
     }
 }
+
