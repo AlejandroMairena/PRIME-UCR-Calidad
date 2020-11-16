@@ -18,7 +18,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="IntegrationTests\" />
     <Folder Include="UnitTests\Application\Multimedia\" />
     <Folder Include="UnitTests\Application\MedicalRecords\" />
     <Folder Include="UnitTests\Application\Dashboards\" />
