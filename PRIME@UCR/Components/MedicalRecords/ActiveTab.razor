@@ -7,11 +7,17 @@
     }
     else if (Active == DetailsTab.Appointments)
     {
+        <ListItem Title="Paciente" Text="@get_patient_name()" />
+        <ListItem Title="Cédula del paciente" Text="@get_patient_identification()" />
+        <hr />
         <Appointments medical_record="@MedicalRecord" />
     }
     else if (Active == DetailsTab.MedicalBackgroundTab)
     {
-        <MedicalBackgroundTab Antecedentes="@Antecedentes" 
+        <ListItem Title="Paciente" Text="@get_patient_name()" />
+        <ListItem Title="Cédula del paciente" Text="@get_patient_identification()" />
+        <hr />
+        <MedicalBackgroundTab Antecedentes="@Antecedentes"
                               Alergias="@Alergias" 
                               PadecimientosCronicos="@PadecimientosCronicos"
                               ListaAntecedentes="@ListaAntecedentes" 
@@ -20,6 +26,6 @@
                               idExpediente="@Expediente.IdExpediente"/>
     }else
     {
-    <h4 class="text-danger">Not found</h4>
+        <h4 class="text-danger">Not found</h4>
     }
 </div>

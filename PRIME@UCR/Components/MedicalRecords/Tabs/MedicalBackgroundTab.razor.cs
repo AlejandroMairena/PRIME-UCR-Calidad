@@ -127,7 +127,8 @@ namespace PRIME_UCR.Components.MedicalRecords.Tabs
                     Antecedentes background = new Antecedentes()
                     {
                         IdListaAntecedentes = antecedentePrueba.Id,
-                        IdExpediente = idExpediente
+                        IdExpediente = idExpediente,
+                        FechaCreacion = DateTime.Now
                     };
                     showBackground = false;
                     backgroundAlreadyAdded = false;
@@ -151,7 +152,8 @@ namespace PRIME_UCR.Components.MedicalRecords.Tabs
                     Alergias allergy = new Alergias()
                     {
                         IdListaAlergia = AlergiaPrueba.Id,
-                        IdExpediente = idExpediente
+                        IdExpediente = idExpediente,
+                        FechaCreacion = DateTime.Now
                     };
                     showAllergy = false;
                     allergyAlreadyAdded = false;

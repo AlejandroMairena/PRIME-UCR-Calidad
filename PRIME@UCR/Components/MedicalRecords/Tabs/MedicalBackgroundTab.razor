@@ -10,6 +10,7 @@
 
     <Table TableItem="Antecedentes" Items="Antecedentes" PageSize="3" class="table table-bordered">
         <Column TableItem="Antecedentes" Title="Antecedentes del paciente" Field="@(x => x.ListaAntecedentes.NombreAntecedente)" Width="18%" />
+        <Column TableItem="Antecedentes" Title="Fecha de creación" Field="@(x => x.FechaCreacion)" Width="18%" />
         <EmptyDataTemplate>
             <div class="text-center">
                 No se encontraron antecedentes registrados.
@@ -26,7 +27,6 @@
         @if (showBackground == true)
         {
             <EditForm EditContext="_contAnte">
-                @* HAcer que el dropdown no muestre los qque ya estan*@
                 <DropDownMenu T="ListaAntecedentes" Data="ListaAntecedentes"
                               Label="Antecedentes Médicos"
                               TextProperty="NombreAntecedente"
@@ -54,6 +54,7 @@
 <div class="jumbotron white-panel">
     <Table TableItem="Alergias" Items="Alergias" PageSize="3" class="table table-bordered">
         <Column TableItem="Alergias" Title="Alergias del paciente" Field="@(x => x.ListaAlergia.NombreAlergia)" Width="18%" />
+        <Column TableItem="Alergias" Title="Fecha de creación" Field="@(x => x.FechaCreacion)" Width="18%" />
         <EmptyDataTemplate>
             <div class="text-center">
                 No se encontraron alergias registradas.

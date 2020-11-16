@@ -11,10 +11,11 @@
     }
 </style>
 
-
-<ListItem Title="Paciente" Text="@get_patient_name()" />
-<ListItem Title="Número de expediente" Text="@get_record_id()" />
-<ListItem Title="Cédula del paciente" Text="@get_patient_identification()" />
+@*
+    <ListItem Title="Paciente" Text="@get_patient_name()" />
+    <ListItem Title="Número de expediente" Text="@get_record_id()" />
+    <ListItem Title="Cédula del paciente" Text="@get_patient_identification()" />
+*@
 
 <Loading IsLoading="appointments == null">
     <Table TableItem="DateIncidentModel" Items="dat_in_link" PageSize="5" @ref="AppointmIncidentModel" ColumnReorder="true" ShowSearchBar="true" class="table table-bordered">
