@@ -176,16 +176,17 @@ namespace PRIME_UCR.Components.MedicalRecords.Tabs
                     PadecimientosCronicos ChronicCondition = new PadecimientosCronicos()
                     {
                         IdListaPadecimiento = PadecimientoPrueba.Id,
-                        IdExpediente = idExpediente
+                        IdExpediente = idExpediente,
+                        FechaCreacion = DateTime.Now
                     };
                     showChronicCondition = false;
                     ChronicConditionAlreadyAdded = false;
                     await ChronicConditionService.InsertChronicConditionAsync(ChronicCondition);
-                    Alergias = (await AllergyService.GetAlergyByRecordId(idExpediente)).ToList();
+                    PadecimientosCronicos = (await ChronicConditionService.GetChronicConditionByRecordId(idExpediente)).ToList();
                 }
                 else
                 {
-                    allergyAlreadyAdded = true;
+                    ChronicConditionAlreadyAdded = true;
                 }
             }
         }

@@ -80,13 +80,13 @@ namespace PRIME_UCR.Pages.MedicalRecords
             //Get all background item related to a record by its id
             antecedentes = (await MedicalBackgroundService.GetBackgroundByRecordId(identification)).ToList();
             //Get all alergies related to a record by its id
-            alergias = (await AlergyService.GetAlergyByRecordId(identification)).ToList();
+            alergias = (await AllergyService.GetAlergyByRecordId(identification)).ToList();
             //Get all Chronic Conditions related to arecord by its id
             PadecimientosCronicos = (await ChronicConditionService.GetChronicConditionByRecordId(identification)).ToList();
             //Get all available background items.
             ListaAntecedentes = (await MedicalBackgroundService.GetAll()).ToList();
             //Get all available alergies
-            ListaAlergias = (await AlergyService.GetAll()).ToList();
+            ListaAlergias = (await AllergyService.GetAll()).ToList();
             //Get all available Chronic Conditions
             ListaPadecimiento = (await ChronicConditionService.GetAll()).ToList();
             //Get all dates related to the medical record. 

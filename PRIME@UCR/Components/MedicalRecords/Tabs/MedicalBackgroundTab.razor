@@ -91,6 +91,7 @@
 <div class="jumbotron white-panel">
     <Table TableItem="PadecimientosCronicos" Items="PadecimientosCronicos" PageSize="3" class="table table-bordered">
         <Column TableItem="PadecimientosCronicos" Title="Padecimientos Cronicos del paciente" Field="@(x => x.ListaPadecimiento.NombrePadecimiento)" Width="18%" />
+        <Column TableItem="PadecimientosCronicos" Title="Fecha de creación" Field="@(x => x.FechaCreacion)" Width="18%" />
         <EmptyDataTemplate>
             <div class="text-center">
                 No se encontraron Padecimientos registradas.
