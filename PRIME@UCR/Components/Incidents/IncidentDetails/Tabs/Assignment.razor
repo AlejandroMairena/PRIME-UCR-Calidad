@@ -2,6 +2,7 @@
 @using PRIME_UCR.Domain.Models.UserAdministration
 @implements IDisposable
 
+<SummaryMessage Content="Summary.Content" Values="Summary.Values" Class="info" />
 <h3>Asignación</h3>
 <br />
 
@@ -41,14 +42,12 @@
         <div class="mt-2">
             @if (!_saveButtonEnabled)
             {
-                <button disabled type="submit" class="btn btn-primary">Guardar</button>
-                <button disabled class="btn btn-outline-secondary">Descartar</button>
-            }
-            else
-            {
-                <button type="submit" class="btn btn-primary">Guardar</button>
-                <button role="button" class="btn btn-outline-secondary" @onclick="LoadExistingValues" @onclick:preventDefault >Descartar</button>
-            }
-    </div>
-    </EditForm> 
+<button disabled type="submit" class="btn btn-primary">Guardar</button>
+                        <button disabled class="btn btn-outline-secondary">Descartar</button> }
+                                            else
+                                            {
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                                                <button role="button" class="btn btn-outline-secondary" @onclick="LoadExistingValues" @onclick:preventDefault>Descartar</button>}
+        </div>
+    </EditForm>
 </Loading>

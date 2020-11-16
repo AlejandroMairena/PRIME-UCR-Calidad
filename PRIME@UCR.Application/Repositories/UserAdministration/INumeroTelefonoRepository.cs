@@ -8,6 +8,6 @@ namespace PRIME_UCR.Application.Repositories.UserAdministration
 {
     public interface INumeroTelefonoRepository
     {
-        Task AddPhoneNumberAsync(NúmeroTeléfono phoneNumber);
+        Task<int> AddPhoneNumberAsync(NúmeroTeléfono phoneNumber);
     }
 }

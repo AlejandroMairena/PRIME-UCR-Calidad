@@ -1,10 +1,18 @@
-﻿<h3>Listas de chequeo del incidente</h3>
+﻿@using PRIME_UCR.Domain.Constants;
 
-<AllChecklistSingleIncident IncidentCod="@Incident.Code" />
+<SummaryMessage Content="Summary.Content" Values="Summary.Values" Class="info"/>
 
-@if (Incident.CurrentState == "En proceso de creación" || Incident.CurrentState == "Creado" || Incident.CurrentState == "Rechazado")
+<h3>Listas de chequeo del incidente</h3>
+<br />
+<AllChecklistSingleIncident IncidentCod="@Incident.Code"/>
+@if (Incident.CurrentState == IncidentStates.InCreationProcess.Nombre || Incident.CurrentState == IncidentStates.Created.Nombre
+    || Incident.CurrentState == IncidentStates.Rejected.Nombre)
 {
-    <MatThemeProvider Theme="@AddButtonTheme">
-        <MatFAB Icon="@MatIconNames.Add" Class="app-fab--absolute" OnClick="@(_ => Redirect())"></MatFAB>
-    </MatThemeProvider>
+    <AuthorizeView Policy="@AuthorizationPermissions.CanInstantiateChecklist.ToString()">
+        <MatThemeProvider Theme="@AddButtonTheme">
+            <div data-toggle="tooltip" title="Presione para instanciar una nueva lista de chequeo">
+                <MatFAB Icon="@MatIconNames.Add" Class="app-fab--absolute" OnClick="@(_ => Redirect())"></MatFAB>
+            </div>
+        </MatThemeProvider>
+    </AuthorizeView>
 }

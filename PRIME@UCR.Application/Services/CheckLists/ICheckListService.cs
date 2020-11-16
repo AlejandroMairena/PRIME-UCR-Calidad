@@ -10,6 +10,7 @@ namespace PRIME_UCR.Application.Services.CheckLists
     public interface ICheckListService
     {
         Task<IEnumerable<CheckList>> GetAll();
+        Task<IEnumerable<TipoListaChequeo>> GetTypes();
         Task<CheckList> InsertCheckList(CheckList list);
         Task<CheckList> GetById(int id);
         Task<Item> GetItemById(int Id);

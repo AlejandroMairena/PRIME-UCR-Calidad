@@ -19,5 +19,6 @@ namespace PRIME_UCR.Domain.Models.CheckLists
 
         // List of items in this checklist
         public List<Item> Items { get; set; }
+        public TipoListaChequeo MyType { get; set; }
     }
 }

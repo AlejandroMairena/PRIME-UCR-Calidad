@@ -25,11 +25,10 @@ namespace PRIME_UCR.Infrastructure.DataProviders.Implementations
         public string ConnectionString => _configuration.GetConnectionString("DevelopmentDbConnection");
         
         public DbSet<CheckList> CheckList { get; set; }
+        public DbSet<TipoListaChequeo> CheckListTypes { get; set; }
         public DbSet<Item> Item { get; set; }
         public DbSet<InstanceChecklist> InstanceChecklist { get; set; }
-        public DbSet<InstanciaItem> InstanciaItems { get; set; }
-        public DbSet<InstanciaItemPadre> InstanciaItemPadres { get; set; }
-        public DbSet<InstanciaItemHoja> InstanciaItemHojas { get; set; }
+        public DbSet<InstanciaItem> InstanciaItem { get; set; }
         public DbSet<Provincia> Provinces { get; set; }
         public DbSet<Pais> Countries { get; set; }
         public DbSet<Domicilio> HouseholdLocations { get; set; }
@@ -84,10 +83,9 @@ namespace PRIME_UCR.Infrastructure.DataProviders.Implementations
 
             builder.ApplyConfiguration(new CheckListMap());
             builder.ApplyConfiguration(new ItemMap());
+            builder.ApplyConfiguration(new TipoListaChequeoMap());
             builder.ApplyConfiguration(new InstanceChecklistMap());
             builder.ApplyConfiguration(new InstanciaItemMap());
-            builder.ApplyConfiguration(new InstanciaItemPadreMap());
-            builder.ApplyConfiguration(new InstanciaItemHojaMap());
             builder.ApplyConfiguration(new PaisMap());
             builder.ApplyConfiguration(new ProvinciaMap());
             builder.ApplyConfiguration(new DistritoMap());

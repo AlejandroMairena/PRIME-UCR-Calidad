@@ -14,6 +14,7 @@ using PRIME_UCR.Application.Services.Incidents;
 using PRIME_UCR.Application.Services.MedicalRecords;
 using PRIME_UCR.Application.Services.UserAdministration;
 using PRIME_UCR.Components.Controls;
+using PRIME_UCR.Components.Incidents.IncidentDetails.Constants;
 using PRIME_UCR.Domain.Models;
 using PRIME_UCR.Domain.Models.MedicalRecords;
 using PRIME_UCR.Domain.Models.UserAdministration;
@@ -28,14 +29,17 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
         [Inject] private IAppointmentService AppointmentService { get; set; }
         [Inject] private IAssignmentService AssignmentService { get; set; }
         [Inject] private NavigationManager NavigationManager { get; set; }
-        
+
         [Inject]
         public IUserService UserService { get; set; }
         [Parameter] public IncidentDetailsModel Incident { get; set; }
         [Parameter] public EventCallback<PatientModel> OnSave { get; set; }
-        
+
         [CascadingParameter]
         private Task<AuthenticationState> AuthenticationState { get; set; }
+
+        // Info for Incident summary that is shown at top of the page
+        public IncidentSummary Summary = new IncidentSummary();
 
         private Gender? SelectedGender
         {
@@ -50,7 +54,6 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
         private PatientStatus _patientStatus;
         private bool _isLoading = true;
         private string _statusMessage = "";
-        private bool _isAuthorized;
         private readonly List<Gender?> _genders = new List<Gender?>();
 
         enum PatientStatus
@@ -65,7 +68,7 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
         {
             return _patientStatus != PatientStatus.NewPerson;
         }
-        
+
         private async Task OnIdChange(string id)
         {
             _isLoading = true;
@@ -130,6 +133,7 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
         private async Task LoadExistingValues()
         {
             _isLoading = true;
+            Summary.LoadValues(Incident);
             StateHasChanged();
             _genders.AddRange(Enum.GetValues(typeof(Gender)).Cast<Gender?>());
             if (Incident.MedicalRecord != null)
@@ -139,7 +143,7 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
                 _patientStatus = PatientStatus.PatientUnchanged;
                 _patientContext = new EditContext(_model.Patient);
             }
-           
+
             _context = new EditContext(_model);
             _statusMessage = "";
             _isLoading = false;
@@ -147,16 +151,11 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
 
         protected override async Task OnInitializedAsync()
         {
+            Summary.LoadValues(Incident);
             _context = new EditContext(_model);
-            
-            // check if the logged in user is authorized to view this patient's details
-            var emailUser = (await AuthenticationState).User.Identity.Name;
-            var user = await UserService.getPersonWithDetailstAsync(emailUser);
-            _isAuthorized = user != null &&
-                            await AssignmentService.IsAuthorizedToViewPatient(Incident.Code, user.Cédula);
-            
+
             await LoadExistingValues();
-            
+
             _isLoading = false;
         }
 
