@@ -2,12 +2,12 @@
 AFTER UPDATE AS
 BEGIN
 set nocount on
-	IF UPDATE(FechaHoraFin) BEGIN
+	IF UPDATE(Completado) BEGIN
 
 				-- Datos del item chequeado
 		DECLARE @Id_Item INT,
 				@Completado BIT,
-				@FechaHoraFin DATETIME,
+				@FechaHoraInicio DATETIME,
 				@Id_Lista INT,
 				@Codigo_Incidente VARCHAR(50),
 
@@ -16,16 +16,18 @@ set nocount on
 				@Id_Lista_Padre INT,
 				@Codigo_Incidente_Padre VARCHAR(50),
 				@Completado_Padre BIT,
+				
+				@FechaHoraInicio_Padre DATETIME,
 
 				-- Datos de los items en el mismo nivel
 				@Completados_Nivel BIT;
 		
 		DECLARE ptr_actualizados CURSOR FOR 
-			SELECT Id_Item, Id_Lista, Codigo_Incidente, Id_Item_Padre, Id_Lista_Padre, Codigo_Incidente_Padre, Completado, FechaHoraFin
+			SELECT Id_Item, Id_Lista, Codigo_Incidente, Id_Item_Padre, Id_Lista_Padre, Codigo_Incidente_Padre, Completado, FechaHoraInicio
 			FROM INSERTED;
 		OPEN ptr_actualizados
 
-		FETCH NEXT FROM ptr_actualizados INTO @Id_Item, @Id_Lista, @Codigo_Incidente, @Id_Item_Padre, @Id_Lista_Padre, @Codigo_Incidente_Padre, @Completado, @FechaHoraFin
+		FETCH NEXT FROM ptr_actualizados INTO @Id_Item, @Id_Lista, @Codigo_Incidente, @Id_Item_Padre, @Id_Lista_Padre, @Codigo_Incidente_Padre, @Completado, @FechaHoraInicio
 		WHILE @@FETCH_STATUS = 0 BEGIN
 
 			DECLARE ptr_nivel CURSOR FOR
@@ -48,7 +50,7 @@ set nocount on
 			FETCH NEXT FROM ptr_nivel INTO @Id_Item, @Id_Lista, @Codigo_Incidente, @Id_Item_Padre, @Id_Lista_Padre, @Codigo_Incidente_Padre
 			WHILE @@FETCH_STATUS = 0 BEGIN
 			
-				SELECT @Completado = Completado, @FechaHoraFin = FechaHoraFin
+				SELECT @Completado = Completado, @FechaHoraInicio = FechaHoraInicio
 				FROM InstanciaItem
 				WHERE @Id_Item = Id_Item AND @Id_Lista = Id_Lista AND @Codigo_Incidente = Codigo_Incidente
 
@@ -59,18 +61,23 @@ set nocount on
 					FROM InstanciaItem
 					WHERE Id_Lista = @Id_Lista AND Codigo_Incidente = @Codigo_Incidente AND Id_Item_Padre = @Id_Item_Padre
 
-					SELECT @Completado_Padre = Completado
+					SELECT @Completado_Padre = Completado, @FechaHoraInicio_Padre = FechaHoraInicio
 					FROM InstanciaItem
 					WHERE @Id_Item_Padre = Id_Item AND @Id_Lista_Padre = Id_Lista AND @Codigo_Incidente_Padre = Codigo_Incidente
 					
 					IF (@Completado = 1 AND @Completado_Padre IS NULL AND @Completados_Nivel = 0) BEGIN
 						SET @Completado = 0
-						SET @FechaHoraFin = NULL
+						SET @FechaHoraInicio = NULL
 					END
 
 					IF (@Completados_Nivel <> @Completado_Padre OR @Completado_Padre IS NULL) BEGIN
 						UPDATE InstanciaItem
-						SET Completado = @Completado, FechaHoraFin = @FechaHoraFin
+						SET Completado = @Completado, FechaHoraFin = @FechaHoraInicio
+						WHERE @Id_Item_Padre = Id_Item AND @Id_Lista_Padre = Id_Lista AND @Codigo_Incidente_Padre = Codigo_Incidente
+					END
+					ELSE IF (@Completado = 1 AND @FechaHoraInicio_Padre IS NULL) BEGIN
+						UPDATE InstanciaItem
+						SET Completado = 0, FechaHoraInicio = @FechaHoraInicio
 						WHERE @Id_Item_Padre = Id_Item AND @Id_Lista_Padre = Id_Lista AND @Codigo_Incidente_Padre = Codigo_Incidente
 					END
 				END --Nivel superior
@@ -81,19 +88,24 @@ set nocount on
 					SELECT @Completados_Nivel = MIN(CASE(Completado) WHEN 1 THEN 1 ELSE 0 END)
 					FROM InstanciaItem
 					WHERE Id_Lista = @Id_Lista AND Codigo_Incidente = @Codigo_Incidente AND Id_Item_Padre IS NULL
-
-					SELECT @Completado_Padre = Completado
+					
+					SELECT @Completado_Padre = Completado, @FechaHoraInicio_Padre = FechaHoraInicio
 					FROM InstanceChecklist
 					WHERE @Id_Lista = PlantillaId AND @Codigo_Incidente = IncidentCod
 					
 					IF (@Completado = 1 AND @Completado_Padre IS NULL AND @Completados_Nivel = 0) BEGIN
 						SET @Completado = 0
-						SET @FechaHoraFin = NULL
+						SET @FechaHoraInicio = NULL
 					END
 
 					IF (@Completados_Nivel <> @Completado_Padre OR @Completado_Padre IS NULL) BEGIN
 						UPDATE InstanceChecklist
-						SET Completado = @Completado, FechaHoraFinal = @FechaHoraFin
+						SET Completado = @Completado, FechaHoraFinal = @FechaHoraInicio
+						WHERE @Id_Lista = PlantillaId AND @Codigo_Incidente = IncidentCod
+					END
+					ELSE IF (@Completado = 1 AND @FechaHoraInicio_Padre IS NULL) BEGIN
+						UPDATE InstanceChecklist
+						SET Completado = 0, FechaHoraInicio = @FechaHoraInicio
 						WHERE @Id_Lista = PlantillaId AND @Codigo_Incidente = IncidentCod
 					END
 				END --Instancia Lista de chequeo
@@ -103,7 +115,7 @@ set nocount on
 			CLOSE ptr_nivel
 			DEALLOCATE ptr_nivel
 
-			FETCH NEXT FROM ptr_actualizados INTO @Id_Item, @Id_Lista, @Codigo_Incidente, @Id_Item_Padre, @Id_Lista_Padre, @Codigo_Incidente_Padre, @Completado, @FechaHoraFin
+			FETCH NEXT FROM ptr_actualizados INTO @Id_Item, @Id_Lista, @Codigo_Incidente, @Id_Item_Padre, @Id_Lista_Padre, @Codigo_Incidente_Padre, @Completado, @FechaHoraInicio
 		END --WHILE cursor ptr_actualizados
 		CLOSE ptr_actualizados
 		DEALLOCATE ptr_actualizados

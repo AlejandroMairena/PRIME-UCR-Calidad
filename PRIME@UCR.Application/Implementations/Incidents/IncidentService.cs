@@ -73,6 +73,14 @@ namespace PRIME_UCR.Application.Implementations.Incidents
          * that will be the administrator of that incident.
          * @return: The incident just created.
          */
+
+        public async Task<Incidente> GetIncidentByDateCodeAsync(int id) {
+
+            return await _incidentRepository.GetIncidentByDateCodeAsync(id);
+
+        }
+
+
         public async Task<Incidente> CreateIncidentAsync(IncidentModel model, Persona person)
         {
             await _primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());

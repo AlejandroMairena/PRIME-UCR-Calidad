@@ -1,0 +1,57 @@
+﻿@inject IJSRuntime JS
+
+<div class="rt-container">
+
+    <div class="card" style="padding: 20px">
+        <h2>Video</h2>
+        <hr />
+
+        <div class="row">
+            <div class="col">
+                @* Video Preview *@
+                <div class="row">
+                    <video class="rt-box rt-box" autoplay muted @ref="videoPreview"></video>
+                </div>
+                <div class="row" style="margin-top: 20px">
+                    @* Open Close Camera Button *@
+                    <div class="col">
+                        <button type="button" class="btn btn-primary rt-button" @ref="startButton">Grabar</button>
+                    </div>
+                    @* Take Photograph Button *@
+                    <div class="col">
+                        <button class="btn btn-danger rt-button" disabled @ref="stopButton">
+                            Detener
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                @* Preview *@
+                <div class="row">
+                    <video class="rt-box rt-box" controls @ref="recordedVideo"></video>
+                </div>
+                <div class="row" style="margin-top: 20px">
+                    @* Cancel Button *@
+                    <div class="col">
+                        
+                    </div>
+                    @* Save Photograph Button *@
+                    <div class="col">
+                        <div class="btn btn-primary rt-button">
+                            <a style="color: white;" @ref="downloadButton">
+                                Descargar
+                            </a>
+                        </div>
+                        @*<a class="btn btn-primary rt-button" role="button" @ref="downloadLinkRef">
+                                Descargar
+                            </a>*@
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

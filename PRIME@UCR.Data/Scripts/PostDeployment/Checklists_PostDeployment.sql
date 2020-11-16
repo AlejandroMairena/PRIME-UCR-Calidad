@@ -1,8 +1,6 @@
 ﻿DELETE FROM CheckList
 DELETE FROM Item
 DELETE FROM InstanceChecklist
-DELETE FROM InstanciaItemHoja
-DELETE FROM InstanciaItemPadre
 DELETE FROM InstanciaItem
 DELETE FROM TipoListaChequeo
 

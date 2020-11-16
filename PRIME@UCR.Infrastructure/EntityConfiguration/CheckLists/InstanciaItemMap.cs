@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PRIME_UCR.Domain.Models;
 using PRIME_UCR.Domain.Models.CheckLists;
+using RepoDb;
 
 namespace PRIME_UCR.Infrastructure.EntityConfiguration.CheckLists
 {
@@ -40,6 +41,19 @@ namespace PRIME_UCR.Infrastructure.EntityConfiguration.CheckLists
                 .HasOne(i => i.MyFather)
                 .WithMany(i => i.SubItems)
                 .HasForeignKey(k => new { k.ItemPadreId, k.PlantillaPadreId, k.IncidentCodPadre });
+
+            // RepoDb
+            FluentMapper.Entity<InstanciaItem>()
+                        .Table("InstanciaItem")
+                        .Column(cu => cu.Completado, "Completado")
+                        .Column(cu => cu.FechaHoraInicio, "FechaHoraInicio")
+                        .Column(cu => cu.ItemId, "Id_Item")
+                        .Column(cu => cu.PlantillaId, "Id_Lista")
+                        .Column(cu => cu.IncidentCod, "Codigo_Incidente")
+                        .Column(cu => cu.ItemPadreId, "Id_Item_Padre")
+                        .Column(cu => cu.PlantillaPadreId, "Id_Lista_Padre")
+                        .Column(cu => cu.IncidentCodPadre, "Codigo_Incidente_Padre")
+                        .Column(cu => cu.FechaHoraFin, "FechaHoraFin");
         }
     }
 }

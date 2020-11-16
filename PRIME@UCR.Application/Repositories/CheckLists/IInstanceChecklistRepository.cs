@@ -9,7 +9,7 @@ namespace PRIME_UCR.Application.Repositories.CheckLists
     public interface IInstanceChecklistRepository : IGenericRepository<InstanceChecklist, int>
     {
         //recuperar por id
-        Task<IEnumerable<InstanceChecklist>> GetByIdd(int id, string code);
+        Task<IEnumerable<InstanceChecklist>> GetById(int checkListId, string code);
 
        //recuperar por id de la plantilla
         Task<IEnumerable<InstanceChecklist>> GetByPlantillaId(int id);

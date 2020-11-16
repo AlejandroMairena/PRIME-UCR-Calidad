@@ -13,32 +13,67 @@ namespace PRIME_UCR.Application.Implementations.Multimedia
         public byte[] IV { get; set; }
 
         public EncryptionService() {
-            using (RijndaelManaged myRijndael = new RijndaelManaged())
-            {
-                myRijndael.GenerateKey();
-                myRijndael.GenerateIV();
-                Key = myRijndael.Key;
-                IV = myRijndael.IV;
-            }
+            setKeyIV();
+        }
+
+        void setKeyIV()
+        {
+            //string keyString = Configuration.GetConnectionString("Key");
+            //string ivString = Configuration.GetConnectionString("IV");
+            string keyString = "qXOctUgD1RQCyF6dl4IjgZLAosrLh8Dn8GCklADSmvo=";
+            string ivString = "fkmYijInbe9eWQbLoWtTNQ==";
+            byte[] ivByte = Convert.FromBase64String(ivString);
+            byte[] keyByte = Convert.FromBase64String(keyString);
+            SetKeyIV(ivByte, keyByte);
+        }
+
+        public void SetKeyIV(byte [] iv, byte [] key) {
+            Key = key;
+            IV = iv;
         }
         public string FiletoString(string path) {
             string fileString = "";
-            if (File.Exists(path))
-            {
-                fileString = File.ReadAllText(path);
+            if (File.Exists(path)) {
+                //lee byte por byte y los guarda en 
+                using (FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read))
+                {
+                    byte[] chunk = new byte[fs.Length];
+                    using (BinaryReader br = new BinaryReader(fs, new ASCIIEncoding()))
+                    { 
+                        chunk = br.ReadBytes((int)fs.Length);
+                   }
+                    fileString = Convert.ToBase64String(chunk);
+                }
             }
             return fileString;
+        }
+        public byte[] FileToByteArray(string path) {
+            byte[] dataArray = null;
+            if (File.Exists(path))
+            {
+                //lee byte por byte y los guarda en 
+                using (FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read))
+                {
+                    byte[] chunk = new byte[fs.Length];
+                    using (BinaryReader br = new BinaryReader(fs, new ASCIIEncoding()))
+                    {
+                        chunk = br.ReadBytes((int)fs.Length);
+                    }
+                    dataArray = chunk;
+                }
+            }
+            return dataArray;
         }
 
         public bool ByteArrayToFile(string filePath, byte[] byteArray)
         {
             try
             {
-                using (var fs = new FileStream(filePath, FileMode.Create, FileAccess.Write))
+                using (FileStream fileStream = new FileStream(filePath, FileMode.Create))
                 {
-                    fs.Write(byteArray, 0, byteArray.Length);
-                    return true;
+                    fileStream.Write(byteArray, 0 , byteArray.Length);
                 }
+                return true;
             }
             catch (Exception ex)
             {
@@ -47,34 +82,39 @@ namespace PRIME_UCR.Application.Implementations.Multimedia
             }
         }
 
-        public bool EncryptFile(string path, string fileName) {
-            string filePath = Path.Combine(path, fileName);
+        public bool EncryptFile(string path) {
+            string filePath = path;
             string fileText = FiletoString(filePath);
             byte[] encryptedFile = Encrypt(fileText);
-            ByteArrayToFile(filePath, encryptedFile);
+            //string encryptedFileData = Encrypt(fileText);
+            ByteArrayToFile(filePath, encryptedFile); //ESCRIBE EL ARCHIVO
             return true;
         }
-        public bool DecryptFile(string path, string filename) {
-            string filePath = Path.Combine(path, filename);
-            string fileText = FiletoString(filePath);
-            byte[] encryptedFile = StringToByteArray(fileText);
+        public bool DecryptFile(string path) {
+            string filePath = path;
+            //string fileText = FiletoString(filePath);
+            byte[] encryptedFile = FileToByteArray(filePath);
             string decryptedString = Decrypt(encryptedFile);
-            StringToFile(filePath, decryptedString);
+            byte[] decryptedFile = Convert.FromBase64String(decryptedString);
+            ByteArrayToFile(filePath, decryptedFile);
+
             return true;
         }
         public byte[] StringToByteArray(string fileText) {
-            byte[] encryptedFile = Encoding.Unicode.GetBytes(fileText);
+            byte[] encryptedFile = System.Convert.FromBase64String(fileText);
             return encryptedFile;
         }
         public bool StringToFile(string filePath, string decryptedString) {
             bool resp = false;
             try
             {
-                using (var fs = new FileStream(filePath, FileMode.Create, FileAccess.Write))
-                {
-                    using var sr = new StringWriter((IFormatProvider)fs);
-                    sr.WriteLine(decryptedString);
-                }
+                //using (StreamWriter outputFile = new StreamWriter(filePath))
+                //{
+                //    outputFile.WriteLine(decryptedString);
+                //    return true;
+                //}
+                File.WriteAllText(filePath, decryptedString);
+
             }
             catch (Exception ex)
             {
@@ -113,6 +153,7 @@ namespace PRIME_UCR.Application.Implementations.Multimedia
                         {
 
                             //Write all data to the stream.
+                            //VERIFICAR SI ToArray() funciona
                             swEncrypt.Write(plainText);
                         }
                         encrypted = msEncrypt.ToArray();

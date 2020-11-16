@@ -15,3 +15,4 @@ Post-Deployment Script Template
 :r .\PostDeployment\Incidents_PostDeployment.sql
 :r .\PostDeployment\Checklists_PostDeployment.sql
 :r .\PostDeployment\MedicalRecords_PostDeployment.sql
+:r .\PostDeployment\Alergies_PostDeployment.sql

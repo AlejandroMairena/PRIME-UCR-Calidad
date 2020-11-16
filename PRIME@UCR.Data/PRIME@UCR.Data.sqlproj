@@ -140,10 +140,12 @@
     <Build Include="StoredProcedures\Multimedia\ObtenerContenidoMultimediaCita.sql" />
     <Build Include="StoredProcedures\Multimedia\FObtenerContendidoMultimediaCita.sql" />
     <Build Include="StoredProcedures\Incidents\InsertarAccion.sql" />
+    <Build Include="Tables\MedicalRecords\ListaAntecedentes.sql" />
+    <Build Include="Tables\MedicalRecords\Antecedentes.sql" />
+    <Build Include="Tables\MedicalRecords\Alergias.sql" />
+    <Build Include="Tables\MedicalRecords\ListaAlergia.sql" />
     <Build Include="Tables\CheckLists\InstanceChecklist.sql" />
     <Build Include="Tables\CheckLists\InstanciaItem.sql" />
-    <Build Include="Tables\CheckLists\InstanciaItemPadre.sql" />
-    <Build Include="Tables\CheckLists\InstanciaItemHoja.sql" />
     <Build Include="Tables\CheckLists\TipoListaChequeo.sql" />
     <Build Include="Tables\CheckLists\MultimediaContentItem.sql" />
     <Build Include="Triggers\CheckearItem.sql" />
@@ -156,5 +158,9 @@
     <None Include="Scripts\PostDeployment\Users_PostDeployment.sql" />
     <None Include="Scripts\PostDeployment\Appointments_PostDeployment.sql" />
     <None Include="Scripts\PostDeployment\MedicalRecords_PostDeployment.sql" />
+    <None Include="Scripts\PostDeployment\Alergies_PostDeployment.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Scripts\PostDeployment\MultimediaContent_PostDeployment.sql" />
   </ItemGroup>
 </Project>
