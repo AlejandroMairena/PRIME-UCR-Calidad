@@ -33,6 +33,8 @@ namespace PRIME_UCR.Test.UnitTests.Application.MedicalRecords
             Assert.Equal(result,EmptyAllergyList);
         }
 
+        /*
+
         [Fact]
         public async void getAllergyByRecordIdReturnsValidAllergy()
         {
@@ -45,6 +47,8 @@ namespace PRIME_UCR.Test.UnitTests.Application.MedicalRecords
             Assert.Equal(ExpectedIdList, result[0].IdListaAlergia);
             Assert.Equal(ExpectedIdRecord, result[0].IdExpediente);
         }
+
+        */
 
         /*
        [Fact]
