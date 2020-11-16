@@ -465,5 +465,180 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
             var result = await service.UpdateTransportUnit(model, incident);
             Assert.False(result);
         }
+
+        [Fact]
+        public async Task GetNextIncidentStateReturnsApproved()
+        {
+            // arrange
+            var mockIncidentRepository = new Mock<IIncidentRepository>();
+            var mockStatesRepository = new Mock<IIncidentStateRepository>();
+            var currentState = new Estado { Nombre = "Creado" };
+            var nextState = new Estado { Nombre = "Aprobado" };
+
+            mockStatesRepository
+                .Setup(p => p.GetCurrentStateByIncidentId(String.Empty))
+                .Returns(Task.FromResult<Estado>(currentState));
+
+            var service = new IncidentService(
+                mockIncidentRepository.Object,
+                null, mockStatesRepository.Object, null, null, null, null, null, null);
+
+            // act
+            var result = await service.GetNextIncidentState(String.Empty);
+
+            // assert
+            Assert.Equal(nextState.Nombre, result);
+
+        }
+
+        [Fact]
+        public async Task GetNextIncidentStateReturnsEmptyString()
+        {
+            // arrange
+            var mockIncidentRepository = new Mock<IIncidentRepository>();
+            var mockStatesRepository = new Mock<IIncidentStateRepository>();
+            var currentState = new Estado { Nombre = "Finalizado" };
+            var nextState = new Estado { Nombre = "" };
+
+            mockStatesRepository
+                .Setup(p => p.GetCurrentStateByIncidentId(String.Empty))
+                .Returns(Task.FromResult<Estado>(currentState));
+
+            var service = new IncidentService(
+                mockIncidentRepository.Object,
+                null, mockStatesRepository.Object, null, null, null, null, null, null);
+
+            // act
+            var result = await service.GetNextIncidentState(String.Empty);
+
+            // assert
+            Assert.Equal(nextState.Nombre, result);
+
+        }
+
+        [Fact]
+        public async Task GetPendingTaskAsyncForCreatedState()
+        {
+            // arrange
+            var mockIncidentRepository = new Mock<IIncidentRepository>();
+            string nextState = "Creado";
+            var model = new IncidentDetailsModel
+            {
+                Code = "1234",
+            };
+            List<Tuple<string, string>> expected = new List<Tuple<string, string>> {
+                Tuple.Create("Seleccionar origen", "Origin"),
+                Tuple.Create("Seleccionar destino", "Destination"),
+                Tuple.Create("Agregar paciente", "Patient")
+            };
+
+
+            var service = new IncidentService(
+                mockIncidentRepository.Object,
+                null, null, null, null, null, null, null, null);
+
+            // act
+            var result = await service.GetPendingTasksAsync(model, nextState);
+
+            // assert
+            Assert.Equal(expected, result);
+        }
+
+        [Fact]
+        public async Task GetPendingTaskAsyncForApprovedState()
+        {
+            // arrange
+            var mockIncidentRepository = new Mock<IIncidentRepository>();
+            string nextState = "Aprobado";
+            var model = new IncidentDetailsModel
+            {
+                Code = "1234",
+                CurrentState = "Creado"
+            };
+            List<Tuple<string, string>> expected = new List<Tuple<string, string>> {
+                Tuple.Create("Esperando revisión", "Info"),
+            };
+
+
+            var service = new IncidentService(
+                mockIncidentRepository.Object,
+                null, null, null, null, null, null, null, null);
+
+            // act
+            var result = await service.GetPendingTasksAsync(model, nextState);
+
+            // assert
+            Assert.Equal(expected, result);
+        }
+
+        [Fact]
+        public async Task GetPendingTaskAsyncForRejectedState()
+        {
+            // arrange
+            var mockIncidentRepository = new Mock<IIncidentRepository>();
+            string nextState = "Aprobado";
+            var model = new IncidentDetailsModel
+            {
+                Code = "1234",
+            };
+            List<Tuple<string, string>> expected = new List<Tuple<string, string>> {
+                Tuple.Create("Esperando una nueva revisión", "Info")
+            };
+
+
+            var service = new IncidentService(
+                mockIncidentRepository.Object,
+                null, null, null, null, null, null, null, null);
+
+            // act
+            var result = await service.GetPendingTasksAsync(model, nextState);
+
+            // assert
+            Assert.Equal(expected, result);
+        }
+
+        [Fact]
+        public async Task GetPendingTaskAsyncForAssignedState()
+        {
+            // arrange
+            var mockIncidentRepository = new Mock<IIncidentRepository>();
+            var mockAssignmentRepository = new Mock<IAssignmentRepository>();
+            IEnumerable<EspecialistaTécnicoMédico> teamMembers = new List<EspecialistaTécnicoMédico>();
+            string nextState = "Asignado";
+            var model = new IncidentDetailsModel
+            {
+                Code = "1234",
+            };
+            var incident = new Incidente
+            {
+                Codigo = "1234"
+            };
+
+            mockIncidentRepository
+             .Setup(p => p.GetByKeyAsync(model.Code))
+             .Returns(Task.FromResult<Incidente>(incident));
+
+            mockAssignmentRepository
+              .Setup(p => p.GetAssignmentsByIncidentIdAsync(incident.Codigo))
+              .Returns(Task.FromResult<IEnumerable<EspecialistaTécnicoMédico>>(teamMembers));
+
+
+            List<Tuple<string, string>> expected = new List<Tuple<string, string>> {
+                Tuple.Create("Seleccionar unidad de transporte", "Assignment"),
+                Tuple.Create("Seleccionar coordinador", "Assignment"),
+                Tuple.Create("Seleccionar técnicos médicos", "Assignment")
+            };
+
+
+            var service = new IncidentService(
+                mockIncidentRepository.Object,
+                null, null, null, null, null, null, mockAssignmentRepository.Object, null);
+
+            // act
+            var result = await service.GetPendingTasksAsync(model, nextState);
+
+            // assert
+            Assert.Equal(expected, result);
+        }
     }
 }
