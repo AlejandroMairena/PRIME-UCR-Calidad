@@ -18,6 +18,7 @@ using Blazored.SessionStorage;
 using PRIME_UCR.Validators;
 using PRIME_UCR.Application.DTOs.UserAdministration;
 using System.Linq;
+using PRIME_UCR.Application.Services.UserAdministration;
 using PRIME_UCR.Domain.Constants;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.Extensions.Options;
@@ -74,12 +75,14 @@ namespace PRIME_UCR
 
             
             services.AddBlazoredSessionStorage();
-            services.AddScoped<AuthenticationStateProvider,CustomAuthenticationStateProvider>();
 
             services.AddApplicationLayer();
             services.AddInfrastructureLayer();
             services.AddValidators();
 
+            // authentication
+            services.AddScoped<AuthenticationStateProvider,CustomAuthenticationStateProvider>();
+            services.AddTransient<IPrimeSecurityService, PrimeSecurityService>();
             services.AddAuthorization(options =>
             {
                 foreach(var permission in Enum.GetValues(typeof(AuthorizationPermissions)).Cast<AuthorizationPermissions>())

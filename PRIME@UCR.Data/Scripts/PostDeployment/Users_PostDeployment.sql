@@ -79,7 +79,7 @@ VALUES
     ('df025dd6-57c9-4c3e-8ae2-e319080ca07b','78901234'),
     ('e8b07151-040d-4b2c-95dd-03314508c40f','11111111'),
     ('95b3d7ae-03ff-4b50-af8b-0e1582750640','90123456');
-    
+
 INSERT INTO Permiso (IdPermiso, Descripción_Permiso)
 VALUES
     -- Administrador
@@ -110,10 +110,12 @@ VALUES
         -- Se repite 9
     (18,'Puede editar la información del paciente de un incidente'),
     (19,'Puede llevar a cabo la asignación de incidentes'),
-    (20,'Puede crear incidentes');
-        -- Se repite el 22
+    (20,'Puede crear incidentes'),
+-- Se repite el 22
     -- Administrador del centro de control
         -- Se repite 5, 7, 16 y 21
+    (21,'Puede administrar multimedia de un incidente'),
+    (22,'Puede administrar listas de chequeo de un incidente');
 
 INSERT INTO Perfil (NombrePerfil)
 VALUES ('Administrador'),
@@ -132,7 +134,11 @@ VALUES  (1,'Administrador'),
         (6,'Especialista técnico médico'),
         (7,'Especialista técnico médico'),
         (8,'Especialista técnico médico'),
+        (21,'Especialista técnico médico'),
+        (22,'Especialista técnico médico'),
+        (8,'Médico'),
         (9,'Médico'),
+        (21,'Médico'),
         (10,'Gerente médico'),
         (11,'Gerente médico'),
         (12,'Gerente médico'),
@@ -152,11 +158,13 @@ VALUES  (1,'Administrador'),
         (18,'Coordinador técnico médico'),
         (19,'Coordinador técnico médico'),
         (20,'Coordinador técnico médico'),
+        (21,'Coordinador técnico médico'),
+        (22,'Coordinador técnico médico'),
         (4,'Administrador de la central de control'),
         (6,'Administrador de la central de control'),
         (15,'Administrador de la central de control'),
         (20,'Administrador de la central de control');
- 
+
 INSERT INTO Pertenece(IdUsuario, NombrePerfil)
 VALUES ('a6f7aa70-a038-419f-9945-7c77b093d58f','Administrador'),
        ('e5cb3edd-44c2-45bd-bd03-a35a4bca66fa','Administrador'),
