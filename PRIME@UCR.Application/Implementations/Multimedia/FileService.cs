@@ -41,17 +41,32 @@ namespace PRIME_UCR.Application.Implementations.Multimedia
             return true;
         }
 
-        public bool StoreFile(string filePath)
+        public async Task<string> StoreTextFile(string text, string fileName)
         {
-            using (var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+            string path = Path.Combine(FilePath, fileName);
+            using (StreamWriter sw = File.CreateText(path))
             {
-                // read from file
+                await sw.WriteLineAsync(text);
             }
-            return false;
+            return path;
         }
 
         public void SetKeyIV(byte[] iv, byte[] key) {
             ES.SetKeyIV(iv, key);
         }
+
+        public bool DeleteFile(string filePath)
+        {
+            try
+            {
+                File.Delete(filePath);
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+            return true;
+        }
+
     }
 }

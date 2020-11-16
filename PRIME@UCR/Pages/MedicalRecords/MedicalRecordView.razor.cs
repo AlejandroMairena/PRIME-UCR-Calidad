@@ -42,6 +42,8 @@ namespace PRIME_UCR.Pages.MedicalRecords
 
         private List<ListaAlergia> ListaAlergias;
 
+
+
         Expediente medical_record_with_details { get; set; }
 
         private void FillTabStates()

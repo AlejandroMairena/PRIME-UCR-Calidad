@@ -32,5 +32,17 @@ namespace PRIME_UCR.Components.MedicalRecords
 
         [Parameter] 
         public List<ListaAlergia> ListaAlergia { get; set; }
+
+
+        public string get_patient_name()
+        {
+            return MedicalRecord.Paciente.NombreCompleto;
+        }
+
+        public string get_patient_identification()
+        {
+            return MedicalRecord.Paciente.Cédula;
+        }
     }
+
 }

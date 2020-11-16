@@ -73,6 +73,7 @@
     <Folder Include="StoredProcedures\UserAdministration" />
     <Folder Include="StoredProcedures\Multimedia" />
     <Folder Include="StoredProcedures\CheckLists" />
+    <Folder Include="StoredProcedures\Dashboard" />
     <Folder Include="Indexes\Incidents\" />
   </ItemGroup>
   <ItemGroup>
@@ -148,6 +149,7 @@
     <Build Include="Tables\CheckLists\InstanciaItem.sql" />
     <Build Include="Tables\CheckLists\TipoListaChequeo.sql" />
     <Build Include="Tables\CheckLists\MultimediaContentItem.sql" />
+    <Build Include="StoredProcedures\Dashboard\GetIncidentsCounter.sql" />
     <Build Include="Triggers\CheckearItem.sql" />
   </ItemGroup>
   <ItemGroup>
@@ -159,5 +161,8 @@
     <None Include="Scripts\PostDeployment\Appointments_PostDeployment.sql" />
     <None Include="Scripts\PostDeployment\MedicalRecords_PostDeployment.sql" />
     <None Include="Scripts\PostDeployment\Alergies_PostDeployment.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Scripts\PostDeployment\MultimediaContent_PostDeployment.sql" />
   </ItemGroup>
 </Project>

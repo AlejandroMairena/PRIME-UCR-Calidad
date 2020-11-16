@@ -16,6 +16,8 @@ using PRIME_UCR.Application.Services.Appointments;
 using PRIME_UCR.Application.Services.MedicalRecords;
 using Microsoft.AspNetCore.Components.Authorization;
 using PRIME_UCR.Infrastructure.Repositories.Sql.MedicalRecords;
+using PRIME_UCR.Application.Services.Dashboard;
+using PRIME_UCR.Application.Implementations.Dashboard;
 
 namespace PRIME_UCR.Application
 {
@@ -29,6 +31,8 @@ namespace PRIME_UCR.Application
             // incidents
             services.AddTransient<IIncidentService, IncidentService>();
             services.AddTransient<ILocationService, LocationService>();
+            services.AddTransient<IIncidentService, IncidentService>();
+            services.AddTransient<IStateService, StateService>();
             // medical records
             services.AddTransient<IMedicalRecordService, MedicalRecordService>();
             services.AddTransient<IMedicalBackgroundService, MedicalBackgroundService>();
@@ -40,12 +44,10 @@ namespace PRIME_UCR.Application
             services.AddScoped<IPermissionsService, PermissionsService>();
             services.AddScoped<IProfilesService, ProfilesService>();
             services.AddScoped<IUserService, UsersService>();
-            services.AddScoped<IPrimeAuthorizationService, PrimeAuthorizationService>();
             services.AddTransient<IPermiteService, PermiteService>();
             services.AddTransient<IPerteneceService, PerteneceService>();
             services.AddTransient<IPersonService, PersonService>();
             services.AddTransient<IDoctorService, DoctorService>();
-            services.AddScoped<IPrimeAuthorizationService, PrimeAuthorizationService>();
             services.AddTransient<IPersonService, PersonService>();
             services.AddTransient<IPatientService, PatientService>();
             services.AddTransient<IDoctorService, DoctorService>();
@@ -53,8 +55,9 @@ namespace PRIME_UCR.Application
             services.AddTransient<IAssignmentService, AssignmentService>();
             services.AddTransient<IAppointmentService, AppointmentService>();
             services.AddTransient<IAuthenticationService, AuthenticationService>();
-            services.AddTransient<IPrimeSecurityService, PrimeSecurityService>();
-            
+            //Dashboard
+            services.AddTransient<IDashboardService, DashboardService>();
+
             return services;
         }
     }
