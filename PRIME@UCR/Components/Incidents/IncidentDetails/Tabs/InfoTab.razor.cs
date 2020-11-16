@@ -23,25 +23,9 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
         
         protected override async Task OnInitializedAsync()
         {
-            
             var emailUser = (await AuthState).User.Identity.Name;
             _currentUser = await UserService.getPersonWithDetailstAsync(emailUser);
-            
             _creator = await PersonService.GetPersonByIdAsync(DetailsModel.AdminId);
-        }
-
-        private async Task Approve()
-        {
-            await IncidentService
-                .ApproveIncidentAsync(DetailsModel.Code, _currentUser.Cédula);
-            await OnSave.InvokeAsync(null);
-        }
-
-        private async Task Reject()
-        {
-            await IncidentService
-                .RejectIncidentAsync(DetailsModel.Code, _currentUser.Cédula);
-            await OnSave.InvokeAsync(null);
         }
         
     }

@@ -36,6 +36,9 @@ namespace PRIME_UCR.Components.Multimedia
         bool showImage = false;
         bool showText = false;
         bool showVideo = false;
+        bool showVideoComponent = false;
+        bool showTextComponent = false;
+
         bool showDropdown = false;
         MultimediaContent modalMContent = null;
 
@@ -94,9 +97,7 @@ namespace PRIME_UCR.Components.Multimedia
         async Task<MultimediaContent> StoreMultimediaContent(IFileListEntry file)
         {
             if (file == null) return null;
-            //string path = "datas/";
             string filePath = EncryptFilePath(file_service.FilePath, file.Name);
-            //string filePath = EncryptFilePath(path, file.Name);
             MultimediaContent mcontent = FileToMultimediaContent(file, filePath);
             return await multimedia_content_service.AddMultimediaContent(mcontent);
         }
@@ -196,6 +197,9 @@ namespace PRIME_UCR.Components.Multimedia
             showText = false;
             showVideo = false;
             modalMContent = null;
+            showVideo = false;
+            showVideoComponent = false;
+            showTextComponent = false;
         }
         void OpenAudio(MultimediaContent mcontent)
         {
@@ -207,6 +211,7 @@ namespace PRIME_UCR.Components.Multimedia
             showText = false;
             showVideo = false;
             modalMContent = mcontent;
+            showVideoComponent = false;
         }
         void OpenImage(MultimediaContent mcontent)
         {
@@ -218,6 +223,8 @@ namespace PRIME_UCR.Components.Multimedia
             showText = false;
             showVideo = false;
             modalMContent = mcontent;
+            showVideoComponent = false;
+            showTextComponent = false;
         }
         void OpenText(MultimediaContent mcontent) 
         {
@@ -229,6 +236,8 @@ namespace PRIME_UCR.Components.Multimedia
             showText = true;
             showVideo = false;
             modalMContent = mcontent;
+            showVideoComponent = false;
+            showTextComponent = false;
         }
         void OpenVideo(MultimediaContent mcontent) {
             showModal = true;
@@ -239,6 +248,23 @@ namespace PRIME_UCR.Components.Multimedia
             showText = false;
             showVideo = true;
             modalMContent = mcontent;
+            showVideoComponent = false;
+            showTextComponent = false;
+        }
+
+
+        void OpenVideo()
+        {
+            showModal = true;
+            showCamera = false;
+            showAudio = false;
+            showImage = false;
+            showMicrophone = false;
+            showText = false;
+            showVideo = false;
+            modalMContent = null;
+            showVideoComponent = true;
+            showTextComponent = false;
         }
         void OpenMicrophone()
         {
@@ -250,6 +276,34 @@ namespace PRIME_UCR.Components.Multimedia
             showText = false;
             showVideo = false;
             modalMContent = null;
+            showVideoComponent = false;
+            showTextComponent = false;
         }
+
+        void OpenTextComponent()
+        {
+            showModal = true;
+            showCamera = false;
+            showAudio = false;
+            showImage = false;
+            showMicrophone = false;
+            showText = false;
+            showVideo = false;
+            modalMContent = null;
+            showVideo = false;
+            showVideoComponent = false;
+            showTextComponent = true;
+        }
+
+        async Task DeleteMultimediaContent(MultimediaContent mcontent)
+        {
+            await multimedia_content_service.DeleteMultimediaContent(mcontent);
+            MultimediaContent.Remove(mcontent);
+            byte[] bEPath = Convert.FromBase64String(mcontent.Archivo);
+            string path = encrypt_service.Decrypt(bEPath);
+            file_service.DeleteFile(path);
+        }
+
+
     }
 }

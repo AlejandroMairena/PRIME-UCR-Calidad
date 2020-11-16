@@ -20,5 +20,8 @@ namespace PRIME_UCR.Application.Services.Multimedia
         Task<MultimediaContentItem> AddMultContToCheckListItem(MultimediaContentItem mcItem);
 
         Task<IEnumerable<MultimediaContent>> GetByCheckListItem(int itemId, int listId, string incidentCode);
+
+        Task DeleteMultimediaContent(MultimediaContent mcontent);
+
     }
 }

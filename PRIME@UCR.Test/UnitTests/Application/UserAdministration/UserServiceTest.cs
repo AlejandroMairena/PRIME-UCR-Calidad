@@ -17,7 +17,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.UserAdministration
 {
     public class UserServiceTest
     {
-        /*
+      
         [Fact]
         public async Task getUsuarioWithDetailsReturnsNull()
         {
