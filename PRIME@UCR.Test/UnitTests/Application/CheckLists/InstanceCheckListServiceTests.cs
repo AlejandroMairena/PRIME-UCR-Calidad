@@ -106,5 +106,96 @@ namespace PRIME_UCR.Test.UnitTests.Application.CheckLists
             // assert
             Assert.Equal(2, result);
         }
+
+        [Fact]
+        public async Task GetCoreItemsReturnsEmpty()
+        {
+            // arrange
+            var mockRepo = new Mock<IInstanceItemRepository>();
+            var data = new List<InstanciaItem>();
+            mockRepo
+                .Setup(p => p.GetCoreItems("código válido", 1))
+                .Returns(Task.FromResult<IEnumerable<InstanciaItem>>(data));
+            var service = new InstanceChecklistService(
+                null, mockRepo.Object);
+
+            // act
+            var result = await service.GetCoreItems("código válido", 1);
+
+            // assert
+            Assert.Empty(result);
+        }
+
+        [Fact]
+        public async Task GetCoreItemsReturnsValid()
+        {
+            // arrange
+            var mockRepo = new Mock<IInstanceItemRepository>();
+            var data = new List<InstanciaItem>
+            {
+                new InstanciaItem {ItemId = 1, PlantillaId = 1, IncidentCod = "código válido", ItemPadreId = null},
+                new InstanciaItem {ItemId = 3, PlantillaId = 1, IncidentCod = "código válido", ItemPadreId = null}
+            };
+            mockRepo
+                .Setup(p => p.GetCoreItems("código válido", 1))
+                .Returns(Task.FromResult<IEnumerable<InstanciaItem>>(data));
+            var service = new InstanceChecklistService(
+                null, mockRepo.Object);
+
+            // act
+            var result = await service.GetCoreItems("código válido", 1);
+
+            // assert
+            Assert.Collection(result,
+                                    itemInstance => Assert.Equal(1, itemInstance.ItemId),
+                                    itemInstance => Assert.Equal(3, itemInstance.ItemId)
+                            );
+        }
+
+
+        [Fact]
+        public async Task GetItemsByFatherIdReturnsEmpty()
+        {
+            // arrange
+            var mockRepo = new Mock<IInstanceItemRepository>();
+            var data = new List<InstanciaItem>();
+            mockRepo
+                .Setup(p => p.GetItemsByFatherId("código válido", 1, 1))
+                .Returns(Task.FromResult<IEnumerable<InstanciaItem>>(data));
+            var service = new InstanceChecklistService(
+                null, mockRepo.Object);
+
+            // act
+            var result = await service.GetItemsByFatherId("código válido", 1, 1);
+
+            // assert
+            Assert.Empty(result);
+        }
+
+        [Fact]
+        public async Task GetItemsByFatherIdReturnsValid()
+        {
+            // arrange
+            var mockRepo = new Mock<IInstanceItemRepository>();
+            var data = new List<InstanciaItem>
+            {
+                new InstanciaItem {ItemId = 2, PlantillaId = 1, IncidentCod = "código válido", ItemPadreId = 1},
+                new InstanciaItem {ItemId = 3, PlantillaId = 1, IncidentCod = "código válido", ItemPadreId = 1}
+            };
+            mockRepo
+                .Setup(p => p.GetItemsByFatherId("código válido", 1, 1))
+                .Returns(Task.FromResult<IEnumerable<InstanciaItem>>(data));
+            var service = new InstanceChecklistService(
+                null, mockRepo.Object);
+
+            // act
+            var result = await service.GetItemsByFatherId("código válido", 1, 1);
+
+            // assert
+            Assert.Collection(result,
+                                    itemInstance => Assert.Equal(2, itemInstance.ItemId),
+                                    itemInstance => Assert.Equal(3, itemInstance.ItemId)
+                            );
+        }
     }
 }
