@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using Blazored.Modal;
+using Blazored.Modal.Services;
+using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using PRIME_UCR.Application.DTOs.Dashboard;
 using PRIME_UCR.Application.Services.Dashboard;
@@ -15,6 +17,7 @@ namespace PRIME_UCR.Components.Dashboard.IncidentsGraph
         [Parameter] public FilterModel Value { get; set; }
         [Parameter] public EventCallback<FilterModel> ValueChanged { get; set; }
         [Parameter] public EventCallback OnDiscard { get; set; }
+        [Parameter] public bool ZoomActive { get; set; }
 
         private int eventQuantity { get; set; }
 
@@ -24,7 +27,8 @@ namespace PRIME_UCR.Components.Dashboard.IncidentsGraph
         [Inject]
         public IDashboardService _dashboardService { get; set; }
 
-
+        [Inject]
+        IModalService Modal { get; set; }
         protected override async Task OnParametersSetAsync()
         {
             await GenerateColumnChart();
@@ -56,6 +60,20 @@ namespace PRIME_UCR.Components.Dashboard.IncidentsGraph
 
 
             await JS.InvokeVoidAsync("CreateColumnChart", (object)results);
+        }
+
+
+        void ShowModal()
+        {
+            var modalOptions = new ModalOptions()
+            {
+                Class = "graph-zoom-modal blazored-modal"
+            };
+
+            var parameters = new ModalParameters();
+            parameters.Add(nameof(IncidentsVsTransportTypeComponentJS.Value), Value);
+            parameters.Add(nameof(IncidentsVsTransportTypeComponentJS.ZoomActive), true);
+            Modal.Show<IncidentsVsTransportTypeComponentJS>("Incidente vs Modalidad de Transporte", parameters, modalOptions);
         }
     }
 }

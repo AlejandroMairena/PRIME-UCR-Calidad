@@ -17,6 +17,10 @@ namespace PRIME_UCR.Components.Dashboard.IncidentsGraph
         [Parameter]
         public RenderFragment ChildContent { get; set; }
 
+        [Parameter]
+        public EventCallback ShowModal { get; set; }
 
+        [Parameter]
+        public bool ZoomActive { get; set; }
     }
 }

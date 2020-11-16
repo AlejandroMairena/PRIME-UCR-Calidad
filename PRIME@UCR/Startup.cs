@@ -19,6 +19,7 @@ using PRIME_UCR.Validators;
 using PRIME_UCR.Application.DTOs.UserAdministration;
 using System.Linq;
 using PRIME_UCR.Domain.Constants;
+using Blazored.Modal;
 
 namespace PRIME_UCR
 {
@@ -72,6 +73,9 @@ namespace PRIME_UCR
                 options.DefaultRequestCulture = new Microsoft.AspNetCore.Localization.RequestCulture("es");
                 options.SupportedUICultures = supportedCultures;
             });
+
+            //Modal Service
+            services.AddBlazoredModal();
 
         }
 
