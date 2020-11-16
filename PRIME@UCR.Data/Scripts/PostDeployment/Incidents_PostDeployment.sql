@@ -379,6 +379,6 @@ VALUES
 	'-' +
 	'IT' +
 	'-' +
-	'AER', 'En proceso de creación', GETDATE(), 1
+	'AER', 'Asignado', GETDATE(), 1
 )
 

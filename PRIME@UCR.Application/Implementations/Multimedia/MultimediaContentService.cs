@@ -9,6 +9,8 @@ using PRIME_UCR.Application.Repositories.Multimedia;
 using PRIME_UCR.Application.Services.Multimedia;
 using System.Linq;
 using PRIME_UCR.Application.Repositories.Appointments;
+using PRIME_UCR.Domain.Models.CheckLists;
+using PRIME_UCR.Application.Repositories.CheckLists;
 
 namespace PRIME_UCR.Application.Implementations.Multimedia
 {
@@ -17,10 +19,13 @@ namespace PRIME_UCR.Application.Implementations.Multimedia
         //public IFileListEntry file;
         private readonly IMultimediaContentRepository mcRepository;
         private readonly IActionRepository actionRepository;
+        private readonly IMultimediaContentItemRepository mcItemRepository;
 
-        public MultimediaContentService(IMultimediaContentRepository mcRepository, IActionRepository actionRepository) {
+        public MultimediaContentService(IMultimediaContentRepository mcRepository, IActionRepository actionRepository, IMultimediaContentItemRepository mcItemRepository)
+        {
             this.mcRepository = mcRepository;
             this.actionRepository = actionRepository;
+            this.mcItemRepository = mcItemRepository;
         }
 
         public async Task<Accion> AddMultContToAction(int citaId, string nombreAccion, int mcId)
@@ -48,6 +53,20 @@ namespace PRIME_UCR.Application.Implementations.Multimedia
         {
             return await mcRepository.GetByKeyAsync(id);
         }
-       
+
+        public async Task<MultimediaContentItem> AddMultContToCheckListItem(MultimediaContentItem mcItem)
+        {
+            return await mcItemRepository.InsertAsync(mcItem);
+        }
+
+        public async Task<IEnumerable<MultimediaContent>> GetByCheckListItem(int itemId, int listId, string incidentCode)
+        {
+            return await mcItemRepository.GetByCheckListItem(itemId, listId, incidentCode);
+        }
+        public async Task DeleteMultimediaContent(MultimediaContent mcontent)
+        {
+            await mcRepository.DeleteAsync(mcontent.Id);
+        }
+
     }
 }

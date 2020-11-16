@@ -47,10 +47,16 @@ namespace PRIME_UCR.Components.Dashboard.IncidentsGraph
 
             var results = new List<String>();
 
+
             foreach (var incidents in incidentsPerOrigin)
             {
-                var originName = districtData.Where((district) => district.Id == incidents.ToList().First().IdOrigen).First().Nombre;
-                results.Add(originName);
+                var labelName = "No Asignado";
+                var district = districtData.Where((district) => district.Id == incidents.ToList().First().IdOrigen);
+                if (district.Any())
+                {
+                    labelName = district.First().Nombre;
+                }
+                results.Add(labelName);
                 results.Add(incidents.ToList().Count().ToString());
             }
 

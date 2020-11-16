@@ -17,13 +17,13 @@ namespace PRIME_UCR.Application.Implementations.Incidents
         private readonly ITransportUnitRepository _transportUnitRepository;
         private readonly ICoordinadorTécnicoMédicoRepository _coordinatorRepo;
         private readonly IEspecialistaTécnicoMédicoRepository _specialistRepo;
-        private readonly IAssignemntRepository _assignmentRepo;
+        private readonly IAssignmentRepository _assignmentRepo;
         private readonly IIncidentRepository _incidentRepository;
 
         public AssignmentService(ITransportUnitRepository transportUnitRepository,
             ICoordinadorTécnicoMédicoRepository coordinatorRepo,
             IEspecialistaTécnicoMédicoRepository specialistRepo,
-            IAssignemntRepository assignmentRepo,
+            IAssignmentRepository assignmentRepo,
             IIncidentRepository incidentRepository)
         {
             _transportUnitRepository = transportUnitRepository;
@@ -48,12 +48,22 @@ namespace PRIME_UCR.Application.Implementations.Incidents
             return await _specialistRepo.GetAllAsync();
         }
 
+        public async Task<Médico> GetAssignedOriginDoctor(string code)
+        {
+            return await _incidentRepository.GetAssignedOriginDoctor(code);
+        }
+
+        public async Task<Médico> GetAssignedDestinationDoctor(string code)
+        {
+            return await _incidentRepository.GetAssignedDestinationDoctor(code);
+        }
+
         public async Task<AssignmentModel> GetAssignmentsByIncidentIdAsync(string code)
         {
             var incident = await _incidentRepository.GetByKeyAsync(code);
             if (incident == null)
             {
-                throw new ArgumentException("Invalid incidnet code");
+                return null;
             }
 
             var coordinator = await _coordinatorRepo.GetByKeyAsync(incident.CedulaTecnicoCoordinador);
@@ -78,6 +88,41 @@ namespace PRIME_UCR.Application.Implementations.Incidents
             await _assignmentRepo.ClearTeamMembers(code);
             if (model.TeamMembers.Count > 0)
                 await _assignmentRepo.AssignToIncident(code, model.TeamMembers);
+        }
+
+        // checks if the personId belongs to a person assigned to this incident or if this is a coordinator
+        public async Task<bool> IsAuthorizedToViewPatient(string code, string personId)
+        {
+            // creates a list with every authorized person
+            var authorizedPeople = new List<Persona>();
+            bool hasPermission = false;
+            var originDoctor = await _incidentRepository.GetAssignedOriginDoctor(code);
+            if (originDoctor != null)
+            {
+                authorizedPeople.Add(originDoctor);
+            }
+            
+            var destinationDoctor = await _incidentRepository.GetAssignedDestinationDoctor(code);
+            if (destinationDoctor != null)
+            {
+                authorizedPeople.Add(destinationDoctor);
+            }
+            
+            var assignmentModel = await this.GetAssignmentsByIncidentIdAsync(code);
+            var medicalTechs = assignmentModel.TeamMembers;
+            foreach (var m in medicalTechs)
+            {
+                if(m != null)
+                {
+                    authorizedPeople.Add(m);
+                }
+            }
+            if (authorizedPeople.Count() > 0) {
+                // checks if the personId is authorized
+                hasPermission = authorizedPeople.Exists(p => p.Cédula == personId)
+                                       || await _coordinatorRepo.GetByKeyAsync(personId) != null;
+            }
+            return hasPermission;
         }
     }
 }

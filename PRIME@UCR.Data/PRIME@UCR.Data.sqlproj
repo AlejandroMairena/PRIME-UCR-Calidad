@@ -65,6 +65,7 @@
     <Folder Include="Tables\CheckLists" />
     <Folder Include="Tables\" />
     <Folder Include="Triggers" />
+    <Folder Include="Indexes" />
     <Folder Include="StoredProcedures" />
     <Folder Include="StoredProcedures\Incidents\" />
     <Folder Include="Tables\Appointments" />
@@ -73,8 +74,10 @@
     <Folder Include="StoredProcedures\Multimedia" />
     <Folder Include="StoredProcedures\CheckLists" />
     <Folder Include="StoredProcedures\Dashboard" />
+    <Folder Include="Indexes\Incidents\" />
   </ItemGroup>
   <ItemGroup>
+    <Build Include="Indexes\Incidents\ix_incidente_activo.sql" />
     <Build Include="Tables\CheckLists\CheckList.sql" />
     <Build Include="Tables\CheckLists\Item.sql" />
     <Build Include="Tables\Incidents\Pais.sql" />
@@ -138,7 +141,16 @@
     <Build Include="StoredProcedures\Multimedia\ObtenerContenidoMultimediaCita.sql" />
     <Build Include="StoredProcedures\Multimedia\FObtenerContendidoMultimediaCita.sql" />
     <Build Include="StoredProcedures\Incidents\InsertarAccion.sql" />
+    <Build Include="Tables\MedicalRecords\ListaAntecedentes.sql" />
+    <Build Include="Tables\MedicalRecords\Antecedentes.sql" />
+    <Build Include="Tables\MedicalRecords\Alergias.sql" />
+    <Build Include="Tables\MedicalRecords\ListaAlergia.sql" />
+    <Build Include="Tables\CheckLists\InstanceChecklist.sql" />
+    <Build Include="Tables\CheckLists\InstanciaItem.sql" />
+    <Build Include="Tables\CheckLists\TipoListaChequeo.sql" />
+    <Build Include="Tables\CheckLists\MultimediaContentItem.sql" />
     <Build Include="StoredProcedures\Dashboard\GetIncidentsCounter.sql" />
+    <Build Include="Triggers\CheckearItem.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Scripts\Script.PostDeployment.sql" />
@@ -148,5 +160,9 @@
     <None Include="Scripts\PostDeployment\Users_PostDeployment.sql" />
     <None Include="Scripts\PostDeployment\Appointments_PostDeployment.sql" />
     <None Include="Scripts\PostDeployment\MedicalRecords_PostDeployment.sql" />
+    <None Include="Scripts\PostDeployment\Alergies_PostDeployment.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Scripts\PostDeployment\MultimediaContent_PostDeployment.sql" />
   </ItemGroup>
 </Project>

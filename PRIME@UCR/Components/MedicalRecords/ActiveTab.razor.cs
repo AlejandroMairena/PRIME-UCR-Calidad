@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using PRIME_UCR.Application.Dtos.Incidents;
 using PRIME_UCR.Application.DTOs.MedicalRecords;
@@ -12,13 +13,36 @@ namespace PRIME_UCR.Components.MedicalRecords
     public partial class ActiveTab
     {
         [Parameter]
-        public DetailsTab Active { get; set; }    
-        
+        public DetailsTab Active { get; set; }
+
         [Parameter]
         public RecordViewModel Expediente { get; set; }
 
         [Parameter]
-        public EventCallback<IncidentDetailsModel> OnSave { get; set; }
+        public Expediente MedicalRecord { get; set;  }
 
+        [Parameter] 
+        public List<ListaAntecedentes> ListaAntecedentes { get; set; }
+
+        [Parameter] 
+        public List<Antecedentes> Antecedentes { get; set; }
+
+        [Parameter] 
+        public List<Alergias> Alergias { get; set; }
+
+        [Parameter] 
+        public List<ListaAlergia> ListaAlergia { get; set; }
+
+
+        public string get_patient_name()
+        {
+            return MedicalRecord.Paciente.NombreCompleto;
+        }
+
+        public string get_patient_identification()
+        {
+            return MedicalRecord.Paciente.Cédula;
+        }
     }
+
 }

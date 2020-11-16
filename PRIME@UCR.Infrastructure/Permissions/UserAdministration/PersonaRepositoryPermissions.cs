@@ -13,7 +13,7 @@ namespace PRIME_UCR.Infrastructure.Permissions.UserAdministration
         [RequirePermissions(new[] { AuthorizationPermissions.CanManageUsers })]
         public abstract Task DeleteAsync(string cedPersona);
 
-        [RequirePermissions(new[] { AuthorizationPermissions.CanManageUsers })]
+        [RequirePermissions(new[] { AuthorizationPermissions.CanSeeBasicDetailsOfIncidents })]
         public abstract Task<Persona> GetByKeyPersonaAsync(string id);
 
         [RequirePermissions(new[] { AuthorizationPermissions.CanManageUsers })]

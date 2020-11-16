@@ -5,17 +5,18 @@
     am4core.ready(function () {
         var chartData = [];
 
-        incidentsPerDay.forEach((perDayList) => {
-            var date = perDayList[0].cita.fechaHoraEstimada.substring(0, 10);
-            var quantity = perDayList.length;
+        var chartData = [];
 
-            console.log(date, quantity);
+        for (var i = 0; i < incidentsPerDay.length; i += 2) {
+            var date = incidentsPerDay[i];
+            var quantity = incidentsPerDay[i + 1];
+
 
             chartData.push({
                 "date": date,
                 "value": quantity
             });
-        });
+        }
 
         // Themes begin
         am4core.useTheme(am4themes_frozen);

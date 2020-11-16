@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.EntityFrameworkCore;
 using PRIME_UCR.Application.Dtos.Incidents;
 using PRIME_UCR.Components.Incidents.IncidentDetails.Tabs;
+using PRIME_UCR.Domain.Exceptions;
 using PRIME_UCR.Domain.Models;
 
 namespace PRIME_UCR.Pages.Incidents
@@ -14,15 +15,19 @@ namespace PRIME_UCR.Pages.Incidents
     {
         const DetailsTab DefaultTab = DetailsTab.Info;
         
-        [Parameter]
-        public string Code { get; set; }
+        [Parameter] public string Code { get; set; }
+        [Parameter] public string StartingTab { get; set; }
 
         private bool _exists = true;
 
         private readonly List<Tuple<DetailsTab, string>> _tabs = new List<Tuple<DetailsTab, string>>();
-        
-        private DetailsTab _activeTab = DefaultTab;
+
+        private DetailsTab _activeTab;
         private IncidentDetailsModel _incidentModel;
+        private string _statusMessage = "";
+        private string _statusClass = "";
+        public Action ClearStatusMessageCallback { get; set; }
+        public Action<DetailsTab> ChangeActiveTabCallback { get; set; }
 
         private void FillTabStates()
         {
@@ -56,8 +61,43 @@ namespace PRIME_UCR.Pages.Incidents
                     case DetailsTab.Multimedia:
                         _tabs.Add(new Tuple<DetailsTab, string>(DetailsTab.Multimedia, ""));
                         break;
+                    case DetailsTab.Checklist:
+                        _tabs.Add(new Tuple<DetailsTab, string>(DetailsTab.Checklist, ""));
+                        break;
                 }
             }
+        }
+
+        private DetailsTab GetTabByName(string tabName)
+        {
+            switch (tabName)
+            {
+                case "Info":
+                    return DetailsTab.Info;
+                case "Origin":
+                    return DetailsTab.Origin;
+                case "Destination":
+                    return DetailsTab.Destination;
+                case "Patient":
+                    return DetailsTab.Patient;
+                case "Assignment":
+                    return DetailsTab.Assignment;
+                case "Multimedia":
+                    return DetailsTab.Multimedia;
+                case "Checklist":
+                    return DetailsTab.Checklist;
+                default:
+                    return DefaultTab;
+            }
+        }
+        
+        protected override void OnInitialized()
+        {
+            ClearStatusMessageCallback = ClearStatusMessage;
+            ChangeActiveTabCallback = ChangeActiveTab;
+            _activeTab = String.IsNullOrWhiteSpace(StartingTab)
+                ? DefaultTab
+                : GetTabByName(StartingTab);
         }
 
         protected override async Task OnInitializedAsync()
@@ -71,8 +111,31 @@ namespace PRIME_UCR.Pages.Incidents
 
         private async Task Save(IncidentDetailsModel model)
         {
-            _incidentModel = await IncidentService.UpdateIncidentDetailsAsync(model);
+            try
+            {
+                _incidentModel = await IncidentService.UpdateIncidentDetailsAsync(model);
+                _statusMessage = "Se guardaron los cambios exitosamente.";
+                _statusClass = "success";
+            }
+            catch (DomainException e)
+            {
+                _incidentModel = await IncidentService.GetIncidentDetailsAsync(_incidentModel.Code);
+                _statusMessage = e.Message;
+                _statusClass = "danger";
+            }
             FillTabStates();
+        }
+
+        private void ClearStatusMessage()
+        {
+            _statusMessage = "";
+            StateHasChanged();
+        }
+
+        private void ChangeActiveTab(DetailsTab newTab)
+        {
+            _activeTab = newTab;
+            StateHasChanged();
         }
     }
 }

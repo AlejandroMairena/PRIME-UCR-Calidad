@@ -1,5 +1,4 @@
 ﻿function CreateIncidentsVsDestinationLocationComponentJS(results) {
-    console.log(results);
     am4core.ready(function () {
 
 
@@ -9,7 +8,6 @@
             var destination = results[i];
             var quantity = results[i+1];
 
-            console.log(destination, quantity);
 
             chartData.push({
                 "destination": destination,

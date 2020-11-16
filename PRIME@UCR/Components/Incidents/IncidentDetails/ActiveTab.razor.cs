@@ -9,14 +9,11 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails
 {
     public partial class ActiveTab
     {
-        [Parameter]
-        public DetailsTab Active { get; set; }    
-        
-        [Parameter]
-        public IncidentDetailsModel Incident { get; set; }    
-        
-        [Parameter]
-        public EventCallback<IncidentDetailsModel> OnSave { get; set; }
+        [Parameter] public DetailsTab Active { get; set; }    
+        [Parameter] public IncidentDetailsModel Incident { get; set; }    
+        [Parameter] public string StatusMessage { get; set; }
+        [Parameter] public string StatusClass { get; set; }
+        [Parameter] public EventCallback<IncidentDetailsModel> OnSave { get; set; }
 
         private async Task Save()
         {

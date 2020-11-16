@@ -19,11 +19,13 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
     public class CheckListService : ICheckListService
     {
         private readonly ICheckListRepository _checklistRepository;
+        private readonly ICheckListTypeRepository _checkListTypeRepository;
         private readonly IItemRepository _itemRepository;
 
-        public CheckListService(ICheckListRepository checklistRepository, IItemRepository itemRepository)
+        public CheckListService(ICheckListRepository checklistRepository, ICheckListTypeRepository checkListTypeRepository, IItemRepository itemRepository)
         {
             _checklistRepository = checklistRepository;
+            _checkListTypeRepository = checkListTypeRepository;
             _itemRepository = itemRepository;
         }
 
@@ -32,6 +34,12 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
             IEnumerable<CheckList> lists = await _checklistRepository.GetAllAsync();
             return lists.OrderBy(checklist => checklist.Orden);
         }
+
+        public async Task<IEnumerable<TipoListaChequeo>> GetTypes()
+        {
+            return await _checkListTypeRepository.GetAllAsync();
+        }
+
         public async Task<CheckList> InsertCheckList(CheckList list) 
         {
             return await _checklistRepository.InsertCheckListAsync(list);
@@ -40,6 +48,11 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
         public async Task<CheckList> GetById(int id)
         {
             return await _checklistRepository.GetByKeyAsync(id);
+        }
+
+        public async Task<Item> GetItemById(int Id)
+        {
+            return await _itemRepository.GetByKeyAsync(Id);
         }
 
         public async Task<CheckList> UpdateCheckList(CheckList list)

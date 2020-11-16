@@ -34,7 +34,7 @@
             @if (!_saveButtonEnabled)
             {
                 <button disabled type="submit" class="btn btn-primary">Guardar</button>
-                <button disabled class="btn btn-outline-secondary">Descartar</button>
+                <button role="button" @onclick:preventDefault @onclick="@Discard" class="btn btn-outline-secondary">Descartar</button>
             }
             else
             {

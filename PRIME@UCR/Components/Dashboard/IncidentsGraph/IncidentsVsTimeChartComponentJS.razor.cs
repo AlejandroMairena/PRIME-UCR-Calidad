@@ -45,16 +45,19 @@ namespace PRIME_UCR.Components.Dashboard.IncidentsGraph
 
             eventQuantity = incidentsData.Count();
 
-            var incidentsPerDay = incidentsData.GroupBy(i => i.Cita.FechaHoraEstimada.DayOfYear);
+            var incidentsPerDay = incidentsData.GroupBy(i => i.Cita.FechaHoraEstimada.DayOfYear).OrderBy((i) => i.Key);
 
-             var incidentes = new List<List<Incidente>> { };
+            var results = new List<String>();
 
-            foreach (var incident in incidentsPerDay)
+            foreach (var incidents in incidentsPerDay)
             {
-                incidentes.Add( incident.ToList());
+                var date = incidents.First().Cita.FechaHoraEstimada.ToString().Substring(0, 10);
+                results.Add(date);
+                results.Add(incidents.ToList().Count().ToString());
             }
 
-            await JS.InvokeVoidAsync("CreateIncidentsVsTimeChartComponent", (object)incidentes);
+
+            await JS.InvokeVoidAsync("CreateIncidentsVsTimeChartComponent", (object)results);
         }
 
         void ShowModal()

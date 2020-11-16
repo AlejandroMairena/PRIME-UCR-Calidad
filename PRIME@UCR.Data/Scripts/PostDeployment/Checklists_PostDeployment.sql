@@ -1,8 +1,26 @@
 ﻿DELETE FROM CheckList
 DELETE FROM Item
+DELETE FROM InstanceChecklist
+DELETE FROM InstanciaItem
+DELETE FROM TipoListaChequeo
 
 DBCC CHECKIDENT ('CheckList', RESEED, 0)
 DBCC CHECKIDENT ('Item', RESEED, 0)
+
+insert into TipoListaChequeo(Nombre)
+Values('Colocación equipo');
+
+insert into TipoListaChequeo(Nombre)
+Values('Retiro equipo');
+
+insert into TipoListaChequeo(Nombre)
+Values('Paciente en origen');
+
+insert into TipoListaChequeo(Nombre)
+Values('Paciente en destino');
+
+insert into TipoListaChequeo(Nombre)
+Values('Paciente en traslado');
 
 insert into CheckList(Nombre, Tipo, Descripcion, Orden)
 Values('Salida de Paciente de la Unidad de Internamiento', 'Paciente en origen', 'Se debe realizar al pie de la cama del usuario, previa salida Unidad de Hospitalización', 1);

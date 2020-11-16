@@ -9,6 +9,8 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data.SqlClient;
+using RepoDb;
 
 namespace PRIME_UCR.Infrastructure.Repositories.Sql.CheckLists
 {
@@ -38,30 +40,22 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.CheckLists
 
         public async Task<Item> InsertCheckItemAsync(Item tempitem)
         {
-            return await Task.Run(() =>
+            await using var connection = new SqlConnection(_db.DbConnection.ConnectionString);
+            var parameters = new Dictionary<string, object>
             {
-            // raw sql
-            using (var cmd = _db.DbConnection.CreateCommand())
-            {
-                if (cmd.Connection.State == ConnectionState.Closed)
-                {
-                    cmd.Connection.Open();
-                }
-                    if (tempitem.IDSuperItem == null)
-                    {
-                        cmd.CommandText =
-                        $"EXECUTE dbo.InsertarItemEnListaDeChequeo @nombre = '{tempitem.Nombre}', @imagenDescriptiva = '{tempitem.ImagenDescriptiva}', @descripcion = '{tempitem.Descripcion}', @orden = '{tempitem.Orden}', @IdSuperItem = NULL, @IdLista = '{tempitem.IDLista}'";
-                    }
-                    else {
-                        cmd.CommandText =
-                        $"EXECUTE dbo.InsertarItemEnListaDeChequeo @nombre = '{tempitem.Nombre}', @imagenDescriptiva = '{tempitem.ImagenDescriptiva}', @descripcion = '{tempitem.Descripcion}', @orden = '{tempitem.Orden}', @IdSuperItem = '{tempitem.IDSuperItem}', @IdLista = '{tempitem.IDLista}'";
+                {"nombre", tempitem.Nombre},
+                {"imagenDescriptiva", tempitem.ImagenDescriptiva},
+                {"descripcion", tempitem.Descripcion},
+                {"orden", tempitem.Orden},
+                {"IdSuperItem", tempitem.IDSuperItem},
+                {"IdLista", tempitem.IDLista},
+            };
+            var result = await connection.ExecuteScalarAsync(
+                "dbo.InsertarItemEnListaDeChequeo", parameters, CommandType.StoredProcedure);
 
-                    }
+            tempitem.Id = int.Parse(s: result.ToString());
 
-                    tempitem.Id = int.Parse(s: cmd.ExecuteScalar().ToString());
-                }
-                return tempitem;
-            });
+            return tempitem;
         }
     }
 }

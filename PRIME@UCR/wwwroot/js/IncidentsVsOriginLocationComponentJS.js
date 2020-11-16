@@ -1,5 +1,4 @@
 ﻿function CreateIncidentsVsOriginLocationComponentJS(results) {
-    console.log(results);
     am4core.ready(function () {
 
 
@@ -8,8 +7,6 @@
         for (var i = 0; i < results.length; i+=2) {
             var origin = results[i];
             var quantity = results[i+1];
-
-            console.log(origin, quantity);
 
             chartData.push({
                 "origin": origin,
