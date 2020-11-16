@@ -211,5 +211,21 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
             Assert.NotNull(result);
             Assert.Equal(1, result.Id);
         }
+
+        [Fact]
+        public async Task GetProvincesByCountryNameReturnsEmpty()
+        {
+            /* Invalid Country name test case ->
+             * returns empty list because the Country doesnt exist
+            */
+            var mockRepo = new Mock<IProvinceRepository>();
+            var data = new List<Provincia>();
+            mockRepo
+                .Setup(r => r.GetProvincesByCountryNameAsync("pais inválido"))
+                .Returns(Task.FromResult<IEnumerable<Provincia>>(data));
+            var service = new LocationService(null, mockRepo.Object, null, null, null);
+            var result = await service.GetProvincesByCountryNameAsync("pais inválido");
+            Assert.Empty(result);
+        }
     }
 }

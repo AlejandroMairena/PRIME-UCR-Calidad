@@ -6,5 +6,8 @@ namespace PRIME_UCR.Application.Exceptions.UserAdministration
 {
     public class NotAuthorizedException : Exception
     {
+        public NotAuthorizedException(string message) : base(message)
+        {
+        }
     }
 }
