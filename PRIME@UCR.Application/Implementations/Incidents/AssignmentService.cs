@@ -138,6 +138,6 @@ namespace PRIME_UCR.Application.Implementations.Incidents
         }
 
     }
-        [MetadataType(typeof(AssignmentServiceAuthorization))]
-        public partial class AssignmentService { }
+    [MetadataType(typeof(AssignmentServiceAuthorization))]
+    public partial class AssignmentService { }
 }
