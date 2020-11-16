@@ -6,7 +6,8 @@
 @attribute [Authorize]
 @inject IMedicalRecordService MedicalRecordService
 @inject IMedicalBackgroundService MedicalBackgroundService
-@inject IAlergyService AlergyService
+@inject IAlergyService AllergyService
+@inject IChronicConditionService ChronicConditionService
 @inject NavigationManager NavigationManager
 
 <h1>Detalles del expediente</h1>
@@ -19,21 +20,23 @@
 
 @if (exists)
 {
-<Loading IsLoading="viewModel == null">
-    <div class="row">
-        <div class="col-lg-2 mb-4">
-            <TabMenu Tabs="_tabs" DefaultTab="DefaultTab" IsVertical="true" @bind-Value="_activeTab" />
+    <Loading IsLoading="viewModel == null">
+        <div class="row">
+            <div class="col-lg-2 mb-4">
+                <TabMenu Tabs="_tabs" DefaultTab="DefaultTab" IsVertical="true" @bind-Value="_activeTab" />
+            </div>
+            <div class="col">
+                <ActiveTab Active="@_activeTab" Expediente="@viewModel"
+                           MedicalRecord="@medical_record_with_details"
+                           Alergias="@alergias"
+                           Antecedentes="@antecedentes"
+                           PadecimientosCronicos="@PadecimientosCronicos"
+                           ListaAntecedentes="@ListaAntecedentes"
+                           ListaAlergia="@ListaAlergias"
+                           ListaPadecimiento="@ListaPadecimiento" />
+            </div>
         </div>
-        <div class="col">
-            <ActiveTab Active="@_activeTab" Expediente="@viewModel"
-                       MedicalRecord="@medical_record_with_details"
-                       Alergias="@alergias"
-                       Antecedentes="@antecedentes"
-                       ListaAntecedentes="@ListaAntecedentes"
-                       ListaAlergia="@ListaAlergias" />
-        </div>
-    </div>
-</Loading>
+    </Loading>
 }
 else
 {

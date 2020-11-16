@@ -18,17 +18,23 @@ namespace PRIME_UCR.Components.MedicalRecords.Tabs
         [Parameter] public List<ListaAntecedentes> ListaAntecedentes { get; set; }
         [Parameter] public List<Alergias> Alergias { get; set; }
         [Parameter] public List<ListaAlergia> ListaAlergia { get; set; }
+        [Parameter] public List<PadecimientosCronicos> PadecimientosCronicos { get; set; }
+        [Parameter] public List<ListaPadecimiento> ListaPadecimiento { get; set; }
         [Parameter] public int idExpediente { get; set; }
         private EditContext _contAnte;
         private EditContext _contAle;
+        private EditContext _contCond;
 
         public ListaAntecedentes antecedentePrueba;
         public ListaAlergia AlergiaPrueba;
+        public ListaPadecimiento PadecimientoPrueba;
 
         private bool backgroundAlreadyAdded; 
         private bool showBackground;
         private bool allergyAlreadyAdded;
         private bool showAllergy;
+        private bool ChronicConditionAlreadyAdded;
+        private bool showChronicCondition;
 
         MatTheme AddButtonTheme = new MatTheme()
         {
@@ -40,10 +46,13 @@ namespace PRIME_UCR.Components.MedicalRecords.Tabs
         {
             _contAnte = new EditContext(ListaAntecedentes);
             _contAle = new EditContext(ListaAlergia);
+            _contCond = new EditContext(ListaPadecimiento);
             showBackground = false;
             showAllergy = false;
             backgroundAlreadyAdded = false;
             allergyAlreadyAdded = false;
+            showChronicCondition = false;
+            ChronicConditionAlreadyAdded = false;
     }
 
         private void showBackgroundOptions()
@@ -56,6 +65,31 @@ namespace PRIME_UCR.Components.MedicalRecords.Tabs
             {
                 showBackground = true;
             }
+        }
+
+        private void showChronicConditionOptions()
+        {
+            if (showChronicCondition)
+            {
+                showChronicCondition = false;
+            }
+            else
+            {
+                showChronicCondition = true;
+            }
+        }
+
+        private bool ifExistsChronicCondition(int id)
+        {
+            bool result = false;
+            for (int i = 0; i < PadecimientosCronicos.Count && !result; ++i)
+            {
+                if (PadecimientosCronicos[i].IdListaPadecimiento == id)
+                {
+                    result = true;
+                }
+            }
+            return result;
         }
 
         private bool ifExistsBackground(int id)
@@ -93,7 +127,8 @@ namespace PRIME_UCR.Components.MedicalRecords.Tabs
                     Antecedentes background = new Antecedentes()
                     {
                         IdListaAntecedentes = antecedentePrueba.Id,
-                        IdExpediente = idExpediente
+                        IdExpediente = idExpediente,
+                        FechaCreacion = DateTime.Now
                     };
                     showBackground = false;
                     backgroundAlreadyAdded = false;
@@ -117,7 +152,8 @@ namespace PRIME_UCR.Components.MedicalRecords.Tabs
                     Alergias allergy = new Alergias()
                     {
                         IdListaAlergia = AlergiaPrueba.Id,
-                        IdExpediente = idExpediente
+                        IdExpediente = idExpediente,
+                        FechaCreacion = DateTime.Now
                     };
                     showAllergy = false;
                     allergyAlreadyAdded = false;
@@ -127,6 +163,30 @@ namespace PRIME_UCR.Components.MedicalRecords.Tabs
                 else
                 {
                     allergyAlreadyAdded = true;
+                }
+            }
+        }
+
+        private async Task insertChronicCondition()
+        {
+            if (PadecimientoPrueba != null)
+            {
+                if (!ifExistsChronicCondition(PadecimientoPrueba.Id))
+                {
+                    PadecimientosCronicos ChronicCondition = new PadecimientosCronicos()
+                    {
+                        IdListaPadecimiento = PadecimientoPrueba.Id,
+                        IdExpediente = idExpediente,
+                        FechaCreacion = DateTime.Now
+                    };
+                    showChronicCondition = false;
+                    ChronicConditionAlreadyAdded = false;
+                    await ChronicConditionService.InsertChronicConditionAsync(ChronicCondition);
+                    PadecimientosCronicos = (await ChronicConditionService.GetChronicConditionByRecordId(idExpediente)).ToList();
+                }
+                else
+                {
+                    ChronicConditionAlreadyAdded = true;
                 }
             }
         }

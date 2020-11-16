@@ -18,12 +18,13 @@
         <ListItem Title="Cédula del paciente" Text="@get_patient_identification()" />
         <hr />
         <MedicalBackgroundTab Antecedentes="@Antecedentes"
-                              Alergias="@Alergias"
-                              ListaAntecedentes="@ListaAntecedentes"
+                              Alergias="@Alergias" 
+                              PadecimientosCronicos="@PadecimientosCronicos"
+                              ListaAntecedentes="@ListaAntecedentes" 
                               ListaAlergia="@ListaAlergia"
-                              idExpediente="@Expediente.IdExpediente" />
-    }
-    else
+                              ListaPadecimiento="@ListaPadecimiento"
+                              idExpediente="@Expediente.IdExpediente"/>
+    }else
     {
         <h4 class="text-danger">Not found</h4>
     }
