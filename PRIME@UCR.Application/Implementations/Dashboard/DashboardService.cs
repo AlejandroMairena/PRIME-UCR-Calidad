@@ -72,6 +72,13 @@ namespace PRIME_UCR.Application.Implementations.Dashboard
                 var disctrictID = Value.HouseholdOriginFilter.District.Id;
                 filteredList = filteredList.Where((incident) => disctrictID == incident.IdOrigen).ToList();
             }
+            
+            //Destination
+            if (Value.MedicalCenterDestination.MedicalCenter != null)
+            {
+                var IdMedicalDestination = Value.MedicalCenterDestination.MedicalCenter.Id;
+                filteredList = filteredList.Where((incident) => incident.IdDestino == IdMedicalDestination).ToList();
+            }
 
             // State
             if (Value.StateFilter != null && Value.StateFilter.Nombre != String.Empty)
@@ -79,20 +86,6 @@ namespace PRIME_UCR.Application.Implementations.Dashboard
                 var state = Value.StateFilter.Nombre;
                 filteredList = filteredList.Where((incident) => incident.EstadoIncidentes.Exists(i => i.NombreEstado == state)).ToList();
             }
-
-            /*Destination
-            if (Value.HouseholdOriginFilter.District != null)
-            {
-                var disctrictID = Value.HouseholdOriginFilter.District.Id;
-                filteredList = filteredList.Where((incident) => disctrictID == incident.IdOrigen).ToList();
-            }*/
-
-            /*
-            if (Value.HouseholdOriginFilter != null)
-            {
-                var disctrictID = Value.MedicalCenterDestination.i;
-                filteredList = filteredList.Where((incident) => disctrictID == incident.Origen.Id).ToList();
-            }*/
 
             return filteredList;
         }
