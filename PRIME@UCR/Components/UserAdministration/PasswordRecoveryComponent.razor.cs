@@ -47,7 +47,7 @@ namespace PRIME_UCR.Components.UserAdministration
                 {
                     Destination = EmailModel.Email,
                     Subject = "PRIME@UCR: Recuperar contraseña",
-                    Body = $"<h1>PRIME@UCR</h1>  <h2>Restablecer contraseña</h2> <p>Para restablecer la contraseña presione <a href=\"{url}\">aquí</a>. </p>"
+                    Body = $"<p>Estimado usuario, para recuperar la contraseña presione <a href=\"{url}\">aquí</a>. </p>"
                 };
                 await MailService.SendEmailAsync(emailContent);
                 EmailModel.Email = String.Empty;
