@@ -42,9 +42,9 @@
                             </div>
                             <div class="col-sm-1">
                                 @*
-                                     User Story PIG01IIC20-267 LG - Agregar imagen descriptiva a lista de chequeo
-                                    Calls a component to upload images into the checklist
-                                    <LoadImageComponent @bind-list="@list" />*@
+                     User Story PIG01IIC20-267 LG - Agregar imagen descriptiva a lista de chequeo
+                    Calls a component to upload images into the checklist
+                    <LoadImageComponent @bind-list="@list" />*@
                                 <img src="@list.ImagenDescriptiva" width="50" height="50" />
                             </div>
                         </div>
@@ -64,32 +64,29 @@
                             </span>
                         </div>
                     </div>
-                    <p style="margin-top: 0px;">
-
-                        Estado de la lista: @stateInstanceList <br /> @*to change*@
-                        @*Probar
-                            <br />
-                            @if (@itemsInstance.FirstOrDefault(x => x.FechaHoraInicio != null) != null)
-                               {
-                            <a> Fecha-hora de inicio: @itemsInstance.FirstOrDefault(x => x.FechaHoraInicio != null).FechaHoraInicio</a>
-                            }
-                            else
-                            {
-                               <a>Fecha - hora de inicio:</a>
-                               }
-
-                                           <br />
-                               Fecha-hora de finalizada:  @itemsInstance.Last().FechaHoraInicio
-                                <br />
-
-                        *@
-                        Fecha-hora de inicio: @StartTime <br />
-                        Fecha-hora de finalizada:  @EndTime <br />
+                    <div class="input-group row">
+                        <label for="state" class="col-sm-3 col-form-label"><span style="color:black">Estado de la lista:</span></label>
+                        <div class="col-sm-3">
+                            <p style="margin-bottom: 0px; margin-top: 1px;">@stateInstanceList</p>
+                        </div>
+                        <label for="inicio" class="col-sm-3 col-form-label"><span style="color:black">Fecha-hora  inicio: </span></label>
+                        <div class="col-sm-4">
+                            <p style="margin-bottom: 0px; margin-top: 1px;">@StartTime</p>
+                        </div>
+                    </div>
+                    <div class="input-group row">
+                        <label for="fin" class="col-sm-3 col-form-label"><span style="color:black">Fecha-hora finalizada:</span></label>
+                        <div class="col-sm-4">
+                            <p style="margin-bottom: 0px; margin-top: 1px;">@EndTime</p>
+                        </div>
                         @if (EndTime != "")
                         {
-                            @MyDuration
+                            <label for="Duración" class="col-sm-2 col-form-label"><span style="color:black">Duración:</span></label>
+                            <div class="col-sm-4">
+                                <p style="margin-bottom: 0px; margin-top: 1px;">@MyDuration</p>
+                            </div>
                         }
-                    </p>
+                    </div>
                     <h5> Items de la lista de chequeo</h5>
                     <SummaryMessage Content="states" Values="details" Class="info" /> @*checklist in incident state*@
                     <div id="Body_LC">
