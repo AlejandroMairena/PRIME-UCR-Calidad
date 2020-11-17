@@ -17,9 +17,14 @@ namespace PRIME_UCR.Components.UserAdministration
         [Inject]
         public AuthenticationStateProvider MyAuthenticationStateProvider { get; set; }
 
+        [Inject]
+        public UserManager<Usuario> UserManager { get; set; }
+
         public LogInModel logInInfo;
 
         string invalidUser = "hide";
+
+        string notRegistered = "hide";
 
         EditContext _context;
 
@@ -51,22 +56,39 @@ namespace PRIME_UCR.Components.UserAdministration
         {
             isBusy = true;
             await Task.Delay(1000); //Testing loading indicator
-            //DB
-            // var authResult = await SignInManager.PasswordSignInAsync(usuario.Email, usuario.PasswordHash, true, true);
-            var result = await ((CustomAuthenticationStateProvider)MyAuthenticationStateProvider).AuthenticateLogin(logInInfo);
 
-            if(result == false)
+            var result = false;
+            
+            var isValidated = await UserManager.FindByEmailAsync(logInInfo.Correo);
+            if(isValidated != null)
+            {
+                if (isValidated.EmailConfirmed)
+                {
+                    result = await ((CustomAuthenticationStateProvider)MyAuthenticationStateProvider).AuthenticateLogin(logInInfo);
+
+                    if (result == false)
+                    {
+                        notRegistered = "hide";
+                        invalidUser = "show";
+                    } 
+                    else
+                    {
+                        await sessionStorage.SetItemAsync("emailAddress",logInInfo.Correo);
+                    }
+                }
+                else
+                {
+                    invalidUser = "hide";
+                    notRegistered = "show";
+                }
+            } 
+            else
             {
                 invalidUser = "show";
+                notRegistered = "hide";
             }
-
-            await sessionStorage.SetItemAsync("emailAddress",logInInfo.Correo);
-
             isBusy = false;
             return await Task.FromResult(result);
-        }
-        
-           
-        
+        }  
     }
 }

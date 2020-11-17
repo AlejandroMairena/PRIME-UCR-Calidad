@@ -5,11 +5,11 @@ namespace PRIME_UCR.Components.MedicalRecords
 {
     public enum DetailsTab
     {
-        [Description("Informacion general")]
+        [Description("Información general")]
         Info,
         [Description("Citas anteriores")]
         Appointments,
-        [Description("Antecedentes Medicos y Alergias")]
+        [Description("Antecedentes Médicos, Alergias y Padecimientos crónicos")]
         MedicalBackgroundTab
     }
 }

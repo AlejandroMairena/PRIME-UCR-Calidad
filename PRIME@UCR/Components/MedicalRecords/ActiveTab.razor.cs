@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using PRIME_UCR.Application.Dtos.Incidents;
 using PRIME_UCR.Application.DTOs.MedicalRecords;
+using PRIME_UCR.Components.Incidents.IncidentDetails.Constants;
 using PRIME_UCR.Components.Incidents.IncidentDetails.Tabs;
 using PRIME_UCR.Domain.Models;
 using PRIME_UCR.Domain.Models.MedicalRecords;
@@ -37,6 +38,8 @@ namespace PRIME_UCR.Components.MedicalRecords
 
         [Parameter]
         public List<ListaPadecimiento> ListaPadecimiento { get; set; }
+        [Parameter]
+        public Cita UltimaCita { get; set; }
 
 
         public string get_patient_name()

@@ -38,6 +38,7 @@ namespace PRIME_UCR.Application
             services.AddTransient<IMedicalBackgroundService, MedicalBackgroundService>();
             services.AddTransient<IAlergyService, AlergyService>();
             services.AddTransient<IChronicConditionService, ChronicConditionService>();
+            services.AddTransient<IAppointmentService, AppointmentService>();
             // multimedia
             services.AddTransient<IMultimediaContentService, MultimediaContentService>();
             services.AddTransient<IEncryptionService, EncryptionService>();
@@ -56,10 +57,10 @@ namespace PRIME_UCR.Application
             services.AddTransient<IAssignmentService, AssignmentService>();
             services.AddTransient<IAppointmentService, AppointmentService>();
             services.AddTransient<IAuthenticationService, AuthenticationService>();
-            services.AddTransient<IPrimeSecurityService, PrimeSecurityService>();
-            //Dashboard 
+            //Dashboard
             services.AddTransient<IDashboardService, DashboardService>();
 
+            services.AddTransient<IMailService, MailService>();
             return services;
         }
     }
