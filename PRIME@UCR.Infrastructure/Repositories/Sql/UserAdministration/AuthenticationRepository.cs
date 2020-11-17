@@ -104,8 +104,11 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
                 ", new { Email = email });
 
                 var user = returnedValue.Extract<Usuario>().FirstOrDefault();
-                user.UsuariosYPerfiles = returnedValue.Extract<Pertenece>().AsList();
-                user.Persona = returnedValue.Extract<Persona>().FirstOrDefault();
+                if(user != null)
+                {
+                    user.UsuariosYPerfiles = returnedValue.Extract<Pertenece>().AsList();
+                    user.Persona = returnedValue.Extract<Persona>().FirstOrDefault();
+                }
                 return user;
             }
         }
