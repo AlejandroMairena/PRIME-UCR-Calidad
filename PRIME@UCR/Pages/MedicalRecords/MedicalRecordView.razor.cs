@@ -11,6 +11,8 @@ using System.Linq;
 using PRIME_UCR.Application.Services.MedicalRecords;
 using Microsoft.EntityFrameworkCore;
 using PRIME_UCR.Application.Implementations.MedicalRecords;
+using PRIME_UCR.Domain.Models;
+using PRIME_UCR.Components.MedicalRecords.Constants;
 
 namespace PRIME_UCR.Pages.MedicalRecords
 {
@@ -47,6 +49,10 @@ namespace PRIME_UCR.Pages.MedicalRecords
 
         private List<ListaPadecimiento> ListaPadecimiento;
 
+        private Cita lastAppointment = new Cita();
+
+        public RecordSummary Summary;
+
 
         Expediente medical_record_with_details { get; set; }
 
@@ -76,7 +82,8 @@ namespace PRIME_UCR.Pages.MedicalRecords
         {
             int identification = Int32.Parse(Id);
             viewModel = await MedicalRecordService.GetIncidentDetailsAsync(identification);
-
+            Summary = new RecordSummary();
+            Summary.LoadValues(viewModel);
             //Get all background item related to a record by its id
             antecedentes = (await MedicalBackgroundService.GetBackgroundByRecordId(identification)).ToList();
             //Get all alergies related to a record by its id
@@ -91,6 +98,8 @@ namespace PRIME_UCR.Pages.MedicalRecords
             ListaPadecimiento = (await ChronicConditionService.GetAll()).ToList();
             //Get all dates related to the medical record. 
             medical_record_with_details = await MedicalRecordService.GetMedicalRecordDetailsLinkedAsync(identification);
+            //Get last appointment
+            lastAppointment = await AppointmentService.GetLastAppointmentDateAsync(identification);
 
             if (viewModel == null)
                 exists = false;
