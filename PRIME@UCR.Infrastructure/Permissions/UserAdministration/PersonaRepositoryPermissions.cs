@@ -11,6 +11,9 @@ namespace PRIME_UCR.Infrastructure.Permissions.UserAdministration
     public abstract class PersonaRepositoryAuthorization
     {
         [RequirePermissions(new[] { AuthorizationPermissions.CanManageUsers })]
+        public abstract Task<Persona> GetByCedPersonaAsync(string ced);
+        
+        [RequirePermissions(new[] { AuthorizationPermissions.CanManageUsers })]
         public abstract Task DeleteAsync(string cedPersona);
 
         [RequirePermissions(new[] { AuthorizationPermissions.CanSeeBasicDetailsOfIncidents })]
