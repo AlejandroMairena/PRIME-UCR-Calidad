@@ -18,7 +18,6 @@ using Microsoft.AspNetCore.Components.Authorization;
 using PRIME_UCR.Infrastructure.Repositories.Sql.MedicalRecords;
 using PRIME_UCR.Application.Services.Dashboard;
 using PRIME_UCR.Application.Implementations.Dashboard;
-using PRIME_UCR.Infrastructure.Repositories.Sql.MedicalRecords;
 
 namespace PRIME_UCR.Application
 {
