@@ -27,7 +27,7 @@ namespace PRIME_UCR.Application.Permissions.CheckLists
         [RequirePermissions(new AuthorizationPermissions[] { AuthorizationPermissions.CanInstantiateChecklist })]
         public abstract Task<InstanciaItem> InsertInstanceItem(InstanciaItem instanceItem);
 
-        [RequirePermissions(new AuthorizationPermissions[] { AuthorizationPermissions.CanCheckItemsInChecklists })]
+        [RequirePermissions(new AuthorizationPermissions[] { AuthorizationPermissions.CanManageIncidentChecklists })]
         public abstract Task<InstanciaItem> UpdateItemInstance(InstanciaItem item);
     }
 }
