@@ -18,5 +18,10 @@ namespace PRIME_UCR.Components.Dashboard
             Value = new FilterModel();
             await ValueChanged.InvokeAsync(Value);
         }
+
+        private async Task ApplyFilters()
+        {
+            await ValueChanged.InvokeAsync(Value);
+        }
     }
 }

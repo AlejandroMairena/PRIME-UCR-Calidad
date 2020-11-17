@@ -20,6 +20,7 @@ namespace PRIME_UCR.Components.Dashboard.Filters
         private List<Estado> _stateTypes;
         private bool _isLoading = true;
         private bool _changesMade = false;
+
         protected override async Task OnInitializedAsync()
         {                    
             _stateTypes = (await StateService.GetAllStates()).ToList();
@@ -37,14 +38,16 @@ namespace PRIME_UCR.Components.Dashboard.Filters
                 _changesMade = true;
             }
             Value._selectedState = state;
-            await ValueChanged.InvokeAsync(Value);
+            //await ValueChanged.InvokeAsync(Value);
         }
+
         private async Task Discard()
         {
             _changesMade = false;
             Value._selectedState = Value.StateFilter;
             await ValueChanged.InvokeAsync(Value);
         }
+
         private async Task Save()
         {
             StateHasChanged();
