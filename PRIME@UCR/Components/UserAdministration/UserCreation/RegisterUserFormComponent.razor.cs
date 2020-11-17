@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace PRIME_UCR.Components.UserAdministration
+namespace PRIME_UCR.Components.UserAdministration.UserCreation
 {
     public partial class RegisterUserFormComponent
     {
