@@ -44,12 +44,12 @@ namespace PRIME_UCR.Components
                     return usersUrl;
                 case "Listas de chequeo":
                     return checklistUrl;
-                case "Traslados":
+                case "Incidentes":
                     return incidentUrl;
                 default:
                     return null;
             }
-                
+
         }
 
         protected override void OnInitialized()
@@ -89,7 +89,7 @@ namespace PRIME_UCR.Components
 
         private void showIncidentsMenu()
         {
-            moduleToShow = "Traslados";
+            moduleToShow = "Incidentes";
             showIncidents = "hide";
             showMedicalRecords = showUserAdmin = showCheckList = showDashboard = "show";
             classOfModule = "oi oi-map";

@@ -12,6 +12,9 @@ namespace PRIME_UCR.Application.Permissions.UserAdministration
 
     public abstract class PersonServiceAuthorization
     {
+        [RequirePermissions(new[] { AuthorizationPermissions.CanManageUsers })]
+        public abstract Task<Persona> GetPersonByCedAsync(string ced);
+
         [RequirePermissions(new[] { AuthorizationPermissions.CanSeeBasicDetailsOfIncidents })]
         public abstract Task<Persona> GetPersonByIdAsync(string id);
 
