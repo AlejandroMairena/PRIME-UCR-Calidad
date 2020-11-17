@@ -27,10 +27,29 @@ namespace PRIME_UCR.Application.Implementations.Multimedia
             SetKeyIV(ivByte, keyByte);
         }
 
-        public void SetKeyIV(byte [] iv, byte [] key) {
+        public void SetKeyIV(byte[] iv, byte[] key) {
             Key = key;
             IV = iv;
         }
+        public byte[] generateKey() {
+            byte[] generatedKey = null;
+            using (RijndaelManaged myRijndael = new RijndaelManaged())
+            {
+                myRijndael.GenerateKey();
+                generatedKey = myRijndael.Key;
+            }
+            return generatedKey;
+        }
+        public byte[] generateIV(){
+            byte[] generatedIV = null;
+            using (RijndaelManaged myRijndael = new RijndaelManaged())
+            {
+                myRijndael.GenerateIV();
+                generatedIV = myRijndael.IV;
+            }
+            return generatedIV;
+        }
+
         public string FiletoString(string path) {
             string fileString = "";
             if (File.Exists(path)) {

@@ -3,24 +3,27 @@
 <div class="container">
     @if (Active == DetailsTab.Info)
     {
-        <GeneralInfoTab record="@Expediente" />
+        <GeneralInfoTab record="@Expediente"
+                        LastAppointment="@UltimaCita" />
     }
     else if (Active == DetailsTab.Appointments)
     {
-        <ListItem Title="Paciente" Text="@get_patient_name()" />
-        <ListItem Title="Cédula del paciente" Text="@get_patient_identification()" />
+        @*<ListItem Title="Paciente" Text="@get_patient_name()" />
+            <ListItem Title="Cédula del paciente" Text="@get_patient_identification()" />*@
         <hr />
         <Appointments medical_record="@MedicalRecord" />
     }
     else if (Active == DetailsTab.MedicalBackgroundTab)
     {
-        <ListItem Title="Paciente" Text="@get_patient_name()" />
-        <ListItem Title="Cédula del paciente" Text="@get_patient_identification()" />
+        @*<ListItem Title="Paciente" Text="@get_patient_name()" />
+        <ListItem Title="Cédula del paciente" Text="@get_patient_identification()" />*@
         <hr />
         <MedicalBackgroundTab Antecedentes="@Antecedentes"
                               Alergias="@Alergias"
+                              PadecimientosCronicos="@PadecimientosCronicos"
                               ListaAntecedentes="@ListaAntecedentes"
                               ListaAlergia="@ListaAlergia"
+                              ListaPadecimiento="@ListaPadecimiento"
                               idExpediente="@Expediente.IdExpediente" />
     }
     else

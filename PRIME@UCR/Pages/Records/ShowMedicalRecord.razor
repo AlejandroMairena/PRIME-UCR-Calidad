@@ -16,13 +16,10 @@
 
 <Loading IsLoading="medical_records == null">
     <Table TableItem="Expediente" Items="medical_records" PageSize="@page_size" @ref="MedicalRecordsModel" ColumnReorder="true" ShowSearchBar="true" class="table table-bordered">
-        <Column TableItem="Expediente" Title="Numero Expediente" Field="@(x => x.Id)" Width="20%">
-            <Template>
-                <a href="@get_record_link(context.Id)">@context.Id</a>
-            </Template>
-        </Column>
-
         <Column TableItem="Expediente" Title="Cédula" Field="@(x => x.CedulaPaciente)" Width="20%">
+            <Template>
+                <a href="@get_record_link(context.Id)">@context.CedulaPaciente</a>
+            </Template>
         </Column>
 
         <Column TableItem="Expediente" Title="Nombre" Field="@(x => x.Paciente.Nombre)" Width="20%">
@@ -41,8 +38,9 @@
         </EmptyDataTemplate>
 
         <Pager ShowPageNumber="true" ShowTotalCount="true" />
-        <PaginationDropdown changeSize="size_changed" MaxElements="medical_records.Count"> </PaginationDropdown>
     </Table>
+        <PaginationDropdown changeSize="size_changed" MaxElements="medical_records.Count"> </PaginationDropdown>
+    
 </Loading>
 
 

@@ -6,7 +6,9 @@
 @attribute [Authorize]
 @inject IMedicalRecordService MedicalRecordService
 @inject IMedicalBackgroundService MedicalBackgroundService
-@inject IAlergyService AlergyService
+@inject IAlergyService AllergyService
+@inject IAppointmentService AppointmentService 
+@inject IChronicConditionService ChronicConditionService
 @inject NavigationManager NavigationManager
 
 <h1>Detalles del expediente</h1>
@@ -20,6 +22,9 @@
 @if (exists)
 {
 <Loading IsLoading="viewModel == null">
+    @if (Summary != null) {
+    <SummaryMessage Content="Summary.Content" Values="Summary.Values" Class="info" />
+    }
     <div class="row">
         <div class="col-lg-2 mb-4">
             <TabMenu Tabs="_tabs" DefaultTab="DefaultTab" IsVertical="true" @bind-Value="_activeTab" />
@@ -29,8 +34,11 @@
                        MedicalRecord="@medical_record_with_details"
                        Alergias="@alergias"
                        Antecedentes="@antecedentes"
+                       PadecimientosCronicos="@PadecimientosCronicos"
                        ListaAntecedentes="@ListaAntecedentes"
-                       ListaAlergia="@ListaAlergias" />
+                       ListaAlergia="@ListaAlergias"
+                       ListaPadecimiento="@ListaPadecimiento"
+                       UltimaCita="@lastAppointment" />
         </div>
     </div>
 </Loading>

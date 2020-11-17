@@ -18,7 +18,8 @@ namespace PRIME_UCR.Application.Services.Multimedia
         public string FiletoString(string path);
         public byte[] FileToByteArray(string path);
         public bool StringToFile(string filePath, string decryptedString);
-
         public void SetKeyIV(byte[]iv,byte[]key);
+        public byte[] generateKey();
+        public byte[] generateIV();
     }
 }

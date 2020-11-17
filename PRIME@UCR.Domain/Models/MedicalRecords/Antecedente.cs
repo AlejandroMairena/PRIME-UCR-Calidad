@@ -9,6 +9,7 @@ namespace PRIME_UCR.Domain.Models.MedicalRecords
     {
         public int IdExpediente { get; set; }
         public int IdListaAntecedentes { get; set; }
+        public DateTime FechaCreacion { get; set; }
         public Expediente Expediente { get; set; }
         public ListaAntecedentes ListaAntecedentes { get; set; }
     }

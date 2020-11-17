@@ -69,6 +69,10 @@ namespace PRIME_UCR.Components.MedicalRecords.Tabs
 
         }
 
+        public string get_date_link(string recordId)
+        {
+            return $"/incidents/{recordId}";
+        }
 
         public async Task getIncidents() {
             dat_in_link = new List<DateIncidentModel>(); 
