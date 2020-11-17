@@ -197,5 +197,53 @@ namespace PRIME_UCR.Test.UnitTests.Application.CheckLists
                                     itemInstance => Assert.Equal(3, itemInstance.ItemId)
                             );
         }
+
+        [Fact]
+        public async Task GetInstanceAllReturnsEmpty()
+        {
+            // arrange
+            var mockRepo = new Mock<IInstanceChecklistRepository>();
+            var data = new List<InstanceChecklist>();
+            mockRepo
+                .Setup(p => p.GetAllAsync())
+                .Returns(Task.FromResult<IEnumerable<InstanceChecklist>>(data));
+            var service = new InstanceChecklistService(mockRepo.Object, null, new InstanceCheckListAuthMock().Object);
+
+            // act
+            var result = await service.GetAll();
+
+            // assert
+            Assert.Empty(result);
+
+        }
+        [Fact]
+        public async Task GetInstanceAllReturnsValid()
+        {
+            // arrange
+            var mockRepo = new Mock<IInstanceChecklistRepository>();
+            var data = new List<InstanceChecklist>
+            {
+                new InstanceChecklist {PlantillaId = 1, IncidentCod= "codigo valido"},
+                new InstanceChecklist {PlantillaId = 2, IncidentCod= "codigo valido"},
+                new InstanceChecklist {PlantillaId = 3, IncidentCod= "codigo valido"},
+                new InstanceChecklist {PlantillaId = 4, IncidentCod= "codigo valido"}
+            };
+            mockRepo
+                .Setup(p => p.GetAllAsync())
+                .Returns(Task.FromResult<IEnumerable<InstanceChecklist>>(data));
+            var service = new InstanceChecklistService(
+                mockRepo.Object, null, new InstanceCheckListAuthMock().Object);
+
+            // act
+            var result = await service.GetAll();
+
+            // assert
+            Assert.Collection(result,
+                                    checkList => Assert.Equal(1, checkList.PlantillaId),
+                                    checkList => Assert.Equal(2, checkList.PlantillaId),
+                                    checkList => Assert.Equal(3, checkList.PlantillaId),
+                                    checkList => Assert.Equal(4, checkList.PlantillaId)
+                           );
+        }
     }
 }
