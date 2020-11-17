@@ -10,7 +10,6 @@
                 @switch (moduleToShow)
                 {
                     case "Dashboard":
-                        <DashboardMenuComponent/>
                         break;
                     case "Expedientes":
                         <MedicalRecordsMenuComponent />
@@ -20,7 +19,7 @@
                         break;
                     case "Listas de chequeo":
                         break;
-                    case "Traslados":
+                    case "Incidentes":
                         break;
                     default:
                         break;
@@ -31,7 +30,7 @@
         </li>
         <li class="nav-item px-3 @showIncidents">
             <NavLink class="nav-link" href="incidents" Match="NavLinkMatch.All" @onclick="showIncidentsMenu">
-                <span class="oi oi-map" aria-hidden="true"></span> Traslados
+                <span class="oi oi-map" aria-hidden="true"></span> Incidentes
             </NavLink>
         </li>
         <li class="nav-item px-3 @showCheckList">

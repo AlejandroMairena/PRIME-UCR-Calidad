@@ -58,10 +58,10 @@ namespace PRIME_UCR.Application
             services.AddTransient<IAppointmentService, AppointmentService>();
             services.AddTransient<IDashboardService, DashboardService>();
             services.AddTransient<IAuthenticationService, AuthenticationService>();
-            services.AddTransient<IPrimeSecurityService, PrimeSecurityService>();
-            //Dashboard 
+            //Dashboard
             services.AddTransient<IDashboardService, DashboardService>();
 
+            services.AddTransient<IMailService, MailService>();
             return services;
         }
     }

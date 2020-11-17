@@ -1,13 +1,18 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using PRIME_UCR.Application.DTOs.Dashboard;
 using PRIME_UCR.Application.Repositories.Dashboard;
 using PRIME_UCR.Application.Services.UserAdministration;
 using PRIME_UCR.Domain.Models;
+using PRIME_UCR.Domain.Models.Incidents;
 using PRIME_UCR.Infrastructure.DataProviders;
 using PRIME_UCR.Infrastructure.Permissions.Dashboard;
+using RepoDb;
+using RepoDb.Extensions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
@@ -60,10 +65,58 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Dashboard
          */
         public async Task<List<Incidente>> GetAllIncidentsAsync()
         {
-            return await _db.Incidents
-                .Include(i => i.Cita)
-                .AsNoTracking()
-                .ToListAsync();
+            using (var connection = new SqlConnection(_db.ConnectionString))
+            {
+                var sql =
+                    // Incidente
+                    @"
+                        select *
+                        from Incidente;
+                    " +
+                    // Cita
+                    @"
+                        select C.*
+                        from Incidente I
+                        join Cita C on C.Id = I.CodigoCita;
+                    " +
+                    // Destino - CentroUbicacion
+                    @"
+                        select CU.*
+                        from Incidente
+                        left join Ubicacion U on Incidente.IdDestino = U.Id
+                        left join Centro_Ubicacion CU on U.Id = CU.Id
+                    " +
+                    // Estado
+                    @"
+                        select EI.*
+                        from Incidente
+                        join EstadoIncidente EI on Incidente.Codigo = EI.CodigoIncidente
+                        where EI.Activo = 1;
+                    ";
+
+                using (var result = await connection.ExecuteQueryMultipleAsync(sql))
+                {
+                    var incidents = await result.ExtractAsync<Incidente>();
+                    var appointments = await result.ExtractAsync<Cita>();
+                    var destinations = await result.ExtractAsync<CentroUbicacion>();
+                    var medicalCenters = await connection.QueryAllAsync<CentroMedico>();
+                    var states = await result.ExtractAsync<EstadoIncidente>();
+                    var origins = _db.Incidents
+                            .AsNoTracking()
+                            .Include(i => i.Origen)
+                            .Select(i => i.Origen);
+
+                    foreach(var incident in incidents)
+                    {
+                        incident.Cita = appointments.FirstOrDefault(a => a.Id == incident.CodigoCita);
+                        incident.Destino = destinations.FirstOrDefault(d => d.Id == incident.IdDestino);
+                        incident.Origen = origins.FirstOrDefault(d => d.Id == incident.IdOrigen);
+                        incident.EstadoIncidentes.AddRange(states.Where(s => s.CodigoIncidente == incident.Codigo));
+                    }
+                    return incidents.ToList();
+                }
+            }
+
         }
 
         /**
@@ -73,7 +126,31 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Dashboard
          */
         public async Task<List<Distrito>> GetAllDistrictsAsync()
         {
-            return await _db.Districts.AsNoTracking().ToListAsync();
+            var districts = new List<Distrito>();
+            using (var connection = new SqlConnection(_db.DbConnection.ConnectionString))
+            {
+                var returnedValue = await connection.ExecuteQueryMultipleAsync(@"
+                    SELECT *
+                    FROM Provincia;
+
+                    SELECT *
+                    FROM Canton;
+
+                    SELECT *
+                    FROM Distrito;
+                ");
+
+                var provinces = returnedValue.Extract<Provincia>().AsList();
+                var cantons = returnedValue.Extract<Canton>().AsList();
+                districts = returnedValue.Extract<Distrito>().AsList();
+
+                foreach(var district in districts)
+                {
+                    district.Canton = cantons.FirstOrDefault(c => c.Id == district.IdCanton);
+                    district.Canton.Provincia = provinces.FirstOrDefault(p => p.Nombre == district.Canton.NombreProvincia);
+                }
+            }
+            return districts;
         }
 
         public Task<Incidente> GetByKeyAsync(string key)

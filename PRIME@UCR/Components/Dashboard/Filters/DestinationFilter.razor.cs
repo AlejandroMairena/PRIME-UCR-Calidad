@@ -23,7 +23,8 @@ namespace PRIME_UCR.Components.Dashboard.Filters
         private List<CentroMedico> _medicalCenters;
         private bool _isLoading = true;
         private bool _changesMade = false;
-        private async Task OnChangeMedicalCenter(CentroMedico medicalCenter)
+        
+        private void OnChangeMedicalCenter(CentroMedico medicalCenter)
         {
             if(medicalCenter == Value.MedicalCenterDestination.MedicalCenter)
             {
@@ -34,7 +35,7 @@ namespace PRIME_UCR.Components.Dashboard.Filters
                 _changesMade = true;
             }
             Value._selectedMedicalCenterDestination.MedicalCenter = medicalCenter;
-            await ValueChanged.InvokeAsync(Value);
+            //await ValueChanged.InvokeAsync(Value);
         }
 
         private async Task LoadMedicalCenters(bool firstRender)

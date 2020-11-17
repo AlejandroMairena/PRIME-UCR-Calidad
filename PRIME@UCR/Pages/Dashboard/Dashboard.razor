@@ -27,8 +27,6 @@
 </AuthorizeView>
 
 
-
-@*<LineGraphComponent></LineGraphComponent>*@
 <link href="css/Dashboard.css" rel="stylesheet" />
 
 <div class="wrapper">
@@ -68,16 +66,17 @@
                     <div class="text-center">
                         @if (Value.ButtonEnabled)
                         {
-                            <button role="button" @onclick:preventDefault @onclick="@ClearFilters" class="btn btn-outline-secondary">Limpiar filtros</button> }
+                            <button role="button" @onclick:preventDefault @onclick="@ClearFilters" class="btn btn-outline-secondary">Limpiar filtros</button> 
+                        }
                         else
                         {
-        <button disabled class="btn btn-outline-secondary">Limpiar filtros</button>}
+                            <button disabled class="btn btn-outline-secondary">Limpiar filtros</button>
+                        }
                     </div>
                 </div>
             </div>
 
             @*FILTER COMPONENT*@
-
             @*<FiltersComponent @bind-Value="FilterInfo" />*@
         </div>
     </div>

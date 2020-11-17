@@ -22,6 +22,6 @@ namespace PRIME_UCR.Application.Permissions.UserAdministration
         public abstract Task<Usuario> GetUserFromUserModelAsync(UserFormModel userToRegister);
 
         [RequirePermissions(new[] { AuthorizationPermissions.CanManageUsers })]
-        public abstract Task<bool> StoreUserAsync(UserFormModel userToRegist, string password);
+        public abstract Task<bool> StoreUserAsync(UserFormModel userToRegist);
     }
 }

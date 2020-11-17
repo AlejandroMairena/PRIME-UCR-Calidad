@@ -30,13 +30,13 @@ VALUES
 	(GETDATE(),DATEADD(day, -4, getdate())),
 	(GETDATE(),DATEADD(day, -5, getdate())),
 	(GETDATE(),DATEADD(day, -6, getdate())),
-	(GETDATE(),DATEADD(day,-6, getdate())),
-	(GETDATE(),DATEADD(day, -6, getdate())),
+	(GETDATE(),DATEADD(day, 0, getdate())),
+	(GETDATE(),DATEADD(day, 0, getdate())),
 
 	--Created by Atenineses
-	(GETDATE(),DATEADD(day, 1, getdate())),
-	(GETDATE(),DATEADD(day, 1, getdate())),
-	(GETDATE(),DATEADD(day, 1, getdate())),
+	(GETDATE(),DATEADD(day, 0, getdate())),
+	(GETDATE(),DATEADD(day, 0, getdate())),
+	(GETDATE(),DATEADD(day, 0, getdate())),
 	(GETDATE(),DATEADD(day, 1, getdate())),
 	(GETDATE(),DATEADD(day, 2, getdate())),
 	(GETDATE(),DATEADD(day, 2, getdate())),
@@ -65,6 +65,7 @@ VALUES
 	(GETDATE(),DATEADD(day, 9, getdate())),
 	(GETDATE(),DATEADD(day, 9, getdate())),
 	(GETDATE(),DATEADD(day, 9, getdate())),
+	(GETDATE(),DATEADD(day, 10, getdate())),
 	(GETDATE(),DATEADD(day, 10, getdate()))
 
 

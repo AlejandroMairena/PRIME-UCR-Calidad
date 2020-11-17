@@ -29,12 +29,12 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
         [Inject] private IAppointmentService AppointmentService { get; set; }
         [Inject] private IAssignmentService AssignmentService { get; set; }
         [Inject] private NavigationManager NavigationManager { get; set; }
-        
+
         [Inject]
         public IUserService UserService { get; set; }
         [Parameter] public IncidentDetailsModel Incident { get; set; }
         [Parameter] public EventCallback<PatientModel> OnSave { get; set; }
-        
+
         [CascadingParameter]
         private Task<AuthenticationState> AuthenticationState { get; set; }
 
@@ -54,7 +54,6 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
         private PatientStatus _patientStatus;
         private bool _isLoading = true;
         private string _statusMessage = "";
-        private bool _isAuthorized;
         private readonly List<Gender?> _genders = new List<Gender?>();
 
         enum PatientStatus
@@ -69,7 +68,7 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
         {
             return _patientStatus != PatientStatus.NewPerson;
         }
-        
+
         private async Task OnIdChange(string id)
         {
             _isLoading = true;
@@ -144,7 +143,7 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
                 _patientStatus = PatientStatus.PatientUnchanged;
                 _patientContext = new EditContext(_model.Patient);
             }
-           
+
             _context = new EditContext(_model);
             _statusMessage = "";
             _isLoading = false;
@@ -154,15 +153,9 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
         {
             Summary.LoadValues(Incident);
             _context = new EditContext(_model);
-            
-            // check if the logged in user is authorized to view this patient's details
-            var emailUser = (await AuthenticationState).User.Identity.Name;
-            var user = await UserService.getPersonWithDetailstAsync(emailUser);
-            _isAuthorized = user != null &&
-                            await AssignmentService.IsAuthorizedToViewPatient(Incident.Code, user.Cédula);
-            
+
             await LoadExistingValues();
-            
+
             _isLoading = false;
         }
 
