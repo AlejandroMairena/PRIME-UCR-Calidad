@@ -35,8 +35,12 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
         {
             await primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             var user = await userManager.FindByEmailAsync(email);
-            var person = await getUsuarioWithDetailsAsync(user?.Id);
-            return person?.Persona;
+            if (user != null)
+            {
+                var person = await getUsuarioWithDetailsAsync(user?.Id);
+                return person?.Persona;
+            }
+            return null;
         }
 
         /**

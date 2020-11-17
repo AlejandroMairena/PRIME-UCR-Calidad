@@ -169,7 +169,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.UserAdministration
 
             Assert.Equal("test@test.com",result.User.Identity.Name);
             Assert.True(result.User.Identity.IsAuthenticated);
-            Assert.Equal(21, result.User.Claims.ToList().Count);
+            Assert.Equal(23, result.User.Claims.ToList().Count);
             for (var permission = 1; permission <= 4; ++permission)
             {
                 Assert.Equal("true", result.User.Claims.ToList()[permission].Value);
