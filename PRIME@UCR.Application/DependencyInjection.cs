@@ -14,10 +14,13 @@ using PRIME_UCR.Application.Services.UserAdministration;
 using PRIME_UCR.Application.Repositories.Incidents;
 using PRIME_UCR.Application.Services.Appointments;
 using PRIME_UCR.Application.Services.MedicalRecords;
+using PRIME_UCR.Application.Services.Dashboard;
+using PRIME_UCR.Application.Implementations.Dashboard;
 using Microsoft.AspNetCore.Components.Authorization;
 using PRIME_UCR.Infrastructure.Repositories.Sql.MedicalRecords;
 using PRIME_UCR.Application.Services.Dashboard;
 using PRIME_UCR.Application.Implementations.Dashboard;
+
 
 namespace PRIME_UCR.Application
 {
@@ -37,6 +40,8 @@ namespace PRIME_UCR.Application
             services.AddTransient<IMedicalRecordService, MedicalRecordService>();
             services.AddTransient<IMedicalBackgroundService, MedicalBackgroundService>();
             services.AddTransient<IAlergyService, AlergyService>();
+            services.AddTransient<IChronicConditionService, ChronicConditionService>();
+            services.AddTransient<IAppointmentService, AppointmentService>();
             // multimedia
             services.AddTransient<IMultimediaContentService, MultimediaContentService>();
             services.AddTransient<IEncryptionService, EncryptionService>();
@@ -54,6 +59,7 @@ namespace PRIME_UCR.Application
             services.AddTransient<INumeroTelefonoService, NumeroTelefonoService>();
             services.AddTransient<IAssignmentService, AssignmentService>();
             services.AddTransient<IAppointmentService, AppointmentService>();
+            services.AddTransient<IDashboardService, DashboardService>();
             services.AddTransient<IAuthenticationService, AuthenticationService>();
             //Dashboard
             services.AddTransient<IDashboardService, DashboardService>();

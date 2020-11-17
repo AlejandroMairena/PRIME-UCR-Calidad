@@ -21,7 +21,7 @@
     <Table TableItem="DateIncidentModel" Items="dat_in_link" PageSize="5" @ref="AppointmIncidentModel" ColumnReorder="true" ShowSearchBar="true" class="table table-bordered">
         <Column TableItem="DateIncidentModel" Title="Numero de Cita" Field="@(x => x.date.Id)" Width="20%">
             <Template>
-                <a href="#">@context.date.Id</a>
+                <a href="@get_date_link(context.incident.Codigo)">@context.date.Id</a>
             </Template>
         </Column>
 

@@ -17,6 +17,7 @@ namespace PRIME_UCR.Domain.Models.MedicalRecords
         public Paciente Paciente { get; set; }
         public List<Alergias> Alergias { get; set; }
         public List<Antecedentes> Antecedentes { get; set; }
+        public List<PadecimientosCronicos> PadecimientosCronicos { get; set; }
         public List<Cita> Citas { get; set; }
     }
 }

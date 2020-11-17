@@ -21,5 +21,51 @@ VALUES
 
 INSERT INTO Cita (FechaHoraCreacion, FechaHoraEstimada)
 VALUES
-	(GETDATE(), GETDATE()),
-	(GETDATE(), GETDATE())
+	(GETDATE(),DATEADD(day, -1, getdate())),
+	(GETDATE(),DATEADD(day, -2, getdate())),
+	(GETDATE(),DATEADD(day, -2, getdate())),
+	(GETDATE(),DATEADD(day, -2, getdate())),
+	(GETDATE(),DATEADD(day, -3, getdate())),
+	(GETDATE(),DATEADD(day, -3, getdate())),
+	(GETDATE(),DATEADD(day, -4, getdate())),
+	(GETDATE(),DATEADD(day, -5, getdate())),
+	(GETDATE(),DATEADD(day, -6, getdate())),
+	(GETDATE(),DATEADD(day, 0, getdate())),
+	(GETDATE(),DATEADD(day, 0, getdate())),
+
+	--Created by Atenineses
+	(GETDATE(),DATEADD(day, 0, getdate())),
+	(GETDATE(),DATEADD(day, 0, getdate())),
+	(GETDATE(),DATEADD(day, 0, getdate())),
+	(GETDATE(),DATEADD(day, 1, getdate())),
+	(GETDATE(),DATEADD(day, 2, getdate())),
+	(GETDATE(),DATEADD(day, 2, getdate())),
+	(GETDATE(),DATEADD(day, 2, getdate())),
+	(GETDATE(),DATEADD(day, 2, getdate())),
+	(GETDATE(),DATEADD(day, 3, getdate())),
+	(GETDATE(),DATEADD(day, 3, getdate())),
+	(GETDATE(),DATEADD(day, 3, getdate())),
+	(GETDATE(),DATEADD(day, 3, getdate())),
+	(GETDATE(),DATEADD(day, 4, getdate())),
+	(GETDATE(),DATEADD(day, 4, getdate())),
+	(GETDATE(),DATEADD(day, 5, getdate())),
+	(GETDATE(),DATEADD(day, 5, getdate())),
+	(GETDATE(),DATEADD(day, 5, getdate())),
+	(GETDATE(),DATEADD(day, 6, getdate())),
+	(GETDATE(),DATEADD(day, 7, getdate())),
+	(GETDATE(),DATEADD(day, 7, getdate())),
+	(GETDATE(),DATEADD(day, 7, getdate())),
+	(GETDATE(),DATEADD(day, 7, getdate())),
+	(GETDATE(),DATEADD(day, 7, getdate())),
+	(GETDATE(),DATEADD(day, 7, getdate())),
+	(GETDATE(),DATEADD(day, 8, getdate())),
+	(GETDATE(),DATEADD(day, 8, getdate())),
+	(GETDATE(),DATEADD(day, 8, getdate())),
+	(GETDATE(),DATEADD(day, 9, getdate())),
+	(GETDATE(),DATEADD(day, 9, getdate())),
+	(GETDATE(),DATEADD(day, 9, getdate())),
+	(GETDATE(),DATEADD(day, 9, getdate())),
+	(GETDATE(),DATEADD(day, 10, getdate())),
+	(GETDATE(),DATEADD(day, 10, getdate()))
+
+

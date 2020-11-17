@@ -81,11 +81,36 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
 
         public async Task<Usuario> GetUserByEmailAsync(string email)
         {
-            return await _db.Usuarios
-                .Include(u => u.UsuariosYPerfiles)
-                .Include(u => u.Persona)
-                .AsNoTracking()
-                .FirstAsync(u => u.Email == email);
+            using (var connection = new SqlConnection(_db.DbConnection.ConnectionString))
+            {
+                var returnedValue = await connection.ExecuteQueryMultipleAsync(@"
+                    SELECT *
+                    FROM Usuario U
+                        JOIN AspNetUsers NetU on U.Id = NetU.Id
+                    WHERE NetU.Email = @Email;
+
+                    SELECT P.*
+                    FROM Usuario U
+                        JOIN AspNetUsers ASP on U.Id = ASP.Id
+                        JOIN Pertenece P on P.IdUsuario = U.Id
+                    WHERE ASP.Email = @Email;
+
+                    SELECT Pe.*
+                    FROM Usuario U
+                        JOIN AspNetUsers ASP on U.Id = ASP.Id
+                        JOIN Pertenece P on P.IdUsuario = U.Id
+                        JOIN Persona Pe on Pe.Cédula = U.CédulaPersona
+                    WHERE ASP.Email = @Email;
+                ", new { Email = email });
+
+                var user = returnedValue.Extract<Usuario>().FirstOrDefault();
+                if(user != null)
+                {
+                    user.UsuariosYPerfiles = returnedValue.Extract<Pertenece>().AsList();
+                    user.Persona = returnedValue.Extract<Persona>().FirstOrDefault();
+                }
+                return user;
+            }
         }
 
         public async Task<Usuario> GetWithDetailsAsync(string id)
@@ -94,7 +119,7 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
                 .Include(u => u.UsuariosYPerfiles)
                 .Include(u => u.Persona)
                 .AsNoTracking()
-                .FirstAsync(u => u.Id == id);
+                .FirstOrDefaultAsync(u => u.Id == id);
         }
     }
 }

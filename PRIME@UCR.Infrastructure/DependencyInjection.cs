@@ -66,6 +66,8 @@ namespace PRIME_UCR.Infrastructure
             services.AddTransient<IMedicalBackgroundListRepository, MedicalBackgroundListRepository>();
             services.AddTransient<IAlergyRepository, AlergyRepository>();
             services.AddTransient<IAlergyListRepository, AlergyListRepository>();
+            services.AddTransient<IChronicConditionRepository, ChronicConditionRepository>();
+            services.AddTransient<IChronicConditionListRepository, ChronicConditionListRepository>();
             // multimedia
             services.AddTransient<IMultimediaContentRepository, MultimediaContentRepository>();
             services.AddTransient<IActionRepository, ActionRepository>();
@@ -88,6 +90,8 @@ namespace PRIME_UCR.Infrastructure
             services.AddTransient<IPermiteRepository, PermiteRepository>();
             services.AddTransient<IPerteneceRepository, PerteneceRepository>();
             services.AddTransient<INumeroTelefonoRepository, NumeroTelefonoRepository>();
+            // dashboard
+            services.AddTransient<IDashboardRepository, DashboardRepository>();
             services.AddTransient<IAuthenticationRepository, AuthenticationRepository>();
 
             //dashboard repositories
@@ -95,6 +99,8 @@ namespace PRIME_UCR.Infrastructure
 
             // temporary file service with no encryption
             services.AddTransient<ITempFileServiceNoEncryption, TempFileServiceNoEncryption>();
+
+         
             return services;
         }
     }
