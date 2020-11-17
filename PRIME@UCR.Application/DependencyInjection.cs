@@ -58,6 +58,7 @@ namespace PRIME_UCR.Application
             //Dashboard
             services.AddTransient<IDashboardService, DashboardService>();
 
+            services.AddTransient<IMailService, MailService>();
             return services;
         }
     }

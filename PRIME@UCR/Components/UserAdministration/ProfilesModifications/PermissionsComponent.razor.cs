@@ -10,7 +10,7 @@ using PRIME_UCR.Application.DTOs.UserAdministration;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Http;
 
-namespace PRIME_UCR.Components.UserAdministration
+namespace PRIME_UCR.Components.UserAdministration.ProfilesModifications
 {
     /**
      * Partial class used to manage the logic part of the PermissionsComponent.

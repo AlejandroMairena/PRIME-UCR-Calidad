@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
@@ -60,6 +61,17 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
             .Include(u => u.UsuariosYPerfiles)
             .Include(u => u.Persona)
             .FirstAsync(u => u.Id == id);
+        }
+
+        public async Task<List<Usuario>> GetNotAuthenticatedUsers()
+        {
+            return await _db.Usuarios
+            .Include(u => u.Persona)
+            .Include(u => u.UsuariosYPerfiles)
+            .ThenInclude(p => p.Perfil)
+            .Where( u => !u.EmailConfirmed)
+            .AsNoTracking()
+            .ToListAsync();
         }
     }
 
