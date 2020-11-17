@@ -1,22 +1,12 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Authorization;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using PRIME_UCR.Application.DTOs.UserAdministration;
-using PRIME_UCR.Application.Exceptions.UserAdministration;
+using PRIME_UCR.Application.Permissions.UserAdministration;
 using PRIME_UCR.Application.Repositories.UserAdministration;
 using PRIME_UCR.Application.Services.UserAdministration;
 using PRIME_UCR.Domain.Models.UserAdministration;
-using System;
 using System.Collections.Generic;
-using System.Reflection;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
-using PRIME_UCR.Domain.Constants;
-using PRIME_UCR.Application.Permissions.UserAdministration;
-using PRIME_UCR.Domain.Attributes;
 using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
 
 namespace PRIME_UCR.Application.Implementations.UserAdministration
 {
@@ -45,8 +35,8 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
         {
             await primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             var user = await userManager.FindByEmailAsync(email);
-            var person = await getUsuarioWithDetailsAsync(user.Id);
-            return person.Persona;
+            var person = await getUsuarioWithDetailsAsync(user?.Id);
+            return person?.Persona;
         }
 
         /**
@@ -94,12 +84,13 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
             await primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             var user = await GetUserFromUserModelAsync(userToRegist);
             var existInDB = (await userManager.FindByEmailAsync(user.Email)) == null ? false : true;
-            if(!existInDB)
+            if (!existInDB)
             {
                 user.CedPersona = userToRegist.IdCardNumber;
                 var result = await userManager.CreateAsync(user, password);
                 return result.Succeeded;
-            } else
+            }
+            else
             {
                 return false;
             }

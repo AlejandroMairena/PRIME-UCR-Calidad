@@ -39,21 +39,23 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
                     .GetMethod(methodName)
                     .GetCustomAttribute<RequirePermissions>()
                     .Permissions;
-            
+
             var user = (await authenticationStateProvider.GetAuthenticationStateAsync()).User;
             var isAuthorized = true;
+            AuthorizationPermissions missingPermission = default;
             foreach (var permission in permissions)
             {
                 if (!(await authorizationService.AuthorizeAsync(user, permission.ToString())).Succeeded)
                 {
                     isAuthorized = false;
+                    missingPermission = permission;
                     break;
                 }
 
             }
             if(!isAuthorized)
             {
-                throw new NotAuthorizedException();
+                throw new NotAuthorizedException($"Missing the following permission: {missingPermission.ToString()}");
             }
         }
 

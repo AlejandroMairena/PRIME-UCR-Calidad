@@ -23,17 +23,20 @@
     </NotAuthorized>
 </AuthorizeView>
 
+<link href="css/Dashboard.css" rel="stylesheet" />
 
-<div class="row">
-    <div class="col-md-4">
-        <PieGraphComponent></PieGraphComponent>
+<div class="wrapper">
+    <div class="rounded" style="background-color: white;padding: 10px">
+        <IncidentsCounterComponent @bind-Value="_finishedLoadingCounters" />
     </div>
-    <div class="col-md-4">
-        <PieGraphComponent></PieGraphComponent>
-    </div>
-    <div class="col-md-4">
-        <PieGraphComponent></PieGraphComponent>
-    </div>
-
-    @*<LineGraphComponent></LineGraphComponent>*@
 </div>
+
+<br />
+
+<Loading IsLoading="!_finishedLoadingCounters">
+    <div class="wrapper">
+        <div class="rounded" style="background-color: white;padding-left: 10px;padding-right: 10px;">
+            <FiltersComponent @bind-Value="FilterInfo" />
+        </div>
+    </div>
+</Loading>

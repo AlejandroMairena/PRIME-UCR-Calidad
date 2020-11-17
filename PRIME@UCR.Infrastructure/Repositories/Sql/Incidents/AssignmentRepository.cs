@@ -10,7 +10,7 @@ using RepoDb;
 
 namespace PRIME_UCR.Infrastructure.Repositories.Sql.Incidents
 {
-    public class AssignmentRepository : IAssignemntRepository
+    public class AssignmentRepository : IAssignmentRepository
     {
         private readonly ISqlDataProvider _db;
 

@@ -16,7 +16,7 @@ namespace PRIME_UCR.Components.CheckLists
         [Inject] protected ICheckListService MyCheckListService { get; set; }
         [Inject] protected IInstanceChecklistService MyCheckInstanceChechistService { get; set; }
         public CheckList list { get; set; }
-        [Parameter] public string insidentcod { get; set; }
+        [Parameter] public string incidentcod { get; set; }
         protected override async Task OnInitializedAsync()
         {
             await RefreshModels();
@@ -24,7 +24,7 @@ namespace PRIME_UCR.Components.CheckLists
         protected async Task RefreshModels()
         {
             lists = await MyCheckListService.GetAll();// to change
-            instancelists = await MyCheckInstanceChechistService.GetByIncidentCod(insidentcod);
+            instancelists = await MyCheckInstanceChechistService.GetByIncidentCod(incidentcod);
         }
         public string GetName2(int id)
         {

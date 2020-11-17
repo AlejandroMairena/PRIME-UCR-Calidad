@@ -18,7 +18,7 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.CheckLists
         {
         }
         //recuperar por la llave de la instancia de lista
-        public async Task<IEnumerable<InstanceChecklist>> GetByIdd(int id, string code)
+        public async Task<IEnumerable<InstanceChecklist>> GetById(int id, string code)
         {
             return await this.GetByConditionAsync(InstanceChecklistModel => InstanceChecklistModel.PlantillaId == id
             && InstanceChecklistModel.IncidentCod == code);

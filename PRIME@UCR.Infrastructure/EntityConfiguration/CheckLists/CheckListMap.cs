@@ -19,6 +19,10 @@ namespace PRIME_UCR.Infrastructure.EntityConfiguration.CheckLists
             builder
                 .HasMany(p => p.Items)
                 .WithOne(p => p.Checklist);
+            builder
+                .HasOne(p => p.MyType)
+                .WithMany(p => p.Lists)
+                .HasForeignKey(p => p.Tipo);
         }
     }
 }
