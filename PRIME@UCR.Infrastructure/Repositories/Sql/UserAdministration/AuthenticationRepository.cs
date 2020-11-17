@@ -116,7 +116,7 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
                 .Include(u => u.UsuariosYPerfiles)
                 .Include(u => u.Persona)
                 .AsNoTracking()
-                .FirstAsync(u => u.Id == id);
+                .FirstOrDefaultAsync(u => u.Id == id);
         }
     }
 }

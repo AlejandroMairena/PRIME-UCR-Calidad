@@ -28,14 +28,22 @@ namespace PRIME_UCR.Test.UnitTests.Application.Dashboards
         {
             //arrange
             var mockRepo = new Mock<IDashboardRepository>();
+
+
+
             var data = new List<Incidente>();
 
             mockRepo
                 .Setup(s => s.GetAllIncidentsAsync())
                 .Returns(Task.FromResult<List<Incidente>>(data));
+           
+            var mockSecurity = new Mock<IPrimeSecurityService>();
+            mockSecurity.Setup(s => s.CheckIfIsAuthorizedAsync(typeof(DashboardService), "GetIncidentCounterAsync"));
+
+
 
             var service = new DashboardService(
-                mockRepo.Object, null
+                mockRepo.Object, null,null,null,null,null
                 );
 
             //act 
@@ -66,7 +74,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.Dashboards
 
             var service = new DashboardService(
                 mockRepo.Object,
-                null);
+                null, null, null, null,null);
 
             // act
             var result = await service.GetAllIncidentsAsync();
@@ -94,7 +102,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.Dashboards
                 .Returns(Task.FromResult<List<Distrito>>(data));
 
             var service = new DashboardService(
-                mockRepo.Object, null
+                mockRepo.Object, null, null, null, null, null
                 );
 
             //act 
@@ -125,7 +133,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.Dashboards
 
             var service = new DashboardService(
                 mockRepo.Object,
-                null);
+                 null, null, null, null, null);
 
             // act
             var result = await service.GetAllDistrictsAsync();
@@ -159,7 +167,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.Dashboards
 
             var service = new DashboardService(
                 mockRepo.Object,
-                mockSecurity.Object);
+                mockSecurity.Object, null, null, null, null);
 
             // act
             var result = await service.GetIncidentCounterAsync("modalidad");
@@ -174,6 +182,8 @@ namespace PRIME_UCR.Test.UnitTests.Application.Dashboards
         {
             // arrange
             var mockRepo = new Mock<IDashboardRepository>();
+            var mockCountry = new Mock<ICountryRepository>();
+            var mockMedical = new Mock<IMedicalCenterRepository>();
             var data = new List<Incidente>
             {
                 new Incidente {Codigo = "codigo1", Modalidad = "Maritimo"},
@@ -190,7 +200,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.Dashboards
 
             var service = new DashboardService(
                 mockRepo.Object,
-                null);
+                 null, null, null, mockCountry.Object, mockMedical.Object);
 
             // act
             var modalityFilter = new Modalidad();
