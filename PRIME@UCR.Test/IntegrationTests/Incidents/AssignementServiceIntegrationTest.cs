@@ -44,15 +44,15 @@ namespace PRIME_UCR.Test.IntegrationTests.Incidents
 
             var assignementService = _factory.Services.GetRequiredService<IAssignmentService>();
             var result = await assignementService.GetAllTransportUnitsByMode("Invalid unit");
-            Assert.Null(result);
+            Assert.Empty(result);
         }
 
         [Fact]
         public async Task GetCoordinatorsAsyncReturnsValid()
         {
-            /* Case: The service should return the exact same number of Medical Coordinators 
+            /* Case: The service should return the exact same number of Medical Coordinators
              *  that was written on the post deployment script
-             * -> Returns: A list with the coordinators found by the repository. 
+             * -> Returns: A list with the coordinators found by the repository.
             */
             int numberOfCordinatorsinDB = 2;
             var assignementService = _factory.Services.GetRequiredService<IAssignmentService>();
@@ -64,8 +64,8 @@ namespace PRIME_UCR.Test.IntegrationTests.Incidents
         [Fact]
         public async Task GetAssignedOriginDoctorReturnsNull()
         {
-            /* Case: The service should return the assigned doctor in the origin of the incident. 
-             *  in this case, the incident's origin is a household thus it does not have an 
+            /* Case: The service should return the assigned doctor in the origin of the incident.
+             *  in this case, the incident's origin is a household thus it does not have an
              *  origin doctor assigned.
              * -> Returns: Null
             */
@@ -78,9 +78,9 @@ namespace PRIME_UCR.Test.IntegrationTests.Incidents
         [Fact]
         public async Task GetAssignedDestinationDoctorReturnsNull()
         {
-            /* Case: The service should return the assigned doctor in the destination of the incident. 
-             *  in this case, the destination has not been assigned yet. Thus the test should return 
-             *  null. 
+            /* Case: The service should return the assigned doctor in the destination of the incident.
+             *  in this case, the destination has not been assigned yet. Thus the test should return
+             *  null.
              * -> Returns: Null
             */
             var incidentCode = "2020-11-16-0001-IT-TER";
