@@ -399,5 +399,71 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
             // assert
             Assert.Equal(expected, result);
         }
+
+        [Fact]
+        public async Task UpdateTransportUnitReturnsTrue()
+        {
+            var mockTransportUnitRepository = new Mock<ITransportUnitRepository>();
+            var model = new IncidentDetailsModel
+            {
+                Code = "1234",
+                TransportUnit = new UnidadDeTransporte { Matricula = "ABC123" },
+                TransportUnitId = "ABC123"
+            };
+            var incident = new Incidente
+            {
+                Codigo = "1234",
+            };
+            mockTransportUnitRepository
+                .Setup(t => t.GetByKeyAsync(model.TransportUnitId))
+                .Returns(Task.FromResult<UnidadDeTransporte>(model.TransportUnit));
+            var service = new IncidentService(null, null, null, null,
+                    mockTransportUnitRepository.Object, null, null, null, new AuthorizationMock().Object);
+            var result = await service.UpdateTransportUnit(model, incident);
+            Assert.True(result);
+        }
+
+        [Fact]
+        public async Task UpdateTransportUnitSameUnitsReturnsFalse()
+        {
+            var mockTransportUnitRepository = new Mock<ITransportUnitRepository>();
+            var model = new IncidentDetailsModel
+            {
+                Code = "1234",
+                TransportUnit = new UnidadDeTransporte { Matricula = "ABC123" },
+                TransportUnitId = "ABC123"
+            };
+            var incident = new Incidente
+            {
+                Codigo = "1234",
+                MatriculaTrans = "ABC123"     //MatriculaTrans is the same, so an update isn't needed. Returns false
+            };
+            mockTransportUnitRepository
+                .Setup(t => t.GetByKeyAsync(model.TransportUnitId))
+                .Returns(Task.FromResult<UnidadDeTransporte>(model.TransportUnit));
+            var service = new IncidentService(null, null, null, null,
+                    mockTransportUnitRepository.Object, null, null, null, new AuthorizationMock().Object);
+            var result = await service.UpdateTransportUnit(model, incident);
+            Assert.False(result);
+        }
+
+        [Fact]
+        public async Task UpdateTransportUnitNullUnitReturnsFalse()
+        {
+            var mockTransportUnitRepository = new Mock<ITransportUnitRepository>();
+            var model = new IncidentDetailsModel
+            {
+                Code = "1234",      // TransportUnit is null.
+            };
+            var incident = new Incidente
+            {
+                Codigo = "1234",
+                MatriculaTrans = "ABC123"
+            };
+            var service = new IncidentService(null, null, null, null,
+                    mockTransportUnitRepository.Object, null, null, null, new AuthorizationMock().Object);
+            var result = await service.UpdateTransportUnit(model, incident);
+            Assert.False(result);
+        }
     }
 }
