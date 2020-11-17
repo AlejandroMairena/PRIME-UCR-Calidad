@@ -14,7 +14,7 @@
         <div class="rounded" style="background-color: white;padding-left: 10px;padding-right: 10px; padding-top:10px;">
             <h5>Listas de chequeo disponibles</h5>
             <EditForm Model="lists">
-                <Table TableItem="CheckList" Items="lists" PageSize="5">
+                <Table TableItem="CheckList" Items="lists" PageSize="3">
                     <Column TableItem="CheckList" Title="" Field="@(tempList => lists)" Width="1%">
                         <Template Context="checkbox">
                             <center>
@@ -42,7 +42,7 @@
         <div class="rounded" style="background-color: white;padding-left: 10px;padding-right: 10px;padding-top:10px;">
             <h5>Listas de chequeo instanciadas</h5>
             <EditForm Model="TempLists" OnValidSubmit="@HandleSubmit">
-                <Table TableItem="CheckList" Items="TempLists" PageSize="5">
+                <Table TableItem="CheckList" Items="TempLists" PageSize="3">
                     <Column TableItem="CheckList" Title="Nombre" Field="@( x => x.Nombre)" Width="20%">
                     </Column>
                     <Column TableItem="CheckList" Title="Tipo" Field="@(x => x.Tipo)" Width="10%">
