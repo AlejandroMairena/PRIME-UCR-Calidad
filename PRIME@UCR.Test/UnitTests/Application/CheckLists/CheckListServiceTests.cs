@@ -23,7 +23,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.CheckLists
                 .Setup(p => p.GetAllAsync())
                 .Returns(Task.FromResult<IEnumerable<CheckList>>(data));
             var service = new CheckListService(
-                mockRepo.Object, null, null);
+                mockRepo.Object, null, null, new CheckListAuthMock().Object);
 
             // act
             var result = await service.GetAll();
@@ -48,7 +48,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.CheckLists
                 .Setup(p => p.GetAllAsync())
                 .Returns(Task.FromResult<IEnumerable<CheckList>>(data));
             var service = new CheckListService(
-                mockRepo.Object, null, null);
+                mockRepo.Object, null, null, new CheckListAuthMock().Object);
 
             // act
             var result = await service.GetAll();
@@ -72,7 +72,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.CheckLists
                 .Setup(p => p.GetAllAsync())
                 .Returns(Task.FromResult<IEnumerable<TipoListaChequeo>>(data));
             var service = new CheckListService(
-                null, mockRepo.Object, null);
+                null, mockRepo.Object, null, new CheckListAuthMock().Object);
 
             // act
             var result = await service.GetTypes();
@@ -98,7 +98,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.CheckLists
                 .Setup(p => p.GetAllAsync())
                 .Returns(Task.FromResult<IEnumerable<TipoListaChequeo>>(data));
             var service = new CheckListService(
-                null, mockRepo.Object, null);
+                null, mockRepo.Object, null, new CheckListAuthMock().Object);
 
             // act
             var result = await service.GetTypes();
@@ -123,7 +123,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.CheckLists
                 .Setup(p => p.GetByKeyAsync(1))
                 .Returns(Task.FromResult(data));
             var service = new CheckListService(
-                mockRepo.Object, null, null);
+                mockRepo.Object, null, null, new CheckListAuthMock().Object);
 
             // act
             var result = await service.GetById(1);
@@ -142,7 +142,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.CheckLists
                 .Setup(p => p.GetByKeyAsync(1))
                 .Returns(Task.FromResult(data));
             var service = new CheckListService(
-                mockRepo.Object, null, null);
+                mockRepo.Object, null, null, new CheckListAuthMock().Object);
 
             // act
             var result = await service.GetById(1);
@@ -161,7 +161,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.CheckLists
                 .Setup(p => p.GetByKeyAsync(1))
                 .Returns(Task.FromResult(data));
             var service = new CheckListService(
-                 null, null, mockRepo.Object);
+                 null, null, mockRepo.Object, new CheckListAuthMock().Object);
             var result = await service.GetItemById(1);
 
             Assert.Null(result);
@@ -177,7 +177,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.CheckLists
                 .Setup(p => p.GetByKeyAsync(1))
                 .Returns(Task.FromResult(data));
             var service = new CheckListService(
-                 null, null, mockRepo.Object);
+                 null, null, mockRepo.Object, new CheckListAuthMock().Object);
             var result = await service.GetItemById(1);
             Assert.NotNull(result);
             Assert.Equal(1, result.Id);
@@ -192,7 +192,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.CheckLists
                 .Setup(p => p.GetBySuperitemId(1))
                 .Returns(Task.FromResult<IEnumerable<Item>>(data));
             var service = new CheckListService(
-                null, null, mockRepo.Object);
+                null, null, mockRepo.Object, new CheckListAuthMock().Object);
             var result = await service.GetItemsBySuperitemId(1);
 
             Assert.Empty(result);
@@ -211,7 +211,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.CheckLists
                 .Setup(p => p.GetBySuperitemId(1))
                 .Returns(Task.FromResult<IEnumerable<Item>>(data));
             var service = new CheckListService(
-                null, null, mockRepo.Object);
+                null, null, mockRepo.Object, new CheckListAuthMock().Object);
 
             var result = await service.GetItemsBySuperitemId(1);
           
@@ -235,7 +235,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.CheckLists
                 .Setup(p => p.GetByCheckListId(1))
                 .Returns(Task.FromResult<IEnumerable<Item>>(data));
             var service = new CheckListService(
-                null, null, mockRepo.Object);
+                null, null, mockRepo.Object, new CheckListAuthMock().Object);
 
             var result = await service.GetItemsByCheckListId(1);
 
@@ -253,7 +253,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.CheckLists
                 .Setup(p => p.GetByCheckListId(1))
                 .Returns(Task.FromResult<IEnumerable<Item>>(data));
             var service = new CheckListService(
-                null, null, mockRepo.Object);
+                null, null, mockRepo.Object, new CheckListAuthMock().Object);
             var result = await service.GetItemsByCheckListId(1);
 
             Assert.Empty(result);
