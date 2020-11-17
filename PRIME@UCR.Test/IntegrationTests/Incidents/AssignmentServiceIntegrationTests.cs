@@ -8,11 +8,11 @@ using Xunit;
 
 namespace PRIME_UCR.Test.IntegrationTests.Incidents
 {
-    public class AssignementServiceIntegrationTest : IClassFixture<IntegrationTestWebApplicationFactory<Startup>>
+    public class AssignmentServiceIntegrationTests : IClassFixture<IntegrationTestWebApplicationFactory<Startup>>
     {
         private readonly IntegrationTestWebApplicationFactory<Startup> _factory;
 
-        public AssignementServiceIntegrationTest(IntegrationTestWebApplicationFactory<Startup> factory)
+        public AssignmentServiceIntegrationTests(IntegrationTestWebApplicationFactory<Startup> factory)
         {
             _factory = factory;
         }
