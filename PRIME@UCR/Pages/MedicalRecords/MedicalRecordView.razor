@@ -20,6 +20,9 @@
 
 @if (exists)
 {
+    <ListItem Title="Paciente" Text="@get_patient_name()" />
+    <ListItem Title="Cédula del paciente" Text="@viewModel.Cedula" />
+    <hr/>
     <Loading IsLoading="viewModel == null">
         <div class="row">
             <div class="col-lg-2 mb-4">

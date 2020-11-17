@@ -70,8 +70,12 @@ namespace PRIME_UCR.Pages.MedicalRecords
                 }
             }
         }
-
-
+        public string get_patient_name()
+        {
+            string name = "";
+            name += viewModel.Nombre + " " + viewModel.PrimerApellido + " " + viewModel.SegundoApellido;
+            return name;
+        }
         protected override async Task OnInitializedAsync()
         {
             int identification = Int32.Parse(Id);
