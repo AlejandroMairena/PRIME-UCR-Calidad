@@ -40,31 +40,31 @@ namespace PRIME_UCR.Test.UnitTests.Application.MedicalRecords
             //Assert.Null(result2);
         }
 
-        [Fact]
-        public async void getAllergyByRecordIdReturnsValidAllergy()
-        {
-            var mockRepo = new Mock<IAlergyRepository>();
-            var mockRepoList = new Mock<IAlergyListRepository>();  
-            var allergyTest = new Alergias
-            {
-                IdExpediente = 1,
-                IdListaAlergia = 1,
-                FechaCreacion = DateTime.Now
-            };
-            var AllergyList = new List<Alergias>
-            {
-                allergyTest
-            };
-            IEnumerable<Alergias> AllergyEnumerable = AllergyList;
-            mockRepo
-             .Setup(p => p.GetByConditionAsync(i => i.IdExpediente == 1))
-             .Returns(Task.FromResult(AllergyEnumerable));
-            IAlergyService AllergyService = new AlergyService(mockRepo.Object, mockRepoList.Object);
-            var result = (await mockRepo.Object.GetByConditionAsync(i => i.IdExpediente == 1)).ToList();
-            var result2 = (await AllergyService.GetAlergyByRecordId(1)).ToList();
-            Assert.Equal(allergyTest.IdListaAlergia, result.First().IdListaAlergia);
-            Assert.Equal(allergyTest.IdExpediente, result.First().IdExpediente);
-        }
+        //[Fact]
+        //public async void getAllergyByRecordIdReturnsValidAllergy()
+        //{
+        //    var mockRepo = new Mock<IAlergyRepository>();
+        //    var mockRepoList = new Mock<IAlergyListRepository>();  
+        //    var allergyTest = new Alergias
+        //    {
+        //        IdExpediente = 1,
+        //        IdListaAlergia = 1,
+        //        FechaCreacion = DateTime.Now
+        //    };
+        //    var AllergyList = new List<Alergias>
+        //    {
+        //        allergyTest
+        //    };
+        //    IEnumerable<Alergias> AllergyEnumerable = AllergyList;
+        //    mockRepo
+        //     .Setup(p => p.GetByConditionAsync(i => i.IdExpediente == 1))
+        //     .Returns(Task.FromResult(AllergyEnumerable));
+        //    IAlergyService AllergyService = new AlergyService(mockRepo.Object, mockRepoList.Object);
+        //    var result = (await mockRepo.Object.GetByConditionAsync(i => i.IdExpediente == 1)).ToList();
+        //    var result2 = (await AllergyService.GetAlergyByRecordId(1)).ToList();
+        //    Assert.Equal(allergyTest.IdListaAlergia, result.First().IdListaAlergia);
+        //    Assert.Equal(allergyTest.IdExpediente, result.First().IdExpediente);
+        //}
 
         [Fact]
         public async void InsertAllergyAsync()

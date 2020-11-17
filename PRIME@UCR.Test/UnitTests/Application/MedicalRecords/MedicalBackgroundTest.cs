@@ -39,31 +39,31 @@ namespace PRIME_UCR.Test.UnitTests.Application.MedicalRecords
             Assert.Empty(result);
         }
 
-        [Fact]
-        public async void getMedicalBackgroundByRecordIdReturnsValidMedicalBackground()
-        {
-            var mockRepo = new Mock<IMedicalBackgroundRepository>();
-            var mockRepoList = new Mock<IMedicalBackgroundListRepository>();
-            var MedicalBackgroundTest = new Antecedentes
-            {
-                IdExpediente = 1,
-                IdListaAntecedentes = 1,
-                FechaCreacion = DateTime.Now
-            };
-            var MedicalBackgroundList = new List<Antecedentes>
-            {
-                MedicalBackgroundTest
-            };
-            IEnumerable<Antecedentes> MedicalBackgroundEnumerable = MedicalBackgroundList;
-            mockRepo
-             .Setup(p => p.GetByConditionAsync(i => i.IdExpediente == 1))
-             .Returns(Task.FromResult(MedicalBackgroundEnumerable));
-            IMedicalBackgroundService MedicalBackgroundService = new MedicalBackgroundService(mockRepo.Object, mockRepoList.Object);
-            var result = (await mockRepo.Object.GetByConditionAsync(i => i.IdExpediente == 1)).ToList();
-            var result2 = (await MedicalBackgroundService.GetBackgroundByRecordId(1)).ToList();
-            Assert.Equal(MedicalBackgroundTest.IdListaAntecedentes, result.First().IdListaAntecedentes);
-            Assert.Equal(MedicalBackgroundTest.IdExpediente, result.First().IdExpediente);
-        }
+        //[Fact]
+        //public async void getMedicalBackgroundByRecordIdReturnsValidMedicalBackground()
+        //{
+        //    var mockRepo = new Mock<IMedicalBackgroundRepository>();
+        //    var mockRepoList = new Mock<IMedicalBackgroundListRepository>();
+        //    var MedicalBackgroundTest = new Antecedentes
+        //    {
+        //        IdExpediente = 1,
+        //        IdListaAntecedentes = 1,
+        //        FechaCreacion = DateTime.Now
+        //    };
+        //    var MedicalBackgroundList = new List<Antecedentes>
+        //    {
+        //        MedicalBackgroundTest
+        //    };
+        //    IEnumerable<Antecedentes> MedicalBackgroundEnumerable = MedicalBackgroundList;
+        //    mockRepo
+        //     .Setup(p => p.GetByConditionAsync(i => i.IdExpediente == 1))
+        //     .Returns(Task.FromResult(MedicalBackgroundEnumerable));
+        //    IMedicalBackgroundService MedicalBackgroundService = new MedicalBackgroundService(mockRepo.Object, mockRepoList.Object);
+        //    var result = (await mockRepo.Object.GetByConditionAsync(i => i.IdExpediente == 1)).ToList();
+        //    var result2 = (await MedicalBackgroundService.GetBackgroundByRecordId(1)).ToList();
+        //    Assert.Equal(MedicalBackgroundTest.IdListaAntecedentes, result.First().IdListaAntecedentes);
+        //    Assert.Equal(MedicalBackgroundTest.IdExpediente, result.First().IdExpediente);
+        //}
 
         [Fact]
         public async void InsertMedicalBackgroundAsync()

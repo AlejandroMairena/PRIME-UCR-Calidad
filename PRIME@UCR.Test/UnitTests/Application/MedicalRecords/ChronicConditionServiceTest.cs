@@ -41,32 +41,32 @@ namespace PRIME_UCR.Test.UnitTests.Application.MedicalRecords
             //Assert.Null(result2);
         }
 
-        [Fact]
-        public async void getChronicConditionByRecordIdReturnsValidAllergy()
-        {
-            var mockRepo = new Mock<IChronicConditionRepository>();
-            var mockRepoList = new Mock<IChronicConditionListRepository>();
-            var chronicConditionTest = new PadecimientosCronicos
-            {
-                IdExpediente = 1,
-                IdListaPadecimiento = 1,
-                FechaCreacion = DateTime.Now
-            };
-            var chronicConditionList = new List<PadecimientosCronicos>
-            {
-                chronicConditionTest
-            };
-            IEnumerable<PadecimientosCronicos> chronicConditionEnumerable = chronicConditionList;
-            mockRepo
-             .Setup(p => p.GetByConditionAsync(i => i.IdExpediente == 1))
-             .Returns(Task.FromResult(chronicConditionEnumerable));
-            IChronicConditionService ChronicConditionService =
-                new ChronicConditionService(mockRepo.Object, mockRepoList.Object);
-            var result = (await mockRepo.Object.GetByConditionAsync(i => i.IdExpediente == 1)).ToList();
-            var result2 = (await ChronicConditionService.GetChronicConditionByRecordId(1)).ToList();
-            Assert.Equal(chronicConditionTest.IdListaPadecimiento, result.First().IdListaPadecimiento);
-            Assert.Equal(chronicConditionTest.IdExpediente, result.First().IdExpediente);
-        }
+        //[Fact]
+        //public async void getChronicConditionByRecordIdReturnsValidAllergy()
+        //{
+        //    var mockRepo = new Mock<IChronicConditionRepository>();
+        //    var mockRepoList = new Mock<IChronicConditionListRepository>();
+        //    var chronicConditionTest = new PadecimientosCronicos
+        //    {
+        //        IdExpediente = 1,
+        //        IdListaPadecimiento = 1,
+        //        FechaCreacion = DateTime.Now
+        //    };
+        //    var chronicConditionList = new List<PadecimientosCronicos>
+        //    {
+        //        chronicConditionTest
+        //    };
+        //    IEnumerable<PadecimientosCronicos> chronicConditionEnumerable = chronicConditionList;
+        //    mockRepo
+        //     .Setup(p => p.GetByConditionAsync(i => i.IdExpediente == 1))
+        //     .Returns(Task.FromResult(chronicConditionEnumerable));
+        //    IChronicConditionService ChronicConditionService =
+        //        new ChronicConditionService(mockRepo.Object, mockRepoList.Object);
+        //    var result = (await mockRepo.Object.GetByConditionAsync(i => i.IdExpediente == 1)).ToList();
+        //    var result2 = (await ChronicConditionService.GetChronicConditionByRecordId(1)).ToList();
+        //    Assert.Equal(chronicConditionTest.IdListaPadecimiento, result.First().IdListaPadecimiento);
+        //    Assert.Equal(chronicConditionTest.IdExpediente, result.First().IdExpediente);
+        //}
 
         [Fact]
         public async void InsertChronicConditionAsync()
