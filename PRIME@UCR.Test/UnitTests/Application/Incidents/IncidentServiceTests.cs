@@ -348,7 +348,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
             var _MockIncidentRepository = new Mock<IIncidentRepository>();
             string CodeToTest = "CodeToTest";
             _MockIncidentRepository
-               .Setup(p => p.GetWithDetailsAsync(CodeToTest))
+               .Setup(p => p.GetByKeyAsync(CodeToTest))
                .Returns(Task.FromResult<Incidente>(null));
             var incidentServiceToTest = new IncidentService(_MockIncidentRepository.Object, null, null, null, null, null, null, null, new AuthorizationMock().Object);
             await Assert.ThrowsAsync<ArgumentException>(() => incidentServiceToTest.RejectIncidentAsync(CodeToTest, ""));
@@ -373,16 +373,16 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
                 CodigoCita = 1
             };
             _MockIncidentRepository
-               .Setup(p => p.GetWithDetailsAsync(CodeToTest))
+               .Setup(p => p.GetByKeyAsync(CodeToTest))
                .Returns(Task.FromResult(IncidentToTest));
             _MockStateRepository
                 .Setup(p => p.GetCurrentStateByIncidentId(IncidentToTest.Codigo))
                 .Returns(Task.FromResult(StateToTest));
             var incidentServiceToTest = new IncidentService(_MockIncidentRepository.Object, null, _MockStateRepository.Object, null, null, null, null, null, new AuthorizationMock().Object);
-            await Assert.ThrowsAsync<ArgumentException>(() => incidentServiceToTest.RejectIncidentAsync(CodeToTest, ""));
+            await Assert.ThrowsAsync<ApplicationException>(() => incidentServiceToTest.RejectIncidentAsync(CodeToTest, ""));
         }
 
-            [Fact]
+        [Fact]
         public async Task GetTransportModesAsyncReturnsNonEmptyList()
         {
             // arrange
