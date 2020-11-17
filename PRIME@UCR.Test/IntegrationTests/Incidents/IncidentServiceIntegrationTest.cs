@@ -28,6 +28,43 @@ namespace PRIME_UCR.Test.IntegrationTests.Incidents
             Assert.NotEmpty(result);
         }
 
+        [Fact]
+        public async Task GetIncidentAsyncReturnsNull()
+        {
+            /*
+             * Case: There are incidents in post deployment
+             * -> returns a null incident for the respective code that doesnt exist.
+             */
+            var incidentService = _factory.Services.GetRequiredService<IIncidentService>();
+            var incidentCode = "Prueba";
+            var result = await incidentService.GetIncidentAsync(incidentCode);
+            Assert.Null(result);
+        }
 
+        [Fact]
+        public async Task GetIncidentAsyncReturnsNotNull()
+        {
+            /*
+             * Case: There are incidents in post deployment
+             * -> returns an incident with the respective code.
+             */
+            var incidentService = _factory.Services.GetRequiredService<IIncidentService>();
+            var incidentCode = "2020-11-16-0001-IT-TER";
+            var result = await incidentService.GetIncidentAsync(incidentCode);
+            Assert.NotNull(result);
+        }
+
+        [Fact]
+        public async Task GetIncidentStateReturnsValid()
+        {
+            /*
+             * Case: There are incidents in post deployment
+             * -> returns an incident state for the respective code.
+             */
+            var incidentService = _factory.Services.GetRequiredService<IIncidentService>();
+            var incidentCode = "2020-11-16-0001-IT-TER";
+            var result = await incidentService.GetIncidentStateByIdAsync(incidentCode);
+            Assert.NotNull(result);
+        }
     }
 }
