@@ -69,6 +69,8 @@ namespace PRIME_UCR.Infrastructure.DataProviders.Implementations
 
         public DbSet<Alergias> Alergies { get; set; }
         public DbSet<ListaAlergia> ListAlergies { get; set; }
+        public DbSet<PadecimientosCronicos> ChronicCondition { get; set; }
+        public DbSet<ListaPadecimiento> ListChronicCondition { get; set; }
         public ApplicationDbContext(DbContextOptions options, IConfiguration configuration) : base(options)
         {
             DbConnection = Database.GetDbConnection();
@@ -127,6 +129,8 @@ namespace PRIME_UCR.Infrastructure.DataProviders.Implementations
             builder.ApplyConfiguration(new ListaAntecedenteMap());
             builder.ApplyConfiguration(new AlergiaMap());
             builder.ApplyConfiguration(new ListaAlergiaMap());
+            builder.ApplyConfiguration(new PadecimientoCronicoMap());
+            builder.ApplyConfiguration(new ListaPadecimientosMap());
         }
 
         public Task<int> SaveChangesAsync()
