@@ -380,7 +380,7 @@ VALUES
 	'-' +
 	'IT' +
 	'-' +
-	'AER', 'Asignado', GETDATE(), 1
+	'AER', 'En proceso de creación', GETDATE(), 1
 ),
 (
 	RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) + 
