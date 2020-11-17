@@ -4,6 +4,7 @@ using PRIME_UCR.Application.DTOs.Dashboard;
 using PRIME_UCR.Application.Repositories.Dashboard;
 using PRIME_UCR.Application.Services.UserAdministration;
 using PRIME_UCR.Domain.Models;
+using PRIME_UCR.Domain.Models.Incidents;
 using PRIME_UCR.Infrastructure.DataProviders;
 using PRIME_UCR.Infrastructure.Permissions.Dashboard;
 using RepoDb;
@@ -64,27 +65,61 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Dashboard
          */
         public async Task<List<Incidente>> GetAllIncidentsAsync()
         {
-            var incidents = new List<Incidente>();
             using (var connection = new SqlConnection(_db.ConnectionString))
             {
-                var extractor = await connection.ExecuteQueryMultipleAsync(@"
-                    SELECT *
-                    FROM Incidente;
+                var sql =
+                    // Incidente
+                    @"
+                        select *
+                        from Incidente;
+                    " +
+                    // Cita
+                    @"
+                        select C.*
+                        from Incidente I
+                        join Cita C on C.Id = I.CodigoCita;
+                    " +
+                    // Destino - CentroUbicacion
+                    @"
+                        select CU.*
+                        from Incidente
+                        left join Ubicacion U on Incidente.IdDestino = U.Id
+                        left join Centro_Ubicacion CU on U.Id = CU.Id
+                    " +
+                    // Estado
+                    @"
+                        select EI.*
+                        from Incidente
+                        join EstadoIncidente EI on Incidente.Codigo = EI.CodigoIncidente
+                        where EI.Activo = 1;
+                    ";
 
-                    SELECT *
-                    FROM Cita;
-                ");
-
-                incidents = extractor.Extract<Incidente>().AsList();
-                var appointments = extractor.Extract<Cita>().AsList();
-
-                foreach(var incident in incidents)
+                using (var result = await connection.ExecuteQueryMultipleAsync(sql))
                 {
-                    incident.Cita = appointments.FirstOrDefault(a => a.Id == incident.CodigoCita);
-                }
+                    var incidents = await result.ExtractAsync<Incidente>();
+                    var appointments = await result.ExtractAsync<Cita>();
+                    var destinations = await result.ExtractAsync<CentroUbicacion>();
+                    var medicalCenters = await connection.QueryAllAsync<CentroMedico>();
+                    var states = await result.ExtractAsync<EstadoIncidente>();
+                    var origins = _db.Incidents
+                            .AsNoTracking()
+                            .Include(i => i.Origen)
+                            .Select(i => i.Origen);
+                    var districts = await _db.Districts
+                        .Include(d => d.Canton)
+                        .ThenInclude(c => c.Provincia)
+                        .ToListAsync();
 
+                    foreach(var incident in incidents)
+                    {
+                        incident.Cita = appointments.FirstOrDefault(a => a.Id == incident.CodigoCita);
+                        incident.Destino = destinations.FirstOrDefault(d => d.Id == incident.IdDestino);
+                        incident.Origen = origins.FirstOrDefault(d => d.Id == incident.IdOrigen);
+                        incident.EstadoIncidentes.AddRange(states.Where(s => s.CodigoIncidente == incident.Codigo));
+                    }
+                    return incidents.ToList();
+                }
             }
-            return incidents;
 
         }
 
@@ -95,12 +130,31 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Dashboard
          */
         public async Task<List<Distrito>> GetAllDistrictsAsync()
         {
-            var result = new List<Distrito>();
-            using (var connection = new SqlConnection(_db.ConnectionString))
+            var districts = new List<Distrito>();
+            using (var connection = new SqlConnection(_db.DbConnection.ConnectionString))
             {
-                result = (await connection.QueryAllAsync<Distrito>()).AsList();
+                var returnedValue = await connection.ExecuteQueryMultipleAsync(@"
+                    SELECT *
+                    FROM Provincia;
+
+                    SELECT *
+                    FROM Canton;
+
+                    SELECT *
+                    FROM Distrito;
+                ");
+
+                var provinces = returnedValue.Extract<Provincia>().AsList();
+                var cantons = returnedValue.Extract<Canton>().AsList();
+                districts = returnedValue.Extract<Distrito>().AsList();
+
+                foreach(var district in districts)
+                {
+                    district.Canton = cantons.FirstOrDefault(c => c.Id == district.IdCanton);
+                    district.Canton.Provincia = provinces.FirstOrDefault(p => p.Nombre == district.Canton.NombreProvincia);
+                }
             }
-            return result;
+            return districts;
         }
 
         public Task<Incidente> GetByKeyAsync(string key)

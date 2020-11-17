@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using PRIME_UCR.Application.DTOs.Dashboard;
 using PRIME_UCR.Application.Services.Dashboard;
+using PRIME_UCR.Application.Services.Incidents;
+using PRIME_UCR.Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,6 +33,9 @@ namespace PRIME_UCR.Components.Dashboard.IncidentsGraph
         [Inject]
         IModalService Modal { get; set; }
 
+        [Inject]
+        public ILocationService _locationService { get; set; }
+
 
         protected override async Task OnParametersSetAsync()
         {
@@ -44,19 +49,32 @@ namespace PRIME_UCR.Components.Dashboard.IncidentsGraph
 
             eventQuantity = incidentsData.Count();
 
-            var districtData = await _dashboardService.GetAllDistrictsAsync();
+            var medicalCenters = await _locationService.GetAllMedicalCentersAsync();
 
-            var incidentsPerDestination = incidentsData.GroupBy(i => i.IdDestino);
+            var incidentsPerDestination = incidentsData.GroupBy(i => { 
+                if(i.Destino != null)
+                {
+                    var cu = i.Destino as CentroUbicacion;
+                    return cu.CentroMedicoId;
+                } else
+                {
+                    return 0;
+                }
+            });
 
             var results = new List<String>();
 
             foreach (var incidents in incidentsPerDestination)
             {
                 var labelName = "No Asignado";
-                var district = districtData.Where((district) => district.Id == incidents.ToList().First().IdDestino);
-                if (district.Any())
+                if(incidents.Key != 0)
                 {
-                    labelName = district.First().Nombre;
+                    var medicalCenter = medicalCenters.Where((medCenter) => incidents.ToList().First().Destino is CentroUbicacion cu 
+                                                                                        && cu.CentroMedicoId == medCenter.Id);
+                    if (medicalCenter.Any())
+                    {
+                        labelName = medicalCenter.First().Nombre;
+                    }
                 }
                 results.Add(labelName);
                 results.Add(incidents.ToList().Count().ToString());

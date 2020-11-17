@@ -314,6 +314,7 @@ VALUES
     ('11111111', 17, 9, 'Terrestre'),
     ('11111111', 18, 9, 'Terrestre'),
     ('11111111', 19, 8, 'Terrestre'),
+	('11111111', 20, 3, 'Terrestre'),
     ('11111111', 21, 4, 'Marítimo'),
     ('11111111', 22, 5, 'Marítimo'),
     ('11111111', 23, 1, 'Aéreo'),
@@ -380,5 +381,498 @@ VALUES
 	'IT' +
 	'-' +
 	'AER', 'Asignado', GETDATE(), 1
-)
-
+),
+(
+	RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) + 
+	'-' +
+	RIGHT(REPLICATE('0', 2) + CAST(MONTH(GETDATE()) AS varchar(10)), 2) + 
+	'-' +
+	RIGHT(REPLICATE('0', 2) + CAST(DAY(GETDATE()) AS varchar(10)), 2) + 
+	'-' +
+	RIGHT(REPLICATE('0', 4) + '3', 4) + 
+	'-' +
+	'IT' +
+	'-' +
+	'AER', 'En proceso de creación', GETDATE(), 1
+),
+(
+	RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) + 
+	'-' +
+	RIGHT(REPLICATE('0', 2) + CAST(MONTH(GETDATE()) AS varchar(10)), 2) + 
+	'-' +
+	RIGHT(REPLICATE('0', 2) + CAST(DAY(GETDATE()) AS varchar(10)), 2) + 
+	'-' +
+	RIGHT(REPLICATE('0', 4) + '4', 4) + 
+	'-' +
+	'IT' +
+	'-' +
+	'AER', 'En proceso de creación', GETDATE(), 1
+),
+(
+	RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) + 
+	'-' +
+	RIGHT(REPLICATE('0', 2) + CAST(MONTH(GETDATE()) AS varchar(10)), 2) + 
+	'-' +
+	RIGHT(REPLICATE('0', 2) + CAST(DAY(GETDATE()) AS varchar(10)), 2) + 
+	'-' +
+	RIGHT(REPLICATE('0', 4) + '5', 4) + 
+	'-' +
+	'IT' +
+	'-' +
+	'AER', 'En proceso de creación', GETDATE(), 1
+),
+(
+	RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) + 
+	'-' +
+	RIGHT(REPLICATE('0', 2) + CAST(MONTH(GETDATE()) AS varchar(10)), 2) + 
+	'-' +
+	RIGHT(REPLICATE('0', 2) + CAST(DAY(GETDATE()) AS varchar(10)), 2) + 
+	'-' +
+	RIGHT(REPLICATE('0', 4) + '6', 4) + 
+	'-' +
+	'IT' +
+	'-' +
+	'AER', 'En proceso de creación', GETDATE(), 1
+),
+(
+	RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) + 
+	'-' +
+	RIGHT(REPLICATE('0', 2) + CAST(MONTH(GETDATE()) AS varchar(10)), 2) + 
+	'-' +
+	RIGHT(REPLICATE('0', 2) + CAST(DAY(GETDATE()) AS varchar(10)), 2) + 
+	'-' +
+	RIGHT(REPLICATE('0', 4) + '7', 4) + 
+	'-' +
+	'IT' +
+	'-' +
+	'AER', 'En proceso de creación', GETDATE(), 1
+),
+(
+	RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) + 
+	'-' +
+	RIGHT(REPLICATE('0', 2) + CAST(MONTH(GETDATE()) AS varchar(10)), 2) + 
+	'-' +
+	RIGHT(REPLICATE('0', 2) + CAST(DAY(GETDATE()) AS varchar(10)), 2) + 
+	'-' +
+	RIGHT(REPLICATE('0', 4) + '8', 4) + 
+	'-' +
+	'IT' +
+	'-' +
+	'AER', 'En proceso de creación', GETDATE(), 1
+),
+(
+	RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) + 
+	'-' +
+	RIGHT(REPLICATE('0', 2) + CAST(MONTH(GETDATE()) AS varchar(10)), 2) + 
+	'-' +
+	RIGHT(REPLICATE('0', 2) + CAST(DAY(GETDATE()) AS varchar(10)), 2) + 
+	'-' +
+	RIGHT(REPLICATE('0', 4) + '9', 4) + 
+	'-' +
+	'IT' +
+	'-' +
+	'AER', 'En proceso de creación', GETDATE(), 1
+),
+(
+	RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) + 
+	'-' +
+	RIGHT(REPLICATE('0', 2) + CAST(MONTH(GETDATE()) AS varchar(10)), 2) + 
+	'-' +
+	RIGHT(REPLICATE('0', 2) + CAST(DAY(GETDATE()) AS varchar(10)), 2) + 
+	'-' +
+	RIGHT(REPLICATE('0', 4) + '10', 4) + 
+	'-' +
+	'IT' +
+	'-' +
+	'MAR', 'En proceso de creación', GETDATE(), 1
+),
+(
+	RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) + 
+	'-' +
+	RIGHT(REPLICATE('0', 2) + CAST(MONTH(GETDATE()) AS varchar(10)), 2) + 
+	'-' +
+	RIGHT(REPLICATE('0', 2) + CAST(DAY(GETDATE()) AS varchar(10)), 2) + 
+	'-' +
+	RIGHT(REPLICATE('0', 4) + '11', 4) + 
+	'-' +
+	'IT' +
+	'-' +
+	'MAR', 'En proceso de creación', GETDATE(), 1
+),
+(
+	RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) + 
+	'-' +
+	RIGHT(REPLICATE('0', 2) + CAST(MONTH(GETDATE()) AS varchar(10)), 2) + 
+	'-' +
+	RIGHT(REPLICATE('0', 2) + CAST(DAY(GETDATE()) AS varchar(10)), 2) + 
+	'-' +
+	RIGHT(REPLICATE('0', 4) + '12', 4) + 
+	'-' +
+	'IT' +
+	'-' +
+	'MAR', 'En proceso de creación', GETDATE(), 1
+),
+(
+	RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) + 
+	'-' +
+	RIGHT(REPLICATE('0', 2) + CAST(MONTH(GETDATE()) AS varchar(10)), 2) + 
+	'-' +
+	RIGHT(REPLICATE('0', 2) + CAST(DAY(GETDATE()) AS varchar(10)), 2) + 
+	'-' +
+	RIGHT(REPLICATE('0', 4) + '13', 4) + 
+	'-' +
+	'IT' +
+	'-' +
+	'AER', 'En proceso de creación', GETDATE(), 1
+),
+(
+	RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) + 
+	'-' +
+	RIGHT(REPLICATE('0', 2) + CAST(MONTH(GETDATE()) AS varchar(10)), 2) + 
+	'-' +
+	RIGHT(REPLICATE('0', 2) + CAST(DAY(GETDATE()) AS varchar(10)), 2) + 
+	'-' +
+	RIGHT(REPLICATE('0', 4) + '14', 4) + 
+	'-' +
+	'IT' +
+	'-' +
+	'MAR', 'En proceso de creación', GETDATE(), 1
+),
+(
+	RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) + 
+	'-' +
+	RIGHT(REPLICATE('0', 2) + CAST(MONTH(GETDATE()) AS varchar(10)), 2) + 
+	'-' +
+	RIGHT(REPLICATE('0', 2) + CAST(DAY(GETDATE()) AS varchar(10)), 2) + 
+	'-' +
+	RIGHT(REPLICATE('0', 4) + '15', 4) + 
+	'-' +
+	'IT' +
+	'-' +
+	'MAR', 'En proceso de creación', GETDATE(), 1
+),
+(
+	RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) + 
+	'-' +
+	RIGHT(REPLICATE('0', 2) + CAST(MONTH(GETDATE()) AS varchar(10)), 2) + 
+	'-' +
+	RIGHT(REPLICATE('0', 2) + CAST(DAY(GETDATE()) AS varchar(10)), 2) + 
+	'-' +
+	RIGHT(REPLICATE('0', 4) + '16', 4) + 
+	'-' +
+	'IT' +
+	'-' +
+	'MAR', 'En proceso de creación', GETDATE(), 1
+),
+(
+	RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) + 
+	'-' +
+	RIGHT(REPLICATE('0', 2) + CAST(MONTH(GETDATE()) AS varchar(10)), 2) + 
+	'-' +
+	RIGHT(REPLICATE('0', 2) + CAST(DAY(GETDATE()) AS varchar(10)), 2) + 
+	'-' +
+	RIGHT(REPLICATE('0', 4) + '17', 4) + 
+	'-' +
+	'IT' +
+	'-' +
+	'TER', 'En proceso de creación', GETDATE(), 1
+),
+(
+	RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) + 
+	'-' +
+	RIGHT(REPLICATE('0', 2) + CAST(MONTH(GETDATE()) AS varchar(10)), 2) + 
+	'-' +
+	RIGHT(REPLICATE('0', 2) + CAST(DAY(GETDATE()) AS varchar(10)), 2) + 
+	'-' +
+	RIGHT(REPLICATE('0', 4) + '18', 4) + 
+	'-' +
+	'IT' +
+	'-' +
+	'TER', 'En proceso de creación', GETDATE(), 1
+),
+(
+	RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) + 
+	'-' +
+	RIGHT(REPLICATE('0', 2) + CAST(MONTH(GETDATE()) AS varchar(10)), 2) + 
+	'-' +
+	RIGHT(REPLICATE('0', 2) + CAST(DAY(GETDATE()) AS varchar(10)), 2) + 
+	'-' +
+	RIGHT(REPLICATE('0', 4) + '19', 4) + 
+	'-' +
+	'IT' +
+	'-' +
+	'TER', 'En proceso de creación', GETDATE(), 1
+),
+(
+	RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) + 
+	'-' +
+	RIGHT(REPLICATE('0', 2) + CAST(MONTH(GETDATE()) AS varchar(10)), 2) + 
+	'-' +
+	RIGHT(REPLICATE('0', 2) + CAST(DAY(GETDATE()) AS varchar(10)), 2) + 
+	'-' +
+	RIGHT(REPLICATE('0', 4) + '20', 4) + 
+	'-' +
+	'IT' +
+	'-' +
+	'TER', 'En proceso de creación', GETDATE(), 1
+),
+(
+	RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) + 
+	'-' +
+	RIGHT(REPLICATE('0', 2) + CAST(MONTH(GETDATE()) AS varchar(10)), 2) + 
+	'-' +
+	RIGHT(REPLICATE('0', 2) + CAST(DAY(GETDATE()) AS varchar(10)), 2) + 
+	'-' +
+	RIGHT(REPLICATE('0', 4) + '21', 4) + 
+	'-' +
+	'IT' +
+	'-' +
+	'MAR', 'En proceso de creación', GETDATE(), 1
+),
+(
+	RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) + 
+	'-' +
+	RIGHT(REPLICATE('0', 2) + CAST(MONTH(GETDATE()) AS varchar(10)), 2) + 
+	'-' +
+	RIGHT(REPLICATE('0', 2) + CAST(DAY(GETDATE()) AS varchar(10)), 2) + 
+	'-' +
+	RIGHT(REPLICATE('0', 4) + '22', 4) + 
+	'-' +
+	'IT' +
+	'-' +
+	'MAR', 'En proceso de creación', GETDATE(), 1
+),
+(
+	RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) + 
+	'-' +
+	RIGHT(REPLICATE('0', 2) + CAST(MONTH(GETDATE()) AS varchar(10)), 2) + 
+	'-' +
+	RIGHT(REPLICATE('0', 2) + CAST(DAY(GETDATE()) AS varchar(10)), 2) + 
+	'-' +
+	RIGHT(REPLICATE('0', 4) + '23', 4) + 
+	'-' +
+	'IT' +
+	'-' +
+	'AER', 'En proceso de creación', GETDATE(), 1
+),
+(
+	RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) + 
+	'-' +
+	RIGHT(REPLICATE('0', 2) + CAST(MONTH(GETDATE()) AS varchar(10)), 2) + 
+	'-' +
+	RIGHT(REPLICATE('0', 2) + CAST(DAY(GETDATE()) AS varchar(10)), 2) + 
+	'-' +
+	RIGHT(REPLICATE('0', 4) + '24', 4) + 
+	'-' +
+	'IT' +
+	'-' +
+	'TER', 'En proceso de creación', GETDATE(), 1
+),
+(
+	RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) + 
+	'-' +
+	RIGHT(REPLICATE('0', 2) + CAST(MONTH(GETDATE()) AS varchar(10)), 2) + 
+	'-' +
+	RIGHT(REPLICATE('0', 2) + CAST(DAY(GETDATE()) AS varchar(10)), 2) + 
+	'-' +
+	RIGHT(REPLICATE('0', 4) + '25', 4) + 
+	'-' +
+	'IT' +
+	'-' +
+	'AER', 'En proceso de creación', GETDATE(), 1
+),
+(
+	RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) + 
+	'-' +
+	RIGHT(REPLICATE('0', 2) + CAST(MONTH(GETDATE()) AS varchar(10)), 2) + 
+	'-' +
+	RIGHT(REPLICATE('0', 2) + CAST(DAY(GETDATE()) AS varchar(10)), 2) + 
+	'-' +
+	RIGHT(REPLICATE('0', 4) + '26', 4) + 
+	'-' +
+	'IT' +
+	'-' +
+	'TER', 'En proceso de creación', GETDATE(), 1
+),
+(
+	RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) + 
+	'-' +
+	RIGHT(REPLICATE('0', 2) + CAST(MONTH(GETDATE()) AS varchar(10)), 2) + 
+	'-' +
+	RIGHT(REPLICATE('0', 2) + CAST(DAY(GETDATE()) AS varchar(10)), 2) + 
+	'-' +
+	RIGHT(REPLICATE('0', 4) + '27', 4) + 
+	'-' +
+	'IT' +
+	'-' +
+	'TER', 'En proceso de creación', GETDATE(), 1
+),
+(
+	RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) + 
+	'-' +
+	RIGHT(REPLICATE('0', 2) + CAST(MONTH(GETDATE()) AS varchar(10)), 2) + 
+	'-' +
+	RIGHT(REPLICATE('0', 2) + CAST(DAY(GETDATE()) AS varchar(10)), 2) + 
+	'-' +
+	RIGHT(REPLICATE('0', 4) + '28', 4) + 
+	'-' +
+	'IT' +
+	'-' +
+	'MAR', 'En proceso de creación', GETDATE(), 1
+),
+(
+	RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) + 
+	'-' +
+	RIGHT(REPLICATE('0', 2) + CAST(MONTH(GETDATE()) AS varchar(10)), 2) + 
+	'-' +
+	RIGHT(REPLICATE('0', 2) + CAST(DAY(GETDATE()) AS varchar(10)), 2) + 
+	'-' +
+	RIGHT(REPLICATE('0', 4) + '29', 4) + 
+	'-' +
+	'IT' +
+	'-' +
+	'AER', 'En proceso de creación', GETDATE(), 1
+),
+(
+	RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) + 
+	'-' +
+	RIGHT(REPLICATE('0', 2) + CAST(MONTH(GETDATE()) AS varchar(10)), 2) + 
+	'-' +
+	RIGHT(REPLICATE('0', 2) + CAST(DAY(GETDATE()) AS varchar(10)), 2) + 
+	'-' +
+	RIGHT(REPLICATE('0', 4) + '30', 4) + 
+	'-' +
+	'IT' +
+	'-' +
+	'TER', 'En proceso de creación', GETDATE(), 1
+),
+(
+	RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) + 
+	'-' +
+	RIGHT(REPLICATE('0', 2) + CAST(MONTH(GETDATE()) AS varchar(10)), 2) + 
+	'-' +
+	RIGHT(REPLICATE('0', 2) + CAST(DAY(GETDATE()) AS varchar(10)), 2) + 
+	'-' +
+	RIGHT(REPLICATE('0', 4) + '31', 4) + 
+	'-' +
+	'IT' +
+	'-' +
+	'TER', 'En proceso de creación', GETDATE(), 1
+),
+(
+	RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) + 
+	'-' +
+	RIGHT(REPLICATE('0', 2) + CAST(MONTH(GETDATE()) AS varchar(10)), 2) + 
+	'-' +
+	RIGHT(REPLICATE('0', 2) + CAST(DAY(GETDATE()) AS varchar(10)), 2) + 
+	'-' +
+	RIGHT(REPLICATE('0', 4) + '32', 4) + 
+	'-' +
+	'IT' +
+	'-' +
+	'MAR', 'En proceso de creación', GETDATE(), 1
+),
+(
+	RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) + 
+	'-' +
+	RIGHT(REPLICATE('0', 2) + CAST(MONTH(GETDATE()) AS varchar(10)), 2) + 
+	'-' +
+	RIGHT(REPLICATE('0', 2) + CAST(DAY(GETDATE()) AS varchar(10)), 2) + 
+	'-' +
+	RIGHT(REPLICATE('0', 4) + '33', 4) + 
+	'-' +
+	'IT' +
+	'-' +
+	'TER', 'En proceso de creación', GETDATE(), 1
+),
+(
+	RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) + 
+	'-' +
+	RIGHT(REPLICATE('0', 2) + CAST(MONTH(GETDATE()) AS varchar(10)), 2) + 
+	'-' +
+	RIGHT(REPLICATE('0', 2) + CAST(DAY(GETDATE()) AS varchar(10)), 2) + 
+	'-' +
+	RIGHT(REPLICATE('0', 4) + '34', 4) + 
+	'-' +
+	'IT' +
+	'-' +
+	'MAR', 'En proceso de creación', GETDATE(), 1
+),
+(
+	RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) + 
+	'-' +
+	RIGHT(REPLICATE('0', 2) + CAST(MONTH(GETDATE()) AS varchar(10)), 2) + 
+	'-' +
+	RIGHT(REPLICATE('0', 2) + CAST(DAY(GETDATE()) AS varchar(10)), 2) + 
+	'-' +
+	RIGHT(REPLICATE('0', 4) + '35', 4) + 
+	'-' +
+	'IT' +
+	'-' +
+	'TER', 'En proceso de creación', GETDATE(), 1
+),
+(
+	RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) + 
+	'-' +
+	RIGHT(REPLICATE('0', 2) + CAST(MONTH(GETDATE()) AS varchar(10)), 2) + 
+	'-' +
+	RIGHT(REPLICATE('0', 2) + CAST(DAY(GETDATE()) AS varchar(10)), 2) + 
+	'-' +
+	RIGHT(REPLICATE('0', 4) + '36', 4) + 
+	'-' +
+	'IT' +
+	'-' +
+	'AER', 'En proceso de creación', GETDATE(), 1
+),
+(
+	RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) + 
+	'-' +
+	RIGHT(REPLICATE('0', 2) + CAST(MONTH(GETDATE()) AS varchar(10)), 2) + 
+	'-' +
+	RIGHT(REPLICATE('0', 2) + CAST(DAY(GETDATE()) AS varchar(10)), 2) + 
+	'-' +
+	RIGHT(REPLICATE('0', 4) + '37', 4) + 
+	'-' +
+	'IT' +
+	'-' +
+	'TER', 'En proceso de creación', GETDATE(), 1
+),
+(
+	RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) + 
+	'-' +
+	RIGHT(REPLICATE('0', 2) + CAST(MONTH(GETDATE()) AS varchar(10)), 2) + 
+	'-' +
+	RIGHT(REPLICATE('0', 2) + CAST(DAY(GETDATE()) AS varchar(10)), 2) + 
+	'-' +
+	RIGHT(REPLICATE('0', 4) + '38', 4) + 
+	'-' +
+	'IT' +
+	'-' +
+	'AER', 'En proceso de creación', GETDATE(), 1
+),
+(
+	RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) + 
+	'-' +
+	RIGHT(REPLICATE('0', 2) + CAST(MONTH(GETDATE()) AS varchar(10)), 2) + 
+	'-' +
+	RIGHT(REPLICATE('0', 2) + CAST(DAY(GETDATE()) AS varchar(10)), 2) + 
+	'-' +
+	RIGHT(REPLICATE('0', 4) + '39', 4) + 
+	'-' +
+	'IT' +
+	'-' +
+	'AER', 'En proceso de creación', GETDATE(), 1
+),
+(
+	RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) + 
+	'-' +
+	RIGHT(REPLICATE('0', 2) + CAST(MONTH(GETDATE()) AS varchar(10)), 2) + 
+	'-' +
+	RIGHT(REPLICATE('0', 2) + CAST(DAY(GETDATE()) AS varchar(10)), 2) + 
+	'-' +
+	RIGHT(REPLICATE('0', 4) + '40', 4) + 
+	'-' +
+	'IT' +
+	'-' +
+	'TER', 'En proceso de creación', GETDATE(), 1
+);

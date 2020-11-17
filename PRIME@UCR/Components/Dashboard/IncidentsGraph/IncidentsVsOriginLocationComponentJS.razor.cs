@@ -3,7 +3,10 @@ using Blazored.Modal.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using PRIME_UCR.Application.DTOs.Dashboard;
+using PRIME_UCR.Application.DTOs.Incidents;
 using PRIME_UCR.Application.Services.Dashboard;
+using PRIME_UCR.Application.Services.Incidents;
+using PRIME_UCR.Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,6 +31,9 @@ namespace PRIME_UCR.Components.Dashboard.IncidentsGraph
         public IDashboardService _dashboardService { get; set; }
 
         [Inject]
+        public ILocationService _locationService { get; set; }
+
+        [Inject]
         IModalService Modal { get; set; }
 
         protected override async Task OnParametersSetAsync()
@@ -37,13 +43,27 @@ namespace PRIME_UCR.Components.Dashboard.IncidentsGraph
 
         private async Task GenerateIncidentsVsOriginLocationComponentJS()
         {
+            var countriesData = await _locationService.GetAllCountriesAsync();
+            var provincesData = await _locationService.GetProvincesByCountryNameAsync(Pais.DefaultCountry);
+            var cantonData = new List<Canton>();
+            var districtData = new List<Distrito>();
+            if(Value.HouseholdOriginFilter.Province != null)
+            {
+                cantonData = (await _locationService.GetCantonsByProvinceNameAsync(Value.HouseholdOriginFilter.Province.Nombre)).ToList();
+            }
+            if (Value.HouseholdOriginFilter.Canton != null)
+            {
+                districtData = (await _locationService.GetDistrictsByCantonIdAsync(Value.HouseholdOriginFilter.Canton.Id)).ToList();
+            }
+
             var incidentsData = await _dashboardService.GetFilteredIncidentsList(Value);
-
+            
             eventQuantity = incidentsData.Count();
-
-            var districtData = await _dashboardService.GetAllDistrictsAsync();
-
-            var incidentsPerOrigin = incidentsData.GroupBy(i => i.IdOrigen);
+            
+            ///---------------
+            
+            
+            var incidentsPerOrigin = incidentsData.GroupBy(i => i.Origen.GetType());
 
             var results = new List<String>();
 
@@ -51,10 +71,9 @@ namespace PRIME_UCR.Components.Dashboard.IncidentsGraph
             foreach (var incidents in incidentsPerOrigin)
             {
                 var labelName = "No Asignado";
-                var district = districtData.Where((district) => district.Id == incidents.ToList().First().IdOrigen);
-                if (district.Any())
+                if(incidents.Key != null)
                 {
-                    labelName = district.First().Nombre;
+                    labelName = incidents.Key.Name;
                 }
                 results.Add(labelName);
                 results.Add(incidents.ToList().Count().ToString());
