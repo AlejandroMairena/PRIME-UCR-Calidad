@@ -68,6 +68,10 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
          */
         public async Task<Usuario> getUsuarioWithDetailsAsync(string id)
         {
+            if (id == null || id == string.Empty)
+            {
+                return null;
+            }
             return await _usuarioRepository.GetWithDetailsAsync(id);
         }
 

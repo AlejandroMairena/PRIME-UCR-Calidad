@@ -26,6 +26,17 @@ namespace PRIME_UCR.Test.IntegrationTests.UserAdministration
         }
 
         [Fact]
+        public async Task GetUsuarioWithDetailsReturnsValidUser()
+        {
+            var usuarioService = _factory.Services.GetRequiredService<IUserService>();
+            var result = await usuarioService.getUsuarioWithDetailsAsync("a6f7aa70-a038-419f-9945-7c77b093d58f");
+            Assert.Equal("a6f7aa70-a038-419f-9945-7c77b093d58f", result.Id);
+            Assert.Equal("juan.guzman@prime.com", result.Email);
+            Assert.Equal("AQAAAAEAACcQAAAAEKBfjZVSMkEvJ3kJikd/FETuy1hxI3csK3qM2EwHBlQpgixfBX3tUaxpposHbUfakg==", result.PasswordHash);
+            Assert.Equal("M7SUOG4MXMPBKLX2BN34HVOG7GRGNIDQ", result.SecurityStamp);
+        }
+
+        [Fact]
         public async Task GetPersonWithDetailstAsyncReturnsValue ()
         {
             var usuarioService = _factory.Services.GetRequiredService<IUserService>();
@@ -49,6 +60,34 @@ namespace PRIME_UCR.Test.IntegrationTests.UserAdministration
             var result = await usuarioService.GetNotAuthenticatedUsers();
             var value = result.Find(c => c.CedPersona == "11111111");
             Assert.NotNull(value);
+        }
+
+        [Fact]
+        public async Task GetUserFormFromRegisterUserFormAsyncReturnNullTest()
+        {
+            var usuarioService = _factory.Services.GetRequiredService<IUserService>();
+            RegisterUserFormModel registerUserForm = null;
+            var result = await usuarioService.GetUserFormFromRegisterUserFormAsync(registerUserForm);
+            Assert.Null(result);
+        }
+
+
+        [Fact]
+        public async Task GetUserFormFromRegisterUserFormAsyncReturnValidUserFormTest()
+        {
+            var usuarioService = _factory.Services.GetRequiredService<IUserService>();
+
+            RegisterUserFormModel registerUserForm = new RegisterUserFormModel
+            {
+                IdCardNumber = "12345678",
+                Name = "Juan",
+                FirstLastName = "Guzman",
+                Email = "juan.guzman@prime.com"
+            };
+
+            var result = await usuarioService.GetUserFormFromRegisterUserFormAsync(registerUserForm);
+            Assert.Equal("12345678", result.IdCardNumber);
+            Assert.Equal("juan.guzman@prime.com", result.Email);
         }
 
         [Fact]

@@ -95,5 +95,24 @@ namespace PRIME_UCR.Test.IntegrationTests.UserAdministration
 
         }
 
+        [Fact]
+        public async Task GetPersonByCedAsyncReturnsNullTest()
+        {
+            var personService = _factory.Services.GetRequiredService<IPersonService>();
+            var result = await personService.GetPersonByCedAsync(String.Empty);
+            Assert.Null(result);
+        }
+
+        [Fact]
+        public async Task GetPersonByCedAsyncReturnsValidPerson()
+        {
+            var ced = "12345678";
+            var personService = _factory.Services.GetRequiredService<IPersonService>();
+            var result = await personService.GetPersonByCedAsync(ced);
+            Assert.Equal("12345678", result.Cédula);
+            Assert.Equal("Juan", result.Nombre);
+            Assert.Equal("Guzman", result.PrimerApellido);
+        }
+
     }
 }
