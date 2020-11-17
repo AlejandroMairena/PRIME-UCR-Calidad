@@ -8,6 +8,8 @@ namespace PRIME_UCR.Application.Repositories.UserAdministration
 {
     public interface IPersonaRepository
     {
+        Task<Persona> GetByCedPersonaAsync(string ced);
+
         Task<Persona> GetByKeyPersonaAsync(string id);
 
         Task<Persona> GetWithDetailsAsync(string id);
