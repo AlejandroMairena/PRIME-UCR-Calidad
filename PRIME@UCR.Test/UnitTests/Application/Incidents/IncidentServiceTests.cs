@@ -296,6 +296,21 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
         }
 
         [Fact]
+        public async Task GetIncidentDetailsAsyncReturnsNull()
+        {
+            /*If the service receives an invalid code , it should return a null
+             */
+            var _MockIncidentRepository = new Mock<IIncidentRepository>();
+            string CodeToTest = "codigoTotest";
+            _MockIncidentRepository
+               .Setup(p => p.GetWithDetailsAsync(CodeToTest))
+               .Returns(Task.FromResult<Incidente>(null));
+            var incidentServiceToTest = new IncidentService(_MockIncidentRepository.Object, null, null, null, null, null, null, null, new AuthorizationMock().Object);
+            IncidentDetailsModel result = await incidentServiceToTest.GetIncidentDetailsAsync(CodeToTest);
+            Assert.Null(result);
+        }
+
+        [Fact]
         public async Task RejectIncidentAsyncReturnsValid()
         {
             /*If the service receives valid entries it should run flawlessly.
@@ -328,6 +343,46 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
         }
 
         [Fact]
+        public async Task RejectIncidentAsyncInvalidIncident()
+        {
+            var _MockIncidentRepository = new Mock<IIncidentRepository>();
+            string CodeToTest = "CodeToTest";
+            _MockIncidentRepository
+               .Setup(p => p.GetWithDetailsAsync(CodeToTest))
+               .Returns(Task.FromResult<Incidente>(null));
+            var incidentServiceToTest = new IncidentService(_MockIncidentRepository.Object, null, null, null, null, null, null, null, new AuthorizationMock().Object);
+            await Assert.ThrowsAsync<ArgumentException>(() => incidentServiceToTest.RejectIncidentAsync(CodeToTest, ""));
+        }
+
+        [Fact]
+        public async Task RejectIncidentAsyncInvalidState()
+        {
+            var _MockIncidentRepository = new Mock<IIncidentRepository>();
+            var _MockStateRepository = new Mock<IIncidentStateRepository>();
+            string CodeToTest = "CodeToTest";
+            Estado StateToTest = new Estado
+            {
+                Nombre = "DiferenteACreado"
+            };
+            Incidente IncidentToTest = new Incidente
+            {
+                Codigo = CodeToTest,
+                CedulaRevisor = "cedulaValida",
+                Modalidad = "modalityToTest",
+                CedulaAdmin = "cedulaValida",
+                CodigoCita = 1
+            };
+            _MockIncidentRepository
+               .Setup(p => p.GetWithDetailsAsync(CodeToTest))
+               .Returns(Task.FromResult(IncidentToTest));
+            _MockStateRepository
+                .Setup(p => p.GetCurrentStateByIncidentId(IncidentToTest.Codigo))
+                .Returns(Task.FromResult(StateToTest));
+            var incidentServiceToTest = new IncidentService(_MockIncidentRepository.Object, null, _MockStateRepository.Object, null, null, null, null, null, new AuthorizationMock().Object);
+            await Assert.ThrowsAsync<ArgumentException>(() => incidentServiceToTest.RejectIncidentAsync(CodeToTest, ""));
+        }
+
+            [Fact]
         public async Task GetTransportModesAsyncReturnsNonEmptyList()
         {
             // arrange
