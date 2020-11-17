@@ -39,6 +39,12 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
             await _db.SaveChangesAsync();
         }
 
+        public async Task<Persona> GetByCedPersonaAsync(string ced)
+        {
+            await primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
+            return await _db.People.FindAsync(ced);
+        }
+
         public async Task<Persona> GetByKeyPersonaAsync(string id)
         {
             await primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());

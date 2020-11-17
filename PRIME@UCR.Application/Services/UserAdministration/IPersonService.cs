@@ -9,6 +9,8 @@ namespace PRIME_UCR.Application.Services.UserAdministration
 {
     public interface IPersonService
     {
+        Task<Persona> GetPersonByCedAsync(string ced);
+
         Task<Persona> GetPersonByIdAsync(string id);
 
         Task StoreNewPersonAsync(PersonFormModel personInfo);
