@@ -1,4 +1,4 @@
-﻿@using PRIME_UCR.Components.Dashboard.Filters
+﻿@*using PRIME_UCR.Components.Dashboard.Filters
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <div class="row">
@@ -24,6 +24,7 @@
         <div class="text-center">
             @if (Value.ButtonEnabled)
             {
+                <button  class="btn btn-primary mt-1 mb-1" @onclick:preventDefault @onclick="@ApplyFilters">Refrescar</button>
                 <button role="button" @onclick:preventDefault @onclick="@ClearFilters" class="btn btn-outline-secondary">Limpiar filtros</button>
             }
             else
@@ -33,3 +34,4 @@
         </div>
     </div>
 </div>
+*@

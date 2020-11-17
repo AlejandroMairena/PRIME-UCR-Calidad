@@ -35,8 +35,12 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
         {
             await primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             var user = await userManager.FindByEmailAsync(email);
-            var person = await getUsuarioWithDetailsAsync(user?.Id);
-            return person?.Persona;
+            if (user != null)
+            {
+                var person = await getUsuarioWithDetailsAsync(user?.Id);
+                return person?.Persona;
+            }
+            return null;
         }
 
         /**
@@ -47,10 +51,14 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
         public async Task<UserFormModel> GetUserFormFromRegisterUserFormAsync(RegisterUserFormModel userToRegister)
         {
             await primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
-            UserFormModel userModel = new UserFormModel();
-            userModel.Email = userToRegister.Email;
-            userModel.IdCardNumber = userToRegister.IdCardNumber;
-            return userModel;
+            if(userToRegister != null)
+            {
+                UserFormModel userModel = new UserFormModel();
+                userModel.Email = userToRegister.Email;
+                userModel.IdCardNumber = userToRegister.IdCardNumber;
+                return userModel;
+            }
+            return null; 
         }
 
         /**
@@ -60,6 +68,10 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
          */
         public async Task<Usuario> getUsuarioWithDetailsAsync(string id)
         {
+            if (id == null || id == string.Empty)
+            {
+                return null;
+            }
             return await _usuarioRepository.GetWithDetailsAsync(id);
         }
 

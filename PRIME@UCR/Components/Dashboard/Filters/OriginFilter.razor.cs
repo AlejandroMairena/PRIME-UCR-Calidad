@@ -59,7 +59,7 @@ namespace PRIME_UCR.Components.Dashboard.Filters
         private bool _isLoading = true;
         private bool _changesMade = false;
 
-        private async Task OnOriginTypeChange(string origin)
+        private void OnOriginTypeChange(string origin)
         {
             Value._selectedOriginType = origin;
 
@@ -126,7 +126,7 @@ namespace PRIME_UCR.Components.Dashboard.Filters
                     _changesMade = true;
                 }
             }
-            await ValueChanged.InvokeAsync(Value);
+            //await ValueChanged.InvokeAsync(Value);
         }
 
         private async Task LoadExistingValues()
@@ -182,7 +182,7 @@ namespace PRIME_UCR.Components.Dashboard.Filters
             {
                 _changesMade = true;
             }
-            await ValueChanged.InvokeAsync(Value);
+            //await ValueChanged.InvokeAsync(Value);
             await LoadCantons(false);
             await LoadDistricts(false);
         }
@@ -214,7 +214,7 @@ namespace PRIME_UCR.Components.Dashboard.Filters
             {
                 _changesMade = true;
             }
-            await ValueChanged.InvokeAsync(Value);
+            //await ValueChanged.InvokeAsync(Value);
             await LoadDistricts(false);
         }
 
@@ -230,7 +230,7 @@ namespace PRIME_UCR.Components.Dashboard.Filters
             if (!firstLoad)
                 Value._selectedHouseholdOrigin.District = null;
         }
-        private async Task OnChangeDistrict(Distrito distrito)
+        private void OnChangeDistrict(Distrito distrito)
         {
             StateHasChanged();
             Value._selectedHouseholdOrigin.District = distrito;
@@ -244,7 +244,7 @@ namespace PRIME_UCR.Components.Dashboard.Filters
             {
                 _changesMade = true;
             }
-            await ValueChanged.InvokeAsync(Value);
+            //await ValueChanged.InvokeAsync(Value);
         }
 
         // Needed international methods 
@@ -258,7 +258,7 @@ namespace PRIME_UCR.Components.Dashboard.Filters
                 Value.InternationalOriginFilter.Country = null;
 
         }
-        private async Task OnChangeCountry(Pais pais)
+        private void OnChangeCountry(Pais pais)
         {
             Value._selectedInternationalOrigin.Country = pais;
             if (Value.InternationalOriginFilter.Country == pais)
@@ -269,11 +269,11 @@ namespace PRIME_UCR.Components.Dashboard.Filters
             {
                 _changesMade = true;
             }
-            await ValueChanged.InvokeAsync(Value);
+            //await ValueChanged.InvokeAsync(Value);
         }
 
         // Needed medical centers methods
-        async Task OnChangeMedicalCenter(CentroMedico medicalCenter)
+        void OnChangeMedicalCenter(CentroMedico medicalCenter)
         {
             Value._selectedMedicalCenterOrigin.MedicalCenter = medicalCenter;
             if (Value.MedicalCenterOriginFilter.MedicalCenter == medicalCenter)
@@ -284,7 +284,7 @@ namespace PRIME_UCR.Components.Dashboard.Filters
             {
                 _changesMade = true;
             }
-            await ValueChanged.InvokeAsync(Value);
+            //await ValueChanged.InvokeAsync(Value);
         }
 
         private async Task LoadMedicalCenters(bool firstRender)
@@ -296,6 +296,7 @@ namespace PRIME_UCR.Components.Dashboard.Filters
             if (!firstRender)
                 Value._selectedMedicalCenterOrigin.MedicalCenter = null;
         }
+
         private async Task Discard()
         {
             _changesMade = false;
