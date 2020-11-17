@@ -18,9 +18,7 @@ using Microsoft.AspNetCore.Components.Authorization;
 using PRIME_UCR.Infrastructure.Repositories.Sql.MedicalRecords;
 using PRIME_UCR.Application.Services.Dashboard;
 using PRIME_UCR.Application.Implementations.Dashboard;
-=========
 using PRIME_UCR.Infrastructure.Repositories.Sql.MedicalRecords;
->>>>>>>>> Temporary merge branch 2
 
 namespace PRIME_UCR.Application
 {
