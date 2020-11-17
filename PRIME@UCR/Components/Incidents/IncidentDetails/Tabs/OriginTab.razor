@@ -7,7 +7,7 @@
 <h3>Origen del incidente</h3>
 <br />
 <Loading IsLoading="@_isLoading">
-    @if (Origin == null)
+    @if (Incident.Origin == null)
     {
         <StatusMessage Message="Este valor está pendiente para finalizar la creación del incidente." Class="warning"/>
     }
@@ -38,7 +38,7 @@
                 IsFirst="@(!(Origin is Internacional))" />
     }
     else //hospital
-    { 
+    {
         <MedicalCenterPicker Value="_medicalCenterModel"
                              IsOrigin="@true"
                              OnSave="@OnMedicalCenterSave"

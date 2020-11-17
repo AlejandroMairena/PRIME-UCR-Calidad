@@ -201,7 +201,7 @@ namespace PRIME_UCR.Application.Implementations.Incidents
         }
 
         // updates the state of the incident to completed if necessary
-        private async Task UpdateCompletedState(IncidentDetailsModel model, Incidente incident)
+        public async Task UpdateCompletedState(IncidentDetailsModel model, Incidente incident)
         {
             if (!model.Completed && incident.IsCompleted()) // if it was just completed but wasn't previously
             {
@@ -218,7 +218,7 @@ namespace PRIME_UCR.Application.Implementations.Incidents
 
         // updates transport unit if it needs to be updated.
         // returns bool representing weather the incident was modified by this method
-        private async Task<bool> UpdateTransportUnit(IncidentDetailsModel model, Incidente incident)
+        public async Task<bool> UpdateTransportUnit(IncidentDetailsModel model, Incidente incident)
         {
             if (model.TransportUnit != null)
             {
@@ -235,7 +235,7 @@ namespace PRIME_UCR.Application.Implementations.Incidents
 
         // updates destination if it needs to be updated.
         // returns bool representing weather the incident was modified by this method
-        private async Task<bool> UpdateDestination(IncidentDetailsModel model, Incidente incident)
+        public async Task<bool> UpdateDestination(IncidentDetailsModel model, Incidente incident)
         {
             if (model.Destination != null)
             {
@@ -253,7 +253,7 @@ namespace PRIME_UCR.Application.Implementations.Incidents
 
         // updates origin if it needs to be updated.
         // returns bool representing weather the incident was modified by this method
-        private async Task<bool> UpdateOrigin(IncidentDetailsModel model, Incidente incident)
+        public async Task<bool> UpdateOrigin(IncidentDetailsModel model, Incidente incident)
         {
             if (model.Origin != null)
             {

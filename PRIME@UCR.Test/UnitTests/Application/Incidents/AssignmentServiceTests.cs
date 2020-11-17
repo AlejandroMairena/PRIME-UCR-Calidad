@@ -167,7 +167,11 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
             AssignmentModel ParameterModel = new AssignmentModel
             {
                 Coordinator = AssignedCoordinatorToTest,
-                TransportUnit = TransportUnitToTest
+                TransportUnit = TransportUnitToTest,
+                TeamMembers = new List<EspecialistaTécnicoMédico>
+                {
+                    new EspecialistaTécnicoMédico{ Cédula = "123456789" }
+                }
             };
             var AssignmentService = new AssignmentService(null, null, null, AssignmentRepo.Object, IncidentRepo.Object, new AuthorizationMock().Object);
             await AssignmentService.AssignToIncidentAsync(ParameterCode, ParameterModel);
@@ -346,6 +350,53 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
             var AssignmentService = new AssignmentService(TransportRepo.Object, CoordinatorRepo.Object, null, AssignmentRepo.Object, IncidentRepo.Object, new AuthorizationMock().Object);
             var result = await AssignmentService.IsAuthorizedToViewPatient(incident.Codigo, "Cedula invalida");
             Assert.False(result);
+        }
+
+        [Fact]
+        public async Task IsAuthorizedToViewPatientWithDoctorsReturnsTrue()
+        {
+            /*Case: There is an origin doctor.  */
+            var IncidentRepo = new Mock<IIncidentRepository>();
+            var CoordinatorRepo = new Mock<ICoordinadorTécnicoMédicoRepository>();
+            var TransportRepo = new Mock<ITransportUnitRepository>();
+            var AssignmentRepo = new Mock<IAssignmentRepository>();
+            //Origin doctor
+            var originDoctor = new Médico { Cédula = "123456789" };
+            var destinationDoctor = new Médico { Cédula = "987654321" };
+            var coordinator = new CoordinadorTécnicoMédico { Cédula = "987654321" };
+            var incident = new Incidente
+            {
+                Codigo = "0101",
+                MatriculaTrans = "LOL",
+                CedulaTecnicoCoordinador = coordinator.Cédula,
+                Origen = new CentroUbicacion { CedulaMedico = originDoctor.Cédula, Médico = originDoctor },
+                Destino = new CentroUbicacion { CedulaMedico = destinationDoctor.Cédula, Médico = destinationDoctor }
+            };
+            var TUnit = new UnidadDeTransporte
+            {
+                Matricula = "LOL"
+            };
+            var specialist = new List<EspecialistaTécnicoMédico>
+            {
+                new EspecialistaTécnicoMédico()
+            };
+            IncidentRepo.Setup(p => p.GetByKeyAsync(incident.Codigo))
+                .Returns(Task.FromResult(incident));
+            IncidentRepo.Setup(p => p.GetAssignedOriginDoctor(incident.Codigo))
+                .Returns(Task.FromResult(originDoctor));
+            IncidentRepo.Setup(p => p.GetAssignedDestinationDoctor(incident.Codigo))
+                .Returns(Task.FromResult(destinationDoctor));
+            CoordinatorRepo.Setup(p => p.GetByKeyAsync(incident.CedulaTecnicoCoordinador))
+                .Returns(Task.FromResult(coordinator));
+            TransportRepo.Setup(p => p.GetByKeyAsync(incident.MatriculaTrans))
+                .Returns(Task.FromResult(TUnit));
+            AssignmentRepo.Setup(p => p.GetAssignmentsByIncidentIdAsync(incident.Codigo))
+                .Returns(Task.FromResult<IEnumerable<EspecialistaTécnicoMédico>>(specialist));
+
+            // call to service
+            var AssignmentService = new AssignmentService(TransportRepo.Object, CoordinatorRepo.Object, null, AssignmentRepo.Object, IncidentRepo.Object, new AuthorizationMock().Object);
+            var result = await AssignmentService.IsAuthorizedToViewPatient(incident.Codigo, destinationDoctor.Cédula);
+            Assert.True(result);
         }
 
         [Fact]
