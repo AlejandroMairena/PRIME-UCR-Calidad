@@ -38,6 +38,7 @@ namespace PRIME_UCR.Application
             services.AddTransient<IMedicalBackgroundService, MedicalBackgroundService>();
             services.AddTransient<IAlergyService, AlergyService>();
             services.AddTransient<IChronicConditionService, ChronicConditionService>();
+            services.AddTransient<IAppointmentService, AppointmentService>();
             // multimedia
             services.AddTransient<IMultimediaContentService, MultimediaContentService>();
             services.AddTransient<IEncryptionService, EncryptionService>();
