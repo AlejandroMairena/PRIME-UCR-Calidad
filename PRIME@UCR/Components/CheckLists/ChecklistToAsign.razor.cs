@@ -27,6 +27,7 @@ namespace PRIME_UCR.Components.CheckLists
         [Parameter] public string incidentCod { get; set; }
 
         protected IEnumerable<CheckList> lists { get; set; }
+        protected List<CheckList> TempLists { get; set; }
         protected IEnumerable<InstanceChecklist> instancelists { get; set; }
 
         public List<CheckList> TempInstance = new List<CheckList>();
@@ -48,6 +49,7 @@ namespace PRIME_UCR.Components.CheckLists
          * */
         protected async Task RefreshModels()
         {
+            TempLists = new List<CheckList>();
             lists = await MyService.GetAll();
             instancelists = await MyInstanceChecklistService.GetByIncidentCod(incidentCod);
         }
@@ -77,11 +79,20 @@ namespace PRIME_UCR.Components.CheckLists
             NavManager.NavigateTo($"/incidents/{incidentCod}/Checklist");
         }
 
-        protected void CheckIempList(int idd, ChangeEventArgs e)
+        protected void CheckIempList(int idd, CheckList list, ChangeEventArgs e)
         {
             TempDetail[TempsIds.IndexOf(idd)].IsDone = (bool)e.Value;
             count += (bool)e.Value ? 1 : -1;
+            if ((bool)e.Value == true)
+            {
+                TempLists.Add(list);
+            }
+            else 
+            {
+                TempLists.Remove(list);
+            }
             update_save(idd, (bool)e.Value);
+            StateHasChanged();
         }
 
         public void update_save(int idd, bool asign)
@@ -109,6 +120,7 @@ namespace PRIME_UCR.Components.CheckLists
                 if (instancelists.Any(p => p.PlantillaId == idds && p.IncidentCod == incidentCod))
                 {
                     TodoItem.IsDone = true;
+                    TempLists.Add(templist);
                 }
                 TempDetail.Add(TodoItem);
                 TempsIds.Add(idds);

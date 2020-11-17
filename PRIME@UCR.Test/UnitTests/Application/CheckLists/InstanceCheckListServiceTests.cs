@@ -23,7 +23,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.CheckLists
                 .Setup(p => p.GetByIncidentCodAndCheckListId("código válido", 1))
                 .Returns(Task.FromResult<IEnumerable<InstanciaItem>>(data));
             var service = new InstanceChecklistService(
-                null, mockRepo.Object);
+                null, mockRepo.Object, new CheckListAuthMock().Object);
 
             // act
             var result = await service.GetNumberOfItems("código válido", 1);
@@ -48,7 +48,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.CheckLists
                 .Setup(p => p.GetByIncidentCodAndCheckListId("código válido", 1))
                 .Returns(Task.FromResult<IEnumerable<InstanciaItem>>(data));
             var service = new InstanceChecklistService(
-                null, mockRepo.Object);
+                null, mockRepo.Object, new CheckListAuthMock().Object);
 
             // act
             var result = await service.GetNumberOfItems("código válido", 1);
@@ -73,7 +73,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.CheckLists
                 .Setup(p => p.GetByIncidentCodAndCheckListId("código válido", 1))
                 .Returns(Task.FromResult<IEnumerable<InstanciaItem>>(data));
             var service = new InstanceChecklistService(
-                null, mockRepo.Object);
+                null, mockRepo.Object, new CheckListAuthMock().Object);
 
             // act
             var result = await service.GetNumberOfCompletedItems("código válido", 1);
@@ -98,7 +98,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.CheckLists
                 .Setup(p => p.GetByIncidentCodAndCheckListId("código válido", 1))
                 .Returns(Task.FromResult<IEnumerable<InstanciaItem>>(data));
             var service = new InstanceChecklistService(
-                null, mockRepo.Object);
+                null, mockRepo.Object, new CheckListAuthMock().Object);
 
             // act
             var result = await service.GetNumberOfCompletedItems("código válido", 1);
@@ -117,7 +117,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.CheckLists
                 .Setup(p => p.GetCoreItems("código válido", 1))
                 .Returns(Task.FromResult<IEnumerable<InstanciaItem>>(data));
             var service = new InstanceChecklistService(
-                null, mockRepo.Object);
+                null, mockRepo.Object, new CheckListAuthMock().Object);
 
             // act
             var result = await service.GetCoreItems("código válido", 1);
@@ -140,7 +140,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.CheckLists
                 .Setup(p => p.GetCoreItems("código válido", 1))
                 .Returns(Task.FromResult<IEnumerable<InstanciaItem>>(data));
             var service = new InstanceChecklistService(
-                null, mockRepo.Object);
+                null, mockRepo.Object, new CheckListAuthMock().Object);
 
             // act
             var result = await service.GetCoreItems("código válido", 1);
@@ -163,7 +163,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.CheckLists
                 .Setup(p => p.GetItemsByFatherId("código válido", 1, 1))
                 .Returns(Task.FromResult<IEnumerable<InstanciaItem>>(data));
             var service = new InstanceChecklistService(
-                null, mockRepo.Object);
+                null, mockRepo.Object, new CheckListAuthMock().Object);
 
             // act
             var result = await service.GetItemsByFatherId("código válido", 1, 1);
@@ -186,7 +186,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.CheckLists
                 .Setup(p => p.GetItemsByFatherId("código válido", 1, 1))
                 .Returns(Task.FromResult<IEnumerable<InstanciaItem>>(data));
             var service = new InstanceChecklistService(
-                null, mockRepo.Object);
+                null, mockRepo.Object, new CheckListAuthMock().Object);
 
             // act
             var result = await service.GetItemsByFatherId("código válido", 1, 1);
@@ -196,6 +196,54 @@ namespace PRIME_UCR.Test.UnitTests.Application.CheckLists
                                     itemInstance => Assert.Equal(2, itemInstance.ItemId),
                                     itemInstance => Assert.Equal(3, itemInstance.ItemId)
                             );
+        }
+
+        [Fact]
+        public async Task GetInstanceAllReturnsEmpty()
+        {
+            // arrange
+            var mockRepo = new Mock<IInstanceChecklistRepository>();
+            var data = new List<InstanceChecklist>();
+            mockRepo
+                .Setup(p => p.GetAllAsync())
+                .Returns(Task.FromResult<IEnumerable<InstanceChecklist>>(data));
+            var service = new InstanceChecklistService(mockRepo.Object, null, new InstanceCheckListAuthMock().Object);
+
+            // act
+            var result = await service.GetAll();
+
+            // assert
+            Assert.Empty(result);
+
+        }
+        [Fact]
+        public async Task GetInstanceAllReturnsValid()
+        {
+            // arrange
+            var mockRepo = new Mock<IInstanceChecklistRepository>();
+            var data = new List<InstanceChecklist>
+            {
+                new InstanceChecklist {PlantillaId = 1, IncidentCod= "codigo valido"},
+                new InstanceChecklist {PlantillaId = 2, IncidentCod= "codigo valido"},
+                new InstanceChecklist {PlantillaId = 3, IncidentCod= "codigo valido"},
+                new InstanceChecklist {PlantillaId = 4, IncidentCod= "codigo valido"}
+            };
+            mockRepo
+                .Setup(p => p.GetAllAsync())
+                .Returns(Task.FromResult<IEnumerable<InstanceChecklist>>(data));
+            var service = new InstanceChecklistService(
+                mockRepo.Object, null, new InstanceCheckListAuthMock().Object);
+
+            // act
+            var result = await service.GetAll();
+
+            // assert
+            Assert.Collection(result,
+                                    checkList => Assert.Equal(1, checkList.PlantillaId),
+                                    checkList => Assert.Equal(2, checkList.PlantillaId),
+                                    checkList => Assert.Equal(3, checkList.PlantillaId),
+                                    checkList => Assert.Equal(4, checkList.PlantillaId)
+                           );
         }
     }
 }
