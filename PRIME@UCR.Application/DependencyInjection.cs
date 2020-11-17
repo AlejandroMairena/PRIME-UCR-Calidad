@@ -19,6 +19,7 @@ using PRIME_UCR.Infrastructure.Repositories.Sql.MedicalRecords;
 using PRIME_UCR.Application.Services.Dashboard;
 using PRIME_UCR.Application.Implementations.Dashboard;
 
+
 namespace PRIME_UCR.Application
 {
     public static class DependencyInjection
