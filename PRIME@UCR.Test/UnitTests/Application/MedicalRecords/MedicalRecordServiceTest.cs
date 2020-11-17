@@ -23,7 +23,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.MedicalRecords
             mockRepo.Setup(p => p.GetDetailsRecordWithPatientDoctorDatesAsync(-1)).Returns(Task.FromResult<Expediente>(null));
             var MedRecordService = new MedicalRecordService(mockRepo.Object, null, null, null, null, null, null, null, null, null, null, null);
             var result = await MedRecordService.GetMedicalRecordDetailsLinkedAsync(-1);
-            Assert.Equal(result, null);
+            Assert.Null(result);
 
         }
 
@@ -34,8 +34,8 @@ namespace PRIME_UCR.Test.UnitTests.Application.MedicalRecords
             mockRepo.Setup(p => p.GetByKeyAsync(-1)).Returns(Task.FromResult<Expediente>(null));
             var MedRecordService = new MedicalRecordService(mockRepo.Object, null, null, null, null, null, null, null, null, null, null, null);
             var result = await MedRecordService.GetMedicalCenterByUbicationCenterIdAsync(-1);
-            Assert.Equal(result, null); 
-        
+            Assert.Null(result);
+
         }
 
 
@@ -128,7 +128,6 @@ namespace PRIME_UCR.Test.UnitTests.Application.MedicalRecords
             var MedRecordService = new MedicalRecordService(mockRepo.Object, null, null, null, null, null, null, null, null, null, null, null);
             var result = await MedRecordService.UpdateMedicalRecordAsync(record);
             Assert.Equal(record, result);
-
         }
 
 
