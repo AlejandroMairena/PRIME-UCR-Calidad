@@ -21,7 +21,6 @@
     <Folder Include="IntegrationTests\" />
     <Folder Include="UnitTests\Application\Multimedia\" />
     <Folder Include="UnitTests\Application\MedicalRecords\" />
-    <Folder Include="UnitTests\Application\Dashboards\" />
     <Folder Include="UnitTests\Application\CheckLists\" />
     <Folder Include="UnitTests\Application\Appointments\" />
   </ItemGroup>
