@@ -57,13 +57,109 @@ namespace PRIME_UCR.Components.Dashboard.IncidentsGraph
             }
 
             var incidentsData = await _dashboardService.GetFilteredIncidentsList(Value);
-            
+            var medicalCenters = await _locationService.GetAllMedicalCentersAsync();
+            var districtsData = await _dashboardService.GetAllDistrictsAsync();
+
+            var AllIncidentsData = await _dashboardService.GetAllIncidentsAsync();
+
             eventQuantity = incidentsData.Count();
+
+            var incidentsPerOrigin = new List<IGrouping<string, Incidente>>();
             
-            ///---------------
-            
-            
-            var incidentsPerOrigin = incidentsData.GroupBy(i => i.Origen.GetType());
+            if (Value.OriginType == "Internacional")
+            {
+                incidentsPerOrigin = incidentsData.GroupBy(i => {
+                    if (i.Origen != null)
+                    {
+                        var inter = i.Origen as Internacional;
+                        return inter.NombrePais;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }).ToList();
+            } else if (Value.OriginType == "Centro médico")
+            {
+                incidentsPerOrigin = incidentsData.GroupBy(i => {
+                    if (i.Origen != null)
+                    {
+                        var centroUbicacion = i.Origen as CentroUbicacion;
+                        return medicalCenters.FirstOrDefault(mc => mc.Id == centroUbicacion.CentroMedicoId)?.Nombre;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }).ToList();
+            } else if (Value.OriginType == "Domicilio")
+            {
+                if(Value.HouseholdOriginFilter.District != null)
+                {
+                    incidentsPerOrigin = incidentsData.GroupBy(i => {
+                        if (i.Origen != null)
+                        {
+                            var domicilio = i.Origen as Domicilio;
+                            return districtsData.Find(district => domicilio?.DistritoId == district.Id)?.Nombre;
+                        }
+                        else
+                        {
+                            return null;
+                        }
+                    }).ToList();
+                } else if (Value.HouseholdOriginFilter.Canton != null)
+                {
+                    incidentsPerOrigin = incidentsData.GroupBy(i => {
+                        if (i.Origen != null)
+                        {
+                            var domicilio = i.Origen as Domicilio;
+                            return districtsData.Find(district => domicilio?.DistritoId == district.Id)?.Nombre;
+                        }
+                        else
+                        {
+                            return null;
+                        }
+                    }).ToList();
+                } else if (Value.HouseholdOriginFilter.Province != null)
+                {
+                    incidentsPerOrigin = incidentsData.GroupBy(i => {
+                        if (i.Origen != null)
+                        {
+                            var domicilio = i.Origen as Domicilio;
+                            return districtsData.Find(district => domicilio?.DistritoId == district.Id)?.Canton.Nombre;
+                        }
+                        else
+                        {
+                            return null;
+                        }
+                    }).ToList();
+                } else
+                {
+                    incidentsPerOrigin = incidentsData.GroupBy(i => {
+                        if (i.Origen != null)
+                        {
+                            var domicilio = i.Origen as Domicilio;
+                            return districtsData.Find(district => domicilio?.DistritoId == district.Id)?.Canton.NombreProvincia;
+                        }
+                        else
+                        {
+                            return null;
+                        }
+                    }).ToList();
+                }
+            } else
+            {
+                incidentsPerOrigin = incidentsData.GroupBy(i => {
+                    if(i.Origen != null)
+                    {
+                        return i.Origen?.GetType().Name;    
+                    } else
+                    {
+                        return null;
+                    }
+                }).ToList();
+            }
+
 
             var results = new List<String>();
 
@@ -73,7 +169,7 @@ namespace PRIME_UCR.Components.Dashboard.IncidentsGraph
                 var labelName = "No Asignado";
                 if(incidents.Key != null)
                 {
-                    labelName = incidents.Key.Name;
+                    labelName = incidents.Key;
                 }
                 results.Add(labelName);
                 results.Add(incidents.ToList().Count().ToString());

@@ -105,10 +105,6 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Dashboard
                             .AsNoTracking()
                             .Include(i => i.Origen)
                             .Select(i => i.Origen);
-                    var districts = await _db.Districts
-                        .Include(d => d.Canton)
-                        .ThenInclude(c => c.Provincia)
-                        .ToListAsync();
 
                     foreach(var incident in incidents)
                     {
