@@ -120,6 +120,7 @@
     <Build Include="Tables\UserAdministration\Usuario.sql" />
     <Build Include="Tables\Incidents\Trabaja_En.sql" />
     <Build Include="Triggers\InsertarIncidente.sql" />
+    <Build Include="Triggers\DeleteMultimediaContent.sql" />
     <Build Include="StoredProcedures\Incidents\InsertarNuevoIncidente.sql" />
     <Build Include="Tables\Appointments\Cita.sql" />
     <Build Include="Tables\Appointments\Metricas.sql" />

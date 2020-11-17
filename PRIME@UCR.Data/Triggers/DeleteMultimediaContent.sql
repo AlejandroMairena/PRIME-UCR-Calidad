@@ -1,6 +1,4 @@
-﻿use [PRIME@UCR.Data]
-
-go
+﻿go
 create trigger [BorrarContenidoMultimedia]
 on [dbo].[MultimediaContent] instead of delete
 as 
