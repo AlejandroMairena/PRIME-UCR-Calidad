@@ -14,17 +14,29 @@ namespace PRIME_UCR.Test.UnitTests.Application.MedicalRecords
 {
     public class MedicalBackgroundTest
     {
+        //[Fact]
+        //public async void getMedicalBackgroundByRecordIdNull()
+        //{
+        //    var mockRepo = new Mock<IMedicalBackgroundRepository>();
+        //    var mockRepoList = new Mock<IMedicalBackgroundListRepository>();
+        //    mockRepo.Setup(p => p.GetByConditionAsync(i => i.IdExpediente == 0)).Returns(Task.FromResult<IEnumerable<Antecedentes>>(null));
+        //    IMedicalBackgroundService MedicalBackgroundService = 
+        //        new MedicalBackgroundService(mockRepo.Object, mockRepoList.Object);
+        //    var result = await mockRepo.Object.GetByConditionAsync(a => a.IdExpediente == 0);
+        //    var result2 = (await MedicalBackgroundService.GetBackgroundByRecordId(0));
+        //    Assert.Null(result);
+        //    Assert.Null(result2);
+        //}
+
         [Fact]
-        public async void getMedicalBackgroundByRecordIdNull()
+        public async void getMedicalBackgroundByRecordIdInvalid()
         {
             var mockRepo = new Mock<IMedicalBackgroundRepository>();
             var mockRepoList = new Mock<IMedicalBackgroundListRepository>();
-            mockRepo.Setup(p => p.GetByConditionAsync(i => i.IdExpediente == 0)).Returns(Task.FromResult<IEnumerable<Antecedentes>>(null));
-            IMedicalBackgroundService MedicalBackgroundService = new MedicalBackgroundService(mockRepo.Object, mockRepoList.Object);
-            var result = await mockRepo.Object.GetByConditionAsync(a => a.IdExpediente == 0);
-            var result2 = (await MedicalBackgroundService.GetBackgroundByRecordId(0));
-            Assert.Null(result);
-            Assert.Null(result2);
+            IMedicalBackgroundService MedicalBackgroundService =
+                new MedicalBackgroundService(mockRepo.Object, mockRepoList.Object);
+            var result = (await MedicalBackgroundService.GetBackgroundByRecordId(-1));
+            Assert.Empty(result);
         }
 
         [Fact]
@@ -49,8 +61,8 @@ namespace PRIME_UCR.Test.UnitTests.Application.MedicalRecords
             IMedicalBackgroundService MedicalBackgroundService = new MedicalBackgroundService(mockRepo.Object, mockRepoList.Object);
             var result = (await mockRepo.Object.GetByConditionAsync(i => i.IdExpediente == 1)).ToList();
             var result2 = (await MedicalBackgroundService.GetBackgroundByRecordId(1)).ToList();
-            Assert.Equal(MedicalBackgroundTest.IdListaAntecedentes, result2.First().IdListaAntecedentes);
-            Assert.Equal(MedicalBackgroundTest.IdExpediente, result2.First().IdExpediente);
+            Assert.Equal(MedicalBackgroundTest.IdListaAntecedentes, result.First().IdListaAntecedentes);
+            Assert.Equal(MedicalBackgroundTest.IdExpediente, result.First().IdExpediente);
         }
 
         [Fact]

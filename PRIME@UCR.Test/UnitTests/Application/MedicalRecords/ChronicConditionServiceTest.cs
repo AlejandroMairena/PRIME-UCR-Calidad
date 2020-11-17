@@ -14,18 +14,31 @@ namespace PRIME_UCR.Test.UnitTests.Application.MedicalRecords
 {
     public class ChronicConditionServiceTest
     {
+        //[Fact]
+        //public async void getChronicConditionByRecordIdNull()
+        //{
+        //    var mockRepo = new Mock<IChronicConditionRepository>();
+        //    var mockRepoList = new Mock<IChronicConditionListRepository>();
+        //    mockRepo.Setup(p => p.GetByConditionAsync(i => i.IdExpediente == 0)).Returns(Task.FromResult<IEnumerable<PadecimientosCronicos>>(null));
+        //    IChronicConditionService ChronicConditionService = 
+        //        new ChronicConditionService(mockRepo.Object, mockRepoList.Object);
+        //    var result = await mockRepo.Object.GetByConditionAsync(a => a.IdExpediente == 0);
+        //    var result2 = (await ChronicConditionService.GetChronicConditionByRecordId(0));
+        //    Assert.Null(result);
+        //    Assert.Null(result2);
+        //}
+
         [Fact]
-        public async void getChronicConditionByRecordIdNull()
+        public async void getChronicConditionByRecordIdInvalid()
         {
             var mockRepo = new Mock<IChronicConditionRepository>();
             var mockRepoList = new Mock<IChronicConditionListRepository>();
-            mockRepo.Setup(p => p.GetByConditionAsync(i => i.IdExpediente == 0)).Returns(Task.FromResult<IEnumerable<PadecimientosCronicos>>(null));
-            IChronicConditionService AllergyService = 
+            IChronicConditionService ChronicConditionService =
                 new ChronicConditionService(mockRepo.Object, mockRepoList.Object);
-            var result = await mockRepo.Object.GetByConditionAsync(a => a.IdExpediente == 0);
-            var result2 = (await AllergyService.GetChronicConditionByRecordId(0));
-            Assert.Null(result);
-            Assert.Null(result2);
+            //var result = await mockRepo.Object.GetByConditionAsync(a => a.IdExpediente == 0);
+            var result = (await ChronicConditionService.GetChronicConditionByRecordId(-1));
+            Assert.Empty(result);
+            //Assert.Null(result2);
         }
 
         [Fact]
@@ -51,8 +64,8 @@ namespace PRIME_UCR.Test.UnitTests.Application.MedicalRecords
                 new ChronicConditionService(mockRepo.Object, mockRepoList.Object);
             var result = (await mockRepo.Object.GetByConditionAsync(i => i.IdExpediente == 1)).ToList();
             var result2 = (await ChronicConditionService.GetChronicConditionByRecordId(1)).ToList();
-            Assert.Equal(chronicConditionTest.IdListaPadecimiento, result2.First().IdListaPadecimiento);
-            Assert.Equal(chronicConditionTest.IdExpediente, result2.First().IdExpediente);
+            Assert.Equal(chronicConditionTest.IdListaPadecimiento, result.First().IdListaPadecimiento);
+            Assert.Equal(chronicConditionTest.IdExpediente, result.First().IdExpediente);
         }
 
         [Fact]
