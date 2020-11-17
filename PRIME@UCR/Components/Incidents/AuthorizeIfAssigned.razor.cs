@@ -24,8 +24,6 @@ namespace PRIME_UCR.Components.Incidents
         [Parameter]
         public RenderFragment ChildContent { get; set; }
 
-        [Parameter] public bool AllowDoctors { get; set; } = true;
-
         private bool? _isAuthorized;
 
         protected override async Task OnInitializedAsync()

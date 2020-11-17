@@ -12,6 +12,9 @@ Post-Deployment Script Template
 DELETE FROM Alergias
 DELETE FROM ListaAlergia
 
+DELETE FROM PadecimientosCronicos
+DELETE FROM ListaPadecimiento
+
 DELETE FROM Antecedentes
 DELETE FROM ListaAntecedentes
 
@@ -27,6 +30,13 @@ VALUES
     ('Diabetes'),
     ('Hipertensión'),
     ('Problemas del corazón');
+
+INSERT INTO ListaPadecimiento(NombrePadecimiento)
+VALUES 
+    ('Osteoporosis'),
+    ('Diabetes'),
+    ('Acido Urico Alto'),
+    ('Arritmia Cardiaca');
 
 --INSERT INTO Antecedentes(IdExpediente,IdListaAntecedentes)
 --VALUES 

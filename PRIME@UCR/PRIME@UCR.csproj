@@ -7,6 +7,9 @@
 
   <ItemGroup>
     <None Remove="Validators\UserAdministration\NewFile.txt" />
+  
+  
+    <None Remove="Components\MedicalRecords\Constants\RecordSummary.cs~RF3ca55d2.TMP" />
   </ItemGroup>
 
   <ItemGroup>

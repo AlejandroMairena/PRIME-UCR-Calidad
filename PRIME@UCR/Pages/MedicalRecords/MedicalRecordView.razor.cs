@@ -10,6 +10,9 @@ using PRIME_UCR.Application.DTOs.MedicalRecords;
 using System.Linq;
 using PRIME_UCR.Application.Services.MedicalRecords;
 using Microsoft.EntityFrameworkCore;
+using PRIME_UCR.Application.Implementations.MedicalRecords;
+using PRIME_UCR.Domain.Models;
+using PRIME_UCR.Components.MedicalRecords.Constants;
 
 namespace PRIME_UCR.Pages.MedicalRecords
 {
@@ -38,10 +41,17 @@ namespace PRIME_UCR.Pages.MedicalRecords
 
         private List<Alergias> alergias;
 
+        private List<PadecimientosCronicos> PadecimientosCronicos;
+
         private List<ListaAntecedentes> ListaAntecedentes;
 
         private List<ListaAlergia> ListaAlergias;
 
+        private List<ListaPadecimiento> ListaPadecimiento;
+
+        private Cita lastAppointment = new Cita();
+
+        public RecordSummary Summary;
 
 
         Expediente medical_record_with_details { get; set; }
@@ -66,23 +76,34 @@ namespace PRIME_UCR.Pages.MedicalRecords
                 }
             }
         }
-
-
+        public string get_patient_name()
+        {
+            string name = "";
+            name += viewModel.Nombre + " " + viewModel.PrimerApellido + " " + viewModel.SegundoApellido;
+            return name;
+        }
         protected override async Task OnInitializedAsync()
         {
             int identification = Int32.Parse(Id);
             viewModel = await MedicalRecordService.GetIncidentDetailsAsync(identification);
-
+            Summary = new RecordSummary();
+            Summary.LoadValues(viewModel);
             //Get all background item related to a record by its id
             antecedentes = (await MedicalBackgroundService.GetBackgroundByRecordId(identification)).ToList();
             //Get all alergies related to a record by its id
-            alergias = (await AlergyService.GetAlergyByRecordId(identification)).ToList();
+            alergias = (await AllergyService.GetAlergyByRecordId(identification)).ToList();
+            //Get all Chronic Conditions related to arecord by its id
+            PadecimientosCronicos = (await ChronicConditionService.GetChronicConditionByRecordId(identification)).ToList();
             //Get all available background items.
             ListaAntecedentes = (await MedicalBackgroundService.GetAll()).ToList();
             //Get all available alergies
-            ListaAlergias = (await AlergyService.GetAll()).ToList();
+            ListaAlergias = (await AllergyService.GetAll()).ToList();
+            //Get all available Chronic Conditions
+            ListaPadecimiento = (await ChronicConditionService.GetAll()).ToList();
             //Get all dates related to the medical record. 
             medical_record_with_details = await MedicalRecordService.GetMedicalRecordDetailsLinkedAsync(identification);
+            //Get last appointment
+            lastAppointment = await AppointmentService.GetLastAppointmentDateAsync(identification);
 
             if (viewModel == null)
                 exists = false;

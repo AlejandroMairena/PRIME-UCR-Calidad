@@ -12,6 +12,7 @@ using PRIME_UCR.Domain.Models.UserAdministration;
 using PRIME_UCR.Application.Services.UserAdministration;
 using System.ComponentModel.DataAnnotations;
 using PRIME_UCR.Application.Permissions.Appointments;
+using PRIME_UCR.Domain.Models;
 
 namespace PRIME_UCR.Application.Implementations.Appointments
 {
@@ -63,6 +64,11 @@ namespace PRIME_UCR.Application.Implementations.Appointments
             await _appointmentRepository.UpdateAsync(appointment);
 
             return record;
+        }
+
+        public async Task<Cita> GetLastAppointmentDateAsync(int id)
+        {
+            return await _appointmentRepository.getLatestAppointmentByRecordId(id);
         }
 
     }

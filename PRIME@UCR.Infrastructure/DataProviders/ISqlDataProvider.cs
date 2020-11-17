@@ -59,6 +59,8 @@ namespace PRIME_UCR.Infrastructure.DataProviders
         DbSet<ListaAntecedentes> MedicalBackgroundList { get; set; }
         DbSet<Alergias> Alergies { get; set; }
         DbSet<ListaAlergia> ListAlergies { get; set; }
+        DbSet<PadecimientosCronicos> ChronicCondition { get; set; }
+        DbSet<ListaPadecimiento> ListChronicCondition { get; set; }
         DbSet<T> Set<T>() where T : class;
         Task<int> SaveChangesAsync();     
     }
