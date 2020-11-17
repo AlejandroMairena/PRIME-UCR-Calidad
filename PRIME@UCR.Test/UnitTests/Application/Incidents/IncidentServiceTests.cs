@@ -101,6 +101,30 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
         }
 
         [Fact]
+        public async Task ApproveIncidentAsyncCompletesTask()
+        {
+            var mockIncident = new Mock<IIncidentRepository>();
+            var mockState = new Mock<IIncidentStateRepository>();
+
+
+            var incident = new Incidente { Codigo = "1312"};
+            var state = new Estado { Nombre = "Rechazado" };
+
+            mockIncident
+                .Setup(p => p.GetByKeyAsync(String.Empty))
+                .Returns(Task.FromResult<Incidente>(incident));
+            mockState
+                .Setup(p => p.GetCurrentStateByIncidentId(String.Empty))
+                .Returns(Task.FromResult<Estado>(state));
+
+            var service = new IncidentService(
+                mockIncident.Object,
+                null, mockState.Object, null, null, null, null, null, new AuthorizationMock().Object);
+
+            await service.ApproveIncidentAsync("","");
+        }
+
+        [Fact]
         public async Task GetAllAsyncReturnsEmptyList()
         {
             // arrange
