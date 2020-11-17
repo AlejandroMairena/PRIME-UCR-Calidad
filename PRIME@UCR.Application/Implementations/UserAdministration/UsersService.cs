@@ -35,8 +35,12 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
         {
             await primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             var user = await userManager.FindByEmailAsync(email);
-            var person = await getUsuarioWithDetailsAsync(user?.Id);
-            return person?.Persona;
+            if (user != null)
+            {
+                var person = await getUsuarioWithDetailsAsync(user?.Id);
+                return person?.Persona;
+            }
+            return null;
         }
 
         /**
@@ -64,6 +68,10 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
          */
         public async Task<Usuario> getUsuarioWithDetailsAsync(string id)
         {
+            if (id == null || id == string.Empty)
+            {
+                return null;
+            }
             return await _usuarioRepository.GetWithDetailsAsync(id);
         }
 
@@ -83,7 +91,7 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
         /**
          * Method used to store a user in the database given all the necessary info of the new user.
          */
-        public async Task<bool> StoreUserAsync(UserFormModel userToRegist, string password)
+        public async Task<bool> StoreUserAsync(UserFormModel userToRegist)
         {
             await primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             var user = await GetUserFromUserModelAsync(userToRegist);
@@ -91,7 +99,7 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
             if (!existInDB)
             {
                 user.CedPersona = userToRegist.IdCardNumber;
-                var result = await userManager.CreateAsync(user, password);
+                var result = await userManager.CreateAsync(user);
                 return result.Succeeded;
             }
             else
@@ -109,6 +117,19 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
         {
             return await _usuarioRepository.GetAllUsersWithDetailsAsync();
         }
+
+
+        /**
+         * Method used to get all the users that aren't validated yet.
+         * 
+         * Return: A list with all the users that have not been validated in the app.
+         */
+        public async Task<List<Usuario>> GetNotAuthenticatedUsers()
+        {
+            return await _usuarioRepository.GetNotAuthenticatedUsers();
+        }
+
+
     }
 
     [MetadataType(typeof(UserServiceAuthorization))]

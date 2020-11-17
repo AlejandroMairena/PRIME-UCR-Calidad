@@ -18,7 +18,12 @@ using Blazored.SessionStorage;
 using PRIME_UCR.Validators;
 using PRIME_UCR.Application.DTOs.UserAdministration;
 using System.Linq;
+using PRIME_UCR.Application.Services.UserAdministration;
 using PRIME_UCR.Domain.Constants;
+using Microsoft.AspNetCore.DataProtection;
+using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Logging;
+using PRIME_UCR.Application.TokenProviders;
 
 namespace PRIME_UCR
 {
@@ -45,17 +50,39 @@ namespace PRIME_UCR
                 options.UseSqlServer(Configuration.GetConnectionString("DevelopmentDbConnection"));
                 //options.UseSqlServer(Configuration.GetConnectionString("ProductionDbConnection"));
             });
-            
+
+            var passwordResetProvider = "RecoveryPasswordProvider";
+            var emailValidationProvider = "EmailValidationProvider";
+
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.Tokens.PasswordResetTokenProvider = passwordResetProvider;
+                options.Tokens.EmailConfirmationTokenProvider = emailValidationProvider;
+                options.Password.RequiredLength = 8;
+            });
+
+            services.Configure<PasswordRecoveryTokenProviderOptions>(conf =>
+                conf.TokenLifespan = TimeSpan.FromMinutes(15));
+
+            services.Configure<EmailValidationTokenProviderOptions>(conf =>
+                conf.TokenLifespan = TimeSpan.FromDays(2));
+
             services.AddIdentity<Usuario, IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders()
+                .AddTokenProvider<PasswordRecoveryTokenProvider<Usuario>>(passwordResetProvider)
+                .AddTokenProvider<EmailValidationTokenProvider<Usuario>>(emailValidationProvider);
+
             
             services.AddBlazoredSessionStorage();
-            services.AddScoped<AuthenticationStateProvider,CustomAuthenticationStateProvider>();
 
             services.AddApplicationLayer();
             services.AddInfrastructureLayer();
             services.AddValidators();
 
+            // authentication
+            services.AddScoped<AuthenticationStateProvider,CustomAuthenticationStateProvider>();
+            services.AddTransient<IPrimeSecurityService, PrimeSecurityService>();
             services.AddAuthorization(options =>
             {
                 foreach(var permission in Enum.GetValues(typeof(AuthorizationPermissions)).Cast<AuthorizationPermissions>())
@@ -73,6 +100,7 @@ namespace PRIME_UCR
                 options.SupportedUICultures = supportedCultures;
             });
 
+            services.Configure<MailSettingsModel>(Configuration.GetSection("MailSettings"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

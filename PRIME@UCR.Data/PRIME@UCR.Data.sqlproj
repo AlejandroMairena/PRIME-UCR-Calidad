@@ -75,6 +75,7 @@
     <Folder Include="StoredProcedures\CheckLists" />
     <Folder Include="Indexes\Incidents\" />
     <Folder Include="StoredProcedures\Dashboard" />
+    <Folder Include="Indexes\Incidents\" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Indexes\Incidents\ix_incidente_activo.sql" />

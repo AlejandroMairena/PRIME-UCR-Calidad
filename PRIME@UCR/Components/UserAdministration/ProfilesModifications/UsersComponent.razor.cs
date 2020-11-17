@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using PRIME_UCR.Application.DTOs.UserAdministration;
 using Microsoft.AspNetCore.Components.Authorization;
 
-namespace PRIME_UCR.Components.UserAdministration
+namespace PRIME_UCR.Components.UserAdministration.ProfilesModifications
 {
     /**
      * Partial class used to manage the logic part of the UsersComponent.

@@ -145,5 +145,41 @@ namespace PRIME_UCR.Test.UnitTests.Application.UserAdministration
 
         }
 
+        [Fact]
+        public async Task GetPersonByCedAsyncReturnsNullTest()
+        {
+            var mockRepo = new Mock<IPersonaRepository>();
+            mockRepo.Setup(p => p.GetByCedPersonaAsync(String.Empty)).Returns(Task.FromResult<Persona>(null));
+
+            var mockSecurity = new Mock<IPrimeSecurityService>();
+            mockSecurity.Setup(s => s.CheckIfIsAuthorizedAsync(typeof(PersonService), "GetPersonByCedAsync"));
+
+            var personService = new PersonService(mockRepo.Object, mockSecurity.Object);
+            var result = await personService.GetPersonByCedAsync(String.Empty);
+            Assert.Null(result);
+        }
+
+        [Fact]
+        public async Task GetPersonByCedAsyncReturnsValidPerson()
+        {
+            var ced = "12345678";
+            var mockRepo = new Mock<IPersonaRepository>();
+            mockRepo.Setup(p => p.GetByCedPersonaAsync(ced)).Returns(Task.FromResult<Persona>(new Persona
+            {
+                Cédula = "12345678",
+                Nombre = "Juan",
+                PrimerApellido = "Guzman"
+            }));
+
+            var mockSecurity = new Mock<IPrimeSecurityService>();
+            mockSecurity.Setup(s => s.CheckIfIsAuthorizedAsync(typeof(PersonService), "GetPersonByCedAsync"));
+
+            var personService = new PersonService(mockRepo.Object, mockSecurity.Object);
+            var result = await personService.GetPersonByCedAsync(ced);
+            Assert.Equal("12345678", result.Cédula);
+            Assert.Equal("Juan", result.Nombre);
+            Assert.Equal("Guzman", result.PrimerApellido);
+        }
+
     }
 }
