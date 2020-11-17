@@ -442,3 +442,6 @@ $RECYCLE.BIN/
 !.vscode/extensions.json
 !/ThirdParty/*
 /PRIME@UCR/ThirdParty
+
+## ignore data
+PRIME@UCR/wwwroot/datas

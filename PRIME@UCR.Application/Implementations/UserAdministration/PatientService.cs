@@ -16,7 +16,6 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
     public partial class PatientService : IPatientService
     {
         private readonly IPacienteRepository _patientRepo;
-
         private readonly IPrimeSecurityService primeSecurityService;
 
         public PatientService(IPacienteRepository patientRepo,

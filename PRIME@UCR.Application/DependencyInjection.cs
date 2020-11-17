@@ -15,9 +15,12 @@ using PRIME_UCR.Application.Repositories.Incidents;
 using PRIME_UCR.Application.Services.Appointments;
 using PRIME_UCR.Application.Services.MedicalRecords;
 using Microsoft.AspNetCore.Components.Authorization;
+using PRIME_UCR.Infrastructure.Repositories.Sql.MedicalRecords;
 using PRIME_UCR.Application.Services.Dashboard;
 using PRIME_UCR.Application.Implementations.Dashboard;
+=========
 using PRIME_UCR.Infrastructure.Repositories.Sql.MedicalRecords;
+>>>>>>>>> Temporary merge branch 2
 
 namespace PRIME_UCR.Application
 {
@@ -55,10 +58,10 @@ namespace PRIME_UCR.Application
             services.AddTransient<IAssignmentService, AssignmentService>();
             services.AddTransient<IAppointmentService, AppointmentService>();
             services.AddTransient<IAuthenticationService, AuthenticationService>();
-            services.AddTransient<IPrimeSecurityService, PrimeSecurityService>();
-            //Dashboard 
+            //Dashboard
             services.AddTransient<IDashboardService, DashboardService>();
 
+            services.AddTransient<IMailService, MailService>();
             return services;
         }
     }

@@ -4,26 +4,43 @@
 {
     <h3>Estados del Incidente</h3>
     <Loading IsLoading="@_isLoading">
-        <div class="container">
-            <div class="table-responsive">
-                <table class="table">
+        <div class="container horizontal-scrollable">
+            <div class="row table-responsive" width="100%">
+                <table class="table" width="100%">
                     <tbody>
                         <RadzenMenu>
                             @for (var index = 0; index < IncidentStatesList.Count; ++index)
                             {
-                                <div class="text-center">
-                                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="@setProgressIndicator(index)" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
-                                    </svg>
-                                    <RadzenMenuItem Text=@IncidentStatesList[index].Item2 class="@setStateColor(index)" />
-                                </div>
+                            <div class="text-center">
+                                <svg width="1em" height="1em" viewBox="0 0 16 16" class="@setProgressIndicator(index)" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
+                                </svg>
+                                @if (index < currentStateIndex)
+                                {
+                                    <span data-toggle="tooltip" title="Completado">
+                                        <RadzenMenuItem Text=@IncidentStatesList[index].Item2 class="@setStateColor(index)" />
+                                    </span>
+                                }
+                                else if (index > currentStateIndex)
+                                {
+                                    <span data-toggle="tooltip" title="Pendiente">
+                                        <RadzenMenuItem Text=@IncidentStatesList[index].Item2 class="@setStateColor(index)" />
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span data-toggle="tooltip" title="En progreso">
+                                        <RadzenMenuItem Text=@IncidentStatesList[index].Item2 class="@setStateColor(index)" />
+                                    </span>
+                                }
+
+                            </div>
                             }
                         </RadzenMenu>
                     </tbody>
                 </table>
             </div>
         </div>
-
         <br />
 
         @if (Incident.CurrentState == IncidentStates.Created.Nombre || Incident.CurrentState == IncidentStates.Rejected.Nombre)
@@ -70,19 +87,23 @@
                         {
                             <th scope="col">
                                 Pendiente
-                                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-clock-fill clock-state" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd" d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z" />
-                                </svg>
+                                <span data-toggle="tooltip" title="Esperando la revisión de un coordinador">
+                                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-clock-fill clock-state" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z" />
+                                    </svg>
+                                </span>
                             </th>
                         }
                         else
                         {
-                            <th scope="col">Pendiente <span class="badge badge-primary badge-pill badge-text">!</span> </th>
+                            <th scope="col">Pendiente <span data-toggle="tooltip" title="Hay tareas pendientes antes de poder cambiar de estado"
+                                                            class="badge badge-primary badge-pill badge-text">!</span> </th>
                         }
                     }
                     else
                     {
-                        <th scope="col">Pendiente <span class="badge badge-success badge-pill badge-text">✓</span> </th>
+                        <th scope="col">Pendiente <span data-toggle="tooltip" title="El incidente está listo para cambiar de estado" 
+                                                        class="badge badge-success badge-pill badge-text">✓</span> </th>
                     }
                 </tr>
             </thead>
@@ -96,8 +117,8 @@
                                 @foreach (var task in PendingTasks)
                                 {
                                     <li class="bg-task d-flex justify-content-between">
-                                        <a data-toggle="tooltip" title="Prueba" @onclick="@( () => RedirectToTab(task.Item2) )"> @task.Item1  </a>
-                                        <span class="badge badge-primary badge-pill badge-text">!</span>
+                                        <a @onclick="@( () => RedirectToTab(task.Item2) )"> @task.Item1  </a>
+                                        <span data-toggle="tooltip" title="Presione sobre la tarea pendiente para ser redirgido" class="badge badge-primary badge-pill badge-text">!</span>
                                     </li>
                                 }
                             </ul>

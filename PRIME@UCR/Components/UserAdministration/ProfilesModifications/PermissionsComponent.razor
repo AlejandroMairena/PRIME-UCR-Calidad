@@ -9,21 +9,22 @@
 <Loading IsLoading="ListPermissions == null">
 
     <EditForm Model="Value">
-        <Table TableItem="Permiso" Items="ListPermissions" PageSize="12" >
-            <Column TableItem="Permiso" Title="" Field="@(x => x.IDPermiso)"  Width="1%">
+        <Table TableItem="Permiso" Items="ListPermissions" PageSize="12">
+            <Column TableItem="Permiso" Title="" Field="@(x => x.IDPermiso)" Width="1%">
                 <Template Context="checkbox">
                     <center>
-                        <div class="custom-control custom-checkbox" >
+                        <div class="custom-control custom-checkbox">
                             <input class="custom-control-input" type="checkbox" id="customCheck @checkbox.IDPermiso" checked="@Value.CheckedPermissions[checkbox.IDPermiso-1]" @onchange="((ChangeEventArgs c) => update_profile(checkbox.IDPermiso,c))" />
                             <label class="custom-control-label" for="customCheck @checkbox.IDPermiso"></label>
                         </div>
                     </center>
                 </Template>
             </Column>
-            <Column TableItem="Permiso" Title="Descripción de permiso" Field="@(x => x.DescripciónPermiso)" Width="44%"/>
-            <Column TableItem="Permiso" Title="ID" Field="@(x => x.IDPermiso)"  Width="5%" Align="Align.Right"/>
-       
+            <Column TableItem="Permiso" Title="Descripción de permiso" Field="@(x => x.DescripciónPermiso)" Width="44%" />
+            <Column TableItem="Permiso" Title="ID" Field="@(x => x.IDPermiso)" Width="5%" Align="Align.Right" />
+
             <Pager ShowPageNumber="true" />
         </Table>
     </EditForm>
 </Loading>
+

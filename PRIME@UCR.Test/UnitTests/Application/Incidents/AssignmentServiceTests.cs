@@ -26,7 +26,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
             var mockRepo = new Mock<ITransportUnitRepository>();
             mockRepo.Setup(p => p.GetAllTransporUnitsByMode(String.Empty))
                 .Returns(Task.FromResult<IEnumerable<UnidadDeTransporte>>(new List<UnidadDeTransporte>()));
-            var assignmentService = new AssignmentService(mockRepo.Object, null, null, null, null);
+            var assignmentService = new AssignmentService(mockRepo.Object, null, null, null, null, new AuthorizationMock().Object);
             var result = await assignmentService.GetAllTransportUnitsByMode(String.Empty);
             Assert.Empty(result);
         }
@@ -49,7 +49,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
                     p.GetAllTransporUnitsByMode("Accion"))
                         .Returns(Task.FromResult<IEnumerable<UnidadDeTransporte>>(MyList)
                 );
-            var assignmentService = new AssignmentService(mockRepo.Object, null, null, null, null);
+            var assignmentService = new AssignmentService(mockRepo.Object, null, null, null, null, new AuthorizationMock().Object);
             var result = await assignmentService.GetAllTransportUnitsByMode("Accion");
             Assert.NotEmpty(result);
             Assert.Equal(MyList, result.ToList());
@@ -86,7 +86,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
                 .Returns(Task.FromResult<UnidadDeTransporte>(TUnit));
             mockRepo3.Setup(p => p.GetAssignmentsByIncidentIdAsync(incident.Codigo))
                 .Returns(Task.FromResult<IEnumerable<EspecialistaTécnicoMédico>>(specialist));
-            var assignmentService = new AssignmentService(mockRepo2.Object, mockRepo1.Object, null, mockRepo3.Object, mockRepo.Object);
+            var assignmentService = new AssignmentService(mockRepo2.Object, mockRepo1.Object, null, mockRepo3.Object, mockRepo.Object, new AuthorizationMock().Object);
             var result = await assignmentService.GetAssignmentsByIncidentIdAsync(incident.Codigo);
             Assert.Equal(incident.MatriculaTrans, result.TransportUnit.Matricula);
         }
@@ -97,9 +97,8 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
             var mockRepo = new Mock<IIncidentRepository>();
             mockRepo.Setup(p => p.GetByKeyAsync(String.Empty))
                 .Returns(Task.FromResult<Incidente>(null));
-            var assignmentService = new AssignmentService(null, null, null, null, mockRepo.Object);
-            var result = await assignmentService.GetAssignmentsByIncidentIdAsync(String.Empty);
-            Assert.Null(result);
+            var assignmentService = new AssignmentService(null, null, null, null, mockRepo.Object, new AuthorizationMock().Object);
+            await Assert.ThrowsAsync<ArgumentException>(() => assignmentService.GetAssignmentsByIncidentIdAsync(String.Empty));
         }
 
         [Fact]
@@ -113,7 +112,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
                     p.GetAllAsync()).
                         Returns(Task.FromResult<IEnumerable<CoordinadorTécnicoMédico>>(new List<CoordinadorTécnicoMédico>())
                 );
-            var AssignmentService = new AssignmentService(null, mockRepo.Object, null, null, null);
+            var AssignmentService = new AssignmentService(null, mockRepo.Object, null, null, null, new AuthorizationMock().Object);
             var result = await AssignmentService.GetCoordinatorsAsync();
             Assert.Empty(result);
         }
@@ -136,7 +135,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
                     p.GetAllAsync())
                         .Returns(Task.FromResult<IEnumerable<CoordinadorTécnicoMédico>>(MyList)
                 );
-            var AssignmentService = new AssignmentService(null, mockRepo.Object, null, null, null);
+            var AssignmentService = new AssignmentService(null, mockRepo.Object, null, null, null, new AuthorizationMock().Object);
             var result = await AssignmentService.GetCoordinatorsAsync();
             Assert.NotEmpty(result);
             Assert.Equal(MyList, result.ToList());
@@ -170,8 +169,233 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
                 Coordinator = AssignedCoordinatorToTest,
                 TransportUnit = TransportUnitToTest
             };
-            var AssignmentService = new AssignmentService(null, null, null, AssignmentRepo.Object, IncidentRepo.Object);
+            var AssignmentService = new AssignmentService(null, null, null, AssignmentRepo.Object, IncidentRepo.Object, new AuthorizationMock().Object);
             await AssignmentService.AssignToIncidentAsync(ParameterCode, ParameterModel);
+        }
+
+        [Fact]
+        public async Task GetSpecialistsAsyncReturnsEmpty()
+        {
+            /*There are no Specialists test case -> returns empty list*/
+            var mockRepo = new Mock<IEspecialistaTécnicoMédicoRepository>();
+            mockRepo
+                .Setup(p =>
+                    p.GetAllAsync()).
+                        Returns(Task.FromResult<IEnumerable<EspecialistaTécnicoMédico>>(new List<EspecialistaTécnicoMédico>())
+                );
+            var AssignmentService = new AssignmentService(null, null, mockRepo.Object, null, null, new AuthorizationMock().Object);
+            var result = await AssignmentService.GetSpecialistsAsync();
+            Assert.Empty(result);
+        }
+
+        [Fact]
+        public async Task GetSpecialistsAsyncReturnsQuantity()
+        {
+            /* Positive test case, will check the amount of Specialists returned,
+             * with the amount of Specialists that exists.
+            */
+            var mockRepo = new Mock<IEspecialistaTécnicoMédicoRepository>();
+            List<EspecialistaTécnicoMédico> MyList = new List<EspecialistaTécnicoMédico>
+            {
+                new EspecialistaTécnicoMédico(),
+                new EspecialistaTécnicoMédico(),
+                new EspecialistaTécnicoMédico(),
+            };
+            mockRepo
+                .Setup(p =>
+                    p.GetAllAsync())
+                        .Returns(Task.FromResult<IEnumerable<EspecialistaTécnicoMédico>>(MyList)
+                );
+            var AssignmentService = new AssignmentService(null, null, mockRepo.Object, null, null, new AuthorizationMock().Object);
+            var result = await AssignmentService.GetSpecialistsAsync();
+            Assert.NotEmpty(result);
+            Assert.Equal(MyList, result.ToList());
+        }
+
+        [Fact]
+        public async Task IsAuthorizedToViewPatientWithCoordinatorReturnsTrue()
+        {
+            /* Case: There is a coordinator linked with incident. The coordinator is
+             * the one who is checking the patient info.
+             * -> Returns true because the coordinator is authorized
+            */
+            var IncidentRepo = new Mock<IIncidentRepository>();
+            var CoordinatorRepo = new Mock<ICoordinadorTécnicoMédicoRepository>();
+            var TransportRepo = new Mock<ITransportUnitRepository>();
+            var AssignmentRepo = new Mock<IAssignmentRepository>();
+            //Coordinator
+            var coordinator = new CoordinadorTécnicoMédico { Cédula = "987654321" };
+            var incident = new Incidente
+            {
+                Codigo = "0101",
+                MatriculaTrans = "LOL",
+                CedulaTecnicoCoordinador = coordinator.Cédula,
+            };
+            var TUnit = new UnidadDeTransporte
+            {
+                Matricula = "LOL"
+            };
+            var specialist = new List<EspecialistaTécnicoMédico>
+            {
+                new EspecialistaTécnicoMédico()
+            };
+            // Repositories setup
+            IncidentRepo.Setup(p => p.GetByKeyAsync(incident.Codigo))
+                .Returns(Task.FromResult<Incidente>(incident));
+            IncidentRepo.Setup(p => p.GetAssignedOriginDoctor(String.Empty))
+                .Returns(Task.FromResult<Médico>(null));
+            IncidentRepo.Setup(p => p.GetAssignedDestinationDoctor(String.Empty))
+                .Returns(Task.FromResult<Médico>(null));
+            CoordinatorRepo.Setup(p => p.GetByKeyAsync(incident.CedulaTecnicoCoordinador))
+                .Returns(Task.FromResult<CoordinadorTécnicoMédico>(coordinator));
+            TransportRepo.Setup(p => p.GetByKeyAsync(incident.MatriculaTrans))
+                .Returns(Task.FromResult<UnidadDeTransporte>(TUnit));
+            AssignmentRepo.Setup(p => p.GetAssignmentsByIncidentIdAsync(incident.Codigo))
+                .Returns(Task.FromResult<IEnumerable<EspecialistaTécnicoMédico>>(specialist));
+
+            // call to service
+            var AssignmentService = new AssignmentService(TransportRepo.Object, CoordinatorRepo.Object, null, AssignmentRepo.Object, IncidentRepo.Object, new AuthorizationMock().Object);
+            var result = await AssignmentService.IsAuthorizedToViewPatient(incident.Codigo, incident.CedulaTecnicoCoordinador);
+            Assert.True(result);
+        }
+
+        [Fact]
+        public async Task IsAuthorizedToViewPatientWithSpecialistReturnsTrue()
+        {
+            /* Case: There is a specialist linked with incident. The specialist is
+             * the one who is checking the patient info.
+             * -> Returns true because the specialist is authorized
+            */
+            var IncidentRepo = new Mock<IIncidentRepository>();
+            var CoordinatorRepo = new Mock<ICoordinadorTécnicoMédicoRepository>();
+            var TransportRepo = new Mock<ITransportUnitRepository>();
+            var AssignmentRepo = new Mock<IAssignmentRepository>();
+            //Specialist
+            var specialist = new EspecialistaTécnicoMédico { Cédula = "987654321" };
+            var incident = new Incidente
+            {
+                Codigo = "0101",
+                MatriculaTrans = "LOL",
+            };
+            var TUnit = new UnidadDeTransporte
+            {
+                Matricula = "LOL"
+            };
+            var specialists = new List<EspecialistaTécnicoMédico>
+            {
+                specialist
+            };
+            // Repositories setup
+            IncidentRepo.Setup(p => p.GetByKeyAsync(incident.Codigo))
+                .Returns(Task.FromResult<Incidente>(incident));
+            IncidentRepo.Setup(p => p.GetAssignedOriginDoctor(String.Empty))
+                .Returns(Task.FromResult<Médico>(null));
+            IncidentRepo.Setup(p => p.GetAssignedDestinationDoctor(String.Empty))
+                .Returns(Task.FromResult<Médico>(null));
+            CoordinatorRepo.Setup(p => p.GetByKeyAsync(String.Empty))
+                .Returns(Task.FromResult<CoordinadorTécnicoMédico>(null));
+            TransportRepo.Setup(p => p.GetByKeyAsync(incident.MatriculaTrans))
+                .Returns(Task.FromResult<UnidadDeTransporte>(TUnit));
+            AssignmentRepo.Setup(p => p.GetAssignmentsByIncidentIdAsync(incident.Codigo))
+                .Returns(Task.FromResult<IEnumerable<EspecialistaTécnicoMédico>>(specialists));
+
+            // call to service
+            var AssignmentService = new AssignmentService(TransportRepo.Object, CoordinatorRepo.Object, null, AssignmentRepo.Object, IncidentRepo.Object, new AuthorizationMock().Object);
+            var result = await AssignmentService.IsAuthorizedToViewPatient(incident.Codigo, specialist.Cédula);
+            Assert.True(result);
+        }
+
+        [Fact]
+        public async Task IsAuthorizedToViewPatientReturnsFalse()
+        {
+            /* Case: There isn't any person authorized related with the incident.
+             * -> Returns false, because the person requesting to view, is not authorized.
+            */
+            var IncidentRepo = new Mock<IIncidentRepository>();
+            var CoordinatorRepo = new Mock<ICoordinadorTécnicoMédicoRepository>();
+            var TransportRepo = new Mock<ITransportUnitRepository>();
+            var AssignmentRepo = new Mock<IAssignmentRepository>();
+            var incident = new Incidente
+            {
+                Codigo = "0101",
+                MatriculaTrans = "CQL",
+            };
+            var TUnit = new UnidadDeTransporte
+            {
+                Matricula = "CQL"
+            };
+            var specialists = new List<EspecialistaTécnicoMédico>
+            {
+                 new EspecialistaTécnicoMédico()
+            };
+            // Repositories setup
+            IncidentRepo.Setup(p => p.GetByKeyAsync(incident.Codigo))
+                .Returns(Task.FromResult<Incidente>(incident));
+            IncidentRepo.Setup(p => p.GetAssignedOriginDoctor(String.Empty))
+                .Returns(Task.FromResult<Médico>(null));
+            IncidentRepo.Setup(p => p.GetAssignedDestinationDoctor(String.Empty))
+                .Returns(Task.FromResult<Médico>(null));
+            CoordinatorRepo.Setup(p => p.GetByKeyAsync(String.Empty))
+                .Returns(Task.FromResult<CoordinadorTécnicoMédico>(null));
+            TransportRepo.Setup(p => p.GetByKeyAsync(incident.MatriculaTrans))
+                .Returns(Task.FromResult<UnidadDeTransporte>(TUnit));
+            AssignmentRepo.Setup(p => p.GetAssignmentsByIncidentIdAsync(incident.Codigo))
+                .Returns(Task.FromResult<IEnumerable<EspecialistaTécnicoMédico>>(specialists));
+
+            // call to service
+            var AssignmentService = new AssignmentService(TransportRepo.Object, CoordinatorRepo.Object, null, AssignmentRepo.Object, IncidentRepo.Object, new AuthorizationMock().Object);
+            var result = await AssignmentService.IsAuthorizedToViewPatient(incident.Codigo, "Cedula invalida");
+            Assert.False(result);
+        }
+
+        [Fact]
+        public async Task GetAssignedDestinationDoctorReturnsValid()
+        {
+            // arrange
+            var _MockIncidentRepository = new Mock<IIncidentRepository>();
+            var incident1 = new IncidentListModel { Codigo = "123abc" };
+            var incident2 = new IncidentListModel { Codigo = "456def" };
+            var incident3 = new IncidentListModel { Codigo = "789ghi" };
+            string code = "código válido";
+            Médico expected = new Médico { Cédula = "122873402" };
+
+            _MockIncidentRepository
+                .Setup(p => p.GetAssignedDestinationDoctor(code))
+                .Returns(Task.FromResult(expected));
+
+
+            var AssignmentService = new AssignmentService(null, null, null, null, _MockIncidentRepository.Object, new AuthorizationMock().Object);
+
+
+            // act
+            var result = (await AssignmentService.GetAssignedDestinationDoctor(code));
+            // assert
+            Assert.Equal(expected, result);
+        }
+
+        [Fact]
+        public async Task GetAssignedDestinationDoctorReturnsNull()
+        {
+            // arrange
+            var _MockIncidentRepository = new Mock<IIncidentRepository>();
+            var incident1 = new IncidentListModel { Codigo = "123abc" };
+            var incident2 = new IncidentListModel { Codigo = "456def" };
+            var incident3 = new IncidentListModel { Codigo = "789ghi" };
+            string code = "código válido";
+            Médico expected = null;
+
+            _MockIncidentRepository
+                .Setup(p => p.GetAssignedDestinationDoctor(code))
+                .Returns(Task.FromResult(expected));
+
+
+            var assignmentService = new AssignmentService(null, null, null, null, _MockIncidentRepository.Object, new AuthorizationMock().Object);
+
+
+            // act
+            var result = (await assignmentService.GetAssignedDestinationDoctor(code));
+            // assert
+            Assert.Equal(expected, result);
         }
     }
 }

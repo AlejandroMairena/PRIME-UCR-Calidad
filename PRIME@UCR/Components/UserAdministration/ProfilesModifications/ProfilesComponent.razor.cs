@@ -9,7 +9,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
-namespace PRIME_UCR.Components.UserAdministration
+namespace PRIME_UCR.Components.UserAdministration.ProfilesModifications
 {
     /*
      * Class used to select the desired profile to be displayed and to update the corresponding components (UsersComponent and 

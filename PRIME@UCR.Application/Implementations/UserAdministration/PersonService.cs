@@ -97,6 +97,15 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
             await primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             await PersonRepository.DeleteAsync(id);
         }
+
+        /**
+         * Method used to get a person by its id, in this case, by its Cedula. It's used by the user with permissions to manage users.
+         */
+        public async Task<Persona> GetPersonByCedAsync(string ced)
+        {
+            await primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
+            return await PersonRepository.GetByCedPersonaAsync(ced);
+        }
     }
 
     [MetadataType(typeof(PersonServiceAuthorization))]

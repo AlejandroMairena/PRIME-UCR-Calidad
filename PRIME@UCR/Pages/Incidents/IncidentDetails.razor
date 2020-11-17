@@ -2,6 +2,7 @@
 @page "/incidents/{Code}/{StartingTab}"
 @using PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
 @using PRIME_UCR.Components.Incidents.IncidentDetails
+@using PRIME_UCR.Components.Incidents
 @using PRIME_UCR.Components.Controls
 @attribute [Authorize]
 
@@ -13,23 +14,25 @@
 @if (_exists)
 {
     <Loading IsLoading="_incidentModel == null">
-        <div class="row">
-            <div class="col-xl-2 col-lg-3 mb-4">
-                <TabMenu Tabs="_tabs" DefaultTab="DefaultTab" IsVertical="true"
-                         TooltipText="Campo pendiente"
-                         @bind-Value="_activeTab"/>
-            </div> 
-            <div class="col col-xl-10 col-lg-9">
-                <div class="jumbotron white-panel">
-                    <CascadingValue Value="ClearStatusMessageCallback">
-                        <CascadingValue Value="ChangeActiveTabCallback">
-                            <ActiveTab Active="@_activeTab" Incident="_incidentModel" OnSave="@Save"
-                                StatusMessage="@_statusMessage" StatusClass="@_statusClass"/>
+        <AuthorizeIfAssigned IncidentCode="@_incidentModel.Code">
+            <div class="row">
+                <div class="col-xl-2 col-lg-3 mb-4">
+                    <TabMenu Tabs="_tabs" DefaultTab="DefaultTab" IsVertical="true"
+                             TooltipText="Campo pendiente"
+                             @bind-Value="_activeTab"/>
+                </div>
+                <div class="col col-xl-10 col-lg-9">
+                    <div class="jumbotron white-panel">
+                        <CascadingValue Value="ClearStatusMessageCallback">
+                            <CascadingValue Value="ChangeActiveTabCallback">
+                                <ActiveTab Active="@_activeTab" Incident="_incidentModel" OnSave="@Save"
+                                           StatusMessage="@_statusMessage" StatusClass="@_statusClass"/>
+                            </CascadingValue>
                         </CascadingValue>
-                    </CascadingValue>
+                    </div>
                 </div>
             </div>
-        </div>
+        </AuthorizeIfAssigned>
     </Loading>
 }
 else
