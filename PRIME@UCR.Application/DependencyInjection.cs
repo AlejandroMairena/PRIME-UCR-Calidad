@@ -20,7 +20,7 @@ using Microsoft.AspNetCore.Components.Authorization;
 using PRIME_UCR.Infrastructure.Repositories.Sql.MedicalRecords;
 using PRIME_UCR.Application.Services.Dashboard;
 using PRIME_UCR.Application.Implementations.Dashboard;
-
+using PRIME_UCR.Application.Permissions.UserAdministration;
 
 namespace PRIME_UCR.Application
 {
@@ -46,7 +46,7 @@ namespace PRIME_UCR.Application
             services.AddTransient<IMultimediaContentService, MultimediaContentService>();
             services.AddTransient<IEncryptionService, EncryptionService>();
             // user administration
-            services.AddScoped<IPermissionsService, PermissionsService>();
+            services.AddScoped<IPermissionsService, PermissionServiceDecorator>();
             services.AddScoped<IProfilesService, ProfilesService>();
             services.AddScoped<IUserService, UsersService>();
             services.AddTransient<IPermiteService, PermiteService>();
