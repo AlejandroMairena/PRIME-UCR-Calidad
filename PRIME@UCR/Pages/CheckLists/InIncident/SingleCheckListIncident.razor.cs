@@ -224,6 +224,8 @@ namespace PRIME_UCR.Pages.CheckLists.InIncident
                 insanceLC.Completado = false;
                 await MyCheckInstanceChechistService.UpdateInstanceChecklist(insanceLC);
                 StartTime = "";
+                EndTime = "";
+                MyDuration = "";
             }
         }
 

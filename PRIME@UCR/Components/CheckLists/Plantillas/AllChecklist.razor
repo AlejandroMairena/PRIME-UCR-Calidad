@@ -19,16 +19,13 @@
         else
         {
             <div class="rounded" style="background-color: white;padding-left: 10px;padding-right: 10px; padding-top:10px;">
-                <h5>Listas de chequeo</h5>
                 <EditForm Model="lists">
                     <Table TableItem="CheckList" Items="lists" PageSize="3">
 
                         <Column TableItem="CheckList" Title="Nombre" Field="@( x => x.Id)" Width="30%">
                             <Template Context="tempList">
                                 <a href='@string.Format("checklist/{0}", @tempList.Id)'>
-                                    <b>
-                                        @tempList.Nombre
-                                    </b>
+                                  @tempList.Nombre
                                 </a>
                             </Template>
 
