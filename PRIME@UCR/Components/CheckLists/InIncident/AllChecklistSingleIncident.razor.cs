@@ -4,13 +4,13 @@ using PRIME_UCR.Domain.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using PRIME_UCR.Application.Services.CheckLists;
-using PRIME_UCR.Components.CheckLists;
+using PRIME_UCR.Components.CheckLists.InIncident;
 using Microsoft.AspNetCore.Components.Forms;
 using System.Linq;
 using PRIME_UCR.Domain.Models.CheckLists;
 using MatBlazor;
 
-namespace PRIME_UCR.Components.CheckLists
+namespace PRIME_UCR.Components.CheckLists.InIncident
 {
     /**
     * This page displays every checklist instance in especific incident and general data for each one

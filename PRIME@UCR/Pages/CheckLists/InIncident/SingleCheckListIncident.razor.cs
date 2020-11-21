@@ -4,7 +4,7 @@ using PRIME_UCR.Domain.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using PRIME_UCR.Application.Services.CheckLists;
-using PRIME_UCR.Components.CheckLists;
+using PRIME_UCR.Components.CheckLists.InIncident;
 using PRIME_UCR.Application.Dtos.Incidents;
 using PRIME_UCR.Components.Incidents.IncidentDetails.Constants;
 using Microsoft.AspNetCore.Components.Forms;
@@ -16,7 +16,7 @@ using System.Linq;
 using MatBlazor;
 using PRIME_UCR.Application.Services.Multimedia;
 
-namespace PRIME_UCR.Pages.CheckLists
+namespace PRIME_UCR.Pages.CheckLists.InIncident
 {
     public class SingleCheckListIncidentBase : ComponentBase
     {
@@ -200,7 +200,7 @@ namespace PRIME_UCR.Pages.CheckLists
                 EndTime = tempEndTime.ToString();
                 StartTime = tempStartTime.ToString();
                 TimeSpan duration = (TimeSpan)(tempEndTime - tempStartTime);
-                MyDuration = "Duración: " + duration.Days + " dia(s) " + duration.Hours + " hora(s) " + duration.Minutes + " minuto(s).";
+                MyDuration = duration.Days + " dia(s) " + duration.Hours + " hora(s) " + duration.Minutes + " minuto(s).";
             }
             else if (totalItems > completedItems && completedItems != 0)
             {

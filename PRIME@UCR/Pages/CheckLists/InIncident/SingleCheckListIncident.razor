@@ -3,6 +3,7 @@
 @using PRIME_UCR.Components.CheckLists
 @using PRIME_UCR.Application.Implementations.UserAdministration;
 @using PRIME_UCR.Domain.Constants;
+@using PRIME_UCR.Components.CheckLists.InIncident
 @attribute [HasPermission(AuthorizationPermissions.CanManageIncidentChecklists)]
 <link href="css/Checklist.css" rel="stylesheet" />
 
@@ -23,8 +24,8 @@
             <div class="col">
                 <div class="container" id="contAll_LC" style="background:white;">
                     <SummaryMessage Content="Summary.Content" Values="Summary.Values" Class="info" /> @*insident state*@
-                    <div id="def_LC">
-                        <h5 style="margin-bottom: 3px;">Definición de la lista de chequeo</h5>
+                <h5 style="margin-bottom: 3px;">Definición de la lista de chequeo</h5>
+                    <div id="def_LC">    
                         <div class="input-group row">
                             <div class="col-sm-11">
                                 <div class="input-group row">

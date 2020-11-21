@@ -1,7 +1,7 @@
 ﻿@page "/checklist/create"
 @using PRIME_UCR.Components.Controls
 @inherits CheckListCreateBase
-
+@using PRIME_UCR.Components.CheckLists.Plantillas
 @using PRIME_UCR.Application.Implementations.UserAdministration;
 @using PRIME_UCR.Domain.Constants;
 @attribute [HasPermission(AuthorizationPermissions.CanCreateChecklist)]
@@ -28,7 +28,7 @@
                 <br />
                 @* Input for the description of the checklist *@
                 <label for="description">Descripción </label>
-                <TextAreaInput @bind-Value="checkList.Descripcion" Rows="3" Cols="50"/>
+                <TextAreaInput @bind-Value="checkList.Descripcion" Rows="3" Cols="50" />
                 <br />
                 <div class="form-row">
                     <div class="col-6">

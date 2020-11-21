@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace PRIME_UCR.Components.CheckLists
+namespace PRIME_UCR.Components.CheckLists.Plantillas
 {
     public partial class CheckListMenu
     {

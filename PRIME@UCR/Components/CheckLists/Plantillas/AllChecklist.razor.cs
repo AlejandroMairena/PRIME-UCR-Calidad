@@ -4,27 +4,26 @@ using PRIME_UCR.Domain.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using PRIME_UCR.Application.Services.CheckLists;
-using PRIME_UCR.Components.CheckLists;
+using PRIME_UCR.Components.CheckLists.Plantillas;
 using Microsoft.AspNetCore.Components.Forms;
 using System.Linq;
 using PRIME_UCR.Domain.Models.CheckLists;
 using MatBlazor;
 
-namespace PRIME_UCR.Pages.CheckLists
+namespace PRIME_UCR.Components.CheckLists.Plantillas
 {
     /**
-    * This page displays every checklist and general data for each one
+    * This page displays every checklist instance in especific incident and general data for each one
     * */
-    public class CheckListPageBase : ComponentBase
+    public class AllChecklistBase : ComponentBase
     {
-        protected const string CreateIncidentUrl = "/checklist/create";
 
         [Inject]
         private NavigationManager NavManager { get; set; }
 
         protected IEnumerable<CheckList> lists { get; set; }
-
-        [Inject] protected ICheckListService MyService { get; set; }
+        [Inject] protected ICheckListService MyCheckListService { get; set; }
+        public CheckList Alist = new CheckList(); //templist
 
         protected override async Task OnInitializedAsync()
         {
@@ -36,20 +35,7 @@ namespace PRIME_UCR.Pages.CheckLists
          * */
         protected async Task RefreshModels()
         {
-            lists = await MyService.GetAll();
-        }
-
-
-        protected MatTheme AddButtonTheme = new MatTheme()
-        {
-            Primary = "white",
-            Secondary = "#095290"
-        };
-
-
-        protected void Redirect()
-        {
-            NavManager.NavigateTo($"{CreateIncidentUrl}");
+            lists = await MyCheckListService.GetAll();
         }
 
     }

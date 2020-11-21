@@ -11,14 +11,14 @@ using PRIME_UCR.Domain.Models.CheckLists;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Components.Forms;
 
-namespace PRIME_UCR.Components.CheckLists
+namespace PRIME_UCR.Components.CheckLists.Plantillas
 {
     /**
     * This component allows the user to upload an image into a checklist or an item
     * */
-    public class EditItemBase : ComponentBase
+    public class CreateItemBase : ComponentBase
     {
-        [Inject] protected ICheckListService MyService { get; set; }
+        [Inject] public ICheckListService MyCheckListService { get; set; }
 
         [Parameter]
         public RenderFragment ChildContent { get; set; }
@@ -38,10 +38,10 @@ namespace PRIME_UCR.Components.CheckLists
         * Shares the data from an item with its parent component
         * */
         [Parameter]
-        public EventCallback<int> OnEditingChanged { get; set; }
+        public EventCallback<int> OnCreatingChanged { get; set; }
 
         [Parameter]
-        public bool editing { get; set; }
+        public bool creating { get; set; }
 
         protected override void OnInitialized()
         {
@@ -61,16 +61,17 @@ namespace PRIME_UCR.Components.CheckLists
         /**
          * Registers the new item
          * */
-        protected async Task EditItem(Item item)
+        protected async Task AddCheckListItem(Item item)
         {
+            creating = false;
             if (item.ImagenDescriptiva == null)
             {
                 item.ImagenDescriptiva = "/images/defaultCheckList.svg";
             }
+            await MyCheckListService.InsertCheckListItem(item);
             formInvalid = false;
-            await MyService.UpdateItem(item);
             await OnitemChanged();
-            await OnEditingChanged.InvokeAsync(0);
+            await OnCreatingChanged.InvokeAsync(0);
             StateHasChanged();
         }
 
@@ -82,19 +83,16 @@ namespace PRIME_UCR.Components.CheckLists
                 StateHasChanged();
             }
         }
-
         public async void Dispose()
         {
-            editing = false;
-            await OnEditingChanged.InvokeAsync(0);
+            creating = false;
+            await OnCreatingChanged.InvokeAsync(0);
             editContext.OnFieldChanged -= HandleFieldChanged;
             StateHasChanged();
-
         }
-
         protected async Task HandleValidSubmit()
         {
-            await EditItem(item);
+            await AddCheckListItem(item);
         }
     }
 }

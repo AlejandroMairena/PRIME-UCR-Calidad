@@ -4,7 +4,7 @@ using PRIME_UCR.Domain.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using PRIME_UCR.Application.Services.CheckLists;
-using PRIME_UCR.Components.CheckLists;
+using PRIME_UCR.Components.CheckLists.Plantillas;
 using Microsoft.AspNetCore.Components.Forms;
 using PRIME_UCR.Domain.Models.CheckLists;
 using System.Linq;
@@ -13,7 +13,7 @@ using System.Threading;
 using Microsoft.AspNetCore.Components.Rendering;
 using MatBlazor;
 
-namespace PRIME_UCR.Pages.CheckLists
+namespace PRIME_UCR.Pages.CheckLists.Plantillas
 {
     /**
     * This page displays the information of achecklists and its subitems

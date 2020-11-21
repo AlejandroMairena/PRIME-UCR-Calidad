@@ -4,12 +4,12 @@ using PRIME_UCR.Domain.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using PRIME_UCR.Application.Services.CheckLists;
-using PRIME_UCR.Components.CheckLists;
+using PRIME_UCR.Components.CheckLists.Plantillas;
 using Microsoft.AspNetCore.Components.Forms;
 using System.Linq;
 using PRIME_UCR.Domain.Models.CheckLists;
 
-namespace PRIME_UCR.Pages.CheckLists
+namespace PRIME_UCR.Pages.CheckLists.Plantillas
 {
     /**
     * This page displays a form to create a new checklist

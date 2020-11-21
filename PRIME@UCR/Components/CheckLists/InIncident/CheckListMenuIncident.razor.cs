@@ -5,8 +5,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using PRIME_UCR.Components.CheckLists.InIncident;
 
-namespace PRIME_UCR.Components.CheckLists
+namespace PRIME_UCR.Components.CheckLists.InIncident
 {
     public partial class CheckListMenuIncidentBase : ComponentBase
     {
