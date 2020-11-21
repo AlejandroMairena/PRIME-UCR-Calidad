@@ -12,7 +12,6 @@
 <Loading IsLoading="lists == null">
     <div class="wrapper">
         <div class="rounded" style="background-color: white;padding-left: 10px;padding-right: 10px; padding-top:10px;">
-            <h5>Listas de chequeo disponibles</h5>
             <EditForm Model="lists">
                 <Table TableItem="CheckList" Items="lists" PageSize="3">
                     <Column TableItem="CheckList" Title="" Field="@(tempList => lists)" Width="1%">

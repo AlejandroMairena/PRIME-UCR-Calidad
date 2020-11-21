@@ -200,7 +200,7 @@ namespace PRIME_UCR.Pages.CheckLists.InIncident
                 EndTime = tempEndTime.ToString();
                 StartTime = tempStartTime.ToString();
                 TimeSpan duration = (TimeSpan)(tempEndTime - tempStartTime);
-                MyDuration = duration.Days + " dia(s) " + duration.Hours + " hora(s) " + duration.Minutes + " minuto(s).";
+                MyDuration = duration.Days + " dia(s) " + duration.Hours + " hora(s) " + duration.Minutes + " minuto(s)";
             }
             else if (totalItems > completedItems && completedItems != 0)
             {

@@ -9,11 +9,7 @@
 
 <h3>Plantillas de listas de chequeo</h3>
 <hr />
-@if (list == null)
-{
-    <p><em>Cargando lista de chequeo.</em></p> }
-else
-{
+<Loading IsLoading="lists == null">
     <div class="row">
         <CheckListMenu Lists="lists" />
         <div class="col">
@@ -55,9 +51,9 @@ else
                             <div class="col-sm-4">
                                 <InputSelect @bind-Value="editedList.Tipo" class="custom-select ">
                                     @for (int index = 0; index < _types.Count(); index++)
-                                        {
+                                    {
                                         <option value="@_types[index]">@_types[index]</option>
-                                        }
+                                    }
                                 </InputSelect>
 
                             </div>
@@ -173,4 +169,4 @@ else
         </div>
     </div>
     <br />
-}
+ </Loading>
