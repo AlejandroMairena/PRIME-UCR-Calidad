@@ -36,11 +36,11 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
             await primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             using (var connection = new SqlConnection(_db.DbConnection.ConnectionString))
             {
-                var result = await connection.ExecuteQueryAsync<Médico>($@"
+                var result = await connection.ExecuteQueryAsync<Médico>(@"
                     select Persona.Cédula, Nombre, PrimerApellido, SegundoApellido, Sexo, FechaNacimiento from Persona
                     join Médico M on Persona.Cédula = M.Cédula
-                    where M.Cédula = {key}
-                ");
+                    where M.Cédula = @Ced
+                ", new { Ced = key});
                 
                 return result.FirstOrDefault();
             }

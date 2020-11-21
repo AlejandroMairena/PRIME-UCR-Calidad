@@ -73,6 +73,7 @@
     <Folder Include="StoredProcedures\UserAdministration" />
     <Folder Include="StoredProcedures\Multimedia" />
     <Folder Include="StoredProcedures\CheckLists" />
+    <Folder Include="Indexes\Incidents\" />
     <Folder Include="StoredProcedures\Dashboard" />
     <Folder Include="Indexes\Incidents\" />
   </ItemGroup>
