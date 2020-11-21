@@ -34,7 +34,6 @@ namespace PRIME_UCR.Application
             // incidents
             services.AddTransient<IIncidentService, IncidentService>();
             services.AddTransient<ILocationService, LocationService>();
-            services.AddTransient<IIncidentService, IncidentService>();
             services.AddTransient<IStateService, StateService>();
             // medical records
             services.AddTransient<IMedicalRecordService, MedicalRecordService>();
@@ -46,19 +45,17 @@ namespace PRIME_UCR.Application
             services.AddTransient<IMultimediaContentService, MultimediaContentService>();
             services.AddTransient<IEncryptionService, EncryptionService>();
             // user administration
-            services.AddScoped<IPermissionsService, PermissionServiceDecorator>();
-            services.AddScoped<IProfilesService, ProfilesService>();
-            services.AddScoped<IUserService, UsersService>();
-            services.AddTransient<IPermiteService, PermiteService>();
-            services.AddTransient<IPerteneceService, PerteneceService>();
-            services.AddTransient<IPersonService, PersonService>();
-            services.AddTransient<IDoctorService, DoctorService>();
-            services.AddTransient<IPersonService, PersonService>();
-            services.AddTransient<IPatientService, PatientService>();
-            services.AddTransient<IDoctorService, DoctorService>();
-            services.AddTransient<INumeroTelefonoService, NumeroTelefonoService>();
+            services.AddScoped<IPermissionsService, SecurePermissionService>();
+            services.AddScoped<IProfilesService, SecureProfilesService>();
+            services.AddScoped<IUserService, SecureUserService>();
+            services.AddTransient<IPermiteService, SecurePermiteService>();
+            services.AddTransient<IDoctorService, SecureDoctorService>();
+            services.AddTransient<IPerteneceService, SecurePerteneceService>();
+            services.AddTransient<IPersonService, SecurePersonService>();
+            services.AddTransient<IPatientService, SecurePatientService>();
+            services.AddTransient<INumeroTelefonoService, SecureNumeroTelefonoService>();
+
             services.AddTransient<IAssignmentService, AssignmentService>();
-            services.AddTransient<IAppointmentService, AppointmentService>();
             services.AddTransient<IDashboardService, DashboardService>();
             services.AddTransient<IAuthenticationService, AuthenticationService>();
             //Dashboard

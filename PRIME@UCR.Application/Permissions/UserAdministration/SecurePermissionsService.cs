@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace PRIME_UCR.Application.Permissions.UserAdministration
 {
-    public class PermissionServiceDecorator : IPermissionsService
+    public class SecurePermissionService : IPermissionsService
     {
         private readonly PermissionsService PermissionService;
 
@@ -19,7 +19,7 @@ namespace PRIME_UCR.Application.Permissions.UserAdministration
 
         protected readonly IPermisoRepository permissionsRepository;
 
-        public PermissionServiceDecorator(IPrimeSecurityService _primeSecurityService,
+        public SecurePermissionService(IPrimeSecurityService _primeSecurityService,
             IPermisoRepository _permisoRepository)
         {
             primeSecurityService = _primeSecurityService;

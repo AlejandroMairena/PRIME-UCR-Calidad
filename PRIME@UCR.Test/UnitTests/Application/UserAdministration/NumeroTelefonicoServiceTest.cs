@@ -26,7 +26,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.UserAdministration
             mockRepo.Setup(p => p.AddPhoneNumberAsync(It.IsAny<NúmeroTeléfono>())).Returns(Task.FromResult(1));
 
             var mockSecurity = new Mock<IPrimeSecurityService>();
-            mockSecurity.Setup(s => s.CheckIfIsAuthorizedAsync(typeof(PermissionsService), "AddNewPhoneNumberAsync"));
+            mockSecurity.Setup(s => s.CheckIfIsAuthorizedAsync(typeof(NumeroTelefonoService), "AddNewPhoneNumberAsync"));
 
             var phoneNumberService = new NumeroTelefonoService(mockRepo.Object, mockSecurity.Object);
             var result = await phoneNumberService.AddNewPhoneNumberAsync("117980341", "84312773");

@@ -11,17 +11,13 @@ using System.Threading.Tasks;
 
 namespace PRIME_UCR.Application.Implementations.UserAdministration
 {
-    public class ProfilesService : IProfilesService
+    internal class ProfilesService : IProfilesService
     {
         private readonly IPerfilRepository _profilesRepository;
 
-        private readonly IPrimeSecurityService primeSecurityService;
-
-        public ProfilesService(IPerfilRepository profileRepository,
-            IPrimeSecurityService _primeSecurityService)
+        public ProfilesService(IPerfilRepository profileRepository)
         {
             _profilesRepository = profileRepository;
-            primeSecurityService = _primeSecurityService;
         }
 
         public async Task<List<Perfil>> GetPerfilesWithDetailsAsync()
@@ -29,7 +25,4 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
             return await _profilesRepository.GetPerfilesWithDetailsAsync();
         }
     }
-
-
-
 }
