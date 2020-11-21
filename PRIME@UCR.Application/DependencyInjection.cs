@@ -22,6 +22,7 @@ using PRIME_UCR.Application.Services.Dashboard;
 using PRIME_UCR.Application.Implementations.Dashboard;
 using PRIME_UCR.Application.Permissions.UserAdministration;
 using PRIME_UCR.Application.Permissions.Incidents;
+using PRIME_UCR.Application.Permissions.Dashboard;
 
 namespace PRIME_UCR.Application
 {
@@ -32,6 +33,7 @@ namespace PRIME_UCR.Application
             // services
             services.AddTransient<ICheckListService, CheckListService>();
             services.AddTransient<IInstanceChecklistService, InstanceChecklistService>();
+
             // incidents
             services.AddTransient<IAssignmentService, SecureAssignmentService>();
             services.AddTransient<IIncidentService, SecureIncidentService>();
@@ -47,6 +49,7 @@ namespace PRIME_UCR.Application
             // multimedia
             services.AddTransient<IMultimediaContentService, MultimediaContentService>();
             services.AddTransient<IEncryptionService, EncryptionService>();
+            
             // user administration
             services.AddScoped<IPermissionsService, SecurePermissionService>();
             services.AddScoped<IProfilesService, SecureProfilesService>();
@@ -58,11 +61,10 @@ namespace PRIME_UCR.Application
             services.AddTransient<IPatientService, SecurePatientService>();
             services.AddTransient<INumeroTelefonoService, SecureNumeroTelefonoService>();
 
-
-            services.AddTransient<IDashboardService, DashboardService>();
             services.AddTransient<IAuthenticationService, AuthenticationService>();
+
             //Dashboard
-            services.AddTransient<IDashboardService, DashboardService>();
+            services.AddTransient<IDashboardService, SecureDashboardService>();
 
             services.AddTransient<IMailService, MailService>();
             return services;
