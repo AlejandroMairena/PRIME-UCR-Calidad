@@ -21,6 +21,7 @@ using PRIME_UCR.Infrastructure.Repositories.Sql.MedicalRecords;
 using PRIME_UCR.Application.Services.Dashboard;
 using PRIME_UCR.Application.Implementations.Dashboard;
 using PRIME_UCR.Application.Permissions.UserAdministration;
+using PRIME_UCR.Application.Permissions.Incidents;
 
 namespace PRIME_UCR.Application
 {
@@ -32,9 +33,11 @@ namespace PRIME_UCR.Application
             services.AddTransient<ICheckListService, CheckListService>();
             services.AddTransient<IInstanceChecklistService, InstanceChecklistService>();
             // incidents
-            services.AddTransient<IIncidentService, IncidentService>();
+            services.AddTransient<IAssignmentService, SecureAssignmentService>();
+            services.AddTransient<IIncidentService, SecureIncidentService>();
             services.AddTransient<ILocationService, LocationService>();
-            services.AddTransient<IStateService, StateService>();
+            services.AddTransient<IStateService, SecureStateService>();
+
             // medical records
             services.AddTransient<IMedicalRecordService, MedicalRecordService>();
             services.AddTransient<IMedicalBackgroundService, MedicalBackgroundService>();
@@ -55,7 +58,7 @@ namespace PRIME_UCR.Application
             services.AddTransient<IPatientService, SecurePatientService>();
             services.AddTransient<INumeroTelefonoService, SecureNumeroTelefonoService>();
 
-            services.AddTransient<IAssignmentService, AssignmentService>();
+
             services.AddTransient<IDashboardService, DashboardService>();
             services.AddTransient<IAuthenticationService, AuthenticationService>();
             //Dashboard
