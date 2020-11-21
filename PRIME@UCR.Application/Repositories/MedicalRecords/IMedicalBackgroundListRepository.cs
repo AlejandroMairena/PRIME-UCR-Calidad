@@ -8,6 +8,5 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.MedicalRecords
 {
     public interface IMedicalBackgroundListRepository : IGenericRepository<ListaAntecedentes, int>
     {
-
     }
 }

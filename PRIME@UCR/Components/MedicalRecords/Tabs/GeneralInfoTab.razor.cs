@@ -8,12 +8,14 @@ using PRIME_UCR.Application.Services.UserAdministration;
 using PRIME_UCR.Domain.Models.UserAdministration;
 using PRIME_UCR.Application.Services.MedicalRecords;
 using PRIME_UCR.Application.DTOs.MedicalRecords;
+using PRIME_UCR.Domain.Models;
 
 namespace PRIME_UCR.Components.MedicalRecords.Tabs
 {
     public partial class GeneralInfoTab
     {
         [Parameter] public RecordViewModel record { get; set; }
+        [Parameter] public Cita LastAppointment { get; set; }
         //[Inject] public IMedicalRecordService _service { get; set; }
 
         //private String _register;
