@@ -54,7 +54,13 @@ namespace PRIME_UCR.Application.Permissions.UserAdministration
         public async Task<UserFormModel> GetUserFormFromRegisterUserFormAsync(RegisterUserFormModel userToRegister)
         {
             await primeSecurityService.CheckIfIsAuthorizedAsync(new[] { AuthorizationPermissions.CanManageUsers });
-            return await userService.GetUserFormFromRegisterUserFormAsync(userToRegister);
+            if(userToRegister != null)
+            {
+                return await userService.GetUserFormFromRegisterUserFormAsync(userToRegister);
+            } else
+            {
+                return await Task.FromResult<UserFormModel>(null);
+            }
         }
 
         public async Task<Usuario> getUsuarioWithDetailsAsync(string id)

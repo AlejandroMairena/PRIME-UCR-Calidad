@@ -135,5 +135,10 @@ namespace PRIME_UCR.Application.Permissions.Incidents
         {
             await _incidentService.ChangeState(code, nextState);
         }
+
+        public async Task<bool> UpdateTransportUnit(IncidentDetailsModel model, Incidente incident)
+        {
+            return await _incidentService.UpdateTransportUnit(model, incident);
+        }
     }
 }

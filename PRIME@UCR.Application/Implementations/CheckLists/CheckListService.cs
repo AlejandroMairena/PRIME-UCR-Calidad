@@ -19,7 +19,7 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
     /**
      * Class used to manage checklists and their items
      */
-    public class CheckListService : ICheckListService
+    internal class CheckListService : ICheckListService
     {
         private readonly ICheckListRepository _checklistRepository;
         private readonly ICheckListTypeRepository _checkListTypeRepository;

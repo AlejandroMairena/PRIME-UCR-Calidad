@@ -10,6 +10,8 @@ using PRIME_UCR.Domain.Models.UserAdministration;
 using PRIME_UCR.Application.Services.UserAdministration;
 using PRIME_UCR.Application.Implementations.UserAdministration;
 using System.Linq;
+using PRIME_UCR.Application.Permissions.UserAdministration;
+using PRIME_UCR.Domain.Constants;
 
 namespace PRIME_UCR.Test.UnitTests.Application.UserAdministration
 {
@@ -21,7 +23,10 @@ namespace PRIME_UCR.Test.UnitTests.Application.UserAdministration
             var mockRepo = new Mock<IPermisoRepository>();
             mockRepo.Setup(u => u.GetAllAsync()).Returns(Task.FromResult(new List<Permiso>()));
 
-            var permissionService = new PermissionsService(mockRepo.Object);
+            var mockSecurity = new Mock<IPrimeSecurityService>();
+            mockSecurity.Setup(s => s.CheckIfIsAuthorizedAsync(It.IsAny<AuthorizationPermissions[]>()));
+
+            var permissionService = new SecurePermissionService(mockSecurity.Object, mockRepo.Object);
             var result = await permissionService.GetPermisos();
 
             Assert.Empty(result);
@@ -50,7 +55,10 @@ namespace PRIME_UCR.Test.UnitTests.Application.UserAdministration
                 }
             }));
 
-            var permissionService = new PermissionsService(mockRepo.Object);
+            var mockSecurity = new Mock<IPrimeSecurityService>();
+            mockSecurity.Setup(s => s.CheckIfIsAuthorizedAsync(It.IsAny<AuthorizationPermissions[]>()));
+
+            var permissionService = new SecurePermissionService(mockSecurity.Object, mockRepo.Object);
             var result = await permissionService.GetPermisos();
 
             Assert.Equal(3, result.ToList().Count);

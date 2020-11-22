@@ -17,7 +17,6 @@ using PRIME_UCR.Domain.Exceptions.Incidents;
 using PRIME_UCR.Domain.Models;
 using PRIME_UCR.Domain.Models.Incidents;
 using PRIME_UCR.Domain.Models.UserAdministration;
-using PRIME_UCR.Application.Services.UserAdministration;
 using System.ComponentModel.DataAnnotations;
 using PRIME_UCR.Application.Permissions.Incidents;
 
