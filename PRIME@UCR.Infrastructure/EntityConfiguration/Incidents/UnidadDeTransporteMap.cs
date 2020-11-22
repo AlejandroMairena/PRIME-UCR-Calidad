@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PRIME_UCR.Domain.Models;
 using PRIME_UCR.Domain.Models.Incidents;
+using RepoDb;
 
 namespace PRIME_UCR.Infrastructure.EntityConfiguration.Incidents
 {
@@ -9,6 +10,7 @@ namespace PRIME_UCR.Infrastructure.EntityConfiguration.Incidents
     {
         public void Configure(EntityTypeBuilder<UnidadDeTransporte> builder)
         {
+            // EFCore
             builder.ToTable("Unidad_De_Transporte");
             builder
                 .Property(p => p.Matricula)
@@ -18,6 +20,12 @@ namespace PRIME_UCR.Infrastructure.EntityConfiguration.Incidents
                 .HasOne<Modalidad>()
                 .WithMany(p => p.Unidades)
                 .HasForeignKey(p => p.Modalidad);
+            
+            // RepoDb
+            FluentMapper.Entity<UnidadDeTransporte>()
+                        .Table("Unidad_De_Transporte")
+                        .Primary(u => u.Matricula);
+
         }
     }
 }

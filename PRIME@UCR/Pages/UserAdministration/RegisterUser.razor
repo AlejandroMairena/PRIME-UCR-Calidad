@@ -1,9 +1,10 @@
-﻿@attribute [HasPermission(AuthorizationPermissions.CanManageUsers)]
-@page "/user_administration/registerUser"
+﻿@page "/user_administration/registerUser"
 
-@using PRIME_UCR.Application.DTOs.UserAdministration
+@attribute [HasPermission(AuthorizationPermissions.CanManageUsers)]
+
 @using PRIME_UCR.Application.Implementations.UserAdministration
-@using PRIME_UCR.Components.UserAdministration
+@using PRIME_UCR.Components.UserAdministration.UserCreation
+@using PRIME_UCR.Domain.Constants
 
 <h3>Registrar usuarios en la aplicación</h3>
 
@@ -18,7 +19,18 @@
 
     <RegisterUserFormComponent Value="infoOfUserToRegister" />
 
-    <ProfileSelectionComponent Value=" infoOfUserToRegister"/>
+    <ProfileSelectionComponent Value=" infoOfUserToRegister" />
 
-    <button type="submit" class="btn btn-primary mt-4 mb-4">Registrar usuario</button>
-</EditForm>
+    @if (isBusy) // Loading button
+    {
+        <button class="btn btn-primary width:13em mt-4 mb-4" type="button">
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            Validando información
+        </button>
+    }
+    else
+    {
+        <button type="submit" class="btn btn-primary mt-4 mb-4 text-center" style="width:13em">Registrar usuario</button>
+    }
+
+    </EditForm>

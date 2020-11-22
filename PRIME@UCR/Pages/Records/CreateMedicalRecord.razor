@@ -4,7 +4,7 @@
 @inject PRIME_UCR.Application.Services.MedicalRecords.IMedicalRecordService medical_record_service
 <h1>Crear Expediente Paciente</h1>
 
-<MedicalRecordForm Expediente="@expediente" Submit_msg="Crear Expediente"
+<MedicalRecordForm RecordModel="recordModel" Submit_msg="Crear Expediente"
                    OnValidSubmit="@create_medical_record"></MedicalRecordForm>
 
 @code {
@@ -21,14 +21,16 @@
         base.OnInitialized();
     }
 
+    RecordModel recordModel = new RecordModel(); 
+
     Expediente expediente = new Expediente();
 
     private void create_medical_record()
     {
-        expediente.FechaCreacion = DateTime.Now;
+        //expediente.FechaCreacion = DateTime.Now;
 
-        medical_record_service.InsertAsync(expediente); 
-        Console.WriteLine(expediente);
+        //medical_record_service.InsertAsync(expediente); 
+        //Console.WriteLine(expediente);
     }
 
 }

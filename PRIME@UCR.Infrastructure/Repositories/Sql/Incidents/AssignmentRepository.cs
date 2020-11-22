@@ -10,10 +10,9 @@ using RepoDb;
 
 namespace PRIME_UCR.Infrastructure.Repositories.Sql.Incidents
 {
-    public class AssignmentRepository : IAssignemntRepository
+    public class AssignmentRepository : IAssignmentRepository
     {
         private readonly ISqlDataProvider _db;
-
 
         public AssignmentRepository(ISqlDataProvider db)
         {
@@ -22,38 +21,43 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Incidents
 
         public async Task<IEnumerable<EspecialistaTécnicoMédico>> GetAssignmentsByIncidentIdAsync(string code)
         {
-            await using var connection = new SqlConnection(_db.DbConnection.ConnectionString);
-            var result = await connection.ExecuteQueryAsync<EspecialistaTécnicoMédico>(@"
-                select P.Cédula, Nombre, PrimerApellido, SegundoApellido, Sexo, FechaNacimiento
-                from AsignadoA
-                join EspecialistaTécnicoMédico ETM on AsignadoA.CedulaEspecialista = ETM.Cédula
-                join Persona P on ETM.Cédula = P.Cédula
-                where AsignadoA.Codigo = @Code
-            ", new {Code = code});
+            using (var connection = new SqlConnection(_db.DbConnection.ConnectionString))
+            {
+                var result = await connection.ExecuteQueryAsync<EspecialistaTécnicoMédico>(@"
+                    select P.Cédula, Nombre, PrimerApellido, SegundoApellido, Sexo, FechaNacimiento
+                    from AsignadoA
+                    join EspecialistaTécnicoMédico ETM on AsignadoA.CedulaEspecialista = ETM.Cédula
+                    join Persona P on ETM.Cédula = P.Cédula
+                    where AsignadoA.Codigo = @Code
+                ", new {Code = code});
 
-            return result;
+                return result;
+            }
         }
 
         public async Task AssignToIncident(string code, IEnumerable<EspecialistaTécnicoMédico> specialistIds)
         {
-            await using var connection = new SqlConnection(_db.DbConnection.ConnectionString);
-
-            var items = specialistIds.Select(etm => new AsignadoA
+            using (var connection = new SqlConnection(_db.DbConnection.ConnectionString))
             {
-                CedulaEspecialista = etm.Cédula,
-                Codigo = code
-            });
-
-            await connection.InsertAllAsync(items);
+                var items = specialistIds.Select(etm => new AsignadoA
+                {
+                    CedulaEspecialista = etm.Cédula,
+                    Codigo = code
+                });
+                
+                await connection.InsertAllAsync(items);
+            }
         }
 
         public async Task ClearTeamMembers(string code)
         {
-            await using var connection = new SqlConnection(_db.DbConnection.ConnectionString);
-            await connection.ExecuteNonQueryAsync(@"
-                delete from AsignadoA
-                where Codigo = @Code
-            ", new {Code = code});
+            using (var connection = new SqlConnection(_db.DbConnection.ConnectionString))
+            {
+                await connection.ExecuteNonQueryAsync(@"
+                    delete from AsignadoA
+                    where Codigo = @Code
+                ", new {Code = code});
+            }
         }
     }
 }

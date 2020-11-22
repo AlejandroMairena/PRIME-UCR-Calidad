@@ -1,0 +1,21 @@
+﻿<div class="card">
+    <div class="card-header">
+        <div class="row">
+            <h4 class="ml-2" style="white-space: nowrap; font-weight:bold;">@Title</h4>
+            <div style="width:100%"></div>
+            @if (!ZoomActive)
+            {
+        <button class="btn btn-light text-center mr-2"  @onclick="ShowModal">
+            
+            <span style="color:#095290;" class="oi oi-zoom-in text-right"></span>
+        </button>
+                
+            }
+
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="text-center"><strong>Cantidad de Incidentes:@EventQuantity</strong> </div>
+        @ChildContent
+    </div>
+</div>

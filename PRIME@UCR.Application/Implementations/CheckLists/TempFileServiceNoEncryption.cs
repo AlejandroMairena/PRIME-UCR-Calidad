@@ -1,4 +1,5 @@
 ﻿using PRIME_UCR.Application.Services.Multimedia;
+using PRIME_UCR.Application.Services.UserAdministration;
 using System;
 using System.Collections.Generic;
 using System.IO;

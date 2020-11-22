@@ -5,7 +5,7 @@ using System.Text;
 
 namespace PRIME_UCR.Application.Repositories.UserAdministration
 {
-    public interface IAdministradorRepository : IGenericRepository<Administrador, string>
+    public interface IAdministradorRepository 
     {
     }
 }

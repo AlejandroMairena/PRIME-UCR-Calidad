@@ -1,12 +1,14 @@
 @page "/incidents"
 @using BlazorTable
 @using PRIME_UCR.Application.DTOs.Incidents
-@attribute [Authorize]
+@using PRIME_UCR.Domain.Constants
+<!-- Only: (control center admin, coordinator and technical medical specialist) can view the incident list -->
+@attribute [HasPermission(AuthorizationPermissions.CanSeeIncidentsList)]
 
 <Loading IsLoading="incidentsList == null">
     <div class="jumbotron white-panel">
         <h1>Lista de Incidentes</h1>
-        <Table TableItem="IncidentListModel" Items="incidentsList" PageSize="3" @ref="Table" ColumnReorder="true" ShowSearchBar="true" class="table table-bordered">
+        <Table TableItem="IncidentListModel" Items="incidentsList" PageSize="10" @ref="Table" ColumnReorder="true" ShowSearchBar="true" class="table table-bordered">
             <Column TableItem="IncidentListModel" Title="Código" Field="@(x => x.Codigo)" Filterable="true" Sortable="true" Width="18%" DefaultSortColumn="true">
                 <Template>
                     <a href="/incidents/@context.Codigo">@context.Codigo</a>
@@ -52,5 +54,5 @@
 </Loading>
 
 <MatThemeProvider Theme="@AddButtonTheme">
-    <MatFAB Icon="@MatIconNames.Add" Class="app-fab--absolute" OnClick="@(_ => Redirect())"></MatFAB>
+    <MatFAB Icon="@MatIconNames.Add" Class="app-fab--absolute" OnClick="@(_ => Redirect())" data-toggle="tooltip" title="Presione para agregar un nuevo incidente"></MatFAB>
 </MatThemeProvider>

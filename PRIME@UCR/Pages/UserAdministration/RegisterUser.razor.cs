@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.WebUtilities;
 using PRIME_UCR.Application.DTOs.UserAdministration;
 using PRIME_UCR.Application.Services.UserAdministration;
 using PRIME_UCR.Domain.Models.UserAdministration;
@@ -6,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace PRIME_UCR.Pages.UserAdministration
@@ -24,6 +27,11 @@ namespace PRIME_UCR.Pages.UserAdministration
         [Inject]
         public IPerteneceService perteneceService { get; set; }
         
+        [Inject]
+        public IMailService mailService { get; set; }
+
+        [Inject]
+        public UserManager<Usuario> userManager { get; set; }
 
         private string statusMessage;
 
@@ -31,9 +39,12 @@ namespace PRIME_UCR.Pages.UserAdministration
 
         public RegisterUserFormModel infoOfUserToRegister;
 
+        private bool isBusy;
+
         protected override void OnInitialized()
         {
             infoOfUserToRegister = new RegisterUserFormModel();
+            isBusy = false;
         }
 
         /**
@@ -41,14 +52,16 @@ namespace PRIME_UCR.Pages.UserAdministration
          */
         private async void RegisterUserInDB()
         {
-            var personModel = personService.GetPersonModelFromRegisterModel(infoOfUserToRegister);
-            var existPersonInDB = (await personService.GetPersonByIdAsync(personModel.IdCardNumber)) == null ? false : true;
+            isBusy = true;
+            StateHasChanged();
+            var personModel = await personService.GetPersonModelFromRegisterModelAsync(infoOfUserToRegister);
+            var existPersonInDB = (await personService.GetPersonByCedAsync(personModel.IdCardNumber)) == null ? false : true;
             if (!existPersonInDB)
             {
                 await personService.StoreNewPersonAsync(personModel);
-                var userModel = userService.GetUserFormFromRegisterUserForm(infoOfUserToRegister);
+                var userModel = await userService.GetUserFormFromRegisterUserFormAsync(infoOfUserToRegister);
                 var tempPassword = personModel.Name + "." + personModel.FirstLastName + personModel.PrimaryPhoneNumber;/*Es temporal, luego esto cambiará*/
-                var result = await userService.StoreUserAsync(userModel,tempPassword);
+                var result = await userService.StoreUserAsync(userModel);
                 if(!result)
                 {
                     await personService.DeletePersonAsync(userModel.IdCardNumber);
@@ -62,31 +75,39 @@ namespace PRIME_UCR.Pages.UserAdministration
                         await telefonoService.AddNewPhoneNumberAsync(personModel.IdCardNumber, infoOfUserToRegister.SecondaryPhoneNumber);
                     }
 
-                    var user = (await userService.GetUsuarios()).ToList().Find(u => u.Email == userModel.Email);
-
-                    /*Aqui va la parte de registrar el perfil*/
-                    /*ELIAN*/
-
-                    /*Inserting profiles for the user*/
-                    //System.Diagnostics.Debug.WriteLine( user.Id);
+                    var user = (await userService.GetAllUsersWithDetailsAsync()).ToList().Find(u => u.Email == userModel.Email);
 
                     foreach (String profileName in infoOfUserToRegister.Profiles)
                     {
                         await perteneceService.InsertUserOfProfileAsync(user.Id, profileName);
-                        //System.Diagnostics.Debug.WriteLine(profileName);
                     }
+                    infoOfUserToRegister = new RegisterUserFormModel();
+                    var emailConfirmedToken = await userManager.GenerateEmailConfirmationTokenAsync(user);
+                    
+                    var code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(emailConfirmedToken));
+                    var firstHalf = ((int)code.Length / 2);
+                    var code1 = code.Substring(0, firstHalf);
+                    var code2 = code.Substring(firstHalf, code.Length - firstHalf);
+                    var emailCoded = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(user.Email));
+                    var url = "https://localhost:44368/validateUserAccount/" + emailCoded + "/" + code1 + "/" + code2;
+                    var message = new EmailContentModel()
+                    {
+                        Destination = userModel.Email,
+                        Subject = "PRIME@UCR: Validación nueva cuenta de usuario",
+                        Body = $"<p>Estimado usuario, para validar su cuenta, presione <a href=\"{url}\">acá</a>. </p>"
+                    };
 
-                    statusMessage = "El usuario indicado se ha registrado en la aplicación.";
+                    await mailService.SendEmailAsync(message);
+                    statusMessage = "El usuario indicado se ha registrado en la aplicación y se le ha enviado un correo de validación de cuenta.";
                     messageType = "success";
                 }
-                StateHasChanged();
             } else
             {
                 statusMessage = "El usuario indicado ya forma parte de la aplicación.";
                 messageType = "danger";
-                StateHasChanged();
             }
-
+            isBusy = false;
+            StateHasChanged();
         }
     }
 }

@@ -11,14 +11,11 @@ namespace PRIME_UCR.Infrastructure.EntityConfiguration.CheckLists
         public void Configure(EntityTypeBuilder<InstanceChecklist> builder)
         {
             builder.ToTable("InstanceChecklist");
-            builder.HasKey("InstanciadoId");
             //builder
             //   .HasMany(p => p.Items)
             //  .WithOne(p => p.InstanceChecklist);
             builder
-                .HasKey("IncidentCod");
-            builder
-                .HasKey("PlantillaId");
+                .HasKey(a => new { a.IncidentCod, a.PlantillaId });
         }
     }
 }

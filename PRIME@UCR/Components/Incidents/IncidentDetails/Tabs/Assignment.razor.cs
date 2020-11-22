@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Components.Forms;
 using PRIME_UCR.Application.Dtos.Incidents;
 using PRIME_UCR.Application.DTOs.Incidents;
 using PRIME_UCR.Application.Services.Incidents;
+using PRIME_UCR.Components.Incidents.IncidentDetails.Constants;
 using PRIME_UCR.Domain.Models;
 using PRIME_UCR.Domain.Models.Incidents;
 using PRIME_UCR.Domain.Models.UserAdministration;
@@ -39,7 +40,9 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
         private bool _isLoading = true;
         private bool _saveButtonEnabled;
         private EditContext _context;
-        
+
+        // Info for Incident summary that is shown at top of the page
+        public IncidentSummary Summary = new IncidentSummary();
         private async Task Save()
         {
             _isLoading = true;
@@ -54,6 +57,7 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
 
         private async Task LoadExistingValues()
         {
+            Summary.LoadValues(Incident);
             // make sure it's initialized
             _model = await AssignmentService.GetAssignmentsByIncidentIdAsync(Incident.Code);
             
@@ -90,7 +94,8 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
 
         public void Dispose()
         {
-            _context.OnFieldChanged -= ToggleSaveButton;
+            if (_context != null)
+                _context.OnFieldChanged -= ToggleSaveButton;
         }
     }
 }

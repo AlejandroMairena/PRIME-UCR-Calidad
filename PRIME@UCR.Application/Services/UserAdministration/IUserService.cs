@@ -11,14 +11,14 @@ namespace PRIME_UCR.Application.Services.UserAdministration
     {
         Task<List<Usuario>> GetAllUsersWithDetailsAsync();
 
-        Task<IEnumerable<Usuario>>GetUsuarios();
-
-        Task<Usuario> getUsuarioWithDetails(string id);
+        Task<Usuario> getUsuarioWithDetailsAsync(string id);
 
         Task<Persona> getPersonWithDetailstAsync(string email);
 
-        UserFormModel GetUserFormFromRegisterUserForm(RegisterUserFormModel userToRegister);
+        Task<UserFormModel> GetUserFormFromRegisterUserFormAsync(RegisterUserFormModel userToRegister);
 
-        Task<bool> StoreUserAsync(UserFormModel userToRegist, string password);
+        Task<bool> StoreUserAsync(UserFormModel userToRegist);
+
+        Task<List<Usuario>> GetNotAuthenticatedUsers();
     }
 }

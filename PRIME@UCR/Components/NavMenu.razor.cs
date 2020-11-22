@@ -30,7 +30,7 @@ namespace PRIME_UCR.Components
         private string checklistUrl = "checklist";
         private string dashboardUrl = "dashboard";
         private string usersUrl = "user_administration/profiles";
-        private string recordsUrl = "medical_records";
+        private string recordsUrl = "show-medical-record";
 
         protected string GetUrl()
         {
@@ -44,12 +44,12 @@ namespace PRIME_UCR.Components
                     return usersUrl;
                 case "Listas de chequeo":
                     return checklistUrl;
-                case "Traslados":
+                case "Incidentes":
                     return incidentUrl;
                 default:
                     return null;
             }
-                
+
         }
 
         protected override void OnInitialized()
@@ -71,7 +71,7 @@ namespace PRIME_UCR.Components
                 {
                     showUserAdminMenu();
                 }
-                else if (uri == "medical_records")
+                else if (uri == "show-medical-record")
                 {
                     showMedicalRecordsMenu();
                 }
@@ -89,7 +89,7 @@ namespace PRIME_UCR.Components
 
         private void showIncidentsMenu()
         {
-            moduleToShow = "Traslados";
+            moduleToShow = "Incidentes";
             showIncidents = "hide";
             showMedicalRecords = showUserAdmin = showCheckList = showDashboard = "show";
             classOfModule = "oi oi-map";

@@ -1,30 +1,52 @@
 @using PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
+@using PRIME_UCR.Components.UserAdministration
+@using PRIME_UCR.Domain.Constants
 @using PRIME_UCR.Application.DTOs.UserAdministration
 
 <div class="container">
     @if (Active == DetailsTab.Info)
     {
-        <InfoTab DetailsModel="@Incident" OnSave="@Save"/>
+        <PermissionAuthorizeView Permission="@AuthorizationPermissions.CanSeeBasicDetailsOfIncidents">
+            <InfoTab DetailsModel="@Incident" OnSave="@Save"/>
+        </PermissionAuthorizeView>
     }
     else if (Active == DetailsTab.Origin)
     {
-        <OriginTab Origin="@Incident.Origin" OnSave="@SaveOrigin"/>
+        <PermissionAuthorizeView Permission="@AuthorizationPermissions.CanEditBasicDetailsOfIncident">
+            <OriginTab Incident="@Incident" OnSave="@SaveOrigin"
+                       StatusMessage="@StatusMessage" StatusClass="@StatusClass"/>
+        </PermissionAuthorizeView>
     }
     else if (Active == DetailsTab.Destination)
     {
-        <DestinationTab Destination="@Incident.Destination" OnSave="@SaveDestination"/>
+        <PermissionAuthorizeView Permission="@AuthorizationPermissions.CanEditBasicDetailsOfIncident">
+            <DestinationTab Incident="@Incident" OnSave="@SaveDestination"
+                            StatusMessage="@StatusMessage" StatusClass="@StatusClass"/>
+        </PermissionAuthorizeView>
     }
     else if (Active == DetailsTab.Patient)
     {
-        <PatientTab Incident="@Incident" OnSave="@SavePatient"/>
+        <PermissionAuthorizeView Permission="@AuthorizationPermissions.CanSeeInfoOfIncidentsPatient">
+            <PatientTab Incident="@Incident" OnSave="@SavePatient"/>
+        </PermissionAuthorizeView>
     }
     else if (Active == DetailsTab.Multimedia)
     {
-        <MultimediaTab Incident="@Incident"/>
+        <PermissionAuthorizeView Permission="@AuthorizationPermissions.CanManageIncidentMultimediaContent">
+            <MultimediaTab Incident="@Incident"/>
+        </PermissionAuthorizeView>
     }
     else if (Active == DetailsTab.Assignment)
     {
-        <Assignment Incident="@Incident" />
+        <PermissionAuthorizeView Permission="@AuthorizationPermissions.CanAssignIncidents">
+            <Assignment Incident="@Incident"/>
+        </PermissionAuthorizeView>
+    }
+    else if (Active == DetailsTab.Checklist)
+    {
+        <PermissionAuthorizeView Permission="@AuthorizationPermissions.CanManageIncidentChecklists">
+            <CheckList Incident="@Incident"/>
+        </PermissionAuthorizeView>
     }
     else
     {

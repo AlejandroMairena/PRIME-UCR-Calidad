@@ -1,0 +1,24 @@
+﻿@inject IJSRuntime JS
+
+<div class="rt-container">
+
+    <div class="card" style="padding: 20px">
+        <h2>Grabadora</h2>
+        <hr />
+
+        <div class="row">
+            <div class="col">
+                <button class="btn btn-primary rt-button" @ref="recordButton">Grabar</button>
+                <p @ref="timer"></p>
+            </div>
+            <div class="col">
+                <button class="btn btn-danger rt-button" id="mic_stop_button" @ref="stopButton">Detener</button>
+            </div>
+        </div>
+        <div class="row" style="margin-top: 20px">
+            <audio style="width:250px; margin: auto" @ref="audio"></audio>
+        </div>
+
+    </div>
+
+</div>

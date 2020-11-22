@@ -17,14 +17,11 @@ namespace PRIME_UCR.Components.Controls
         [Parameter] public EventCallback<TEnum> ValueChanged { get; set; }
         [Parameter] public IEnumerable<Tuple<TEnum, string>> Tabs { get; set; }
         [Parameter] public string TooltipText { get; set; }
-        
-        private TEnum _currentTab;
 
         private string _tabClass;
 
         async Task OnTabSet(TEnum tab)
         {
-            _currentTab = tab;
             await ValueChanged.InvokeAsync(tab);
         }
 

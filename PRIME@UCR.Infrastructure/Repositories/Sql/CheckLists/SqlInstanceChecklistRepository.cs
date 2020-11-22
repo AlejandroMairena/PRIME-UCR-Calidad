@@ -17,10 +17,11 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.CheckLists
         public SqlInstanceChecklistRepository(ISqlDataProvider dataProvider) : base(dataProvider)
         {
         }
-        //recuperar por id de la instancia de lista
-        public async Task<IEnumerable<InstanceChecklist>> GetByIdd(int id)
+        //recuperar por la llave de la instancia de lista
+        public async Task<IEnumerable<InstanceChecklist>> GetById(int id, string code)
         {
-            return await this.GetByConditionAsync(InstanceChecklistModel => InstanceChecklistModel.InstanciadoId == id);
+            return await this.GetByConditionAsync(InstanceChecklistModel => InstanceChecklistModel.PlantillaId == id
+            && InstanceChecklistModel.IncidentCod == code);
         }
         //recuperar por codigo de incidente
         public async Task<IEnumerable<InstanceChecklist>> GetByIncidentCod(string cod)
@@ -31,6 +32,16 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.CheckLists
         public async Task<IEnumerable<InstanceChecklist>> GetByPlantillaId(int id)
         {
             return await this.GetByConditionAsync(InstanceChecklistModel => InstanceChecklistModel.PlantillaId == id);
+        }
+        
+        public async Task DeleteAsync(int id, string code)
+        {
+            var existing = await _db.Set<InstanceChecklist>().FindAsync(code, id);
+            if (existing != null)
+            {
+                _db.InstanceChecklist.Remove(existing);
+            }
+            await _db.SaveChangesAsync();
         }
     }
 }

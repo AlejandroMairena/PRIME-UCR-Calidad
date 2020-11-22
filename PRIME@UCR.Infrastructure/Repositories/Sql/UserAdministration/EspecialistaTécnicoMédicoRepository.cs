@@ -8,16 +8,26 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Data.SqlClient;
 using RepoDb;
+using PRIME_UCR.Application.Services.UserAdministration;
+using PRIME_UCR.Application.DTOs.UserAdministration;
+using PRIME_UCR.Application.Exceptions.UserAdministration;
+using System.Reflection;
+using PRIME_UCR.Infrastructure.Permissions.UserAdministration;
+using System.ComponentModel.DataAnnotations;
 
 namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
 {
-    public class EspecialistaTécnicoMédicoRepository : IEspecialistaTécnicoMédicoRepository
+    public partial class EspecialistaTécnicoMédicoRepository : IEspecialistaTécnicoMédicoRepository
     {
-        private readonly ISqlDataProvider _db; 
-        
-        public EspecialistaTécnicoMédicoRepository(ISqlDataProvider dataProvider)
+        private readonly ISqlDataProvider _db;
+
+        private readonly IPrimeSecurityService primeSecurityService;
+
+        public EspecialistaTécnicoMédicoRepository(ISqlDataProvider dataProvider,
+            IPrimeSecurityService _primeSecurityService)
         {
             _db = dataProvider;
+            primeSecurityService = _primeSecurityService;
         }
 
         public Task<EspecialistaTécnicoMédico> GetByKeyAsync(string key)
@@ -27,14 +37,17 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
 
         public async Task<IEnumerable<EspecialistaTécnicoMédico>> GetAllAsync()
         {
-            await using var connection = new SqlConnection(_db.DbConnection.ConnectionString);
-            var result = await connection.ExecuteQueryAsync<EspecialistaTécnicoMédico>(@"
-                select Persona.Cédula, Persona.Nombre, Persona.PrimerApellido, Persona.SegundoApellido, Persona.Sexo, Persona.FechaNacimiento
-                from Persona
-                join Funcionario F on Persona.Cédula = F.Cédula
-                join EspecialistaTécnicoMédico ETM on F.Cédula = ETM.Cédula
-            ");
-            return result;
+            await primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
+            using (var connection = new SqlConnection(_db.DbConnection.ConnectionString))
+            {
+                var result = await connection.ExecuteQueryAsync<EspecialistaTécnicoMédico>(@"
+                    select Persona.Cédula, Persona.Nombre, Persona.PrimerApellido, Persona.SegundoApellido, Persona.Sexo, Persona.FechaNacimiento
+                    from Persona
+                    join Funcionario F on Persona.Cédula = F.Cédula
+                    join EspecialistaTécnicoMédico ETM on F.Cédula = ETM.Cédula
+                ");
+                return result;
+            }
         }
 
         public Task<IEnumerable<EspecialistaTécnicoMédico>> GetByConditionAsync(Expression<Func<EspecialistaTécnicoMédico, bool>> expression)
@@ -56,5 +69,10 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
         {
             throw new NotImplementedException();
         }
+    }
+
+    [MetadataType(typeof(EspecialistaTécnicoMédicoRepositoryAuthorization))]
+    public partial class EspecialistaTécnicoMédicoRepository
+    {
     }
 }

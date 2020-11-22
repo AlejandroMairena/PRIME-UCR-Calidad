@@ -12,6 +12,7 @@ using Blazored.SessionStorage;
 using PRIME_UCR.Application.Services.UserAdministration;
 using PRIME_UCR.Application.Repositories.UserAdministration;
 using System.Linq;
+using PRIME_UCR.Domain.Constants;
 
 namespace PRIME_UCR.Application.Implementations.UserAdministration
 {
@@ -26,26 +27,18 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
 
         protected readonly UserManager<Usuario> UserManager;
 
-        private readonly IPrimeAuthorizationService PrimeAuthorizarionService;
-
-        private readonly IUserService UserService;
-
-        private readonly IProfilesService ProfilesService;
+        private readonly IAuthenticationService authenticationService;
 
         public CustomAuthenticationStateProvider(
             SignInManager<Usuario> _signInManager, 
             UserManager<Usuario> _userManager, 
             ISessionStorageService _sessionStorageService, 
-            IPrimeAuthorizationService _primeAuthorizationService, 
-            IUserService _userService,
-            IProfilesService _profileService)
+            IAuthenticationService _authenticationService)
         {
             SignInManager = _signInManager;
             UserManager = _userManager;
             SessionStorageService = _sessionStorageService;
-            PrimeAuthorizarionService = _primeAuthorizationService;
-            UserService = _userService;
-            ProfilesService = _profileService;
+            authenticationService = _authenticationService;
         }
 
         /*
@@ -58,14 +51,29 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
         {
             List<Claim> claimsAuthentication = new List<Claim>();
 
+            var profiles = user.UsuariosYPerfiles;
+            var permissionsList = new List<Permiso>();
+            if(profiles != null && profiles.Count != 0)
+            {
+                foreach (var profile in profiles)
+                {
+                    var permissionsOfProfile = profilesAndPermissions?.Find(p => p.NombrePerfil == profile.IDPerfil)?.PerfilesYPermisos;
+                    if (permissionsOfProfile != null && permissionsOfProfile.Count > 0)
+                    {
+                        foreach (var permission in permissionsOfProfile)
+                        {
+                            permissionsList.Add(permission.Permiso);
+                        }
+                    }
+                }
+            }
+            
             claimsAuthentication.Add(new Claim(ClaimTypes.Name, user.Email));
-            var profiles = user.UsuariosYPerfiles.FindAll(p => p.IDUsuario == user.Id);
-
+            
             foreach (var permission in Enum.GetValues(typeof(AuthorizationPermissions)).Cast<AuthorizationPermissions>())
             {
-                claimsAuthentication.Add(new Claim(permission.ToString(), PrimeAuthorizarionService.HavePermission((int)permission, profiles, profilesAndPermissions)));
+                claimsAuthentication.Add(new Claim(permission.ToString(), permissionsList.Exists(p => p.IDPermiso == (int)permission) ? "true" : "false"));
             }
-
             return new ClaimsIdentity(claimsAuthentication.ToList(), "apiauth_type");
         }
 
@@ -82,13 +90,15 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
 
             if (emailAddress != null)
             {
-                var userToRegister = await UserManager.FindByEmailAsync(emailAddress);
-                userToRegister = await UserService.getUsuarioWithDetails(userToRegister.Id);
-                var profilesAndPermissions = await ProfilesService.GetPerfilesWithDetailsAsync();
-                identity = GetClaimIdentity(userToRegister, profilesAndPermissions);
+                var userToRegister = await authenticationService.GetUserByEmailAsync(emailAddress);
+                var profilesAndPermissions = await authenticationService.GetAllProfilesWithDetailsAsync();
+                if(userToRegister != null && profilesAndPermissions != null)
+                    identity = GetClaimIdentity(userToRegister, profilesAndPermissions);
             }
             
             var user = new ClaimsPrincipal(identity);
+
+            NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(user)));
 
             return await Task.FromResult(new AuthenticationState(user));
         }
@@ -111,9 +121,8 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
 
                 if (loginResult.Succeeded)
                 {
-                    //TODO: Check other tables for conflicts with persona
-                    userToCheck = await UserService.getUsuarioWithDetails(userToCheck.Id);
-                    var profilesAndPermissions = await ProfilesService.GetPerfilesWithDetailsAsync();
+                    userToCheck = await authenticationService.GetUserWithDetailsAsync(userToCheck.Id);
+                    var profilesAndPermissions = await authenticationService.GetAllProfilesWithDetailsAsync();
                     identity = GetClaimIdentity(userToCheck, profilesAndPermissions);
                 } else
                 {

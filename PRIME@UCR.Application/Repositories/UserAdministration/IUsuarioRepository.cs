@@ -6,11 +6,16 @@ using System.Threading.Tasks;
 
 namespace PRIME_UCR.Application.Repositories.UserAdministration
 {
-    public interface IUsuarioRepository : IGenericRepository<Usuario, string>
+    public interface IUsuarioRepository
     {
         Task<Usuario> GetWithDetailsAsync(string id);
 
         Task<List<Usuario>> GetAllUsersWithDetailsAsync();
+
+        Task<Usuario> GetUserByEmailAsync(string email);
+
+        Task<List<Usuario>> GetNotAuthenticatedUsers();
+
     }
 
 

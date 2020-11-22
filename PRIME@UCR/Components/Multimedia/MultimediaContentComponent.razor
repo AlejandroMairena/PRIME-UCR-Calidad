@@ -5,15 +5,18 @@
 @inject IEncryptionService encrypt_service
 @using Microsoft.AspNetCore.Hosting
 @inject IWebHostEnvironment _environment;
+@inject IJSRuntime JS
+@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
 
-@using PRIME_UCR.Infrastructure
+    @using PRIME_UCR.Infrastructure
 
-@* MultimediaContentComponent*@
+    @* MultimediaContentComponent*@
 <div>
     @* Boton Principal *@
     <div class="@divDDClass">
         @* Div Contededor del Componente: Propiedades ligadas al codigo: class=@divDDClass *@
-        <button class="btn btn-secondary dropdown-toggle m-button"
+        <button class="btn btn-secondary dropdown-toggle m-button add-multimedia-button"
                 type="button" id="dropdownMenuButton"
                 data-toggle="dropdown" aria-haspopup="true"
                 aria-expanded="@open"
@@ -28,7 +31,7 @@
             </svg>
         </button>
         @* Dropdown del boton *@
-        <div class="@ddMenuClass" aria-labelledby="dropdownMenuButton">
+        <div class="@ddMenuClass" aria-labelledby="dropdownMenuButton" id="multiMenu">
             <div class="m-menu-div">
                 <div class="row">
                     @* InputFileComponent *@
@@ -38,26 +41,42 @@
                     @* Loading Wheel *@
                     @*<div class="col">
 
-            </div>*@
+        </div>*@
                     @* Camera Logo *@
                     <div class="col">
-                        <img class="data_btn" src="img/ico-foto-blanco.jpeg" />
+                        <button class="rt-img-cont" @onclick="OpenCamera">
+                            <span class="tooltiptext">Capturar imagen</span>
+                            <img class="data_btn" src="img/ico-foto-blanco.jpeg" />
+                        </button>
                     </div>
+
                     @* Audio Logo *@
                     <div class="col">
-                        <img class="data_btn" src="img/ico-micro-blanco.jpeg" />
+                        <button class="rt-img-cont" @onclick="OpenMicrophone">
+                            <span class="tooltiptext">Capturar audio</span>
+                            <img class="data_btn" src="img/ico-micro-blanco.jpeg" />
+                        </button>
                     </div>
                     @* Video Logo *@
                     <div class="col">
-                        <img class="data_btn" src="img/ico-video-blanco.jpeg" />
+                        <button class="rt-img-cont" @onclick="OpenVideo">
+                            <span class="tooltiptext">Capturar vídeo</span>
+                            <img class="data_btn" src="img/ico-video-blanco.jpeg" />
+                        </button>
+                    </div>
+                    @* Text Logo *@
+                    <div class="col">
+                        <button class="rt-img-cont" @onclick="OpenTextComponent">
+                            <span class="tooltiptext">Capturar texto</span>
+                            <img class="data_btn" src="img/ico-texto.jpg" />
+                        </button>
                     </div>
                 </div>
 
                 @* Lista de Archivos asociados *@
                 @if (!validFileType)
                 {
-                    string message = invalidType();
-                    <p style="color: red">@message</p>
+                    <p style="color: red">@InvalidTypeMessage()</p>
                 }
                 @if (MultimediaContent != null && MultimediaContent.Count > 0)
                 {
@@ -71,7 +90,7 @@
                         <p>@MultimediaContent.Count archivos adjuntos</p>
                     }
                     <hr />
-                    // Tabla de Contenido Multimedia Adjunto
+                    @*Tabla de Contenido Multimedia Adjunto*@
                     <table class="table">
                         <thead>
                             <tr>
@@ -90,8 +109,13 @@
                                     <td>@mcontent.Nombre</td>
                                     <td>@mcontent.Tipo</td>
                                     <td>@mcontent.Fecha_Hora</td>
-                                    <td><button type="button" class="btn btn-secondary m-btn m-btn-rm action_buttom"><a class="ver_link" href="#">Ver</a></button></td>
-                                    <td><button type="button" class="btn btn-danger m-btn m-btn-rm">Eliminar</button></td>
+                                    <td>
+                                        <button type="button" class="btn btn-secondary m-btn m-btn-rm action_buttom"
+                                                @onclick="(() => ShowPopUp(mcontent))">
+                                            @GetButonName(mcontent)
+                                        </button>
+                                    </td>
+                                    <td><button type="button" class="btn btn-danger m-btn m-btn-rm" @onclick="(()=> DeleteMultimediaContent(mcontent))">Eliminar</button></td>
                                 </tr>
                             }
                         </tbody>
@@ -101,7 +125,7 @@
         </div>
     </div>
     @* File Counter Appendix*@
-    @if ( MultimediaContent != null && MultimediaContent.Count > 0)
+    @if (MultimediaContent != null && MultimediaContent.Count > 0)
     {
         <div class="counter-append">
             @MultimediaContent.Count
@@ -109,123 +133,17 @@
     }
 </div>
 
-@code {
 
-    [Parameter]
-    public RenderFragment ChildContent { get; set; }
-    [Parameter]
-    public List<MultimediaContent> MultimediaContent { get; set; }
-    [Parameter]
-    public EventCallback<MultimediaContent> OnFileUpload { get; set; }
-
-    public List<string> validTypeFiles;
-    bool validFileType = true;
-
-    bool open = false;
-    string divDDClass = "dropdown";
-    string ddMenuClass = "dropdown-menu";
-    string invalidMessage = "";
-
-    protected override void OnInitialized()
-    {
-        validTypeFiles = new List<string>() { "pdf", "doc", "docx", "xls", "txt", "mp3", "jpg", "png", "mp4", "wmv", "avi", "text/plain" };
-    }
-
-    protected override async Task OnInitializedAsync()
-    {
-    }
-
-    public void Open()
-    {
-        divDDClass = open ? "dropdown" : "dropdown show";
-        ddMenuClass = open ? "dropdown-menu" : "dropdown-menu show";
-
-        open = !open;
-    }
-
-    IFileListEntry file;
-
-    async Task HandleFileSelected(IFileListEntry[] files)
-    {
-        file = files.FirstOrDefault();
-
-        validFileType = ValidateFile(file, validTypeFiles);
-
-        if (!validFileType) return; // archivo invalido
-
-        string filePath = Path.Combine(file_service.FilePath, file.Name);
-        byte[] pathEncrypted = encrypt_service.Encrypt(filePath);
-        string pathEncryptedString = System.Text.Encoding.UTF8.GetString(pathEncrypted);
-        if (file == null) return;
-        MultimediaContent mcontent = new MultimediaContent
-        {
-            Nombre = file.Name,
-            Archivo = pathEncryptedString,
-            Descripcion = "",
-            Fecha_Hora = DateTime.Now,
-            Tipo = file.Type
-        };
-        mcontent = await multimedia_content_service.AddMultimediaContent(mcontent);
-        await file_service.StoreFile(file.Name, file.Data);
-        //encrypt_service.EncryptFile(file_service.FilePath,file.Name);
-        await OnFileUpload.InvokeAsync(mcontent);
-    }
-
-    bool ValidateFile(IFileListEntry file, List<string> validFileTypes)
-    {
-        if (file == null) return false;
-
-        string type = file.Type;
-
-        foreach (string validType in validTypeFiles)
-            if (type.Contains(validType) || type == validType) return true;
-
-        return false;
-    }
-
-    string invalidType() {
-        string datas = "El archivo seleccionado no se encuentra dentro de los archivos válidos. Por favor seleccione un archivo con las siguientes extensiones: ";
-        for (int i = 0; i < validTypeFiles.Count(); ++i ) {
-            datas += validTypeFiles[i];
-            if (i < (validTypeFiles.Count()-1)) {
-                datas += ",";
-            }
-        }
-        return datas;
-    }
-
-}
-
-
-<!--
-    Ejemplo de DBCONTEXT.
-    en App.config se deberia de crear el connectionstring
-
-    <connectionString>
-        <add name="WHATEVER" connectionString="data source =.\ bla bla bla">
-    </connectionString>
-
-
-            El sevicio : 'multimedia_content_service' deberia retornarnos el modelo
-        del ejemplo, para simplemente agregarlo.
-
-
-        ApplicationDbContext context = new ApplicationDbContext();
-
-        //aqui se crea un modelo, pero esto en realidad deberia retornarlo el servicio.
-        MultimediaContent multimedia = new MultimediaContent()
-        {
-            ID = "212331",
-            Nombre = "A",
-            Archivo = "c:/por_ahi/uy",
-            Descripcion = "nothing",
-            Fecha_Hora = DateTime.Parse("1/2/3"),
-            Tipo = "hmmm..",
-            ID_accion = "53225252"
-    };
-
-    context.multimedia_content.Add(multimedia);
-    context.SaveChanges();
-
-
-    ---->
+<MultimediaModal Show="showModal"
+                 ShowCamera="showCamera"
+                 ShowImage="showImage"
+                 ShowMicrophone="showMicrophone"
+                 MContent="modalMContent"
+                 ShowAudio="showAudio"
+                 ShowVideo="showVideo"
+                 ShowVideoComponent="showVideoComponent"
+                 ShowText="showText"
+                 ShowTextComponent="showTextComponent"
+                 OnFileUpload="OnFileUpload"
+                 OnClose="(bool val) => showModal = val">
+</MultimediaModal>

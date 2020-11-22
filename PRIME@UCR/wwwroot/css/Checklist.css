@@ -165,6 +165,15 @@ button:hover#BP_LC6.btn.btn-primary {
     border: darkgrey 1px;
     border-style: solid;
 }
+/*Edit items and subitems*/
+#Edit_I-SI_LC {
+    background: transparent;
+    padding: 10px;
+    border-radius: 5px;
+    position: relative;
+    border: darkgrey 1px;
+    border-style: solid;
+}
 
 /* Modify checklist*/
 input#checklistName { /*Name checklist*/
@@ -282,4 +291,31 @@ button#Menu_LC { /*.btn.btn-primary*/
 /* button of image in checklist definition*/
 button.none#BN_LC {
     border: 0px;
+}
+/*All checklst templates*/
+div#All_LC {
+    background: white;
+    padding-left: 16px;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    padding-right: 16px;
+}
+
+/* state for a single checklist in incident*/
+#state_LC {
+    background: white; /* #E6E6E6*/
+    border-radius: 5px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 10px;
+}
+/*definition of a single checklist in incident*/
+#def_LC_Inst {
+    background: #E6E6E6; /*white;*/
+    border-radius: 5px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 10px;
 }

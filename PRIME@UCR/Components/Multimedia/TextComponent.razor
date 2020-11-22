@@ -1,0 +1,26 @@
+﻿
+<div class="rt-container">
+
+    <div class="card" style="padding: 20px">
+        <h2>Notas</h2>
+        <hr />
+
+        <form>
+            @* Title *@
+            <div class="form-group">
+                <label for="fileName">Título:</label>
+                <input type="text" class="form-control" id="fileName" placeholder="Título" @bind="fileName">
+            </div>
+            @* Text Area *@
+            <div class="form-group">
+                <label for="textArea">Texto</label>
+                <textarea class="form-control" id="textArea" rows="6" @bind="text"></textarea>
+            </div>
+
+            @* Submit Button *@
+            <button class="btn btn-primary" @onclick="StoreTextFile">Guardar</button>
+        </form>
+
+    </div>
+
+</div>

@@ -26,6 +26,17 @@ a, .btn-link {
         background: #00c0f3;
     }
 
+.btn-primary-noHover {
+    background: #095290;
+    height: 100%;
+    margin-top: 0;
+    z-index: 2;
+    position: relative;
+}
+    .btn-primary-noHover:hover {
+        background: #095290;
+    }
+
 .btn-secondary {
     background: #676766;
     height: 100%;
@@ -307,4 +318,63 @@ a.disable {
 
 .jumbotron.white-panel {
     background: white;
+}
+
+/* Diosvier -> State Panel, scroll horizontal menu functionality.*/
+div.scrollmenu {
+    overflow: auto;
+    width: 100%;
+   /*white-space: nowrap;*/
+}
+
+/* Diosvier -> Overwrite in incidents details tab, the text colors of states.*/
+.menu:not(.profile-menu) .navigation-item-link {
+    color: white;
+}
+
+span.navigation-item-text:hover {
+    color: white;
+}
+
+.bg-current-state {
+    background-color: #00c0f3;
+}
+/*Diosvier -> Pending task to change incident's state*/
+.bg-task {
+    padding: 12px;
+    display: none;
+}
+
+.bg-task a:not([href]):not([tabindex]) {
+    color: #095290;
+}
+
+.bg-task a:not([href]):not([tabindex]):hover {
+    color: #095290;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.badge-text {
+    font-size: 14px;
+}
+
+.indicator-color {
+    fill: #00c0f3;
+}
+
+.clock-state {
+    fill: #095290;
+}
+
+.input-group.input-group-unstyled input.form-control {
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+
+.input-group-unstyled .input-group-addon {
+    border-radius: 4px;
+    border: 0px;
+    background-color: transparent;
 }
