@@ -25,16 +25,28 @@ namespace PRIME_UCR.Components.MedicalRecords.Tabs
         private EditContext _contAle;
         private EditContext _contCond;
 
+        public List<ListaAntecedentes> _backgroundList = new List<ListaAntecedentes>();
         public ListaAntecedentes antecedentePrueba;
         public ListaAlergia AlergiaPrueba;
         public ListaPadecimiento PadecimientoPrueba;
 
         private bool backgroundAlreadyAdded; 
-        private bool showBackground;
+        private bool _saveBackgroundButtonEnabled;
         private bool allergyAlreadyAdded;
         private bool showAllergy;
         private bool ChronicConditionAlreadyAdded;
         private bool showChronicCondition;
+
+        private IEnumerable<int> RegisteredBackgrounds
+        {
+            get => _backgroundList.Select(bg => bg.Id);
+            set =>
+                   _backgroundList =
+                        (from ante in ListaAntecedentes
+                         join id in value on ante.Id equals id
+                         select ante)
+                        .ToList();
+        }
 
         MatTheme AddButtonTheme = new MatTheme()
         {
@@ -44,26 +56,52 @@ namespace PRIME_UCR.Components.MedicalRecords.Tabs
 
         protected override async Task OnInitializedAsync()
         {
+            await LoadRecordBackgrounds();
+
             _contAnte = new EditContext(ListaAntecedentes);
             _contAle = new EditContext(ListaAlergia);
             _contCond = new EditContext(ListaPadecimiento);
-            showBackground = false;
+            _saveBackgroundButtonEnabled = false;
             showAllergy = false;
             backgroundAlreadyAdded = false;
             allergyAlreadyAdded = false;
             showChronicCondition = false;
             ChronicConditionAlreadyAdded = false;
-    }
+        }
+
+        private async Task Save()
+        {
+            StateHasChanged();
+            //await AssignmentService.AssignToIncidentAsync(Incident.Code, _model);
+            _contAnte = new EditContext(ListaAntecedentes);
+            _saveBackgroundButtonEnabled = false;
+            _contAnte.OnFieldChanged += ToggleSaveButton;
+        }
 
         private void showBackgroundOptions()
         {
-            if (showBackground)
+            /*if (showBackground)
             {
                 showBackground = false;
             }
             else 
             {
                 showBackground = true;
+            }*/
+        }
+
+        private void ToggleSaveButton(object? sender, FieldChangedEventArgs e)
+        {
+            _saveBackgroundButtonEnabled = _contAnte.IsModified();
+            StateHasChanged();
+        }
+
+
+        private async Task LoadRecordBackgrounds()
+        {
+            foreach (Antecedentes background in Antecedentes)
+            {
+                _backgroundList.Append(background.ListaAntecedentes);
             }
         }
 
@@ -130,7 +168,7 @@ namespace PRIME_UCR.Components.MedicalRecords.Tabs
                         IdExpediente = idExpediente,
                         FechaCreacion = DateTime.Now
                     };
-                    showBackground = false;
+                    //showBackground = false;
                     backgroundAlreadyAdded = false;
                     await MedicalBackgroundService.InsertBackgroundAsync(background);
                     Antecedentes = (await MedicalBackgroundService.GetBackgroundByRecordId(idExpediente)).ToList();

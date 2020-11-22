@@ -24,27 +24,20 @@
         {
             <StatusMessage Message="Este antecedente ya fue agregado" Class="warning" />
         }
-        @if (showBackground == true)
-        {
-            <EditForm EditContext="_contAnte">
-                <DropDownMenu T="ListaAntecedentes" Data="ListaAntecedentes"
-                              Label="Antecedentes Médicos"
-                              TextProperty="NombreAntecedente"
-                              DefaultText="Seleccione un Antecedente"
-                              Required="false"
-                              Disabled="false"
-                              @bind-Value="@antecedentePrueba" />
-                <form>
-                    @* Insert *@
+    <EditForm EditContext="_contAnte">
+        <label>Antecedentes</label>
+        <RadzenDropDown Multiple="true" Data="ListaAntecedentes"
+                        TextProperty="NombreAntecedente"
+                        ValueProperty="Id"
+                        @bind-Value="@RegisteredBackgrounds"
+                        Placeholder="Seleccione antecedentes"
+                        class="form-control"/>
+        <form>
+            @* Insert *@
 
-                </form>
-            </EditForm>
+        </form>
+    </EditForm>
             <button type="submit" class="btn btn-primary mt-4 mb-4" @onclick="insertBackground">Guardar</button>
-        }
-        else
-        {
-            <button type="submit" class="btn btn-primary mt-4 mb-4" @onclick="showBackgroundOptions">Agregar antecedente</button>
-        }
 
     </div>
 </div>
