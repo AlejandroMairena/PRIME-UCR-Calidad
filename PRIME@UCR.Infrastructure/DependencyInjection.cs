@@ -14,6 +14,7 @@ using PRIME_UCR.Infrastructure.DataProviders;
 using PRIME_UCR.Infrastructure.DataProviders.Implementations;
 using PRIME_UCR.Infrastructure.Permissions.Dashboard;
 using PRIME_UCR.Infrastructure.Permissions.Incidents;
+using PRIME_UCR.Infrastructure.Permissions.UserAdministration;
 using PRIME_UCR.Infrastructure.Repositories.Sql;
 using PRIME_UCR.Infrastructure.Repositories.Sql.Appointments;
 using PRIME_UCR.Infrastructure.Repositories.Sql.CheckLists;
@@ -83,21 +84,21 @@ namespace PRIME_UCR.Infrastructure
             services.AddTransient<IMultimediaContentItemRepository, MultimediaContentItemRepository>();
 
             // user administration repositories
+            services.AddTransient<ICoordinadorTécnicoMédicoRepository, SecureCoordinadorTécnicoMédicoRepository>();
+            services.AddTransient<IDoctorRepository, SecureDoctorRepository>();
+            services.AddTransient<IEspecialistaTécnicoMédicoRepository, SecureEspecialistaTécnicoMédicoRepository>();
+            services.AddTransient<IFuncionarioRepository, SecureFuncionarioRepository>();
+            services.AddTransient<INumeroTelefonoRepository, SecureNumeroTelefonicoRepository>();
+            services.AddTransient<IPacienteRepository, SecurePacienteRepository>();
+            services.AddTransient<IPermisoRepository, SecurePermisoRepository>();
+            services.AddTransient<IPermiteRepository, SecurePermiteRepository>();
+            services.AddTransient<IPersonaRepository, SecurePersonaRepository>();
+            services.AddTransient<IPerteneceRepository, SecurePerteneceRepository>();
+            services.AddTransient<IUsuarioRepository, SecureUsuarioRepository>();
             services.AddTransient<IAdministradorRepository, AdministradorRepository>();
             services.AddTransient<IAdministradorCentroDeControlRepository, AdministradorCentroDeControlRepository>();
-            services.AddTransient<ICoordinadorTécnicoMédicoRepository, CoordinadorTécnicoMédicoRepository>();
-            services.AddTransient<IEspecialistaTécnicoMédicoRepository, EspecialistaTécnicoMédicoRepository>();
-            services.AddTransient<IFuncionarioRepository, FuncionarioRepository>();
             services.AddTransient<IGerenteMédicoRepository, GerenteMédicoRepository>();
-            services.AddTransient<IDoctorRepository, DoctorRepository>();
-            services.AddTransient<IPacienteRepository, PacienteRepository>();
             services.AddTransient<IPerfilRepository, PerfilRepository>();
-            services.AddTransient<IPermisoRepository, PermisoRepository>();
-            services.AddTransient<IPersonaRepository, PersonaRepository>();
-            services.AddTransient<IUsuarioRepository, UsuarioRepository>();
-            services.AddTransient<IPermiteRepository, PermiteRepository>();
-            services.AddTransient<IPerteneceRepository, PerteneceRepository>();
-            services.AddTransient<INumeroTelefonoRepository, NumeroTelefonoRepository>();
             services.AddTransient<IAuthenticationRepository, AuthenticationRepository>();
 
             //dashboard repositories
