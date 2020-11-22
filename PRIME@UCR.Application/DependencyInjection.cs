@@ -24,6 +24,7 @@ using PRIME_UCR.Application.Permissions.UserAdministration;
 using PRIME_UCR.Application.Permissions.Incidents;
 using PRIME_UCR.Application.Permissions.Dashboard;
 using PRIME_UCR.Application.Permissions.CheckLists;
+using PRIME_UCR.Application.Permissions.Appointments;
 
 namespace PRIME_UCR.Application
 {
@@ -46,7 +47,7 @@ namespace PRIME_UCR.Application
             services.AddTransient<IMedicalBackgroundService, MedicalBackgroundService>();
             services.AddTransient<IAlergyService, AlergyService>();
             services.AddTransient<IChronicConditionService, ChronicConditionService>();
-            services.AddTransient<IAppointmentService, AppointmentService>();
+            services.AddTransient<IAppointmentService, SecureAppointmentService>();
             // multimedia
             services.AddTransient<IMultimediaContentService, MultimediaContentService>();
             services.AddTransient<IEncryptionService, EncryptionService>();
