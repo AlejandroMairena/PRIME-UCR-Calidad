@@ -69,7 +69,7 @@ namespace PRIME_UCR.Infrastructure.DataProviders.Implementations
 
         public DbSet<CitaMedica> MedicalAppointment { get; set; }
 
-        public DbSet<PoseeReceta> HaveAppointment { get; set; }
+        public DbSet<PoseeReceta> HavePrescription { get; set; }
 
         public DbSet<RecetaMedica> Prescription { get; set; }
 
