@@ -40,6 +40,8 @@ namespace PRIME_UCR.Validators.UserAdministration
             RuleFor(p => p.Email)
                 .NotEmpty()
                 .WithMessage("Debe digitar el correo electrónico del usuario a registrar.")
+                .MaximumLength(128)
+                .WithMessage("El correo electrónico debe de tener como máximo 128 caracteres.")
                 .EmailAddress()
                 .WithMessage("Debe digitar un correo electrónico válido.");
 

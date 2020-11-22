@@ -23,7 +23,11 @@ namespace PRIME_UCR.Validators.UserAdministration
                 .Must(HasLowerCases)
                 .WithMessage("La contraseña debe de tener minúsculas")
                 .Must(HasMinumumLength)
-                .WithMessage("La contraseña debe de tener al menos 8 caracteres");
+                .WithMessage("La contraseña debe de tener al menos 8 caracteres")
+                .Must(HasMaximumLength)
+                .WithMessage("La contraseña debe de tener al menos 8 caracteres")
+                .Must(HasMaximumLength)
+                .WithMessage("La contraseña debe de tener como máximo 128 caracteres");
 
             RuleFor(p => p.ConfirmedPassword)
                 .NotEmpty()
@@ -36,8 +40,8 @@ namespace PRIME_UCR.Validators.UserAdministration
                 .WithMessage("La contraseña debe de tener simbolos")
                 .Must(HasLowerCases)
                 .WithMessage("La contraseña debe de tener minúsculas")
-                .Must(HasMinumumLength)
-                .WithMessage("La contraseña debe de tener al menos 8 caracteres")
+                .Must(HasMaximumLength)
+                .WithMessage("La contraseña debe de tener como máximo 128 caracteres")
                 .Must((model, currentPassword) => model.Password == currentPassword)
                 .WithMessage("Las contraseñas deben ser iguales");
         }
@@ -65,6 +69,11 @@ namespace PRIME_UCR.Validators.UserAdministration
         public bool HasMinumumLength(string password)
         {
             return password.Length >= 8;
+        }
+
+        public bool HasMaximumLength(string password)
+        {
+            return password.Length <= 128;
         }
     }
 }
