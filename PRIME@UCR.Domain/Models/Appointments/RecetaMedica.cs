@@ -7,23 +7,14 @@ using System.Text;
 
 namespace PRIME_UCR.Domain.Models.Appointments
 {
-    public class CitaMedica
+    public class RecetaMedica
     {
         [Key]
         public int Codigo { get; set; }
-        public int Estado { get; set; } //fk-EstadoCitaMedica
 
-        public int IdCita { get; set; } //fk-cita
-
-        public string CedMedicoAsignado { get; set; } //fk-medico
-
-        public int IdExpediente { get; set; }
+        public string NombreMedicamento { get; set; }
 
         public List<PoseeReceta> Recetas { get; set; }
-
-        public Cita Cita { get; set; }
-
-        public Médico Medico { get; set; }
-
+        
     }
 }

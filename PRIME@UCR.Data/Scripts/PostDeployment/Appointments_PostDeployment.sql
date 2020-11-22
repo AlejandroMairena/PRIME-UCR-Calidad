@@ -4,6 +4,8 @@ DELETE FROM MetricasIncidentes
 DELETE FROM Metricas
 DELETE FROM Accion
 DELETE FROM TipoAccion
+DELETE FROM EstadoCitaMedica
+DELETE FROM RecetaMedica
 
 DBCC CHECKIDENT ('Cita', RESEED, 0)
 DBCC CHECKIDENT ('Metricas', RESEED, 0)
@@ -18,6 +20,25 @@ VALUES
 	('Diagnóstico', 1, 0),
 	('Recetas médicas', 1, 0),
 	('Referencia a especialista', 1, 0)
+
+
+INSERT INTO EstadoCitaMedica (NombreEstado)
+VALUES
+	('Pendiente'),
+	('Activa'),
+	('Finalizada');
+
+
+INSERT INTO RecetaMedica(NombreReceta)
+VALUES 
+	('Paracetamol'), 
+	('Clorfenamina'),
+	('Beclometasona'),
+	('Dextrometorfano'), 
+	('Omeprazol'),
+	('Atorvastatina'), 
+	('Aspirina'), 
+	('Ramipril');
 
 INSERT INTO Cita (FechaHoraCreacion, FechaHoraEstimada)
 VALUES

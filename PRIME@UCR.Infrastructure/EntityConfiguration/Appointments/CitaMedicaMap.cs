@@ -1,6 +1,7 @@
-﻿/*using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using PRIME_UCR.Domain.Models;
+using PRIME_UCR.Domain.Models.Appointments;
+using PRIME_UCR.Domain.Models.MedicalRecords;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,23 +10,21 @@ namespace PRIME_UCR.Infrastructure.EntityConfiguration.Appointments
 {
     public class CitaMedicaMap : IEntityTypeConfiguration<CitaMedica>
     {
-        void IEntityTypeConfiguration<CitaMedica>.Configure(EntityTypeBuilder<CitaMedica> builder)
+        public void Configure(EntityTypeBuilder<CitaMedica> builder)
         {
-            builder
-                .HasKey("Codigo");
+            builder.ToTable("CitaMedica");
+            builder.HasKey("Codigo");
 
             builder
-                .HasOne(c => c.Cita)
-                .WithOne();
+            .HasOne(e => e.Cita)
+            .WithMany(e => e.CitasMedicas)
+            .HasForeignKey(e => e.IdCita);
 
             builder
-                .HasOne(e => e.CitaMedica)
-                .WithOne()
-                .HasForeignKey<CitaMedica>(e => e.IDCita);
-
-            builder.ToTable(nameof(CitaMedica));
+            .HasOne(e => e.Medico)
+            .WithMany(e => e.CitasMedicas)
+            .HasForeignKey(e => e.CedMedicoAsignado);
+            
         }
-
     }
 }
-*/

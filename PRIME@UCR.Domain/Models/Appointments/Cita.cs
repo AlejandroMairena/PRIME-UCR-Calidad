@@ -1,4 +1,5 @@
-﻿using PRIME_UCR.Domain.Models.MedicalRecords;
+﻿using PRIME_UCR.Domain.Models.Appointments;
+using PRIME_UCR.Domain.Models.MedicalRecords;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -22,6 +23,8 @@ namespace PRIME_UCR.Domain.Models
         public List<Metricas> Metricas { get; set; }
 
         public List<Incidente> Incidentes { get; set; }
+
+        public List<CitaMedica> CitasMedicas { get; set; }
 
     }
 }
