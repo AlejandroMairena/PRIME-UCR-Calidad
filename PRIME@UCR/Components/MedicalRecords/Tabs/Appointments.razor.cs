@@ -11,6 +11,7 @@ using PRIME_UCR.Application.Services.Incidents;
 using PRIME_UCR.Application.DTOs.MedicalRecords;
 using PRIME_UCR.Domain.Models;
 using BlazorTable;
+using PRIME_UCR.Domain.Models.Appointments;
 
 namespace PRIME_UCR.Components.MedicalRecords.Tabs
 {
@@ -98,7 +99,11 @@ namespace PRIME_UCR.Components.MedicalRecords.Tabs
 
                     dat_in_link.Add(d_i);
                 }
-                else { 
+                else {
+
+                    CitaMedica appointment = await appointment_service.GetMedicalAppointmentByAppointmentId(appointments[index].Id); 
+
+
                     //es una cita médica y no un incidente. 
                 }
 

@@ -22,16 +22,23 @@ namespace PRIME_UCR.Application.Implementations.Appointments
         private readonly IAppointmentRepository _appointmentRepository;
         private readonly IMedicalRecordRepository _medicalRecordRepository;
         private readonly IPrimeSecurityService _primeSecurityService;
+        private readonly IMedicalAppointmentRepository _medapprepo; 
 
         public AppointmentService(IActionTypeRepository actionTypeRepo,
             IAppointmentRepository appointmentRepository,
             IMedicalRecordRepository medicalRecordRepository,
-            IPrimeSecurityService primeSecurityService)
+            IPrimeSecurityService primeSecurityService,
+            IMedicalAppointmentRepository medapp)
         {
             _actionTypeRepo = actionTypeRepo;
             _appointmentRepository = appointmentRepository;
             _medicalRecordRepository = medicalRecordRepository;
             _primeSecurityService = primeSecurityService;
+            _medapprepo = medapp;
+        }
+
+        public async Task<CitaMedica> GetMedicalAppointmentByAppointmentId(int id) {
+            return await _medapprepo.GetByAppointmentId(id); 
         }
 
         public async Task<IEnumerable<TipoAccion>> GetActionTypesAsync(bool isIncident = true)

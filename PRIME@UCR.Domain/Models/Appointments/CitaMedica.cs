@@ -9,15 +9,14 @@ namespace PRIME_UCR.Domain.Models.Appointments
 {
     public class CitaMedica
     {
-        [Key]
-        public int Codigo { get; set; }
-        public int Estado { get; set; } //fk-EstadoCitaMedica
+        public int Id { get; set; }
+        public int EstadoId { get; set; } //fk-EstadoCitaMedica
 
-        public int IdCita { get; set; } //fk-cita
+        public int CitaId { get; set; } //fk-cita
 
         public string CedMedicoAsignado { get; set; } //fk-medico
 
-        public int IdExpediente { get; set; }
+        public int ExpedienteId { get; set; }
 
         public List<PoseeReceta> Recetas { get; set; }
 

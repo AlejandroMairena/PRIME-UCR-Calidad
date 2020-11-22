@@ -14,5 +14,7 @@ namespace PRIME_UCR.Application.Services.Appointments
         Task<IEnumerable<TipoAccion>> GetActionTypesAsync(bool isIncident = true);
         Task<Expediente> AssignMedicalRecordAsync(int appointmentId, Paciente patient);
         Task<Cita> GetLastAppointmentDateAsync(int id);
+
+        Task<CitaMedica> GetMedicalAppointmentByAppointmentId(int id); 
     }
 }

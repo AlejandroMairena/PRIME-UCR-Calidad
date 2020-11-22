@@ -12,19 +12,20 @@ namespace PRIME_UCR.Infrastructure.EntityConfiguration.Appointments
     {
         public void Configure(EntityTypeBuilder<CitaMedica> builder)
         {
-            builder.ToTable("CitaMedica");
-            builder.HasKey("Codigo");
+            //builder.ToTable("CitaMedica");
+            builder.HasKey("Id");
 
             builder
             .HasOne(e => e.Cita)
             .WithMany(e => e.CitasMedicas)
-            .HasForeignKey(e => e.IdCita);
+            .HasForeignKey(e => e.CitaId);
 
             builder
             .HasOne(e => e.Medico)
             .WithMany(e => e.CitasMedicas)
             .HasForeignKey(e => e.CedMedicoAsignado);
-            
+
+            builder.ToTable(nameof(CitaMedica));
         }
     }
 }
