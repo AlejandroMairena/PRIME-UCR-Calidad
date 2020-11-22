@@ -23,6 +23,7 @@ using PRIME_UCR.Application.Implementations.Dashboard;
 using PRIME_UCR.Application.Permissions.UserAdministration;
 using PRIME_UCR.Application.Permissions.Incidents;
 using PRIME_UCR.Application.Permissions.Dashboard;
+using PRIME_UCR.Application.Permissions.CheckLists;
 
 namespace PRIME_UCR.Application
 {
@@ -31,14 +32,14 @@ namespace PRIME_UCR.Application
         public static IServiceCollection AddApplicationLayer(this IServiceCollection services)
         {
             // services
-            services.AddTransient<ICheckListService, CheckListService>();
-            services.AddTransient<IInstanceChecklistService, InstanceChecklistService>();
+            services.AddTransient<ICheckListService, SecureCheckListService>();
+            services.AddTransient<IInstanceChecklistService, SecureInstanceChecklistService>();
 
             // incidents
             services.AddTransient<IAssignmentService, SecureAssignmentService>();
             services.AddTransient<IIncidentService, SecureIncidentService>();
-            services.AddTransient<ILocationService, LocationService>();
             services.AddTransient<IStateService, SecureStateService>();
+            services.AddTransient<ILocationService, LocationService>();
 
             // medical records
             services.AddTransient<IMedicalRecordService, MedicalRecordService>();
