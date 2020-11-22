@@ -13,6 +13,7 @@ using PRIME_UCR.Application.Services.Multimedia;
 using PRIME_UCR.Infrastructure.DataProviders;
 using PRIME_UCR.Infrastructure.DataProviders.Implementations;
 using PRIME_UCR.Infrastructure.Permissions.Dashboard;
+using PRIME_UCR.Infrastructure.Permissions.Incidents;
 using PRIME_UCR.Infrastructure.Repositories.Sql;
 using PRIME_UCR.Infrastructure.Repositories.Sql.Appointments;
 using PRIME_UCR.Infrastructure.Repositories.Sql.CheckLists;
@@ -53,6 +54,7 @@ namespace PRIME_UCR.Infrastructure
 
             services.AddTransient<IMedCenterRepository, MedCenterRepository>(); 
             // incidents repositories
+            services.AddTransient<IStateRepository, SecureStateRepository>();
             services.AddTransient<ICountryRepository, CountryRepository>();
             services.AddTransient<IProvinceRepository, ProvinceRepository>();
             services.AddTransient<ICantonRepository, CantonRepository>();
@@ -64,7 +66,6 @@ namespace PRIME_UCR.Infrastructure
             services.AddTransient<ILocationRepository, LocationRepository>();
             services.AddTransient<ITransportUnitRepository, TransportUnitRepository>();
             services.AddTransient<IActionTypeRepository, ActionTypeRepository>();
-            services.AddTransient<IStateRepository, StateRepository>();
 
             // medical records
             services.AddTransient<IMedicalRecordRepository, MedicalRecordRepository>();
