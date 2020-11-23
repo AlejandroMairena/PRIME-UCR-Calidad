@@ -34,13 +34,20 @@ namespace PRIME_UCR.Application.Implementations.MedicalRecords
             return await _repoLista.GetAllAsync();
         }
 
-        public async Task InsertBackgroundAsync(int recordId, List<ListaAntecedentes> model)
+        public async Task InsertBackgroundAsync(int recordId, List<ListaAntecedentes> insertList, List<ListaAntecedentes> deleteList)
         {
-            await _repo.ClearMedicalBackground(recordId);
-            if (model.Count > 0)
+            if (deleteList.Count > 0) 
+            {
+                foreach (ListaAntecedentes background in deleteList)
+                {
+                    await _repo.DeleteByIdsAsync(recordId,background.Id);
+                }
+            }
+
+            if (insertList.Count > 0)
             {
                 
-                foreach (ListaAntecedentes background in model)
+                foreach (ListaAntecedentes background in insertList)
                 {
                     Antecedentes _bg = new Antecedentes()
                     {

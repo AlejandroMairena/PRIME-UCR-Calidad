@@ -26,6 +26,7 @@ namespace PRIME_UCR.Components.MedicalRecords.Tabs
         private EditContext _contCond;
 
         public List<ListaAntecedentes> _backgroundList = new List<ListaAntecedentes>();
+        public List<ListaAntecedentes> _currentBackgroundList = new List<ListaAntecedentes>();
         public ListaAntecedentes antecedentePrueba;
         public ListaAlergia AlergiaPrueba;
         public ListaPadecimiento PadecimientoPrueba;
@@ -70,11 +71,17 @@ namespace PRIME_UCR.Components.MedicalRecords.Tabs
         private async Task SaveMedicalBackground()
         {
             StateHasChanged();
-            await MedicalBackgroundService.InsertBackgroundAsync(idExpediente, _backgroundList);
+            LoadRecordBackgrounds();
+            List<ListaAntecedentes> insertedList = new List<ListaAntecedentes>();
+            ExceptBackgroundList(insertedList, _backgroundList, _currentBackgroundList);
+            List<ListaAntecedentes> deletedList = new List<ListaAntecedentes>();
+            ExceptBackgroundList(deletedList, _currentBackgroundList, _backgroundList);
+            await MedicalBackgroundService.InsertBackgroundAsync(idExpediente, insertedList, deletedList);
             Antecedentes = (await MedicalBackgroundService.GetBackgroundByRecordId(idExpediente)).ToList();
             _contAnte = new EditContext(_backgroundList);
             _saveBackgroundButtonEnabled = false;
             _contAnte.OnFieldChanged += ToggleSaveButton;
+            LoadRecordBackgrounds();
         }
 
         private void ToggleSaveButton(object? sender, FieldChangedEventArgs e)
@@ -83,6 +90,22 @@ namespace PRIME_UCR.Components.MedicalRecords.Tabs
             StateHasChanged();
         }
 
+        private void ExceptBackgroundList(List<ListaAntecedentes> returnList, List<ListaAntecedentes> inputList, List<ListaAntecedentes> exceptionList) 
+        {
+            bool stop = false;
+            foreach (ListaAntecedentes background in inputList) {
+                for (int i = 0; i < exceptionList.Count() && !stop; ++i)
+                {
+                    if (background.Id == exceptionList[i].Id)
+                    {
+                        stop = true;
+                    }
+                }
+                if (!stop) {
+                    returnList.Add(background);
+                }
+            }
+        }
 
         private async Task LoadRecordBackgrounds()
         {
@@ -92,6 +115,7 @@ namespace PRIME_UCR.Components.MedicalRecords.Tabs
             foreach (Antecedentes background in Antecedentes)
             {
                 _backgroundList.Add(background.ListaAntecedentes);
+                _currentBackgroundList.Add(background.ListaAntecedentes);
             }
         }
 

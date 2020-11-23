@@ -35,5 +35,19 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.MedicalRecords
                 ", new { Code = id });
             }
         }
+        public async Task DeleteByIdsAsync(int recordId, int listId) {
+            using (var connection = new SqlConnection(_db.DbConnection.ConnectionString))
+            {
+                await connection.ExecuteNonQueryAsync(@"
+                    delete from Antecedentes 
+                    where IdExpediente = @RecordId and IdListaAntecedentes = @ListId
+                 ", new
+                {
+                    RecordId = recordId,
+                    ListId = listId
+                });
+            }
+        }
+
     }
 }
