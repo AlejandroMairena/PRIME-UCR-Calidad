@@ -4,10 +4,12 @@ using PRIME_UCR.Domain.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using PRIME_UCR.Application.Services.CheckLists;
+using PRIME_UCR.Application.Services.Incidents;
 using PRIME_UCR.Components.CheckLists.InIncident;
 using Microsoft.AspNetCore.Components.Forms;
 using System.Linq;
 using PRIME_UCR.Domain.Models.CheckLists;
+using PRIME_UCR.Application.Dtos.Incidents;
 
 namespace PRIME_UCR.Pages.CheckLists.InIncident
 {
@@ -22,16 +24,23 @@ namespace PRIME_UCR.Pages.CheckLists.InIncident
         }
         protected IEnumerable<CheckList> lists { get; set; }
         public bool llenado;
+        protected bool _exist = true;
         [Inject] protected ICheckListService MyService { get; set; }
+        [Inject] protected IIncidentService IncidentService { get; set; }
         public List<CheckList> TempInstance = new List<CheckList>();
         public List<Todo> TempDetail = new List<Todo>();
         public List<int> TempsIds = new List<int>();
+        private IncidentDetailsModel _incidentModel;
         public int count;
         public bool dont_save;
         [Parameter] public string incidentcod { get; set; }
         protected override async Task OnInitializedAsync()
         {
-            await RefreshModels();
+            _incidentModel = await IncidentService.GetIncidentDetailsAsync(incidentcod);
+            if (_incidentModel == null)
+                _exist = false;
+            else
+                await RefreshModels();
         }
 
         protected async Task RefreshModels()

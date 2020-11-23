@@ -63,5 +63,12 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.CheckLists
                 );
             }
         }
+        public override async Task UpdateAsync(InstanciaItem item)
+        {
+            using (var connection = new SqlConnection(_db.ConnectionString))
+            {
+                await connection.UpdateAsync(item, i => i.ItemId == item.ItemId && i.PlantillaId == item.PlantillaId && i.IncidentCod == item.IncidentCod);
+            }
+        }
     }
 }

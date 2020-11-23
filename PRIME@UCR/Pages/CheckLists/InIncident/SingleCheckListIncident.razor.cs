@@ -89,13 +89,23 @@ namespace PRIME_UCR.Pages.CheckLists.InIncident
         public List<string> states = new List<string>();
         public List<string> details = new List<string>();
         public int validateEdit;
+        private IncidentDetailsModel _incidentModel;
+        protected bool _exist = true;
 
         public string StartTime;
         public string EndTime;
         public string MyDuration;
         protected override async Task OnInitializedAsync()
         {
-            await RefreshModels();
+            _incidentModel = await MyIncidentService.GetIncidentDetailsAsync(incidentcod);
+            if (_incidentModel == null)
+            {
+                _exist = false;
+            }
+            else
+            {
+                await RefreshModels();
+            }
         }
 
         protected async Task RefreshModels()
@@ -133,7 +143,15 @@ namespace PRIME_UCR.Pages.CheckLists.InIncident
 
         protected override async Task OnParametersSetAsync()
         {
-            await RefreshModels();
+            _incidentModel = await MyIncidentService.GetIncidentDetailsAsync(incidentcod);
+            if (_incidentModel == null)
+            {
+                _exist = false;
+            }
+            else
+            {
+                await RefreshModels();
+            }
         }
         protected async Task Update()
         {
