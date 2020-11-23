@@ -13,7 +13,7 @@ namespace PRIME_UCR.Infrastructure.EntityConfiguration.Appointments
         public void Configure(EntityTypeBuilder<RecetaMedica> builder)
         {
             builder.ToTable("RecetaMedica");
-            builder.HasKey("Codigo");
+            builder.HasKey("Id");
         }
     }
 }

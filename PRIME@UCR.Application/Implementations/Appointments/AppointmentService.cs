@@ -24,28 +24,38 @@ namespace PRIME_UCR.Application.Implementations.Appointments
         private readonly IPrimeSecurityService _primeSecurityService;
         private readonly IMedicalAppointmentRepository _medapprepo;
         private readonly IHavePrescriptionRepository _havepresc;
+        private readonly IDrugRepository _drugrepo; 
 
         public AppointmentService(IActionTypeRepository actionTypeRepo,
             IAppointmentRepository appointmentRepository,
             IMedicalRecordRepository medicalRecordRepository,
             IPrimeSecurityService primeSecurityService,
             IMedicalAppointmentRepository medapp,
-            IHavePrescriptionRepository havepres)
+            IHavePrescriptionRepository havepres,
+            IDrugRepository drugrep)
         {
             _actionTypeRepo = actionTypeRepo;
             _appointmentRepository = appointmentRepository;
             _medicalRecordRepository = medicalRecordRepository;
             _primeSecurityService = primeSecurityService;
             _medapprepo = medapp;
-            _havepresc = havepres; 
+            _havepresc = havepres;
+            _drugrepo = drugrep; 
         }
 
         public async Task<CitaMedica> GetMedicalAppointmentByAppointmentId(int id) {
             return await _medapprepo.GetByAppointmentId(id); 
         }
 
+        public async Task<IEnumerable<RecetaMedica>> GetDrugsAsync() {
+            return await _drugrepo.GetAllAsync(); 
+        }
+
         public async Task<IEnumerable<PoseeReceta>> GetPrescriptionsByAppointmentId(int id) {
-            return await _havepresc.GetByConditionAsync(e => e.IdCitaMedica == id); 
+
+            //return await _havepresc.GetByConditionAsync(e => e.IdCitaMedica == id); 
+
+            return await _havepresc.GetPrescriptionByAppointmentId(id); 
         }
 
 

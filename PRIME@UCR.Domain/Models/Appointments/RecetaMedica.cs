@@ -9,10 +9,9 @@ namespace PRIME_UCR.Domain.Models.Appointments
 {
     public class RecetaMedica
     {
-        [Key]
-        public int Codigo { get; set; }
+        public int Id { get; set; }
 
-        public string NombreMedicamento { get; set; }
+        public string NombreReceta { get; set; }
 
         public List<PoseeReceta> Recetas { get; set; }
         

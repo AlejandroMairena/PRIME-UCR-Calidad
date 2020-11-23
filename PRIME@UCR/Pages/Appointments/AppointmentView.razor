@@ -1,28 +1,23 @@
 ﻿@page "/medical-appointment/{id}"
 @using BlazorTable
-@using PRIME_UCR.Domain.Models.Appointments 
-@inject IAppointmentService appointment_service; 
+@using PRIME_UCR.Domain.Models.Appointments
+@inject IAppointmentService appointment_service;
 
-<a>UYUYUYUYUYU</a>
+<PrescriptionListComponent AppointmentId="@id"></PrescriptionListComponent>
+
+
 
 @code {
 
     [Parameter] public string id { get; set; }
 
-    public List<PoseeReceta> medicalprescrip { get; set; }
+    public List<RecetaMedica> drug { get; set; }
 
 
     protected override async Task OnInitializedAsync()
     {
-        await get_prescriptions();
-    }
-
-
-    private async Task get_prescriptions()
-    {
-        IEnumerable<PoseeReceta> records = await appointment_service.GetPrescriptionsByAppointmentId(Convert.ToInt32(id));
-         medicalprescrip = records.ToList(); 
-
+        
+        //await get_drugs();
     }
 
 }

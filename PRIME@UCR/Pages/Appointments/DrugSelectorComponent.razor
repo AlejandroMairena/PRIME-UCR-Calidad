@@ -1,0 +1,159 @@
+﻿@using PRIME_UCR.Pages.Records
+@using PRIME_UCR.Domain.Models.Appointments 
+@inject IAppointmentService appointment_service
+@page "/drug-selector"
+
+<style>
+    body {
+        background-color: white;
+    }
+</style>
+
+<table class="table table-hover wrapper_table">
+    <thead>
+        <tr>
+            <th align="center">Medicamento</th>
+        </tr>
+    </thead>
+
+
+    <tbody>
+        @for (int drug = start_show_record; drug < end_show_record; ++drug)
+        {
+            <tr style="transform:rotate(0);">
+                <td scope="row" @onclick="add_prescription">@prescriptions[drug].NombreReceta</td> 
+            </tr>
+        }
+
+    </tbody>
+</table>
+
+<Pagination Total_pages="total_pages" Current_page="current_page" Radius="radius" Selected_page="selected_page">
+</Pagination>
+
+@code {
+
+    public int start_show_record { get; set; } = 0;
+
+    public int end_show_record { get; set; }
+
+    public int amount_records { get; set; } = 3;
+
+    public int radius { get; set; } = 3;
+
+    public int total_pages { get; set; } = 3;
+
+
+    public int current_page { get; set; } = 1;
+
+
+    public int total_elements { get; set; } = 0;
+
+    public int sub_group_range { get; set; }
+
+
+    public List<RecetaMedica> prescriptions { get; set; }
+
+
+    public void add_prescription()
+    {
+
+    }
+
+    private async Task set_records_per_page(int amount_records)
+    {
+
+        start_values(amount_records);
+    }
+
+    async Task get_records_with_filter(string filter_box)
+    {
+
+
+        prescriptions = (await appointment_service.GetDrugsAsync()).ToList();
+
+        current_page = 1;
+        sub_group_range = 1;
+        total_elements = prescriptions.Count;
+        total_pages = total_elements / sub_group_range;
+
+        if (total_elements > 0)
+        {
+            end_show_record = start_show_record + sub_group_range;
+
+            if (end_show_record > total_pages * sub_group_range)
+            {
+                end_show_record = total_pages * sub_group_range;
+            }
+        }
+        else
+        {
+            end_show_record = 0;
+        }
+    }
+
+
+
+    private async Task selected_page(int page)
+    {
+        current_page = page;
+        await get_records_per_page(page, total_pages);
+    }
+
+    protected override void OnInitialized()
+    {
+
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await get_records();
+    }
+
+    private async Task get_records()
+    {
+
+        prescriptions = (await appointment_service.GetDrugsAsync()).ToList();
+        start_values(3);
+
+    }
+
+
+
+    private void start_values(int sub_group_range)
+    {
+        current_page = 1;
+        start_show_record = 0;
+
+        total_elements = prescriptions.Count;
+
+        this.sub_group_range = sub_group_range;
+
+        total_pages = total_elements / sub_group_range;
+
+        end_show_record = start_show_record + sub_group_range;
+
+        if (total_elements < radius)
+        {
+            radius = 0;
+        }
+
+    }
+
+
+    async Task get_records_per_page(int current_page, int total_pages)
+    {
+
+        start_show_record = sub_group_range * (current_page - 1);
+
+        end_show_record = start_show_record + sub_group_range;
+
+        if (end_show_record > total_pages * sub_group_range)
+        {
+
+            end_show_record = total_pages * sub_group_range;
+
+        }
+
+    }
+}

@@ -67,7 +67,7 @@
                 }
                 else
                 {
-                    <a href="@get_appointment_link(context.appointment.CitaId)">@context.appointment.CitaId</a>
+                    <a href="@get_appointment_link(context.appointment.Id)">@context.appointment.Id</a>
                 }
             </Template>
         </Column>
@@ -76,7 +76,7 @@
         <Column TableItem="DateIncidentModel" Title="Tipo" Field="@(x => x.type2)" Width="20%">
         </Column>
 
-        <Column TableItem="DateIncidentModel" Title="Código" Field="@(x => x.appointment.Id)" Width="20%">
+        <Column TableItem="DateIncidentModel" Title="Código" Field="@(x => x.date.Id)" Width="20%">
         </Column>
 
         <Column TableItem="DateIncidentModel" Title="Fecha creación" Field="@(x => x.date.FechaHoraCreacion)" Width="20%">

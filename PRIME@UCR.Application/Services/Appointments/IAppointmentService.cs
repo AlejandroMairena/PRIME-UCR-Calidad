@@ -17,6 +17,8 @@ namespace PRIME_UCR.Application.Services.Appointments
 
         Task<CitaMedica> GetMedicalAppointmentByAppointmentId(int id);
 
-        Task<IEnumerable<PoseeReceta>> GetPrescriptionsByAppointmentId(int id); 
+        Task<IEnumerable<PoseeReceta>> GetPrescriptionsByAppointmentId(int id);
+
+        Task<IEnumerable<RecetaMedica>> GetDrugsAsync(); 
     }
 }
