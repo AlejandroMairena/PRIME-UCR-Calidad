@@ -10,5 +10,9 @@ namespace PRIME_UCR.Application.Repositories.Appointments
     {
         Task<IEnumerable<PoseeReceta>> GetPrescriptionByAppointmentId(int id);
 
+        Task<PoseeReceta> GetPrescriptionByDrugId(int drug_id);
+
+        Task<PoseeReceta> UpdatePescription(int drug_id, int appointment_id, string dosis); 
+
     }
 }

@@ -9,9 +9,9 @@
     }
 </style>
 
-<Loading IsLoading="medicalprescrip == null">
+<Loading IsLoading="Medpres == null">
     <div class="prescriptions" style="resize:both">
-        <Table TableItem="PoseeReceta" Items="medicalprescrip" PageSize="5" @ref="appointprescripModel" ColumnReorder="true" class="table table-bordered">
+        <Table TableItem="PoseeReceta" Items="Medpres" PageSize="5" @ref="appointprescripModel" ColumnReorder="true" class="table table-bordered">
             <Column TableItem="PoseeReceta" Title="Medicamento" Field="@(x => x.RecetaMedica.NombreReceta)" Width="20%">
             </Column>
 
@@ -19,9 +19,9 @@
                 <Template>
                     @if (context.Dosis == "")
                     {
-                        <label for="texto1">Descripción</label>
-                        <textarea name="texto1" @bind="prescription_text_area"></textarea>
-                        <button @onclick="set_prescription_dosis">Guardar</button>
+                        <label for="@context.IdRecetaMedica">Descripción</label>
+                        <textarea name="@context.IdRecetaMedica" @bind="prescription_text_area"></textarea>
+                        <button @onclick="@(() => set_prescription_dosis(context.IdRecetaMedica, context.IdCitaMedica))">Guardar</button>
                     }
                     else
                     {

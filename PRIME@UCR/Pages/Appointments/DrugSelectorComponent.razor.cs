@@ -42,13 +42,21 @@ namespace PRIME_UCR.Pages.Appointments
 
         public List<RecetaMedica> prescriptions { get; set; }
 
+        public bool display_existed_msg { get; set; } = false; 
 
         public async Task add_prescription(RecetaMedica drug_)
         {
-            await appointment_service.InsertPrescription(drug_.Id, Convert.ToInt32(IdMedicalPrescription));
+            PoseeReceta pr = await appointment_service.GetDrugByConditionAsync(drug_.Id);
+            if (pr == null)
+            {
+                await appointment_service.InsertPrescription(drug_.Id, Convert.ToInt32(IdMedicalPrescription));
+                await UpdateList.InvokeAsync(true);
+                display_existed_msg = false; 
+            }
+            else {
+                display_existed_msg = true; 
+            }
             add_prescription_selected = false;
-
-            await UpdateList.InvokeAsync(true);  
         }
 
         /*

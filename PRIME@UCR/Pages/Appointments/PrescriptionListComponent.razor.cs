@@ -12,6 +12,7 @@ namespace PRIME_UCR.Pages.Appointments
     {
         [Parameter] public string AppointmentId { get; set; }
 
+        [Parameter] public List<PoseeReceta> Medpres { get; set; }
         public List<PoseeReceta> medicalprescrip { get; set; }
 
         public ITable<PoseeReceta> appointprescripModel { get; set; }
@@ -21,20 +22,23 @@ namespace PRIME_UCR.Pages.Appointments
 
         protected override async Task OnInitializedAsync()
         {
-            await get_prescriptions();
+            //await get_prescriptions();
         }
 
 
-        public void set_prescription_dosis()
+        public async Task set_prescription_dosis(int idPrescription, int idAppointment)
         {
-
+            await appointment_service.UpdatePrescriptionDosis(idPrescription, idAppointment, prescription_text_area);
+            get_prescriptions();
+            prescription_text_area = ""; 
         }
 
 
         private async Task get_prescriptions()
         {
             IEnumerable<PoseeReceta> records = await appointment_service.GetPrescriptionsByAppointmentId(Convert.ToInt32(AppointmentId));
-            medicalprescrip = records.ToList();
+            Medpres = records.ToList();
+            StateHasChanged(); 
 
         }
 
