@@ -47,6 +47,18 @@ namespace PRIME_UCR.Application.Implementations.Appointments
             return await _medapprepo.GetByAppointmentId(id); 
         }
 
+        public async Task<PoseeReceta> InsertPrescription(int idMedicalPrescription, int idMedicalAppointment) {
+            PoseeReceta temp = new PoseeReceta()
+            {
+                IdRecetaMedica = idMedicalPrescription,
+                IdCitaMedica = idMedicalAppointment,
+                Dosis = ""
+            };
+
+            return await _havepresc.InsertAsync(temp); 
+
+        }
+
         public async Task<IEnumerable<RecetaMedica>> GetDrugsAsync() {
             return await _drugrepo.GetAllAsync(); 
         }

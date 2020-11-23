@@ -1,7 +1,7 @@
 ﻿@using PRIME_UCR.Pages.Records
-@using PRIME_UCR.Domain.Models.Appointments 
+@using PRIME_UCR.Domain.Models.Appointments
 @inject IAppointmentService appointment_service
-@page "/drug-selector"
+@page "/drug-selector/{id}"
 
 <style>
     body {
@@ -9,29 +9,42 @@
     }
 </style>
 
-<table class="table table-hover wrapper_table">
-    <thead>
-        <tr>
-            <th align="center">Medicamento</th>
-        </tr>
-    </thead>
+@if (add_prescription_selected)
+{
+    <div class="drugstable">
+        <table class="table table-hover wrapper_table">
+            <thead>
+                <tr>
+                    <th align="center">Medicamento</th>
+                </tr>
+            </thead>
 
 
-    <tbody>
-        @for (int drug = start_show_record; drug < end_show_record; ++drug)
-        {
-            <tr style="transform:rotate(0);">
-                <td scope="row" @onclick="add_prescription">@prescriptions[drug].NombreReceta</td> 
-            </tr>
-        }
+            <tbody>
+                @for (int drug = start_show_record; drug < end_show_record; ++drug)
+                {
+                    <tr style="transform:rotate(0);">
+                        <td scope="row" @onclick="@(() => add_prescription(drug))">@prescriptions[drug].NombreReceta</td>
+                    </tr>
+                }
 
-    </tbody>
-</table>
+            </tbody>
+        </table>
+        <div class="pagination">
+            <Pagination Total_pages="total_pages" Current_page="current_page" Radius="radius" Selected_page="selected_page">
+            </Pagination>
+        </div>
+    </div>
+}
+else
+{
+    <button type="submit" class="btn btn-primary mt-4 mb-4" @onclick="ShowDrugSelector">Agregar prescripción</button>
+}
 
-<Pagination Total_pages="total_pages" Current_page="current_page" Radius="radius" Selected_page="selected_page">
-</Pagination>
 
 @code {
+
+    [Parameter] public string IdMedicalPrescription { get; set; }
 
     public int start_show_record { get; set; } = 0;
 
@@ -43,6 +56,7 @@
 
     public int total_pages { get; set; } = 3;
 
+    public bool add_prescription_selected { get; set; } = false;
 
     public int current_page { get; set; } = 1;
 
@@ -55,10 +69,18 @@
     public List<RecetaMedica> prescriptions { get; set; }
 
 
-    public void add_prescription()
+    public async Task add_prescription(int selected_drug)
     {
-
+        await appointment_service.InsertPrescription(prescriptions[selected_drug-1].Id, Convert.ToInt32(IdMedicalPrescription));
+        add_prescription_selected = false;
     }
+
+
+    public void ShowDrugSelector()
+    {
+        add_prescription_selected = true;
+    }
+
 
     private async Task set_records_per_page(int amount_records)
     {
@@ -131,6 +153,11 @@
 
         total_pages = total_elements / sub_group_range;
 
+        int residuals = total_elements % sub_group_range;
+        if (residuals != 0) {
+            ++total_pages; 
+        }
+
         end_show_record = start_show_record + sub_group_range;
 
         if (total_elements < radius)
@@ -148,10 +175,10 @@
 
         end_show_record = start_show_record + sub_group_range;
 
-        if (end_show_record > total_pages * sub_group_range)
+        if (end_show_record > prescriptions.Count)
         {
 
-            end_show_record = total_pages * sub_group_range;
+            end_show_record = prescriptions.Count;
 
         }
 

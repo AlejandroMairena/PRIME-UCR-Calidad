@@ -3,21 +3,29 @@
 @using PRIME_UCR.Domain.Models.Appointments
 @inject IAppointmentService appointment_service;
 
-<PrescriptionListComponent AppointmentId="@id"></PrescriptionListComponent>
+<style>
+    .prescription_list {
+        width : 80%; 
+    }
 
+    .drugselector {
+        width : 20%; 
+    }
+</style>
+
+
+<div class="prescription_list">
+    <PrescriptionListComponent AppointmentId="@id"></PrescriptionListComponent>
+</div>
+
+
+<div class="drugselector">
+    <DrugSelectorComponent IdMedicalPrescription="@id"></DrugSelectorComponent>
+</div>
 
 
 @code {
 
     [Parameter] public string id { get; set; }
-
-    public List<RecetaMedica> drug { get; set; }
-
-
-    protected override async Task OnInitializedAsync()
-    {
-        
-        //await get_drugs();
-    }
 
 }
