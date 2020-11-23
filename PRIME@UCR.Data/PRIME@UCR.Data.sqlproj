@@ -155,6 +155,10 @@
     <Build Include="Triggers\CheckearItem.sql" />
     <Build Include="Tables\MedicalRecords\PadecimientosCronicos.sql" />
     <Build Include="Tables\MedicalRecords\ListaPadecimiento.sql" />
+    <Build Include="Tables\Appointments\CitaMedica.sql" />
+    <Build Include="Tables\Appointments\RecetaMedica.sql" />
+    <Build Include="Tables\Appointments\PoseeReceta.sql" />
+    <Build Include="Tables\Appointments\EstadoCitaMedica.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Scripts\Script.PostDeployment.sql" />
@@ -168,5 +172,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Triggers\DeleteMultimediaContent.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="PRIME%40UCR.Data.refactorlog" />
   </ItemGroup>
 </Project>

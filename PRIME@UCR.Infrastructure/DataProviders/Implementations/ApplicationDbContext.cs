@@ -67,6 +67,12 @@ namespace PRIME_UCR.Infrastructure.DataProviders.Implementations
         public DbSet<Antecedentes> MedicalBackground { get; set; }
         public DbSet<ListaAntecedentes> MedicalBackgroundList { get; set; }
 
+        public DbSet<CitaMedica> MedicalAppointment { get; set; }
+
+        public DbSet<PoseeReceta> HavePrescription { get; set; }
+
+        public DbSet<RecetaMedica> Prescription { get; set; }
+
         public DbSet<Alergias> Alergies { get; set; }
         public DbSet<ListaAlergia> ListAlergies { get; set; }
         public DbSet<PadecimientosCronicos> ChronicCondition { get; set; }
@@ -131,6 +137,9 @@ namespace PRIME_UCR.Infrastructure.DataProviders.Implementations
             builder.ApplyConfiguration(new ListaAlergiaMap());
             builder.ApplyConfiguration(new PadecimientoCronicoMap());
             builder.ApplyConfiguration(new ListaPadecimientosMap());
+            builder.ApplyConfiguration(new CitaMedicaMap());
+            builder.ApplyConfiguration(new RecetaMedicaMap());
+            builder.ApplyConfiguration(new PoseeRecetaMap()); 
         }
 
         public Task<int> SaveChangesAsync()

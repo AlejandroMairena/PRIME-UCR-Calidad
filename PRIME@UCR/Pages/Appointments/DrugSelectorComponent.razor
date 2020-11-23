@@ -1,0 +1,78 @@
+﻿@using PRIME_UCR.Pages.Records
+@using PRIME_UCR.Domain.Models.Appointments
+@inject IAppointmentService appointment_service
+@page "/drug-selector/{id}"
+
+<style>
+    body {
+        background-color: white;
+    }
+
+    .drug_selector {
+        position:absolute;
+        right : 10px;
+        top : 100px;
+    }
+
+    .light-gray-panel {
+        background-color: #e6f5ff;
+    }
+
+
+</style>
+
+
+    @if (add_prescription_selected)
+    {
+        <div class="jumbotron light-gray-panel drug_selector">
+            <Loading IsLoading="searching_drug">
+                <Filter SetFilter="set_filter" ClearFilter="clear_filter"></Filter>
+
+                <table class="table table-hover wrapper_table">
+                    <thead>
+                        <tr>
+                            <th align="center">Medicamento</th>
+                        </tr>
+                    </thead>
+
+
+                    <tbody>
+                        @foreach (RecetaMedica drug_ in prescriptions)
+                        {
+                            <tr style="transform:rotate(0);">
+                                <td scope="row" @onclick="@(() => add_prescription(drug_))">@drug_.NombreReceta</td>
+                            </tr>
+                        }
+                        @*
+                            @for (int drug_ = start_show_record; drug_ < end_show_record; ++drug_) {
+
+                                <tr style="transform:rotate(0);">
+                                    <td scope="row" @onclick="@(()=> add_prescription(prescriptions[drug_].Id))">@prescriptions[drug_].NombreReceta</td>
+                                </tr>
+
+                            }
+                        *@
+                    </tbody>
+                </table>
+
+                @*
+                    <div class="pagination">
+                        <Pagination Total_pages="total_pages" Current_page="current_page" Radius="radius" Selected_page="selected_page">
+                        </Pagination>
+                    </div>
+                *@
+            </Loading>
+        </div>
+    }
+    else
+    {
+        @if (display_existed_msg)
+        {
+            <StatusMessage Message="El medicamento seleccionado ya existe" Class="warning"></StatusMessage>
+        }
+
+
+        <button type="submit" class="btn btn-primary mt-4 mb-4" @onclick="ShowDrugSelector">Agregar prescripción</button>
+    }
+
+

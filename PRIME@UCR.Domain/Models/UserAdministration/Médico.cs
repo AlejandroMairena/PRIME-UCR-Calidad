@@ -1,4 +1,5 @@
-﻿using PRIME_UCR.Domain.Models.MedicalRecords;
+﻿using PRIME_UCR.Domain.Models.Appointments;
+using PRIME_UCR.Domain.Models.MedicalRecords;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,6 +11,9 @@ namespace PRIME_UCR.Domain.Models.UserAdministration
      */
     public class Médico : Funcionario
     {
+
+        public List<CitaMedica> CitasMedicas { get; set; }
+
         protected bool Equals(Médico other)
         {
             return Cédula == other.Cédula;

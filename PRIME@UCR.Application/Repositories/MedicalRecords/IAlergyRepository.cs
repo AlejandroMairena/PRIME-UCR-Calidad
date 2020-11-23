@@ -7,5 +7,6 @@ namespace PRIME_UCR.Application.Repositories.MedicalRecords
 {
     public interface IAlergyRepository : IGenericRepository<Alergias, int>
     {
+
     }
 }

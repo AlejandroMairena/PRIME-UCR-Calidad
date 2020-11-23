@@ -11,6 +11,7 @@ using PRIME_UCR.Application.Services.Incidents;
 using PRIME_UCR.Application.DTOs.MedicalRecords;
 using PRIME_UCR.Domain.Models;
 using BlazorTable;
+using PRIME_UCR.Domain.Models.Appointments;
 
 namespace PRIME_UCR.Components.MedicalRecords.Tabs
 {
@@ -24,11 +25,16 @@ namespace PRIME_UCR.Components.MedicalRecords.Tabs
 
         public List<DateIncidentModel> dat_in_link { get; set; }
 
+        public List<DateIncidentModel> dat_app_link { get; set; }
+
         //public List<bool> is_it_incident { get; set; }
 
         public ITable<Cita> AppointmentsModel { get; set;  }
 
         public ITable<DateIncidentModel> AppointmIncidentModel { get; set; }
+
+        public ITable<DateIncidentModel> MedAppointModel { get; set; }
+
         public bool are_there_appointments { get; set; } = false;
 
         public const string inci = "incidente";
@@ -74,8 +80,14 @@ namespace PRIME_UCR.Components.MedicalRecords.Tabs
             return $"/incidents/{recordId}";
         }
 
+
+        public string get_appointment_link(int id) {
+            return $"/medical-appointment/{id}"; 
+        }
+
         public async Task getIncidents() {
-            dat_in_link = new List<DateIncidentModel>(); 
+            dat_in_link = new List<DateIncidentModel>();
+            dat_app_link = new List<DateIncidentModel>(); 
 
             for (int index = 0; index < appointments.Count; ++index) {
 
@@ -93,13 +105,26 @@ namespace PRIME_UCR.Components.MedicalRecords.Tabs
                     {
                         date = appointments[index],
                         incident = incident,
-                        medical_center = mc
+                        medical_center = mc,
+                        appointment_status = false
                     };
 
                     dat_in_link.Add(d_i);
                 }
-                else { 
-                    //es una cita médica y no un incidente. 
+                else {
+
+                    CitaMedica appointment = await appointment_service.GetMedicalAppointmentByAppointmentId(appointments[index].Id);
+
+                    DateIncidentModel d_i = new DateIncidentModel()
+                    {
+                        date = appointments[index],
+                        appointment = appointment
+                    };
+
+
+                    //dat_in_link.Add(d_i); 
+
+                    dat_app_link.Add(d_i); 
                 }
 
             }
