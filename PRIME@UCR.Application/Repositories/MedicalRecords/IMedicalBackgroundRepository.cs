@@ -8,5 +8,8 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.MedicalRecords
 {
     public interface IMedicalBackgroundRepository : IGenericRepository<Antecedentes, int>
     {
+        Task ClearMedicalBackground(int id);
     }
+
+    
 }

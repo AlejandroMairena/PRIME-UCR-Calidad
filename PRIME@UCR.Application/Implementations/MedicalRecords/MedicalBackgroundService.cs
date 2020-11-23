@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -33,10 +34,25 @@ namespace PRIME_UCR.Application.Implementations.MedicalRecords
             return await _repoLista.GetAllAsync();
         }
 
-        public async Task<Antecedentes> InsertBackgroundAsync(Antecedentes model)
+        public async Task InsertBackgroundAsync(int recordId, List<ListaAntecedentes> model)
         {
-            await _repo.InsertAsync(model);
-            return model;
+            await _repo.ClearMedicalBackground(recordId);
+            if (model.Count > 0)
+            {
+                
+                foreach (ListaAntecedentes background in model)
+                {
+                    Antecedentes _bg = new Antecedentes()
+                    {
+                        IdExpediente = recordId,
+                        IdListaAntecedentes = background.Id,
+                        FechaCreacion = DateTime.Now
+
+                    };
+                    await _repo.InsertAsync(_bg);
+                }
+
+            }
         }
 
         

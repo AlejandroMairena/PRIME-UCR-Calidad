@@ -1,6 +1,7 @@
 ﻿@attribute [Authorize]
 @using BlazorTable
 @using PRIME_UCR.Domain.Models.MedicalRecords
+@implements IDisposable
 @inject IMedicalBackgroundService MedicalBackgroundService
 @inject IAlergyService AllergyService
 @inject IChronicConditionService ChronicConditionService
@@ -24,20 +25,26 @@
         {
             <StatusMessage Message="Este antecedente ya fue agregado" Class="warning" />
         }
-    <EditForm EditContext="_contAnte">
-        <label>Antecedentes</label>
-        <RadzenDropDown Multiple="true" Data="ListaAntecedentes"
-                        TextProperty="NombreAntecedente"
-                        ValueProperty="Id"
-                        @bind-Value="@RegisteredBackgrounds"
-                        Placeholder="Seleccione antecedentes"
-                        class="form-control"/>
-        <form>
-            @* Insert *@
-
-        </form>
-    </EditForm>
-            <button type="submit" class="btn btn-primary mt-4 mb-4" @onclick="insertBackground">Guardar</button>
+        <EditForm EditContext="_contAnte" OnValidSubmit="SaveMedicalBackground">
+            <label>Antecedentes</label>
+            <RadzenDropDown Multiple="true" Data="ListaAntecedentes"
+                            TextProperty="NombreAntecedente"
+                            ValueProperty="Id"
+                            @bind-Value="@RegisteredBackgrounds"
+                            Placeholder="Seleccione antecedentes"
+                            class="form-control" />
+            <div class="mt-2">
+                @if (!_saveBackgroundButtonEnabled)
+                {
+                    <button disabled type="submit" class="btn btn-primary">Guardar</button>
+                    <button disabled class="btn btn-outline-secondary">Descartar</button>
+                }
+                else
+                {
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                    <button role="button" class="btn btn-outline-secondary" @onclick="LoadRecordBackgrounds" @onclick:preventDefault>Descartar</button>}
+            </div>
+        </EditForm>
 
     </div>
 </div>
