@@ -19,6 +19,11 @@ namespace PRIME_UCR.Test.UnitTests.Application.Multimedia
         [Fact]
         public async Task GetByIdTest()
         {
+            /*
+             * Case: Check if the MCService returns a stored
+             * MC using the repo.
+             * -> returns a not null MC and with Id = 1.
+             */
             var mockRepo = new Mock<IMultimediaContentRepository>();
             mockRepo.Setup(s => s.GetByKeyAsync(1))
             .Returns(Task.FromResult(new MultimediaContent
@@ -27,32 +32,18 @@ namespace PRIME_UCR.Test.UnitTests.Application.Multimedia
             }));
             var mockService = new MultimediaContentService(mockRepo.Object, null, null);
             var result = await mockService.GetById(1);
+            Assert.NotNull(result);
             Assert.Equal(1, result.Id);
         }
 
         [Fact]
-        public async Task AddMultContToActionTest()
-        {
-            var mockActionRepo = new Mock<IActionRepository>();
-            Accion a_test = new Accion
-            {
-                MultContId = 1,
-                CitaId = 1,
-                NombreAccion = "Test"
-            };
-            mockActionRepo.Setup(r => r.InsertAsync(a_test))
-                .Returns(Task.FromResult(a_test));
-            var mockService = new MultimediaContentService(null, mockActionRepo.Object, null);
-            var result = await mockService.AddMultContToAction(1, "Test", 1);
-            Assert.Equal(1, result.MultContId);
-            Assert.Equal(1, result.CitaId);
-            Assert.Equal("Test", result.NombreAccion);
-        }
-
-
-        [Fact]
         public async Task GetByAppointmentActionTest()
         {
+            /*
+             * Case: Get the MC attached to an Action of and
+             * Incident. 
+             * -> return a list with one MC element with Id = 1.
+             */
             var list = new List<MultimediaContent>
             {
                 new MultimediaContent
@@ -71,6 +62,11 @@ namespace PRIME_UCR.Test.UnitTests.Application.Multimedia
         [Fact]
         public async Task AddMultimediaContentTest()
         { 
+            /* 
+             * Case: Check if the MC Service can store a MC.
+             * Checks if the result of inserting is equal to the
+             * element being stored.
+             */
             var mockRepo = new Mock<IMultimediaContentRepository>();
             MultimediaContent mc = new MultimediaContent
             {
@@ -94,6 +90,11 @@ namespace PRIME_UCR.Test.UnitTests.Application.Multimedia
         [Fact]
         public async Task GetByCheckListItemTest()
         {
+            /*
+             * Case: Get the MC attached to an instance of a
+             * Checklist Item.
+             * -> return a list with one MC element with Id = 1.
+             */
             var list = new List<MultimediaContent>
             {
                 new MultimediaContent

@@ -11,20 +11,33 @@ namespace PRIME_UCR.Components.Multimedia
 
     public partial class CameraComponent
     {
+        // Reference to Multimedia Modal Parent
         [Parameter]
         public MultimediaModal MultimediaModal { get; set; }
 
+        // Element References
         ElementReference videoElement;
         ElementReference canvasElement;
         ElementReference imageElement;
         ElementReference downloadLinkRef;
+
+        // State Variables
         bool cameraOpen = false;
         bool cameraClose => !cameraOpen;
         bool photoTaken = false;
         bool photoNotTaken => !photoTaken;
+        // Class Variables
+        string videoClass => !photoTaken ? "rt-box" : "hidden";
+        string canvasClass => photoTaken ? "rt-box" : "hidden";
+        string tpButtonClass => !photoTaken ? "btn btn-primary rt-button" : "hidden"; // Take Photograph Button Class
+        string cancelButtonClass => photoTaken ? "btn btn-danger rt-button" : "hidden";
+        // Valid file name Indicator
+        bool validTitle = false;
+        bool notValidSave =>  photoNotTaken || !validTitle;
 
         protected override void OnInitialized()
         {
+            // add CloseComponent method to OnModalClosed event
             MultimediaModal.OnModalClosed += CloseComponent;
         }
 
@@ -49,7 +62,6 @@ namespace PRIME_UCR.Components.Multimedia
             return !cameraOpen ? "Abrir Cámara" : "Cerrar Cámara";
         }
 
-
         async Task TakePhotograph()
         {
             await JS.InvokeAsync<string>("takePhotograph", canvasElement, videoElement, imageElement, downloadLinkRef);
@@ -65,5 +77,11 @@ namespace PRIME_UCR.Components.Multimedia
             await CloseCamera();
             MultimediaModal.OnModalClosed -= CloseComponent;
         }
+
+        void OnTitleChanged(bool error)
+        {
+            validTitle = !error;
+        }
+
     }
 }

@@ -14,14 +14,18 @@ namespace PRIME_UCR.Components.Multimedia
         protected IFileService fileService { get; set; }
         [Inject]
         protected IMultimediaContentService mcService { get; set; }
+        /* Function pass as parameter from Parent Component to be notified
+         * when a file has been uploaded. 
+         */
         [Parameter]
         public EventCallback<MultimediaContent> OnFileUpload { get; set; }
         [Parameter]
         public IEncryptionService EncryptionService { get; set; }
 
-        string fileName;
-        string text;
+        string fileName; //input file name
+        string text; // input file text
 
+        // Metho to store text file
         public async Task StoreTextFile()
         {
             fileName += ".txt";
@@ -36,9 +40,9 @@ namespace PRIME_UCR.Components.Multimedia
                 Fecha_Hora = DateTime.Now,
                 Tipo = "text/plain"
             };
-            mc = await mcService.AddMultimediaContent(mc);
-            EncryptionService.EncryptFile(path);
-            await OnFileUpload.InvokeAsync(mc);
+            mc = await mcService.AddMultimediaContent(mc); // add MC to DB
+            EncryptionService.EncryptFile(path); // encrypt file
+            await OnFileUpload.InvokeAsync(mc); // invoke callback function
         }
 
     }
