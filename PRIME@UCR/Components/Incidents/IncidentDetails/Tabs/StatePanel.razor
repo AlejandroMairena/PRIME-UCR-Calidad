@@ -52,15 +52,15 @@
             @if (Incident.CurrentState == IncidentStates.Created.Nombre)
             {
                 <div class="text-center mt-4">
-                    <button class="btn btn-primary" @onclick="@Approve">Cambiar a estado Aprobar</button>
-                    <button class="btn btn-outline-danger" @onclick="@Reject">Cambiar a estado Rechazar</button>
+                    <button class="btn btn-primary" @onclick="@Approve">Cambiar a estado Aprobado</button>
+                    <button class="btn btn-outline-danger" @onclick="@Reject">Cambiar a estado Rechazado</button>
                 </div>
             }
             else if (Incident.CurrentState == IncidentStates.Rejected.Nombre)
             {
                 <div class="text-center mt-4">
-                    <button class="btn btn-primary" @onclick="@Approve">Cambiar a estado Aprobar</button>
-                    <button disabled class="btn btn-outline-danger">Cambiar a estado Rechazar</button>
+                    <button class="btn btn-primary" @onclick="@Approve">Cambiar a estado Aprobado</button>
+                    <button disabled class="btn btn-outline-danger">Cambiar a estado Rechazado</button>
                 </div>
             }
         }
@@ -125,14 +125,16 @@
                     @if (PendingTasks != null && PendingTasks.Count > 0)
                     {
                         <td>
-                            <ul class="list-group">
+                            <ul class="list-group container">
                                 @foreach (var task in PendingTasks)
                                 {
-                                    <li class="bg-task d-flex justify-content-between">
-                                        <a @onclick="@( () => RedirectToTab(task.Item2) )"> @task.Item1  </a>
+                                <li class="bg-task d-flex flex-row row">
+                                    <a @onclick="@( () => RedirectToTab(task.Item2) )"> @task.Item1  </a>
+                                    <div class="col">
                                         <span data-toggle="tooltip" title="Presione sobre la tarea pendiente para ir al tab @toRedirectTab(task.Item2)"
                                               class="badge badge-primary badge-pill badge-text">!</span>
-                                    </li>
+                                    </div>
+                                </li>
                                 }
                             </ul>
                         </td>
