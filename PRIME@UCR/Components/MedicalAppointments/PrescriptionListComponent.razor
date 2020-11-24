@@ -7,6 +7,10 @@
     body {
         background-color: white;
     }
+
+    prescriptions {
+
+    }
 </style>
 
 <Loading IsLoading="Medpres == null">
@@ -20,8 +24,8 @@
                     @if (context.Dosis == "")
                     {
                         <label for="@context.IdRecetaMedica">Descripción</label>
-                        <textarea name="@context.IdRecetaMedica" @bind="prescription_text_area"></textarea>
-                        <button @onclick="@(() => set_prescription_dosis(context.IdRecetaMedica, context.IdCitaMedica))">Guardar</button>
+                        <textarea name="@context.IdRecetaMedica" @bind="prescription_text_area" maxlength="100"></textarea>
+                        <button type="submit" class="btn btn-primary" @onclick="@(() => set_prescription_dosis(context.IdRecetaMedica, context.IdCitaMedica))">Guardar</button>
                     }
                     else
                     {
