@@ -7,7 +7,7 @@ using PRIME_UCR.Domain.Models.Appointments;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components;
 
-namespace PRIME_UCR.Pages.Appointments
+namespace PRIME_UCR.Components.MedicalAppointments
 {
     public partial class DrugSelectorComponent
     {

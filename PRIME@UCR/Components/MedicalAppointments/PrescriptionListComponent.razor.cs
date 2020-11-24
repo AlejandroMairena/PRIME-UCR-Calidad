@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace PRIME_UCR.Pages.Appointments
+namespace PRIME_UCR.Components.MedicalAppointments
 {
     public partial class PrescriptionListComponent
     {
