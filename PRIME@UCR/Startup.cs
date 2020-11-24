@@ -46,6 +46,7 @@ using PRIME_UCR.Application.DTOs.UserAdministration;
 using System.Linq;
 using PRIME_UCR.Domain.Constants;
 using Blazored.Modal;
+using Plk.Blazor.DragDrop;
 
 namespace PRIME_UCR
 {
@@ -127,6 +128,7 @@ namespace PRIME_UCR
 
             //Modal Service
             services.AddBlazoredModal();
+            services.AddBlazorDragDrop();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
