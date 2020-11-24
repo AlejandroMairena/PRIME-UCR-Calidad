@@ -42,7 +42,14 @@ namespace PRIME_UCR.Components.Dashboard.IncidentsGraph
             await GenerateIncidentsVsDestinationLocationComponentJS();
         }
 
-
+        /*
+         *  GenerateIncidentsVsDestinationLocationComponentJS()
+         *  
+         *  Method that generates the IncidentsVsDestination Graph 
+         *  based on the incoming list from the dashboard service in which 
+         *  data is already filtered 
+         *  
+         */
         private async Task GenerateIncidentsVsDestinationLocationComponentJS()
         {
             var incidentsData = await _dashboardService.GetFilteredIncidentsList(Value);

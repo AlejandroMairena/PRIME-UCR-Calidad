@@ -41,6 +41,15 @@ namespace PRIME_UCR.Components.Dashboard.IncidentsGraph
             await GenerateIncidentsVsOriginLocationComponentJS();
         }
 
+
+        /*
+         *  GenerateIncidentsVsOriginLocationComponentJS()
+         *  
+         *  Method that generates the IncidentsVsOrigin Graph 
+         *  based on the incoming list from the dashboard service in which 
+         *  data is already filtered 
+         *  
+         */
         private async Task GenerateIncidentsVsOriginLocationComponentJS()
         {
             var countriesData = await _locationService.GetAllCountriesAsync();

@@ -39,6 +39,14 @@ namespace PRIME_UCR.Components.Dashboard.IncidentsGraph
             await GenerateColumnChart();
         }
 
+        /*
+         *  GenerateIncidentsVsTimeChartComponentJS()
+         *  
+         *  Method that generates the IncidentsVsTimeChartComponent  
+         *  based on the incoming list from the dashboard service in which 
+         *  data is already filtered 
+         *  
+         */
         private async Task GenerateColumnChart()
         {
             var incidentsData =  await _dashboardService.GetFilteredIncidentsList(Value);
