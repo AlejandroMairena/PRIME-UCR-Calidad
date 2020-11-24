@@ -71,7 +71,6 @@ namespace PRIME_UCR.Components.MedicalRecords.Tabs
         private async Task SaveMedicalBackground()
         {
             StateHasChanged();
-            LoadRecordBackgrounds();
             List<ListaAntecedentes> insertedList = new List<ListaAntecedentes>();
             ExceptBackgroundList(insertedList, _backgroundList, _currentBackgroundList);
             List<ListaAntecedentes> deletedList = new List<ListaAntecedentes>();
@@ -104,6 +103,7 @@ namespace PRIME_UCR.Components.MedicalRecords.Tabs
                 if (!stop) {
                     returnList.Add(background);
                 }
+                stop = false;
             }
         }
 
@@ -112,6 +112,8 @@ namespace PRIME_UCR.Components.MedicalRecords.Tabs
             _contAnte = new EditContext(_backgroundList);
             _saveBackgroundButtonEnabled = false;
             _contAnte.OnFieldChanged += ToggleSaveButton;
+            _backgroundList.Clear();
+            _currentBackgroundList.Clear();
             foreach (Antecedentes background in Antecedentes)
             {
                 _backgroundList.Add(background.ListaAntecedentes);
