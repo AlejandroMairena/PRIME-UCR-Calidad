@@ -70,7 +70,7 @@ namespace PRIME_UCR.Components.Dashboard.IncidentsGraph
             var parameters = new ModalParameters();
             parameters.Add(nameof(IncidentsVsTransportTypeComponentJS.Value), Value);
             parameters.Add(nameof(IncidentsVsTransportTypeComponentJS.ZoomActive), true);
-            Modal.Show<IncidentsVsTransportTypeComponentJS>("Incidente vs Modalidad de Transporte", parameters, modalOptions);
+            Modal.Show<IncidentsVsTransportTypeComponentJS>("Incidentes por medio de transporte", parameters, modalOptions);
         }
     }
 }
