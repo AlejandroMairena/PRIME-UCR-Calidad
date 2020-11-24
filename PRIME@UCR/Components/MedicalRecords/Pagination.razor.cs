@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using PRIME_UCR.Domain.Models.MedicalRecords;
 
-namespace PRIME_UCR.Pages.Records
+namespace PRIME_UCR.Components.MedicalRecords
 {
     public partial class Pagination
     {

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using PRIME_UCR.Domain.Models.MedicalRecords;
 
-namespace PRIME_UCR.Pages.Records
+namespace PRIME_UCR.Components.MedicalRecords
 {
     public partial class PaginationDropdown
     {
