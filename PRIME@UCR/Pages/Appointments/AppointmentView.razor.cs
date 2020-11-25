@@ -15,11 +15,20 @@ namespace PRIME_UCR.Pages.Appointments
 
         public bool drug_selector_active { get; set; } = true;
 
-        public bool prescription_description_not_done { get; set; } = false; 
+        public bool prescription_description_not_done { get; set; } = false;
+
+
+
+        protected override void OnInitialized()
+        {
+            medicalprescrip = new List<PoseeReceta>();
+            //await get_prescriptions();
+            base.OnInitialized();
+        }
+
 
         protected override async Task OnInitializedAsync()
         {
-            medicalprescrip = new List<PoseeReceta>(); 
             await get_prescriptions();
         }
 

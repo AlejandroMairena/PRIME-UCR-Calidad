@@ -16,6 +16,10 @@
         left: 10px; 
     }
 
+    .clickeable {
+        cursor:pointer;
+    }
+
     /*
     .light-gray-panel {
         background-color: #e6f2ff;
@@ -43,7 +47,7 @@
                         @foreach (RecetaMedica drug_ in prescriptions)
                         {
                             <tr style="transform:rotate(0);">
-                                <td scope="row" style="color:black;" @onclick="@(() => add_prescription(drug_))">@drug_.NombreReceta</td>
+                                <td scope="row" style="color:black;" class="clickeable" @onclick="@(() => add_prescription(drug_))">@drug_.NombreReceta</td>
                             </tr>
                         }
                         @*

@@ -32,15 +32,15 @@ namespace PRIME_UCR.Components.MedicalAppointments
         public async Task set_prescription_dosis(int idPrescription, int idAppointment)
         {
             await appointment_service.UpdatePrescriptionDosis(idPrescription, idAppointment, prescription_text_area);
-            get_prescriptions();
-            await NotifyChanges.InvokeAsync(true);
+            await get_prescriptions();
+            //await NotifyChanges.InvokeAsync(true);
             prescription_text_area = "";
         }
 
 
         private async Task get_prescriptions()
         {
-            await NotifyChanges.InvokeAsync(false); 
+           await NotifyChanges.InvokeAsync(false); 
             IEnumerable<PoseeReceta> records = await appointment_service.GetPrescriptionsByAppointmentId(Convert.ToInt32(AppointmentId));
             Medpres = records.ToList();
             StateHasChanged(); 
