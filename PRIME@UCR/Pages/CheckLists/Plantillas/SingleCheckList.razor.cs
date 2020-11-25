@@ -20,6 +20,18 @@ namespace PRIME_UCR.Pages.CheckLists.Plantillas
     * */
     public class SingleCheckListBase : ComponentBase
     {
+        public SingleCheckListBase()
+        {
+            details.Add("");
+            details.Add("");
+            instruct.Add("Puede editar la lista de chequeo y eliminar, editar y agregar items");
+            instruct.Add("No se pueden eliminar ni agregar items");
+            instruct.Add("Puede ser modificada y asignada a incidentes");
+            instruct.Add("No puede ser modificada ni asignada a incidentes");
+            states.Add("Estado de la plantilla: ");
+            states.Add("");
+
+        }
         [Parameter]
         public int id { get; set; }
         private int Index { get; set; } = 0;
@@ -51,6 +63,12 @@ namespace PRIME_UCR.Pages.CheckLists.Plantillas
 
         protected bool formInvalid = false;
         protected EditContext editContext;
+        // list for template state to edith checklist
+        public List<string> states = new List<string>(); 
+        // details for state
+        public List<string> details = new List<string>();
+        //array of instruction
+        public List<string> instruct = new List<string>();
 
         [Inject] protected ICheckListService MyCheckListService { get; set; }
 
@@ -95,6 +113,38 @@ namespace PRIME_UCR.Pages.CheckLists.Plantillas
             editedList.Descripcion = list.Descripcion;
             editedList.Tipo = list.Tipo;
             editedList.Orden = list.Orden;
+            updateState();
+        }
+        public void updateState()
+        {
+            if (list.Editable)
+            {
+                details[0] = "Editable";
+                details[1] = instruct[0];
+            }
+            else
+            {
+                isDisabled= true;
+                createItem = false;
+                editItem = false;
+                createSubItem = false;
+                details[0] = "No editable";
+                details[1] = instruct[1];
+            }     
+        }
+        protected async Task UpdateActive()
+        {
+            if (list.Activada== true)
+            {
+                list.Activada = false;
+            }
+            else{
+                list.Activada = true;
+                isDisabled = true;
+                createItem = false;
+                editItem = false;
+                createSubItem = false;
+            }
         }
 
         protected void HandleFieldChanged(object sender, FieldChangedEventArgs e)

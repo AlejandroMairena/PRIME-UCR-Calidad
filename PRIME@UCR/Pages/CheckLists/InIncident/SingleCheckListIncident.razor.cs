@@ -235,6 +235,7 @@ namespace PRIME_UCR.Pages.CheckLists.InIncident
                 }
                 StartTime = tempTime.ToString();
                 EndTime = "";
+                MyDuration = "_ dia(s) " + "_ hora(s) " + "_ minuto(s)"; ;
             }
             else if (0 == completedItems)
             {
@@ -243,7 +244,7 @@ namespace PRIME_UCR.Pages.CheckLists.InIncident
                 await MyCheckInstanceChechistService.UpdateInstanceChecklist(insanceLC);
                 StartTime = "";
                 EndTime = "";
-                MyDuration = "";
+                MyDuration = "_ dia(s) " + "_ hora(s) " + "_ minuto(s)"; ;
             }
         }
 
