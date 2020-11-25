@@ -12,25 +12,9 @@ namespace PRIME_UCR.Components.Dashboard
 {
     public partial class IncidentsCounterComponent
     {
-        [Inject]
-        public IDashboardService DashboardService { get; set; }
         [Parameter]
-        public bool Value { get; set; }
+        public IncidentsCounterModel Value { get; set; }
         [Parameter]
-        public EventCallback<bool> ValueChanged { get; set; }
-        public IncidentsCounterModel incidentsCounter;
-
-        protected override async Task OnInitializedAsync()
-        {
-            incidentsCounter = new IncidentsCounterModel();
-            incidentsCounter.totalIncidentsCounter = await DashboardService.GetIncidentCounterAsync(String.Empty);
-            incidentsCounter.maritimeIncidents = await DashboardService.GetIncidentCounterAsync("Marítimo");
-            incidentsCounter.airIncidentsCounter = await DashboardService.GetIncidentCounterAsync("Aéreo");
-            incidentsCounter.groundIncidentsCounter = await DashboardService.GetIncidentCounterAsync("Terrestre");
-            Value = true;
-            await ValueChanged.InvokeAsync(Value);
-
-            incidentsCounter.isReadyToShowCounters = true;
-        }
+        public EventCallback<IncidentsCounterModel> ValueChanged { get; set; }
     }
 }

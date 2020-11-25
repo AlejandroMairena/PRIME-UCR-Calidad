@@ -37,9 +37,6 @@ namespace PRIME_UCR.Components.Dashboard.IncidentsGraph
 
         private async Task GenerateColumnChart()
         {
-            var resultDB = await _dashboardService.GetFilteredIncidentsList(Value);
-            eventQuantity = resultDB.Count();
-
             var incidentsData = await _dashboardService.GetFilteredIncidentsList(Value);
             eventQuantity = incidentsData.Count();
 

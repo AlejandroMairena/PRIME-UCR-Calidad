@@ -14,7 +14,8 @@ namespace PRIME_UCR.Components.Dashboard.Filters
         [Parameter] public EventCallback OnDiscard { get; set; }
 
         private bool _changesMade = false;
-        private async Task OnPickedInitialDate(DateTime? date)
+
+        private void OnPickedInitialDate(DateTime? date)
         {
             Value._selectedInitialDate = date;
             if (date == Value.InitialDateFilter)
@@ -25,14 +26,13 @@ namespace PRIME_UCR.Components.Dashboard.Filters
             {
                 _changesMade = true;
             }
-            await ValueChanged.InvokeAsync(Value);
         }
-        private async Task OnPickedFinalDate(DateTime? date)
+
+        private void OnPickedFinalDate(DateTime? date)
         {
             Value._selectedFinalDate = date;
             if (date == Value.FinalDateFilter)
             {
-                /*              Value.ButtonEnabled = true;*/
                 _changesMade = false;
             }
         
@@ -40,22 +40,21 @@ namespace PRIME_UCR.Components.Dashboard.Filters
             {
                 _changesMade = true;
             }
-            await ValueChanged.InvokeAsync(Value);
         }
 
-        private async Task Discard()
+        private void Discard()
         {
             _changesMade = false;
             Value._selectedInitialDate = Value.InitialDateFilter;
             Value._selectedFinalDate = Value.FinalDateFilter;
-            await ValueChanged.InvokeAsync(Value);
         }
+
         private async Task Save()
         {
             StateHasChanged();
             Value.InitialDateFilter = Value._selectedInitialDate;
             Value.FinalDateFilter = Value._selectedFinalDate;
-            if (Value.InitialDateFilter != null|| Value.FinalDateFilter != null)
+            if (Value.InitialDateFilter != null || Value.FinalDateFilter != null)
             {
                 Value.ButtonEnabled = true;
             }
