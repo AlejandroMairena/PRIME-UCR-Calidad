@@ -27,6 +27,8 @@ namespace PRIME_UCR.Application.Services.Appointments
 
         Task<PoseeReceta> InsertPrescription(int idMedicalPrescription, int idMedicalAppointment);
 
-        Task<PoseeReceta> UpdatePrescriptionDosis(int idMedicalPrescription, int idMedicalAppointment, string dosis); 
+        Task<PoseeReceta> UpdatePrescriptionDosis(int idMedicalPrescription, int idMedicalAppointment, string dosis);
+
+        Task UpdateAsync(PoseeReceta prescription); 
     }
 }

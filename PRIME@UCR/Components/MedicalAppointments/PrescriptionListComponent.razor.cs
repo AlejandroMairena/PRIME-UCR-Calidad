@@ -29,9 +29,11 @@ namespace PRIME_UCR.Components.MedicalAppointments
         }
 
 
-        public async Task set_prescription_dosis(int idPrescription, int idAppointment)
+        public async Task set_prescription_dosis(int idPrescription, int idAppointment, PoseeReceta pres)
         {
-            await appointment_service.UpdatePrescriptionDosis(idPrescription, idAppointment, prescription_text_area);
+            pres.Dosis = prescription_text_area;
+            await appointment_service.UpdateAsync(pres); 
+            //await appointment_service.UpdatePrescriptionDosis(idPrescription, idAppointment, prescription_text_area);
             await get_prescriptions();
             //await NotifyChanges.InvokeAsync(true);
             prescription_text_area = "";

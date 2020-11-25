@@ -43,6 +43,10 @@ namespace PRIME_UCR.Application.Implementations.Appointments
             _drugrepo = drugrep; 
         }
 
+        public async Task UpdateAsync(PoseeReceta prescription) {
+            await _havepresc.UpdateAsync(prescription);
+        }
+
         public async Task<IEnumerable<RecetaMedica>> GetDrugsByConditionAsync(string drugname) {
             return await _drugrepo.GetByConditionAsync(e => e.NombreReceta == drugname); 
         }

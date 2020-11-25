@@ -38,7 +38,7 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Appointments
                 appId = appointment_id
             });
 
-            return null;
+            return result.FirstOrDefault();
         }
 
         public async Task<IEnumerable<PoseeReceta>> GetPrescriptionByAppointmentId(int id) {
