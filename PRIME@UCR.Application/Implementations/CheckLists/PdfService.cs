@@ -30,17 +30,19 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
                     // Add page to the PDF document
                     PdfPage page = pdfDocument.Pages.Add();
 
-                    // Create a new font
-                    PdfStandardFont titleFont = new PdfStandardFont(PdfFontFamily.TimesRoman, 16, PdfFontStyle.Bold);
-
-                    // Create a header and draw the image.
+                    // Setting the header in the pdf.
                     PdfPageTemplateElement header = SetHeader(pdfDocument, "Caja Costarricense del Seguro Social – CEACO - Unidad COV19\nNúmeros Telefónicos: 2539-1313 / 8910-6105");
 
                     pdfDocument.Template.Top = header;
 
-                    // Create a text element to draw a text in PDF page
+                    // Font used for the main title.
+                    PdfStandardFont titleFont = new PdfStandardFont(PdfFontFamily.TimesRoman, 16, PdfFontStyle.Bold);
+
+                    // Adding the main title.
                     PdfTextElement title = new PdfTextElement("PRESENTACIÓN DE PACIENTE A UNIDAD COV19", titleFont, PdfBrushes.Blue);
                     PdfLayoutResult result = title.Draw(page, new PointF(75, 0));
+
+                    // Format to follow for everything added to PDF.
                     PdfLayoutFormat format = new PdfLayoutFormat();
                     format.Layout = PdfLayoutType.Paginate;
 
@@ -68,11 +70,13 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
         {
             RectangleF rect = new RectangleF(0, 0, doc.Pages[0].GetClientSize().Width, 50);
 
-            // Create a page template
+            // Creating a template for the header.
             PdfPageTemplateElement header = new PdfPageTemplateElement(rect);
 
+            // Font used in the header.
             PdfStandardFont pdfFont = new PdfStandardFont(PdfFontFamily.TimesRoman, 12, PdfFontStyle.Regular);
 
+            // Adding the header text.
             string text = title;
             header.Graphics.DrawString(text, pdfFont, PdfBrushes.Black, new RectangleF(0, 20, doc.Pages[0].GetClientSize().Width, 50));
 
@@ -81,7 +85,9 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
 
         private PdfGrid CreateTable(int columns, int rows, List<string> headers, List<List<string>> information)
         {
+            // Margin used in the cells.
             int cellMargin = 8;
+            // Font used in the table.
             PdfStandardFont contentFont = new PdfStandardFont(PdfFontFamily.TimesRoman, 12);
 
             PdfGrid pdfGrid = new PdfGrid();
@@ -91,20 +97,24 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
             // Applying built-in style to the PDF grid
             pdfGrid.ApplyBuiltinStyle(PdfGridBuiltinStyle.GridTable4Accent1);
 
+            // Adding the columns to the table
             pdfGrid.Columns.Add(columns);
 
+            // If there are headers.
             if (headers != null)
             {
                 PdfGridRow row = pdfGrid.Rows.Add();
                 FillRow(row, columns, headers, true);
             }
 
+            // For every row of information to be put in the table.
             for (int index = 0; index < rows; index++)
             {
                 PdfGridRow row = pdfGrid.Rows.Add();
                 FillRow(row, columns, information[index], false);
             }
 
+            // Setting the table font.
             pdfGrid.Style.Font = contentFont;
 
             return pdfGrid;
@@ -112,9 +122,11 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
 
         private PdfGridRow FillRow(PdfGridRow row, int columns, List<string> information, bool header)
         {
+            // Filling one row of the table
             for (int index = 0; index < columns; index++)
             {
                 row.Cells[index].Value = information[index];
+                // If its a header, center the text.
                 if (header)
                 {
                     row.Cells[index].StringFormat.Alignment = PdfTextAlignment.Center;
