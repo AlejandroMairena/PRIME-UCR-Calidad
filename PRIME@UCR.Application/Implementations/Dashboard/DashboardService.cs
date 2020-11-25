@@ -55,6 +55,12 @@ namespace PRIME_UCR.Application.Implementations.Dashboard
         {
             return await dashboardRepository.GetAllDistrictsAsync();
         }
+        /**
+         * Method that query the list of all incidents and filter data
+         * based on the filters selected by the user 
+         * 
+         * return: Filtered List for graph creation
+         */
 
         public async  Task<List<Incidente>> GetFilteredIncidentsList(FilterModel Value)
         {
