@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PRIME_UCR.Domain.Models.Incidents;
+using PRIME_UCR.Domain.Models.UserAdministration;
 using RepoDb;
 
 namespace PRIME_UCR.Infrastructure.EntityConfiguration.Incidents
@@ -17,6 +18,11 @@ namespace PRIME_UCR.Infrastructure.EntityConfiguration.Incidents
                 .HasOne(e => e.Estado)
                 .WithMany(e => e.EstadoIncidentes)
                 .HasForeignKey(e => e.NombreEstado);
+
+            builder
+                .HasOne<CoordinadorTécnicoMédico>()
+                .WithMany()
+                .HasForeignKey(i => i.CedCoordinador);
 
             builder
                 .HasOne(e => e.Incidente)

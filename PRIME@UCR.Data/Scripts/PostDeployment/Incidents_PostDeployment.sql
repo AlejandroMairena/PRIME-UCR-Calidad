@@ -354,7 +354,7 @@ VALUES
     ('Finalizado')
 
 -- EstadoIncidente
-INSERT INTO EstadoIncidente
+INSERT INTO EstadoIncidente( CodigoIncidente, NombreEstado, FechaHora, Activo)
 VALUES
 (
 	RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) +
