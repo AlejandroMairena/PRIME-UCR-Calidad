@@ -8,11 +8,15 @@ using Microsoft.AspNetCore.Components.Authorization;
 using PRIME_UCR.Domain.Models.UserAdministration;
 using PRIME_UCR.Application.DTOs.UserAdministration;
 using Microsoft.AspNetCore.Identity;
-using Blazored.SessionStorage;
+using Blazored.LocalStorage;
 using PRIME_UCR.Application.Services.UserAdministration;
 using PRIME_UCR.Application.Repositories.UserAdministration;
 using System.Linq;
 using PRIME_UCR.Domain.Constants;
+using PRIME_UCR.Application.Services.Multimedia;
+using System.IdentityModel.Tokens.Jwt;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.Extensions.Options;
 
 namespace PRIME_UCR.Application.Implementations.UserAdministration
 {
@@ -21,7 +25,7 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
      */
     public class CustomAuthenticationStateProvider : AuthenticationStateProvider
     {
-        private readonly ISessionStorageService SessionStorageService;
+        private readonly ILocalStorageService localStorageService;
 
         protected readonly SignInManager<Usuario> SignInManager;
 
@@ -29,16 +33,25 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
 
         private readonly IAuthenticationService authenticationService;
 
+        private readonly IEncryptionService encriptionService;
+
+        private readonly JWTKeyModel keyModel;
+
+
         public CustomAuthenticationStateProvider(
-            SignInManager<Usuario> _signInManager, 
-            UserManager<Usuario> _userManager, 
-            ISessionStorageService _sessionStorageService, 
-            IAuthenticationService _authenticationService)
+            SignInManager<Usuario> _signInManager,
+            UserManager<Usuario> _userManager,
+            ILocalStorageService _localStorageService,
+            IAuthenticationService _authenticationService,
+            IEncryptionService _encriptionService,
+            IOptions<JWTKeyModel> _jwtKeyModel)
         {
             SignInManager = _signInManager;
             UserManager = _userManager;
-            SessionStorageService = _sessionStorageService;
+            localStorageService = _localStorageService;
             authenticationService = _authenticationService;
+            encriptionService = _encriptionService;
+            keyModel = _jwtKeyModel.Value;
         }
 
         /*
@@ -53,7 +66,7 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
 
             var profiles = user.UsuariosYPerfiles;
             var permissionsList = new List<Permiso>();
-            if(profiles != null && profiles.Count != 0)
+            if (profiles != null && profiles.Count != 0)
             {
                 foreach (var profile in profiles)
                 {
@@ -67,9 +80,9 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
                     }
                 }
             }
-            
+
             claimsAuthentication.Add(new Claim(ClaimTypes.Name, user.Email));
-            
+
             foreach (var permission in Enum.GetValues(typeof(AuthorizationPermissions)).Cast<AuthorizationPermissions>())
             {
                 claimsAuthentication.Add(new Claim(permission.ToString(), permissionsList.Exists(p => p.IDPermiso == (int)permission) ? "true" : "false"));
@@ -86,16 +99,20 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
         {
             var identity = new ClaimsIdentity();
 
-            var emailAddress = await SessionStorageService.GetItemAsync<string>("emailAddress");
-
-            if (emailAddress != null)
+            var token = await localStorageService.GetItemAsync<string>("token");
+            if (token != null)
             {
-                var userToRegister = await authenticationService.GetUserByEmailAsync(emailAddress);
-                var profilesAndPermissions = await authenticationService.GetAllProfilesWithDetailsAsync();
-                if(userToRegister != null && profilesAndPermissions != null)
-                    identity = GetClaimIdentity(userToRegister, profilesAndPermissions);
+                var email = ValidateJwtToken(token);
+                if (email != null)
+                {
+                    var userToRegister = await authenticationService.GetUserByEmailAsync(email);
+                    var profilesAndPermissions = await authenticationService.GetAllProfilesWithDetailsAsync();
+                    if (userToRegister != null && profilesAndPermissions != null)
+                        identity = GetClaimIdentity(userToRegister, profilesAndPermissions);
+
+                }
             }
-            
+
             var user = new ClaimsPrincipal(identity);
 
             NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(user)));
@@ -114,24 +131,30 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
             var userToCheck = await UserManager.FindByEmailAsync(logInInfo.Correo);
 
             ClaimsIdentity identity;
-            
-            if(userToCheck != null)
+
+            if (userToCheck != null)
             {
                 var loginResult = await SignInManager.CheckPasswordSignInAsync(userToCheck, logInInfo.Contraseña, false);
 
                 if (loginResult.Succeeded)
                 {
+
+                    var token = GenerateJwtToken(logInInfo);
+                    await localStorageService.SetItemAsync<string>("token", token);
                     userToCheck = await authenticationService.GetUserWithDetailsAsync(userToCheck.Id);
                     var profilesAndPermissions = await authenticationService.GetAllProfilesWithDetailsAsync();
                     identity = GetClaimIdentity(userToCheck, profilesAndPermissions);
-                } else
+                }
+                else
                 {
                     return await Task.FromResult(false);
                 }
-            } else
+            }
+            else
             {
                 return await Task.FromResult(false);
             }
+
 
             var user = new ClaimsPrincipal(identity);
 
@@ -147,16 +170,56 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
          */
         public async Task<bool> Logout()
         {
-            await SessionStorageService.RemoveItemAsync("emailAddress");
+            await localStorageService.RemoveItemAsync("token");
 
             ClaimsIdentity identity = new ClaimsIdentity();
 
             var user = new ClaimsPrincipal(identity);
+
 
             NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(user)));
 
             return await Task.FromResult(true);
         }
 
+        public string GenerateJwtToken(LogInModel logInInfo)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes(keyModel.JWT_Key);
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new[] { new Claim("correo",logInInfo.Correo)}),
+                Expires = DateTime.UtcNow.AddHours(1),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            };
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            return tokenHandler.WriteToken(token);
+        }
+
+        public string? ValidateJwtToken(string token)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes(keyModel.JWT_Key);
+            try
+            {
+                tokenHandler.ValidateToken(token, new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    ClockSkew = TimeSpan.Zero
+                }, out SecurityToken validatedToken);
+
+                var jwtToken = (JwtSecurityToken)validatedToken;
+                var emailAddress = jwtToken.Claims.First(x => x.Type == "correo").Value;
+
+                return emailAddress;
+            }
+            catch
+            {
+                return null;
+            }
+        }
     }
 }
