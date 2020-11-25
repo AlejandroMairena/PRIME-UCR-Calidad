@@ -15,29 +15,22 @@ using System.Threading.Tasks;
 
 namespace PRIME_UCR.Application.Implementations.UserAdministration
 {
-    public partial class NumeroTelefonoService : INumeroTelefonoService
+    public class NumeroTelefonoService : INumeroTelefonoService
     {
         private readonly INumeroTelefonoRepository numeroTelefonoRepository;
 
-        private readonly IPrimeSecurityService primeSecurityService;
 
-        public NumeroTelefonoService(INumeroTelefonoRepository _numeroTelefonoRepository,
-            IPrimeSecurityService _primeSecurityService)
+        public NumeroTelefonoService(INumeroTelefonoRepository _numeroTelefonoRepository)
         {
             numeroTelefonoRepository = _numeroTelefonoRepository;
-            primeSecurityService = _primeSecurityService;
         }
 
         public async Task<int> AddNewPhoneNumberAsync(string idUser, string phoneNumber)
         {
-            await primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             NúmeroTeléfono userPhoneNumber = new NúmeroTeléfono();
             userPhoneNumber.CedPersona = idUser;
             userPhoneNumber.NúmeroTelefónico = phoneNumber;
             return await numeroTelefonoRepository.AddPhoneNumberAsync(userPhoneNumber);
         }
     }
-
-    [MetadataType(typeof(NumeroTelefonoServiceAuthorization))]
-    public partial class NumeroTelefonoService { }
 }
