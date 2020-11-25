@@ -38,7 +38,8 @@ namespace PRIME_UCR.Components.Multimedia
         protected override void OnInitialized()
         {
             // add CloseComponent method to OnModalClosed event
-            MultimediaModal.OnModalClosed += CloseComponent;
+            if (MultimediaModal != null)
+                MultimediaModal.OnModalClosed += CloseComponent;
         }
 
         // Open Close Camera Button Code
@@ -75,12 +76,13 @@ namespace PRIME_UCR.Components.Multimedia
         async Task CloseComponent()
         {
             await CloseCamera();
-            MultimediaModal.OnModalClosed -= CloseComponent;
+            if (MultimediaModal != null)
+                MultimediaModal.OnModalClosed -= CloseComponent;
         }
 
-        void OnTitleChanged(bool error)
+        void OnTitleChanged(Tuple<bool, string> tuple)
         {
-            validTitle = !error;
+            validTitle = !tuple.Item1;
         }
 
     }

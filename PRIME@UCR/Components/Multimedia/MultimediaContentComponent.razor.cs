@@ -231,7 +231,7 @@ namespace PRIME_UCR.Components.Multimedia
             showVideo = false;
             modalMContent = mcontent;
             showVideoComponent = false;
-            showTextComponent = false;
+            //showTextComponent = false;
         }
         void OpenVideo(MultimediaContent mcontent) {
             showModal = true;
@@ -274,20 +274,20 @@ namespace PRIME_UCR.Components.Multimedia
             showTextComponent = false;
         }
 
-        void OpenTextComponent()
-        {
-            showModal = true;
-            showCamera = false;
-            showAudio = false;
-            showImage = false;
-            showMicrophone = false;
-            showText = false;
-            showVideo = false;
-            modalMContent = null;
-            showVideo = false;
-            showVideoComponent = false;
-            showTextComponent = true;
-        }
+        //void OpenTextComponent()
+        //{
+        //    showModal = true;
+        //    showCamera = false;
+        //    showAudio = false;
+        //    showImage = false;
+        //    showMicrophone = false;
+        //    showText = false;
+        //    showVideo = false;
+        //    modalMContent = null;
+        //    showVideo = false;
+        //    showVideoComponent = false;
+        //    showTextComponent = true;
+        //}
 
         async Task DeleteMultimediaContent(MultimediaContent mcontent)
         {

@@ -9,12 +9,15 @@ namespace PRIME_UCR.Components.Multimedia
 {
     public partial class MultimediaTitleComponent
     {
+        [Parameter]
         public string Title { get; set; } = "";
+        [Parameter]
+        public bool Disabled { get; set; }
         public bool Error { get; set; }
         public string ErrorMessage = "";
 
         [Parameter]
-        public EventCallback<bool> OnTitleChanged { get; set; }
+        public EventCallback<Tuple<bool, string>> OnTitleChanged { get; set; }
 
         public async Task OnChange(ChangeEventArgs e)
         {
@@ -33,7 +36,7 @@ namespace PRIME_UCR.Components.Multimedia
             {
                 Error = true;
             }
-            await OnTitleChanged.InvokeAsync(Error);
+            await OnTitleChanged.InvokeAsync(new Tuple<bool, string>(Error, Title));
             
         }
 

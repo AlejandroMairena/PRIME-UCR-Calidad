@@ -25,19 +25,20 @@ namespace PRIME_UCR.Components.Multimedia
         protected override void OnInitialized()
         {
             // add CloseComponent method to OnModalClosed event
-            MultimediaModal.OnModalClosed += CloseComponent;
+            if (MultimediaModal != null)
+                MultimediaModal.OnModalClosed += CloseComponent;
         }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             // call JS code to initialize Element References
-            await JS.InvokeAsync<bool>("videoInit", startButton, videoPreview, recordedVideo, downloadButton, stopButton);
+            //await JS.InvokeAsync<bool>("videoInit", startButton, videoPreview, recordedVideo, downloadButton, stopButton);
         }
 
         async Task CloseComponent()
         {
-            //await CloseCamera();
-            MultimediaModal.OnModalClosed -= CloseComponent;
+            if (MultimediaModal != null)
+                MultimediaModal.OnModalClosed -= CloseComponent;
         }
 
     }
