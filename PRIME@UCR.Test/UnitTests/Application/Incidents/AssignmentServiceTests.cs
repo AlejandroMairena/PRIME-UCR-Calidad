@@ -15,6 +15,7 @@ using NuGet.Frameworks;
 using PRIME_UCR.Domain.Models;
 using Castle.DynamicProxy.Generators;
 using Microsoft.AspNetCore.DataProtection;
+using PRIME_UCR.Application.Permissions.Incidents;
 
 namespace PRIME_UCR.Test.UnitTests.Application.Incidents
 {
@@ -26,7 +27,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
             var mockRepo = new Mock<ITransportUnitRepository>();
             mockRepo.Setup(p => p.GetAllTransporUnitsByMode(String.Empty))
                 .Returns(Task.FromResult<IEnumerable<UnidadDeTransporte>>(new List<UnidadDeTransporte>()));
-            var assignmentService = new AssignmentService(mockRepo.Object, null, null, null, null, new AuthorizationMock().Object);
+            var assignmentService = new SecureAssignmentService(mockRepo.Object, null, null, null, null, new AuthorizationMock().Object);
             var result = await assignmentService.GetAllTransportUnitsByMode(String.Empty);
             Assert.Empty(result);
         }
@@ -49,7 +50,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
                     p.GetAllTransporUnitsByMode("Accion"))
                         .Returns(Task.FromResult<IEnumerable<UnidadDeTransporte>>(MyList)
                 );
-            var assignmentService = new AssignmentService(mockRepo.Object, null, null, null, null, new AuthorizationMock().Object);
+            var assignmentService = new SecureAssignmentService(mockRepo.Object, null, null, null, null, new AuthorizationMock().Object);
             var result = await assignmentService.GetAllTransportUnitsByMode("Accion");
             Assert.NotEmpty(result);
             Assert.Equal(MyList, result.ToList());
@@ -86,7 +87,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
                 .Returns(Task.FromResult<UnidadDeTransporte>(TUnit));
             mockRepo3.Setup(p => p.GetAssignmentsByIncidentIdAsync(incident.Codigo))
                 .Returns(Task.FromResult<IEnumerable<EspecialistaTécnicoMédico>>(specialist));
-            var assignmentService = new AssignmentService(mockRepo2.Object, mockRepo1.Object, null, mockRepo3.Object, mockRepo.Object, new AuthorizationMock().Object);
+            var assignmentService = new SecureAssignmentService(mockRepo2.Object, mockRepo1.Object, null, mockRepo3.Object, mockRepo.Object, new AuthorizationMock().Object);
             var result = await assignmentService.GetAssignmentsByIncidentIdAsync(incident.Codigo);
             Assert.Equal(incident.MatriculaTrans, result.TransportUnit.Matricula);
         }
@@ -97,7 +98,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
             var mockRepo = new Mock<IIncidentRepository>();
             mockRepo.Setup(p => p.GetByKeyAsync(String.Empty))
                 .Returns(Task.FromResult<Incidente>(null));
-            var assignmentService = new AssignmentService(null, null, null, null, mockRepo.Object, new AuthorizationMock().Object);
+            var assignmentService = new SecureAssignmentService(null, null, null, null, mockRepo.Object, new AuthorizationMock().Object);
             await Assert.ThrowsAsync<ArgumentException>(() => assignmentService.GetAssignmentsByIncidentIdAsync(String.Empty));
         }
 
@@ -112,7 +113,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
                     p.GetAllAsync()).
                         Returns(Task.FromResult<IEnumerable<CoordinadorTécnicoMédico>>(new List<CoordinadorTécnicoMédico>())
                 );
-            var AssignmentService = new AssignmentService(null, mockRepo.Object, null, null, null, new AuthorizationMock().Object);
+            var AssignmentService = new SecureAssignmentService(null, mockRepo.Object, null, null, null, new AuthorizationMock().Object);
             var result = await AssignmentService.GetCoordinatorsAsync();
             Assert.Empty(result);
         }
@@ -135,7 +136,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
                     p.GetAllAsync())
                         .Returns(Task.FromResult<IEnumerable<CoordinadorTécnicoMédico>>(MyList)
                 );
-            var AssignmentService = new AssignmentService(null, mockRepo.Object, null, null, null, new AuthorizationMock().Object);
+            var AssignmentService = new SecureAssignmentService(null, mockRepo.Object, null, null, null, new AuthorizationMock().Object);
             var result = await AssignmentService.GetCoordinatorsAsync();
             Assert.NotEmpty(result);
             Assert.Equal(MyList, result.ToList());
@@ -173,7 +174,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
                     new EspecialistaTécnicoMédico{ Cédula = "123456789" }
                 }
             };
-            var AssignmentService = new AssignmentService(null, null, null, AssignmentRepo.Object, IncidentRepo.Object, new AuthorizationMock().Object);
+            var AssignmentService = new SecureAssignmentService(null, null, null, AssignmentRepo.Object, IncidentRepo.Object, new AuthorizationMock().Object);
             await AssignmentService.AssignToIncidentAsync(ParameterCode, ParameterModel);
         }
 
@@ -187,7 +188,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
                     p.GetAllAsync()).
                         Returns(Task.FromResult<IEnumerable<EspecialistaTécnicoMédico>>(new List<EspecialistaTécnicoMédico>())
                 );
-            var AssignmentService = new AssignmentService(null, null, mockRepo.Object, null, null, new AuthorizationMock().Object);
+            var AssignmentService = new SecureAssignmentService(null, null, mockRepo.Object, null, null, new AuthorizationMock().Object);
             var result = await AssignmentService.GetSpecialistsAsync();
             Assert.Empty(result);
         }
@@ -210,7 +211,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
                     p.GetAllAsync())
                         .Returns(Task.FromResult<IEnumerable<EspecialistaTécnicoMédico>>(MyList)
                 );
-            var AssignmentService = new AssignmentService(null, null, mockRepo.Object, null, null, new AuthorizationMock().Object);
+            var AssignmentService = new SecureAssignmentService(null, null, mockRepo.Object, null, null, new AuthorizationMock().Object);
             var result = await AssignmentService.GetSpecialistsAsync();
             Assert.NotEmpty(result);
             Assert.Equal(MyList, result.ToList());
@@ -258,7 +259,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
                 .Returns(Task.FromResult<IEnumerable<EspecialistaTécnicoMédico>>(specialist));
 
             // call to service
-            var AssignmentService = new AssignmentService(TransportRepo.Object, CoordinatorRepo.Object, null, AssignmentRepo.Object, IncidentRepo.Object, new AuthorizationMock().Object);
+            var AssignmentService = new SecureAssignmentService(TransportRepo.Object, CoordinatorRepo.Object, null, AssignmentRepo.Object, IncidentRepo.Object, new AuthorizationMock().Object);
             var result = await AssignmentService.IsAuthorizedToViewPatient(incident.Codigo, incident.CedulaTecnicoCoordinador);
             Assert.True(result);
         }
@@ -304,7 +305,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
                 .Returns(Task.FromResult<IEnumerable<EspecialistaTécnicoMédico>>(specialists));
 
             // call to service
-            var AssignmentService = new AssignmentService(TransportRepo.Object, CoordinatorRepo.Object, null, AssignmentRepo.Object, IncidentRepo.Object, new AuthorizationMock().Object);
+            var AssignmentService = new SecureAssignmentService(TransportRepo.Object, CoordinatorRepo.Object, null, AssignmentRepo.Object, IncidentRepo.Object, new AuthorizationMock().Object);
             var result = await AssignmentService.IsAuthorizedToViewPatient(incident.Codigo, specialist.Cédula);
             Assert.True(result);
         }
@@ -347,7 +348,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
                 .Returns(Task.FromResult<IEnumerable<EspecialistaTécnicoMédico>>(specialists));
 
             // call to service
-            var AssignmentService = new AssignmentService(TransportRepo.Object, CoordinatorRepo.Object, null, AssignmentRepo.Object, IncidentRepo.Object, new AuthorizationMock().Object);
+            var AssignmentService = new SecureAssignmentService(TransportRepo.Object, CoordinatorRepo.Object, null, AssignmentRepo.Object, IncidentRepo.Object, new AuthorizationMock().Object);
             var result = await AssignmentService.IsAuthorizedToViewPatient(incident.Codigo, "Cedula invalida");
             Assert.False(result);
         }
@@ -394,7 +395,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
                 .Returns(Task.FromResult<IEnumerable<EspecialistaTécnicoMédico>>(specialist));
 
             // call to service
-            var AssignmentService = new AssignmentService(TransportRepo.Object, CoordinatorRepo.Object, null, AssignmentRepo.Object, IncidentRepo.Object, new AuthorizationMock().Object);
+            var AssignmentService = new SecureAssignmentService(TransportRepo.Object, CoordinatorRepo.Object, null, AssignmentRepo.Object, IncidentRepo.Object, new AuthorizationMock().Object);
             var result = await AssignmentService.IsAuthorizedToViewPatient(incident.Codigo, destinationDoctor.Cédula);
             Assert.True(result);
         }
@@ -415,7 +416,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
                 .Returns(Task.FromResult(expected));
 
 
-            var AssignmentService = new AssignmentService(null, null, null, null, _MockIncidentRepository.Object, new AuthorizationMock().Object);
+            var AssignmentService = new SecureAssignmentService(null, null, null, null, _MockIncidentRepository.Object, new AuthorizationMock().Object);
 
 
             // act
@@ -440,7 +441,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
                 .Returns(Task.FromResult(expected));
 
 
-            var assignmentService = new AssignmentService(null, null, null, null, _MockIncidentRepository.Object, new AuthorizationMock().Object);
+            var assignmentService = new SecureAssignmentService(null, null, null, null, _MockIncidentRepository.Object, new AuthorizationMock().Object);
 
 
             // act

@@ -16,27 +16,18 @@ using System.Threading.Tasks;
 
 namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
 {
-    public partial class FuncionarioRepository : IFuncionarioRepository
+    internal class FuncionarioRepository : IFuncionarioRepository
     {
-        private readonly IPrimeSecurityService primeSecurityService;
-
         private readonly ISqlDataProvider _db;
-        public FuncionarioRepository(ISqlDataProvider dataProvider, IPrimeSecurityService _primeSecurityService) 
+
+        public FuncionarioRepository(ISqlDataProvider dataProvider) 
         {
             _db = dataProvider;
-            primeSecurityService = _primeSecurityService;
         }
 
         public async Task<List<Funcionario>> GetAllAsync()
         {
-            await primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             return await _db.Functionaries.ToListAsync();
-
         }
-    }
-
-    [MetadataType(typeof(FuncionarioRepositoryAuthorization))]
-    public partial class FuncionarioRepository
-    {
     }
 }
