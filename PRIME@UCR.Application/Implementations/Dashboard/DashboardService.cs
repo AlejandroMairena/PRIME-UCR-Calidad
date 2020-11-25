@@ -40,10 +40,10 @@ namespace PRIME_UCR.Application.Implementations.Dashboard
             medicalCenterRepository = _medicalCenterRepository;
         }
 
-        public async Task<int> GetIncidentCounterAsync(string modality)
+        public async Task<int> GetIncidentCounterAsync(string modality, string filter)
         {
             await primeSecurity.CheckIfIsAuthorizedAsync(this.GetType());
-            return await dashboardRepository.GetIncidentsCounterAsync(modality);
+            return await dashboardRepository.GetIncidentsCounterAsync(modality, filter);
         }
 
         public async Task<List<Incidente>> GetAllIncidentsAsync()

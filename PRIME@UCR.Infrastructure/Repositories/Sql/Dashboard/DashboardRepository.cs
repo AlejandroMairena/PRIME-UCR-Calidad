@@ -30,7 +30,7 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Dashboard
             primeSecurity = securityService;
         }
 
-        public async Task<int> GetIncidentsCounterAsync(string modality)
+        public async Task<int> GetIncidentsCounterAsync(string modality, string filter)
         {
             await primeSecurity.CheckIfIsAuthorizedAsync(this.GetType());
             var result = 0;
@@ -45,7 +45,7 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Dashboard
                     if (cmd.Connection.State == System.Data.ConnectionState.Open)
                     {
                         cmd.CommandText =
-                            $"EXECUTE dbo.GetIncidentsCounter @modality='{modality}'";
+                            $"EXECUTE dbo.GetIncidentsCounter @modality='{modality}' , @filter='{filter}'";
 
                         var dbResult = cmd.ExecuteScalar();
                         result = int.Parse(dbResult.ToString());
