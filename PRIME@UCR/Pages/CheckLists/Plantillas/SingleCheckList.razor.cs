@@ -240,5 +240,69 @@ namespace PRIME_UCR.Pages.CheckLists.Plantillas
             int maxLength = lines * (65 - level * 5);
             return text.Length <= maxLength ? text : text.Substring(0, maxLength) + "...";
         }
+
+        public int startingIndex = -1;
+        protected void StartDrag(Item item)
+        {
+            startingIndex = orderedList.FindIndex(i => i.Id == item.Id);
+        }
+
+        // Updates the order of the items
+        protected async Task ReorderItems(Item item, int oldIndex, int newIndex)
+        {
+            int startingIndexReorder = -1;
+            int endingIndexReorder = -1;
+            int shiftOrder = 1;
+
+            // Checks if the item was placed above or bellow its origial position
+            if (newIndex + 1 < orderedList.Count() && orderedList[newIndex + 1].Orden < item.Orden)
+            {
+                startingIndexReorder = newIndex + 1;
+                endingIndexReorder = oldIndex;
+                item.Orden = orderedList[newIndex + 1].Orden;
+            }
+            else if (newIndex - 1 >= 0 && orderedList[newIndex - 1].Orden > item.Orden)
+            {
+                shiftOrder = -1;
+                endingIndexReorder = newIndex - 1;
+                startingIndexReorder = oldIndex;
+                item.Orden = orderedList[newIndex - 1].Orden;
+            }
+
+            await MyCheckListService.UpdateItem(item);
+
+            Item TempItem;
+            for (int index = startingIndexReorder; 0 <= index && index < orderedList.Count() && index <= endingIndexReorder; ++index)
+            {
+                TempItem = orderedList[index];
+                if (TempItem.IDSuperItem == item.IDSuperItem)
+                {
+                    TempItem.Orden += shiftOrder;
+                    await MyCheckListService.UpdateItem(TempItem);
+                }
+            }
+
+            await RefreshModels();
+            StateHasChanged();
+        }
+
+        public int endingIndex = -1;
+        protected async void Drop(Item item)
+        {
+            if (item != null)
+            {
+                endingIndex = orderedList.FindIndex(i => i.Id == item.Id);
+
+                if (endingIndex == startingIndex) return; // Item is in the same position
+
+                // check for parent
+                Item draggedItem = orderedList[startingIndex];
+
+                orderedList.RemoveAt(startingIndex);
+                orderedList.Insert(endingIndex, item);
+
+                await ReorderItems(draggedItem, startingIndex, endingIndex);
+            }
+        }
     }
 }

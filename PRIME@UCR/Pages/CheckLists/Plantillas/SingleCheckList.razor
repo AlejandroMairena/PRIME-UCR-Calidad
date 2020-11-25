@@ -7,7 +7,6 @@
 @attribute [HasPermission(AuthorizationPermissions.CanCreateChecklist)]
 <link href="css/Checklist.css" rel="stylesheet" />
 
-@using Plk.Blazor.DragDrop
 <h3>Plantillas de listas de chequeo</h3>
 <hr />
 <Loading IsLoading="lists == null">
@@ -96,16 +95,15 @@
                             <p>No se ha creado ningún item para esta lista de chequeo. Presione el botón de crear item para agregarle un item.</p> }
                         else
                         {
-                            <RadzenTree Data=@coreItems Style="width: 100%">
+                            <RadzenTree Data=@coreItems ondragover="event.preventDefault();" Style="width: 100%">
                                 <RadzenTreeLevel TextProperty="Nombre" ChildrenProperty="SubItems" HasChildren=@(i => (i as PRIME_UCR.Domain.Models.CheckLists.Item).SubItems.Any())>
                                         <Template>
                                             @{ 
                                                 PRIME_UCR.Domain.Models.CheckLists.Item itemInList = (context.Value as PRIME_UCR.Domain.Models.CheckLists.Item);
                                                 int itemIndex = orderedListLevel[getItemIndex(itemInList)];
                                                 string style = orderedListLevel[itemIndex] * 2 + "em";
-                                                // <strong draggable="true">@((context.Value as PRIME_UCR.Domain.Models.CheckLists.Item).Nombre)</strong>
                                             }
-                                            <table class="checklist-table table" draggable="true">
+                                            <table class="checklist-table table" draggable="true" @ondrop="@(()=> Drop(itemInList))" @ondrag="@(()=> StartDrag(itemInList))">
                                     @* Contains information about every item in this checklist *@
                                     <tbody>
                                         <tr>
@@ -125,7 +123,7 @@
                                                 </div>
                                             </td>
 
-                                            <th class="align-middle" data-toggle="tooltip" title="@itemInList.Nombre">@truncate(itemInList.Nombre, orderedListLevel[itemIndex], 1)</th>
+                                            <th class="align-middle" data-toggle="tooltip" title="@itemInList.Nombre">@itemInList.Orden @truncate(itemInList.Nombre, orderedListLevel[itemIndex], 1)</th>
                                             <td rowspan="2" class="align-middle" align="right" style="width: 54px">
                                                 @* Drop down button to show additional options *@
                                                 <button type="button" class="btn btn-default " data-toggle="dropdown">
@@ -163,11 +161,11 @@
                                         </Template>
                                 </RadzenTreeLevel>
                             </RadzenTree>
-                            @for (int itemIndex = 0; itemIndex < orderedList.Count(); itemIndex++)
+                            /*@for (int itemIndex = 0; itemIndex < orderedList.Count(); itemIndex++)
                             {
                                 PRIME_UCR.Domain.Models.CheckLists.Item itemInList = orderedList[itemIndex];
                                 string style = orderedListLevel[itemIndex] * 2 + "em";
-                                <table class="table">
+                                <table class="table table-hover">
                                     @* Contains information about every item in this checklist *@
                                     <tbody>
                                         <tr>
@@ -222,7 +220,7 @@
                                         }
                                     </tbody>
                                 </table>
-                            }
+                            }*/
                         }
                     }
                     <hr />

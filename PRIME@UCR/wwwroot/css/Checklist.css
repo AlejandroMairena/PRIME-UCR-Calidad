@@ -324,7 +324,7 @@ div#All_LC {
 
 .checklist-table {
     margin: 0;
-    order: 1;
+    order: 3;
 }
 
 .checklist-table>tbody>tr>td, .checklist-table>tbody>tr>th {
@@ -333,4 +333,18 @@ div#All_LC {
 
 .ui-tree-toggler {
     order: 2;
+}
+
+/*.ui-tree-toggler.pi-caret-right:before {
+    content: none;
+}*/
+
+.ui-treenode-content-selected {
+    background-color: rgba(0,0,0,.075);
+}
+
+.ui-treenode-content:not(.ui-treenode-content-selected):hover {
+    background-color: rgba(0,0,0,.075);
+    color: #ffffff;
+    border-radius: 2px;
 }
