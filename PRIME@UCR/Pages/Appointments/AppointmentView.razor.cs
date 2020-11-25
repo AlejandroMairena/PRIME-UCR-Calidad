@@ -13,6 +13,10 @@ namespace PRIME_UCR.Pages.Appointments
 
         public List<PoseeReceta> medicalprescrip { get; set; }
 
+        public bool drug_selector_active { get; set; } = true;
+
+        public bool prescription_description_not_done { get; set; } = false; 
+
         protected override async Task OnInitializedAsync()
         {
             medicalprescrip = new List<PoseeReceta>(); 
@@ -20,16 +24,25 @@ namespace PRIME_UCR.Pages.Appointments
         }
 
 
+        private async Task updateChanges(bool action) {
+
+            prescription_description_not_done = false;
+            drug_selector_active = true;
+            await get_prescriptions(); 
+        }
+
         private async Task get_prescriptions()
         {
             IEnumerable<PoseeReceta> records = await appointment_service.GetPrescriptionsByAppointmentId(Convert.ToInt32(id));
             medicalprescrip = records.ToList();
-
+            StateHasChanged();
         }
 
         private async Task updatelist(bool f) {
+            //tengo que esperar a que se agregue la descripción. 
+            drug_selector_active = false; 
+            await get_prescriptions();
             StateHasChanged();
-            await get_prescriptions(); 
         }
     }
 }

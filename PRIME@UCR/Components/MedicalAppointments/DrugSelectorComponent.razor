@@ -74,8 +74,12 @@
             <StatusMessage Message="El medicamento seleccionado ya existe" Class="warning"></StatusMessage>
         }
 
+            <button type="submit" class="btn btn-primary mt-4 mb-4" @onclick="ShowDrugSelector">Agregar prescripción</button>
+        
+        @if(Description_not_done) { 
+            <StatusMessage Message="Debe agregar una descripción al medicamento anterior" Class="warning"></StatusMessage>
+        }
 
-        <button type="submit" class="btn btn-primary mt-4 mb-4" @onclick="ShowDrugSelector">Agregar prescripción</button>
     }
 
 

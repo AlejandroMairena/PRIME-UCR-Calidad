@@ -19,11 +19,11 @@
 
 
 <div class="prescription_list">
-    <PrescriptionListComponent AppointmentId="@id" Medpres="medicalprescrip"></PrescriptionListComponent>
+    <PrescriptionListComponent AppointmentId="@id" NotifyChanges="updateChanges" Medpres="medicalprescrip"></PrescriptionListComponent>
 </div>
 
 
 <div class="drugselector">
-    <DrugSelectorComponent IdMedicalPrescription="@id" UpdateList="updatelist"></DrugSelectorComponent>
+    <DrugSelectorComponent IdMedicalPrescription="@id" Active="drug_selector_active" Description_not_done="prescription_description_not_done" UpdateList="updatelist"></DrugSelectorComponent>
 </div>
 

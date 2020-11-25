@@ -21,7 +21,7 @@
 
             <Column TableItem="PoseeReceta" Title="Prescripción" Field="@(x => x.Dosis)" Width="20%">
                 <Template>
-                    @if (context.Dosis == "")
+                    @if (String.Equals(context.Dosis, ""))
                     {
                         <label for="@context.IdRecetaMedica">Descripción</label>
                         <textarea name="@context.IdRecetaMedica" @bind="prescription_text_area" maxlength="100"></textarea>

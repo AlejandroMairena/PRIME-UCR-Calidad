@@ -19,6 +19,9 @@ namespace PRIME_UCR.Components.MedicalAppointments
         [Parameter] public string IdMedicalPrescription { get; set; }
 
         [Parameter] public EventCallback<bool> UpdateList { get; set; }
+        [Parameter] public bool Active { get; set; }
+
+        [Parameter] public bool Description_not_done { get; set; }
 
         public int start_show_record { get; set; } = 0;
 
@@ -90,7 +93,13 @@ namespace PRIME_UCR.Components.MedicalAppointments
 
         public void ShowDrugSelector()
         {
-            add_prescription_selected = true;
+            if (Active)
+            {
+                add_prescription_selected = true;
+            }
+            else {
+                Description_not_done = true; 
+            }
         }
 
 
