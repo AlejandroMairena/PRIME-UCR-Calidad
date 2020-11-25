@@ -1,0 +1,40 @@
+﻿@using PRIME_UCR.Domain.Constants;
+
+<div class="container horizontal-scrollable">
+    <div class="row table-responsive" width="100%">
+        <table class="table" width="100%">
+            <tbody>
+                <RadzenMenu>
+                    @for (var index = 0; index < States.List.Count; ++index)
+                    {
+                        <div class="text-center">
+                            <svg width="1em" height="1em" viewBox="0 0 16 16" class="@setProgressIndicator(index)" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
+                            </svg>
+                            @if (index < CurrentStateIndex)
+                            {
+                                <span data-toggle="tooltip" title="Completado">
+                                    <RadzenMenuItem Text=@States.List[index].Item2 class="@setStateColor(index)" />
+                                </span>
+                            }
+                            else if (index > CurrentStateIndex)
+                            {
+                                <span data-toggle="tooltip" title="Pendiente">
+                                    <RadzenMenuItem Text=@States.List[index].Item2 class="@setStateColor(index)" />
+                                </span>
+                            }
+                            else
+                            {
+                                <span data-toggle="tooltip" title="En progreso">
+                                    <RadzenMenuItem Text=@States.List[index].Item2 class="@setStateColor(index)" />
+                                </span>
+                            }
+
+                        </div>
+                    }
+                </RadzenMenu>
+            </tbody>
+        </table>
+    </div>
+</div>
+<br />
