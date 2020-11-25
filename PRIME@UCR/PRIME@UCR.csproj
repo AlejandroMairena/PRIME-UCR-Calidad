@@ -26,6 +26,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="OsmApiClient" Version="0.0.6" />
     <PackageReference Include="Radzen.Blazor" Version="2.15.17" />
   </ItemGroup>
 
