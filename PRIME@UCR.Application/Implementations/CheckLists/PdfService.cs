@@ -15,91 +15,160 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
 {
     public class PdfService : IPdfService
     {
-        private PdfStandardFont font;
-        private int paragraphAfterSpacing;
-        PdfLayoutFormat format;
-
         public PdfService()
         {
-            font = new PdfStandardFont(PdfFontFamily.TimesRoman, 16);
-            paragraphAfterSpacing = 8;
-            format = new PdfLayoutFormat();
         }
 
-        public async Task GenerateIncidentPdf(PdfModel information)
+        public MemoryStream GenerateIncidentPdf(/*PdfModel information*/)
         {
-            if (information.Incident != null) 
+            if (/*information.Incident != null*/true) 
             {
                 using (PdfDocument pdfDocument = new PdfDocument()) 
                 {
+                    int paragraphAfterSpacing = 8;
+
+                    // Add page to the PDF document
                     PdfPage page = pdfDocument.Pages.Add();
 
-                    // Fonts
-                    PdfStandardFont titleFont = new PdfStandardFont(PdfFontFamily.TimesRoman, 20);
+                    // Create a new font
+                    PdfStandardFont titleFont = new PdfStandardFont(PdfFontFamily.TimesRoman, 16, PdfFontStyle.Bold);
 
-                    // Table format
+                    // Create a header and draw the image.
+                    PdfPageTemplateElement header = SetHeader(pdfDocument, "Caja Costarricense del Seguro Social – CEACO - Unidad COV19\nNúmeros Telefónicos: 2539-1313 / 8910-6105");
+
+                    pdfDocument.Template.Top = header;
+
+                    // Create a text element to draw a text in PDF page
+                    PdfTextElement title = new PdfTextElement("PRESENTACIÓN DE PACIENTE A UNIDAD COV19", titleFont, PdfBrushes.Blue);
+                    PdfLayoutResult result = title.Draw(page, new PointF(75, 0));
+                    PdfLayoutFormat format = new PdfLayoutFormat();
                     format.Layout = PdfLayoutType.Paginate;
 
-                    // Header
-                    SetHeader(pdfDocument);
 
-                    // Set the page title
-                    PdfTextElement title = new PdfTextElement("PRESENTANCIÓN DE PACIENTE A UNIDAD COV19", titleFont, PdfBrushes.Black);
-                    PdfLayoutResult result = title.Draw(page, new PointF(0, 0));
+                    AddGeneralInformation(pdfDocument, result, page, format, paragraphAfterSpacing);
 
-                    // General Information
-                    SetGeneralInformation(page, result);
 
-                    // Covid Unit Transfer Unit
-                    SetCovidUnitInformation(page, result);
+                    using (MemoryStream stream = new MemoryStream())
+                    {
+                        // Saving the PDF document into the stream
+                        pdfDocument.Save(stream);
+                        // Closing the PDF document
+                        pdfDocument.Close(true);
+                        return stream;
+
+                    }
                 }
+            } else
+            {
+                return null;
             }
         }
 
-        public void SetHeader(PdfDocument document)
+        public PdfPageTemplateElement SetHeader(PdfDocument doc, string title)
         {
-            // Set the header.
-            RectangleF bounds = new RectangleF(0, 0, document.Pages[0].GetClientSize().Width, 50);
-            PdfPageTemplateElement header = new PdfPageTemplateElement(bounds);
-            // Load the header image.
-            FileStream imageStream = new FileStream("Logo.png", FileMode.Open, FileAccess.Read);
-            PdfImage image = new PdfBitmap(imageStream);
-            header.Graphics.DrawImage(image, new PointF(0, 0), new SizeF(100, 50));
-            document.Template.Top = header;
+            RectangleF rect = new RectangleF(0, 0, doc.Pages[0].GetClientSize().Width, 50);
+
+            // Create a page template
+            PdfPageTemplateElement header = new PdfPageTemplateElement(rect);
+
+            PdfStandardFont pdfFont = new PdfStandardFont(PdfFontFamily.TimesRoman, 12, PdfFontStyle.Regular);
+
+            string text = title;
+            header.Graphics.DrawString(text, pdfFont, PdfBrushes.Black, new RectangleF(0, 20, doc.Pages[0].GetClientSize().Width, 50));
+
+            return header;
         }
 
-        public void SetGeneralInformation(PdfPage page, PdfLayoutResult result)
+        private PdfGrid CreateTable(int columns, int rows, List<string> headers, List<List<string>> information)
         {
-            PdfTextElement generalInformation = new PdfTextElement("INFORMACIÓN GENERAL", font, PdfBrushes.Black);
-            result = generalInformation.Draw(page, new PointF(0, result.Bounds.Bottom + paragraphAfterSpacing));
+            int cellMargin = 8;
+            PdfStandardFont contentFont = new PdfStandardFont(PdfFontFamily.TimesRoman, 12);
 
-            // Information about the doctor
-            PdfTextElement doctorString = new PdfTextElement("Datos del Médico", font, PdfBrushes.Black);
-            result = doctorString.Draw(page, new RectangleF(0, result.Bounds.Bottom + paragraphAfterSpacing, page.GetClientSize().Width, page.GetClientSize().Height), format);
             PdfGrid pdfGrid = new PdfGrid();
-            List<object> data = new List<object>();
-            Object grid1row1 = new { NombreCompleto = " ", NúmeroTelefónico = " ", LugarDeDondeLlama = " " };
-            data.Add(grid1row1);
-            IEnumerable<object> dataTable = data;
-            pdfGrid.DataSource = dataTable;
-            PdfGridLayoutResult pdfGridLayoutResult = pdfGrid.Draw(page, new PointF(10, 10));
+            pdfGrid.Style.CellPadding.Left = cellMargin;
+            pdfGrid.Style.CellPadding.Right = cellMargin;
 
-            // Information about the patient
-            PdfTextElement patientString = new PdfTextElement("Datos del Paciente", font, PdfBrushes.Black);
-            result = patientString.Draw(page, new RectangleF(0, result.Bounds.Bottom + paragraphAfterSpacing, page.GetClientSize().Width, page.GetClientSize().Height), format);
-            pdfGrid = new PdfGrid();
-            data = new List<object>();
-            Object grid2row1 = new { NombreCompleto = " ", IdDelPaciente = " ", FechaNacimiento = " ", Edad = " " };
-            data.Add(grid1row1);
-            dataTable = data;
-            pdfGrid.DataSource = dataTable;
-            pdfGridLayoutResult = pdfGrid.Draw(page, new PointF(10, pdfGridLayoutResult.Bounds.Bottom + 20));
+            // Applying built-in style to the PDF grid
+            pdfGrid.ApplyBuiltinStyle(PdfGridBuiltinStyle.GridTable4Accent1);
+
+            pdfGrid.Columns.Add(columns);
+
+            if (headers != null)
+            {
+                PdfGridRow row = pdfGrid.Rows.Add();
+                FillRow(row, columns, headers, true);
+            }
+
+            for (int index = 0; index < rows; index++)
+            {
+                PdfGridRow row = pdfGrid.Rows.Add();
+                FillRow(row, columns, information[index], false);
+            }
+
+            pdfGrid.Style.Font = contentFont;
+
+            return pdfGrid;
         }
 
-        public void SetCovidUnitInformation(PdfPage page, PdfLayoutResult result)
+        private PdfGridRow FillRow(PdfGridRow row, int columns, List<string> information, bool header)
         {
-            PdfTextElement covidNote = new PdfTextElement("NOTA TRASLADO UNIDAD COVID - NOTA MÉDICA", font, PdfBrushes.Black);
-            result = covidNote.Draw(page, new PointF(0, result.Bounds.Bottom + paragraphAfterSpacing));
+            for (int index = 0; index < columns; index++)
+            {
+                row.Cells[index].Value = information[index];
+                if (header)
+                {
+                    row.Cells[index].StringFormat.Alignment = PdfTextAlignment.Center;
+                }
+            }
+            return row;
+        }
+
+        private void AddGeneralInformation(PdfDocument doc, PdfLayoutResult result, PdfPage page, PdfLayoutFormat format, int paragraphAfterSpacing)
+        {
+            PdfStandardFont contentTitleFont = new PdfStandardFont(PdfFontFamily.TimesRoman, 12, PdfFontStyle.Bold);
+            PdfTextElement content = new PdfTextElement("INFORMACIÓN GENERAL", contentTitleFont, PdfBrushes.Black);
+
+            result = content.Draw(page, new RectangleF(175, result.Bounds.Bottom + paragraphAfterSpacing, page.GetClientSize().Width, page.GetClientSize().Height), format);
+
+            PdfTextElement medicData = new PdfTextElement("Datos del Médico", contentTitleFont, PdfBrushes.Black);
+            result = medicData.Draw(page, new RectangleF(0, result.Bounds.Bottom + paragraphAfterSpacing, page.GetClientSize().Width, page.GetClientSize().Height), format);
+
+            List<string> headers = new List<string>();
+            headers.Add("Nombre Completo");
+            headers.Add("Número telefónico");
+            headers.Add("Lugar de donde llama");
+
+            List<List<string>> information = new List<List<string>>();
+            List<string> rowInformation = new List<string>();
+            rowInformation.Add("Temp");
+            rowInformation.Add("Temp");
+            rowInformation.Add("Temp");
+            information.Add(rowInformation);
+
+            PdfGrid pdfGrid = CreateTable(3, 1, headers, information);
+
+            result = pdfGrid.Draw(page, new PointF(0, result.Bounds.Bottom + paragraphAfterSpacing));
+
+            PdfTextElement patientData = new PdfTextElement("Datos del Paciente", contentTitleFont, PdfBrushes.Black);
+            result = patientData.Draw(page, new RectangleF(0, result.Bounds.Bottom + paragraphAfterSpacing, page.GetClientSize().Width, page.GetClientSize().Height), format);
+
+            headers = new List<string>();
+            headers.Add("Nombre Completo");
+            headers.Add("ID del Paciente");
+            headers.Add("Fecha de Nacimiento");
+            headers.Add("Edad");
+
+            information = new List<List<string>>();
+            rowInformation = new List<string>();
+            rowInformation.Add("Temp");
+            rowInformation.Add("Temp");
+            rowInformation.Add("Temp");
+            rowInformation.Add("Temp");
+            information.Add(rowInformation);
+
+            pdfGrid = CreateTable(4, 1, headers, information);
+
+            result = pdfGrid.Draw(page, new PointF(0, result.Bounds.Bottom + paragraphAfterSpacing));
         }
     }
 }
