@@ -5,7 +5,7 @@
         <table class="table" width="100%">
             <tbody>
                 <RadzenMenu>
-                    @for (var index = 0; index < States.List.Count; ++index)
+                    @for (var index = 0; index < _states.List.Count; ++index)
                     {
                         <div class="text-center">
                             <svg width="1em" height="1em" viewBox="0 0 16 16" class="@setProgressIndicator(index)" xmlns="http://www.w3.org/2000/svg">
@@ -14,19 +14,19 @@
                             @if (index < CurrentStateIndex)
                             {
                                 <span data-toggle="tooltip" title="Completado">
-                                    <RadzenMenuItem Text=@States.List[index].Item2 class="@setStateColor(index)" />
+                                    <RadzenMenuItem Text=@_states.List[index].Item2 class="@setStateColor(index)" />
                                 </span>
                             }
                             else if (index > CurrentStateIndex)
                             {
                                 <span data-toggle="tooltip" title="Pendiente">
-                                    <RadzenMenuItem Text=@States.List[index].Item2 class="@setStateColor(index)" />
+                                    <RadzenMenuItem Text=@_states.List[index].Item2 class="@setStateColor(index)" />
                                 </span>
                             }
                             else
                             {
                                 <span data-toggle="tooltip" title="En progreso">
-                                    <RadzenMenuItem Text=@States.List[index].Item2 class="@setStateColor(index)" />
+                                    <RadzenMenuItem Text=@_states.List[index].Item2 class="@setStateColor(index)" />
                                 </span>
                             }
 

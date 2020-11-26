@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using PRIME_UCR.Application.Dtos.Incidents;
 using PRIME_UCR.Application.Services.Incidents;
+using PRIME_UCR.Application.Services.UserAdministration;
 using PRIME_UCR.Components.Incidents.IncidentDetails.Constants;
 using PRIME_UCR.Domain.Models.UserAdministration;
 using System;
@@ -24,14 +25,18 @@ namespace PRIME_UCR.Components.Incidents.StatePanel
         public Persona CurrentUser { get; set; }
         [Inject]
         public IIncidentService IncidentService { get; set; }
+        [Inject]
+        private IPersonService PersonService { get; set; }
 
         public string nextState;
         //Needed for StatePendingTasks component
         public List<Tuple<string, string>> PendingTasks = new List<Tuple<string, string>>();
         //Needed for StateLog component
-        private List<Tuple<DateTime, string>> StatesLog = new List<Tuple<DateTime, string>>();
+        private List<Tuple<DateTime, string>> StatesTemporaryLog = new List<Tuple<DateTime, string>>();
+        // The list to pass to State log
+        private List<Tuple<DateTime, Persona>> StatesLog = new List<Tuple<DateTime, Persona>>();
         //List of incidents
-        private IncidentStatesList States = new IncidentStatesList();
+        private readonly IncidentStatesList _states = new IncidentStatesList();
         public int currentStateIndex;
         MatButton Button2;
         BaseMatMenu Menu2;
@@ -46,10 +51,11 @@ namespace PRIME_UCR.Components.Incidents.StatePanel
         {
             _isLoading = true;
             StateHasChanged();
-            currentStateIndex = States.List.FindIndex(i => i.Item1 == Incident.CurrentState);
+            currentStateIndex = _states.List.FindIndex(i => i.Item1 == Incident.CurrentState);
             nextState = (await IncidentService.GetNextIncidentState(Incident.Code)).ToString();
             PendingTasks = await IncidentService.GetPendingTasksAsync(Incident, nextState);
-            StatesLog = await IncidentService.GetStatesLog(Incident.Code);
+            StatesTemporaryLog = await IncidentService.GetStatesLog(Incident.Code);
+            await updateLog();
             _isLoading = false;
         }
 
@@ -80,6 +86,20 @@ namespace PRIME_UCR.Components.Incidents.StatePanel
             await IncidentService.ChangeState(Incident, nextState);
             await OnSave.InvokeAsync(null);
             await LoadValues();
+        }
+
+        /*This method will create a new log, but instead of only id will have the person itself*/
+        private async Task updateLog()
+        {
+            StatesLog.Clear();
+            foreach (var state in StatesTemporaryLog)
+            {
+                try
+                {
+                    var person = await PersonService.GetPersonByCedAsync(state.Item2);
+                    StatesLog.Add(Tuple.Create(state.Item1, person));
+                } catch(Exception e) {}
+            }
         }
     }
 }

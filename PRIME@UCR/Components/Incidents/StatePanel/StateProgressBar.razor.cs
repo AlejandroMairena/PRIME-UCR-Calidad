@@ -13,7 +13,7 @@ namespace PRIME_UCR.Components.Incidents.StatePanel
         [Parameter]
         public int CurrentStateIndex { get; set; }
 
-        private IncidentStatesList States = new IncidentStatesList();
+        private readonly IncidentStatesList _states = new IncidentStatesList();
 
         public string setStateColor(int index)
         {

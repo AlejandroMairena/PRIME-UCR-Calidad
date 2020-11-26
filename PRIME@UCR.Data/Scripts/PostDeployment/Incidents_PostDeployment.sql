@@ -354,7 +354,7 @@ VALUES
     ('Finalizado')
 
 -- EstadoIncidente
-INSERT INTO EstadoIncidente( CodigoIncidente, NombreEstado, FechaHora, Activo)
+INSERT INTO EstadoIncidente( CodigoIncidente, NombreEstado, FechaHora, Activo, AprobadoPor)
 VALUES
 (
 	RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) +
@@ -367,7 +367,7 @@ VALUES
 	'-' +
 	'IT' +
 	'-' +
-	'TER', 'En proceso de creación', GETDATE(), 1
+	'TER', 'En proceso de creación', GETDATE(), 1, '67890123'
 ),
 (
 	RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) +
@@ -380,7 +380,7 @@ VALUES
 	'-' +
 	'IT' +
 	'-' +
-	'AER', 'En proceso de creación', GETDATE(), 1
+	'AER', 'En proceso de creación', GETDATE(), 1, '67890123'
 ),
 (
 	RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) + 
@@ -393,7 +393,7 @@ VALUES
 	'-' +
 	'IT' +
 	'-' +
-	'AER', 'En proceso de creación', GETDATE(), 1
+	'AER', 'En proceso de creación', GETDATE(), 1, '67890123'
 ),
 (
 	RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) + 
@@ -406,7 +406,7 @@ VALUES
 	'-' +
 	'IT' +
 	'-' +
-	'AER', 'En proceso de creación', GETDATE(), 1
+	'AER', 'En proceso de creación', GETDATE(), 1, '67890123'
 ),
 (
 	RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) + 
@@ -419,7 +419,7 @@ VALUES
 	'-' +
 	'IT' +
 	'-' +
-	'AER', 'En proceso de creación', GETDATE(), 1
+	'AER', 'En proceso de creación', GETDATE(), 1, '67890123'
 ),
 (
 	RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) + 
@@ -432,7 +432,7 @@ VALUES
 	'-' +
 	'IT' +
 	'-' +
-	'AER', 'En proceso de creación', GETDATE(), 1
+	'AER', 'En proceso de creación', GETDATE(), 1, '67890123'
 ),
 (
 	RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) + 
@@ -445,7 +445,7 @@ VALUES
 	'-' +
 	'IT' +
 	'-' +
-	'AER', 'En proceso de creación', GETDATE(), 1
+	'AER', 'En proceso de creación', GETDATE(), 1, '67890123'
 ),
 (
 	RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) + 
@@ -458,7 +458,7 @@ VALUES
 	'-' +
 	'IT' +
 	'-' +
-	'AER', 'En proceso de creación', GETDATE(), 1
+	'AER', 'En proceso de creación', GETDATE(), 1, '67890123'
 ),
 (
 	RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) + 
@@ -471,7 +471,7 @@ VALUES
 	'-' +
 	'IT' +
 	'-' +
-	'AER', 'En proceso de creación', GETDATE(), 1
+	'AER', 'En proceso de creación', GETDATE(), 1, '67890123'
 ),
 (
 	RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) + 
@@ -484,7 +484,7 @@ VALUES
 	'-' +
 	'IT' +
 	'-' +
-	'MAR', 'En proceso de creación', GETDATE(), 1
+	'MAR', 'En proceso de creación', GETDATE(), 1, '67890123'
 ),
 (
 	RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) + 
@@ -497,7 +497,7 @@ VALUES
 	'-' +
 	'IT' +
 	'-' +
-	'MAR', 'En proceso de creación', GETDATE(), 1
+	'MAR', 'En proceso de creación', GETDATE(), 1, '67890123'
 ),
 (
 	RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) + 
@@ -510,7 +510,7 @@ VALUES
 	'-' +
 	'IT' +
 	'-' +
-	'MAR', 'En proceso de creación', GETDATE(), 1
+	'MAR', 'En proceso de creación', GETDATE(), 1, '78901234'
 ),
 (
 	RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) + 
@@ -523,7 +523,7 @@ VALUES
 	'-' +
 	'IT' +
 	'-' +
-	'AER', 'En proceso de creación', GETDATE(), 1
+	'AER', 'En proceso de creación', GETDATE(), 1, '78901234'
 ),
 (
 	RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) + 
@@ -536,7 +536,7 @@ VALUES
 	'-' +
 	'IT' +
 	'-' +
-	'MAR', 'En proceso de creación', GETDATE(), 1
+	'MAR', 'En proceso de creación', GETDATE(), 1, '78901234'
 ),
 (
 	RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) + 
@@ -549,7 +549,7 @@ VALUES
 	'-' +
 	'IT' +
 	'-' +
-	'MAR', 'En proceso de creación', GETDATE(), 1
+	'MAR', 'En proceso de creación', GETDATE(), 1, '78901234'
 ),
 (
 	RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) + 
@@ -562,7 +562,7 @@ VALUES
 	'-' +
 	'IT' +
 	'-' +
-	'MAR', 'En proceso de creación', GETDATE(), 1
+	'MAR', 'En proceso de creación', GETDATE(), 1, '78901234'
 ),
 (
 	RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) + 
@@ -575,7 +575,7 @@ VALUES
 	'-' +
 	'IT' +
 	'-' +
-	'TER', 'En proceso de creación', GETDATE(), 1
+	'TER', 'En proceso de creación', GETDATE(), 1, '78901234'
 ),
 (
 	RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) + 
@@ -588,7 +588,7 @@ VALUES
 	'-' +
 	'IT' +
 	'-' +
-	'TER', 'En proceso de creación', GETDATE(), 1
+	'TER', 'En proceso de creación', GETDATE(), 1, '78901234'
 ),
 (
 	RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) + 
@@ -601,7 +601,7 @@ VALUES
 	'-' +
 	'IT' +
 	'-' +
-	'TER', 'En proceso de creación', GETDATE(), 1
+	'TER', 'En proceso de creación', GETDATE(), 1, '78901234'
 ),
 (
 	RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) + 
@@ -614,7 +614,7 @@ VALUES
 	'-' +
 	'IT' +
 	'-' +
-	'TER', 'En proceso de creación', GETDATE(), 1
+	'TER', 'En proceso de creación', GETDATE(), 1, '78901234'
 ),
 (
 	RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) + 
@@ -627,7 +627,7 @@ VALUES
 	'-' +
 	'IT' +
 	'-' +
-	'MAR', 'En proceso de creación', GETDATE(), 1
+	'MAR', 'En proceso de creación', GETDATE(), 1, '78901234'
 ),
 (
 	RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) + 
@@ -640,7 +640,7 @@ VALUES
 	'-' +
 	'IT' +
 	'-' +
-	'MAR', 'En proceso de creación', GETDATE(), 1
+	'MAR', 'En proceso de creación', GETDATE(), 1, '78901234'
 ),
 (
 	RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) + 
@@ -653,7 +653,7 @@ VALUES
 	'-' +
 	'IT' +
 	'-' +
-	'AER', 'En proceso de creación', GETDATE(), 1
+	'AER', 'En proceso de creación', GETDATE(), 1, '78901234'
 ),
 (
 	RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) + 
@@ -666,7 +666,7 @@ VALUES
 	'-' +
 	'IT' +
 	'-' +
-	'TER', 'En proceso de creación', GETDATE(), 1
+	'TER', 'En proceso de creación', GETDATE(), 1, '78901234'
 ),
 (
 	RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) + 
@@ -679,7 +679,7 @@ VALUES
 	'-' +
 	'IT' +
 	'-' +
-	'AER', 'En proceso de creación', GETDATE(), 1
+	'AER', 'En proceso de creación', GETDATE(), 1, '78901234'
 ),
 (
 	RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) + 
@@ -692,7 +692,7 @@ VALUES
 	'-' +
 	'IT' +
 	'-' +
-	'TER', 'En proceso de creación', GETDATE(), 1
+	'TER', 'En proceso de creación', GETDATE(), 1, '78901234'
 ),
 (
 	RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) + 
@@ -705,7 +705,7 @@ VALUES
 	'-' +
 	'IT' +
 	'-' +
-	'TER', 'En proceso de creación', GETDATE(), 1
+	'TER', 'En proceso de creación', GETDATE(), 1, '78901234'
 ),
 (
 	RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) + 
@@ -718,7 +718,7 @@ VALUES
 	'-' +
 	'IT' +
 	'-' +
-	'MAR', 'En proceso de creación', GETDATE(), 1
+	'MAR', 'En proceso de creación', GETDATE(), 1, '78901234'
 ),
 (
 	RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) + 
@@ -731,7 +731,7 @@ VALUES
 	'-' +
 	'IT' +
 	'-' +
-	'AER', 'En proceso de creación', GETDATE(), 1
+	'AER', 'En proceso de creación', GETDATE(), 1, '78901234'
 ),
 (
 	RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) + 
@@ -744,7 +744,7 @@ VALUES
 	'-' +
 	'IT' +
 	'-' +
-	'TER', 'En proceso de creación', GETDATE(), 1
+	'TER', 'En proceso de creación', GETDATE(), 1, '78901234'
 ),
 (
 	RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) + 
@@ -757,7 +757,7 @@ VALUES
 	'-' +
 	'IT' +
 	'-' +
-	'TER', 'En proceso de creación', GETDATE(), 1
+	'TER', 'En proceso de creación', GETDATE(), 1, '78901234'
 ),
 (
 	RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) + 
@@ -770,7 +770,7 @@ VALUES
 	'-' +
 	'IT' +
 	'-' +
-	'MAR', 'En proceso de creación', GETDATE(), 1
+	'MAR', 'En proceso de creación', GETDATE(), 1, '78901234'
 ),
 (
 	RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) + 
@@ -783,7 +783,7 @@ VALUES
 	'-' +
 	'IT' +
 	'-' +
-	'TER', 'En proceso de creación', GETDATE(), 1
+	'TER', 'En proceso de creación', GETDATE(), 1, '78901234'
 ),
 (
 	RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) + 
@@ -796,7 +796,7 @@ VALUES
 	'-' +
 	'IT' +
 	'-' +
-	'MAR', 'En proceso de creación', GETDATE(), 1
+	'MAR', 'En proceso de creación', GETDATE(), 1, '78901234'
 ),
 (
 	RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) + 
@@ -809,7 +809,7 @@ VALUES
 	'-' +
 	'IT' +
 	'-' +
-	'TER', 'En proceso de creación', GETDATE(), 1
+	'TER', 'En proceso de creación', GETDATE(), 1, '78901234'
 ),
 (
 	RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) + 
@@ -822,7 +822,7 @@ VALUES
 	'-' +
 	'IT' +
 	'-' +
-	'AER', 'En proceso de creación', GETDATE(), 1
+	'AER', 'En proceso de creación', GETDATE(), 1, '78901234'
 ),
 (
 	RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) + 
@@ -835,7 +835,7 @@ VALUES
 	'-' +
 	'IT' +
 	'-' +
-	'TER', 'En proceso de creación', GETDATE(), 1
+	'TER', 'En proceso de creación', GETDATE(), 1, '78901234'
 ),
 (
 	RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) + 
@@ -848,7 +848,7 @@ VALUES
 	'-' +
 	'IT' +
 	'-' +
-	'AER', 'En proceso de creación', GETDATE(), 1
+	'AER', 'En proceso de creación', GETDATE(), 1, '78901234'
 ),
 (
 	RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) + 
@@ -861,7 +861,7 @@ VALUES
 	'-' +
 	'IT' +
 	'-' +
-	'AER', 'En proceso de creación', GETDATE(), 1
+	'AER', 'En proceso de creación', GETDATE(), 1, '78901234'
 ),
 (
 	RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) + 
@@ -874,5 +874,5 @@ VALUES
 	'-' +
 	'IT' +
 	'-' +
-	'TER', 'En proceso de creación', GETDATE(), 1
+	'TER', 'En proceso de creación', GETDATE(), 1, '78901234'
 );

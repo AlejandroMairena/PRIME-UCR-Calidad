@@ -524,10 +524,13 @@ namespace PRIME_UCR.Application.Implementations.Incidents
             foreach (var state in IncidentStates.IncidentStatesList)
             {
                 var stateInOrder = FindState(statesList, state);
-                if (stateInOrder != null)
-                    log.Add(Tuple.Create(stateInOrder.FechaHora, stateInOrder.AprobadoPor));
-                if (stateInOrder.Activo == true)    //To avoid iterating into pending states
-                    break;
+                if (stateInOrder != null)   //When an incident is not rejected, this can be null in states after rejected.
+                {
+                    if (stateInOrder != null)
+                        log.Add(Tuple.Create(stateInOrder.FechaHora, stateInOrder.AprobadoPor));
+                    if (stateInOrder.Activo == true)    //To avoid iterating into pending states
+                        break;
+                }
             }
             return log;
         }
