@@ -1,17 +1,11 @@
 ﻿using Microsoft.AspNetCore.Components;
-using PRIME_UCR.Application.Services;
-using PRIME_UCR.Domain.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using PRIME_UCR.Application.Services.CheckLists;
-using PRIME_UCR.Components.CheckLists.Plantillas;
 using Microsoft.AspNetCore.Components.Forms;
 using PRIME_UCR.Domain.Models.CheckLists;
 using System.Linq;
 using System;
-using System.Threading;
-using Microsoft.AspNetCore.Components.Rendering;
-using MatBlazor;
 
 namespace PRIME_UCR.Pages.CheckLists.Plantillas
 {
@@ -22,25 +16,22 @@ namespace PRIME_UCR.Pages.CheckLists.Plantillas
     {
         [Parameter]
         public int id { get; set; }
-        private int Index { get; set; } = 0;
-
-        private bool isDisabled { get; set; } = true;
 
         protected bool createItem { get; set; } = false;
 
         protected bool editItem { get; set; } = false;
         protected bool createSubItem { get; set; } = false;
 
-        protected IEnumerable<CheckList> lists { get; set; }
+        protected IEnumerable<CheckList> lists { get; set; } = null;
 
-        protected IEnumerable<Item> coreItems { get; set; }
+        protected IEnumerable<Item> coreItems { get; set; } = null;
 
-        protected IEnumerable<Item> items { get; set; }
-        protected IEnumerable<Item> subItems { get; set; }
+        protected IEnumerable<Item> items { get; set; } = null;
+        protected IEnumerable<Item> subItems { get; set; } = null;
         protected List<Item> itemsList = new List<Item>();
 
-        protected List<Item> orderedList;
-        protected List<int> orderedListLevel;
+        protected List<Item> orderedList = null;
+        protected List<int> orderedListLevel = null;
         protected List<string> _types { get; set; }
 
         public CheckList list { get; set; }
@@ -49,6 +40,8 @@ namespace PRIME_UCR.Pages.CheckLists.Plantillas
         protected Item tempItem;
         protected int parentItemId { get; set; }
 
+        public int startingIndex = -1;
+
         protected bool formInvalid = false;
         protected EditContext editContext;
 
@@ -56,17 +49,32 @@ namespace PRIME_UCR.Pages.CheckLists.Plantillas
 
         protected override async Task OnInitializedAsync()
         {
+            lists = null;
+            coreItems = null;
+            items = null;
+            subItems = null;
+            itemsList = new List<Item>();
+            orderedList = null;
+            orderedListLevel = null;
+            
             editedList = new CheckList();
             await RefreshModels();
         }
 
         protected override void OnParametersSet()
         {
+            lists = null;
+            coreItems = null;
+            items = null;
+            subItems = null;
+            itemsList = new List<Item>();
+            orderedList = null;
+            orderedListLevel = null;
+            
             createItem = false;
             createSubItem = false;
             editItem = false;
         }
-
         /**
          * Gets the checklist corresponding to this page, its items and the list of checklists in the database
          * */
@@ -131,13 +139,20 @@ namespace PRIME_UCR.Pages.CheckLists.Plantillas
 
         public void Dispose()
         {
+            lists = null;
+            coreItems = null;
+            items = null;
+            subItems = null;
+            itemsList = new List<Item>();
+            orderedList = null;
+            orderedListLevel = null;
+
             createItem = false;
             createSubItem = false;
             editItem = false;
             formInvalid = false;
             StateHasChanged();
         }
-
 
         /**
          * Sets flags to display the item creation form
@@ -197,9 +212,9 @@ namespace PRIME_UCR.Pages.CheckLists.Plantillas
         /**
          * Gets an item based on its id
          * */
-        protected int getItemIndex(Item itemInList)
+        protected int getItemIndex(Item itemInList, List<Item> list)
         {
-            return itemsList.FindIndex(item => item.Id == itemInList.Id);
+            return list.FindIndex(item => item.Id == itemInList.Id);
         }
 
         /**
@@ -209,6 +224,7 @@ namespace PRIME_UCR.Pages.CheckLists.Plantillas
         {
             orderedList.Add(item);
             orderedListLevel.Add(level);
+            item.SubItems = item.SubItems.OrderBy(item => item.Orden).ToList<Item>();
             List<Item> subItems = itemsList.FindAll(tempItem => tempItem.IDSuperItem == item.Id);
             subItems = subItems.OrderBy(item => item.Orden).ToList<Item>();
             if (subItems.Count() > 0)
@@ -241,7 +257,6 @@ namespace PRIME_UCR.Pages.CheckLists.Plantillas
             return text.Length <= maxLength ? text : text.Substring(0, maxLength) + "...";
         }
 
-        public int startingIndex = -1;
         protected void StartDrag(Item item)
         {
             startingIndex = orderedList.FindIndex(i => i.Id == item.Id);
@@ -286,20 +301,37 @@ namespace PRIME_UCR.Pages.CheckLists.Plantillas
             StateHasChanged();
         }
 
-        public int endingIndex = -1;
+        protected bool CanDragToParent(Item item, Item ItemUnder)
+        {
+            if (ItemUnder == null)
+            {
+                return true;
+            }
+            else
+            {
+                return item.IDSuperItem == ItemUnder.IDSuperItem;
+            }
+        }
+
         protected async void Drop(Item item)
         {
             if (item != null)
             {
-                endingIndex = orderedList.FindIndex(i => i.Id == item.Id);
-
+                int endingIndex = getItemIndex(item, orderedList);
                 if (endingIndex == startingIndex) return; // Item is in the same position
 
                 // check for parent
                 Item draggedItem = orderedList[startingIndex];
 
+                if (!CanDragToParent(draggedItem, item)) return;
+
+                int level = orderedListLevel[startingIndex];
+
                 orderedList.RemoveAt(startingIndex);
-                orderedList.Insert(endingIndex, item);
+                orderedList.Insert(endingIndex, draggedItem);
+
+                orderedListLevel.RemoveAt(startingIndex);
+                orderedListLevel.Insert(endingIndex, level);
 
                 await ReorderItems(draggedItem, startingIndex, endingIndex);
             }
