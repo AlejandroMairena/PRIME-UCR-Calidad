@@ -58,10 +58,10 @@ namespace PRIME_UCR.Infrastructure.Permissions.Dashboard
             return await dashboardRepository.GetByKeyAsync(key);
         }
 
-        public async Task<int> GetIncidentsCounterAsync(string modality)
+        public async Task<int> GetIncidentsCounterAsync(string modality, string filter)
         {
             await primeSecurityService.CheckIfIsAuthorizedAsync(new[] { AuthorizationPermissions.CanSeeIncidentsInfoOnDashboard });
-            return await dashboardRepository.GetIncidentsCounterAsync(modality);
+            return await dashboardRepository.GetIncidentsCounterAsync(modality, filter);
         }
 
         public async Task<Incidente> InsertAsync(Incidente model)

@@ -31,10 +31,10 @@ namespace PRIME_UCR.Application.Permissions.Dashboard
             dashboardService = new DashboardService(dashboardRep, _incidentRepository, _districtRepository, _countryRepository, _medicalCenterRepository);
         }
 
-        public async Task<int> GetIncidentCounterAsync(string modality)
+        public async Task<int> GetIncidentCounterAsync(string modality, string filter)
         {
             await primeSecurityService.CheckIfIsAuthorizedAsync(new[] { AuthorizationPermissions.CanSeeIncidentsInfoOnDashboard });
-            return await dashboardService.GetIncidentCounterAsync(modality);
+            return await dashboardService.GetIncidentCounterAsync(modality, filter);
         }
         
         public async Task<List<Distrito>> GetAllDistrictsAsync()
