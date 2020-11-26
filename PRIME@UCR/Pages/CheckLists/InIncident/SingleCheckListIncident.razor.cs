@@ -15,6 +15,11 @@ using System;
 using System.Linq;
 using MatBlazor;
 using PRIME_UCR.Application.Services.Multimedia;
+using PRIME_UCR.Application.Services.UserAdministration;
+using PRIME_UCR.Application.DTOs.UserAdministration;
+using PRIME_UCR.Domain.Models.UserAdministration;
+using PRIME_UCR.Application.Implementations.Incidents;
+using PRIME_UCR.Application.DTOs.Incidents;
 
 namespace PRIME_UCR.Pages.CheckLists.InIncident
 {
@@ -95,6 +100,18 @@ namespace PRIME_UCR.Pages.CheckLists.InIncident
         public string StartTime;
         public string EndTime;
         public string MyDuration;
+
+        [Inject]
+        public IMailService mailService { get; set; }
+
+        [Inject] 
+        public IAssignmentService AssignmentService { get; set; }
+
+        private List<EspecialistaTécnicoMédico> _specialists;
+        [Inject]
+        public IUserService userService { get; set; }
+
+        private AssignmentModel _model;
         protected override async Task OnInitializedAsync()
         {
             _incidentModel = await MyIncidentService.GetIncidentDetailsAsync(incidentcod);
@@ -177,11 +194,18 @@ namespace PRIME_UCR.Pages.CheckLists.InIncident
         public void updateState()
         {
             if (state.Nombre =="En proceso de creación" || state.Nombre == "Creado" || state.Nombre == "Rechazado" || state.Nombre == "Aprobado" ){
+                
                 validateEdit = 0;
                 details[0] = state.Nombre;
                 details[1] = instruct[0];
             }
-            else  if (state.Nombre == "Asignado" || state.Nombre == "En preparación" || state.Nombre == "En ruta a origen" || state.Nombre == "Paciente recolectado en origen" || state.Nombre == "En traslado" || state.Nombre ==  "Entregado" || state.Nombre == "Reactivación") { 
+            else  if (state.Nombre == "Asignado" || state.Nombre == "En preparación" || state.Nombre == "En ruta a origen" || state.Nombre == "Paciente recolectado en origen" || state.Nombre == "En traslado" || state.Nombre ==  "Entregado" || state.Nombre == "Reactivación") {
+                var cont = 0;
+                if (cont==0 && state.Nombre == "Asignado") {
+                    sendInformation();
+                    cont = 1;
+                }
+                
                 validateEdit = 1;
                 details[0] = state.Nombre;
                 details[1] = instruct[1];
@@ -393,5 +417,32 @@ namespace PRIME_UCR.Pages.CheckLists.InIncident
                 Item.FechaHoraInicio = null;
             }
         }
+        
+        public async void sendInformation()
+        {
+            _model = await AssignmentService.GetAssignmentsByIncidentIdAsync(Incident.Code);
+            _specialists = _model.TeamMembers;
+            /*_specialists =
+                (await AssignmentService.GetSpecialistsAsync())
+                .ToList();*/
+
+            foreach (var special in _specialists) {
+                var user = (await userService.GetAllUsersWithDetailsAsync()).ToList().Find(u => u.CedPersona == special.Cédula);
+                var url = "https://localhost:44368" + IncidentURL + incidentcod;
+                var message = new EmailContentModel()
+                {
+                    Destination = user.Email,
+                    Subject = "PRIME@UCR: Asignado al incidente:" + incidentcod,
+                    Body = $"<p>Proceda a completar las listas de chequeo asignadas al incidente:<a href=\"{url}\">Haga click aquí para ser redirigido</a></p>"
+                };
+
+                await mailService.SendEmailAsync(message);
+
+                StateHasChanged();
+
+            }
+        }
+
+       
     }
 }
