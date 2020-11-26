@@ -18,9 +18,13 @@ namespace PRIME_UCR.Pages.Dashboard
         public EventCallback<FilterModel> ValueChanged;
 
         public IncidentsCounterModel incidentsCounter = new IncidentsCounterModel();
+        public EventCallback<IncidentsCounterModel> incidentsCounterChanged;
 
         public DashboardDataModel DashboardData = new DashboardDataModel();
         public EventCallback<DashboardDataModel> DashboardDataChanged;
+
+        public string _selectedFilter;
+        public EventCallback<string> _selectedFilterChanged;
 
         [Inject]
         public ILocationService LocationService { get; set; }
@@ -41,11 +45,11 @@ namespace PRIME_UCR.Pages.Dashboard
         {
             await InitializeDashboardData();
 
-            incidentsCounter.totalIncidentsCounter = await DashboardService.GetIncidentCounterAsync(String.Empty);
-            incidentsCounter.maritimeIncidents = await DashboardService.GetIncidentCounterAsync("Marítimo");
-            incidentsCounter.airIncidentsCounter = await DashboardService.GetIncidentCounterAsync("Aéreo");
-            incidentsCounter.groundIncidentsCounter = await DashboardService.GetIncidentCounterAsync("Terrestre");
-
+            incidentsCounter.totalIncidentsCounter = await DashboardService.GetIncidentCounterAsync(String.Empty, "Día");
+            incidentsCounter.maritimeIncidents = await DashboardService.GetIncidentCounterAsync("Marítimo", "Día");
+            incidentsCounter.airIncidentsCounter = await DashboardService.GetIncidentCounterAsync("Aéreo", "Día");
+            incidentsCounter.groundIncidentsCounter = await DashboardService.GetIncidentCounterAsync("Terrestre", "Día");
+            
             incidentsCounter.isReadyToShowCounters = true; // Always after loading all incidents counter data
             DashboardData.isReadyToShowGraphs = true;
         }
