@@ -16,24 +16,17 @@ using System.ComponentModel.DataAnnotations;
 
 namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
 {
-    public partial class PermiteRepository : IPermiteRepository
-    {
-        
+    internal class PermiteRepository : IPermiteRepository
+    {   
         private readonly ISqlDataProvider _db;
 
-        private readonly IPrimeSecurityService primeSecurityService;
-
-        public PermiteRepository(ISqlDataProvider dataProvider, 
-            IPrimeSecurityService _primeSecurityService)
+        public PermiteRepository(ISqlDataProvider dataProvider)
         {
             _db = dataProvider;
-            primeSecurityService = _primeSecurityService;
         }
 
         public async Task DeletePermissionAsync(string idProfile, int idPermission) 
         {
-            await primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
-
             await Task.Run(() =>
             {
                 using (var cmd = _db.DbConnection.CreateCommand())
@@ -55,8 +48,6 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
         }
         public async Task InsertPermissionAsync(string idProfile, int idPermission)
         {
-            await primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
-
             await Task.Run(() =>
             {
                 using (var cmd = _db.DbConnection.CreateCommand())
@@ -76,10 +67,5 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
                 }
             });
         }
-    }
-
-    [MetadataType(typeof(PermiteRepositoryAuthorization))]
-    public partial class PermiteRepository
-    {
     }
 }

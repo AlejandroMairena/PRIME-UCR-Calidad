@@ -17,17 +17,13 @@ using System.Threading.Tasks;
 
 namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
 {
-    public partial class UsuarioRepository : IUsuarioRepository
+    internal class UsuarioRepository : IUsuarioRepository
     {
-
         private readonly ISqlDataProvider _db;
 
-        private readonly IPrimeSecurityService _primeSecurityService;
-
-        public UsuarioRepository(ISqlDataProvider dataProvider, IPrimeSecurityService primeSecurityService)
+        public UsuarioRepository(ISqlDataProvider dataProvider)
         {
             _db = dataProvider;
-            _primeSecurityService = primeSecurityService;
         }
 
         /**
@@ -47,7 +43,6 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
 
         public async Task<Usuario> GetUserByEmailAsync(string email)
         {
-            await _primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             return await _db.Usuarios
             .Include(u => u.Persona)
             .Include(u => u.UsuariosYPerfiles)
@@ -56,7 +51,6 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
 
         public async Task<Usuario> GetWithDetailsAsync(string id)
         {
-            await _primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             return await _db.Usuarios
             .Include(u => u.UsuariosYPerfiles)
             .Include(u => u.Persona)
@@ -73,10 +67,5 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
             .AsNoTracking()
             .ToListAsync();
         }
-    }
-
-    [MetadataType(typeof(UsuarioRepositoryAuthorization))]
-    public partial class UsuarioRepository
-    {
     }
 }

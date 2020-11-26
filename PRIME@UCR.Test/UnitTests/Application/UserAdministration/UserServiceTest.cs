@@ -12,6 +12,8 @@ using System.Reflection;
 using System.Threading.Tasks;
 using PRIME_UCR.Application.Services.UserAdministration;
 using PRIME_UCR.Application.DTOs.UserAdministration;
+using PRIME_UCR.Application.Permissions.UserAdministration;
+using PRIME_UCR.Domain.Constants;
 
 namespace PRIME_UCR.Test.UnitTests.Application.UserAdministration
 {
@@ -26,8 +28,8 @@ namespace PRIME_UCR.Test.UnitTests.Application.UserAdministration
             var store = new Mock<IUserStore<Usuario>>();
             var mockUserManager = new Mock<UserManager<Usuario>>(store.Object, null, null, null, null, null, null, null, null);
             var mockSecurity = new Mock<IPrimeSecurityService>();
-            mockSecurity.Setup(s => s.CheckIfIsAuthorizedAsync(typeof(UsersService), "getUsuarioWithDetailsAsync"));
-            var userService = new UsersService(mockRepo.Object, mockUserManager.Object, mockSecurity.Object);
+            mockSecurity.Setup(s => s.CheckIfIsAuthorizedAsync(It.IsAny<AuthorizationPermissions[]>()));
+            var userService = new SecureUserService(mockRepo.Object, mockUserManager.Object, mockSecurity.Object);
             var result = await userService.getUsuarioWithDetailsAsync(String.Empty);
             Assert.Null(result);
         }
@@ -59,8 +61,8 @@ namespace PRIME_UCR.Test.UnitTests.Application.UserAdministration
             var store = new Mock<IUserStore<Usuario>>();
             var mockUserManager = new Mock<UserManager<Usuario>>(store.Object, null, null, null, null, null, null, null, null);
             var mockSecurity = new Mock<IPrimeSecurityService>();
-            mockSecurity.Setup(s => s.CheckIfIsAuthorizedAsync(typeof(UsersService), "getUsuarioWithDetailsAsync"));
-            var userService = new UsersService(mockRepo.Object, mockUserManager.Object, mockSecurity.Object);
+            mockSecurity.Setup(s => s.CheckIfIsAuthorizedAsync(It.IsAny<AuthorizationPermissions[]>()));
+            var userService = new SecureUserService(mockRepo.Object, mockUserManager.Object, mockSecurity.Object);
             var result = await userService.getUsuarioWithDetailsAsync("a6f7aa70-a038-419f-9945-7c77b093d58f");
             Assert.Equal("a6f7aa70-a038-419f-9945-7c77b093d58f" , result.Id);
             Assert.Equal("juan.guzman@prime.com", result.Email);
@@ -76,8 +78,8 @@ namespace PRIME_UCR.Test.UnitTests.Application.UserAdministration
             var store = new Mock<IUserStore<Usuario>>();
             var mockUserManager = new Mock<UserManager<Usuario>>(store.Object, null, null, null, null, null, null, null, null);
             var mockSecurity = new Mock<IPrimeSecurityService>();
-            mockSecurity.Setup(s => s.CheckIfIsAuthorizedAsync(typeof(UsersService), "getUsuarioWithDetailsAsync"));
-            var userService = new UsersService(mockRepo.Object, mockUserManager.Object, mockSecurity.Object);
+            mockSecurity.Setup(s => s.CheckIfIsAuthorizedAsync(It.IsAny<AuthorizationPermissions[]>()));
+            var userService = new SecureUserService(mockRepo.Object, mockUserManager.Object, mockSecurity.Object);
             var result = await userService.GetAllUsersWithDetailsAsync();
             Assert.Empty(result);
         }
@@ -112,8 +114,8 @@ namespace PRIME_UCR.Test.UnitTests.Application.UserAdministration
             var store = new Mock<IUserStore<Usuario>>();
             var mockUserManager = new Mock<UserManager<Usuario>>(store.Object, null, null, null, null, null, null, null, null);
             var mockSecurity = new Mock<IPrimeSecurityService>();
-            mockSecurity.Setup(s => s.CheckIfIsAuthorizedAsync(typeof(UsersService), "getUsuarioWithDetailsAsync"));
-            var userService = new UsersService(mockRepo.Object, mockUserManager.Object, mockSecurity.Object);
+            mockSecurity.Setup(s => s.CheckIfIsAuthorizedAsync(It.IsAny<AuthorizationPermissions[]>()));
+            var userService = new SecureUserService(mockRepo.Object, mockUserManager.Object, mockSecurity.Object);
             var result = await userService.GetAllUsersWithDetailsAsync();
             Assert.Equal(5, result.Count);
         }
@@ -126,8 +128,8 @@ namespace PRIME_UCR.Test.UnitTests.Application.UserAdministration
             var store = new Mock<IUserStore<Usuario>>();
             var mockUserManager = new Mock<UserManager<Usuario>>(store.Object, null, null, null, null, null, null, null, null);
             var mockSecurity = new Mock<IPrimeSecurityService>();
-            mockSecurity.Setup(s => s.CheckIfIsAuthorizedAsync(typeof(UsersService), "getPersonWithDetailstAsync"));
-            var userService = new UsersService(mockRepo.Object, mockUserManager.Object, mockSecurity.Object);
+            mockSecurity.Setup(s => s.CheckIfIsAuthorizedAsync(It.IsAny<AuthorizationPermissions[]>()));
+            var userService = new SecureUserService(mockRepo.Object, mockUserManager.Object, mockSecurity.Object);
             var result = await userService.getPersonWithDetailstAsync(String.Empty);
             Assert.Null(result);
         }
@@ -154,8 +156,8 @@ namespace PRIME_UCR.Test.UnitTests.Application.UserAdministration
                 }
             }));
             var mockSecurity = new Mock<IPrimeSecurityService>();
-            mockSecurity.Setup(s => s.CheckIfIsAuthorizedAsync(typeof(UsersService), "getPersonWithDetailstAsync"));
-            var userService = new UsersService(mockRepo.Object, mockUserManager.Object, mockSecurity.Object);
+            mockSecurity.Setup(s => s.CheckIfIsAuthorizedAsync(It.IsAny<AuthorizationPermissions[]>()));
+            var userService = new SecureUserService(mockRepo.Object, mockUserManager.Object, mockSecurity.Object);
             var result = await userService.getPersonWithDetailstAsync("luis.sanchez@prime.com");
             Assert.Equal("12345678",result.Cédula);
         }
@@ -169,9 +171,9 @@ namespace PRIME_UCR.Test.UnitTests.Application.UserAdministration
             var mockUserManager = new Mock<UserManager<Usuario>>(store.Object, null, null, null, null, null, null, null, null);
              
             var mockSecurity = new Mock<IPrimeSecurityService>();
-            mockSecurity.Setup(s => s.CheckIfIsAuthorizedAsync(typeof(UsersService), "GetUserFormFromRegisterUserFormAsync"));
+            mockSecurity.Setup(s => s.CheckIfIsAuthorizedAsync(It.IsAny<AuthorizationPermissions[]>()));
 
-            var userService = new UsersService(mockRepo.Object, mockUserManager.Object, mockSecurity.Object);
+            var userService = new SecureUserService(mockRepo.Object, mockUserManager.Object, mockSecurity.Object);
 
             RegisterUserFormModel registerUserForm = null;
 
@@ -189,9 +191,8 @@ namespace PRIME_UCR.Test.UnitTests.Application.UserAdministration
             var mockUserManager = new Mock<UserManager<Usuario>>(store.Object, null, null, null, null, null, null, null, null);
              
             var mockSecurity = new Mock<IPrimeSecurityService>();
-            mockSecurity.Setup(s => s.CheckIfIsAuthorizedAsync(typeof(UsersService), "GetUserFormFromRegisterUserFormAsync"));
-
-            var userService = new UsersService(mockRepo.Object, mockUserManager.Object, mockSecurity.Object);
+            mockSecurity.Setup(s => s.CheckIfIsAuthorizedAsync(It.IsAny<AuthorizationPermissions[]>()));
+            var userService = new SecureUserService(mockRepo.Object, mockUserManager.Object, mockSecurity.Object);
 
             RegisterUserFormModel registerUserForm = new RegisterUserFormModel {
                 IdCardNumber = "12345678", 
@@ -232,8 +233,8 @@ namespace PRIME_UCR.Test.UnitTests.Application.UserAdministration
             var store = new Mock<IUserStore<Usuario>>();
             var mockUserManager = new Mock<UserManager<Usuario>>(store.Object, null, null, null, null, null, null, null, null);
             var mockSecurity = new Mock<IPrimeSecurityService>();
-            mockSecurity.Setup(s => s.CheckIfIsAuthorizedAsync(typeof(UsersService), "GetNotAuthenticatedUsers"));
-            var userService = new UsersService(mockRepo.Object, mockUserManager.Object, mockSecurity.Object);
+            mockSecurity.Setup(s => s.CheckIfIsAuthorizedAsync(It.IsAny<AuthorizationPermissions[]>()));
+            var userService = new SecureUserService(mockRepo.Object, mockUserManager.Object, mockSecurity.Object);
             var result = await userService.GetNotAuthenticatedUsers();
             Assert.Empty(result);
         }
