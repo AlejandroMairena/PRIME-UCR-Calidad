@@ -15,7 +15,9 @@ namespace PRIME_UCR.Application.DTOs.Dashboard
             modalities = new List<Modalidad>();
             states = new List<Estado>();
             districts = new List<Distrito>();
+            filteredIncidentsData = new List<Incidente>();
             isReadyToShowFilters = false;
+            isReadyToShowGraphs = false;
         }
 
         public List<Incidente> incidentsData { get; set; }
@@ -30,6 +32,10 @@ namespace PRIME_UCR.Application.DTOs.Dashboard
         
         public List<Distrito> districts { get; set; }
 
+        public List<Incidente> filteredIncidentsData { get; set; }
+
         public bool isReadyToShowFilters { get; set; }
+
+        public bool isReadyToShowGraphs { get; set; }
     }
 }

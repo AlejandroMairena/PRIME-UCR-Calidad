@@ -17,7 +17,7 @@
 <link href="css/Dashboard.css" rel="stylesheet" />
 
 
-<Loading IsLoading="!DashboardData.isReadyToShowFilters && !incidentsCounter.isReadyToShowCounters">
+<Loading IsLoading="!DashboardData.isReadyToShowFilters && !incidentsCounter.isReadyToShowCounters && !DashboardData.isReadyToShowGraphs">
     <div class="wrapper">
         <div class="rounded" style="background-color: white;padding: 10px">
             <IncidentsCounterComponent @bind-Value="incidentsCounter" />
@@ -36,22 +36,27 @@
                     Filtros
                 </div>
                 <div class="col p-3">
-                    <OriginFilter @bind-Value="Value" 
+                    <OriginFilter Value="Value"
+                                  ValueChanged="UpdateFilteredIncidentsData"
                                   @bind-Data="DashboardData" />
                 </div>
                 <div class="col p-3">
-                    <DestinationFilter @bind-Value="Value"
+                    <DestinationFilter Value="Value"
+                                       ValueChanged="UpdateFilteredIncidentsData"
                                        @bind-Data="DashboardData" />
                 </div>
                 <div class="col p-3">
-                    <DateFilter @bind-Value="Value" />
+                    <DateFilter Value="Value"
+                                ValueChanged="UpdateFilteredIncidentsData" />
                 </div>
                 <div class="col p-3">
-                    <ModalityFilter @bind-Value="Value" 
+                    <ModalityFilter Value="Value"
+                                    ValueChanged="UpdateFilteredIncidentsData"
                                     @bind-Data="DashboardData" />
                 </div>
                 <div class="col p-3">
-                    <StateFilter @bind-Value="Value" 
+                    <StateFilter Value="Value"
+                                 ValueChanged="UpdateFilteredIncidentsData"
                                  @bind-Data="DashboardData" />
                 </div>
                 <div class="col p-2">
@@ -73,26 +78,30 @@
 
     <br />
 
-    <div class="row">
-        <div class="col-lg-6 col-md-12">
-            <IncidentsVsTransportTypeComponentJS @bind-Value="Value" />
+    <Loading IsLoading="!DashboardData.isReadyToShowGraphs">
+        <div class="row">
+            <div class="col-lg-6 col-md-12">
+                <IncidentsVsTransportTypeComponentJS @bind-Data="DashboardData" />
+            </div>
+            <div class="col-lg-6 col-md-12">
+                <IncidentsVsTimeChartComponentJS @bind-Data="DashboardData" />
+            </div>
         </div>
-        <div class="col-lg-6 col-md-12">
-            <IncidentsVsTimeChartComponentJS @bind-Value="Value" />
-        </div>
-    </div>
 
-    <br />
+        <br />
 
-    <div class="row">
-        <div class="col-lg-6 col-md-12">
+        <div class="row">
+            <div class="col-lg-6 col-md-12">
 
-            <IncidentsVsOriginLocationComponentJS @bind-Value="Value" />
+                <IncidentsVsOriginLocationComponentJS @bind-Data="DashboardData"
+                                                      @bind-Value="Value" />
+            </div>
+            <div class="col-lg-6 col-md-12">
+                <IncidentsVsDestinationLocationComponentJS @bind-Data="DashboardData" />
+            </div>
         </div>
-        <div class="col-lg-6 col-md-12">
-            <IncidentsVsDestinationLocationComponentJS @bind-Value="Value" />
-        </div>
-    </div>
+    </Loading>
+
 
     <br />
 
