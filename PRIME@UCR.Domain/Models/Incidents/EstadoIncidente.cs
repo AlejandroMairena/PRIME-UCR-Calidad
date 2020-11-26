@@ -10,7 +10,7 @@ namespace PRIME_UCR.Domain.Models.Incidents
         
         public Incidente Incidente { get; set; }
         public string CodigoIncidente { get; set; }
-        public string CedCoordinador { get; set; }
+        public string AprobadoPor { get; set; }
         public bool Activo { get; set; }
         public DateTime FechaHora { get; set; }
     }

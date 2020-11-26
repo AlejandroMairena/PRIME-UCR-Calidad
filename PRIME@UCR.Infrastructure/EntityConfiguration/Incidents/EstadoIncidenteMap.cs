@@ -22,7 +22,7 @@ namespace PRIME_UCR.Infrastructure.EntityConfiguration.Incidents
             builder
                 .HasOne<CoordinadorTécnicoMédico>()
                 .WithMany()
-                .HasForeignKey(i => i.CedCoordinador);
+                .HasForeignKey(i => i.AprobadoPor);
 
             builder
                 .HasOne(e => e.Incidente)

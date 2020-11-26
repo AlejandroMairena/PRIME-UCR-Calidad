@@ -1,1 +1,20 @@
-﻿<p>Prueba</p>
+﻿<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">Estado</th>
+            <th scope="col">Fecha de actualización</th>
+            <th scope="col">Aprobado por</th>
+        </tr>
+    </thead>
+    
+    <tbody>
+        @for (var index = 0; index < StatesLog.Count; ++index)
+        {
+            <tr>
+                <td>@States.List[index].Item2</td>
+                <td>@StatesLog[index].Item1.ToString()</td>
+                <td>@StatesLog[index].Item2</td>
+            </tr>
+        }
+    </tbody>
+</table>

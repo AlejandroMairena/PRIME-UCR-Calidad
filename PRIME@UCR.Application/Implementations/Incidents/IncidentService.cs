@@ -106,6 +106,7 @@ namespace PRIME_UCR.Application.Implementations.Incidents
                 NombreEstado = IncidentStates.InCreationProcess.Nombre,
                 CodigoIncidente = entity.Codigo,
                 FechaHora = DateTime.Now,
+                AprobadoPor = person.Cédula,
                 Activo = true
             };
 
@@ -203,7 +204,8 @@ namespace PRIME_UCR.Application.Implementations.Incidents
                     CodigoIncidente = incident.Codigo,
                     NombreEstado = IncidentStates.Created.Nombre,
                     Activo = true,
-                    FechaHora = DateTime.Now
+                    FechaHora = DateTime.Now,
+                    AprobadoPor = model.Reviewer.Cédula
                 };
                 await _statesRepository.AddState(incidentState);
             }
@@ -303,7 +305,8 @@ namespace PRIME_UCR.Application.Implementations.Incidents
                 CodigoIncidente = code,
                 NombreEstado = IncidentStates.Approved.Nombre,
                 Activo = true,
-                FechaHora = DateTime.Now
+                FechaHora = DateTime.Now,
+                AprobadoPor = reviewerId
             });
 
             incident.CedulaRevisor = reviewerId;
@@ -336,7 +339,8 @@ namespace PRIME_UCR.Application.Implementations.Incidents
                 CodigoIncidente = code,
                 NombreEstado = IncidentStates.Rejected.Nombre,
                 Activo = true,
-                FechaHora = DateTime.Now
+                FechaHora = DateTime.Now,
+                AprobadoPor = reviewerId
             });
 
             incident.CedulaRevisor = reviewerId;
@@ -455,24 +459,26 @@ namespace PRIME_UCR.Application.Implementations.Incidents
             return pendingTasks;
         }
 
-        public async Task ChangeState(string code, string nextState)
+        public async Task ChangeState(IncidentDetailsModel model, string nextState)
         {
-            var incident = await _incidentRepository.GetByKeyAsync(code);
+            var incident = await _incidentRepository.GetByKeyAsync(model.Code);
             if (incident == null)
             {
                 throw new ArgumentException(
-                    $"Invalid incident id {code}.");
+                    $"Invalid incident id {model.Code}.");
             }
 
             await _statesRepository.AddState(new EstadoIncidente
             {
-                CodigoIncidente = code,
+                CodigoIncidente = model.Code,
                 NombreEstado = nextState,
                 Activo = true,
-                FechaHora = DateTime.Now
+                FechaHora = DateTime.Now,
+                AprobadoPor = model.Reviewer.Cédula
             });
             await _incidentRepository.UpdateAsync(incident);
         }
+
         /*
          * Function:     This method will search for the current state of an incident
          *
@@ -482,6 +488,48 @@ namespace PRIME_UCR.Application.Implementations.Incidents
         public async Task<Estado> GetIncidentStateByIdAsync(string code)
         {
             return await _statesRepository.GetCurrentStateByIncidentId(code);
+        }
+
+        /*
+         * Function:    This method will search for an specific state. The purpose of this method is to help 
+         *              the GetStatesLog method to save the states in order.
+         * Param:       StatesList -> The states log of an specific incident
+         *              state -> An specific state, the one we will look for in the states list, to grab all the info
+         *              about it (date, approved by).
+         * Returns:     That specific state of states list.
+         */
+        public EstadoIncidente FindState(List<EstadoIncidente> statesList, Estado state)
+        {
+            for (var index = 0; index < statesList.Count; ++index)
+            {
+                if(statesList[index].NombreEstado == state.Nombre)
+                {
+                    return statesList[index];
+                }
+            }
+            return null;
+        }
+
+        /*
+         * Function:    This method will search for all the states that an incident has passed. The states are not needed
+         *              in the return list because this method will ensure to set that list in order.   
+         * Param:       Code -> Incident ID
+         * Returns:     A list with a tuple of: Date when the incident reached the state, id of coordinator
+         *              that aproved that change of state.
+         */
+        public async Task<List<Tuple<DateTime, string>>> GetStatesLog(string code)
+        {
+            List<Tuple<DateTime, string>> log = new List<Tuple<DateTime, string>>();
+            List<EstadoIncidente> statesList = (await _statesRepository.GetIncidentStatesByIncidentId(code)).ToList();
+            foreach (var state in IncidentStates.IncidentStatesList)
+            {
+                var stateInOrder = FindState(statesList, state);
+                if (stateInOrder != null)
+                    log.Add(Tuple.Create(stateInOrder.FechaHora, stateInOrder.AprobadoPor));
+                if (stateInOrder.Activo == true)    //To avoid iterating into pending states
+                    break;
+            }
+            return log;
         }
     }
 }

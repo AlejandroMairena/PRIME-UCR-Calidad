@@ -26,7 +26,11 @@ namespace PRIME_UCR.Components.Incidents.StatePanel
         public IIncidentService IncidentService { get; set; }
 
         public string nextState;
+        //Needed for StatePendingTasks component
         public List<Tuple<string, string>> PendingTasks = new List<Tuple<string, string>>();
+        //Needed for StateLog component
+        private List<Tuple<DateTime, string>> StatesLog = new List<Tuple<DateTime, string>>();
+        //List of incidents
         private IncidentStatesList States = new IncidentStatesList();
         public int currentStateIndex;
         MatButton Button2;
@@ -45,9 +49,9 @@ namespace PRIME_UCR.Components.Incidents.StatePanel
             currentStateIndex = States.List.FindIndex(i => i.Item1 == Incident.CurrentState);
             nextState = (await IncidentService.GetNextIncidentState(Incident.Code)).ToString();
             PendingTasks = await IncidentService.GetPendingTasksAsync(Incident, nextState);
+            StatesLog = await IncidentService.GetStatesLog(Incident.Code);
             _isLoading = false;
         }
-
 
         public void OnClick(MouseEventArgs e)
         {
@@ -72,7 +76,8 @@ namespace PRIME_UCR.Components.Incidents.StatePanel
 
         private async Task ChangeState()
         {
-            await IncidentService.ChangeState(Incident.Code, nextState);
+            Incident.Reviewer = CurrentUser;
+            await IncidentService.ChangeState(Incident, nextState);
             await OnSave.InvokeAsync(null);
             await LoadValues();
         }
