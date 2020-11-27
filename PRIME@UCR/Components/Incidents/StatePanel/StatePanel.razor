@@ -31,23 +31,25 @@
 
         @if (Incident.CurrentState == IncidentStates.Created.Nombre || Incident.CurrentState == IncidentStates.Rejected.Nombre)
         {
+            @* Approve or Reject buttons *@
             @if (Incident.CurrentState == IncidentStates.Created.Nombre)
             {
                 <div class="text-center mt-4">
-                    <button class="btn btn-primary" @onclick="@Approve">Aprobar</button>
-                    <button class="btn btn-outline-danger" @onclick="@Reject">Rechazar</button>
+                    <button class="btn btn-primary" @onclick="@Approve">Cambiar a estado Aprobado</button>
+                    <button class="btn btn-outline-danger" @onclick="@Reject">Cambiar a estado Rechazado</button>
                 </div>
             }
             else if (Incident.CurrentState == IncidentStates.Rejected.Nombre)
             {
                 <div class="text-center mt-4">
-                    <button class="btn btn-primary" @onclick="@Approve">Aprobar</button>
-                    <button disabled class="btn btn-outline-danger">Rechazar</button>
+                    <button class="btn btn-primary" @onclick="@Approve">Cambiar a estado Aprobado</button>
+                    <button disabled class="btn btn-outline-danger">Cambiar a estado Rechazado</button>
                 </div>
             }
         }
         else
         {
+            @* Change state buttons *@
             <div class="text-center">
                 @if (PendingTasks.Count > 0)
                 {
