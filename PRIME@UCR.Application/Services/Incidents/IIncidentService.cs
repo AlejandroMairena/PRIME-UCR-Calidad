@@ -31,7 +31,7 @@ namespace PRIME_UCR.Application.Services.Incidents
         public Task<List<Tuple<string, string>>> GetAssignedStatePendingTasks(IncidentDetailsModel model);
         public List<Tuple<string, string>> GetApprovedStatePendingTasks(IncidentDetailsModel model);
         public Task ChangeState(IncidentDetailsModel model, string nextState);
-        public Task<List<Tuple<DateTime, string>>> GetStatesLog(string code);
+        public Task<List<StatesModel>> GetStatesLog(string code);
         public EstadoIncidente FindState(List<EstadoIncidente> statesList, Estado state);
     }
 }

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using PRIME_UCR.Application.Dtos.Incidents;
+using PRIME_UCR.Application.DTOs.Incidents;
 using PRIME_UCR.Application.Services.Incidents;
 using PRIME_UCR.Application.Services.UserAdministration;
 using PRIME_UCR.Components.Incidents.IncidentDetails.Constants;
@@ -31,10 +32,8 @@ namespace PRIME_UCR.Components.Incidents.StatePanel
         public string nextState;
         //Needed for StatePendingTasks component
         public List<Tuple<string, string>> PendingTasks = new List<Tuple<string, string>>();
-        //Needed for StateLog component
-        private List<Tuple<DateTime, string>> StatesTemporaryLog = new List<Tuple<DateTime, string>>();
         // The list to pass to State log
-        private List<Tuple<DateTime, Persona>> StatesLog = new List<Tuple<DateTime, Persona>>();
+        private List<StatesModel> StatesLog = new List<StatesModel>();
         //List of incidents
         private readonly IncidentStatesList _states = new IncidentStatesList();
         public int currentStateIndex;
@@ -54,7 +53,7 @@ namespace PRIME_UCR.Components.Incidents.StatePanel
             currentStateIndex = _states.List.FindIndex(i => i.Item1 == Incident.CurrentState);
             nextState = (await IncidentService.GetNextIncidentState(Incident.Code)).ToString();
             PendingTasks = await IncidentService.GetPendingTasksAsync(Incident, nextState);
-            StatesTemporaryLog = await IncidentService.GetStatesLog(Incident.Code);
+            StatesLog = await IncidentService.GetStatesLog(Incident.Code);
             await updateLog();
             _isLoading = false;
         }
@@ -91,13 +90,12 @@ namespace PRIME_UCR.Components.Incidents.StatePanel
         /*This method will create a new log, but instead of only id will have the person itself*/
         private async Task updateLog()
         {
-            StatesLog.Clear();
-            foreach (var state in StatesTemporaryLog)
+            foreach (var state in StatesLog)
             {
                 try
                 {
-                    var person = await PersonService.GetPersonByCedAsync(state.Item2);
-                    StatesLog.Add(Tuple.Create(state.Item1, person));
+                    var person = await PersonService.GetPersonByIdAsync(state.AprobadoPor);
+                    state.Aprobador = person;
                 } catch(Exception e) {}
             }
         }

@@ -514,20 +514,26 @@ namespace PRIME_UCR.Application.Implementations.Incidents
          * Function:    This method will search for all the states that an incident has passed. The states are not needed
          *              in the return list because this method will ensure to set that list in order.   
          * Param:       Code -> Incident ID
-         * Returns:     A list with a tuple of: Date when the incident reached the state, id of coordinator
-         *              that aproved that change of state.
+         * Returns:     A list OF State models of: Date when the incident reached the state, id of coordinator
+         *              that aproved that change of state and the name of the state itself.
          */
-        public async Task<List<Tuple<DateTime, string>>> GetStatesLog(string code)
+        public async Task<List<StatesModel>> GetStatesLog(string code)
         {
-            List<Tuple<DateTime, string>> log = new List<Tuple<DateTime, string>>();
+            List<StatesModel> log = new List<StatesModel>();
             List<EstadoIncidente> statesList = (await _statesRepository.GetIncidentStatesByIncidentId(code)).ToList();
             foreach (var state in IncidentStates.IncidentStatesList)
             {
                 var stateInOrder = FindState(statesList, state);
                 if (stateInOrder != null)   //When an incident is not rejected, this can be null in states after rejected.
                 {
-                    if (stateInOrder != null)
-                        log.Add(Tuple.Create(stateInOrder.FechaHora, stateInOrder.AprobadoPor));
+                    log.Add( 
+                        new StatesModel
+                        {
+                            NombreEstado = stateInOrder.NombreEstado,
+                            AprobadoPor = stateInOrder.AprobadoPor,
+                            FechaHora = stateInOrder.FechaHora
+                        }
+                    );
                     if (stateInOrder.Activo == true)    //To avoid iterating into pending states
                         break;
                 }

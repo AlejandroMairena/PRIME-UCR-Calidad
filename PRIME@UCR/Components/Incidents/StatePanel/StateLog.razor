@@ -11,9 +11,9 @@
         @for (var index = 0; index < StatesLog.Count; ++index)
         {
             <tr>
-                <td>@_states.List[index].Item2</td>
-                <td>@StatesLog[index].Item1</td>
-                <td>@StatesLog[index].Item2.NombreCompleto</td>
+                <td>@StatesLog[index].NombreEstado</td>
+                <td>@StatesLog[index].FechaHora</td>
+                <td>@StatesLog[index].Aprobador?.NombreCompleto</td>
             </tr>
         }
     </tbody>

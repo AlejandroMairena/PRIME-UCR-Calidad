@@ -141,7 +141,7 @@ namespace PRIME_UCR.Application.Permissions.Incidents
             return await _incidentService.UpdateTransportUnit(model, incident);
         }
 
-        public async Task<List<Tuple<DateTime, string>>> GetStatesLog(string code)
+        public async Task<List<StatesModel>> GetStatesLog(string code)
         {
             return await _incidentService.GetStatesLog(code);
         }
