@@ -8,6 +8,8 @@ using PRIME_UCR.Application.Repositories.Incidents;
 using PRIME_UCR.Domain.Models.Incidents;
 using PRIME_UCR.Application.Services.UserAdministration;
 using PRIME_UCR.Application.Implementations.Incidents;
+using PRIME_UCR.Domain.Constants;
+using PRIME_UCR.Application.Permissions.Incidents;
 
 namespace PRIME_UCR.Test.UnitTests.Application.Incidents
 {
@@ -20,9 +22,9 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
             mockRepo.Setup(u => u.GetAllStates()).Returns(Task.FromResult<IEnumerable<Estado>>(new List<Estado>()));
 
             var mockSecurity = new Mock<IPrimeSecurityService>();
-            mockSecurity.Setup(s => s.CheckIfIsAuthorizedAsync(typeof(StateService), "GetAllStates"));
+            mockSecurity.Setup(s => s.CheckIfIsAuthorizedAsync(It.IsAny<AuthorizationPermissions[]>()));
 
-            var stateService = new StateService(mockRepo.Object, mockSecurity.Object);
+            var stateService = new SecureStateService(mockSecurity.Object, mockRepo.Object);
             var result = await stateService.GetAllStates();
 
             Assert.Empty(result);
@@ -41,9 +43,9 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
             mockRepo.Setup(s => s.GetAllStates()).Returns(Task.FromResult<IEnumerable<Estado>>(stateList));
 
             var mockSecurity = new Mock<IPrimeSecurityService>();
-            mockSecurity.Setup(s => s.CheckIfIsAuthorizedAsync(typeof(StateService), "GetAllStates"));
+            mockSecurity.Setup(s => s.CheckIfIsAuthorizedAsync(It.IsAny<AuthorizationPermissions[]>()));
 
-            var stateService = new StateService(mockRepo.Object, mockSecurity.Object);
+            var stateService = new SecureStateService(mockSecurity.Object, mockRepo.Object);
             var result = await stateService.GetAllStates();
 
             Assert.NotEmpty(result);

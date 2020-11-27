@@ -30,7 +30,7 @@ namespace PRIME_UCR.Test.IntegrationTests.UserAdministration
         {
             var service = factory.Services.GetRequiredService<IAuthenticationService>();
             var result = await service.GetAllUsersWithDetailsAsync();
-            Assert.Equal(13, result.Count);
+            Assert.Equal(12, result.Count);
         }
 
         [Fact]
