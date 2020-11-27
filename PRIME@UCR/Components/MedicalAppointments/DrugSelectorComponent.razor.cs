@@ -64,14 +64,6 @@ namespace PRIME_UCR.Components.MedicalAppointments
             add_prescription_selected = false;
         }
 
-        /*
-        public async Task add_prescription(int drug_)
-        {
-            await appointment_service.InsertPrescription(drug_, Convert.ToInt32(IdMedicalPrescription));
-            add_prescription_selected = false;
-        }
-        */
-
         private async Task SetDrugName(string drug_name)
         {
             await set_filter(drug_name);
@@ -117,11 +109,6 @@ namespace PRIME_UCR.Components.MedicalAppointments
         private async Task clear_filter()
         {
             await get_records();
-        }
-
-        private async Task set_records_per_page(int amount_records)
-        {
-            start_values(amount_records);
         }
 
         async Task get_records_with_filter(string filter_box)
