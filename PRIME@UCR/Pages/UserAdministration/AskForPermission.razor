@@ -1,0 +1,26 @@
+﻿@page  "/AskPermission"
+
+@layout MainLayout
+@using PRIME_UCR.Components.Controls
+
+    @if (ResultOfRecovery == 'T')
+    {
+        <StatusMessage Message="Se ha enviado exitosamente un correo a los administradores con su solicitud"
+                        Class="success" />
+    }
+    @if (ResultOfRecovery == 'F')
+    {
+        <StatusMessage Message="No ha sido posible enviar su solicitud. Favor intentarlo de nuevo."
+                        Class="danger" />
+
+    }
+
+<div class="bg-white rounded p-1">
+    <EditForm Model="@AskForPermissionMod" OnValidSubmit="AskPermission">
+        <FluentValidationValidator />
+
+        <AskForPermissionComponent @bind-AskForPermissionModel="AskForPermissionMod"
+                                   @bind-IsBusy="isBusy" />
+
+    </EditForm>
+</div>
