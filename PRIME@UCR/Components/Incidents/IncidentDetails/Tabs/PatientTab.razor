@@ -38,10 +38,15 @@
                     <AuthorizeView Policy="@AuthorizationPermissions.CanEditMedicalInfoOfIncidentsPatient.ToString()" Context="ChildContentContext">
                         <Authorized>
                             <FluentValidationValidator/>
-                            <TextBox Label="Cédula del paciente"
-                                     Value="@_model.CedPaciente"
-                                     ValueExpression="() => _model.CedPaciente"
-                                     ValueChanged="(string s) => OnIdChange(s)"/>
+                            @if (!ReadOnly)
+                            {
+                                <TextBox Label="Cédula del paciente"
+                                         Value="@_model.CedPaciente"
+                                         ValueExpression="() => _model.CedPaciente"
+                                         ValueChanged="(string s) => OnIdChange(s)"/>
+                            }else{
+                                <TextBox Disabled="true" @bind-Value="@_model.CedPaciente" Label="Cédula del Paciente"/>
+                            }
                             @if (_model.Patient == null)
                             {
                                 <div class="mt-2">
@@ -89,15 +94,18 @@
                         }
                         <PermissionAuthorizeView Permission="@AuthorizationPermissions.CanEditMedicalInfoOfIncidentsPatient" ShowDeniedPermissionMessage=false>
                             <div class="mt-4">
-                                @if (_patientStatus == PatientStatus.PatientUnchanged)
+                                @if (!ReadOnly)
                                 {
-                                    <button disabled class="btn btn-primary">Guardar</button>
-                                    <button disabled class="btn btn-outline-secondary">Descartar</button>
-                                }
-                                else
-                                {
-                                    <button class="btn btn-primary">Guardar</button>
-                                    <button class="btn btn-outline-secondary" @onclick="LoadExistingValues" @onclick:preventDefault>Descartar</button>
+                                    @if (_patientStatus == PatientStatus.PatientUnchanged)
+                                    {
+                                        <button disabled class="btn btn-primary">Guardar</button>
+                                        <button disabled class="btn btn-outline-secondary">Descartar</button>
+                                    }
+                                    else
+                                    {
+                                        <button class="btn btn-primary">Guardar</button>
+                                        <button class="btn btn-outline-secondary" @onclick="LoadExistingValues" @onclick:preventDefault>Descartar</button>
+                                    }
                                 }
                             </div>
                         </PermissionAuthorizeView>

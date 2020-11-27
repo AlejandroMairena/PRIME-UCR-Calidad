@@ -12,42 +12,52 @@
             <FluentValidationValidator/>
             <div class="row">
                 <div class="col-xl-6 col-lg-8">
-                    <DropDownMenu T="UnidadDeTransporte" Data="_transportUnits"
-                                  Label="Unidad de transporte"
-                                  DefaultText="Seleccione una unidad de transporte"
-                                  TextProperty="Matricula"
-                                  ValueComparer="@((UnidadDeTransporte u) => u.Matricula == _model.TransportUnit?.Matricula)"
-                                  @bind-Value="_model.TransportUnit"
-                                  Required="false"/>
-                    <DropDownMenu T="CoordinadorTécnicoMédico" Data="_coordinators"
-                                  Label="Coordinador técnico médico"
-                                  DefaultText="Seleccione al coordinador del incidente"
-                                  TextProperty="NombreCompleto"
-                                  ValueComparer="@((CoordinadorTécnicoMédico ctm) => ctm.Cédula == _model.Coordinator?.Cédula)"
-                                  @bind-Value="_model.Coordinator"
-                                  Required="false"/>
-                    <div class="form-group">
-                        <label>Miembros del equipo</label>
-                        <RadzenDropDown Multiple="true" Data="_specialists"
-                                        TextProperty="NombreCompleto"
-                                        ValueProperty="Cédula"
-                                        @bind-Value="Specialists"
-                                        Placeholder="Asigne miembros del equipo"
-                                        class="form-control"/>
-                    </div>
+                    @if (!ReadOnly)//If incident not in finished state
+                    {
+                        <DropDownMenu T="UnidadDeTransporte" Data="_transportUnits"
+                                      Label="Unidad de transporte"
+                                      DefaultText="Seleccione una unidad de transporte"
+                                      TextProperty="Matricula"
+                                      ValueComparer="@((UnidadDeTransporte u) => u.Matricula == _model.TransportUnit?.Matricula)"
+                                      @bind-Value="_model.TransportUnit"
+                                      Required="false"/>
+                        <DropDownMenu T="CoordinadorTécnicoMédico" Data="_coordinators"
+                                      Label="Coordinador técnico médico"
+                                      DefaultText="Seleccione al coordinador del incidente"
+                                      TextProperty="NombreCompleto"
+                                      ValueComparer="@((CoordinadorTécnicoMédico ctm) => ctm.Cédula == _model.Coordinator?.Cédula)"
+                                      @bind-Value="_model.Coordinator"
+                                      Required="false"/>
+                        <div class="form-group">
+                            <label>Miembros del equipo</label>
+                            <RadzenDropDown Multiple="true" Data="_specialists"
+                                            TextProperty="NombreCompleto"
+                                            ValueProperty="Cédula"
+                                            @bind-Value="Specialists"
+                                            Placeholder="Asigne miembros del equipo"
+                                            class="form-control"/>
+                        </div>
+                    }else {
+                        <TextBox Disabled="true" @bind-Value="@_model.TransportUnit.Matricula" Label="Unidad de transporte"/>
+                        <TextBox Disabled="true" @bind-Value="@CordinName" Label="Coordinador técnico médico"/>
+                        <TextBox Disabled="true" @bind-Value="@SpecialistsNames" Label="Miembros del equipo"/>
+                    }
                 </div>
             </div>
-            <div class="mt-2">
-                @if (!_saveButtonEnabled)
-                {
-                    <button disabled type="submit" class="btn btn-primary">Guardar</button>
-                    <button disabled class="btn btn-outline-secondary">Descartar</button>
-                }
-                else
-                {
-                    <button type="submit" class="btn btn-primary">Guardar</button>
-                    <button role="button" class="btn btn-outline-secondary" @onclick="LoadExistingValues" @onclick:preventDefault>Descartar</button>}
-            </div>
+            @if (!ReadOnly)//If incident not in finished state
+            {
+                <div class="mt-2">
+                    @if (!_saveButtonEnabled)
+                    {
+                        <button disabled type="submit" class="btn btn-primary">Guardar</button>
+                        <button disabled class="btn btn-outline-secondary">Descartar</button>
+                    }
+                    else
+                    {
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                        <button role="button" class="btn btn-outline-secondary" @onclick="LoadExistingValues" @onclick:preventDefault>Descartar</button>}
+                </div>
+            }
         </EditForm>
     </AuthorizeIfAssigned>
 </Loading>

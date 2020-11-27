@@ -8,38 +8,51 @@
         <FluentValidationValidator />
         <div class="row">
             <div class="col-xl-6 col-lg-8">
-        <DropDownMenu T="CentroMedico" Data="_medicalCenters"
-                      Label="Centro médico"
-                      DefaultText="Seleccione un centro médico"
-                      TextProperty="Nombre"
-                      Value="@Value.MedicalCenter"
-                      ValueExpression="() => Value.MedicalCenter"
-                      ValueChanged="@((CentroMedico mc) => OnChangeMedicalCenter(mc))"/>
-        <DropDownMenu Data="_doctors" T="Médico"
-                      DefaultText="Seleccione un/una médico/médica"
-                      Label="@DoctorForLabel"
-                      TextExpression="@((Médico m) => $"{m.Nombre} {m.PrimerApellido} {m.SegundoApellido}")"
-                      @bind-Value="Value.Doctor"/>
+                @if (!ReadOnly) { 
+                    <DropDownMenu T="CentroMedico" Data="_medicalCenters"
+                                  Label="Centro médico"
+                                  DefaultText="Seleccione un centro médico"
+                                  TextProperty="Nombre"
+                                  Value="@Value.MedicalCenter"
+                                  ValueExpression="() => Value.MedicalCenter"
+                                  ValueChanged="@((CentroMedico mc) => OnChangeMedicalCenter(mc))"/>
+                    <DropDownMenu Data="_doctors" T="Médico"
+                                  DefaultText="Seleccione un/una médico/médica"
+                                  Label="@DoctorForLabel"
+                                  TextExpression="@((Médico m) => $"{m.Nombre} {m.PrimerApellido} {m.SegundoApellido}")"
+                                  @bind-Value="Value.Doctor"/>
+                }else{
+                    <TextBox Disabled="true" Required="false" @bind-Value="@Value.MedicalCenter.Nombre" Label="Centro Médico" />
+                    <TextBox Disabled="true" Required="false" @bind-Value="@DoctorFullName" Label="@DoctorForLabel" />
+                }
             </div>
         </div>
         @if (IsOrigin)
         {
             <div class="row">
                 <div class="col-md-4">
-                    <IntegerInput Label="Número de cama" @bind-Value="Value.BedNumber" Min="1"/>
+                    @if (!ReadOnly)
+                    {
+                        <IntegerInput Label="Número de cama" @bind-Value="Value.BedNumber" Min="1"/>
+                    }else{
+                        <TextBox Disabled="true" Required="false" @bind-Value="@BedNumberText" Label="Médico en origen" />
+                    }
                 </div>
             </div>
         }
         <div class="mt-2">
-            @if (!_saveButtonEnabled)
+            @if (!ReadOnly)
             {
-                <button disabled type="submit" class="btn btn-primary">Guardar</button>
-                <button role="button" @onclick:preventDefault @onclick="@Discard" class="btn btn-outline-secondary">Descartar</button>
-            }
-            else
-            {
-                <button type="submit" class="btn btn-primary">Guardar</button>
-                <button role="button" @onclick:preventDefault @onclick="@Discard" class="btn btn-outline-secondary">Descartar</button>
+                @if (!_saveButtonEnabled)
+                {
+                    <button disabled type="submit" class="btn btn-primary">Guardar</button>
+                    <button role="button" @onclick:preventDefault @onclick="@Discard" class="btn btn-outline-secondary">Descartar</button>
+                }
+                else
+                {
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                    <button role="button" @onclick:preventDefault @onclick="@Discard" class="btn btn-outline-secondary">Descartar</button>
+                }
             }
         </div>
     </EditForm>
