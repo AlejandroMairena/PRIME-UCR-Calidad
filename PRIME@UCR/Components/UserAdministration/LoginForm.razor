@@ -2,43 +2,41 @@
 @inject Blazored.SessionStorage.ISessionStorageService sessionStorage
 
 <div class="container mt-5 text-white">
-    <EditForm EditContext="_context" OnValidSubmit="@ValidateUser">
-        <DataAnnotationsValidator />
+    <div class="row">
+        <EditForm EditContext="_context" OnValidSubmit="@ValidateUser">
+            <DataAnnotationsValidator />
 
-        <TextBox Label="Correo Electrónico:" @bind-Value="@logInInfo.Correo" />
+            <TextBox Label="Correo Electrónico:" @bind-Value="@logInInfo.Correo" />
 
-        <PasswordTextBoxComponent Label="Contraseña:" @bind-Value="@logInInfo.Contraseña" />
+            <PasswordTextBoxComponent Label="Contraseña:" @bind-Value="@logInInfo.Contraseña" />
 
-        <a class="text-secondary" href="/requestPasswordRecovery"><u>Recuperar contraseña</u></a>
-        <br />
-        <div class="text-left @invalidUser">
-            <p id="emailHelp" class="text-danger">Ingresó su usuario o contraseña incorrectamente. Intente de nuevo.</p>
-        </div>
-        <div class="text-left @notRegistered">
-            <p id="emailHelp" class="text-warning">Su cuenta no ha sido validada, le hemos enviado un correo con un enlace de validación.</p>
-        </div>
-        <div class="text-center">
-            @if (isBusy) // Loading button
-            {
-                <button class="btn btn-light width:13em mt-2" type="button">
-                    <span class="spinner-border spinner-border-sm" style="background-color:white" role="status" aria-hidden="true"></span>
-                    Validando información
-                </button>
-            }
-            else
-            {
-                @if (isFormValid) // Disable button if form is not valid
+            <a class="text-secondary" href="/requestPasswordRecovery"><u>Recuperar contraseña</u></a>
+            <br />
+            <div class="text-left @invalidUser">
+                <p id="emailHelp" class="text-danger">Ingresó su usuario o contraseña incorrectamente. Intente de nuevo.</p>
+            </div>
+            <div class="text-left @notRegistered">
+                <p id="emailHelp" class="text-warning">Su cuenta no ha sido validada, le hemos enviado un correo con un enlace de validación.</p>
+            </div>
+            <div class="text-center">
+                @if (isBusy) // Loading button
                 {
-                    <button type="submit" style="width:13em" class="btn btn-light mt-2">Ingresar</button>
-                }
-                else
-                {
-                    <button type="submit" style="width:13em" class="btn btn-secondary mt-2" disabled>Ingresar</button>
-                }
-            }
-        </div>
+    <button class="btn btn-light width:13em mt-2" type="button">
+        <span class="spinner-border spinner-border-sm" style="background-color:white" role="status" aria-hidden="true"></span>
+        Validando información
+    </button> }
+                    else
+                    {
+    @if (isFormValid) // Disable button if form is not valid
+    {
+    <button type="submit" style="width:13em" class="btn btn-light mt-2">Ingresar</button> }
+                        else
+                        {
+    <button type="submit" style="width:13em" class="btn btn-secondary mt-2" disabled>Ingresar</button>}}
+            </div>
 
-    </EditForm>
+        </EditForm>
+    </div>
     <div class="text-left">
         <small id="emailHelp" class="text-white">No compartiremos su correo electrónico con nadie.</small>
     </div>
