@@ -19,9 +19,9 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Appointments
 
         }
 
-        public async Task<PoseeReceta> GetPrescriptionByDrugId(int id) {
+        public async Task<PoseeReceta> GetPrescriptionByDrugId(int id, int appointmentId) {
             return await _db.HavePrescription
-                          .Where(p => p.IdRecetaMedica == id)
+                          .Where(p => p.IdRecetaMedica == id && p.IdCitaMedica == appointmentId)
                           .FirstOrDefaultAsync(); 
         }
 

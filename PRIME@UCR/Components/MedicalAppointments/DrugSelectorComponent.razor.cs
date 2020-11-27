@@ -51,7 +51,7 @@ namespace PRIME_UCR.Components.MedicalAppointments
 
         public async Task add_prescription(RecetaMedica drug_)
         {
-            PoseeReceta pr = await appointment_service.GetDrugByConditionAsync(drug_.Id);
+            PoseeReceta pr = await appointment_service.GetDrugByConditionAsync(drug_.Id, Convert.ToInt32(IdMedicalPrescription));
             if (pr == null)
             {
                 await appointment_service.InsertPrescription(drug_.Id, Convert.ToInt32(IdMedicalPrescription));
@@ -62,6 +62,10 @@ namespace PRIME_UCR.Components.MedicalAppointments
                 display_existed_msg = true; 
             }
             add_prescription_selected = false;
+        }
+
+        public void close() {
+            add_prescription_selected = false; 
         }
 
         private async Task SetDrugName(string drug_name)
@@ -114,10 +118,12 @@ namespace PRIME_UCR.Components.MedicalAppointments
         async Task get_records_with_filter(string filter_box)
         {
 
-            prescriptions = (await appointment_service.GetDrugsByConditionAsync(filter_box)).ToList();
+            //prescriptions = (await appointment_service.GetDrugsByConditionAsync(filter_box)).ToList();
+
+            prescriptions = (await appointment_service.GetDrugsByFilterAsync(filter_box)).ToList(); 
 
             current_page = 1;
-            sub_group_range = 1;
+            sub_group_range = 7;
             total_elements = prescriptions.Count;
             total_pages = total_elements / sub_group_range;
 

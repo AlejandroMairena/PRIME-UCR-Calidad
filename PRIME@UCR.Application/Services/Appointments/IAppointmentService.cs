@@ -26,7 +26,9 @@ namespace PRIME_UCR.Application.Services.Appointments
 
         Task<IEnumerable<RecetaMedica>> GetDrugsByConditionAsync(string drugname);
 
-        Task<PoseeReceta> GetDrugByConditionAsync(int drug_id); 
+        Task<IEnumerable<RecetaMedica>> GetDrugsByFilterAsync(string filter); 
+
+        Task<PoseeReceta> GetDrugByConditionAsync(int drug_id, int appointmentId); 
 
         Task<PoseeReceta> InsertPrescription(int idMedicalPrescription, int idMedicalAppointment);
 

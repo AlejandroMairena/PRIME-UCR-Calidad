@@ -10,3 +10,12 @@
 .clickeable {
     cursor: pointer;
 }
+
+
+.x {
+    background-color: #e9ecef;
+    border: none;
+    position: relative;
+    top: -20px;
+    left: 10px;
+}
