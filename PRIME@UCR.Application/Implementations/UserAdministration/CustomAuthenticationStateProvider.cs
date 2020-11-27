@@ -102,14 +102,21 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
             var token = await localStorageService.GetItemAsync<string>("token");
             if (token != null)
             {
-                var email = ValidateJwtToken(token);
-                if (email != null)
+                var list = ValidateJwtToken(token);
+                if (list != null)
                 {
-                    var userToRegister = await authenticationService.GetUserByEmailAsync(email);
-                    var profilesAndPermissions = await authenticationService.GetAllProfilesWithDetailsAsync();
-                    if (userToRegister != null && profilesAndPermissions != null)
-                        identity = GetClaimIdentity(userToRegister, profilesAndPermissions);
-
+                    var claimsList = new List<Claim>();
+                    var email = list.First(x => x.Type == "unique_name").Value;
+                    foreach (Claim currentClaim in list)
+                    { 
+                        if (currentClaim.Type != "nbf" && currentClaim.Type != "exp" && currentClaim.Type != "iat")
+                        {
+                            claimsList.Add(currentClaim);
+                        }
+                    }
+                    identity = new ClaimsIdentity(claimsList.ToList(), "apiauth_type");
+                    var newTokenGenerated = GenerateJwtToken(identity);
+                    await localStorageService.SetItemAsync<string>("token", newTokenGenerated);
                 }
             }
 
@@ -139,11 +146,11 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
                 if (loginResult.Succeeded)
                 {
 
-                    var token = GenerateJwtToken(logInInfo);
-                    await localStorageService.SetItemAsync<string>("token", token);
-                    userToCheck = await authenticationService.GetUserWithDetailsAsync(userToCheck.Id);
                     var profilesAndPermissions = await authenticationService.GetAllProfilesWithDetailsAsync();
+                    userToCheck = await authenticationService.GetUserWithDetailsAsync(userToCheck.Id);
                     identity = GetClaimIdentity(userToCheck, profilesAndPermissions);
+                    var token = GenerateJwtToken(identity);
+                    await localStorageService.SetItemAsync<string>("token", token);
                 }
                 else
                 {
@@ -182,21 +189,21 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
             return await Task.FromResult(true);
         }
 
-        public string GenerateJwtToken(LogInModel logInInfo)
+        public string GenerateJwtToken(ClaimsIdentity identity)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(keyModel.JWT_Key);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(new[] { new Claim("correo",logInInfo.Correo)}),
-                Expires = DateTime.UtcNow.AddHours(1),
+                Subject = identity,
+                Expires = DateTime.UtcNow.AddMinutes(30),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
         }
 
-        public string? ValidateJwtToken(string token)
+        public List<Claim> ValidateJwtToken(string token)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(keyModel.JWT_Key);
@@ -212,9 +219,9 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
                 }, out SecurityToken validatedToken);
 
                 var jwtToken = (JwtSecurityToken)validatedToken;
-                var emailAddress = jwtToken.Claims.First(x => x.Type == "correo").Value;
+                var tokenToReturn = jwtToken.Claims.ToList();
 
-                return emailAddress;
+                return tokenToReturn;
             }
             catch
             {
