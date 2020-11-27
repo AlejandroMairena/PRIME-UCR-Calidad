@@ -44,7 +44,7 @@
 
 
                     <tbody>
-                        @foreach (RecetaMedica drug_ in prescriptions)
+                        @foreach (RecetaMedica drug_ in prescriptions_at_current_tab)
                         {
                             <tr style="transform:rotate(0);">
                                 <td scope="row" style="color:black;" class="clickeable" @onclick="@(() => add_prescription(drug_))">@drug_.NombreReceta</td>
@@ -62,12 +62,12 @@
                     </tbody>
                 </table>
 
-                @*
+                
                     <div class="pagination">
                         <Pagination Total_pages="total_pages" Current_page="current_page" Radius="radius" Selected_page="selected_page">
                         </Pagination>
                     </div>
-                *@
+                
             </Loading>
         </div>
     }

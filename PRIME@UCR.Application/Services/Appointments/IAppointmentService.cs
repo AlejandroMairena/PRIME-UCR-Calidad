@@ -12,6 +12,9 @@ namespace PRIME_UCR.Application.Services.Appointments
     public interface IAppointmentService
     {
         Task<IEnumerable<TipoAccion>> GetActionTypesAsync(bool isIncident = true);
+
+        Task<IEnumerable<TipoAccion>> GetActionsTypesMedicalAppointmentAsync(bool isMedAppointment = true); 
+
         Task<Expediente> AssignMedicalRecordAsync(int appointmentId, Paciente patient);
         Task<Cita> GetLastAppointmentDateAsync(int id);
 
@@ -29,6 +32,8 @@ namespace PRIME_UCR.Application.Services.Appointments
 
         Task<PoseeReceta> UpdatePrescriptionDosis(int idMedicalPrescription, int idMedicalAppointment, string dosis);
 
-        Task UpdateAsync(PoseeReceta prescription); 
+        Task UpdateAsync(PoseeReceta prescription);
+
+        Task<CitaMedica> GetMedicalAppointmentByKeyAsync(int id); 
     }
 }

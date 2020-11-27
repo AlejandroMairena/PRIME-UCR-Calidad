@@ -26,7 +26,7 @@
                         <label for="@context.IdRecetaMedica">Descripción</label>
                         @**@
                         <textarea name="@context.IdRecetaMedica" @bind="prescription_text_area" maxlength="100"></textarea>
-                        <button type="submit" class="btn btn-primary" @onclick="@(() => set_prescription_dosis(context.IdRecetaMedica, context.IdCitaMedica, context))">Guardar</button>
+                        <button type="submit" class="btn btn-primary" @onclick="@(() => set_prescription_dosis(context))">Guardar</button>
                     }
                     else
                     {

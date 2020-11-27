@@ -81,9 +81,17 @@ namespace PRIME_UCR.Components.MedicalRecords.Tabs
         }
 
 
+        
         public string get_appointment_link(int id) {
             return $"/medical-appointment/{id}"; 
         }
+        
+
+        /*
+        public string get_appointment_link(int id) {
+            return $"/medical-appointment-actions/{id}";
+        }
+        */
 
         public async Task getIncidents() {
             dat_in_link = new List<DateIncidentModel>();

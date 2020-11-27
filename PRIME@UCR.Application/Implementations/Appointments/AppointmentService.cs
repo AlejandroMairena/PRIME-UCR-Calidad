@@ -65,6 +65,11 @@ namespace PRIME_UCR.Application.Implementations.Appointments
             return await _medapprepo.GetByAppointmentId(id); 
         }
 
+        public async Task<CitaMedica> GetMedicalAppointmentByKeyAsync(int id) {
+            return await _medapprepo.GetByKeyAsync(id); 
+        }
+
+
         public async Task<PoseeReceta> InsertPrescription(int idMedicalPrescription, int idMedicalAppointment) {
             PoseeReceta temp = new PoseeReceta()
             {
@@ -92,6 +97,10 @@ namespace PRIME_UCR.Application.Implementations.Appointments
         public async Task<IEnumerable<TipoAccion>> GetActionTypesAsync(bool isIncident = true)
         {
             return await _actionTypeRepo.GetByConditionAsync(a => a.EsDeIncidente == true);
+        }
+
+        public async Task<IEnumerable<TipoAccion>> GetActionsTypesMedicalAppointmentAsync(bool isMedAppointment = true) {
+            return await _actionTypeRepo.GetByConditionAsync(a => a.EsDeCitaMedica == isMedAppointment); 
         }
 
         public async Task<Expediente> AssignMedicalRecordAsync(int appointmentId, Paciente patient)
