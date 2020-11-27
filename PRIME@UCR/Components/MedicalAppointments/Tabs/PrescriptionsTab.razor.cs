@@ -5,10 +5,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace PRIME_UCR.Pages.Appointments
+
+namespace PRIME_UCR.Components.MedicalAppointments.Tabs
 {
-    public partial class AppointmentView
+    public partial class PrescriptionsTab
     {
+
         [Parameter] public string id { get; set; }
 
         public List<PoseeReceta> medicalprescrip { get; set; }
@@ -32,11 +34,12 @@ namespace PRIME_UCR.Pages.Appointments
         }
 
 
-        private async Task updateChanges(bool action) {
+        private async Task updateChanges(bool action)
+        {
 
             prescription_description_not_done = false;
             drug_selector_active = true;
-            await get_prescriptions(); 
+            await get_prescriptions();
         }
 
         private async Task get_prescriptions()
@@ -46,8 +49,9 @@ namespace PRIME_UCR.Pages.Appointments
             StateHasChanged();
         }
 
-        private async Task updatelist(bool f) {
-            drug_selector_active = false; 
+        private async Task updatelist(bool f)
+        {
+            drug_selector_active = false;
             await get_prescriptions();
             StateHasChanged();
         }

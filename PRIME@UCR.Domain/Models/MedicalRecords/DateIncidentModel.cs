@@ -17,9 +17,9 @@ namespace PRIME_UCR.Domain.Models.MedicalRecords
 
         public CentroMedico medical_center { get; set; }
 
-        public string type { get; set; } = "incidente";
+        //public string type { get; set; } = "incidente";
 
-        public string type2 { get; set; } = "cita médica"; 
+        //public string type2 { get; set; } = "cita médica"; 
 
         public string get_appointment_type() {
             if (appointment_status == true) //es una cita medica

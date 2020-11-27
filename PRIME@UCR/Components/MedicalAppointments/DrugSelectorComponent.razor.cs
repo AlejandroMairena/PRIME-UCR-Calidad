@@ -19,6 +19,9 @@ namespace PRIME_UCR.Components.MedicalAppointments
         [Parameter] public string IdMedicalPrescription { get; set; }
 
         [Parameter] public EventCallback<bool> UpdateList { get; set; }
+        [Parameter] public bool Active { get; set; }
+
+        [Parameter] public bool Description_not_done { get; set; }
 
         public int start_show_record { get; set; } = 0;
 
@@ -42,11 +45,13 @@ namespace PRIME_UCR.Components.MedicalAppointments
 
         public List<RecetaMedica> prescriptions { get; set; }
 
+        public List<RecetaMedica> prescriptions_at_current_tab { get; set; }
+
         public bool display_existed_msg { get; set; } = false; 
 
         public async Task add_prescription(RecetaMedica drug_)
         {
-            PoseeReceta pr = await appointment_service.GetDrugByConditionAsync(drug_.Id);
+            PoseeReceta pr = await appointment_service.GetDrugByConditionAsync(drug_.Id, Convert.ToInt32(IdMedicalPrescription));
             if (pr == null)
             {
                 await appointment_service.InsertPrescription(drug_.Id, Convert.ToInt32(IdMedicalPrescription));
@@ -59,13 +64,9 @@ namespace PRIME_UCR.Components.MedicalAppointments
             add_prescription_selected = false;
         }
 
-        /*
-        public async Task add_prescription(int drug_)
-        {
-            await appointment_service.InsertPrescription(drug_, Convert.ToInt32(IdMedicalPrescription));
-            add_prescription_selected = false;
+        public void close() {
+            add_prescription_selected = false; 
         }
-        */
 
         private async Task SetDrugName(string drug_name)
         {
@@ -81,32 +82,48 @@ namespace PRIME_UCR.Components.MedicalAppointments
             searching_drug = false;
         }
 
+
+        protected override void OnInitialized()
+        {
+
+        }
+
+        protected override async Task OnInitializedAsync()
+        {
+            d_filter = new DrugFilter();
+            _context = new EditContext(d_filter);
+            await get_records();
+        }
+
+
+        public void ShowDrugSelector()
+        {
+            if (Active)
+            {
+                add_prescription_selected = true;
+            }
+            else {
+                Description_not_done = true; 
+            }
+        }
+
+
+        /////////////////////////////////////////////////////////////////////////////////PAGINATION. 
+
         private async Task clear_filter()
         {
             await get_records();
         }
 
-
-
-        public void ShowDrugSelector()
-        {
-            add_prescription_selected = true;
-        }
-
-
-        private async Task set_records_per_page(int amount_records)
-        {
-
-            start_values(amount_records);
-        }
-
         async Task get_records_with_filter(string filter_box)
         {
 
-            prescriptions = (await appointment_service.GetDrugsByConditionAsync(filter_box)).ToList();
+            //prescriptions = (await appointment_service.GetDrugsByConditionAsync(filter_box)).ToList();
+
+            prescriptions = (await appointment_service.GetDrugsByFilterAsync(filter_box)).ToList(); 
 
             current_page = 1;
-            sub_group_range = 1;
+            sub_group_range = 7;
             total_elements = prescriptions.Count;
             total_pages = total_elements / sub_group_range;
 
@@ -129,6 +146,8 @@ namespace PRIME_UCR.Components.MedicalAppointments
             {
                 end_show_record = 0;
             }
+
+            fill_prescription_tab(start_show_record, end_show_record); 
         }
 
 
@@ -139,26 +158,14 @@ namespace PRIME_UCR.Components.MedicalAppointments
             await get_records_per_page(page, total_pages);
         }
 
-        protected override void OnInitialized()
-        {
-
-        }
-
-        protected override async Task OnInitializedAsync()
-        {
-            d_filter = new DrugFilter();
-            _context = new EditContext(d_filter);
-            await get_records();
-        }
 
         private async Task get_records()
         {
 
             prescriptions = (await appointment_service.GetDrugsAsync()).ToList();
-            start_values(3);
+            start_values(7);
 
         }
-
 
 
         private void start_values(int sub_group_range)
@@ -185,6 +192,7 @@ namespace PRIME_UCR.Components.MedicalAppointments
                 radius = 0;
             }
 
+            fill_prescription_tab(start_show_record, end_show_record); 
         }
 
 
@@ -202,8 +210,18 @@ namespace PRIME_UCR.Components.MedicalAppointments
 
             }
 
+            fill_prescription_tab(start_show_record, end_show_record); 
+
         }
 
+        public void fill_prescription_tab(int start_show_record, int end_show_record) {
+            List<RecetaMedica> current_tab = new List<RecetaMedica>(); 
+            for (int index = start_show_record; index < end_show_record; ++index) {
+                current_tab.Add(prescriptions[index]); 
+            }
+
+            prescriptions_at_current_tab = current_tab; 
+        }
 
     }
 }
