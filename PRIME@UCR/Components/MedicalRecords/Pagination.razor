@@ -1,31 +1,4 @@
-﻿@*
-    <style>
-        .wrapper_pages {
-            position: absolute;
-            top: 190px;
-            right: 10px;
-        }
-    </style>
-*@
-
-
-<style>
-
-    .pagination-component .pagination > li,
-    .pagination-component .pagination > li > span {
-        color:black; 
-    }
-
-    .pagination-component .pagination > li.active > span {
-        background-color:black;
-        color:white; 
-        border: 1px solid black;
-    }
-
-</style>
-
-
-<div class="pagination-component">
+﻿<div class="pagination-component">
     <nav aria-label="Page navitagion" class="wrapper_pages">
         <ul class="pagination justify-content-center">
             @foreach (var link in links)

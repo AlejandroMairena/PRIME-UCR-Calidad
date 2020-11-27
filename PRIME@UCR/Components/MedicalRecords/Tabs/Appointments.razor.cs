@@ -79,7 +79,7 @@ namespace PRIME_UCR.Components.MedicalRecords.Tabs
 
         
         public string get_appointment_link(int id) {
-            if (false)
+            if (true)
             {
                 return $"/medical-appointment/{id}";
             }

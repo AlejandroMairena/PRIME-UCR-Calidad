@@ -1,0 +1,12 @@
+﻿body {
+}
+
+.drug_selector {
+    position: absolute;
+    top: 100px;
+    left: 10px;
+}
+
+.clickeable {
+    cursor: pointer;
+}
