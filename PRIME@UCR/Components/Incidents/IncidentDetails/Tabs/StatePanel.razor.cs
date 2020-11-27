@@ -17,6 +17,18 @@ using System.Linq;
 using System.Security.Policy;
 using System.Threading.Tasks;
 
+using PRIME_UCR.Application.Services;
+using PRIME_UCR.Domain.Models;
+using PRIME_UCR.Application.Services.CheckLists;
+using PRIME_UCR.Components.CheckLists.InIncident;
+using PRIME_UCR.Components.Incidents.IncidentDetails.Constants;
+using Microsoft.AspNetCore.Components.Forms;
+using PRIME_UCR.Domain.Models.CheckLists;
+using PRIME_UCR.Application.Services.Multimedia;
+using PRIME_UCR.Application.DTOs.UserAdministration;
+using PRIME_UCR.Application.Implementations.Incidents;
+using PRIME_UCR.Application.DTOs.Incidents;
+
 namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
 {
     public partial class StatePanel
@@ -40,7 +52,17 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
         private int currentStateIndex;
         MatButton Button2;
         BaseMatMenu Menu2;
+        protected string IncidentURL = "/incidents/";
+        public string incidentcod { get; set; }
+        public IMailService mailService { get; set; }
+        public IAssignmentService AssignmentService { get; set; }
         private bool _isLoading = true;
+
+        private AssignmentModel _model;
+
+        private List<EspecialistaTécnicoMédico> _specialists;
+
+        public IUserService userService { get; set; }
 
         public List<Tuple<string, string>> IncidentStatesList = new List<Tuple<string, string>> {
             Tuple.Create(IncidentStates.InCreationProcess.Nombre ,"Iniciado"),
@@ -102,6 +124,7 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
 
         private async Task Approve()
         {
+            sendInformation();
             await IncidentService
                 .ApproveIncidentAsync(Incident.Code, CurrentUser.Cédula);
             await OnSave.InvokeAsync(null);
@@ -126,6 +149,31 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
         public void RedirectToTab(string url)
         {
             NavManager.NavigateTo($"{"/incidents/"+Incident.Code+"/"+ url}", forceLoad: true);
+        }
+
+        public async void sendInformation()
+        {
+            _model = await AssignmentService.GetAssignmentsByIncidentIdAsync(Incident.Code);
+            _specialists = _model.TeamMembers;
+            /*_specialists =
+                (await AssignmentService.GetSpecialistsAsync())
+                .ToList();*/
+
+            foreach (var special in _specialists)
+            {
+                var user = (await userService.GetAllUsersWithDetailsAsync()).ToList().Find(u => u.CedPersona == special.Cédula);
+                var url = "https://localhost:44368" + IncidentURL + incidentcod;
+                var message = new EmailContentModel()
+                {
+                    Destination = user.Email,
+                    Subject = "PRIME@UCR: Asignado al incidente:" + incidentcod,
+                    Body = $"<p>Proceda a completar las listas de chequeo asignadas al incidente:<a href=\"{url}\">Haga click aquí para ser redirigido</a></p>"
+                };
+
+                await mailService.SendEmailAsync(message);
+
+                StateHasChanged();
+            }
         }
     }
 }
