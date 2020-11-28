@@ -33,7 +33,6 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
 {
     public partial class StatePanel
     {
-
         public string nextState;
 
         public List<Tuple<string, string>> PendingTasks = new List<Tuple<string, string>>();
@@ -53,7 +52,6 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
         MatButton Button2;
         BaseMatMenu Menu2;
         protected string IncidentURL = "/incidents/";
-        public string incidentcod { get; set; }
         public IMailService mailService { get; set; }
         public IAssignmentService AssignmentService { get; set; }
         private bool _isLoading = true;
@@ -162,11 +160,11 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
             foreach (var special in _specialists)
             {
                 var user = (await userService.GetAllUsersWithDetailsAsync()).ToList().Find(u => u.CedPersona == special.Cédula);
-                var url = "https://localhost:44368" + IncidentURL + incidentcod;
+                var url = "https://localhost:44368" + IncidentURL + Incident.Code;
                 var message = new EmailContentModel()
                 {
                     Destination = user.Email,
-                    Subject = "PRIME@UCR: Asignado al incidente:" + incidentcod,
+                    Subject = "PRIME@UCR: Asignado al incidente:" + Incident.Code,
                     Body = $"<p>Proceda a completar las listas de chequeo asignadas al incidente:<a href=\"{url}\">Haga click aquí para ser redirigido</a></p>"
                 };
 
