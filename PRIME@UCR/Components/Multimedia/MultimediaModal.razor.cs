@@ -7,6 +7,7 @@ using System.Linq;
 using System.Reflection.Metadata;
 using System.Threading.Tasks;
 using PRIME_UCR.Application.Services.Multimedia;
+using System.Threading;
 
 namespace PRIME_UCR.Components.Multimedia
 {
@@ -38,6 +39,8 @@ namespace PRIME_UCR.Components.Multimedia
         public bool ShowAudio { get; set; } = false;
         [Parameter]
         public EventCallback<MultimediaContent> OnFileUpload { get; set; }
+        [Parameter]
+        public bool ShowPDF { get; set; } = false;
 
         public delegate Task ModalClosed();
         public event ModalClosed OnModalClosed;
@@ -58,8 +61,6 @@ namespace PRIME_UCR.Components.Multimedia
             await OnClose.InvokeAsync(Show);
         }
         string getSrc() {
-            //string src = MContent.Archivo; 
-            //AQUI HAY QUE DESENCRIPTAR EL ARCHIVO Y EL PATH PARA HACERLO DINAMICO
             string pathEncrypted = MContent.Archivo;
             byte[] pathEncryptedByte = System.Convert.FromBase64String(pathEncrypted);
             string pathDecrypted = encrypt_service.Decrypt(pathEncryptedByte);
@@ -69,26 +70,20 @@ namespace PRIME_UCR.Components.Multimedia
             return path;
         }
         string getName() {
-            //MContent tiene el name, hay que sacarlo de ahi para que sea dinamico
-            //string src = "practica.png";
             string src = MContent.Nombre;
             return src;
         }
-        async Task getText() {//REVISAR
-            //AQUI HAY QUE DESENCRIPTAR EL ARCHIVO Y EL PATH PARA HACERLO DINAMICO
+        async Task getPDF() {
             string pathEncrypted = MContent.Archivo;
             byte[] pathEncryptedByte = System.Convert.FromBase64String(pathEncrypted);
             string pathDecrypted = encrypt_service.Decrypt(pathEncryptedByte);
             string filename = MContent.Nombre;
             encrypt_service.DecryptFile(pathDecrypted);
-
             string path = pathDecrypted.Replace("wwwroot/", "");
-           
-            //string path = "img/prueba.txt";
-            await JS.InvokeAsync<bool>("showTxt", path);
-
-
-
+            bool done = await JS.InvokeAsync<bool>("showTxt", path);
+            Thread.Sleep(2000);
+            encrypt_service.EncryptFile(pathDecrypted);
+            
         }
         string getAudio() {
             string pathEncrypted = MContent.Archivo;

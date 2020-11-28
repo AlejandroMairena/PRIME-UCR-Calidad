@@ -43,6 +43,7 @@ namespace PRIME_UCR.Components.Multimedia
         bool showVideo = false;
         bool showVideoComponent = false;
         bool showTextComponent = false;
+        bool showPDF = false;
 
         bool showDropdown = false;
         // MultimediaContent pass to the MultimediaModal component
@@ -72,16 +73,6 @@ namespace PRIME_UCR.Components.Multimedia
         // to the user. 
         async Task HandleFileSelected(IFileListEntry[] files)
         {
-            //leer llave
-            //leer iv
-            //string keyString = Configuration.GetConnectionString("Key");
-            //string ivString = Configuration.GetConnectionString("IV");
-            string keyString = "qXOctUgD1RQCyF6dl4IjgZLAosrLh8Dn8GCklADSmvo=";
-            string ivString = "fkmYijInbe9eWQbLoWtTNQ==";
-            byte[] ivByte = System.Convert.FromBase64String(ivString);
-            byte[] keyByte = System.Convert.FromBase64String(keyString);
-            file_service.SetKeyIV(ivByte, keyByte);
-            encrypt_service.SetKeyIV(ivByte, keyByte);
             IFileListEntry file = files.FirstOrDefault();
 
             validFileType = ValidateFile(file);
@@ -151,12 +142,14 @@ namespace PRIME_UCR.Components.Multimedia
             string type = mcontent.Tipo;
             if (type == "image/png")
                 OpenImage(mcontent);
-            else if (type == "application/pdf" || type == "text/plain")
+            else if (type == "text/plain")
                 OpenText(mcontent);
             else if (type == "video/mp4" || type == "video/webm")
                 OpenVideo(mcontent);
             else if (type == "audio/mpeg" || type == "audio/ogg")
                 OpenAudio(mcontent);
+            else if (type == "application/pdf")
+                OpenPDF(mcontent);
         }
         string InvalidTypeMessage()
         {
@@ -219,6 +212,7 @@ namespace PRIME_UCR.Components.Multimedia
             modalMContent = mcontent;
             showVideoComponent = false;
             showTextComponent = false;
+            showPDF = false;
         }
         void OpenText(MultimediaContent mcontent) 
         {
@@ -232,6 +226,7 @@ namespace PRIME_UCR.Components.Multimedia
             modalMContent = mcontent;
             showVideoComponent = false;
             //showTextComponent = false;
+            showPDF = false;
         }
         void OpenVideo(MultimediaContent mcontent) {
             showModal = true;
@@ -244,6 +239,7 @@ namespace PRIME_UCR.Components.Multimedia
             modalMContent = mcontent;
             showVideoComponent = false;
             showTextComponent = false;
+            showPDF = false;
         }
 
 
@@ -259,6 +255,7 @@ namespace PRIME_UCR.Components.Multimedia
             modalMContent = null;
             showVideoComponent = true;
             showTextComponent = false;
+            showPDF = false;
         }
         void OpenMicrophone()
         {
@@ -272,8 +269,21 @@ namespace PRIME_UCR.Components.Multimedia
             modalMContent = null;
             showVideoComponent = false;
             showTextComponent = false;
+            showPDF = false;
         }
-
+        void OpenPDF(MultimediaContent mcontent) {
+            showModal = false;
+            showCamera = false;
+            showAudio = false;
+            showImage = false;
+            showMicrophone = false;
+            showText = false;
+            showVideo = false;
+            modalMContent = mcontent;
+            showVideoComponent = false;
+            showTextComponent = false;
+            showPDF = true;
+        }
         //void OpenTextComponent()
         //{
         //    showModal = true;
@@ -288,9 +298,13 @@ namespace PRIME_UCR.Components.Multimedia
         //    showVideoComponent = false;
         //    showTextComponent = true;
         //}
-
+        void CloseAllViews() {
+            showModal = false;
+            showPDF = false;
+        }
         async Task DeleteMultimediaContent(MultimediaContent mcontent)
         {
+            CloseAllViews();
             await multimedia_content_service.DeleteMultimediaContent(mcontent);
             MultimediaContent.Remove(mcontent);
             byte[] bEPath = Convert.FromBase64String(mcontent.Archivo);

@@ -5,60 +5,58 @@
 <!-- The Modal -->
 @if (Show)
 {
-<div class="modal-mc">
+    <div class="modal-mc">
 
-    <!-- The Close Button -->
-    <div class="close" @onclick="CloseImageView">x</div>
+        <!-- The Close Button -->
+        <div class="close" @onclick="CloseImageView">x</div>
 
-    @if (ShowCamera)
-    {
-        <CameraComponent MultimediaModal="this"></CameraComponent>
-    }
-    @if (ShowMicrophone)
-    {
-        <MicrophoneComponent></MicrophoneComponent>
-    }
-    @if (ShowImage)
-    {
-        string imgSrc = getSrc();
-        //string imgSrc = "datas/Untitled Diagram.png";
+        @if (ShowCamera)
+        {
+            <CameraComponent MultimediaModal="this"></CameraComponent>
+        }
+        @if (ShowMicrophone)
+        {
+            <MicrophoneComponent></MicrophoneComponent>
+        }
+        @if (ShowImage)
+        {
+            string imgSrc = getSrc();
+            //string imgSrc = "datas/Untitled Diagram.png";
 
-        string captionName = getName();
-        <img src=@imgSrc class="modal-content-image-mc">
-        <div id="caption">@captionName</div>
-    }
-    @if (ShowAudio)
-    {
-        string path = getAudio();
-        <audio controls="controls">
-            <source src=@path type="audio/mpeg">
-        </audio>
-    }
-    @if (ShowVideo)
-    {
-        string vid = getVideo();
-        <video width="1280" height="720" controls="controls">
-            <source src=@vid type="video/mp4">
-        </video>
-    }
-    @*@if (ShowText)
-    {
-     <div id="caption">Se ha abierto una nueva pestaña para mostrar el archivo...</div>
-     getText();
-    }*@
-    @if (ShowVideoComponent)
-    {
-        <VideoComponent MultimediaModal="this"></VideoComponent>
-    }
-    @if (ShowText)
-    {
-        <TextComponent OnFileUpload="OnFileUpload"
-                       MultimediaContent="MContent"
-                       MultimediaModal="this"
-                       ></TextComponent>
-    }
+            string captionName = getName();
+            <img src=@imgSrc class="modal-content-image-mc">
+            <div id="caption">@captionName</div>
+        }
+        @if (ShowAudio)
+        {
+            string path = getAudio();
+            <audio controls="controls">
+                <source src=@path type="audio/mpeg">
+            </audio>
+        }
+        @if (ShowVideo)
+        {
+            string vid = getVideo();
+            <video width="1280" height="720" controls="controls">
+                <source src=@vid type="video/mp4">
+            </video>
+        }
+        @if (ShowVideoComponent)
+        {
+            <VideoComponent MultimediaModal="this"></VideoComponent>
+        }
+        @if (ShowText)
+        {
+            <TextComponent OnFileUpload="OnFileUpload"
+                           MultimediaContent="MContent"
+                           MultimediaModal="this"></TextComponent>
+        }
 
-</div>
+    </div>
+}
+@if (ShowPDF)
+{
+    getPDF();
 }
 
 

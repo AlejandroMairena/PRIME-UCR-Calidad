@@ -16,11 +16,7 @@ namespace PRIME_UCR.Application.Implementations.Multimedia
 
         public FileService()
         {
-            //FilePath = Path.GetTempPath() + "/PRIME@UCR_Files"; //CAMBIAR PATH
-            //FilePath = "C:/Users/gusta/Desktop/UCR/II SEMESTRE 2020/Proyecto integrador/PROYECTO/PRIME@UCR/wwwroot/data";
-            //KeyString = key;
             FilePath = "wwwroot/datas/";
-            //IVString = iv;
             ES = new EncryptionService();
         }
 
@@ -35,9 +31,6 @@ namespace PRIME_UCR.Application.Implementations.Multimedia
                 await fileStream.CopyToAsync(outputFileStream);
             }
             ES.EncryptFile(path);
-            //string keyString = System.Convert.ToBase64String(ES.Key);
-            //string ivString = System.Convert.ToBase64String(ES.IV);
-            //FilePath = "datas/";
             return true;
         }
 
