@@ -6,7 +6,7 @@
         <div class="card-header justify-content-between" id="headingOne">
             <h3 class="mb-0" data-toggle="tooltip" title="Presione sobre el título para desplegar o esconder la bitácora">
                 <a class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                    Bitácora de estados del incidente <span class="oi oi-chevron-bottom px-2"></span>
+                    Bitácora de estados <span class="oi oi-chevron-bottom px-2"></span>
                 </a>
             </h3>
         </div>
@@ -14,12 +14,36 @@
 
     <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
         <div class="card-body">
-            <StateLog StatesLog="@StatesLog"/>
+            <StateLog StatesLog="@StatesLog" />
         </div>
     </div>
 </div>
 <br />
+
+@* State Last Change in incident with collapse option *@
+@if (!String.IsNullOrEmpty(LastChange.UltimoCambio) && Incident.CurrentState != IncidentStates.Done.Nombre)
+{
+    <div id="accordionTwo">
+        <div class="card">
+            <div class="card-header justify-content-between" id="headingTwo">
+                <h3 class="mb-0" data-toggle="tooltip" title="Presione sobre el título para desplegar o esconder el último cambio">
+                    <a class="btn btn-link" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        Último cambio realizado <span class="oi oi-chevron-bottom px-2"></span>
+                    </a>
+                </h3>
+            </div>
+        </div>
+
+        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+            <div class="card-body">
+                <SummaryMessage Class="info" Values="@Values" Content="@Content" />
+            </div>
+        </div>
+    </div>
+    <br />
+}
 <br />
+
 @* State Panel *@
 
 @if (Incident.CurrentState != IncidentStates.Done.Nombre)

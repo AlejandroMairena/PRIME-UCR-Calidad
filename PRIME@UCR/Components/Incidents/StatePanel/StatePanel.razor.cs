@@ -24,6 +24,8 @@ namespace PRIME_UCR.Components.Incidents.StatePanel
         public EventCallback OnSave { get; set; }
         [Parameter]
         public Persona CurrentUser { get; set; }
+        [Parameter] 
+        public LastChangeModel LastChange { get; set; }
         [Inject]
         public IIncidentService IncidentService { get; set; }
         [Inject]
@@ -40,9 +42,18 @@ namespace PRIME_UCR.Components.Incidents.StatePanel
         MatButton Button2;
         BaseMatMenu Menu2;
         private bool _isLoading = true;
+        // Arrays needed for SummaryMessage to show Last Change in Incident
+        public List<string> Values = new List<string>();
+        public List<string> Content = new List<string>();
 
         protected override async Task OnInitializedAsync()
         {
+            if(!string.IsNullOrEmpty(LastChange.UltimoCambio))
+            {
+                Content = new List<string> { "Responsable: ", "Fecha: ", "Modificación en: " };
+                Values = new List<string> { LastChange.Responsable.NombreCompleto,
+                                        LastChange.FechaHora.ToString(), LastChange.UltimoCambio };
+            }
             await LoadValues();
         }
 

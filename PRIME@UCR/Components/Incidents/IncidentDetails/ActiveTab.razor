@@ -7,7 +7,7 @@
     @if (Active == DetailsTab.Info)
     {
         <PermissionAuthorizeView Permission="@AuthorizationPermissions.CanSeeBasicDetailsOfIncidents">
-            <InfoTab DetailsModel="@Incident" OnSave="@Save"/>
+            <InfoTab DetailsModel="@Incident" LastChange="@LastChange" CurrentUser="@CurrentUser" OnSave="@Save"/>
         </PermissionAuthorizeView>
     }
     else if (Active == DetailsTab.Origin)
@@ -39,7 +39,7 @@
     else if (Active == DetailsTab.Assignment)
     {
         <PermissionAuthorizeView Permission="@AuthorizationPermissions.CanAssignIncidents">
-            <Assignment Incident="@Incident"/>
+            <Assignment Incident="@Incident" OnSave="@SaveAssignment" />
         </PermissionAuthorizeView>
     }
     else if (Active == DetailsTab.Checklist)
