@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -11,5 +12,7 @@ namespace PRIME_UCR.Application.DTOs.UserAdministration
         public string Subject { get; set; }
         
         public string Body { get; set; }
+
+        public List<IFormFile> Attachments { get; set; }
     }
 }

@@ -24,27 +24,6 @@ using Microsoft.AspNetCore.DataProtection;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Logging;
 using PRIME_UCR.Application.TokenProviders;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using PRIME_UCR.Application;
-using PRIME_UCR.Infrastructure;
-using PRIME_UCR.Infrastructure.DataProviders.Implementations;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
-using PRIME_UCR.Domain.Models.UserAdministration;
-using Microsoft.AspNetCore.Components.Authorization;
-using PRIME_UCR.Application.Implementations.UserAdministration;
-using Blazored.SessionStorage;
-using PRIME_UCR.Validators;
-using PRIME_UCR.Application.DTOs.UserAdministration;
-using System.Linq;
-using PRIME_UCR.Domain.Constants;
 using Blazored.Modal;
 
 namespace PRIME_UCR
