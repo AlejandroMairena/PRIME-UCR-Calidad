@@ -1,0 +1,38 @@
+﻿@using PRIME_UCR.Components.MedicalAppointments.Tabs
+@using BlazorTable
+@using PRIME_UCR.Domain.Models.Appointments
+@using PRIME_UCR.Components.MedicalAppointments
+@inject IAppointmentService appointment_service;
+
+<style>
+    body {
+        background-color: white;
+    }
+</style>
+
+
+<div class="container">
+    @if (Active == MADetailsTab.Recetas)
+    {
+        <div class="prescription_list">
+            <PrescriptionListComponent AppointmentId="@id" NotifyChanges="updateChanges" Medpres="medicalprescrip"></PrescriptionListComponent>
+        </div>
+
+
+        <div class="drugselector">
+            <DrugSelectorComponent IdMedicalPrescription="@id" Active="drug_selector_active" Description_not_done="prescription_description_not_done" UpdateList="updatelist"></DrugSelectorComponent>
+        </div>
+
+    }
+    else if (Active == MADetailsTab.Multimedia)
+    {
+
+        <MedAppointmentMultimediaTab MedicalAppointmentId="@med_appointment_id"></MedAppointmentMultimediaTab>
+        <hr />
+
+    }
+    else
+    {
+        <h4 class="text-danger">Not found</h4>
+    }
+</div>
