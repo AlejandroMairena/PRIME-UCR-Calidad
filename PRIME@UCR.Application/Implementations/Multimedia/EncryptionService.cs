@@ -4,6 +4,7 @@ using System.Security.Cryptography;
 using System.Collections.Generic;
 using System.Text;
 using PRIME_UCR.Application.Services.Multimedia;
+using Newtonsoft.Json.Linq;
 
 namespace PRIME_UCR.Application.Implementations.Multimedia
 {
@@ -18,10 +19,10 @@ namespace PRIME_UCR.Application.Implementations.Multimedia
 
         void setKeyIV()
         {
-            //string keyString = Configuration.GetConnectionString("Key");
-            //string ivString = Configuration.GetConnectionString("IV");
-            string keyString = "qXOctUgD1RQCyF6dl4IjgZLAosrLh8Dn8GCklADSmvo=";
-            string ivString = "fkmYijInbe9eWQbLoWtTNQ==";
+            string jsonAppSettings = System.IO.File.ReadAllText("../PRIME@UCR/appsettings.json");
+            var jsonObjct = JObject.Parse(jsonAppSettings);
+            string keyString = (string)jsonObjct["Key"];
+            string ivString = (string)jsonObjct["IV"];
             byte[] ivByte = Convert.FromBase64String(ivString);
             byte[] keyByte = Convert.FromBase64String(keyString);
             SetKeyIV(ivByte, keyByte);
