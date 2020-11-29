@@ -6,32 +6,34 @@
         <h2>Video</h2>
         <hr />
 
-        <MultimediaTitleComponent></MultimediaTitleComponent>
+        <MultimediaTitleComponent Title="video" OnTitleChanged="OnTitleChanged"></MultimediaTitleComponent>
 
         @* Video Feed *@
-        <video class="rt-box rt-box" autoplay muted @ref="videoPreview"></video>
+        <video class="rt-box" autoplay muted @ref="videoPreview"></video>
         @* Video Preview *@
-        @*<video class="rt-box rt-box" controls @ref="recordedVideo"></video>*@
+        <video class="rt-box" controls @ref="recordedVideo"></video>
 
         @* Button Row *@
         <div class="row" style="margin-top: 20px">
             @* Open/Close Camera *@
             <div class="col">
-                <button type="button" class="btn btn-primary rt-button" @ref="startButton">
-                    Abrir Cámara
+                <button type="button" class="btn btn-primary rt-button" 
+                        @onclick="HandleOpenCloseClick"
+                        @ref="closeButton">
+                    @openCloseButtonText
                 </button>
             </div>
 
             @* Record/Stop Button *@
             <div class="col">
                 @* Record *@
-                <button type="button" class="btn btn-primary rt-button" @ref="startButton">
+                <button type="button" class="btn btn-primary rt-button" disabled="@cameraClose" @ref="startButton">
                     Grabar
                 </button>
                 @* Stop *@
-                @*<button class="btn btn-danger rt-button" disabled @ref="stopButton">
+                <button class="btn btn-danger rt-button" disabled="@cameraClose" @ref="stopButton">
                     Detener
-                </button>*@
+                </button>
             </div>
 
             @* Download Button *@
@@ -47,7 +49,7 @@
         @* Exit Button *@
         <div class="row" style="margin-top: 20px">
             <div class="col">
-                <button class="btn btn-danger rt-button">Salir</button>
+                <button class="btn btn-danger rt-button" @onclick="OnClose">Salir</button>
             </div>
         </div>
 
