@@ -5,19 +5,21 @@
     <StatusMessage Message="Las métricas se guardaron exitosamento" Class="sucess" />
 }
 
-<div class="row">
-    <div class="col-xl-4 col-lg-6">
-        <EditForm EditContext="MetricContext" OnValidSubmit="saveMetricData">
-            <FluentValidationValidator />
-            <TextBox @bind-Value="MetricsForm.Altura" Label="Estatura" />
-            <TextBox @bind-Value="MetricsForm.Peso" Label="Peso" />
-            <TextBox @bind-Value="MetricsForm.Presion" Label="Peso" />
+<Loading IsLoading="MetricsForm == null">
+    <div class="row">
+        <div class="col-xl-4 col-lg-6">
+            <EditForm EditContext="MetricContext" OnValidSubmit="saveMetricData">
+                <FluentValidationValidator />
+                <TextBox @bind-Value="MetricsForm.Altura" Label="Estatura" />
+                <TextBox @bind-Value="MetricsForm.Peso" Label="Peso" />
+                <TextBox @bind-Value="MetricsForm.Presion" Label="Peso" />
 
-            @if (true)
-            {
-                <button class="btn btn-dark" @onclick="saveMetricData">Guardar</button>
-            }
+                @if (true)
+                {
+                    <button class="btn btn-dark" @onclick="saveMetricData">Guardar</button>
+                }
 
-        </EditForm>
+            </EditForm>
+        </div>
     </div>
-</div>
+</Loading>

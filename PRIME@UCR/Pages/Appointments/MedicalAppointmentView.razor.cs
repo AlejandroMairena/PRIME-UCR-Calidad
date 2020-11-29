@@ -19,7 +19,7 @@ namespace PRIME_UCR.Pages.Appointments
 
         private readonly List<Tuple<MADetailsTab, string>> _tabs = new List<Tuple<MADetailsTab, string>>();
 
-        const MADetailsTab DefaultTab = MADetailsTab.Recetas;
+        const MADetailsTab DefaultTab = MADetailsTab.General;
 
         private MADetailsTab _activeTab = DefaultTab;
 
@@ -48,6 +48,9 @@ namespace PRIME_UCR.Pages.Appointments
                         break;
                     case MADetailsTab.General:
                         _tabs.Add(new Tuple<MADetailsTab, string>(MADetailsTab.General, ""));
+                        break;
+                    case MADetailsTab.Metricas:
+                        _tabs.Add(new Tuple<MADetailsTab, string>(MADetailsTab.Metricas, ""));
                         break;
                 }
             }

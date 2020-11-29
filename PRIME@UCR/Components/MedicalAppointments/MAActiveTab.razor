@@ -24,8 +24,15 @@
         <hr />
 
     }
-    else if (Active == MADetailsTab.General) { 
+    else if (Active == MADetailsTab.General)
+    {
         <AppointmentGeneralInfo Appointment="@appointment"></AppointmentGeneralInfo>
+    }
+
+    else if (Active == MADetailsTab.Metricas)
+    {
+        <MetricsTab AppointmentId="@appointment_id"></MetricsTab>
+
     }
     else
     {

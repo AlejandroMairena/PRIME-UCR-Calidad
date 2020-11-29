@@ -25,7 +25,17 @@
             }
             else
             {
-                <MAActiveTab Active="@_activeTab" med_appointment_id="@id" id="@id" appointment="@appointment"></MAActiveTab>
+                @if (_activeTab != MADetailsTab.Metricas)
+                {
+                    <MAActiveTab Active="@_activeTab" med_appointment_id="@id" id="@id" appointment="@appointment"></MAActiveTab>
+                }
+                else {
+                    @if (appoint != null) {
+                        <MAActiveTab Active="@_activeTab" med_appointment_id="@id" id="@id" appointment_id="appoint.Id" appointment="@appointment"></MAActiveTab>
+                    }
+
+                }
+
             }
         </div>
         </Loading>

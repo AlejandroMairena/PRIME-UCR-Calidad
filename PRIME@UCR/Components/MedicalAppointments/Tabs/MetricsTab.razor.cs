@@ -18,7 +18,21 @@ namespace PRIME_UCR.Components.MedicalAppointments.Tabs
 
         private MetricasCitaMedica Metrics;
 
-        private bool metrics_saved { get; set; } = false; 
+        private bool metrics_saved { get; set; } = false;
+
+
+        protected override async Task OnInitializedAsync() {
+            MetricsForm = new MetricsApp(); 
+            Metrics = await appointment_service.GetMetricsMedAppointmentByAppId(AppointmentId);
+            if (Metrics != null)
+            {
+                MetricsForm.Altura = Metrics.Altura.ToString();
+                MetricsForm.Peso = Metrics.Peso.ToString();
+                MetricsForm.Presion = Metrics.Presion.ToString();
+            }
+        
+        }
+
 
         public async Task saveMetricData() {
 
@@ -30,6 +44,8 @@ namespace PRIME_UCR.Components.MedicalAppointments.Tabs
                 //se tiene que actualizar. 
             }
             else {
+
+                //falta insertar tmbn en la tabla Metricas. 
 
                 Metrics.Altura = Convert.ToDouble(MetricsForm.Altura);
                 Metrics.Peso = Convert.ToDouble(MetricsForm.Peso);
