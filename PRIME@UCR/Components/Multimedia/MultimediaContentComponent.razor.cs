@@ -23,6 +23,11 @@ namespace PRIME_UCR.Components.Multimedia
          */
         [Parameter]
         public EventCallback<MultimediaContent> OnFileUpload { get; set; }
+        /* Parameter that indicates if the component is view only or
+         * if it accepts changes.
+         */
+        [Parameter]
+        public bool ViewOnly { get; set; } = false;
 
         // List of valid file types 
         public List<string> validTypeFiles;
