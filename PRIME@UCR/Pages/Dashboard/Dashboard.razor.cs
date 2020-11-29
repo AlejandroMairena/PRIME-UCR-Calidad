@@ -1,12 +1,17 @@
 ﻿using Blazored.Modal;
 using Blazored.Modal.Services;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.Http;
 using PRIME_UCR.Application.DTOs.Dashboard;
+using PRIME_UCR.Application.DTOs.UserAdministration;
 using PRIME_UCR.Application.Services.Dashboard;
 using PRIME_UCR.Application.Services.Incidents;
+using PRIME_UCR.Application.Services.UserAdministration;
 using PRIME_UCR.Components.Dashboard.IncidentsGraph;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -25,6 +30,7 @@ namespace PRIME_UCR.Pages.Dashboard
 
         public string _selectedFilter;
         public EventCallback<string> _selectedFilterChanged;
+        private object userModel;
 
         [Inject]
         public ILocationService LocationService { get; set; }
@@ -41,13 +47,20 @@ namespace PRIME_UCR.Pages.Dashboard
         [Inject]
         public IStateService StateService { get; set; }
 
+        [Inject]
+        public IMailService mailService { get; set; }
+
+        [CascadingParameter]
+        private Task<AuthenticationState> authenticationState { get; set; }
         //FILTER COMPONENT
         [Parameter] public EventCallback OnDiscard { get; set; }
+        
+        string emailUser;
 
         protected override async Task OnInitializedAsync()
         {
             await InitializeDashboardData();
-
+            emailUser = (await authenticationState).User.Identity.Name;
             incidentsCounter.totalIncidentsCounter = await DashboardService.GetIncidentCounterAsync(String.Empty, "Día");
             incidentsCounter.maritimeIncidents = await DashboardService.GetIncidentCounterAsync("Marítimo", "Día");
             incidentsCounter.airIncidentsCounter = await DashboardService.GetIncidentCounterAsync("Aéreo", "Día");
@@ -93,10 +106,30 @@ namespace PRIME_UCR.Pages.Dashboard
             DashboardData.isReadyToShowFilters = true; // Always after loading all filters data
         }
 
-        private void CrearArchivo()
+        private async Task CrearArchivoAsync()
         {
-            FileManagerService.createFile(DashboardData.filteredIncidentsData);
-           
+            var path = FileManagerService.createFile(DashboardData.filteredIncidentsData);
+           /* var stream = File.OpenRead(path);
+            var size = stream.Length;
+            var file = new FormFile(stream, 0, stream.Length, null, Path.GetFileName(stream.Name))
+            {
+                Headers = new HeaderDictionary(),
+                ContentType = "text/csv"
+            };
+
+            List<IFormFile> lista = new List<IFormFile>();
+            lista.Add(file);*/
+            emailUser = "luisandres2712@gmail.com";
+            var message = new EmailContentModel()
+            {
+                Destination = emailUser,
+                Subject = "PRIME@UCR: Solicitud de lista de incidentes",
+                Body = $"<p>A continuación, se adjunta un archivo .csv con la lista de incidentes actualizada.</p>",
+                AttachmentPath = path
+            };
+
+            await mailService.SendEmailAsync(message);
+
         }
 
     }

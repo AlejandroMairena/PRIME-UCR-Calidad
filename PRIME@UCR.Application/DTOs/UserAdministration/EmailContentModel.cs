@@ -13,6 +13,6 @@ namespace PRIME_UCR.Application.DTOs.UserAdministration
         
         public string Body { get; set; }
 
-        public List<IFormFile> Attachments { get; set; }
+        public string AttachmentPath { get; set; }
     }
 }

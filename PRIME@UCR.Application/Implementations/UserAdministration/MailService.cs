@@ -27,32 +27,32 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
             var email = new MimeMessage();
             email.Sender = MailboxAddress.Parse(mailSettings.Mail);
             email.To.Add(MailboxAddress.Parse(emailContent.Destination));
-            email.Subject = emailContent.Subject;
-
-            var builder = new BodyBuilder();
-            if (emailContent.Attachments != null)
+            email.Subject = emailContent.Subject;            
+            var Body = new TextPart(TextFormat.Html) { Text = emailContent.Body };
+            if (emailContent.AttachmentPath != null)
             {
-                byte[] fileBytes;
-                foreach (var file in emailContent.Attachments)
+                var Attachment = new MimePart("file", "csv")
                 {
-                    if (file.Length > 0)
-                    {
-                        using (var ms = new MemoryStream())
-                        {
-                            file.CopyTo(ms);
-                            fileBytes = ms.ToArray();
-                        }
-                        builder.Attachments.Add(file.FileName, fileBytes, ContentType.Parse(file.ContentType));
-                    }
-                }
+                    Content = new MimeContent(File.OpenRead(emailContent.AttachmentPath)),
+                    ContentDisposition = new ContentDisposition(ContentDisposition.Attachment),
+                    ContentTransferEncoding = ContentEncoding.Base64,
+                    FileName = Path.GetFileName(emailContent.AttachmentPath)
+                };
+                var multipart = new Multipart("mixed");
+                multipart.Add(Body);
+                multipart.Add(Attachment);
+                email.Body = multipart;
             }
-
-            email.Body = new TextPart(TextFormat.Html) { Text = emailContent.Body };
+            else 
+            {
+                email.Body = Body;
+            }
             var smtpClient = new SmtpClient();
             smtpClient.Connect(mailSettings.Host, mailSettings.Port, SecureSocketOptions.StartTls);
             smtpClient.Authenticate(mailSettings.Mail, mailSettings.Password);
             await smtpClient.SendAsync(email);
             smtpClient.Disconnect(true);
+
         }
     }
 }
