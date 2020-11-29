@@ -31,6 +31,5 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Appointments
         
         }
 
-
     }
 }

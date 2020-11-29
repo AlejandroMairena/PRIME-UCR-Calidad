@@ -24,7 +24,10 @@ namespace PRIME_UCR.Application.Implementations.Appointments
         private readonly IPrimeSecurityService _primeSecurityService;
         private readonly IMedicalAppointmentRepository _medapprepo;
         private readonly IHavePrescriptionRepository _havepresc;
-        private readonly IDrugRepository _drugrepo; 
+        private readonly IDrugRepository _drugrepo;
+        private readonly IMedCenterRepository _medcenrepo;
+        private readonly IMedAppMetricRepository _metapprepo;
+        //private readonly IAppointmentStatusRepository  _appostatusrep;
 
         public AppointmentService(IActionTypeRepository actionTypeRepo,
             IAppointmentRepository appointmentRepository,
@@ -32,7 +35,10 @@ namespace PRIME_UCR.Application.Implementations.Appointments
             IPrimeSecurityService primeSecurityService,
             IMedicalAppointmentRepository medapp,
             IHavePrescriptionRepository havepres,
-            IDrugRepository drugrep)
+            IDrugRepository drugrep,
+            IMedCenterRepository medcenrepo,
+            IMedAppMetricRepository metapprepo
+            /*,IAppointmentStatusRepository appstatusrepo*/)
         {
             _actionTypeRepo = actionTypeRepo;
             _appointmentRepository = appointmentRepository;
@@ -40,7 +46,20 @@ namespace PRIME_UCR.Application.Implementations.Appointments
             _primeSecurityService = primeSecurityService;
             _medapprepo = medapp;
             _havepresc = havepres;
-            _drugrepo = drugrep; 
+            _drugrepo = drugrep;
+            _medcenrepo = medcenrepo;
+            _metapprepo = metapprepo;
+            //_appostatusrep = appstatusrepo;
+        }
+
+
+        public async Task<MetricasCitaMedica> GetMetricsMedAppointmentByAppId(int id) {
+            return await _metapprepo.GetAppMetricsByAppId(id); 
+        }
+
+
+        public async Task InsertMetrics(MetricasCitaMedica metrics) {
+             await _metapprepo.InsertAsync(metrics); 
         }
 
 
@@ -48,7 +67,14 @@ namespace PRIME_UCR.Application.Implementations.Appointments
             return await _medapprepo.GetMedicalAppointmentByWithAppointmentIdAsync(id); 
         
         }
-
+        /*
+        public async Task<EstadoCitaMedica> GetMedAppointmentStatusAsync(int id) {
+            return await _appostatusrep.GetByKeyAsync(id); 
+        }
+        */
+        public async Task<CentroMedico> GetMedCenterByKeyAsync(int id) {
+            return await _medcenrepo.GetByKeyAsync(id); 
+        }
 
         public async Task UpdateAsync(PoseeReceta prescription) {
             await _havepresc.UpdateAsync(prescription);

@@ -123,7 +123,7 @@ namespace PRIME_UCR.Components.MedicalAppointments
             prescriptions = (await appointment_service.GetDrugsByFilterAsync(filter_box)).ToList(); 
 
             current_page = 1;
-            sub_group_range = 7;
+            sub_group_range = 5;
             total_elements = prescriptions.Count;
             total_pages = total_elements / sub_group_range;
 
@@ -163,7 +163,7 @@ namespace PRIME_UCR.Components.MedicalAppointments
         {
 
             prescriptions = (await appointment_service.GetDrugsAsync()).ToList();
-            start_values(7);
+            start_values(5);
 
         }
 

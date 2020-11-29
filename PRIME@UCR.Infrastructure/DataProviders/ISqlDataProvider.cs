@@ -69,6 +69,10 @@ namespace PRIME_UCR.Infrastructure.DataProviders
 
         DbSet<RecetaMedica> Prescription { get; set; }
 
+        DbSet<EstadoCitaMedica> MedicalAppointmentStatus { get; set; }
+
+        DbSet<MetricasCitaMedica> MedAppMetrics { get; set; }
+
         DbSet<T> Set<T>() where T : class;
         Task<int> SaveChangesAsync();     
     }

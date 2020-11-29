@@ -42,6 +42,14 @@ namespace PRIME_UCR.Application.Services.Appointments
 
         Task<Cita> GetAppointmentByKeyAsync(int id);
 
-        Task<CitaMedica> GetMedicalAppointmentWithAppointmentByIdAsync(int id); 
+        Task<CitaMedica> GetMedicalAppointmentWithAppointmentByIdAsync(int id);
+
+        Task<CentroMedico> GetMedCenterByKeyAsync(int id);
+
+        Task<MetricasCitaMedica> GetMetricsMedAppointmentByAppId(int id);
+
+        Task InsertMetrics(MetricasCitaMedica metrics); 
+
+       // Task<EstadoCitaMedica> GetMedAppointmentStatusAsync(int id); 
     }
 }

@@ -22,11 +22,13 @@ namespace PRIME_UCR.Components.MedicalAppointments.Tabs
         public EstadoCitaMedica current_state { get; set; }
 
 
+        public CentroMedico medical_center { get; set; }
+
         protected override async Task OnInitializedAsync()
         {
+            //current_state = await appointment_service.GetMedAppointmentStatusAsync(Appointment.EstadoId);
 
-
-
+            doctor = await doctor_service.GetDoctorByIdAsync(Appointment.CedMedicoAsignado); 
 
         }
 

@@ -13,14 +13,21 @@
             {
                 <SummaryMessage Content="Summary.Content" Values="Summary.Values" Class="info" />
             }
-            <div class="row">
-                <div class="col-lg-2 mb-4">
-                    <TabMenu Tabs="_tabs" DefaultTab="DefaultTab" IsVertical="true" @bind-Value="_activeTab" />
-                </div>
+        <div class="row">
+            <div class="col-lg-2 mb-4">
+                <TabMenu Tabs="_tabs" DefaultTab="DefaultTab" IsVertical="true" @bind-Value="_activeTab" />
+            </div>
+            @if (_activeTab != MADetailsTab.Recetas)
+            {
                 <div class="col">
                     <MAActiveTab Active="@_activeTab" med_appointment_id="@id" id="@id" appointment="@appointment"></MAActiveTab>
                 </div>
-            </div>
+            }
+            else
+            {
+                <MAActiveTab Active="@_activeTab" med_appointment_id="@id" id="@id" appointment="@appointment"></MAActiveTab>
+            }
+        </div>
         </Loading>
     }
     else

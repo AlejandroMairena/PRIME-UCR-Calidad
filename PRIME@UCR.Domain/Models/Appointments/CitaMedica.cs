@@ -16,6 +16,8 @@ namespace PRIME_UCR.Domain.Models.Appointments
 
         public string CedMedicoAsignado { get; set; } //fk-medico
 
+        public int CentroMedicoId { get; set; } //fk-centro medico
+
         public int ExpedienteId { get; set; }
 
         public List<PoseeReceta> Recetas { get; set; }
@@ -23,6 +25,8 @@ namespace PRIME_UCR.Domain.Models.Appointments
         public Cita Cita { get; set; }
 
         public Médico Medico { get; set; }
+
+        public CentroMedico medical_center { get; set; }
 
     }
 }

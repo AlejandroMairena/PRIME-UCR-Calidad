@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <RootNamespace>PRIME_UCR</RootNamespace>
+    <UserSecretsId>98e18289-92ba-405b-8e66-153d79e4cbae</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

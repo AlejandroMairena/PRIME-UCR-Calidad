@@ -9,8 +9,7 @@ namespace PRIME_UCR.Domain.Models.Appointments
 {
     public class EstadoCitaMedica
     {
-        [Key]
-        public int Codigo { get; set; }
+        public int Id { get; set; }
         
         public string NombreEstado { get; set; }
     }

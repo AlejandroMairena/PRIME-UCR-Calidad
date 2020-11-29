@@ -77,6 +77,11 @@ namespace PRIME_UCR.Infrastructure.DataProviders.Implementations
         public DbSet<ListaAlergia> ListAlergies { get; set; }
         public DbSet<PadecimientosCronicos> ChronicCondition { get; set; }
         public DbSet<ListaPadecimiento> ListChronicCondition { get; set; }
+
+        public DbSet<EstadoCitaMedica> MedicalAppointmentStatus { get; set; }
+
+        public DbSet<MetricasCitaMedica> MedAppMetrics { get; set; }
+
         public ApplicationDbContext(DbContextOptions options, IConfiguration configuration) : base(options)
         {
             DbConnection = Database.GetDbConnection();
@@ -139,7 +144,8 @@ namespace PRIME_UCR.Infrastructure.DataProviders.Implementations
             builder.ApplyConfiguration(new ListaPadecimientosMap());
             builder.ApplyConfiguration(new CitaMedicaMap());
             builder.ApplyConfiguration(new RecetaMedicaMap());
-            builder.ApplyConfiguration(new PoseeRecetaMap()); 
+            builder.ApplyConfiguration(new PoseeRecetaMap());
+            builder.ApplyConfiguration(new EstadoCitaMedicaMap());
         }
 
         public Task<int> SaveChangesAsync()
