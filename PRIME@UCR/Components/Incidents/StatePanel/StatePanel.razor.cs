@@ -1,6 +1,8 @@
-﻿using MatBlazor;
+﻿
+using MatBlazor;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.AspNetCore.Components.Forms;
 using PRIME_UCR.Application.Dtos.Incidents;
 using PRIME_UCR.Application.DTOs.Incidents;
 using PRIME_UCR.Application.Services.Incidents;
@@ -45,6 +47,9 @@ namespace PRIME_UCR.Components.Incidents.StatePanel
         // Arrays needed for SummaryMessage to show Last Change in Incident
         public List<string> Values = new List<string>();
         public List<string> Content = new List<string>();
+        // Needed for feedback
+        private IncidentFeedbackModel _feedBackmodel = new IncidentFeedbackModel();
+        public bool showFeedBack = false;
 
         protected override async Task OnInitializedAsync()
         {
@@ -82,8 +87,22 @@ namespace PRIME_UCR.Components.Incidents.StatePanel
             await LoadValues();
         }
 
+        private async Task showFeedbackInput()
+        {
+            if (showFeedBack)
+            {
+                showFeedBack = false;
+                _feedBackmodel.FeedBack = " ";
+            }
+            else
+            {
+                showFeedBack = true;
+            }
+        }
+
         private async Task Reject()
         {
+            showFeedBack = false;
             await IncidentService
                 .RejectIncidentAsync(Incident.Code, CurrentUser.Cédula);
             await OnSave.InvokeAsync(null);
