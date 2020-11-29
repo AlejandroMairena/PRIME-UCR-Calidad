@@ -25,8 +25,8 @@ namespace PRIME_UCR.Components.Dashboard.Filters
             {
                 _changesMade = true;
             }
-            await ValueChanged.InvokeAsync(Value);
-        }
+/*            await ValueChanged.InvokeAsync(Value);
+*/        }
         private async Task OnPickedFinalDate(DateTime? date)
         {
             Value._selectedFinalDate = date;
@@ -40,16 +40,16 @@ namespace PRIME_UCR.Components.Dashboard.Filters
             {
                 _changesMade = true;
             }
-            await ValueChanged.InvokeAsync(Value);
-        }
+/*            await ValueChanged.InvokeAsync(Value);
+*/        }
 
         private async Task Discard()
         {
             _changesMade = false;
             Value._selectedInitialDate = Value.InitialDateFilter;
             Value._selectedFinalDate = Value.FinalDateFilter;
-            await ValueChanged.InvokeAsync(Value);
-        }
+/*            await ValueChanged.InvokeAsync(Value);
+*/        }
         private async Task Save()
         {
             StateHasChanged();
