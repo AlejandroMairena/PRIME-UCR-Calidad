@@ -32,7 +32,8 @@ namespace PRIME_UCR.Application.Permissions.Incidents
             IMedicalRecordRepository medicalRecordRepository,
             IPersonaRepository personRepository,
             IAssignmentRepository assignmentRepository,
-            IPrimeSecurityService primeSecurityService)
+            IPrimeSecurityService primeSecurityService,
+            IDocumentacionIncidenteRepository documentationRepository)
         {
             _primeSecurityService = primeSecurityService;
             _incidentService = new IncidentService(incidentRepository, 
@@ -42,7 +43,8 @@ namespace PRIME_UCR.Application.Permissions.Incidents
                                                     transportUnitRepository,
                                                     medicalRecordRepository, 
                                                     personRepository, 
-                                                    assignmentRepository);
+                                                    assignmentRepository,
+                                                    documentationRepository);
         }
 
         public async Task ApproveIncidentAsync(string code, string reviewerId)
@@ -99,6 +101,17 @@ namespace PRIME_UCR.Application.Permissions.Incidents
         public async Task<IEnumerable<IncidentListModel>> GetIncidentListModelsAsync()
         {
             return await _incidentService.GetIncidentListModelsAsync();
+        }
+
+        public async Task<IEnumerable<DocumentacionIncidente>> GetAllDocumentationByIncidentCode(string incidentCode)
+        {
+            return await _incidentService.GetAllDocumentationByIncidentCode(incidentCode);
+        }
+
+        public async Task<DocumentacionIncidente> InsertFeedback(string code, string feedBack)
+        {
+            await _primeSecurityService.CheckIfIsAuthorizedAsync(new[] { AuthorizationPermissions.CanReviewIncidents });
+            return await _incidentService.InsertFeedback(code, feedBack);
         }
 
         public async Task<Incidente> GetIncidentByDateCodeAsync(int id)

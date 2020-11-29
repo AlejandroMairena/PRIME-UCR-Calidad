@@ -32,6 +32,7 @@ namespace PRIME_UCR.Application.Implementations.Incidents
         private readonly IMedicalRecordRepository _medicalRecordRepository;
         private readonly IPersonaRepository _personRepository;
         private readonly IAssignmentRepository _assignmentRepository;
+        private readonly IDocumentacionIncidenteRepository _documentationRepository;
 
         public IncidentService(
             IIncidentRepository incidentRepository,
@@ -41,7 +42,8 @@ namespace PRIME_UCR.Application.Implementations.Incidents
             ITransportUnitRepository transportUnitRepository,
             IMedicalRecordRepository medicalRecordRepository,
             IPersonaRepository personRepository,
-            IAssignmentRepository assignmentRepository)
+            IAssignmentRepository assignmentRepository,
+            IDocumentacionIncidenteRepository documentationRepository)
         {
             _incidentRepository = incidentRepository;
             _modesRepository = modesRepository;
@@ -51,6 +53,7 @@ namespace PRIME_UCR.Application.Implementations.Incidents
             _medicalRecordRepository = medicalRecordRepository;
             _personRepository = personRepository;
             _assignmentRepository = assignmentRepository;
+            _documentationRepository = documentationRepository;
         }
 
         public async Task<Incidente> GetIncidentAsync(string code)
@@ -276,6 +279,21 @@ namespace PRIME_UCR.Application.Implementations.Incidents
         public async Task<IEnumerable<IncidentListModel>> GetIncidentListModelsAsync()
         {
             return await _incidentRepository.GetIncidentListModelsAsync();
+        }
+
+        public async Task<IEnumerable<DocumentacionIncidente>> GetAllDocumentationByIncidentCode(string incidentCode)
+        {
+            return await _documentationRepository.GetAllDocumentationByIncidentCode(incidentCode);
+        }
+
+        public async Task<DocumentacionIncidente> InsertFeedback(string code, string feedBack)
+        {
+            DocumentacionIncidente newFeedBack = new DocumentacionIncidente
+            {
+                CodigoIncidente = code,
+                RazonDeRechazo = feedBack
+            };
+            return await _documentationRepository.InsertAsync(newFeedBack);       
         }
 
         /*

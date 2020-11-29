@@ -103,11 +103,20 @@ namespace PRIME_UCR.Components.Incidents.StatePanel
         private async Task Reject()
         {
             showFeedBack = false;
+            await createFeedBack();
             await IncidentService
                 .RejectIncidentAsync(Incident.Code, CurrentUser.Cédula);
             await OnSave.InvokeAsync(null);
             await LoadValues();
         }
+
+        private async Task createFeedBack()
+        {
+            string Code = Incident.Code;
+            string FeedBack = _feedBackmodel.FeedBack;
+            await IncidentService.InsertFeedback(Code, FeedBack);
+        }
+
 
         private async Task ChangeState()
         {
