@@ -41,6 +41,7 @@ namespace PRIME_UCR.Application
             services.AddTransient<IIncidentService, SecureIncidentService>();
             services.AddTransient<IStateService, SecureStateService>();
             services.AddTransient<ILocationService, LocationService>();
+            services.AddTransient<IGpsDataService, GpsDataService>();
 
             // medical records
             services.AddTransient<IMedicalRecordService, MedicalRecordService>();
@@ -51,7 +52,7 @@ namespace PRIME_UCR.Application
             // multimedia
             services.AddTransient<IMultimediaContentService, MultimediaContentService>();
             services.AddTransient<IEncryptionService, EncryptionService>();
-            
+
             // user administration
             services.AddScoped<IPermissionsService, SecurePermissionService>();
             services.AddScoped<IProfilesService, SecureProfilesService>();
