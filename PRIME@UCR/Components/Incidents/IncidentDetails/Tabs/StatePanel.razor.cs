@@ -127,6 +127,29 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
         {
             NavManager.NavigateTo($"{"/incidents/"+Incident.Code+"/"+ url}", forceLoad: true);
         }
+
+        private string toRedirectTab(string tabName)
+        {
+            switch (tabName)
+            {
+                case "Info":
+                    return "Resumen";
+                case "Origin":
+                    return "Origen";
+                case "Destination":
+                    return "Destino";
+                case "Patient":
+                    return "Paciente";
+                case "Assignment":
+                    return "Asignación";
+                case "Multimedia":
+                    return "Multimedia";
+                case "Checklist":
+                    return "Listas de chequeo";
+                default:
+                    return "Resumen";       //common case
+            }
+        }
     }
 }
 

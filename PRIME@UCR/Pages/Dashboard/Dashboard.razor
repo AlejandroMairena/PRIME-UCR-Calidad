@@ -10,34 +10,22 @@
 @using PRIME_UCR.Domain.Constants
 @using PRIME_UCR.Components.Dashboard.Filters
 
-    @*Example of policy based authorization in a piece of code*@
-
-<AuthorizeView Policy="@AuthorizationPermissions.CanSeeIncidentsInfoOnDashboard.ToString()">
-    <Authorized>
-        <h1>
-            Dashboard
-        </h1>
-
-    </Authorized>
-    <NotAuthorized>
-        <h1>
-            No dashboard
-        </h1>
-    </NotAuthorized>
-</AuthorizeView>
-
+<h3>
+    Dashboard
+</h3>
 
 <link href="css/Dashboard.css" rel="stylesheet" />
 
-<div class="wrapper">
-    <div class="rounded" style="background-color: white;padding: 10px">
-        <IncidentsCounterComponent @bind-Value="_finishedLoadingCounters" />
+
+<Loading IsLoading="!DashboardData.isReadyToShowFilters && !incidentsCounter.isReadyToShowCounters && !DashboardData.isReadyToShowGraphs">
+    <div class="wrapper">
+        <div class="rounded" style="background-color: white;padding: 10px">
+            <IncidentsCounterComponent @bind-Value="incidentsCounter" />
+        </div>
     </div>
-</div>
 
-<br />
+    <br />
 
-<Loading IsLoading="!_finishedLoadingCounters">
     <div class="wrapper">
         <div class="rounded" style="background-color: white;padding-left: 10px;padding-right: 10px;">
             @*FILTER COMPONENT*@
@@ -48,19 +36,28 @@
                     Filtros
                 </div>
                 <div class="col p-3">
-                    <OriginFilter @bind-Value="Value" />
+                    <OriginFilter Value="Value"
+                                  ValueChanged="UpdateFilteredIncidentsData"
+                                  @bind-Data="DashboardData" />
                 </div>
                 <div class="col p-3">
-                    <DestinationFilter @bind-Value="Value" />
+                    <DestinationFilter Value="Value"
+                                       ValueChanged="UpdateFilteredIncidentsData"
+                                       @bind-Data="DashboardData" />
                 </div>
                 <div class="col p-3">
-                    <DateFilter @bind-Value="Value" />
+                    <DateFilter Value="Value"
+                                ValueChanged="UpdateFilteredIncidentsData" />
                 </div>
                 <div class="col p-3">
-                    <ModalityFilter @bind-Value="Value" />
+                    <ModalityFilter Value="Value"
+                                    ValueChanged="UpdateFilteredIncidentsData"
+                                    @bind-Data="DashboardData" />
                 </div>
                 <div class="col p-3">
-                    <StateFilter @bind-Value="Value" />
+                    <StateFilter Value="Value"
+                                 ValueChanged="UpdateFilteredIncidentsData"
+                                 @bind-Data="DashboardData" />
                 </div>
                 <div class="col p-2">
                     <div class="text-center">
@@ -75,35 +72,37 @@
                     </div>
                 </div>
             </div>
-
             @*FILTER COMPONENT*@
-            @*<FiltersComponent @bind-Value="FilterInfo" />*@
         </div>
     </div>
+
+    <br />
+
+    <Loading IsLoading="!DashboardData.isReadyToShowGraphs">
+        <div class="row">
+            <div class="col-lg-6 col-md-12">
+                <IncidentsVsTransportTypeComponentJS @bind-Data="DashboardData" />
+            </div>
+            <div class="col-lg-6 col-md-12">
+                <IncidentsVsTimeChartComponentJS @bind-Data="DashboardData" />
+            </div>
+        </div>
+
+        <br />
+
+        <div class="row">
+            <div class="col-lg-6 col-md-12">
+
+                <IncidentsVsOriginLocationComponentJS @bind-Data="DashboardData"
+                                                      @bind-Value="Value" />
+            </div>
+            <div class="col-lg-6 col-md-12">
+                <IncidentsVsDestinationLocationComponentJS @bind-Data="DashboardData" />
+            </div>
+        </div>
+    </Loading>
+
+
+    <br />
+
 </Loading>
-
-
-<br />
-
-<div class="row">
-    <div class="col-lg-6 col-md-12">
-        <IncidentsVsTransportTypeComponentJS @bind-Value="Value" />
-    </div>
-    <div class="col-lg-6 col-md-12">
-        <IncidentsVsTimeChartComponentJS @bind-Value="Value" />
-    </div>
-</div>
-
-<br />
-
-<div class="row">
-    <div class="col-lg-6 col-md-12">
-
-        <IncidentsVsOriginLocationComponentJS @bind-Value="Value" />
-    </div>
-    <div class="col-lg-6 col-md-12">
-        <IncidentsVsDestinationLocationComponentJS @bind-Value="Value" />
-    </div>
-</div>
-
-<br />
