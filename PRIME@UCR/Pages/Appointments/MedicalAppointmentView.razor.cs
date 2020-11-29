@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Components;
 using PRIME_UCR.Components.MedicalAppointments;
 using PRIME_UCR.Components.MedicalRecords.Constants;
+using PRIME_UCR.Domain.Models;
 using PRIME_UCR.Domain.Models.Appointments;
+using PRIME_UCR.Domain.Models.MedicalRecords;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +14,8 @@ namespace PRIME_UCR.Pages.Appointments
     public partial class MedicalAppointmentView
     {
         [Parameter] public string id { get; set; }
+
+        //[Parameter] public DateIncidentModel record { get; set; }
 
         private readonly List<Tuple<MADetailsTab, string>> _tabs = new List<Tuple<MADetailsTab, string>>();
 
@@ -25,6 +29,7 @@ namespace PRIME_UCR.Pages.Appointments
 
         public RecordSummary Summary;
 
+        public Cita appoint { get; set; }
 
 
         private void FillTabStates()
@@ -49,9 +54,14 @@ namespace PRIME_UCR.Pages.Appointments
 
         protected override async Task OnInitializedAsync()
         {
-            appointment = await appointment_service.GetMedicalAppointmentByKeyAsync(Convert.ToInt32(id)); 
-            //Summary = new RecordSummary();
-            //Summary.LoadValues(appointment);
+            appointment = await appointment_service.GetMedicalAppointmentByKeyAsync(Convert.ToInt32(id));
+
+            appoint = await appointment_service.GetAppointmentByKeyAsync(Convert.ToInt32(appointment.CitaId)); 
+
+            //appointment = await appointment_service.GetMedicalAppointmentWithAppointmentByKeyAsync(Convert.ToInt32(id)); 
+
+            Summary = new RecordSummary();
+            Summary.LoadPatientValues(appoint.Expediente.Paciente);
 
             if (appointment == null)
                 exists = false;

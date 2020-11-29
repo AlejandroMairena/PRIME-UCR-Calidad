@@ -36,6 +36,10 @@ namespace PRIME_UCR.Application.Services.Appointments
 
         Task UpdateAsync(PoseeReceta prescription);
 
-        Task<CitaMedica> GetMedicalAppointmentByKeyAsync(int id); 
+        Task<CitaMedica> GetMedicalAppointmentByKeyAsync(int id);
+
+        Task<CitaMedica> GetMedicalAppointmentWithAppointmentByKeyAsync(int id);
+
+        Task<Cita> GetAppointmentByKeyAsync(int id); 
     }
 }

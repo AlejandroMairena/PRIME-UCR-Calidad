@@ -6,5 +6,7 @@ namespace PRIME_UCR.Application.Repositories.Appointments
     public interface IAppointmentRepository : IRepoDbRepository<Cita, int>
     {
         Task<Cita> getLatestAppointmentByRecordId(int id);
+
+        Task<Cita> GetAppointmentWithRecordNPatientByKeyAsync(int id); 
     }
 }

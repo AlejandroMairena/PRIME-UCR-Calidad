@@ -23,5 +23,14 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Appointments
                             .FirstOrDefaultAsync();
         }
 
+        public async Task<Cita> GetAppointmentWithRecordNPatientByKeyAsync(int id) {
+            return await _db.Appointments
+                            .Include(p => p.Expediente)
+                            .Include(p => p.Expediente.Paciente)
+                            .FirstOrDefaultAsync(p => p.Id == id);
+        
+        }
+
+
     }
 }
