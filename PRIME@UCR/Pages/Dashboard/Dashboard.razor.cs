@@ -30,6 +30,9 @@ namespace PRIME_UCR.Pages.Dashboard
         public ILocationService LocationService { get; set; }
 
         [Inject]
+        public IFileManagerService FileManagerService { get; set; }
+
+        [Inject]
         public IIncidentService IncidentService { get; set; }
 
         [Inject]
@@ -88,6 +91,12 @@ namespace PRIME_UCR.Pages.Dashboard
             DashboardData.filteredIncidentsData = DashboardData.incidentsData;
 
             DashboardData.isReadyToShowFilters = true; // Always after loading all filters data
+        }
+
+        private void CrearArchivo()
+        {
+            FileManagerService.createFile(DashboardData.filteredIncidentsData);
+           
         }
 
     }
