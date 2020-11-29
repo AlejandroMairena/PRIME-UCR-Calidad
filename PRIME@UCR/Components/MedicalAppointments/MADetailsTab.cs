@@ -8,9 +8,12 @@ namespace PRIME_UCR.Components.MedicalAppointments
 {
     public enum MADetailsTab
     {
-        [Description("Recetas médicas")]
+
+        [Description("Información General")]
+        General,
+        [Description("Recetas Médicas")]
         Recetas,
-        [Description("Contenido multimedia")]
+        [Description("Contenido Multimedia")]
         Multimedia
     }
 }

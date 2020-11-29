@@ -1,0 +1,16 @@
+﻿@using PRIME_UCR.Domain.Models.UserAdministration
+@using PRIME_UCR.Application.Services.UserAdministration
+@using PRIME_UCR.Components.MedicalRecords.Tabs 
+
+<h3>Informacion general</h3>
+
+<Loading IsLoading="Appointment == null">
+    <ListItem Title="Fecha de creación del expediente" Text="@Appointment.Cita.FechaHoraCreacion.ToString()" />
+    <ListItem Title="Código de Cita" Text="@Appointment.CitaId.ToString()" />
+    @*<ListItem Title="Estado" Text="@current_state.NombreEstado" />*@
+    <ListItem Title="Locacion" Text="Pendiente" />
+    <ListItem Title="Fecha de cita" Text="@Appointment.Cita.FechaHoraEstimada.ToString()" />
+    @*<ListItem Title="Medico relacionado" Text="@doctor.NombreCompleto" />*@
+    <ul class="list-group">
+    </ul>
+</Loading>

@@ -43,6 +43,13 @@ namespace PRIME_UCR.Application.Implementations.Appointments
             _drugrepo = drugrep; 
         }
 
+
+        public async Task<CitaMedica> GetMedicalAppointmentWithAppointmentByIdAsync(int id) {
+            return await _medapprepo.GetMedicalAppointmentByWithAppointmentIdAsync(id); 
+        
+        }
+
+
         public async Task UpdateAsync(PoseeReceta prescription) {
             await _havepresc.UpdateAsync(prescription);
         }

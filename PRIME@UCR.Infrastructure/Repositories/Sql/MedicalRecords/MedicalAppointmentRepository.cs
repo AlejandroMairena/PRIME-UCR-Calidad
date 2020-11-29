@@ -21,6 +21,11 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.MedicalRecords
             return await _db.MedicalAppointment.FirstOrDefaultAsync(ap => ap.CitaId == id); 
         }
 
+        public async Task<CitaMedica> GetMedicalAppointmentByWithAppointmentIdAsync(int id) {
+            return await _db.MedicalAppointment
+                            .Include(p => p.Cita)
+                            .FirstOrDefaultAsync(p => p.Id == id);  
+        }
 
         public async Task<CitaMedica> GetMedicalAppointmentWithAppointmentByKeyAsync(int id) {
             return await _db.MedicalAppointment

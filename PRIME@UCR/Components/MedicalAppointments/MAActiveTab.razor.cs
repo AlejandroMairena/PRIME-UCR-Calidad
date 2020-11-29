@@ -26,6 +26,9 @@ namespace PRIME_UCR.Components.MedicalAppointments
 
         [Parameter] public string id { get; set; }
 
+
+        [Parameter] public CitaMedica appointment { get; set; }
+
         public List<PoseeReceta> medicalprescrip { get; set; }
 
         public bool drug_selector_active { get; set; } = true;

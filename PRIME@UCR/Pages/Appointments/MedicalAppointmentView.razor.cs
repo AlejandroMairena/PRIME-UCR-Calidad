@@ -46,15 +46,20 @@ namespace PRIME_UCR.Pages.Appointments
                     case MADetailsTab.Multimedia:
                         _tabs.Add(new Tuple<MADetailsTab, string>(MADetailsTab.Multimedia, ""));
                         break;
+                    case MADetailsTab.General:
+                        _tabs.Add(new Tuple<MADetailsTab, string>(MADetailsTab.General, ""));
+                        break;
                 }
             }
         }
 
 
-
+        
         protected override async Task OnInitializedAsync()
         {
-            appointment = await appointment_service.GetMedicalAppointmentByKeyAsync(Convert.ToInt32(id));
+            //appointment = await appointment_service.GetMedicalAppointmentByKeyAsync(Convert.ToInt32(id));
+
+            appointment = await appointment_service.GetMedicalAppointmentWithAppointmentByIdAsync(Convert.ToInt32(id)); 
 
             appoint = await appointment_service.GetAppointmentByKeyAsync(Convert.ToInt32(appointment.CitaId)); 
 

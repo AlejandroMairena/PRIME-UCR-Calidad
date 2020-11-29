@@ -7,7 +7,7 @@ using System.Text;
 
 namespace PRIME_UCR.Domain.Models.Appointments
 {
-    class EstadoCitaMedica
+    public class EstadoCitaMedica
     {
         [Key]
         public int Codigo { get; set; }
