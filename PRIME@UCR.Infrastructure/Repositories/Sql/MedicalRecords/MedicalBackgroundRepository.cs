@@ -36,17 +36,11 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.MedicalRecords
             }
         }
         public async Task DeleteByIdsAsync(int recordId, int listId) {
-            using (var connection = new SqlConnection(_db.DbConnection.ConnectionString))
-            {
-                await connection.ExecuteNonQueryAsync(@"
-                    delete from Antecedentes 
-                    where IdExpediente = @RecordId and IdListaAntecedentes = @ListId
-                 ", new
-                {
-                    RecordId = recordId,
-                    ListId = listId
-                });
+            var borrado = _db.Set<Antecedentes>().Find(recordId, listId);
+            if(borrado != null){
+                _db.Set<Antecedentes>().Remove(borrado);
             }
+            await _db.SaveChangesAsync();
         }
 
     }
