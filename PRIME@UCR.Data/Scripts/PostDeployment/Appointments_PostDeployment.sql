@@ -1,14 +1,11 @@
 ﻿DELETE FROM Cita
 DELETE FROM MetricasCitaMedica
-DELETE FROM MetricasIncidentes
-DELETE FROM Metricas
 DELETE FROM Accion
 DELETE FROM TipoAccion
 DELETE FROM EstadoCitaMedica
 DELETE FROM RecetaMedica
 
 DBCC CHECKIDENT ('Cita', RESEED, 0)
-DBCC CHECKIDENT ('Metricas', RESEED, 0)
 
 INSERT INTO TipoAccion (Nombre, EsDeCitaMedica, EsDeIncidente)
 VALUES
@@ -87,5 +84,3 @@ VALUES
 	(GETDATE(),DATEADD(day, 9, getdate())),
 	(GETDATE(),DATEADD(day, 10, getdate())),
 	(GETDATE(),DATEADD(day, 10, getdate()))
-
-

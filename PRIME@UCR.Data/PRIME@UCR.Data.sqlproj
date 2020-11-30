@@ -124,9 +124,7 @@
     <Build Include="Triggers\DeleteMultimediaContent.sql" />
     <Build Include="StoredProcedures\Incidents\InsertarNuevoIncidente.sql" />
     <Build Include="Tables\Appointments\Cita.sql" />
-    <Build Include="Tables\Appointments\Metricas.sql" />
     <Build Include="Tables\Appointments\MetricasCitaMedica.sql" />
-    <Build Include="Tables\Appointments\MetricasIncidentes.sql" />
     <Build Include="Tables\Appointments\Accion.sql" />
     <Build Include="Tables\Appointments\TipoAccion.sql" />
     <Build Include="Tables\MedicalRecords\Expediente.sql" />

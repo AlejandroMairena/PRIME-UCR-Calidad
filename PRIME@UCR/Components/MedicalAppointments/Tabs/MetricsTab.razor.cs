@@ -19,8 +19,6 @@ namespace PRIME_UCR.Components.MedicalAppointments.Tabs
 
         private MetricasCitaMedica Metrics;
 
-        private Metricas Metric;
-
         private bool metrics_saved { get; set; } = false;
 
 
@@ -39,49 +37,40 @@ namespace PRIME_UCR.Components.MedicalAppointments.Tabs
 
 
         public async Task saveMetricData() {
-
-            //Metric = await appointment_service.GetMetricsByAppId(AppointmentId);
             metrics_saved = false;
 
-            if (Metric != null)
+            Metrics = await appointment_service.GetMetricsMedAppointmentByAppId(AppointmentId);
+
+            if (Metrics != null)
             {
-
-                Metrics = await appointment_service.GetMetricsMedAppointmentByAppId(AppointmentId);
-
-                if (Metrics != null)
-                {
-                    //se tiene que actualizar. 
-                }
-                else
-                {
-                    Metrics = new MetricasCitaMedica(); 
-                    Metrics.Altura = Convert.ToDouble(MetricsForm.Altura);
-                    Metrics.Peso = Convert.ToDouble(MetricsForm.Peso);
-                    Metrics.Presion = Convert.ToDouble(MetricsForm.Presion);
-                    Metrics.CitaId = AppointmentId;
-
-                    await appointment_service.InsertMetrics(Metrics);
-                    metrics_saved = true;
-                }
+                //se tiene que actualizar. 
             }
-            else {
-
+            else
+            {
                 Metrics = new MetricasCitaMedica()
                 {
-                    Altura = Convert.ToDouble(MetricsForm.Altura),
-                    Peso = Convert.ToDouble(MetricsForm.Peso),
-                    Presion = Convert.ToDouble(MetricsForm.Presion),
+                    Altura = MetricsForm.Altura,
+                    Peso = MetricsForm.Peso,
+                    Presion = MetricsForm.Presion,
                     CitaId = AppointmentId
-
-                };
+                }; 
                 await appointment_service.InsertMetrics(Metrics);
                 metrics_saved = true;
-
-
             }
-
         }
-
-
     }
 }
+
+
+
+
+/*
+ * 
+ * INSERT INTO Cita(FechaHoraCreacion, FechaHoraEstimada, IdExpediente)
+VALUES(GETDATE(), GETDATE(), 18)
+
+INSERT INTO CitaMedica(ExpedienteId, CedMedicoAsignado, CentroMedicoId, EstadoId, CitaId)
+VALUES(18, 22222222, 2, 7, 45)
+
+ * 
+ * */

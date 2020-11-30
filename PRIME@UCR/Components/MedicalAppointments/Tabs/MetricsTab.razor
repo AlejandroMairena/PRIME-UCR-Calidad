@@ -1,13 +1,19 @@
 ﻿@inject IAppointmentService appointment_service; 
 
+<style>
+    body {
+        background-color:white;
+    }
+</style>
+
 
 @if (metrics_saved) {
-    <StatusMessage Message="Las métricas se guardaron exitosamento" Class="sucess" />
+<StatusMessage Message="Las métricas se guardaron exitosamento" Class="success"></StatusMessage>
 }
 
 <Loading IsLoading="MetricsForm == null">
     <div class="row">
-        <div class="col-xl-4 col-lg-6">
+        <div class="col-xl-12 col-lg-12">
             <EditForm EditContext="MetricContext" OnValidSubmit="saveMetricData">
                 <TextBox @bind-Value="MetricsForm.Altura" Label="Estatura" />
                 <TextBox @bind-Value="MetricsForm.Peso" Label="Peso" />
@@ -15,7 +21,7 @@
 
                 @if (true)
                 {
-                    <button type="submit" class="btn btn-primary" @onclick="saveMetricData">Guardar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
                 }
 
             </EditForm>

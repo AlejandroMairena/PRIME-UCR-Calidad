@@ -73,8 +73,6 @@ namespace PRIME_UCR.Infrastructure.DataProviders
 
         DbSet<MetricasCitaMedica> MedAppMetrics { get; set; }
 
-        DbSet<Metricas> Metrics { get; set; }
-
         DbSet<T> Set<T>() where T : class;
         Task<int> SaveChangesAsync();     
     }

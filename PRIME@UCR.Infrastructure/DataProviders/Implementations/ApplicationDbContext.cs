@@ -82,8 +82,6 @@ namespace PRIME_UCR.Infrastructure.DataProviders.Implementations
 
         public DbSet<MetricasCitaMedica> MedAppMetrics { get; set; }
 
-        public DbSet<Metricas> Metrics { get; set; }
-
         public ApplicationDbContext(DbContextOptions options, IConfiguration configuration) : base(options)
         {
             DbConnection = Database.GetDbConnection();
@@ -135,8 +133,6 @@ namespace PRIME_UCR.Infrastructure.DataProviders.Implementations
             builder.ApplyConfiguration(new CitaMap());
             builder.ApplyConfiguration(new AccionMap());
             builder.ApplyConfiguration(new TipoAccionMap());
-            builder.ApplyConfiguration(new MetricasMap());
-            builder.ApplyConfiguration(new MetricasIncidenteMap());
             builder.ApplyConfiguration(new MetricasCitaMedicaMap());
             builder.ApplyConfiguration(new AntecedenteMap());
             builder.ApplyConfiguration(new ListaAntecedenteMap());

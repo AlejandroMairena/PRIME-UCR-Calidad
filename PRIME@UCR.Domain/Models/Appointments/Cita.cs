@@ -20,7 +20,7 @@ namespace PRIME_UCR.Domain.Models
         public int? IdExpediente { get; set; }
         public Expediente Expediente { get; set; }
 
-        public List<Metricas> Metricas { get; set; }
+        public List<MetricasCitaMedica> Metricas { get; set; }
 
         public List<Incidente> Incidentes { get; set; }
 

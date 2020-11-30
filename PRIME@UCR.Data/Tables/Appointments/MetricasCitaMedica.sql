@@ -2,10 +2,9 @@
 (
 	[Id] INT IDENTITY(1,1) NOT NULL,
 	[CitaId] INT NOT NULL,
-	[Presion] VARCHAR(50),
-	[Peso] DECIMAL(3, 3),
-	[Altura] DECIMAL(3, 3),
-	PRIMARY KEY (Id, CitaId),
-	FOREIGN KEY (Id, CitaId)
-		REFERENCES Metricas(Id, CitaId),
+	[Presion] NVARCHAR(50),
+	[Peso] NVARCHAR(50),
+	[Altura] NVARCHAR(50),
+	PRIMARY KEY (Id),
+	FOREIGN KEY(CitaId) REFERENCES Cita(Id)
 )
