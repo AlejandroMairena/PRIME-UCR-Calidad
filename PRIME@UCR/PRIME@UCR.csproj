@@ -17,6 +17,7 @@
     <PackageReference Include="Blazored.SessionStorage" Version="1.0.12" />
     <PackageReference Include="BlazorInputFile" Version="0.2.0" />
     <PackageReference Include="BlazorTable" Version="1.0.0" />
+    <PackageReference Include="Google.Cloud.Storage.V1" Version="3.3.0" />
     <PackageReference Include="MatBlazor" Version="2.7.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.0-rc.1.20451.17" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.0-rc.1.20451.13" />

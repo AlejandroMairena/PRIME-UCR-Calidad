@@ -5,6 +5,12 @@ using System.Collections.Generic;
 using System.Text;
 using PRIME_UCR.Application.Services.Multimedia;
 using Newtonsoft.Json.Linq;
+using Google.Apis.Storage.v1.Data;
+using Google.Cloud.Storage.V1;
+using Google.Apis.Auth.OAuth2;
+using Google.Cloud.SecretManager.V1;
+using Google.Api.Gax.ResourceNames;
+using Google.Api.Gax;
 
 namespace PRIME_UCR.Application.Implementations.Multimedia
 {
@@ -19,10 +25,34 @@ namespace PRIME_UCR.Application.Implementations.Multimedia
 
         void setKeyIV()
         {
-            string jsonAppSettings = System.IO.File.ReadAllText("../PRIME@UCR/appsettings.json");
-            var jsonObjct = JObject.Parse(jsonAppSettings);
-            string keyString = (string)jsonObjct["Key"];
-            string ivString = (string)jsonObjct["IV"];
+            // Some APIs, like Storage, accept a credential in their Create() method.
+            // Explicitly use service account credentials by specifying the private key file.
+            //GoogleCredential credential = GoogleCredential.FromFile("../PRIME@UCR/google_auth.json");
+            // Create the client.
+            SecretManagerServiceClientBuilder builder = new SecretManagerServiceClientBuilder
+            {
+                CredentialsPath = "../PRIME@UCR/google_auth.json"
+            };
+            SecretManagerServiceClient client = builder.Build();
+            // Build the resource name.
+            ProjectName projectName = new ProjectName("speedy-insight-297203");
+            string nomb = "";
+            // Call the API.
+            SecretName keyName = new SecretName("speedy-insight-297203", "LlavePRIME");
+            SecretName ivName = new SecretName("speedy-insight-297203", "IvPrime");
+
+            Secret key = client.GetSecret(keyName);
+            Secret iv = client.GetSecret(ivName);
+            SecretVersionName keyV = new SecretVersionName("speedy-insight-297203", "LlavePRIME","1");
+            SecretVersionName ivV = new SecretVersionName("speedy-insight-297203", "IvPrime", "2");
+            AccessSecretVersionResponse resultKey = client.AccessSecretVersion(keyV);
+            AccessSecretVersionResponse resultIv = client.AccessSecretVersion(ivV);
+            string keyString = resultKey.Payload.Data.ToStringUtf8();
+            string ivString = resultIv.Payload.Data.ToStringUtf8();
+            //string jsonAppSettings = System.IO.File.ReadAllText("../PRIME@UCR/appsettings.json");
+            //var jsonObjct = JObject.Parse(jsonAppSettings);
+            //string keyString = (string)jsonObjct["Key"];
+            //string ivString = (string)jsonObjct["IV"];
             byte[] ivByte = Convert.FromBase64String(ivString);
             byte[] keyByte = Convert.FromBase64String(keyString);
             SetKeyIV(ivByte, keyByte);
