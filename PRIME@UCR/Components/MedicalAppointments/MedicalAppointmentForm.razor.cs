@@ -38,7 +38,7 @@ namespace PRIME_UCR.Components.MedicalAppointments
         {
             Cita citaNueva = new Cita() {
                 FechaHoraCreacion = DateTime.Now,
-                FechaHoraEstimada = date,
+                FechaHoraEstimada = DateTime.Now,
                 IdExpediente = RecordModel.Id
             };
             var cita = await AppointmentService.InsertAppointmentAsync(citaNueva);

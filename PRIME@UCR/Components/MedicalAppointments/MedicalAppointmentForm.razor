@@ -5,33 +5,34 @@
 @inject ILocationService LocationService
 @inject IDoctorService DoctorService
 @inject IAppointmentService AppointmentService 
+<Loading IsLoading="_contextDoctor == null">
+    <EditForm EditContext="_contextDoctor">
+        <FluentValidationValidator />
+        <DropDownMenu T="Médico" Data="DoctorList"
+                      Label="Médicos"
+                      TextProperty="NombreCompleto"
+                      DefaultText="Seleccione un Médico"
+                      Required="true"
+                      Disabled="false"
+                      @bind-Value="@selectedDoctor" />
 
-<EditForm>
-    <FluentValidationValidator />
-    <DropDownMenu T="Médico" Data="DoctorList"
-                  Label="Médicos"
-                  TextProperty="NombreCompleto"
-                  DefaultText="Seleccione un Médico"
-                  Required="true"
-                  Disabled="false"
-                  @bind-Value="@selectedDoctor" />
+        <DropDownMenu T="CentroMedico" Data="MedicalCenterList"
+                      Label="Centros Medicos"
+                      DefaultText="Seleccione un Centro Médico"
+                      TextProperty="Nombre"
+                      Required="true"
+                      Disabled="false"
+                      @bind-Value="@selectedMedicalCenter" />
 
-    <DropDownMenu T="CentroMedico" Data="MedicalCenterList"
-                  Label="Centros Medicos"
-                  DefaultText="Seleccione un Centro Médico"
-                  TextProperty="Nombre"
-                  Required="true"
-                  Disabled="false"
-                  @bind-Value="@selectedMedicalCenter" />
+        @*<DatePicker @bind-Value="@date"
+                    Label="Fecha de nacimiento"
+                    Max="@DateTime.Today.AddYears(20)"
+                    Min="@DateTime.Today" Required="true" />*@
 
-    <DatePicker @bind-Value="@date"
-                Label="Fecha de nacimiento"
-                Max="@DateTime.Today.AddYears(20)"
-                Min="@DateTime.Today" Required="true" />
+        <button class="btn btn-dark" @onclick="MakeAppointment">Guardar</button>
 
-    <button class="btn btn-dark" @onclick="MakeAppointment">Guardar</button>
-
-</EditForm>
+    </EditForm>
+</Loading>
 @*
     Centro medico
 
