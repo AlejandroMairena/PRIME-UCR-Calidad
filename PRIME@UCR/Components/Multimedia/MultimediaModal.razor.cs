@@ -42,23 +42,20 @@ namespace PRIME_UCR.Components.Multimedia
         public delegate Task ModalClosed();
         public event ModalClosed OnModalClosed;
 
-        async Task CloseImageView()
+        public async Task CloseImageView()
         {
             Show = false;
 
             if (OnModalClosed != null) await OnModalClosed();
-            if (ShowMicrophone == true || ShowCamera == true || ShowVideoComponent == true || ShowTextComponent == true)
+            if (MContent != null)
             {
-                await OnClose.InvokeAsync(Show);
-
-            }
-            else {
                 string pathEncrypted = MContent.Archivo;
                 byte[] pathEncryptedByte = System.Convert.FromBase64String(pathEncrypted);
                 string pathDecrypted = encrypt_service.Decrypt(pathEncryptedByte);
                 encrypt_service.EncryptFile(pathDecrypted);
-                await OnClose.InvokeAsync(Show);
+                MContent = null;
             }
+            await OnClose.InvokeAsync(Show);
         }
         string getSrc() {
             //string src = MContent.Archivo; 
