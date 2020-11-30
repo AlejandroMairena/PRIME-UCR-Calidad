@@ -130,5 +130,15 @@ namespace PRIME_UCR.Components.Dashboard
             await FilterInfoChanged.InvokeAsync(FilterInfo);
         }
 
+        /*
+         * Function: Method used to remove state filter.
+         */
+        private async Task RemoveStateFilter()
+        {
+            FilterInfo.StateFilter = null;
+            FilterInfo._selectedState = null;
+            await FilterInfoChanged.InvokeAsync(FilterInfo);
+        }
+
     }
 }

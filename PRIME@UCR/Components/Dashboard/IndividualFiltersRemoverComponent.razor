@@ -52,12 +52,14 @@
     }
 }
 
+@* Remover for destination filter.*@
 @if (FilterInfo.MedicalCenterDestination.MedicalCenter != null)
 {
     <GenericIndividualFilterRemover Label="@FilterInfo.MedicalCenterDestination.MedicalCenter.Nombre"
                                     ValueChanged="RemoveMedicalCenterDestinationFilter" />
 }
 
+@* Remover for modality filter.*@
 @if (FilterInfo.ModalityFilter != null)
 {
     <GenericIndividualFilterRemover Label="@FilterInfo.ModalityFilter.Tipo"
@@ -65,8 +67,14 @@
 
 }
 
-<GenericIndividualFilterRemover Label="Estado"
-                                ValueChanged="Test" />
+@* Remover for state filter.*@
+@if (FilterInfo.StateFilter != null && FilterInfo.StateFilter.Nombre != String.Empty)
+{
+    <GenericIndividualFilterRemover Label="@FilterInfo.StateFilter.Nombre"
+                                    ValueChanged="RemoveStateFilter" />
+
+}
+
 
 <GenericIndividualFilterRemover Label="Fecha"
                                 ValueChanged="Test" />
