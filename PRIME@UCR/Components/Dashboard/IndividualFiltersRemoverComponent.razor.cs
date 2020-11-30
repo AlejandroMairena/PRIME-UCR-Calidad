@@ -110,5 +110,15 @@ namespace PRIME_UCR.Components.Dashboard
             await FilterInfoChanged.InvokeAsync(FilterInfo);
         }
 
+        /*
+         * Function: Method used to remove destination filter.
+         */
+        private async Task RemoveMedicalCenterDestinationFilter()
+        {
+            FilterInfo.MedicalCenterDestination.MedicalCenter = null;
+            FilterInfo._selectedMedicalCenterDestination.MedicalCenter = null;
+            await FilterInfoChanged.InvokeAsync(FilterInfo);
+        }
+
     }
 }

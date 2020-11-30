@@ -52,8 +52,11 @@
     }
 }
 
-<GenericIndividualFilterRemover Label="Destino"
-                                ValueChanged="Test" />
+@if (FilterInfo.MedicalCenterDestination.MedicalCenter != null)
+{
+    <GenericIndividualFilterRemover Label="@FilterInfo.MedicalCenterDestination.MedicalCenter.Nombre"
+                                    ValueChanged="RemoveMedicalCenterDestinationFilter" />
+}
 
 <GenericIndividualFilterRemover Label="Modalidad"
                                 ValueChanged="Test" />
