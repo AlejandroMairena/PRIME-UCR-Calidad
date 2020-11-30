@@ -9,14 +9,13 @@
     <div class="row">
         <div class="col-xl-4 col-lg-6">
             <EditForm EditContext="MetricContext" OnValidSubmit="saveMetricData">
-                <FluentValidationValidator />
                 <TextBox @bind-Value="MetricsForm.Altura" Label="Estatura" />
                 <TextBox @bind-Value="MetricsForm.Peso" Label="Peso" />
-                <TextBox @bind-Value="MetricsForm.Presion" Label="Peso" />
+                <TextBox @bind-Value="MetricsForm.Presion" Label="Presión" />
 
                 @if (true)
                 {
-                    <button class="btn btn-dark" @onclick="saveMetricData">Guardar</button>
+                    <button type="submit" class="btn btn-primary" @onclick="saveMetricData">Guardar</button>
                 }
 
             </EditForm>

@@ -27,6 +27,7 @@ namespace PRIME_UCR.Application.Implementations.Appointments
         private readonly IDrugRepository _drugrepo;
         private readonly IMedCenterRepository _medcenrepo;
         private readonly IMedAppMetricRepository _metapprepo;
+        private readonly IMetricsRepository _metricsrepo;
         //private readonly IAppointmentStatusRepository  _appostatusrep;
 
         public AppointmentService(IActionTypeRepository actionTypeRepo,
@@ -37,7 +38,8 @@ namespace PRIME_UCR.Application.Implementations.Appointments
             IHavePrescriptionRepository havepres,
             IDrugRepository drugrep,
             IMedCenterRepository medcenrepo,
-            IMedAppMetricRepository metapprepo
+            IMedAppMetricRepository metapprepo,
+            IMetricsRepository metricsrepo
             /*,IAppointmentStatusRepository appstatusrepo*/)
         {
             _actionTypeRepo = actionTypeRepo;
@@ -49,12 +51,18 @@ namespace PRIME_UCR.Application.Implementations.Appointments
             _drugrepo = drugrep;
             _medcenrepo = medcenrepo;
             _metapprepo = metapprepo;
+            _metricsrepo = metricsrepo;
             //_appostatusrep = appstatusrepo;
         }
 
 
         public async Task<MetricasCitaMedica> GetMetricsMedAppointmentByAppId(int id) {
             return await _metapprepo.GetAppMetricsByAppId(id); 
+        }
+
+
+        public async Task<Metricas> GetMetricsByAppId(int id) {
+            return await _metricsrepo.GetMetricsByAppId(id); 
         }
 
 

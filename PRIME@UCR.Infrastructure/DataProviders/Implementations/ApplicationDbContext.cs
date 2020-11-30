@@ -82,6 +82,8 @@ namespace PRIME_UCR.Infrastructure.DataProviders.Implementations
 
         public DbSet<MetricasCitaMedica> MedAppMetrics { get; set; }
 
+        public DbSet<Metricas> Metrics { get; set; }
+
         public ApplicationDbContext(DbContextOptions options, IConfiguration configuration) : base(options)
         {
             DbConnection = Database.GetDbConnection();

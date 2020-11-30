@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[MetricasCitaMedica]
 (
-	[Id] INT NOT NULL,
+	[Id] INT IDENTITY(1,1) NOT NULL,
 	[CitaId] INT NOT NULL,
 	[Presion] VARCHAR(50),
 	[Peso] DECIMAL(3, 3),

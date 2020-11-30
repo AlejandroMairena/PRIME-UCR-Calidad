@@ -19,23 +19,22 @@
             </div>
             @if (_activeTab != MADetailsTab.Recetas)
             {
-                <div class="col">
-                    <MAActiveTab Active="@_activeTab" med_appointment_id="@id" id="@id" appointment="@appointment"></MAActiveTab>
-                </div>
+                @if (_activeTab != MADetailsTab.Metricas)
+                {
+                    <div class="col">
+                        <MAActiveTab Active="@_activeTab" med_appointment_id="@id" id="@id" appointment="@appointment"></MAActiveTab>
+                    </div>
+                }
+                else {
+                    @if (appoint != null)
+                    {
+                        <MAActiveTab Active="@_activeTab" med_appointment_id="@id" id="@id" appointment_id="appoint.Id" appointment="@appointment"></MAActiveTab>
+                     }
+                }
             }
             else
             {
-                @if (_activeTab != MADetailsTab.Metricas)
-                {
-                    <MAActiveTab Active="@_activeTab" med_appointment_id="@id" id="@id" appointment="@appointment"></MAActiveTab>
-                }
-                else {
-                    @if (appoint != null) {
-                        <MAActiveTab Active="@_activeTab" med_appointment_id="@id" id="@id" appointment_id="appoint.Id" appointment="@appointment"></MAActiveTab>
-                    }
-
-                }
-
+                <MAActiveTab Active="@_activeTab" med_appointment_id="@id" id="@id" appointment="@appointment"></MAActiveTab>
             }
         </div>
         </Loading>

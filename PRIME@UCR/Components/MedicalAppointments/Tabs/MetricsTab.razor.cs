@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using PRIME_UCR.Domain.Models;
 using PRIME_UCR.Domain.Models.Appointments;
 using System;
 using System.Collections.Generic;
@@ -18,11 +19,14 @@ namespace PRIME_UCR.Components.MedicalAppointments.Tabs
 
         private MetricasCitaMedica Metrics;
 
+        private Metricas Metric;
+
         private bool metrics_saved { get; set; } = false;
 
 
         protected override async Task OnInitializedAsync() {
-            MetricsForm = new MetricsApp(); 
+            MetricsForm = new MetricsApp();
+            MetricContext = new EditContext(MetricsForm);
             Metrics = await appointment_service.GetMetricsMedAppointmentByAppId(AppointmentId);
             if (Metrics != null)
             {
@@ -36,24 +40,44 @@ namespace PRIME_UCR.Components.MedicalAppointments.Tabs
 
         public async Task saveMetricData() {
 
-            metrics_saved = false; 
-            Metrics = await appointment_service.GetMetricsMedAppointmentByAppId(AppointmentId);
+            //Metric = await appointment_service.GetMetricsByAppId(AppointmentId);
+            metrics_saved = false;
 
-            if (Metrics != null)
+            if (Metric != null)
             {
-                //se tiene que actualizar. 
+
+                Metrics = await appointment_service.GetMetricsMedAppointmentByAppId(AppointmentId);
+
+                if (Metrics != null)
+                {
+                    //se tiene que actualizar. 
+                }
+                else
+                {
+                    Metrics = new MetricasCitaMedica(); 
+                    Metrics.Altura = Convert.ToDouble(MetricsForm.Altura);
+                    Metrics.Peso = Convert.ToDouble(MetricsForm.Peso);
+                    Metrics.Presion = Convert.ToDouble(MetricsForm.Presion);
+                    Metrics.CitaId = AppointmentId;
+
+                    await appointment_service.InsertMetrics(Metrics);
+                    metrics_saved = true;
+                }
             }
             else {
 
-                //falta insertar tmbn en la tabla Metricas. 
+                Metrics = new MetricasCitaMedica()
+                {
+                    Altura = Convert.ToDouble(MetricsForm.Altura),
+                    Peso = Convert.ToDouble(MetricsForm.Peso),
+                    Presion = Convert.ToDouble(MetricsForm.Presion),
+                    CitaId = AppointmentId
 
-                Metrics.Altura = Convert.ToDouble(MetricsForm.Altura);
-                Metrics.Peso = Convert.ToDouble(MetricsForm.Peso);
-                Metrics.Presion = Convert.ToDouble(MetricsForm.Presion);
-                Metrics.CitaId = AppointmentId;
-
+                };
                 await appointment_service.InsertMetrics(Metrics);
-                metrics_saved = true; 
+                metrics_saved = true;
+
+
             }
 
         }

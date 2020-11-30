@@ -51,6 +51,7 @@ namespace PRIME_UCR.Infrastructure
             services.AddTransient<IHavePrescriptionRepository, HavePrescriptionRepository>();
             services.AddTransient<IDrugRepository, DrugRepository>();
             services.AddTransient<IMedAppMetricRepository, MedAppMetricRepository>();
+            services.AddTransient<IMetricsRepository, MetricsRepository>(); 
             //services.AddTransient<IAppointmentStatusRepository, IAppointmentStatusRepository>(); 
             // incidents repositories
             services.AddTransient<ICountryRepository, CountryRepository>();
