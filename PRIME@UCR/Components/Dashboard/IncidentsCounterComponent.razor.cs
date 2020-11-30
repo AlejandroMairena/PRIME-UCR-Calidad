@@ -12,25 +12,27 @@ namespace PRIME_UCR.Components.Dashboard
 {
     public partial class IncidentsCounterComponent
     {
+        [Parameter]
+        public IncidentsCounterModel Value { get; set; }
+        [Parameter]
+        public EventCallback<IncidentsCounterModel> ValueChanged { get; set; }
+
         [Inject]
         public IDashboardService DashboardService { get; set; }
-        [Parameter]
-        public bool Value { get; set; }
-        [Parameter]
-        public EventCallback<bool> ValueChanged { get; set; }
-        public IncidentsCounterModel incidentsCounter;
 
-        protected override async Task OnInitializedAsync()
+        private string _selectedFilter = "Día";
+
+        private readonly List<string> _filters = new List<string> { "Día", "Semana", "Mes", "Año" };        
+
+        private async Task OnFilterChange(string filter)
         {
-            incidentsCounter = new IncidentsCounterModel();
-            incidentsCounter.totalIncidentsCounter = await DashboardService.GetIncidentCounterAsync(String.Empty);
-            incidentsCounter.maritimeIncidents = await DashboardService.GetIncidentCounterAsync("Marítimo");
-            incidentsCounter.airIncidentsCounter = await DashboardService.GetIncidentCounterAsync("Aéreo");
-            incidentsCounter.groundIncidentsCounter = await DashboardService.GetIncidentCounterAsync("Terrestre");
-            Value = true;
-            await ValueChanged.InvokeAsync(Value);
-
-            incidentsCounter.isReadyToShowCounters = true;
+            Value.isReadyToShowCounters = false;
+            _selectedFilter = filter;
+            Value.totalIncidentsCounter = await DashboardService.GetIncidentCounterAsync(String.Empty, filter);
+            Value.maritimeIncidents = await DashboardService.GetIncidentCounterAsync("Marítimo", filter);
+            Value.airIncidentsCounter = await DashboardService.GetIncidentCounterAsync("Aéreo", filter);
+            Value.groundIncidentsCounter = await DashboardService.GetIncidentCounterAsync("Terrestre", filter);
+            Value.isReadyToShowCounters = true;
         }
     }
 }
