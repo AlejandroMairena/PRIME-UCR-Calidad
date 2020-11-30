@@ -15,8 +15,8 @@ namespace PRIME_UCR.Components.Dashboard.IncidentsGraph
 {
     public partial class IncidentsVsDestinationLocationComponentJS
     {
-        [Parameter] public FilterModel Value { get; set; }
-        [Parameter] public EventCallback<FilterModel> ValueChanged { get; set; }
+        [Parameter] public DashboardDataModel Data { get; set; }
+        [Parameter] public EventCallback<DashboardDataModel> DataChanged { get; set; }
         [Parameter] public EventCallback OnDiscard { get; set; }
 
         [Parameter] public bool  ZoomActive { get; set; }
@@ -28,13 +28,12 @@ namespace PRIME_UCR.Components.Dashboard.IncidentsGraph
         IJSRuntime JS { get; set; }
 
         [Inject]
-        public IDashboardService _dashboardService { get; set; }
-
-        [Inject]
         IModalService Modal { get; set; }
 
-        [Inject]
-        public ILocationService _locationService { get; set; }
+        protected override async Task OnInitializedAsync()
+        {
+            await GenerateIncidentsVsDestinationLocationComponentJS();
+        }
 
 
         protected override async Task OnParametersSetAsync()
@@ -45,11 +44,11 @@ namespace PRIME_UCR.Components.Dashboard.IncidentsGraph
 
         private async Task GenerateIncidentsVsDestinationLocationComponentJS()
         {
-            var incidentsData = await _dashboardService.GetFilteredIncidentsList(Value);
+            var incidentsData = Data.filteredIncidentsData;
 
             eventQuantity = incidentsData.Count();
 
-            var medicalCenters = await _locationService.GetAllMedicalCentersAsync();
+            var medicalCenters = Data.medicalCenters;
 
             var incidentsPerDestination = incidentsData.GroupBy(i => { 
                 if(i.Destino != null)
@@ -91,7 +90,7 @@ namespace PRIME_UCR.Components.Dashboard.IncidentsGraph
             };
 
             var parameters = new ModalParameters();
-            parameters.Add(nameof(IncidentsVsDestinationLocationComponentJS.Value), Value);
+            parameters.Add(nameof(IncidentsVsDestinationLocationComponentJS.Data), Data);
             parameters.Add(nameof(IncidentsVsDestinationLocationComponentJS.ZoomActive), true);
             Modal.Show<IncidentsVsDestinationLocationComponentJS>("Incidentes VS Ubicacion de Destino", parameters, modalOptions);
         }
