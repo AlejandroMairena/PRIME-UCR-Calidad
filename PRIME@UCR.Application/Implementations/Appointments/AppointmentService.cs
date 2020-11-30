@@ -185,6 +185,16 @@ namespace PRIME_UCR.Application.Implementations.Appointments
             return await _appointmentRepository.getLatestAppointmentByRecordId(id);
         }
 
+        public async Task<CitaMedica> InsertMedicalAppointmentAsync(CitaMedica model) 
+        {
+            return await _medapprepo.InsertAsync(model);
+        }
+
+        public async Task<Cita> InsertAppointmentAsync(Cita model)
+        {
+            return await _appointmentRepository.InsertAsync(model);   
+        }
+
     }
         [MetadataType(typeof(AppointmentServiceAuthorization))]
         public partial class AppointmentService { }
