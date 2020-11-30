@@ -16,8 +16,8 @@ namespace PRIME_UCR.Components.Dashboard.IncidentsGraph
 {
     public partial class IncidentsVsTimeChartComponentJS
     {
-        [Parameter] public FilterModel Value { get; set; }
-        [Parameter] public EventCallback<FilterModel> ValueChanged { get; set; }
+        [Parameter] public DashboardDataModel Data { get; set; }
+        [Parameter] public EventCallback<DashboardDataModel> DataChanged { get; set; }
         [Parameter] public EventCallback OnDiscard { get; set; }
 
         [Parameter] public bool ZoomActive { get; set; }
@@ -30,9 +30,10 @@ namespace PRIME_UCR.Components.Dashboard.IncidentsGraph
         [Inject]
         IJSRuntime JS { get; set; }
 
-        [Inject]
-        public IDashboardService _dashboardService { get; set; }
-
+        protected override async Task OnInitializedAsync()
+        {
+            await GenerateColumnChart();
+        }
 
         protected override async Task OnParametersSetAsync()
         {
@@ -41,7 +42,7 @@ namespace PRIME_UCR.Components.Dashboard.IncidentsGraph
 
         private async Task GenerateColumnChart()
         {
-            var incidentsData =  await _dashboardService.GetFilteredIncidentsList(Value);
+            var incidentsData = Data.filteredIncidentsData;
 
             eventQuantity = incidentsData.Count();
 
@@ -68,7 +69,7 @@ namespace PRIME_UCR.Components.Dashboard.IncidentsGraph
             };
 
             var parameters = new ModalParameters();
-            parameters.Add(nameof(IncidentsVsTimeChartComponentJS.Value), Value);
+            parameters.Add(nameof(IncidentsVsTimeChartComponentJS.Data), Data);
             parameters.Add(nameof(IncidentsVsTimeChartComponentJS.ZoomActive), true);
             Modal.Show<IncidentsVsTimeChartComponentJS>("Incidentes vs Tiempo", parameters, modalOptions);
         }
