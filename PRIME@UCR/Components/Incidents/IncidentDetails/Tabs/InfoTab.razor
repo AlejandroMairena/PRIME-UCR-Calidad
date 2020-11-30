@@ -5,15 +5,15 @@
 
 <h3> Información general del incidente</h3>
 <br />
+<Loading IsLoading="@_isLoading">
 @if (DetailsModel.CurrentState == IncidentStates.Approved.Nombre)
 {
 <StatusMessage Message="@($"Aprobado por {DetailsModel.Reviewer.NombreCompleto}")" Class="primary" />
  }
-else if (DetailsModel.CurrentState == IncidentStates.Rejected.Nombre)
+else if (showDeniedMessage)
 {
-<StatusMessage Message="@($"Rechazado por {DetailsModel.Reviewer.NombreCompleto}")" Class="danger" />
+    <RowAlertMessage Class="danger" Values="@values" Content="@content" />
 }
-<Loading IsLoading="@_isLoading">
     <ul class="list-group">
         <ListItem Title="Identificador" Text="@DetailsModel.Code" />
         <ListItem Title="Estado" Text="@DetailsModel.CurrentState" />

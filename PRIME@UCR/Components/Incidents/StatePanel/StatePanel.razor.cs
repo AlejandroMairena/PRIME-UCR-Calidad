@@ -87,7 +87,7 @@ namespace PRIME_UCR.Components.Incidents.StatePanel
             await LoadValues();
         }
 
-        private async Task showFeedbackInput()
+        private void showFeedbackInput()
         {
             if (showFeedBack)
             {
@@ -99,7 +99,7 @@ namespace PRIME_UCR.Components.Incidents.StatePanel
                 showFeedBack = true;
             }
         }
-
+        
         private async Task Reject()
         {
             showFeedBack = false;
