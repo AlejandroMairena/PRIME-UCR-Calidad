@@ -107,6 +107,7 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
                 {
                     var claimsList = new List<Claim>();
                     var email = list.First(x => x.Type == "unique_name").Value;
+                    claimsList.Add(new Claim(ClaimTypes.Name, email));
                     foreach (Claim currentClaim in list)
                     { 
                         if (currentClaim.Type != "nbf" && currentClaim.Type != "exp" && currentClaim.Type != "iat")
