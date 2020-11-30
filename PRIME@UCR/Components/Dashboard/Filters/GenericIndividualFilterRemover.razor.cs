@@ -12,6 +12,9 @@ namespace PRIME_UCR.Components.Dashboard.Filters
         public string Label { get; set; }
 
         [Parameter]
+        public string ExtraLabel  { get; set; }
+
+        [Parameter]
         public char Value { get; set; }
 
         [Parameter]

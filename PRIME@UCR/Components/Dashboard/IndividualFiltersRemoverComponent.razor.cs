@@ -140,5 +140,24 @@ namespace PRIME_UCR.Components.Dashboard
             await FilterInfoChanged.InvokeAsync(FilterInfo);
         }
 
+        /*
+         * Function: Method used to remove initial date filter.
+         */
+        private async Task RemoveInitialDateFilter()
+        {
+            FilterInfo.InitialDateFilter = null;
+            FilterInfo._selectedInitialDate = null;
+            await FilterInfoChanged.InvokeAsync(FilterInfo);
+        }
+
+        /*
+         * Function: Method used to remove initial date filter.
+         */
+        private async Task RemoveFinalDateFilter()
+        {
+            FilterInfo.FinalDateFilter = null;
+            FilterInfo._selectedFinalDate = null;
+            await FilterInfoChanged.InvokeAsync(FilterInfo);
+        }
     }
 }
