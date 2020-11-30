@@ -19,17 +19,30 @@ namespace PRIME_UCR.Components.Dashboard
         [Parameter]
         public EventCallback<bool> ValueChanged { get; set; }
         public IncidentsCounterModel incidentsCounter;
+        private readonly List<string> _filters = new List<string> { "Día", "Semana", "Mes", "Año" };
+        private string _selectedFilter = "Día";
 
         protected override async Task OnInitializedAsync()
         {
             incidentsCounter = new IncidentsCounterModel();
-            incidentsCounter.totalIncidentsCounter = await DashboardService.GetIncidentCounterAsync(String.Empty);
-            incidentsCounter.maritimeIncidents = await DashboardService.GetIncidentCounterAsync("Marítimo");
-            incidentsCounter.airIncidentsCounter = await DashboardService.GetIncidentCounterAsync("Aéreo");
-            incidentsCounter.groundIncidentsCounter = await DashboardService.GetIncidentCounterAsync("Terrestre");
+            incidentsCounter.totalIncidentsCounter = await DashboardService.GetIncidentCounterAsync(String.Empty, "Día");
+            incidentsCounter.maritimeIncidents = await DashboardService.GetIncidentCounterAsync("Marítimo", "Día");
+            incidentsCounter.airIncidentsCounter = await DashboardService.GetIncidentCounterAsync("Aéreo", "Día");
+            incidentsCounter.groundIncidentsCounter = await DashboardService.GetIncidentCounterAsync("Terrestre", "Día");
             Value = true;
             await ValueChanged.InvokeAsync(Value);
 
+            incidentsCounter.isReadyToShowCounters = true;
+        }
+
+        private async Task OnFilterChange(string filter)
+        {
+            incidentsCounter.isReadyToShowCounters = false;
+            _selectedFilter = filter;
+            incidentsCounter.totalIncidentsCounter = await DashboardService.GetIncidentCounterAsync(String.Empty, filter);
+            incidentsCounter.maritimeIncidents = await DashboardService.GetIncidentCounterAsync("Marítimo", filter);
+            incidentsCounter.airIncidentsCounter = await DashboardService.GetIncidentCounterAsync("Aéreo", filter);
+            incidentsCounter.groundIncidentsCounter = await DashboardService.GetIncidentCounterAsync("Terrestre", filter);
             incidentsCounter.isReadyToShowCounters = true;
         }
     }

@@ -1,7 +1,7 @@
 ﻿@inject AuthenticationStateProvider AuthenticationStateProvider
 @inject Blazored.LocalStorage.ILocalStorageService localStorage
 
-<div class="container mt-5 text-white">
+<div class="mt-5 text-white">
     <EditForm EditContext="_context" OnValidSubmit="@ValidateUser">
         <DataAnnotationsValidator />
 
@@ -17,19 +17,18 @@
         <div class="text-left @notRegistered">
             <p id="emailHelp" class="text-warning">Su cuenta no ha sido validada, le hemos enviado un correo con un enlace de validación.</p>
         </div>
-        <div class="text-center">
+        <div class="d-flex justify-content-center">
             @if (isBusy) // Loading button
             {
                 <button class="btn btn-light width:13em mt-2" type="button">
-                    <span class="spinner-border spinner-border-sm" style="background-color:white" role="status" aria-hidden="true"></span>
-                    Validando información
-                </button>
+                    <span class="spinner-border spinner-border-sm" style="background-color:white" role="status" aria-hidden="true"></span>Validando información
+                </button> 
             }
             else
             {
                 @if (isFormValid) // Disable button if form is not valid
                 {
-                    <button type="submit" style="width:13em" class="btn btn-light mt-2">Ingresar</button>
+                    <button type="submit" style="width:13em" class="btn btn-light mt-2">Ingresar</button> 
                 }
                 else
                 {
@@ -37,10 +36,6 @@
                 }
             }
         </div>
-
     </EditForm>
-    <div class="text-left">
-        <small id="emailHelp" class="text-white">No compartiremos su correo electrónico con nadie.</small>
-    </div>
-
+<small id="emailHelp" class="text-white">No compartiremos su correo electrónico con nadie.</small>
 </div>
