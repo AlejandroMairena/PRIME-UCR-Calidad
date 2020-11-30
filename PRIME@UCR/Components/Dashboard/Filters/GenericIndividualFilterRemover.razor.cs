@@ -10,5 +10,16 @@ namespace PRIME_UCR.Components.Dashboard.Filters
     {
         [Parameter]
         public string Label { get; set; }
+
+        [Parameter]
+        public char Value { get; set; }
+
+        [Parameter]
+        public EventCallback<char> ValueChanged { get; set; }
+
+        private async Task FilterRemoved()
+        {
+            await ValueChanged.InvokeAsync(Value);
+        }
     }
 }

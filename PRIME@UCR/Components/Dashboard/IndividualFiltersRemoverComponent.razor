@@ -1,13 +1,65 @@
 ﻿@using PRIME_UCR.Components.Dashboard.Filters
 
-<EditForm Model="FilterInfo" OnValidSubmit="Test">
-    <GenericIndividualFilterRemover Label="Origen" />
+@if (FilterInfo.OriginType != null)
+{
+    // Origin filter individual remover per house holder type
+    @if (FilterInfo.OriginType == "Domicilio")
+    {
+        <GenericIndividualFilterRemover Label="Domicilio"
+                                        ValueChanged="RemoveHouseHoldOriginFilter" />
 
-    <GenericIndividualFilterRemover Label="Destino" />
+        @if (FilterInfo.HouseholdOriginFilter.Province != null)
+        {
+            <GenericIndividualFilterRemover Label="@FilterInfo.HouseholdOriginFilter.Province.Nombre"
+                                            ValueChanged="RemoveProvinceOriginFilter" />
+        }
+        @if (FilterInfo.HouseholdOriginFilter.Canton != null)
+        {
+            <GenericIndividualFilterRemover Label="@FilterInfo.HouseholdOriginFilter.Canton.Nombre"
+                                            ValueChanged="RemoveCantonOriginFilter" />
+        }
+        @if (FilterInfo.HouseholdOriginFilter.District != null)
+        {
+            <GenericIndividualFilterRemover Label="@FilterInfo.HouseholdOriginFilter.District.Nombre"
+                                            ValueChanged="RemoveDistrictOriginFilter" />
+        }
+    }
 
-    <GenericIndividualFilterRemover Label="Modalidad" />
+    // Origin filter individual remover per international type
+    @if (FilterInfo.OriginType == "Internacional")
+    {
+        <GenericIndividualFilterRemover Label="Internacional"
+                                        ValueChanged="RemoveInternationalOriginFilter" />
 
-    <GenericIndividualFilterRemover Label="Estado" />
+        @if (FilterInfo.InternationalOriginFilter.Country != null)
+        {
+            <GenericIndividualFilterRemover Label="@FilterInfo.InternationalOriginFilter.Country.Nombre"
+                                            ValueChanged="RemoveCountryOriginFilter" />
+        }
+    }
 
-    <GenericIndividualFilterRemover Label="Fecha" />
-</EditForm>
+    // Origin filter individual remover per medical center type
+    @if (FilterInfo.OriginType == "Centro Médico")
+    {
+        <GenericIndividualFilterRemover Label="Centro médico"
+                                        ValueChanged="RemoveMedicalCenterOriginFilter" />
+
+        @if (FilterInfo.MedicalCenterOriginFilter != null)
+        {
+            <GenericIndividualFilterRemover Label="@FilterInfo.MedicalCenterOriginFilter.MedicalCenter.Nombre"
+                                            ValueChanged="RemoveSpecificMedicalCenterOriginFilter" />
+        }
+    }
+}
+
+<GenericIndividualFilterRemover Label="Destino"
+                                ValueChanged="Test" />
+
+<GenericIndividualFilterRemover Label="Modalidad"
+                                ValueChanged="Test" />
+
+<GenericIndividualFilterRemover Label="Estado"
+                                ValueChanged="Test" />
+
+<GenericIndividualFilterRemover Label="Fecha"
+                                ValueChanged="Test" />
