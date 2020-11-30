@@ -10,6 +10,8 @@ namespace PRIME_UCR.Application.DTOs.UserAdministration
         public AskForPermissionModel()
         {
             PermissionsList = new List<string>();
+            AssignedPermissions = new List<Permiso>();
+            NotAssignedPermissions = new List<Permiso>();
         }
 
         public Usuario User { get; set; }
@@ -20,5 +22,9 @@ namespace PRIME_UCR.Application.DTOs.UserAdministration
         public string StatusMessageType { get; set; }
 
         public List<string> PermissionsList { get; set; }
+
+        public List<Permiso> NotAssignedPermissions { get; set; }
+
+        public List<Permiso> AssignedPermissions { get; set; }
     }
 }

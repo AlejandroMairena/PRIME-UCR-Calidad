@@ -14,13 +14,23 @@ namespace PRIME_UCR.Pages.UserAdministration
     public partial class AskForPermission
     {
         [Inject]
-        public UserManager<Usuario> UserManager { get; set; }
+        public IPermissionsService permissionsService { get; set; }
 
         [Inject]
-        public NavigationManager NavigationManager { get; set; }
+        public IProfilesService profilesService { get; set; }
 
         [Inject]
         public IUserService userService { get; set; }
+
+        [Inject]
+        public UserManager<Usuario> UserManager { get; set; }
+
+
+        [CascadingParameter]
+        private Task<AuthenticationState> _authenticationState { get; set; }
+
+        [Inject]
+        public NavigationManager NavigationManager { get; set; }
 
         [Inject]
         public IMailService mailService { get; set; }
@@ -29,14 +39,53 @@ namespace PRIME_UCR.Pages.UserAdministration
 
         public bool isBusy;
 
-        public char ValidationState = 'N';
+        public char Inicialized = 'N';
 
         public char ResultOfRecovery = 'N';
+
+        public List<Perfil> ListProfiles { get; set; }
+
+        public List<Permiso> ListPermissions { get; set; }
 
         protected override void OnInitialized()
         {
             AskForPermissionMod = new AskForPermissionModel();
             isBusy = false;
+            ListPermissions = new List<Permiso>();
+            ListProfiles = new List<Perfil>();
+
+        }
+
+        protected override async Task OnInitializedAsync()
+        {
+            var userEmail = (await _authenticationState).User.Identity.Name;
+            var user = await UserManager.FindByEmailAsync(userEmail);
+            AskForPermissionMod.User = await userService.getUsuarioWithDetailsAsync(user.Id);
+            ListPermissions = (await permissionsService.GetPermisos()).ToList();
+            ListProfiles = (await profilesService.GetPerfilesWithDetailsAsync()).ToList();
+
+            foreach (var profile in AskForPermissionMod.User.UsuariosYPerfiles)
+            {
+                var currProfile = ListProfiles.Find(p => profile.IDPerfil == p.NombrePerfil);
+                foreach (var permission in currProfile.PerfilesYPermisos)
+                {
+                    if (AskForPermissionMod.AssignedPermissions.Find(p => permission.IDPermiso == p.IDPermiso) != null ? false : true)
+                    {
+                        AskForPermissionMod.AssignedPermissions.Add(permission.Permiso);
+                    }
+                }
+            }
+
+            foreach (var permission in ListPermissions)
+            {
+                var permissionAssigned = AskForPermissionMod.AssignedPermissions.Find(p => permission.IDPermiso == p.IDPermiso) == null ? false : true;
+                if (permissionAssigned == false)
+                {
+                    AskForPermissionMod.NotAssignedPermissions.Add(permission);
+                }
+            }
+
+            Inicialized = 'T';
         }
 
         /*
@@ -65,6 +114,8 @@ namespace PRIME_UCR.Pages.UserAdministration
                     }
 
                 }
+                ResultOfRecovery = 'T';
+                AskForPermissionMod.UserMessage = String.Empty;
                 AskForPermissionMod.StatusMessage = "Su solicitud ha sido enviada.";
                 AskForPermissionMod.StatusMessageType = "success";
 

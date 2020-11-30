@@ -13,21 +13,6 @@ namespace PRIME_UCR.Components.UserAdministration
 {
     public partial class AskForPermissionComponent
     {
-        [Inject]
-        public IPermissionsService permissionsService { get; set; }
-
-        [Inject]
-        public IProfilesService profilesService { get; set; }
-
-        [Inject]
-        public IUserService userService { get; set; }
-
-        [Inject]
-        public UserManager<Usuario> UserManager { get; set; }
-
-
-        [CascadingParameter]
-        private Task<AuthenticationState> _authenticationState { get; set; }
 
         [Parameter]
         public AskForPermissionModel AskForPermissionModel { get; set; }
@@ -49,55 +34,10 @@ namespace PRIME_UCR.Components.UserAdministration
 
         public List<Perfil> ListProfiles { get; set; }
 
-        /**
-         * Function: Assigns, a new list of permissions to the attribute ListPermissions once IsInitialized  is set to true.
-         */
-        protected override void OnInitialized()
-        {
-            ListPermissions = new List<Permiso>();
-            AssignedPermissions = new List<Permiso>();
-            NotAssignedPermissions = new List<Permiso>();
-            ListProfiles = new List<Perfil>();
-
-        }
-
-        /**
-         * Function: Assigns, a new list of permissions to the attribute ListPermissions based on the permissions that are
-         * placed on the database.
-         */
-        protected override async Task OnInitializedAsync()
-        {
-            var userEmail = (await _authenticationState).User.Identity.Name;
-            AskForPermissionModel.User = await UserManager.FindByEmailAsync(userEmail);
-            ListPermissions = (await permissionsService.GetPermisos()).ToList();
-            ListProfiles = (await profilesService.GetPerfilesWithDetailsAsync()).ToList();
-
-            foreach (var profile in AskForPermissionModel.User.UsuariosYPerfiles)
-            {
-                var currProfile = ListProfiles.Find(p => profile.Perfil.NombrePerfil == p.NombrePerfil);
-                foreach (var permission in currProfile.PerfilesYPermisos)
-                {
-                    if(AssignedPermissions.Find(p => permission.IDPermiso == p.IDPermiso) != null ? false : true)
-                    {
-                        AssignedPermissions.Add(permission.Permiso);
-                    }
-                }
-            }
-
-            foreach (var permission in ListPermissions)
-            {
-                var permissionAssigned = AssignedPermissions.Find(p => permission.IDPermiso == p.IDPermiso) == null ? false : true;
-                if(permissionAssigned == false)
-                {
-                    NotAssignedPermissions.Add(permission);
-                }
-            }
-        }
-
         //Update the list of permissions that are requested
         protected void update_list(int idPermission, ChangeEventArgs e)
         {
-            var permission = NotAssignedPermissions.Find(p => idPermission == p.IDPermiso);
+            var permission = AskForPermissionModel.NotAssignedPermissions.Find(p => idPermission == p.IDPermiso);
             if(permission != null)
             {
                 if ((bool)e.Value)
@@ -114,3 +54,64 @@ namespace PRIME_UCR.Components.UserAdministration
 
     }
 }
+
+
+/*
+ * 
+[Inject]
+        public IPermissionsService permissionsService { get; set; }
+
+        [Inject]
+        public IProfilesService profilesService { get; set; }
+
+        [Inject]
+        public IUserService userService { get; set; }
+
+        [Inject]
+        public UserManager<Usuario> UserManager { get; set; }
+
+
+        [CascadingParameter]
+        private Task<AuthenticationState> _authenticationState { get; set; }
+ 
+protected override void OnInitialized()
+{
+    ListPermissions = new List<Permiso>();
+    AssignedPermissions = new List<Permiso>();
+    NotAssignedPermissions = new List<Permiso>();
+    ListProfiles = new List<Perfil>();
+
+}
+
+
+protected override async Task OnInitializedAsync()
+{
+    var userEmail = (await _authenticationState).User.Identity.Name;
+    var user = await UserManager.FindByEmailAsync(userEmail);
+    AskForPermissionModel.User = await userService.getUsuarioWithDetailsAsync(user.Id);
+    ListPermissions = (await permissionsService.GetPermisos()).ToList();
+    ListProfiles = (await profilesService.GetPerfilesWithDetailsAsync()).ToList();
+
+    foreach (var profile in AskForPermissionModel.User.UsuariosYPerfiles)
+    {
+        var currProfile = ListProfiles.Find(p => profile.IDPerfil == p.NombrePerfil);
+        foreach (var permission in currProfile.PerfilesYPermisos)
+        {
+            if (AssignedPermissions.Find(p => permission.IDPermiso == p.IDPermiso) != null ? false : true)
+            {
+                AssignedPermissions.Add(permission.Permiso);
+            }
+        }
+    }
+
+    foreach (var permission in ListPermissions)
+    {
+        var permissionAssigned = AssignedPermissions.Find(p => permission.IDPermiso == p.IDPermiso) == null ? false : true;
+        if (permissionAssigned == false)
+        {
+            NotAssignedPermissions.Add(permission);
+        }
+    }
+}
+
+*/
