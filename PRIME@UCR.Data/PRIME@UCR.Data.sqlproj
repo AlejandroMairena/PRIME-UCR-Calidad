@@ -167,6 +167,7 @@
     <None Include="Scripts\PostDeployment\Appointments_PostDeployment.sql" />
     <None Include="Scripts\PostDeployment\MedicalRecords_PostDeployment.sql" />
     <None Include="Scripts\PostDeployment\Alergies_PostDeployment.sql" />
+    <None Include="Scripts\PostDeployment\MedAppointments_PostDeployment.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Triggers\DeleteMultimediaContent.sql" />

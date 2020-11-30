@@ -9,11 +9,22 @@ Post-Deployment Script Template
                SELECT * FROM [$(TableName)]					
 --------------------------------------------------------------------------------------
 */
-:r .\PostDeployment\Users_PostDeployment.sql
-:r .\PostDeployment\Identity_PostDeployment.sql
-:r .\PostDeployment\Appointments_PostDeployment.sql
-:r .\PostDeployment\Incidents_PostDeployment.sql
-:r .\PostDeployment\Checklists_PostDeployment.sql
-:r .\PostDeployment\MedicalRecords_PostDeployment.sql
-:r .\PostDeployment\Alergies_PostDeployment.sql
-:r .\PostDeployment\MedAppointments_PostDeployment.sql
+
+
+INSERT INTO Cita(FechaHoraCreacion, FechaHoraEstimada, IdExpediente)
+VALUES
+    (GETDATE(), GETDATE(), 18),
+    (GETDATE(), GETDATE(), 18),
+    (GETDATE(), GETDATE(), 18),
+    (GETDATE(), GETDATE(), 18),
+    (GETDATE(), GETDATE(), 18);
+
+INSERT INTO CitaMedica(ExpedienteId, CedMedicoAsignado, CentroMedicoId, EstadoId, CitaId)
+VALUES
+    (18, 22222222, 2, 7, 45),
+    (18, 22222222, 2, 7, 46),
+    (18, 22222222, 2, 7, 47),
+    (18, 22222222, 2, 7, 48),
+    (18, 22222222, 2, 7, 49);
+
+
