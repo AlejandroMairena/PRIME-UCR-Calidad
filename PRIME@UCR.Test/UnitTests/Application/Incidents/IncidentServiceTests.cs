@@ -13,6 +13,7 @@ using PRIME_UCR.Application.Dtos.Incidents;
 using PRIME_UCR.Domain.Models.MedicalRecords;
 using System;
 using PRIME_UCR.Application.DTOs.Incidents;
+using PRIME_UCR.Application.Permissions.Incidents;
 
 namespace PRIME_UCR.Test.UnitTests.Application.Incidents
 {
@@ -21,7 +22,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
         [Fact]
         public async Task CreateIncidentAsyncThrowsNullException()
         {
-            var service = new IncidentService(
+            var service = new SecureIncidentService(
                 null,
                 null, null, null, null, null, null, null, new AuthorizationMock().Object);
 
@@ -43,7 +44,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
              var mockRepoIncident = new Mock<IIncidentRepository>();
              var mockRepoState = new Mock<IIncidentStateRepository>();
 
-            var service = new IncidentService(
+            var service = new SecureIncidentService(
                 mockRepoIncident.Object,
                 null, mockRepoState.Object, null, null, null, null, null, new AuthorizationMock().Object);
 
@@ -68,7 +69,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
                 .Setup(p => p.GetByKeyAsync(String.Empty))
                 .Returns(Task.FromResult<Incidente>(null));
 
-            var service = new IncidentService(
+            var service = new SecureIncidentService(
                 mockIncident.Object,
                 null, null, null, null, null, null, null, new AuthorizationMock().Object);
 
@@ -93,11 +94,35 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
                 .Setup(p => p.GetCurrentStateByIncidentId(String.Empty))
                 .Returns(Task.FromResult<Estado>(state));
 
-            var service = new IncidentService(
+            var service = new SecureIncidentService(
                 mockIncident.Object,
                 null, mockState.Object, null, null, null, null, null, new AuthorizationMock().Object);
 
             await Assert.ThrowsAsync<ApplicationException>(() => service.ApproveIncidentAsync("",""));
+        }
+
+        [Fact]
+        public async Task ApproveIncidentAsyncCompletesTask()
+        {
+            var mockIncident = new Mock<IIncidentRepository>();
+            var mockState = new Mock<IIncidentStateRepository>();
+
+
+            var incident = new Incidente { Codigo = "1312"};
+            var state = new Estado { Nombre = "Rechazado" };
+
+            mockIncident
+                .Setup(p => p.GetByKeyAsync(String.Empty))
+                .Returns(Task.FromResult<Incidente>(incident));
+            mockState
+                .Setup(p => p.GetCurrentStateByIncidentId(String.Empty))
+                .Returns(Task.FromResult<Estado>(state));
+
+            var service = new SecureIncidentService(
+                mockIncident.Object,
+                null, mockState.Object, null, null, null, null, null, new AuthorizationMock().Object);
+
+            await service.ApproveIncidentAsync("","");
         }
 
         [Fact]
@@ -111,7 +136,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
                 .Setup(p => p.GetAllAsync())
                 .Returns(Task.FromResult<IEnumerable<Incidente>>(data));
 
-            var service = new IncidentService(
+            var service = new SecureIncidentService(
                 mockRepo.Object,
                 null, null, null, null, null, null, null, new AuthorizationMock().Object);
 
@@ -141,7 +166,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
                 .Setup(p => p.GetAllAsync())
                 .Returns(Task.FromResult<IEnumerable<Incidente>>(data));
 
-            var service = new IncidentService(
+            var service = new SecureIncidentService(
                 mockRepo.Object,
                 null, null, null, null, null, null, null, new AuthorizationMock().Object);
 
@@ -170,7 +195,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
                 .Setup(p => p.GetByKeyAsync("código inválido"))
                 .Returns(Task.FromResult(data));
 
-            var service = new IncidentService(
+            var service = new SecureIncidentService(
                 mockRepo.Object,
                 null, null, null, null, null, null, null, new AuthorizationMock().Object);
 
@@ -192,7 +217,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
                 .Setup(p => p.GetByKeyAsync("código válido"))
                 .Returns(Task.FromResult(data));
 
-            var service = new IncidentService(
+            var service = new SecureIncidentService(
                 mockRepo.Object,
                 null, null, null, null, null, null, null, new AuthorizationMock().Object);
 
@@ -253,7 +278,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
             _MockStateRepository
                 .Setup(p => p.GetCurrentStateByIncidentId(IncidentToTest.Codigo))
                 .Returns(Task.FromResult(StateToTest));
-            var incidentServiceToTest = new IncidentService(_MockIncidentRepository.Object, null, _MockStateRepository.Object, null, _MockTransportUnitRepository.Object, null, _MockPersonRepository.Object, null, new AuthorizationMock().Object);
+            var incidentServiceToTest = new SecureIncidentService(_MockIncidentRepository.Object, null, _MockStateRepository.Object, null, _MockTransportUnitRepository.Object, null, _MockPersonRepository.Object, null, new AuthorizationMock().Object);
 
             IncidentDetailsModel result =  await incidentServiceToTest.GetIncidentDetailsAsync(CodeToTest);
             Assert.True
@@ -269,6 +294,21 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
                     && result.MedicalRecord == CitaToTest.Expediente
                     && result.Reviewer.Cédula == ReviewerToTest.Cédula
                 );
+        }
+
+        [Fact]
+        public async Task GetIncidentDetailsAsyncReturnsNull()
+        {
+            /*If the service receives an invalid code , it should return a null
+             */
+            var _MockIncidentRepository = new Mock<IIncidentRepository>();
+            string CodeToTest = "codigoTotest";
+            _MockIncidentRepository
+               .Setup(p => p.GetWithDetailsAsync(CodeToTest))
+               .Returns(Task.FromResult<Incidente>(null));
+            var incidentServiceToTest = new SecureIncidentService(_MockIncidentRepository.Object, null, null, null, null, null, null, null, new AuthorizationMock().Object);
+            IncidentDetailsModel result = await incidentServiceToTest.GetIncidentDetailsAsync(CodeToTest);
+            Assert.Null(result);
         }
 
         [Fact]
@@ -298,9 +338,49 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
             _MockStateRepository
                 .Setup(p => p.GetCurrentStateByIncidentId(code))
                 .Returns(Task.FromResult(StateToTest));
-            var incidentServiceToTest = new IncidentService(_MockIncidentRepository.Object, null, _MockStateRepository.Object, null, null, null, null, null, new AuthorizationMock().Object);
+            var incidentServiceToTest = new SecureIncidentService(_MockIncidentRepository.Object, null, _MockStateRepository.Object, null, null, null, null, null, new AuthorizationMock().Object);
 
             await incidentServiceToTest.RejectIncidentAsync(code, reviewerId);
+        }
+
+        [Fact]
+        public async Task RejectIncidentAsyncInvalidIncident()
+        {
+            var _MockIncidentRepository = new Mock<IIncidentRepository>();
+            string CodeToTest = "CodeToTest";
+            _MockIncidentRepository
+               .Setup(p => p.GetByKeyAsync(CodeToTest))
+               .Returns(Task.FromResult<Incidente>(null));
+            var incidentServiceToTest = new SecureIncidentService(_MockIncidentRepository.Object, null, null, null, null, null, null, null, new AuthorizationMock().Object);
+            await Assert.ThrowsAsync<ArgumentException>(() => incidentServiceToTest.RejectIncidentAsync(CodeToTest, ""));
+        }
+
+        [Fact]
+        public async Task RejectIncidentAsyncInvalidState()
+        {
+            var _MockIncidentRepository = new Mock<IIncidentRepository>();
+            var _MockStateRepository = new Mock<IIncidentStateRepository>();
+            string CodeToTest = "CodeToTest";
+            Estado StateToTest = new Estado
+            {
+                Nombre = "DiferenteACreado"
+            };
+            Incidente IncidentToTest = new Incidente
+            {
+                Codigo = CodeToTest,
+                CedulaRevisor = "cedulaValida",
+                Modalidad = "modalityToTest",
+                CedulaAdmin = "cedulaValida",
+                CodigoCita = 1
+            };
+            _MockIncidentRepository
+               .Setup(p => p.GetByKeyAsync(CodeToTest))
+               .Returns(Task.FromResult(IncidentToTest));
+            _MockStateRepository
+                .Setup(p => p.GetCurrentStateByIncidentId(IncidentToTest.Codigo))
+                .Returns(Task.FromResult(StateToTest));
+            var incidentServiceToTest = new SecureIncidentService(_MockIncidentRepository.Object, null, _MockStateRepository.Object, null, null, null, null, null, new AuthorizationMock().Object);
+            await Assert.ThrowsAsync<ApplicationException>(() => incidentServiceToTest.RejectIncidentAsync(CodeToTest, ""));
         }
 
         [Fact]
@@ -318,7 +398,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
                 .Setup(p => p.GetAllAsync())
                 .Returns(Task.FromResult<IEnumerable<Modalidad>>(expected));
 
-            var service = new IncidentService(
+            var service = new SecureIncidentService(
                 _MockIncidentRepository.Object,
                 _MockModesRepository.Object, null, null, null, null, null, null, new AuthorizationMock().Object);
 
@@ -342,7 +422,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
                 .Setup(p => p.GetAllAsync())
                 .Returns(Task.FromResult<IEnumerable<Modalidad>>(expected));
 
-            var service = new IncidentService(
+            var service = new SecureIncidentService(
                 _MockIncidentRepository.Object,
                 _MockModesRepository.Object, null, null, null, null, null, null, new AuthorizationMock().Object);
 
@@ -368,7 +448,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
                 .Setup(p => p.GetIncidentListModelsAsync())
                 .Returns(Task.FromResult<IEnumerable<IncidentListModel>>(expected));
 
-            var service = new IncidentService(
+            var service = new SecureIncidentService(
                 _MockIncidentRepository.Object,
                 null, null, null, null, null, null, null, new AuthorizationMock().Object);
 
@@ -390,12 +470,253 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
                 .Setup(p => p.GetIncidentListModelsAsync())
                 .Returns(Task.FromResult<IEnumerable<IncidentListModel>>(expected));
 
-            var service = new IncidentService(
+            var service = new SecureIncidentService(
                 _MockIncidentRepository.Object,
                 null, null, null, null, null, null, null, new AuthorizationMock().Object);
 
             // act
             var result = (await service.GetIncidentListModelsAsync()).ToList();
+            // assert
+            Assert.Equal(expected, result);
+        }
+
+        [Fact]
+        public async Task UpdateTransportUnitReturnsTrue()
+        {
+            var mockTransportUnitRepository = new Mock<ITransportUnitRepository>();
+            var model = new IncidentDetailsModel
+            {
+                Code = "1234",
+                TransportUnit = new UnidadDeTransporte { Matricula = "ABC123" },
+                TransportUnitId = "ABC123"
+            };
+            var incident = new Incidente
+            {
+                Codigo = "1234",
+            };
+            mockTransportUnitRepository
+                .Setup(t => t.GetByKeyAsync(model.TransportUnitId))
+                .Returns(Task.FromResult<UnidadDeTransporte>(model.TransportUnit));
+            var service = new SecureIncidentService(null, null, null, null,
+                    mockTransportUnitRepository.Object, null, null, null, new AuthorizationMock().Object);
+            var result = await service.UpdateTransportUnit(model, incident);
+            Assert.True(result);
+        }
+
+        [Fact]
+        public async Task UpdateTransportUnitSameUnitsReturnsFalse()
+        {
+            var mockTransportUnitRepository = new Mock<ITransportUnitRepository>();
+            var model = new IncidentDetailsModel
+            {
+                Code = "1234",
+                TransportUnit = new UnidadDeTransporte { Matricula = "ABC123" },
+                TransportUnitId = "ABC123"
+            };
+            var incident = new Incidente
+            {
+                Codigo = "1234",
+                MatriculaTrans = "ABC123"     //MatriculaTrans is the same, so an update isn't needed. Returns false
+            };
+            mockTransportUnitRepository
+                .Setup(t => t.GetByKeyAsync(model.TransportUnitId))
+                .Returns(Task.FromResult<UnidadDeTransporte>(model.TransportUnit));
+            var service = new SecureIncidentService(null, null, null, null,
+                    mockTransportUnitRepository.Object, null, null, null, new AuthorizationMock().Object);
+            var result = await service.UpdateTransportUnit(model, incident);
+            Assert.False(result);
+        }
+
+        [Fact]
+        public async Task UpdateTransportUnitNullUnitReturnsFalse()
+        {
+            var mockTransportUnitRepository = new Mock<ITransportUnitRepository>();
+            var model = new IncidentDetailsModel
+            {
+                Code = "1234",      // TransportUnit is null.
+            };
+            var incident = new Incidente
+            {
+                Codigo = "1234",
+                MatriculaTrans = "ABC123"
+            };
+            var service = new SecureIncidentService(null, null, null, null,
+                    mockTransportUnitRepository.Object, null, null, null, new AuthorizationMock().Object);
+            var result = await service.UpdateTransportUnit(model, incident);
+            Assert.False(result);
+        }
+
+        [Fact]
+        public async Task GetNextIncidentStateReturnsApproved()
+        {
+            // arrange
+            var mockIncidentRepository = new Mock<IIncidentRepository>();
+            var mockStatesRepository = new Mock<IIncidentStateRepository>();
+            var currentState = new Estado { Nombre = "Creado" };
+            var nextState = new Estado { Nombre = "Aprobado" };
+
+            mockStatesRepository
+                .Setup(p => p.GetCurrentStateByIncidentId(String.Empty))
+                .Returns(Task.FromResult<Estado>(currentState));
+
+            var service = new SecureIncidentService(
+                mockIncidentRepository.Object,
+                null, mockStatesRepository.Object, null, null, null, null, null, null);
+
+            // act
+            var result = await service.GetNextIncidentState(String.Empty);
+
+            // assert
+            Assert.Equal(nextState.Nombre, result);
+
+        }
+
+        [Fact]
+        public async Task GetNextIncidentStateReturnsEmptyString()
+        {
+            // arrange
+            var mockIncidentRepository = new Mock<IIncidentRepository>();
+            var mockStatesRepository = new Mock<IIncidentStateRepository>();
+            var currentState = new Estado { Nombre = "Finalizado" };
+            var nextState = new Estado { Nombre = "" };
+
+            mockStatesRepository
+                .Setup(p => p.GetCurrentStateByIncidentId(String.Empty))
+                .Returns(Task.FromResult<Estado>(currentState));
+
+            var service = new SecureIncidentService(
+                mockIncidentRepository.Object,
+                null, mockStatesRepository.Object, null, null, null, null, null, null);
+
+            // act
+            var result = await service.GetNextIncidentState(String.Empty);
+
+            // assert
+            Assert.Equal(nextState.Nombre, result);
+
+        }
+
+        [Fact]
+        public async Task GetPendingTaskAsyncForCreatedState()
+        {
+            // arrange
+            var mockIncidentRepository = new Mock<IIncidentRepository>();
+            string nextState = "Creado";
+            var model = new IncidentDetailsModel
+            {
+                Code = "1234",
+            };
+            List<Tuple<string, string>> expected = new List<Tuple<string, string>> {
+                Tuple.Create("Seleccionar origen", "Origin"),
+                Tuple.Create("Seleccionar destino", "Destination"),
+                Tuple.Create("Agregar paciente", "Patient")
+            };
+
+
+            var service = new SecureIncidentService(
+                mockIncidentRepository.Object,
+                null, null, null, null, null, null, null, null);
+
+            // act
+            var result = await service.GetPendingTasksAsync(model, nextState);
+
+            // assert
+            Assert.Equal(expected, result);
+        }
+
+        [Fact]
+        public async Task GetPendingTaskAsyncForApprovedState()
+        {
+            // arrange
+            var mockIncidentRepository = new Mock<IIncidentRepository>();
+            string nextState = "Aprobado";
+            var model = new IncidentDetailsModel
+            {
+                Code = "1234",
+                CurrentState = "Creado"
+            };
+            List<Tuple<string, string>> expected = new List<Tuple<string, string>> {
+                Tuple.Create("Esperando revisión", "Info"),
+            };
+
+
+            var service = new SecureIncidentService(
+                mockIncidentRepository.Object,
+                null, null, null, null, null, null, null, null);
+
+            // act
+            var result = await service.GetPendingTasksAsync(model, nextState);
+
+            // assert
+            Assert.Equal(expected, result);
+        }
+
+        [Fact]
+        public async Task GetPendingTaskAsyncForRejectedState()
+        {
+            // arrange
+            var mockIncidentRepository = new Mock<IIncidentRepository>();
+            string nextState = "Aprobado";
+            var model = new IncidentDetailsModel
+            {
+                Code = "1234",
+            };
+            List<Tuple<string, string>> expected = new List<Tuple<string, string>> {
+                Tuple.Create("Esperando una nueva revisión", "Info")
+            };
+
+
+            var service = new SecureIncidentService(
+                mockIncidentRepository.Object,
+                null, null, null, null, null, null, null, null);
+
+            // act
+            var result = await service.GetPendingTasksAsync(model, nextState);
+
+            // assert
+            Assert.Equal(expected, result);
+        }
+
+        [Fact]
+        public async Task GetPendingTaskAsyncForAssignedState()
+        {
+            // arrange
+            var mockIncidentRepository = new Mock<IIncidentRepository>();
+            var mockAssignmentRepository = new Mock<IAssignmentRepository>();
+            IEnumerable<EspecialistaTécnicoMédico> teamMembers = new List<EspecialistaTécnicoMédico>();
+            string nextState = "Asignado";
+            var model = new IncidentDetailsModel
+            {
+                Code = "1234",
+            };
+            var incident = new Incidente
+            {
+                Codigo = "1234"
+            };
+
+            mockIncidentRepository
+             .Setup(p => p.GetByKeyAsync(model.Code))
+             .Returns(Task.FromResult<Incidente>(incident));
+
+            mockAssignmentRepository
+              .Setup(p => p.GetAssignmentsByIncidentIdAsync(incident.Codigo))
+              .Returns(Task.FromResult<IEnumerable<EspecialistaTécnicoMédico>>(teamMembers));
+
+
+            List<Tuple<string, string>> expected = new List<Tuple<string, string>> {
+                Tuple.Create("Seleccionar unidad de transporte", "Assignment"),
+                Tuple.Create("Seleccionar coordinador", "Assignment"),
+                Tuple.Create("Seleccionar técnicos médicos", "Assignment")
+            };
+
+
+            var service = new SecureIncidentService(
+                mockIncidentRepository.Object,
+                null, null, null, null, null, null, mockAssignmentRepository.Object, null);
+
+            // act
+            var result = await service.GetPendingTasksAsync(model, nextState);
+
             // assert
             Assert.Equal(expected, result);
         }

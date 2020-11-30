@@ -27,11 +27,11 @@ namespace PRIME_UCR.Components.Dashboard.Filters
 
     public partial class OriginFilter
     {
-
-        [Inject] private ILocationService LocationService { get; set; }
         [Parameter] public FilterModel Value { get; set; }
         [Parameter] public EventCallback<FilterModel> ValueChanged { get; set; }
         [Parameter] public EventCallback OnDiscard { get; set; }
+        [Parameter] public DashboardDataModel Data { get; set; }
+        [Parameter] public EventCallback<DashboardDataModel> DataChanged { get; set; }
 
         // Origin needed attributes
 
@@ -59,7 +59,7 @@ namespace PRIME_UCR.Components.Dashboard.Filters
         private bool _isLoading = true;
         private bool _changesMade = false;
 
-        private async Task OnOriginTypeChange(string origin)
+        private void OnOriginTypeChange(string origin)
         {
             Value._selectedOriginType = origin;
 
@@ -126,49 +126,50 @@ namespace PRIME_UCR.Components.Dashboard.Filters
                     _changesMade = true;
                 }
             }
-            await ValueChanged.InvokeAsync(Value);
         }
 
-        private async Task LoadExistingValues()
+        private void LoadExistingValues()
         {
             _isLoading = true;
             StateHasChanged();
             
             //Initialize household attributes
             
-            await LoadProvinces(true);
-            await LoadCantons(true);
-            await LoadDistricts(true);
+            LoadProvinces(true);
+            LoadCantons(true);
+            LoadDistricts(true);
 
             //Initialize international attributes
 
-            await LoadCountries(true);
+            LoadCountries(true);
 
             //Initialize medical center attributes
-            await LoadMedicalCenters(true);
+            LoadMedicalCenters(true);
 
             _isLoading = false;
         }
 
-        protected override async Task OnInitializedAsync()
+        protected override void OnInitialized()
         {
-            await LoadExistingValues();
+            LoadExistingValues();
         }
 
         // Household needed methods
 
-        async Task LoadProvinces(bool firstLoad)
+        void LoadProvinces(bool firstLoad)
         {
-            // get options
-            _provinces =
-                (await LocationService.GetProvincesByCountryNameAsync(Pais.DefaultCountry))
-                .ToList();
+            _provinces = new List<Provincia>();
+            foreach(var district in  Data.districts.GroupBy(d => d.Canton.NombreProvincia))
+            {
+                if(district.FirstOrDefault() != null && district.FirstOrDefault().Canton.Provincia.NombrePais == Pais.DefaultCountry)
+                    _provinces.Add(district.First().Canton.Provincia);
+            }
 
             if (!firstLoad)
                 Value._selectedHouseholdOrigin.Province = null;
         }
 
-        async Task OnChangeProvince(Provincia province)
+        void OnChangeProvince(Provincia province)
         {
             StateHasChanged();
             Value._selectedHouseholdOrigin.Province = province;
@@ -182,17 +183,21 @@ namespace PRIME_UCR.Components.Dashboard.Filters
             {
                 _changesMade = true;
             }
-            await ValueChanged.InvokeAsync(Value);
-            await LoadCantons(false);
-            await LoadDistricts(false);
+            LoadCantons(false);
+            LoadDistricts(false);
         }
 
-        async Task LoadCantons(bool firstLoad)
+        void LoadCantons(bool firstLoad)
         {
             if (Value._selectedHouseholdOrigin.Province != null)
-                _cantons =
-                    (await LocationService.GetCantonsByProvinceNameAsync(Value._selectedHouseholdOrigin.Province.Nombre))
-                    .ToList();
+            {
+                _cantons = new List<Canton>();
+                foreach(var district in Data.districts.GroupBy(d => d.Canton.Nombre))
+                {
+                    if (district.FirstOrDefault() != null && district.FirstOrDefault().Canton.NombreProvincia == Value._selectedHouseholdOrigin.Province.Nombre)
+                        _cantons.Add(district.FirstOrDefault().Canton);
+                }
+            }
             else
                 _cantons = new List<Canton>();
 
@@ -200,7 +205,7 @@ namespace PRIME_UCR.Components.Dashboard.Filters
                 Value._selectedHouseholdOrigin.Canton = null;
         }
 
-        async Task OnChangeCanton(Canton canton)
+        void OnChangeCanton(Canton canton)
         {
             StateHasChanged();
             Value._selectedHouseholdOrigin.Canton = canton;
@@ -214,23 +219,28 @@ namespace PRIME_UCR.Components.Dashboard.Filters
             {
                 _changesMade = true;
             }
-            await ValueChanged.InvokeAsync(Value);
-            await LoadDistricts(false);
+            LoadDistricts(false);
         }
 
-        async Task LoadDistricts(bool firstLoad)
+        void LoadDistricts(bool firstLoad)
         {
             if (Value._selectedHouseholdOrigin.Canton != null)
-                _districts =
-                    (await LocationService.GetDistrictsByCantonIdAsync(Value._selectedHouseholdOrigin.Canton.Id))
-                    .ToList();
+            {
+                _districts = new List<Distrito>();
+                foreach(var district in Data.districts)
+                {
+                    if (district.IdCanton == Value._selectedHouseholdOrigin.Canton.Id)
+                        _districts.Add(district);
+                }
+            }
             else
                 _districts = new List<Distrito>();
 
             if (!firstLoad)
                 Value._selectedHouseholdOrigin.District = null;
         }
-        private async Task OnChangeDistrict(Distrito distrito)
+
+        private void OnChangeDistrict(Distrito distrito)
         {
             StateHasChanged();
             Value._selectedHouseholdOrigin.District = distrito;
@@ -244,21 +254,18 @@ namespace PRIME_UCR.Components.Dashboard.Filters
             {
                 _changesMade = true;
             }
-            await ValueChanged.InvokeAsync(Value);
         }
 
         // Needed international methods 
 
-        private async Task LoadCountries(bool firstRender) 
+        private void LoadCountries(bool firstRender) 
         {
-            _countries = (await LocationService.GetAllCountriesAsync())
-                .Where(c => c.Nombre != Pais.DefaultCountry)
-                .ToList();
+            _countries = Data.countries.Where(c => c.Nombre != Pais.DefaultCountry).ToList();
             if (!firstRender)
                 Value.InternationalOriginFilter.Country = null;
-
         }
-        private async Task OnChangeCountry(Pais pais)
+
+        private void OnChangeCountry(Pais pais)
         {
             Value._selectedInternationalOrigin.Country = pais;
             if (Value.InternationalOriginFilter.Country == pais)
@@ -269,11 +276,10 @@ namespace PRIME_UCR.Components.Dashboard.Filters
             {
                 _changesMade = true;
             }
-            await ValueChanged.InvokeAsync(Value);
         }
 
         // Needed medical centers methods
-        async Task OnChangeMedicalCenter(CentroMedico medicalCenter)
+        void OnChangeMedicalCenter(CentroMedico medicalCenter)
         {
             Value._selectedMedicalCenterOrigin.MedicalCenter = medicalCenter;
             if (Value.MedicalCenterOriginFilter.MedicalCenter == medicalCenter)
@@ -284,19 +290,16 @@ namespace PRIME_UCR.Components.Dashboard.Filters
             {
                 _changesMade = true;
             }
-            await ValueChanged.InvokeAsync(Value);
         }
 
-        private async Task LoadMedicalCenters(bool firstRender)
+        private void LoadMedicalCenters(bool firstRender)
         {
-            _medicalCenters =
-                (await LocationService.GetAllMedicalCentersAsync())
-                .ToList();
-
+            _medicalCenters = Data.medicalCenters;
             if (!firstRender)
                 Value._selectedMedicalCenterOrigin.MedicalCenter = null;
         }
-        private async Task Discard()
+
+        private void Discard()
         {
             _changesMade = false;
             Value._selectedOriginType = Value.OriginType;
@@ -305,8 +308,8 @@ namespace PRIME_UCR.Components.Dashboard.Filters
             Value._selectedHouseholdOrigin.District = Value.HouseholdOriginFilter.District;
             Value._selectedInternationalOrigin.Country = Value.InternationalOriginFilter.Country;
             Value._selectedMedicalCenterOrigin.MedicalCenter = Value.MedicalCenterOriginFilter.MedicalCenter;
-            await ValueChanged.InvokeAsync(Value);
         }
+
         private async Task Save()
         {
             StateHasChanged();

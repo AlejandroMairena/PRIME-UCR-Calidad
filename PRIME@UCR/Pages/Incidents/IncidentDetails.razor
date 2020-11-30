@@ -4,7 +4,8 @@
 @using PRIME_UCR.Components.Incidents.IncidentDetails
 @using PRIME_UCR.Components.Incidents
 @using PRIME_UCR.Components.Controls
-@attribute [Authorize]
+@using PRIME_UCR.Domain.Constants
+@attribute [HasPermission(AuthorizationPermissions.CanSeeBasicDetailsOfIncidents)]
 
 @inject NavigationManager NavigationManager
 @inject IIncidentService IncidentService
@@ -14,25 +15,23 @@
 @if (_exists)
 {
     <Loading IsLoading="_incidentModel == null">
-        <AuthorizeIfAssigned IncidentCode="@_incidentModel.Code">
-            <div class="row">
-                <div class="col-xl-2 col-lg-3 mb-4">
-                    <TabMenu Tabs="_tabs" DefaultTab="DefaultTab" IsVertical="true"
-                             TooltipText="Campo pendiente"
-                             @bind-Value="_activeTab"/>
-                </div>
-                <div class="col col-xl-10 col-lg-9">
-                    <div class="jumbotron white-panel">
-                        <CascadingValue Value="ClearStatusMessageCallback">
-                            <CascadingValue Value="ChangeActiveTabCallback">
-                                <ActiveTab Active="@_activeTab" Incident="_incidentModel" OnSave="@Save"
-                                           StatusMessage="@_statusMessage" StatusClass="@_statusClass"/>
-                            </CascadingValue>
+        <div class="row">
+            <div class="col-sm-2 col-md-2 mb-4">
+                <TabMenu Tabs="_tabs" DefaultTab="DefaultTab" IsVertical="true"
+                         TooltipText="Campo pendiente"
+                         @bind-Value="_activeTab"/>
+            </div>
+            <div class="col col-sm-10 col-md-10">
+                <div class="jumbotron white-panel">
+                    <CascadingValue Value="ClearStatusMessageCallback">
+                        <CascadingValue Value="ChangeActiveTabCallback">
+                            <ActiveTab Active="@_activeTab" Incident="_incidentModel" OnSave="@Save"
+                                       StatusMessage="@_statusMessage" StatusClass="@_statusClass"/>
                         </CascadingValue>
-                    </div>
+                    </CascadingValue>
                 </div>
             </div>
-        </AuthorizeIfAssigned>
+        </div>
     </Loading>
 }
 else

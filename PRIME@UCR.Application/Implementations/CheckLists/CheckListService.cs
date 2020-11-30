@@ -10,19 +10,24 @@ using System.IO;
 using Microsoft.AspNetCore.Components;
 using PRIME_UCR.Application.Repositories.CheckLists;
 using PRIME_UCR.Domain.Models.CheckLists;
+using PRIME_UCR.Application.Services.UserAdministration;
+using System.ComponentModel.DataAnnotations;
+using PRIME_UCR.Application.Permissions.CheckLists;
 
 namespace PRIME_UCR.Application.Implementations.CheckLists
 {
     /**
      * Class used to manage checklists and their items
      */
-    public class CheckListService : ICheckListService
+    internal class CheckListService : ICheckListService
     {
         private readonly ICheckListRepository _checklistRepository;
         private readonly ICheckListTypeRepository _checkListTypeRepository;
         private readonly IItemRepository _itemRepository;
 
-        public CheckListService(ICheckListRepository checklistRepository, ICheckListTypeRepository checkListTypeRepository, IItemRepository itemRepository)
+        public CheckListService(ICheckListRepository checklistRepository,
+                                ICheckListTypeRepository checkListTypeRepository,
+                                IItemRepository itemRepository)
         {
             _checklistRepository = checklistRepository;
             _checkListTypeRepository = checkListTypeRepository;
@@ -40,7 +45,7 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
             return await _checkListTypeRepository.GetAllAsync();
         }
 
-        public async Task<CheckList> InsertCheckList(CheckList list) 
+        public async Task<CheckList> InsertCheckList(CheckList list)
         {
             return await _checklistRepository.InsertCheckListAsync(list);
         }
@@ -65,25 +70,30 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
         {
             return await _itemRepository.InsertCheckItemAsync(item);
         }
+
         public async Task<IEnumerable<Item>> GetItemsByCheckListId(int checkListId)
         {
             IEnumerable<Item> items = await _itemRepository.GetByCheckListId(checkListId);
             return items.OrderBy(item => item.Orden);
         }
+
         public async Task<IEnumerable<Item>> GetItemsBySuperitemId(int superitemId)
         {
             IEnumerable<Item> items = await _itemRepository.GetBySuperitemId(superitemId);
             return items.OrderBy(item => item.Orden);
         }
+
         public async Task<IEnumerable<Item>> GetCoreItems(int checkListId)
         {
             IEnumerable<Item> items = await _itemRepository.GetCoreItems(checkListId);
             return items.OrderBy(item => item.Orden);
         }
+
         public async Task<Item> SaveImageItem(Item item)
         {
             return await _itemRepository.InsertAsync(item);
         }
+
         public async Task<Item> UpdateItem(Item item)
         {
             await _itemRepository.UpdateAsync(item);

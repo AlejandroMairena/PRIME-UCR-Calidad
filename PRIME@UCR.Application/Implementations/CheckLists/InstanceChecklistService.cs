@@ -10,19 +10,23 @@ using System.IO;
 using Microsoft.AspNetCore.Components;
 using PRIME_UCR.Application.Repositories.CheckLists;
 using PRIME_UCR.Domain.Models.CheckLists;
+using PRIME_UCR.Application.Services.UserAdministration;
+using System.ComponentModel.DataAnnotations;
+using PRIME_UCR.Application.Permissions.CheckLists;
 
 namespace PRIME_UCR.Application.Implementations.CheckLists
 {
     /**
      * Class used to manage checklists and their items
      */
-    public class InstanceChecklistService : IInstanceChecklistService
+    internal class InstanceChecklistService : IInstanceChecklistService
     {
         private readonly IInstanceChecklistRepository _instancechecklistRepository;
         private readonly IInstanceItemRepository _instanceItemRepository;
         // private readonly IItemRepository _itemRepository;
 
-        public InstanceChecklistService(IInstanceChecklistRepository instancechecklistRepository, IInstanceItemRepository instanceItemRepository)//, IItemRepository itemRepository)
+        public InstanceChecklistService(IInstanceChecklistRepository instancechecklistRepository,
+                                        IInstanceItemRepository instanceItemRepository)//, IItemRepository itemRepository)
         {
             _instancechecklistRepository = instancechecklistRepository;
             _instanceItemRepository = instanceItemRepository;
@@ -34,7 +38,7 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
             IEnumerable<InstanceChecklist> lists = await _instancechecklistRepository.GetAllAsync();
             return lists;//.OrderBy(InstanceChecklist => InstanceChecklist.Orden);
         }
-        public async Task<InstanceChecklist> InsertInstanceChecklist(InstanceChecklist list) 
+        public async Task<InstanceChecklist> InsertInstanceChecklist(InstanceChecklist list)
         {
             return await _instancechecklistRepository.InsertAsync(list);
         }
@@ -91,12 +95,12 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
             return await _instanceItemRepository.InsertAsync(instanceItem);
         }
 
-        public async Task<IEnumerable<InstanciaItem>> GetItemsByIncidentCodAndCheckListId(string incidentCode, int checklistId) 
+        public async Task<IEnumerable<InstanciaItem>> GetItemsByIncidentCodAndCheckListId(string incidentCode, int checklistId)
         {
             return await _instanceItemRepository.GetByIncidentCodAndCheckListId(incidentCode, checklistId);
         }
 
-        public async Task<IEnumerable<InstanciaItem>> GetCoreItems(string incidentCode, int checklistId) 
+        public async Task<IEnumerable<InstanciaItem>> GetCoreItems(string incidentCode, int checklistId)
         {
             return await _instanceItemRepository.GetCoreItems(incidentCode, checklistId);
         }

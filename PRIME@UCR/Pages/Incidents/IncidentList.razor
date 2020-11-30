@@ -8,7 +8,7 @@
 <Loading IsLoading="incidentsList == null">
     <div class="jumbotron white-panel">
         <h1>Lista de Incidentes</h1>
-        <Table TableItem="IncidentListModel" Items="incidentsList" PageSize="3" @ref="Table" ColumnReorder="true" ShowSearchBar="true" class="table table-bordered">
+        <Table TableItem="IncidentListModel" Items="incidentsList" PageSize="10" @ref="Table" ColumnReorder="true" ShowSearchBar="true" class="table table-bordered">
             <Column TableItem="IncidentListModel" Title="Código" Field="@(x => x.Codigo)" Filterable="true" Sortable="true" Width="18%" DefaultSortColumn="true">
                 <Template>
                     <a href="/incidents/@context.Codigo">@context.Codigo</a>

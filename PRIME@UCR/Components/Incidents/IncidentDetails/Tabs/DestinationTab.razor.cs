@@ -21,7 +21,7 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
         [Parameter] public string StatusMessage { get; set; }
         [Parameter] public string StatusClass { get; set; }
         [CascadingParameter] public Action ClearStatusMessageCallback { get; set; }
-        
+
         private DestinationModel _model = new DestinationModel();
         private MedicalCenterLocationModel _medicalCenterModel = new MedicalCenterLocationModel();
         private bool _isLoading = false;
@@ -63,7 +63,7 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
                     MedicalCenter = medicalCenter
                 };
             }
-            
+
             _model.Destination = Destination;
             ClearStatusMessageCallback();
             _isLoading = false;

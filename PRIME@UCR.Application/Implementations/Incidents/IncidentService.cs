@@ -17,13 +17,12 @@ using PRIME_UCR.Domain.Exceptions.Incidents;
 using PRIME_UCR.Domain.Models;
 using PRIME_UCR.Domain.Models.Incidents;
 using PRIME_UCR.Domain.Models.UserAdministration;
-using PRIME_UCR.Application.Services.UserAdministration;
 using System.ComponentModel.DataAnnotations;
 using PRIME_UCR.Application.Permissions.Incidents;
 
 namespace PRIME_UCR.Application.Implementations.Incidents
 {
-    public partial class IncidentService : IIncidentService
+    internal class IncidentService : IIncidentService
     {
         private readonly IIncidentRepository _incidentRepository;
         private readonly IModesRepository _modesRepository;
@@ -33,7 +32,6 @@ namespace PRIME_UCR.Application.Implementations.Incidents
         private readonly IMedicalRecordRepository _medicalRecordRepository;
         private readonly IPersonaRepository _personRepository;
         private readonly IAssignmentRepository _assignmentRepository;
-        private readonly IPrimeSecurityService _primeSecurityService;
 
         public IncidentService(
             IIncidentRepository incidentRepository,
@@ -43,8 +41,7 @@ namespace PRIME_UCR.Application.Implementations.Incidents
             ITransportUnitRepository transportUnitRepository,
             IMedicalRecordRepository medicalRecordRepository,
             IPersonaRepository personRepository,
-            IAssignmentRepository assignmentRepository,
-            IPrimeSecurityService primeSecurityService)
+            IAssignmentRepository assignmentRepository)
         {
             _incidentRepository = incidentRepository;
             _modesRepository = modesRepository;
@@ -54,7 +51,6 @@ namespace PRIME_UCR.Application.Implementations.Incidents
             _medicalRecordRepository = medicalRecordRepository;
             _personRepository = personRepository;
             _assignmentRepository = assignmentRepository;
-            _primeSecurityService = primeSecurityService;
         }
 
         public async Task<Incidente> GetIncidentAsync(string code)
@@ -83,7 +79,6 @@ namespace PRIME_UCR.Application.Implementations.Incidents
 
         public async Task<Incidente> CreateIncidentAsync(IncidentModel model, Persona person)
         {
-            await _primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             if (model.EstimatedDateOfTransfer == null)
             {
                 throw new ArgumentNullException("model.EstimatedDateOfTransfer");
@@ -126,7 +121,6 @@ namespace PRIME_UCR.Application.Implementations.Incidents
          */
         public async Task<IncidentDetailsModel> GetIncidentDetailsAsync(string code)
         {
-            await _primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             var incident = await _incidentRepository.GetWithDetailsAsync(code);
             if (incident != null)
             {
@@ -168,7 +162,6 @@ namespace PRIME_UCR.Application.Implementations.Incidents
          */
         public async Task<IncidentDetailsModel> UpdateIncidentDetailsAsync(IncidentDetailsModel model)
         {
-            await _primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             var incident = await _incidentRepository.GetByKeyAsync(model.Code);
 
             if (model.Origin is CentroUbicacion origin
@@ -201,7 +194,7 @@ namespace PRIME_UCR.Application.Implementations.Incidents
         }
 
         // updates the state of the incident to completed if necessary
-        private async Task UpdateCompletedState(IncidentDetailsModel model, Incidente incident)
+        public async Task UpdateCompletedState(IncidentDetailsModel model, Incidente incident)
         {
             if (!model.Completed && incident.IsCompleted()) // if it was just completed but wasn't previously
             {
@@ -218,7 +211,7 @@ namespace PRIME_UCR.Application.Implementations.Incidents
 
         // updates transport unit if it needs to be updated.
         // returns bool representing weather the incident was modified by this method
-        private async Task<bool> UpdateTransportUnit(IncidentDetailsModel model, Incidente incident)
+        public async Task<bool> UpdateTransportUnit(IncidentDetailsModel model, Incidente incident)
         {
             if (model.TransportUnit != null)
             {
@@ -235,7 +228,7 @@ namespace PRIME_UCR.Application.Implementations.Incidents
 
         // updates destination if it needs to be updated.
         // returns bool representing weather the incident was modified by this method
-        private async Task<bool> UpdateDestination(IncidentDetailsModel model, Incidente incident)
+        public async Task<bool> UpdateDestination(IncidentDetailsModel model, Incidente incident)
         {
             if (model.Destination != null)
             {
@@ -253,7 +246,7 @@ namespace PRIME_UCR.Application.Implementations.Incidents
 
         // updates origin if it needs to be updated.
         // returns bool representing weather the incident was modified by this method
-        private async Task<bool> UpdateOrigin(IncidentDetailsModel model, Incidente incident)
+        public async Task<bool> UpdateOrigin(IncidentDetailsModel model, Incidente incident)
         {
             if (model.Origin != null)
             {
@@ -275,7 +268,6 @@ namespace PRIME_UCR.Application.Implementations.Incidents
          */
         public async Task<IEnumerable<Incidente>> GetAllAsync()
         {
-            await _primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             return await _incidentRepository.GetAllAsync();
         }
 
@@ -292,7 +284,6 @@ namespace PRIME_UCR.Application.Implementations.Incidents
         * */
         public async Task ApproveIncidentAsync(string code, string reviewerId)
         {
-            await _primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             var incident = await _incidentRepository.GetByKeyAsync(code);
             if (incident == null)
             {
@@ -327,7 +318,6 @@ namespace PRIME_UCR.Application.Implementations.Incidents
         * */
         public async Task RejectIncidentAsync(string code, string reviewerId)
         {
-            await _primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             var incident = await _incidentRepository.GetByKeyAsync(code);
             if (incident == null)
             {
@@ -494,7 +484,4 @@ namespace PRIME_UCR.Application.Implementations.Incidents
             return await _statesRepository.GetCurrentStateByIncidentId(code);
         }
     }
-
-    [MetadataType(typeof(IncidentServiceAuthorization))]
-    public partial class IncidentService { }
 }

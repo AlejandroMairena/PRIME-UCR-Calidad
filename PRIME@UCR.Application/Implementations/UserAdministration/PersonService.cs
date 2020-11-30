@@ -16,18 +16,14 @@ using System.Threading.Tasks;
 
 namespace PRIME_UCR.Application.Implementations.UserAdministration
 {
-    public partial class PersonService : IPersonService
+    internal class PersonService : IPersonService
     {
 
         private readonly IPersonaRepository PersonRepository;
 
-        private readonly IPrimeSecurityService primeSecurityService;
-
-        public PersonService(IPersonaRepository _personaRepository,
-            IPrimeSecurityService _primeSecurityService)
+        public PersonService(IPersonaRepository _personaRepository)
         {
             PersonRepository = _personaRepository;
-            primeSecurityService = _primeSecurityService;
         }
 
         /**
@@ -35,7 +31,6 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
          */
         public async Task<Persona> GetPersonByIdAsync(string id)
         {
-            await primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             return await PersonRepository.GetByKeyPersonaAsync(id);
         }
 
@@ -46,17 +41,19 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
          */
         public async Task<PersonFormModel> GetPersonModelFromRegisterModelAsync(RegisterUserFormModel registerUserModel)
         {
-            await primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
-            PersonFormModel personModel = new PersonFormModel();
-            personModel.IdCardNumber = registerUserModel.IdCardNumber;
-            personModel.Name = registerUserModel.Name;
-            personModel.FirstLastName = registerUserModel.FirstLastName;
-            personModel.SecondLastName = registerUserModel.SecondLastName;
-            personModel.Sex = registerUserModel.Sex.ToString();
-            personModel.BirthDate = registerUserModel.BirthDate;
-            personModel.PrimaryPhoneNumber = registerUserModel.PrimaryPhoneNumber;
-            personModel.SecondaryPhoneNumber = registerUserModel.SecondaryPhoneNumber;
-            return personModel;
+            if (registerUserModel != null) { 
+                PersonFormModel personModel = new PersonFormModel();
+                personModel.IdCardNumber = registerUserModel.IdCardNumber;
+                personModel.Name = registerUserModel.Name;
+                personModel.FirstLastName = registerUserModel.FirstLastName;
+                personModel.SecondLastName = registerUserModel.SecondLastName;
+                personModel.Sex = registerUserModel.Sex.ToString();
+                personModel.BirthDate = registerUserModel.BirthDate;
+                personModel.PrimaryPhoneNumber = registerUserModel.PrimaryPhoneNumber;
+                personModel.SecondaryPhoneNumber = registerUserModel.SecondaryPhoneNumber;
+                return await Task.FromResult(personModel);
+            }
+            return null; 
         }
 
         /**
@@ -81,7 +78,6 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
          */
         public async Task StoreNewPersonAsync(PersonFormModel personInfo)
         {
-            await primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             var person = GetPersonaFromPersonModel(personInfo);
             await PersonRepository.InsertAsync(person);
         }
@@ -91,7 +87,6 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
          */
         public async Task DeletePersonAsync(string id)
         {
-            await primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             await PersonRepository.DeleteAsync(id);
         }
 
@@ -100,11 +95,7 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
          */
         public async Task<Persona> GetPersonByCedAsync(string ced)
         {
-            await primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             return await PersonRepository.GetByCedPersonaAsync(ced);
         }
     }
-
-    [MetadataType(typeof(PersonServiceAuthorization))]
-    public partial class PersonService { }
 }

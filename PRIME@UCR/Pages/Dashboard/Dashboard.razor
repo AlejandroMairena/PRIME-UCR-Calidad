@@ -6,37 +6,103 @@
 @layout MainLayout
 @using ChartJs.Blazor.Charts
 @using PRIME_UCR.Application.Implementations.UserAdministration;
+@using PRIME_UCR.Components.Dashboard.IncidentsGraph;
 @using PRIME_UCR.Domain.Constants
+@using PRIME_UCR.Components.Dashboard.Filters
 
-@*Example of policy based authorization in a piece of code*@
-
-<AuthorizeView Policy="@AuthorizationPermissions.CanSeeIncidentsInfoOnDashboard.ToString()">
-    <Authorized>
-        <h1>
-            Dashboard
-        </h1>
-    </Authorized>
-    <NotAuthorized>
-        <h1>
-            No dashboard
-        </h1>
-    </NotAuthorized>
-</AuthorizeView>
+<h3>
+    Dashboard
+</h3>
 
 <link href="css/Dashboard.css" rel="stylesheet" />
 
-<div class="wrapper">
-    <div class="rounded" style="background-color: white;padding: 10px">
-        <IncidentsCounterComponent @bind-Value="_finishedLoadingCounters" />
-    </div>
-</div>
 
-<br />
-
-<Loading IsLoading="!_finishedLoadingCounters">
+<Loading IsLoading="!DashboardData.isReadyToShowFilters && !incidentsCounter.isReadyToShowCounters && !DashboardData.isReadyToShowGraphs">
     <div class="wrapper">
-        <div class="rounded" style="background-color: white;padding-left: 10px;padding-right: 10px;">
-            <FiltersComponent @bind-Value="FilterInfo" />
+        <div class="rounded" style="background-color: white;padding: 10px">
+            <IncidentsCounterComponent @bind-Value="incidentsCounter" />
         </div>
     </div>
+
+    <br />
+
+    <div class="wrapper">
+        <div class="rounded" style="background-color: white;padding-left: 10px;padding-right: 10px;">
+            @*FILTER COMPONENT*@
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+            <div class="row">
+                <div class="col align-content-center" style="font-size:30px">
+                    Filtros
+                </div>
+                <div class="col p-3">
+                    <OriginFilter Value="Value"
+                                  ValueChanged="UpdateFilteredIncidentsData"
+                                  @bind-Data="DashboardData" />
+                </div>
+                <div class="col p-3">
+                    <DestinationFilter Value="Value"
+                                       ValueChanged="UpdateFilteredIncidentsData"
+                                       @bind-Data="DashboardData" />
+                </div>
+                <div class="col p-3">
+                    <DateFilter Value="Value"
+                                ValueChanged="UpdateFilteredIncidentsData" />
+                </div>
+                <div class="col p-3">
+                    <ModalityFilter Value="Value"
+                                    ValueChanged="UpdateFilteredIncidentsData"
+                                    @bind-Data="DashboardData" />
+                </div>
+                <div class="col p-3">
+                    <StateFilter Value="Value"
+                                 ValueChanged="UpdateFilteredIncidentsData"
+                                 @bind-Data="DashboardData" />
+                </div>
+                <div class="col p-2">
+                    <div class="text-center">
+                        @if (Value.ButtonEnabled)
+                        {
+                            <button role="button" @onclick:preventDefault @onclick="@ClearFilters" class="btn btn-outline-secondary">Limpiar filtros</button> 
+                        }
+                        else
+                        {
+                            <button disabled class="btn btn-outline-secondary">Limpiar filtros</button>
+                        }
+                    </div>
+                </div>
+            </div>
+            @*FILTER COMPONENT*@
+        </div>
+    </div>
+
+    <br />
+
+    <Loading IsLoading="!DashboardData.isReadyToShowGraphs">
+        <div class="row">
+            <div class="col-lg-6 col-md-12">
+                <IncidentsVsTransportTypeComponentJS @bind-Data="DashboardData" />
+            </div>
+            <div class="col-lg-6 col-md-12">
+                <IncidentsVsTimeChartComponentJS @bind-Data="DashboardData" />
+            </div>
+        </div>
+
+        <br />
+
+        <div class="row">
+            <div class="col-lg-6 col-md-12">
+
+                <IncidentsVsOriginLocationComponentJS @bind-Data="DashboardData"
+                                                      @bind-Value="Value" />
+            </div>
+            <div class="col-lg-6 col-md-12">
+                <IncidentsVsDestinationLocationComponentJS @bind-Data="DashboardData" />
+            </div>
+        </div>
+    </Loading>
+
+
+    <br />
+
 </Loading>

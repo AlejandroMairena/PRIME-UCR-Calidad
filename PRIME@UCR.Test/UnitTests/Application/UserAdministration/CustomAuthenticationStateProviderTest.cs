@@ -39,7 +39,9 @@ namespace PRIME_UCR.Test.UnitTests.Application.UserAdministration
                 new Mock<IUserClaimsPrincipalFactory<Usuario>>().Object,
                 new Mock<IOptions<IdentityOptions>>().Object,
                 new Mock<ILogger<SignInManager<Usuario>>>().Object,
-                new Mock<IAuthenticationSchemeProvider>().Object);
+                new Mock<IAuthenticationSchemeProvider>().Object,
+                new Mock<IUserConfirmation<Usuario>>().Object);
+           
             var authenticationServiceMock = new Mock<PRIME_UCR.Application.Services.UserAdministration.IAuthenticationService>();
             
             sessionMock.Setup(s => s.GetItemAsync<string>("emailAddress")).Returns(Task.FromResult(String.Empty));
@@ -74,7 +76,8 @@ namespace PRIME_UCR.Test.UnitTests.Application.UserAdministration
                 new Mock<IUserClaimsPrincipalFactory<Usuario>>().Object,
                 new Mock<IOptions<IdentityOptions>>().Object,
                 new Mock<ILogger<SignInManager<Usuario>>>().Object,
-                new Mock<IAuthenticationSchemeProvider>().Object);
+                new Mock<IAuthenticationSchemeProvider>().Object,
+                new Mock<IUserConfirmation<Usuario>>().Object);
             var authenticationServiceMock = new Mock<PRIME_UCR.Application.Services.UserAdministration.IAuthenticationService>();
             
             sessionMock.Setup(s => s.GetItemAsync<string>("emailAddress")).Returns(Task.FromResult("test@test.com"));
@@ -166,7 +169,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.UserAdministration
 
             Assert.Equal("test@test.com",result.User.Identity.Name);
             Assert.True(result.User.Identity.IsAuthenticated);
-            Assert.Equal(21, result.User.Claims.ToList().Count);
+            Assert.Equal(23, result.User.Claims.ToList().Count);
             for (var permission = 1; permission <= 4; ++permission)
             {
                 Assert.Equal("true", result.User.Claims.ToList()[permission].Value);
@@ -196,7 +199,8 @@ namespace PRIME_UCR.Test.UnitTests.Application.UserAdministration
                 new Mock<IUserClaimsPrincipalFactory<Usuario>>().Object,
                 new Mock<IOptions<IdentityOptions>>().Object,
                 new Mock<ILogger<SignInManager<Usuario>>>().Object,
-                new Mock<IAuthenticationSchemeProvider>().Object);
+                new Mock<IAuthenticationSchemeProvider>().Object,
+                new Mock<IUserConfirmation<Usuario>>().Object);
             var authenticationServiceMock = new Mock<PRIME_UCR.Application.Services.UserAdministration.IAuthenticationService>();
 
             userManagerMock.Setup(u => u.FindByEmailAsync("test@test.com")).Returns(Task.FromResult(new Usuario
@@ -325,7 +329,8 @@ namespace PRIME_UCR.Test.UnitTests.Application.UserAdministration
                 new Mock<IUserClaimsPrincipalFactory<Usuario>>().Object,
                 new Mock<IOptions<IdentityOptions>>().Object,
                 new Mock<ILogger<SignInManager<Usuario>>>().Object,
-                new Mock<IAuthenticationSchemeProvider>().Object);
+                new Mock<IAuthenticationSchemeProvider>().Object,
+                new Mock<IUserConfirmation<Usuario>>().Object);
             var authenticationServiceMock = new Mock<PRIME_UCR.Application.Services.UserAdministration.IAuthenticationService>();
 
             userManagerMock.Setup(u => u.FindByEmailAsync(String.Empty)).Returns(Task.FromResult<Usuario>(null));
@@ -363,7 +368,8 @@ namespace PRIME_UCR.Test.UnitTests.Application.UserAdministration
                 new Mock<IUserClaimsPrincipalFactory<Usuario>>().Object,
                 new Mock<IOptions<IdentityOptions>>().Object,
                 new Mock<ILogger<SignInManager<Usuario>>>().Object,
-                new Mock<IAuthenticationSchemeProvider>().Object);
+                new Mock<IAuthenticationSchemeProvider>().Object,
+                new Mock<IUserConfirmation<Usuario>>().Object);
             var authenticationServiceMock = new Mock<PRIME_UCR.Application.Services.UserAdministration.IAuthenticationService>();
 
             userManagerMock.Setup(u => u.FindByEmailAsync("test@test.com")).Returns(Task.FromResult(new Usuario
@@ -408,7 +414,8 @@ namespace PRIME_UCR.Test.UnitTests.Application.UserAdministration
                 new Mock<IUserClaimsPrincipalFactory<Usuario>>().Object,
                 new Mock<IOptions<IdentityOptions>>().Object,
                 new Mock<ILogger<SignInManager<Usuario>>>().Object,
-                new Mock<IAuthenticationSchemeProvider>().Object);
+                new Mock<IAuthenticationSchemeProvider>().Object,
+                new Mock<IUserConfirmation<Usuario>>().Object);
             var authenticationServiceMock = new Mock<PRIME_UCR.Application.Services.UserAdministration.IAuthenticationService>();
 
             sessionMock.Setup(s => s.RemoveItemAsync(It.IsAny<string>()));

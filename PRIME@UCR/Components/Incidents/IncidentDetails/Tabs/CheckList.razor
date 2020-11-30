@@ -4,15 +4,17 @@
 
 <h3>Listas de chequeo del incidente</h3>
 <br />
-<AllChecklistSingleIncident IncidentCod="@Incident.Code"/>
-@if (Incident.CurrentState == IncidentStates.InCreationProcess.Nombre || Incident.CurrentState == IncidentStates.Created.Nombre
-    || Incident.CurrentState == IncidentStates.Rejected.Nombre)
-{
-    <AuthorizeView Policy="@AuthorizationPermissions.CanInstantiateChecklist.ToString()">
-        <MatThemeProvider Theme="@AddButtonTheme">
-            <div data-toggle="tooltip" title="Presione para instanciar una nueva lista de chequeo">
-                <MatFAB Icon="@MatIconNames.Add" Class="app-fab--absolute" OnClick="@(_ => Redirect())"></MatFAB>
-            </div>
-        </MatThemeProvider>
-    </AuthorizeView>
-}
+<AuthorizeIfAssigned IncidentCode="@Incident.Code">
+    <AllChecklistSingleIncident IncidentCod="@Incident.Code"/>
+    @if (Incident.CurrentState == IncidentStates.InCreationProcess.Nombre || Incident.CurrentState == IncidentStates.Created.Nombre
+        || Incident.CurrentState == IncidentStates.Rejected.Nombre)
+    {
+        <AuthorizeView Policy="@AuthorizationPermissions.CanInstantiateChecklist.ToString()">
+            <MatThemeProvider Theme="@AddButtonTheme">
+                <div data-toggle="tooltip" title="Presione para instanciar una nueva lista de chequeo">
+                    <MatFAB Icon="@MatIconNames.Add" Class="app-fab--absolute" OnClick="@(_ => Redirect())"></MatFAB>
+                </div>
+            </MatThemeProvider>
+        </AuthorizeView>
+    }
+</AuthorizeIfAssigned>
