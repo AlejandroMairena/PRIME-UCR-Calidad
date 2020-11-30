@@ -21,6 +21,7 @@ namespace PRIME_UCR.Components.MedicalAppointments.Tabs
 
         private bool metrics_saved { get; set; } = false;
 
+        private bool metrics_updated { get; set; } = false; 
 
         protected override async Task OnInitializedAsync() {
             MetricsForm = new MetricsApp();
@@ -38,12 +39,19 @@ namespace PRIME_UCR.Components.MedicalAppointments.Tabs
 
         public async Task saveMetricData() {
             metrics_saved = false;
+            metrics_updated = false; 
 
             Metrics = await appointment_service.GetMetricsMedAppointmentByAppId(AppointmentId);
 
             if (Metrics != null)
             {
-                //se tiene que actualizar. 
+
+                Metrics.Altura = MetricsForm.Altura;
+                Metrics.Peso = MetricsForm.Peso;
+                Metrics.Presion = MetricsForm.Presion;
+
+                await appointment_service.UpdateMetrics(Metrics);
+                metrics_updated = true; 
             }
             else
             {

@@ -62,6 +62,10 @@ namespace PRIME_UCR.Application.Implementations.Appointments
              await _metapprepo.InsertAsync(metrics); 
         }
 
+        public async Task UpdateMetrics(MetricasCitaMedica metrics) {
+            await _metapprepo.UpdateAsync(metrics); 
+        }
+
 
         public async Task<CitaMedica> GetMedicalAppointmentWithAppointmentByIdAsync(int id) {
             return await _medapprepo.GetMedicalAppointmentByWithAppointmentIdAsync(id); 

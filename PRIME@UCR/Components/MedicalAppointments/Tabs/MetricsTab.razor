@@ -1,14 +1,20 @@
-﻿@inject IAppointmentService appointment_service; 
+﻿@inject IAppointmentService appointment_service;
 
 <style>
     body {
-        background-color:white;
+        background-color: white;
     }
 </style>
 
 
-@if (metrics_saved) {
-<StatusMessage Message="Las métricas se guardaron exitosamento" Class="success"></StatusMessage>
+@if (metrics_saved)
+{
+    <StatusMessage Message="Las métricas se guardaron exitosamento" Class="success"></StatusMessage>
+}
+
+@if (metrics_updated)
+{
+    <StatusMessage Message="Las métricas se actualizaron" Class="success"></StatusMessage>
 }
 
 <Loading IsLoading="MetricsForm == null">
