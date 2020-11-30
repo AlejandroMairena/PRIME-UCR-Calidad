@@ -58,8 +58,12 @@
                                     ValueChanged="RemoveMedicalCenterDestinationFilter" />
 }
 
-<GenericIndividualFilterRemover Label="Modalidad"
-                                ValueChanged="Test" />
+@if (FilterInfo.ModalityFilter != null)
+{
+    <GenericIndividualFilterRemover Label="@FilterInfo.ModalityFilter.Tipo"
+                                    ValueChanged="RemoveModalityFilter" />
+
+}
 
 <GenericIndividualFilterRemover Label="Estado"
                                 ValueChanged="Test" />

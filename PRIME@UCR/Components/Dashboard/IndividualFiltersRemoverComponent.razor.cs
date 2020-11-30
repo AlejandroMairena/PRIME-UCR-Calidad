@@ -120,5 +120,15 @@ namespace PRIME_UCR.Components.Dashboard
             await FilterInfoChanged.InvokeAsync(FilterInfo);
         }
 
+        /*
+         * Function: Method used to remove modality filter.
+         */
+        private async Task RemoveModalityFilter()
+        {
+            FilterInfo.ModalityFilter = null;
+            FilterInfo._selectedModality = null;
+            await FilterInfoChanged.InvokeAsync(FilterInfo);
+        }
+
     }
 }
