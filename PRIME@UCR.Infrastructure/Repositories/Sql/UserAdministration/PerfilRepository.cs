@@ -7,6 +7,10 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Text;
 using System.Threading.Tasks;
+using RepoDb; 
+using RepoDb.Extensions;
+using System.Data.SqlClient; 
+using System.Linq;
 
 namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
 {
@@ -30,5 +34,62 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
                 .AsNoTracking()
                 .ToListAsync();
         }
+
+        /*
+         * Function:
+         * @Params:
+         * @Return:
+         */
+        public async Task<bool> IsAdministratorAsync(string id) 
+        {
+            using (var connection = new SqlConnection(_db.ConnectionString)) 
+            { 
+                IEnumerable<AdministradorCentroDeControl> admin = await connection.QueryAsync<AdministradorCentroDeControl>(id);
+                return admin.Count() != 0;
+            } 
+        } 
+
+        /*
+         * Function:
+         * @Params:
+         * @Return:
+         */
+        public async Task<bool> IsCoordinatorAsync(string id)
+        {
+            using (var connection = new SqlConnection(_db.ConnectionString)) 
+            { 
+                IEnumerable<CoordinadorTécnicoMédico> coordinator = await connection.QueryAsync<CoordinadorTécnicoMédico>(id);
+                return coordinator.Count() != 0;
+            } 
+        }
+
+        /*
+         * Function:
+         * @Params:
+         * @Return:
+         */
+        public async Task<bool> IsDoctorAsync(string id)
+        {
+            using (var connection = new SqlConnection(_db.ConnectionString)) 
+            { 
+                IEnumerable<Médico> doctor = await connection.QueryAsync<Médico>(id);
+                return doctor.Count() != 0;
+            } 
+        }
+
+        /*
+         * Function:
+         * @Params:
+         * @Return:
+         */
+        public async Task<bool> IsTechnicalSpecialistAsync(string id)
+        {
+            using (var connection = new SqlConnection(_db.ConnectionString)) 
+            { 
+                IEnumerable<EspecialistaTécnicoMédico> specialist = await connection.QueryAsync<EspecialistaTécnicoMédico>(id);
+                return specialist.Count() != 0;
+            } 
+        }
     }
 }
+

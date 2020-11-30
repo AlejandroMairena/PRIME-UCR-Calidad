@@ -34,6 +34,7 @@ namespace PRIME_UCR.Application.Implementations.Incidents
         private readonly IPersonaRepository _personRepository;
         private readonly IAssignmentRepository _assignmentRepository;
         private readonly IPrimeSecurityService _primeSecurityService;
+        private readonly IProfilesService _profileService;
 
         public IncidentService(
             IIncidentRepository incidentRepository,
@@ -44,7 +45,8 @@ namespace PRIME_UCR.Application.Implementations.Incidents
             IMedicalRecordRepository medicalRecordRepository,
             IPersonaRepository personRepository,
             IAssignmentRepository assignmentRepository,
-            IPrimeSecurityService primeSecurityService)
+            IPrimeSecurityService primeSecurityService,
+            IProfilesService profileService)
         {
             _incidentRepository = incidentRepository;
             _modesRepository = modesRepository;
@@ -55,6 +57,7 @@ namespace PRIME_UCR.Application.Implementations.Incidents
             _personRepository = personRepository;
             _assignmentRepository = assignmentRepository;
             _primeSecurityService = primeSecurityService;
+            _profileService = profileService;
         }
 
         public async Task<Incidente> GetIncidentAsync(string code)
@@ -279,9 +282,50 @@ namespace PRIME_UCR.Application.Implementations.Incidents
             return await _incidentRepository.GetAllAsync();
         }
 
+        /*
+         * Function: Returns an IEnumerable with all the incidents in the system, each one is a DTO with information to display
+         * */
         public async Task<IEnumerable<IncidentListModel>> GetIncidentListModelsAsync()
         {
             return await _incidentRepository.GetIncidentListModelsAsync();
+        }
+
+
+        /*
+         * Function: Returns authorized-to-see incidents for a specific user
+         * @Params: The id (Cedula) of the registered user
+         * @Return: An IEnumerable with the incidents the user has permission to see
+         * */
+        public async Task<IEnumerable<IncidentListModel>> GetIncidentListModelsAsync(string id)
+        {
+            bool isAdministrator = await _profileService.IsAdministratorAsync(id);
+            bool isCoordinator = await _profileService.IsCoordinatorAsync(id);
+            if (isAdministrator || isCoordinator)
+            {
+                // A Control Center Administrator or a Coordinator can see all incidents registered in the system
+                return await GetIncidentListModelsAsync();
+            }
+            else
+            {
+                bool isDoctor = await _profileService.IsDoctorAsync(id);
+                bool isTechnicalSpecialist = await _profileService.IsTechnicalSpecialistAsync(id);
+                IEnumerable<IncidentListModel> authorizedIncidentsList = Enumerable.Empty<IncidentListModel>();
+                if (isDoctor)
+                {
+                    // A doctor can see the incidents where he or she is assigned either at the origin or at the destination
+                    var DoctorIncidentsList = await _incidentRepository.GetAuthorizedDoctorIncidentListModelsAsync(id);
+                    authorizedIncidentsList = (DoctorIncidentsList ?? Enumerable.Empty<IncidentListModel>()).Concat(authorizedIncidentsList ?? Enumerable.Empty<IncidentListModel>());
+                }
+                if (isTechnicalSpecialist)
+                {
+                    // A technical specialist can see the incidents he or she is assigned to
+                    var SpecialistIncidentsList = await _incidentRepository.GetAuthorizedSpecialistIncidentListModelsAsync(id);
+                    authorizedIncidentsList = (SpecialistIncidentsList ?? Enumerable.Empty<IncidentListModel>()).Concat(authorizedIncidentsList ?? Enumerable.Empty<IncidentListModel>());
+                }
+                return authorizedIncidentsList
+                    .GroupBy(i => i.Codigo)  // Group all incidents by their code
+                    .Select(g => g.First()); // Return the first one of each group, to display unique incidents only (a user can be a doctor and a specialist at the same time)
+            }
         }
 
         /*
