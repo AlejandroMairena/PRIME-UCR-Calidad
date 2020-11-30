@@ -57,8 +57,10 @@ namespace PRIME_UCR.Components.MedicalRecords.Tabs
 
         protected override async Task OnInitializedAsync()
         {
+            Antecedentes = (await MedicalBackgroundService.GetBackgroundByRecordId(idExpediente)).ToList();
+            PadecimientosCronicos = (await ChronicConditionService.GetChronicConditionByRecordId(idExpediente)).ToList();
+            Alergias = (await AllergyService.GetAlergyByRecordId(idExpediente)).ToList();
             LoadRecordBackgrounds();
-
             _contAle = new EditContext(ListaAlergia);
             _contCond = new EditContext(ListaPadecimiento);
             showAllergy = false;

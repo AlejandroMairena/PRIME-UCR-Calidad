@@ -25,6 +25,7 @@
         {
             <StatusMessage Message="Este antecedente ya fue agregado" Class="warning" />
         }
+    <Loading IsLoading="_contAnte == null">
         <EditForm EditContext="_contAnte" OnValidSubmit="SaveMedicalBackground">
             <label>Antecedentes</label>
             <RadzenDropDown Multiple="true" Data="ListaAntecedentes"
@@ -45,7 +46,7 @@
                     <button role="button" class="btn btn-outline-secondary" @onclick="LoadRecordBackgrounds" @onclick:preventDefault>Descartar</button>}
             </div>
         </EditForm>
-
+    </Loading>
     </div>
 </div>
 
