@@ -115,20 +115,23 @@
                                                     @* Displys the image of the item *@
 
                                                     <div style="width: 100%; display:inline-flex;">
+                                                        <AuthorizeView Policy="@AuthorizationPermissions.CanCheckItemsInChecklists.ToString()">
+                                                            <NotAuthorized>
+                                                                @{ canEdit = false; }
+                                                            </NotAuthorized>
+                                                        </AuthorizeView>
                                                         @if (validateEdit == 1) // state in transfer
                                                         {
-                                                            <div class="custom-control custom-checkbox" style="margin:auto">
-                                                                <input type="checkbox" class="custom-control-input" disabled="@HasSubItems(itemInList)" id="customCheck @itemInList.ItemId" checked="@itemInList.Completado" @onchange="((ChangeEventArgs c) => CheckItem(itemInList, c))" />
-                                                                <label class="custom-control-label" for="customCheck @itemInList.ItemId"></label>
-                                                            </div>
-                                                        }
-                                                        else // state not started or finished
-                                                        {
-                                                            <div class="custom-control custom-checkbox" style="margin:auto">
-                                                                <input type="checkbox" class="custom-control-input" disabled="@true" id="customCheck @itemInList.ItemId" checked="@itemInList.Completado" />
-                                                                <label class="custom-control-label" for="customCheck @itemInList.ItemId"></label>
-                                                            </div>
-                                                        }
+                                                    <div class="custom-control custom-checkbox" style="margin:auto">
+                                                        <input type="checkbox" class="custom-control-input" disabled="@HasSubItems(itemInList)" id="customCheck @itemInList.ItemId" checked="@itemInList.Completado" @onchange="((ChangeEventArgs c) => CheckItem(itemInList, c))" />
+                                                        <label class="custom-control-label" for="customCheck @itemInList.ItemId"></label>
+                                                    </div> }
+                                                                                    else // state not started or finished
+                                                                                    {
+                                                    <div class="custom-control custom-checkbox" style="margin:auto">
+                                                        <input type="checkbox" class="custom-control-input" disabled="@true" id="customCheck @itemInList.ItemId" checked="@itemInList.Completado" />
+                                                        <label class="custom-control-label" for="customCheck @itemInList.ItemId"></label>
+                                                    </div>}
                                                         <p>&nbsp;</p> @* to change*@
                                                         <button type="button" class="none" data-toggle="dropdown" id="BN_LC">
                                                             <img src="@items[itemIndex].ImagenDescriptiva" width="50" height="50" data-toggle="tooltip" title="Cambiar imagen" />
@@ -161,7 +164,9 @@
                                                         <td rowspan="2" class="align-middle" style="margin:auto; width: 100px;">
                                                             <p style=" padding-top: 0px; padding-bottom: 0px; ">@itemInList.FechaHoraInicio</p>
                                                         </td>
-                                                        <td rowspan="2" class="align-middle" align="right" style="width: 54px"></td>
+                                                        <td rowspan="2" class="align-middle" align="right" style="width: 54px">
+                                                            <MultimediaContentComponent MultimediaContent="@MyMultimediaContent[tempIndex]" ViewOnly="true"></MultimediaContentComponent>
+                                                        </td>
                                                     }
                                                 }
                                                 else

@@ -42,9 +42,7 @@ namespace PRIME_UCR.Pages.CheckLists.InIncident
         public string incidentcod { get; set; }
         public Estado state { get; set; }
         public string stateInstanceList;
-        private bool isDisabled { get; set; } = true;//not need
-
-        protected bool createItem { get; set; } = false;// not neet
+        public bool canEdit = true;
         protected IEnumerable<InstanciaItem> coreItems { get; set; }
 
         public InstanceChecklist insanceLC { get; set; }
@@ -189,6 +187,9 @@ namespace PRIME_UCR.Pages.CheckLists.InIncident
                 validateEdit = 2;
                 details[0] = state.Nombre;
                 details[1] = instruct[2];
+            }
+            if (!canEdit) {
+                validateEdit = 0;
             }
         }
         public async Task updateChecklistState()
