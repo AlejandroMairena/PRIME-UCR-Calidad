@@ -60,7 +60,7 @@ namespace PRIME_UCR.Pages.CheckLists.Plantillas
         protected bool formInvalid = false;
         protected EditContext editContext;
         // list for template state to edith checklist
-        public List<string> states = new List<string>(); 
+        public List<string> states = new List<string>();
         // details for state
         public List<string> details = new List<string>();
         //array of instruction
@@ -77,7 +77,7 @@ namespace PRIME_UCR.Pages.CheckLists.Plantillas
             itemsList = new List<Item>();
             orderedList = null;
             orderedListLevel = null;
-            
+
             editedList = new CheckList();
             await RefreshModels();
         }
@@ -91,7 +91,7 @@ namespace PRIME_UCR.Pages.CheckLists.Plantillas
             itemsList = new List<Item>();
             orderedList = null;
             orderedListLevel = null;
-            
+
             createItem = false;
             createSubItem = false;
             editItem = false;
@@ -135,21 +135,22 @@ namespace PRIME_UCR.Pages.CheckLists.Plantillas
             }
             else
             {
-                isDisabled= true;
+                isDisabled = true;
                 createItem = false;
                 editItem = false;
                 createSubItem = false;
                 details[0] = "No editable";
                 details[1] = instruct[1];
-            }     
+            }
         }
         protected async Task UpdateActive()
         {
-            if (list.Activada== true)
+            if (list.Activada == true)
             {
                 list.Activada = false;
             }
-            else{
+            else
+            {
                 list.Activada = true;
                 isDisabled = true;
                 createItem = false;
@@ -368,7 +369,7 @@ namespace PRIME_UCR.Pages.CheckLists.Plantillas
 
         protected async void Drop(Item item, RadzenTreeItem context)
         {
-            if (item != null)
+            if (item != null && startingIndex >= 0 && startingIndex < orderedList.Count())
             {
 
                 int endingIndex = getItemIndex(item, orderedList);
