@@ -50,7 +50,7 @@ namespace PRIME_UCR.Components.CheckLists.InIncident
         protected async Task RefreshModels()
         {
             TempLists = new List<CheckList>();
-            lists = await MyService.GetAll();
+            lists = await MyService.GetAllChecklistActivates();
             instancelists = await MyInstanceChecklistService.GetByIncidentCod(incidentCod);
         }
 

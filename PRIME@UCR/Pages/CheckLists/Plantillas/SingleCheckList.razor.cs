@@ -20,8 +20,10 @@ namespace PRIME_UCR.Pages.CheckLists.Plantillas
         {
             details.Add("");
             details.Add("");
+            //mensajes edición
             instruct.Add("Puede editar la lista de chequeo y eliminar, editar y agregar items");
-            instruct.Add("No se pueden eliminar ni agregar items");
+            instruct.Add("No se pueden eliminar ni agregar items porue está siendo utilizada en un incidente");
+            //mensajes de activación
             instruct.Add("Puede ser modificada y asignada a incidentes");
             instruct.Add("No puede ser modificada ni asignada a incidentes");
             states.Add("Estado de la plantilla: ");
