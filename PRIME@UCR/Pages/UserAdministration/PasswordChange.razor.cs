@@ -45,7 +45,9 @@ namespace PRIME_UCR.Pages.UserAdministration
         public char OldPasswordConfirmed = 'N';
 
 
-
+        /*
+         * Function: Initialices the ChangePasswordModel with the given parameters and calls the function to validate user
+         */
         protected override async Task OnParametersSetAsync()
         {
             ChangePasswordModel = new ChangePasswordModel();
@@ -55,6 +57,9 @@ namespace PRIME_UCR.Pages.UserAdministration
             await ValidateUser();
         }
 
+        /*
+         * Function: Validates the user (checks that the given user is authorized)
+         */
         public async Task ValidateUser()
         {
             var emailUser = (await authenticationState).User.Identity.Name;
@@ -70,7 +75,10 @@ namespace PRIME_UCR.Pages.UserAdministration
             }
         }
 
-
+        /*
+         * Function: Validates the current password, new password and its confirmation. 
+         *           Given that they are correct, the users password is changed. Otherwise, a message with feedback is displayed
+         */
         public async Task ChangePassword()
         {
             isBusy = true;

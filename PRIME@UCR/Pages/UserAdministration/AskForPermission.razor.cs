@@ -47,6 +47,9 @@ namespace PRIME_UCR.Pages.UserAdministration
 
         public List<Permiso> ListPermissions { get; set; }
 
+        /*
+         * Function: Initialices the AskForPermissionModel and the permissions and profiles lists
+         */
         protected override void OnInitialized()
         {
             AskForPermissionMod = new AskForPermissionModel();
@@ -56,6 +59,10 @@ namespace PRIME_UCR.Pages.UserAdministration
 
         }
 
+        /*
+         * Function: Loads the user, and the permissions and profiles lists in order to fill the AskForPermissionModel
+         *           with the corresponding assigned and unassigned permissions for the given user
+         */
         protected override async Task OnInitializedAsync()
         {
             var userEmail = (await _authenticationState).User.Identity.Name;

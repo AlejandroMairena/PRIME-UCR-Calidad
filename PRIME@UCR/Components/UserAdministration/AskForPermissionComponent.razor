@@ -6,8 +6,9 @@
 <h3>Solicitud de Permisos</h3>
 <br />
 
-<div class="wrapper">
-    <div class="rounded" style="background-color: white;padding-left: 10px;padding-right: 10px;">
+<div class="wrapper" style="padding-bottom: 1px; background-color: white">
+
+    <div class="rounded" style="background-color: white;padding-left: 10px;padding-right: 10px; padding-top: 10px;">
         <h5>A continuación se muestra la lista de permisos que posee actualmente</h5>
         <Table TableItem="Permiso" Items="AskForPermissionModel.AssignedPermissions" PageSize="12">
             <Column TableItem="Permiso" Title="Descripción de permiso" Field="@(x => x.DescripciónPermiso)" Width="44%" />
@@ -15,12 +16,8 @@
             <Pager ShowPageNumber="true" />
         </Table>
     </div>
-</div>
 
-<br />
-
-<div class="wrapper">
-    <div class="rounded" style="background-color: white;padding-left: 10px;padding-right: 10px;">
+    <div class="rounded" style="background-color: white;padding-left: 10px;padding-right: 10px; padding-top: 10px;">
         <h5>A continuación se muestra la lista de permisos que puede solicitar</h5>
         <Table TableItem="Permiso" Items="AskForPermissionModel.NotAssignedPermissions" PageSize="12">
             <Column TableItem="Permiso" Title="" Field="@(x => x.IDPermiso)" Width="1%">
@@ -39,26 +36,29 @@
             <Pager ShowPageNumber="true" />
         </Table>
     </div>
+
+    <div class="col-12">
+        <TextBox Label="Justifique por qué requiere dicho permiso(s):"
+                 @bind-Value="AskForPermissionModel.UserMessage"
+                 Required="true"
+                 Type="Text" />
+    </div>
+
+
+    <div class="m-3">
+        @if (IsBusy)
+        {
+            <button class="btn btn-primary-noHover width:13em mt-2" type="button" disabled>
+                <span class="spinner-border spinner-border-sm" style="background-color:#095290" role="status" aria-hidden="true"></span>
+                Validando información
+            </button>
+        }
+        else
+        {
+            <button type="submit" class="btn btn-primary width:13em mt-2">Enviar Solicitud</button>
+        }
+    </div>
+
 </div>
 
-<div class="col-12">
-    <TextBox Label="Justifique por qué requiere dicho permiso(s):"
-             @bind-Value="AskForPermissionModel.UserMessage"
-             Required="true"
-             Type="Text" />
-</div>
-
-
-<div class="m-3">
-    @if (IsBusy)
-    {
-        <button class="btn btn-primary-noHover width:13em mt-2" type="button" disabled>
-            <span class="spinner-border spinner-border-sm" style="background-color:#095290" role="status" aria-hidden="true"></span>
-            Validando información
-        </button>
-    }
-    else
-    {
-        <button type="submit" class="btn btn-primary width:13em mt-2">Enviar Solicitud</button>
-    }
-</div>
+<br/>
