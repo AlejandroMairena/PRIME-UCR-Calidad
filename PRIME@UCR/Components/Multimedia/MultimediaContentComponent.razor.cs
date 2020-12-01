@@ -23,6 +23,17 @@ namespace PRIME_UCR.Components.Multimedia
          */
         [Parameter]
         public EventCallback<MultimediaContent> OnFileUpload { get; set; }
+        [Parameter]
+        public string IncidentCode { get; set; }
+        [Parameter]
+        public string ActionName { get; set; }
+        [Parameter]
+        public bool CallingFromAction { get; set; }
+        [Parameter]
+        public string CheckListName { get; set; }
+        [Parameter]
+        public string CheckListItemName { get; set; }
+
 
         // List of valid file types 
         public List<string> validTypeFiles;
@@ -64,7 +75,43 @@ namespace PRIME_UCR.Components.Multimedia
 
             open = !open;
         }
-
+        string encodeString(string base64String) {
+            string resp = base64String.Replace("/","-");
+            return resp;
+        }
+        string decodeString(string encodedString)
+        {
+            string resp = encodedString.Replace("-", "/");
+            return resp;
+        }
+        string getFilePath() {
+            string path = "wwwroot/";
+            if (CallingFromAction)
+            {
+                byte[] IncidentCodeEncryptedByte = encrypt_service.Encrypt(IncidentCode);
+                string IncidentCodeEncryptedString = Convert.ToBase64String(IncidentCodeEncryptedByte);
+                if (IncidentCodeEncryptedString.Contains("/")) {
+                    path += encodeString(IncidentCodeEncryptedString);
+                }
+                else {
+                    path += IncidentCodeEncryptedString;
+                }
+                path += "/";
+                byte[] ActionNameEncryptedByte = encrypt_service.Encrypt(ActionName);
+                string ActionNameEncryptedString = Convert.ToBase64String(ActionNameEncryptedByte);
+                if (ActionNameEncryptedString.Contains("/")) {
+                    path += encodeString(ActionNameEncryptedString);
+                }
+                else{
+                    path += ActionNameEncryptedString;
+                }
+                path += "/";
+            }
+            else { 
+                //esta llamando listas de chequeo
+            }
+            return path;
+        }
         // Method to handle the file selected by the user
         // If the file has a valid type it will be stored as a 
         // MultimediaContent instance in the DB and the file stored
@@ -80,32 +127,53 @@ namespace PRIME_UCR.Components.Multimedia
             if (!validFileType) return; // archivo invalido
 
             MultimediaContent mcontent = await StoreMultimediaContent(file);
-
-            await file_service.StoreFile(file.Name, file.Data);
-            
+            await file_service.StoreFile(getFilePath(), mcontent.Nombre,mcontent.Extension, file.Data);
             await OnFileUpload.InvokeAsync(mcontent);
         }
-
+        string getType(string filename) {
+            string extension = ".";
+            foreach (string type in validTypeFiles) {
+                if (filename.Contains(type)) {
+                    extension += type;
+                }
+            }
+            return extension;
+        }
         // Method to store a MultimediaContent from a file
         async Task<MultimediaContent> StoreMultimediaContent(IFileListEntry file)
         {
             if (file == null) return null;
-            string filePath = EncryptFilePath(file_service.FilePath, file.Name);
-            MultimediaContent mcontent = FileToMultimediaContent(file, filePath);
+            MultimediaContent mcontent = FileToMultimediaContent(file, getFilePath());
             return await multimedia_content_service.AddMultimediaContent(mcontent);
         }
 
         // Method to create a MultimediaContent instance from a file and a path
         // Req: encrypted path
-        MultimediaContent FileToMultimediaContent(IFileListEntry file, string path)
+        MultimediaContent FileToMultimediaContent(IFileListEntry file, string pathDecrypted)
         {
+            string filename = "";
+            string path = "";
+            string justName = file.Name.Replace(getType(file.Name),"");
+            byte[] fileNameEncrytedByte = encrypt_service.Encrypt(justName);
+            string fileNameEncrytedString = Convert.ToBase64String(fileNameEncrytedByte);
+            if (fileNameEncrytedString.Contains("/")) {
+                filename = encodeString(fileNameEncrytedString);
+            }
+            else{
+                filename = fileNameEncrytedString;
+            }
+            path = pathDecrypted + filename;
+            byte[] pathEncryptedByte = encrypt_service.Encrypt(path);
+            string pathEncryptedString = Convert.ToBase64String(pathEncryptedByte);
+
             return new MultimediaContent
             {
-                Nombre = file.Name,
-                Archivo = path, 
+                Nombre = filename,
+                Archivo = path,
                 Descripcion = "",
                 Fecha_Hora = DateTime.Now,
-                Tipo = file.Type
+                Tipo = file.Type,
+                Extension = getType(file.Name)
             };
         }
 
@@ -134,7 +202,12 @@ namespace PRIME_UCR.Components.Multimedia
 
             return false;
         }
-
+        string getDecryptedName(string nameEncrypted, string extension) {
+            byte[] nameEncryptedByte = Convert.FromBase64String(nameEncrypted);
+            string nameDecryptedString = encrypt_service.Decrypt(nameEncryptedByte);
+            string name = nameDecryptedString + extension;
+            return name;
+        }
        
         async Task ShowPopUp(MultimediaContent mcontent) {
             string name = mcontent.Nombre; 

@@ -70,8 +70,9 @@ namespace PRIME_UCR.Components.Multimedia
             return path;
         }
         string getName() {
-            string src = MContent.Nombre;
-            return src;
+            byte[] nameEncrypted = Convert.FromBase64String(MContent.Nombre);
+            string name = encrypt_service.Decrypt(nameEncrypted);
+            return name + MContent.Extension;
         }
         async Task getPDF() {
             string pathEncrypted = MContent.Archivo;
@@ -86,10 +87,9 @@ namespace PRIME_UCR.Components.Multimedia
             
         }
         string getAudio() {
-            string pathEncrypted = MContent.Archivo;
+            string pathEncrypted = MContent.Archivo; //jasbdabsldjbnailñjsdnilñajndinainihbfaksljnkjan
             byte[] pathEncryptedByte = System.Convert.FromBase64String(pathEncrypted);
-            string pathDecrypted = encrypt_service.Decrypt(pathEncryptedByte);
-            string filename = MContent.Nombre;
+            string pathDecrypted = encrypt_service.Decrypt(pathEncryptedByte);//wwwroot/lasjdkjn/kasbdbha/ljasndjakjasbdkj
             encrypt_service.DecryptFile(pathDecrypted);
             string path = pathDecrypted.Replace("wwwroot/", "");
             return path;
@@ -98,7 +98,6 @@ namespace PRIME_UCR.Components.Multimedia
             string pathEncrypted = MContent.Archivo;
             byte[] pathEncryptedByte = System.Convert.FromBase64String(pathEncrypted);
             string pathDecrypted = encrypt_service.Decrypt(pathEncryptedByte);
-            string filename = MContent.Nombre;
             encrypt_service.DecryptFile(pathDecrypted);
             string path = pathDecrypted.Replace("wwwroot/", "");
             return path;

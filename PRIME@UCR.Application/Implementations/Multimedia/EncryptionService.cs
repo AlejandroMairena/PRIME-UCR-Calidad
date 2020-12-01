@@ -49,10 +49,6 @@ namespace PRIME_UCR.Application.Implementations.Multimedia
             AccessSecretVersionResponse resultIv = client.AccessSecretVersion(ivV);
             string keyString = resultKey.Payload.Data.ToStringUtf8();
             string ivString = resultIv.Payload.Data.ToStringUtf8();
-            //string jsonAppSettings = System.IO.File.ReadAllText("../PRIME@UCR/appsettings.json");
-            //var jsonObjct = JObject.Parse(jsonAppSettings);
-            //string keyString = (string)jsonObjct["Key"];
-            //string ivString = (string)jsonObjct["IV"];
             byte[] ivByte = Convert.FromBase64String(ivString);
             byte[] keyByte = Convert.FromBase64String(keyString);
             SetKeyIV(ivByte, keyByte);
@@ -141,6 +137,8 @@ namespace PRIME_UCR.Application.Implementations.Multimedia
             return true;
         }
         public bool DecryptFile(string path) {
+            //00EIWb1ubBfgsk9el1G2tBsJ1fRX0DGsD53xrHcClP1jMDHK+z2qyLwUG2-uMV9ZHZapHnuKj95-mWYuCwqBVA==.mp3
+            //00EIWb1ubBfgsk9el1G2tBsJ1fRX0DGsD53xrHcClP1jMDHK+z2qyLwUG2/uMV9ZHZapHnuKj95/mWYuCwqBVA==.mp3
             string filePath = path;
             //string fileText = FiletoString(filePath);
             byte[] encryptedFile = FileToByteArray(filePath);

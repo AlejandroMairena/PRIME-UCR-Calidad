@@ -19,18 +19,21 @@ namespace PRIME_UCR.Application.Implementations.Multimedia
             FilePath = "wwwroot/datas/";
             ES = new EncryptionService();
         }
-
-        public async Task<bool> StoreFile(string fileName, Stream fileStream)
+        //00EIWb1ubBfgsk9el1G2tBsJ1fRX0DGsD53xrHcClP1jMDHK+z2qyLwUG2-uMV9ZHZapHnuKj95-mWYuCwqBVA==.mp3
+        public async Task<bool> StoreFile(string pathDecrypted, string fileName, string extension, Stream fileStream)
         {
-            DirectoryInfo info = new DirectoryInfo(FilePath);
-            if (!info.Exists) info.Create();
-
-            string path = Path.Combine(FilePath, fileName);
+            DirectoryInfo info = new DirectoryInfo(pathDecrypted);
+            if (!info.Exists) {
+                info.Create();
+            }
+            string completeFileName = fileName + extension;
+            string path = Path.Combine(pathDecrypted, completeFileName); //wwwroot/asdkjbaskdn/ljasndljna/kajsndf.jpg
             using (FileStream outputFileStream = new FileStream(path, FileMode.Create))
             {
                 await fileStream.CopyToAsync(outputFileStream);
             }
             ES.EncryptFile(path);
+
             return true;
         }
 

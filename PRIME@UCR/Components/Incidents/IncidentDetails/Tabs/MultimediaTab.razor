@@ -17,7 +17,13 @@
             <tr>
                 <td class="text-center">
                     <MultimediaContentComponent MultimediaContent="_existingFiles[_actionTypes.IndexOf(i)]"
-                                                OnFileUpload="(MultimediaContent mc) => OnFileUpload(i, mc)"/>
+                                                OnFileUpload="(MultimediaContent mc) => OnFileUpload(i, mc)"
+                                                IncidentCode="@Incident.Code"
+                                                ActionName="@i.Nombre"
+                                                CallingFromAction="true"
+                                                CheckListName="@null"
+                                                CheckListItemName="@null"
+                                                />
                 </td>
                 <td>
                     <div class="text-left">

@@ -105,18 +105,18 @@
                         <tbody>
                             @foreach (var mcontent in MultimediaContent)
                             {
-                                <tr>
-                                    <td>@mcontent.Nombre</td>
-                                    <td>@mcontent.Tipo</td>
-                                    <td>@mcontent.Fecha_Hora</td>
-                                    <td>
-                                        <button type="button" class="btn btn-secondary m-btn m-btn-rm action_buttom"
-                                                @onclick="(() => ShowPopUp(mcontent))">
-                                            @GetButonName(mcontent)
-                                        </button>
-                                    </td>
-                                    <td><button type="button" class="btn btn-danger m-btn m-btn-rm" @onclick="(()=> DeleteMultimediaContent(mcontent))">Eliminar</button></td>
-                                </tr>
+                            <tr>
+                                <td>@mcontent.Nombre</td>
+                                <td>@mcontent.Tipo</td>
+                                <td>@mcontent.Fecha_Hora</td>
+                                <td>
+                                    <button type="button" class="btn btn-secondary m-btn m-btn-rm action_buttom"
+                                            @onclick="(() => ShowPopUp(mcontent))">
+                                        @GetButonName(mcontent)
+                                    </button>
+                                </td>
+                                <td><button type="button" class="btn btn-danger m-btn m-btn-rm" @onclick="(()=> DeleteMultimediaContent(mcontent))">Eliminar</button></td>
+                            </tr>
                             }
                         </tbody>
                     </table>
