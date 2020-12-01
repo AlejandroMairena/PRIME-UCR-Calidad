@@ -80,9 +80,18 @@ namespace PRIME_UCR.Components.Multimedia
                 MultimediaModal.OnModalClosed -= CloseComponent;
         }
 
-        void OnTitleChanged(Tuple<bool, string> tuple)
+        async Task OnTitleChanged(Tuple<bool, string> tuple)
         {
             validTitle = !tuple.Item1;
+            if (validTitle)
+            {
+                await JS.InvokeAsync<bool>("updateImageDownloadName", downloadLinkRef, tuple.Item2);
+            }
+        }
+
+        async Task OnClose()
+        {
+            MultimediaModal?.CloseImageView();
         }
 
     }

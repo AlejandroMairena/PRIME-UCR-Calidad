@@ -6,7 +6,7 @@
         <h2>Cámara</h2>
         <hr />
 
-        <MultimediaTitleComponent OnTitleChanged="OnTitleChanged"></MultimediaTitleComponent>
+        <MultimediaTitleComponent OnTitleChanged="OnTitleChanged" Title="imagen"></MultimediaTitleComponent>
 
         @* Video Preview *@
         <video autoplay class="@videoClass" @ref=videoElement></video>
@@ -38,12 +38,13 @@
 
             @* Download Button *@
             <div class="col">
-                @*<div class="btn btn-primary rt-button">
+                <div class="btn btn-primary rt-button">
                     <a style="color: white;" @ref="downloadLinkRef">
                         Descargar
                     </a>
-                </div>*@
-                <button class="btn btn-primary rt-button" disabled="@notValidSave">Guardar</button>
+                </div>
+                @*<button class="btn btn-primary rt-button" disabled="@notValidSave">Descargar</button>*@
+                
             </div>
 
         </div>
@@ -51,7 +52,7 @@
         @* Exit Button *@
         <div class="row" style="margin-top: 20px">
             <div class="col">
-                <button class="btn btn-danger rt-button">Salir</button>
+                <button class="btn btn-danger rt-button" @onclick="OnClose">Salir</button>
             </div>
         </div>
 
