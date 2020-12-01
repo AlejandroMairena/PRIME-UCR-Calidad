@@ -19,5 +19,7 @@ namespace PRIME_UCR.Application.Repositories.Incidents
         Task<IEnumerable<IncidentListModel>> GetAuthorizedDoctorIncidentListModelsAsync(string id);
         Task<IEnumerable<IncidentListModel>> GetAuthorizedSpecialistIncidentListModelsAsync(string id);
         Task<IEnumerable<string>> GetAuthorizedCodesForSpecialist(string id);
+        Task<IEnumerable<string>> GetAuthorizedCodesForOriginDoctor(string id);
+        Task<IEnumerable<string>> GetAuthorizedCodesForDestinationDoctor(string id);
     }
 }
