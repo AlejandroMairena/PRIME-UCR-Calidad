@@ -19,17 +19,23 @@ namespace PRIME_UCR.Components.CheckLists
         [Inject] private IPdfService MyPdfService { get; set; }
         [Inject] private IIncidentService MyIncidentService { get; set; }
         [Inject] private IChronicConditionService MyChronicConditionService { get; set; }
-        // Pasar otro parametro que sea lo que incidentes utiliza en el listado de todos los incidentes.
         [Parameter] public string IncidentCode { get; set; }
+        [Parameter] public string IncidentState { get; set; }
+        [Parameter] public EventCallback<bool> ChangeLoading { get; set; }
 
         private bool Disabled { get; set; } = false;
 
         protected override async Task OnInitializedAsync()
         {
-
+            // You can only generate the pdf if the incident is after the 'Asignado' state
+            if (IncidentState == "Iniciado" || IncidentState == "Creado" || IncidentState == "Rechazado" || IncidentState == "Aprobado" || IncidentState == "Asignado")
+            {
+                Disabled = true;
+            }
         }
         protected async Task ExportToPdf()
         {
+            await ChangeLoading.InvokeAsync(true);
             PdfModel pdfModel = new PdfModel();
             pdfModel.Incident = await MyIncidentService.GetIncidentDetailsAsync(IncidentCode);
             pdfModel.ChronicConditions = await MyChronicConditionService.GetChronicConditionByRecordId(pdfModel.Incident.MedicalRecord.Id);
@@ -38,6 +44,7 @@ namespace PRIME_UCR.Components.CheckLists
             {
                 await JS.InvokeAsync<object>("saveAsFile", fileName, Convert.ToBase64String(excelStream.ToArray()));
             }
+            await ChangeLoading.InvokeAsync(false);
         }
     }
 }

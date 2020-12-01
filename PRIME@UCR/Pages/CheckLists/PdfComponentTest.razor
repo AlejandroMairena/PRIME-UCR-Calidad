@@ -10,4 +10,17 @@
 @using System.Linq;
 @using PRIME_UCR.Domain.Models.CheckLists;
 
-<PdfComponent IncidentCode="2020-11-17-0001-IT-TER"></PdfComponent>
+<Loading IsLoading="_loading">
+    <PdfComponent IncidentCode="2020-11-17-0001-IT-TER" IncidentState="Asignado" ChangeLoading="ChangeLoading"></PdfComponent>
+</Loading>
+
+@code {
+    public bool _loading = false;
+
+    void ChangeLoading(bool loading)
+    {
+        _loading = loading;
+    }
+}
+
+
