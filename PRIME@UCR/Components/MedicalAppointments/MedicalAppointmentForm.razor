@@ -34,10 +34,16 @@
                       Disabled="false"
                       @bind-Value="@selectedMedicalCenter" />
 
+
+        <div class="form-group">
+            <label>Fecha de la cita<strong class="text-danger">*</strong></label>
+            <InputDate id="FechaHoraCreacion" @bind-Value="@date" class="form-control"></InputDate>
+        </div>
+
         @*<DatePicker @bind-Value="@date"
-                    Label="Fecha de nacimiento"
-                    Max="@DateTime.Today.AddYears(20)"
-                    Min="@DateTime.Today" Required="true" />*@
+        Label="Fecha de nacimiento"
+        Max="@DateTime.Today.AddYears(20)"
+        Min="@DateTime.Today" Required="true" />*@
 
         <button class="btn btn-dark" @onclick="MakeAppointment">Guardar</button>
 

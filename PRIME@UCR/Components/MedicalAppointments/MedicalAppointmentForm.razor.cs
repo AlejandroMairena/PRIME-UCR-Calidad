@@ -41,13 +41,13 @@ namespace PRIME_UCR.Components.MedicalAppointments
         private async Task MakeAppointment()
         {
             options_unselected = false; 
-            if (selectedDoctor != null && selectedMedicalCenter != null)
+            if (selectedDoctor != null && selectedMedicalCenter != null && date != null)
             {
 
                 Cita citaNueva = new Cita()
                 {
                     FechaHoraCreacion = DateTime.Now,
-                    FechaHoraEstimada = DateTime.Now,
+                    FechaHoraEstimada = date,
                     IdExpediente = RecordModel.Id
                 };
                 var cita = await AppointmentService.InsertAppointmentAsync(citaNueva);
