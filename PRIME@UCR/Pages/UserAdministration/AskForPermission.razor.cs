@@ -103,11 +103,12 @@ namespace PRIME_UCR.Pages.UserAdministration
                 {
                     if (actUser.UsuariosYPerfiles.Find(p => p.Perfil.NombrePerfil == "Administrador") == null ? false : true)
                     {
+                        var url = "https://localhost:44368//user_administration/profiles";
                         var message = new EmailContentModel()
                         {
                             Destination = actUser.Email,
                             Subject = "PRIME@UCR: Ha recibido una solicitud de permiso",
-                            Body = $"<p>Estimado(a) {actUser.Persona.Nombre}, el usuario {userPerson.Persona.Nombre} ha solicitado el(los) permiso(s) \"{string.Join(",", AskForPermissionMod.PermissionsList)}\". </p>"
+                            Body = $"<p>Estimado(a) {actUser.Persona.Nombre}, el usuario {userPerson.Persona.Nombre} ha solicitado el(los) permiso(s) \"{string.Join(",", AskForPermissionMod.PermissionsList)}\". Si desea otogarle el(los) permiso(s), favor presione <a href=\"{url}\">aquí</a>.</p>"
                         };
 
                         await mailService.SendEmailAsync(message);
