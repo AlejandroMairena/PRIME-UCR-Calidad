@@ -77,6 +77,8 @@ namespace PRIME_UCR.Pages.CheckLists.Plantillas
          * */
         protected async Task AddCheckList(CheckList tempList)
         {
+            tempList.Activada = true;
+            tempList.Editable = true;
             if (tempList.ImagenDescriptiva == null)
             {
                 tempList.ImagenDescriptiva = "/images/defaultCheckList.svg";
