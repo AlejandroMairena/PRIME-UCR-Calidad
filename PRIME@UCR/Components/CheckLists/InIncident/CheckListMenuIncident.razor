@@ -14,7 +14,7 @@
                         <li class="nav-item mt-2">
                             @* Navigation link for each checklist *@
                             <NavLink href='@string.Format("incidents/{0}/{1}",@tempList.IncidentCod,@tempList.PlantillaId)' class="nav-link" id="a_LC4">
-                                •  @GetName2(tempList.PlantillaId)
+                                @GetName2(tempList.PlantillaId)
                             </NavLink>
                         </li>
                     }
