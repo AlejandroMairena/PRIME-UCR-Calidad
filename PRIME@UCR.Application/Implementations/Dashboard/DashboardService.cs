@@ -37,9 +37,9 @@ namespace PRIME_UCR.Application.Implementations.Dashboard
             medicalCenterRepository = _medicalCenterRepository;
         }
 
-        public async Task<int> GetIncidentCounterAsync(string modality)
+        public async Task<int> GetIncidentCounterAsync(string modality, string filter)
         {
-            return await dashboardRepository.GetIncidentsCounterAsync(modality);
+            return await dashboardRepository.GetIncidentsCounterAsync(modality, filter);
         }
 
         public async Task<List<Incidente>> GetAllIncidentsAsync()

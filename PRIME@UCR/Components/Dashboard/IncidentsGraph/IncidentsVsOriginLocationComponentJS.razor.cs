@@ -18,6 +18,8 @@ namespace PRIME_UCR.Components.Dashboard.IncidentsGraph
     {
         [Parameter] public FilterModel Value { get; set; }
         [Parameter] public EventCallback<FilterModel> ValueChanged { get; set; }
+        [Parameter] public DashboardDataModel Data { get; set; }
+        [Parameter] public EventCallback<DashboardDataModel> DataChanged { get; set; }
         [Parameter] public EventCallback OnDiscard { get; set; }
 
         [Parameter] public bool ZoomActive { get; set; }
@@ -28,13 +30,12 @@ namespace PRIME_UCR.Components.Dashboard.IncidentsGraph
         IJSRuntime JS { get; set; }
 
         [Inject]
-        public IDashboardService _dashboardService { get; set; }
-
-        [Inject]
-        public ILocationService _locationService { get; set; }
-
-        [Inject]
         IModalService Modal { get; set; }
+
+        protected override async Task OnInitializedAsync()
+        {
+            await GenerateIncidentsVsOriginLocationComponentJS();
+        }
 
         protected override async Task OnParametersSetAsync()
         {
@@ -43,24 +44,11 @@ namespace PRIME_UCR.Components.Dashboard.IncidentsGraph
 
         private async Task GenerateIncidentsVsOriginLocationComponentJS()
         {
-            var countriesData = await _locationService.GetAllCountriesAsync();
-            var provincesData = await _locationService.GetProvincesByCountryNameAsync(Pais.DefaultCountry);
-            var cantonData = new List<Canton>();
-            var districtData = new List<Distrito>();
-            if(Value.HouseholdOriginFilter.Province != null)
-            {
-                cantonData = (await _locationService.GetCantonsByProvinceNameAsync(Value.HouseholdOriginFilter.Province.Nombre)).ToList();
-            }
-            if (Value.HouseholdOriginFilter.Canton != null)
-            {
-                districtData = (await _locationService.GetDistrictsByCantonIdAsync(Value.HouseholdOriginFilter.Canton.Id)).ToList();
-            }
+            var incidentsData = Data.filteredIncidentsData;
+            var medicalCenters = Data.medicalCenters;
+            var districtsData = Data.districts;
 
-            var incidentsData = await _dashboardService.GetFilteredIncidentsList(Value);
-            var medicalCenters = await _locationService.GetAllMedicalCentersAsync();
-            var districtsData = await _dashboardService.GetAllDistrictsAsync();
-
-            var AllIncidentsData = await _dashboardService.GetAllIncidentsAsync();
+            var AllIncidentsData = Data.incidentsData;
 
             eventQuantity = incidentsData.Count();
 
@@ -187,6 +175,7 @@ namespace PRIME_UCR.Components.Dashboard.IncidentsGraph
 
             var parameters = new ModalParameters();
             parameters.Add(nameof(IncidentsVsOriginLocationComponentJS.Value), Value);
+            parameters.Add(nameof(IncidentsVsOriginLocationComponentJS.Data), Data);
             parameters.Add(nameof(IncidentsVsOriginLocationComponentJS.ZoomActive), true);
             Modal.Show<IncidentsVsOriginLocationComponentJS>("Incidentes por origen", parameters, modalOptions);
         }

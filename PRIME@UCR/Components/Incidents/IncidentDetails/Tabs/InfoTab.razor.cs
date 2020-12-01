@@ -20,12 +20,15 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
         
         private Persona _creator;
         private Persona _currentUser;
-        
+        private bool _isLoading = true;
+
         protected override async Task OnInitializedAsync()
         {
+            _isLoading = true;
             var emailUser = (await AuthState).User.Identity.Name;
             _currentUser = await UserService.getPersonWithDetailstAsync(emailUser);
             _creator = await PersonService.GetPersonByIdAsync(DetailsModel.AdminId);
+            _isLoading = false;
         }
         
     }

@@ -12,22 +12,23 @@ namespace PRIME_UCR.Components.Dashboard.Filters
 {
     public partial class StateFilter
     {
-        [Inject] private IStateService StateService { get; set; }
         [Parameter] public FilterModel Value { get; set; }
         [Parameter] public EventCallback<FilterModel> ValueChanged { get; set; }
         [Parameter] public EventCallback OnDiscard { get; set; }
+        [Parameter] public DashboardDataModel Data { get; set; }
+        [Parameter] public EventCallback<DashboardDataModel> DataChanged { get; set; }
 
         private List<Estado> _stateTypes;
         private bool _isLoading = true;
         private bool _changesMade = false;
 
-        protected override async Task OnInitializedAsync()
-        {                    
-            _stateTypes = (await StateService.GetAllStates()).ToList();
+        protected override void OnInitialized()
+        {
+            _stateTypes = Data.states;
             _isLoading = false;
         }
 
-        private async Task OnStateChange(Estado state) 
+        private void OnStateChange(Estado state) 
         {
             if (state == Value.StateFilter)
             {
@@ -38,14 +39,12 @@ namespace PRIME_UCR.Components.Dashboard.Filters
                 _changesMade = true;
             }
             Value._selectedState = state;
-            //await ValueChanged.InvokeAsync(Value);
         }
 
-        private async Task Discard()
+        private void Discard()
         {
             _changesMade = false;
             Value._selectedState = Value.StateFilter;
-            await ValueChanged.InvokeAsync(Value);
         }
 
         private async Task Save()
