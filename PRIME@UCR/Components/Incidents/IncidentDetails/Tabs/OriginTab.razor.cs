@@ -9,6 +9,7 @@ using PRIME_UCR.Application.Services.UserAdministration;
 using PRIME_UCR.Components.Controls;
 using PRIME_UCR.Components.Incidents.IncidentDetails.Constants;
 using PRIME_UCR.Components.Incidents.LocationPickers;
+using PRIME_UCR.Components.Incidents.IncidentDetails;
 using PRIME_UCR.Domain.Models;
 
 namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
@@ -31,7 +32,7 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
         [Inject] private IDoctorService DoctorService { get; set; }
         [Parameter] public IncidentDetailsModel Incident { get; set; }
         [Parameter] public EventCallback<OriginModel> OnSave { get; set; }
-        [CascadingParameter] public Action ClearStatusMessageCallback { get; set; }
+        [CascadingParameter] public Pages.Incidents.IncidentDetails ParentPage { get; set; }
         [Parameter] public string StatusMessage { get; set; }
         [Parameter] public string StatusClass { get; set; }
         public Ubicacion Origin { get; set; }
@@ -54,7 +55,7 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
 
         private void OnOriginTypeChange(Tuple<OriginType, string> type)
         {
-            ClearStatusMessageCallback();
+            ParentPage.ClearStatusMessage();
             _selectedOriginType = type;
         }
 
@@ -162,7 +163,7 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
             }
             
             _model.Origin = Origin;
-            ClearStatusMessageCallback();
+            ParentPage.ClearStatusMessage();
             _isLoading = false;
         }
 

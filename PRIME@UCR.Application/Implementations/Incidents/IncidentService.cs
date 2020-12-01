@@ -131,6 +131,10 @@ namespace PRIME_UCR.Application.Implementations.Incidents
                 var transportUnit = await _transportUnitRepository.GetTransporUnitByIncidentIdAsync(incident.Codigo);
                 var reviewer = await _personRepository.GetByKeyPersonaAsync(incident.CedulaRevisor);
                 var state = await _statesRepository.GetCurrentStateByIncidentId(incident.Codigo);
+                var documentacionIncidente = await _documentationRepository.GetAllDocumentationByIncidentCode(incident.Codigo);
+                List<DocumentacionIncidente> lista = documentacionIncidente.ToList();
+                lista = lista.OrderBy(i => i.Id).ToList();
+                DocumentacionIncidente documentacion = lista.FirstOrDefault();
                 var medicalRecord =
                     incident.Cita.Expediente;
                 var model = new IncidentDetailsModel
@@ -149,8 +153,10 @@ namespace PRIME_UCR.Application.Implementations.Incidents
                     TransportUnitId = transportUnit?.Matricula,
                     TransportUnit = transportUnit,
                     MedicalRecord = medicalRecord,
-                    Reviewer = reviewer
+                    Reviewer = reviewer,
+                    FeedBack = documentacion
                 };
+
 
                 return model;
             }

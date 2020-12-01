@@ -49,6 +49,8 @@ namespace PRIME_UCR.Components.Incidents.StatePanel
         public List<string> Content = new List<string>();
         // Needed for feedback
         private IncidentFeedbackModel _feedBackmodel = new IncidentFeedbackModel();
+        [CascadingParameter] public Pages.Incidents.IncidentDetails ParentPage { get; set; }
+
         public bool showFeedBack = false;
 
         protected override async Task OnInitializedAsync()
@@ -108,6 +110,7 @@ namespace PRIME_UCR.Components.Incidents.StatePanel
                 .RejectIncidentAsync(Incident.Code, CurrentUser.Cédula);
             await OnSave.InvokeAsync(null);
             await LoadValues();
+            ParentPage.refresh();
         }
 
         private async Task createFeedBack()

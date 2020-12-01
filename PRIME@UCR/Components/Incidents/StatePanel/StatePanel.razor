@@ -92,8 +92,9 @@
         {
             <EditForm Model="_feedBackmodel" OnValidSubmit="Reject">
                 <FluentValidationValidator />
-                <div class="text-center mt-4">
-                    <TextBox Label="Retroalimentación incidente" @bind-Value="@_feedBackmodel.FeedBack" />
+                <div class="text-center mt-4 ">
+                    <TextAreaInput Label="Retroalimentación incidente" @bind-Value="@_feedBackmodel.FeedBack" Rows="5"/>
+                    @*<TextBox Label="Retroalimentación incidente" @bind-Value="@_feedBackmodel.FeedBack" />*@
                     <button class="btn btn-primary">Cambiar a estado Rechazado</button>
                     <button class="btn btn-outline-secondary" @onclick="@showFeedbackInput">Cancelar</button>
                 </div>
