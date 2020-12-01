@@ -162,14 +162,14 @@ namespace PRIME_UCR.Components.Multimedia
             else{
                 filename = fileNameEncrytedString;
             }
-            path = pathDecrypted + filename;
+            path = pathDecrypted + filename + getType(file.Name);
             byte[] pathEncryptedByte = encrypt_service.Encrypt(path);
             string pathEncryptedString = Convert.ToBase64String(pathEncryptedByte);
 
             return new MultimediaContent
             {
                 Nombre = filename,
-                Archivo = path,
+                Archivo = pathEncryptedString,
                 Descripcion = "",
                 Fecha_Hora = DateTime.Now,
                 Tipo = file.Type,
