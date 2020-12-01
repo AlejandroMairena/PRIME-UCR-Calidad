@@ -6,22 +6,41 @@
         <h2>Grabadora</h2>
         <hr />
 
-        <div class="row">
-            <div class="col">
-                @* Record Button *@
-                <button class="btn btn-primary rt-button" @ref="recordButton">Grabar</button>
-                <p @ref="timer"></p>
-            </div>
-            <div class="col">
-                @* Stop Button *@
-                <button class="btn btn-danger rt-button" id="mic_stop_button" @ref="stopButton">Detener</button>
-            </div>
+        <MultimediaTitleComponent OnTitleChanged="OnTitleChanged" Title="audio"></MultimediaTitleComponent>
+
+        @* Timer *@
+        <div class="row" style="width: 120px; margin: auto;">
+            <p @ref="timer" style="font-size: 24px">00:00:00</p>
         </div>
+
+        @* Start/Stop Recording Buttons *@
+        <div class="row">
+            <button class="btn btn-primary rt-button" @ref="recordButton">Grabar</button>
+            
+            <button class="btn btn-danger rt-button hidden" @ref="stopButton">Detener</button>
+        </div>
+
         <div class="row" style="margin-top: 20px">
             @* Recorded Audio *@
-            <audio style="width:250px; margin: auto" @ref="audio"></audio>
+            <audio style="width:280px; margin: auto" @ref="audio"></audio>
+        </div>
+
+        <div class="row" style="margin-top: 20px">
+            <div class="col">
+                @* Exit Button *@
+                <div class="row">
+                    <div class="col">
+                        <button class="btn btn-danger rt-button" @onclick="OnClose">Salir</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                @* Dowload Link *@
+                <a @ref="downloadLink">Descargar</a>
+            </div>
+
         </div>
 
     </div>
-
 </div>
