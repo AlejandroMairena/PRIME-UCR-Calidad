@@ -295,6 +295,7 @@ namespace PRIME_UCR.Application.Implementations.Incidents
          * Function: Returns authorized-to-see incidents for a specific user
          * @Params: The id (Cedula) of the registered user
          * @Return: An IEnumerable with the incidents the user has permission to see
+         * @Story ID: PIG01IIC20-712
          * */
         public async Task<IEnumerable<IncidentListModel>> GetIncidentListModelsAsync(string id)
         {

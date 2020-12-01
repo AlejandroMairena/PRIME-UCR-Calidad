@@ -234,9 +234,10 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Incidents
         }
 
         /*
-         * Function:
-         * @Params:
-         * @Return:
+         * Function: Obtains the Incident´s codes for which a specific Doctor is assigned to the incident´s origin
+         * @Params: The id (cedula) of the doctor to be checked
+         * @Return: A list with all the incidents' codes where the specified Id is assigned as origin doctor
+         * @Story ID: PIG01IIC20-712
          */
         public async Task<IEnumerable<string>> GetAuthorizedCodesForOriginDoctor(string id)
         {
@@ -252,9 +253,10 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Incidents
         }
 
         /*
-         * Function:
-         * @Params:
-         * @Return:
+         * Function: Obtains the Incident´s codes for which a specific Doctor is assigned to the incident´s destination
+         * @Params: The id (cedula) of the doctor to be checked
+         * @Return: A list with all the incidents' codes where the specified Id is assigned as destination doctor
+         * @Story ID: PIG01IIC20-712
          */
         public async Task<IEnumerable<string>> GetAuthorizedCodesForDestinationDoctor(string id)
         {
@@ -271,9 +273,10 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Incidents
 
 
         /*
-         * Function:
-         * @Params:
-         * @Return:
+         * Function: Obtains the incident's codes for which a specific Technical Specialist is assigned to
+         * @Params: The id (cedula) of the specialist to be checked
+         * @Return: A list with all the incidents' codes where the specified Id is assigned to
+         * @Story ID: PIG01IIC20-712
          */
         public async Task<IEnumerable<string>> GetAuthorizedCodesForSpecialist(string id)
         {
@@ -289,28 +292,30 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Incidents
         }
 
         /*
-         * Function:
-         * @Params:
-         * @Return:
+         * Function: Returns a list with all the incidents and their details that are assigned to a specified technical specialist
+         * @Params: The id (cedula) of the specialist to be checked
+         * @Return: A list with all the incidents' details where the specified id is assigned to
+         * @Story ID: PIG01IIC20-712
          */
         public async Task<IEnumerable<IncidentListModel>> GetAuthorizedSpecialistIncidentListModelsAsync(string id)
         {
-            var authorizedCodes = await GetAuthorizedCodesForSpecialist(id); // Authorized incidents for this user 
-            var incidentsList = await GetIncidentListModelsAsync(); // All incidents
-            return incidentsList.Where(i => authorizedCodes.Contains(i.Codigo)); 
+            var authorizedCodes = await GetAuthorizedCodesForSpecialist(id); // Get only the authorized incidents for this user 
+            var incidentsList = await GetIncidentListModelsAsync(); // Get all incidents
+            return incidentsList.Where(i => authorizedCodes.Contains(i.Codigo));  // Return the details of the incidents assigned to the user
         }
 
         /*
-        * Function:
-        * @Params:
-        * @Return:
+        * Function: Returns a list with all the incidents and their details that are assigned to a specified doctor
+         * @Params: The id (cedula) of the doctor to be checked
+         * @Return: A list with all the incidents' details where the specified id is assigned to
+         * @Story ID: PIG01IIC20-712
         */
         public async Task<IEnumerable<IncidentListModel>> GetAuthorizedDoctorIncidentListModelsAsync(string id)
         {
-            var authorizedOriginCodes = await GetAuthorizedCodesForOriginDoctor(id); // Authorized incidents for this user 
-            var authorizedDestinationCodes = await GetAuthorizedCodesForDestinationDoctor(id); // Authorized incidents for this user 
-            var incidentsList = await GetIncidentListModelsAsync(); // All incidents
-            return incidentsList.Where(i => authorizedOriginCodes.Contains(i.Codigo) || authorizedDestinationCodes.Contains(i.Codigo));
+            var authorizedOriginCodes = await GetAuthorizedCodesForOriginDoctor(id); // Get only the authorized incidents for this user 
+            var authorizedDestinationCodes = await GetAuthorizedCodesForDestinationDoctor(id); // Get only the authorized incidents for this user 
+            var incidentsList = await GetIncidentListModelsAsync(); // Get all incidents
+            return incidentsList.Where(i => authorizedOriginCodes.Contains(i.Codigo) || authorizedDestinationCodes.Contains(i.Codigo)); // Return the details of the incidents assigned to the user
         }
     }
 
