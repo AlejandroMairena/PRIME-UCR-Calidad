@@ -29,7 +29,7 @@ namespace PRIME_UCR.Pages.CheckLists.InIncident
             details.Add("");
             instruct.Add("No se puede completar ni agregar contenido multimedia");
             instruct.Add("Se puede completar y agregar contenido multimedia");
-            instruct.Add("No se puede completar ni observar el contenido multimedia");
+            instruct.Add("No se puede completar, sí se puede observar el contenido multimedia");
             states.Add("El incidente se encuentra en estado: ");
             states.Add("");
 
@@ -42,7 +42,9 @@ namespace PRIME_UCR.Pages.CheckLists.InIncident
         public string incidentcod { get; set; }
         public Estado state { get; set; }
         public string stateInstanceList;
+        
         public bool canEdit = true;
+
         protected IEnumerable<InstanciaItem> coreItems { get; set; }
 
         public InstanceChecklist insanceLC { get; set; }
@@ -189,7 +191,8 @@ namespace PRIME_UCR.Pages.CheckLists.InIncident
                 details[1] = instruct[2];
             }
             if (!canEdit) {
-                validateEdit = 0;
+                validateEdit = 2;
+                details[1] = instruct[2];
             }
         }
         public async Task updateChecklistState()

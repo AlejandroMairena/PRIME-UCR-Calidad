@@ -120,6 +120,11 @@
                                                                 @{ canEdit = false; }
                                                             </NotAuthorized>
                                                         </AuthorizeView>
+                                                        <AuthorizeView Policy="@AuthorizationPermissions.CanAttachMultimediaInChecklists.ToString()">
+                                                            <NotAuthorized>
+                                                                @{ canEdit = false; }
+                                                            </NotAuthorized>
+                                                        </AuthorizeView>
                                                         @if (validateEdit == 1) // state in transfer
                                                         {
                                                     <div class="custom-control custom-checkbox" style="margin:auto">
@@ -160,12 +165,12 @@
                                                         </td>
                                                     }
                                                     else if (validateEdit == 2)
-                                                    { //state finished
+                                                    { //state finished ViewOnly="true"
                                                         <td rowspan="2" class="align-middle" style="margin:auto; width: 100px;">
                                                             <p style=" padding-top: 0px; padding-bottom: 0px; ">@itemInList.FechaHoraInicio</p>
                                                         </td>
                                                         <td rowspan="2" class="align-middle" align="right" style="width: 54px">
-                                                            <MultimediaContentComponent MultimediaContent="@MyMultimediaContent[tempIndex]" ViewOnly="true"></MultimediaContentComponent>
+                                                            <MultimediaContentComponent MultimediaContent="@MyMultimediaContent[tempIndex]"></MultimediaContentComponent>
                                                         </td>
                                                     }
                                                 }
