@@ -27,11 +27,27 @@ namespace PRIME_UCR.Components.MedicalAppointments.Tabs
             MetricsForm = new MetricsApp();
             MetricContext = new EditContext(MetricsForm);
             Metrics = await appointment_service.GetMetricsMedAppointmentByAppId(AppointmentId);
+
             if (Metrics != null)
             {
                 MetricsForm.Altura = Metrics.Altura.ToString();
                 MetricsForm.Peso = Metrics.Peso.ToString();
-                MetricsForm.Presion = Metrics.Presion.ToString();
+
+                int index = 0;
+                while (index < Metrics.Presion.Length && Metrics.Presion[index] != '/') {
+                    ++index; 
+                }
+
+                if (Metrics.Presion[index] == '/')
+                {
+                    int length = Metrics.Presion.Length;
+                    MetricsForm.PresionSys = Metrics.Presion.Substring(0, index);
+                    MetricsForm.PresionDia = Metrics.Presion.Substring(index+1, length-(index+1));
+                }
+                else {
+                    MetricsForm.PresionSys = "";
+                    MetricsForm.PresionDia = ""; 
+                }
             }
         
         }
@@ -48,7 +64,7 @@ namespace PRIME_UCR.Components.MedicalAppointments.Tabs
 
                 Metrics.Altura = MetricsForm.Altura;
                 Metrics.Peso = MetricsForm.Peso;
-                Metrics.Presion = MetricsForm.Presion;
+                Metrics.Presion = MetricsForm.PresionSys + "/" + MetricsForm.PresionDia;
 
                 await appointment_service.UpdateMetrics(Metrics);
                 metrics_updated = true; 
@@ -59,7 +75,7 @@ namespace PRIME_UCR.Components.MedicalAppointments.Tabs
                 {
                     Altura = MetricsForm.Altura,
                     Peso = MetricsForm.Peso,
-                    Presion = MetricsForm.Presion,
+                    Presion = MetricsForm.PresionSys + "/" + MetricsForm.PresionDia,
                     CitaId = AppointmentId
                 }; 
                 await appointment_service.InsertMetrics(Metrics);

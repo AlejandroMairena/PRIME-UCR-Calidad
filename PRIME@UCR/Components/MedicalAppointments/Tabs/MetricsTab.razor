@@ -23,7 +23,8 @@
             <EditForm EditContext="MetricContext" OnValidSubmit="saveMetricData">
                 <TextBox @bind-Value="MetricsForm.Altura" Label="Estatura" />
                 <TextBox @bind-Value="MetricsForm.Peso" Label="Peso" />
-                <TextBox @bind-Value="MetricsForm.Presion" Label="Presión" />
+                <TextBox @bind-Value="MetricsForm.PresionSys" Label="Presión sistólica" />
+                <TextBox @bind-Value="MetricsForm.PresionDia" Label="Presión diastólica" />
 
                 @if (true)
                 {

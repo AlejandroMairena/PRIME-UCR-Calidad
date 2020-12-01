@@ -6,7 +6,9 @@ namespace PRIME_UCR.Domain.Models.Appointments
 {
     public class MetricsApp
     {
-        public string Presion { get; set; }
+        public string PresionSys { get; set; }
+
+        public string PresionDia { get; set; }
 
         public string Peso { get; set; }
 
