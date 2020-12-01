@@ -4,6 +4,7 @@
 @inject IIncidentService incident_service
 @inject IMedicalRecordService medical_record_service
 @inject IAppointmentService appointment_service
+@inject NavigationManager NavManager
 <h3>Lista de Citas</h3>
 
 <style>
@@ -42,7 +43,8 @@
                 {
                     <p>@context.incident.Codigo</p>
                 }
-                else { 
+                else
+                {
                     <p>@context.date.Id</p>
                 }
             </Template>
@@ -58,10 +60,12 @@
         @*Field="@(x => x.medical_center.Nombre)"*@
         <Column TableItem="DateIncidentModel" Title="Lugar de atención" Width="20%">
             <Template>
-                @if (context.incident != null) {
+                @if (context.incident != null)
+                {
                     <p>@context.medical_center.Nombre</p>
                 }
-                else { 
+                else
+                {
                     <p>Pendiente</p>
                 }
             </Template>
@@ -76,3 +80,7 @@
         <Pager ShowPageNumber="true" ShowTotalCount="true" />
     </Table>
 </Loading>
+
+<MatThemeProvider Theme="@AddButtonTheme">
+    <MatFAB Icon="@MatIconNames.Add" Class="app-fab--absolute" OnClick="@(_ => Redirect())"></MatFAB>
+</MatThemeProvider>

@@ -27,6 +27,10 @@ namespace PRIME_UCR.Components.MedicalAppointments
 
         private DateTime date;
 
+        public bool options_unselected { get; set; } = false;
+
+        public bool register_success { get; set; } = false; 
+
         protected override async Task OnInitializedAsync()
         {
             DoctorList = (await DoctorService.GetAllDoctorsAsync()).ToList();
@@ -36,21 +40,33 @@ namespace PRIME_UCR.Components.MedicalAppointments
 
         private async Task MakeAppointment()
         {
-            Cita citaNueva = new Cita() {
-                FechaHoraCreacion = DateTime.Now,
-                FechaHoraEstimada = DateTime.Now,
-                IdExpediente = RecordModel.Id
-            };
-            var cita = await AppointmentService.InsertAppointmentAsync(citaNueva);
-            CitaMedica citaMedicaNueva = new CitaMedica()
+            options_unselected = false; 
+            if (selectedDoctor != null && selectedMedicalCenter != null)
             {
-                CitaId = citaNueva.Id,
-                EstadoId = 7,
-                CentroMedicoId = selectedMedicalCenter.Id,
-                ExpedienteId = RecordModel.Id,
-                CedMedicoAsignado = selectedDoctor.Cédula
-            };
-            await AppointmentService.InsertMedicalAppointmentAsync(citaMedicaNueva);
+
+                Cita citaNueva = new Cita()
+                {
+                    FechaHoraCreacion = DateTime.Now,
+                    FechaHoraEstimada = DateTime.Now,
+                    IdExpediente = RecordModel.Id
+                };
+                var cita = await AppointmentService.InsertAppointmentAsync(citaNueva);
+                CitaMedica citaMedicaNueva = new CitaMedica()
+                {
+                    CitaId = citaNueva.Id,
+                    EstadoId = 7,
+                    CentroMedicoId = selectedMedicalCenter.Id,
+                    ExpedienteId = RecordModel.Id,
+                    CedMedicoAsignado = selectedDoctor.Cédula
+                };
+                await AppointmentService.InsertMedicalAppointmentAsync(citaMedicaNueva);
+                register_success = true; 
+
+            }
+            else {
+                options_unselected = true; 
+            
+            }
         }
 
     }

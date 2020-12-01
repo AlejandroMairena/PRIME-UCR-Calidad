@@ -5,6 +5,16 @@
 @inject ILocationService LocationService
 @inject IDoctorService DoctorService
 @inject IAppointmentService AppointmentService 
+
+@if (options_unselected) { 
+    <StatusMessage Message="Debe seleccionar los datos obligatorios" Class="warning"></StatusMessage>
+}
+
+@if (register_success) { 
+    <StatusMessage Message="Cita creada exitosamente" Class="success"></StatusMessage>
+}
+
+
 <Loading IsLoading="_contextDoctor == null">
     <EditForm EditContext="_contextDoctor">
         <FluentValidationValidator />
@@ -33,11 +43,3 @@
 
     </EditForm>
 </Loading>
-@*
-    Centro medico
-
-    medico
-
-    fecha estimada
-*@
-

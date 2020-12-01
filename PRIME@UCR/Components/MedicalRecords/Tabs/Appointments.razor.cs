@@ -12,6 +12,7 @@ using PRIME_UCR.Application.DTOs.MedicalRecords;
 using PRIME_UCR.Domain.Models;
 using BlazorTable;
 using PRIME_UCR.Domain.Models.Appointments;
+using MatBlazor;
 
 namespace PRIME_UCR.Components.MedicalRecords.Tabs
 {
@@ -35,6 +36,13 @@ namespace PRIME_UCR.Components.MedicalRecords.Tabs
 
         public const string inci = "incidente";
 
+
+        MatTheme AddButtonTheme = new MatTheme()
+        {
+            Primary = "white",
+            Secondary = "#095290"
+        };
+
         /*
         public string get_patient_name() {
             return medical_record.Paciente.NombreCompleto; 
@@ -48,6 +56,14 @@ namespace PRIME_UCR.Components.MedicalRecords.Tabs
             return medical_record.Paciente.Cédula; 
         }
         */
+
+        void Redirect()
+        {
+            //allow the program to navigate through different pages. 
+            string path = "create-medical-appointment/" + medical_record.Id.ToString(); 
+            NavManager.NavigateTo($"{path}");
+        }
+
 
         protected override async Task OnParametersSetAsync()
         {
