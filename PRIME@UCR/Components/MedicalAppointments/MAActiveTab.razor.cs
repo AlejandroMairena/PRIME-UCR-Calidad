@@ -27,9 +27,11 @@ namespace PRIME_UCR.Components.MedicalAppointments
         [Parameter] public string id { get; set; }
 
 
-        [Parameter] public CitaMedica appointment { get; set; }
+        [Parameter] public CitaMedica MedAppointment { get; set; }
 
         [Parameter] public int appointment_id { get; set; }
+
+        [Parameter] public Cita Appointment { get; set; }
 
         public List<PoseeReceta> medicalprescrip { get; set; }
 
