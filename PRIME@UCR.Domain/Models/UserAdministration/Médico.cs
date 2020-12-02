@@ -14,6 +14,8 @@ namespace PRIME_UCR.Domain.Models.UserAdministration
 
         public List<CitaMedica> CitasMedicas { get; set; }
 
+        public List<SeEspecializa> Especialidades { get; set; }
+
         protected bool Equals(Médico other)
         {
             return Cédula == other.Cédula;

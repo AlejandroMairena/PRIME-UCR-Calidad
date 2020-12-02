@@ -82,6 +82,10 @@ namespace PRIME_UCR.Infrastructure.DataProviders.Implementations
 
         public DbSet<MetricasCitaMedica> MedAppMetrics { get; set; }
 
+        public DbSet<EspecialidadMedica> MedicalSpecialty { get; set; }
+
+        public DbSet<SeEspecializa> Specializes { get; set; }
+
         public ApplicationDbContext(DbContextOptions options, IConfiguration configuration) : base(options)
         {
             DbConnection = Database.GetDbConnection();
@@ -144,6 +148,8 @@ namespace PRIME_UCR.Infrastructure.DataProviders.Implementations
             builder.ApplyConfiguration(new RecetaMedicaMap());
             builder.ApplyConfiguration(new PoseeRecetaMap());
             builder.ApplyConfiguration(new EstadoCitaMedicaMap());
+            builder.ApplyConfiguration(new EspecialidadMedicaMap()); ;
+            builder.ApplyConfiguration(new SeEspecializaMap());
         }
 
         public Task<int> SaveChangesAsync()

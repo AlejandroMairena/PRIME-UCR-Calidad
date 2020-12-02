@@ -157,6 +157,8 @@
     <Build Include="Tables\Appointments\RecetaMedica.sql" />
     <Build Include="Tables\Appointments\PoseeReceta.sql" />
     <Build Include="Tables\Appointments\EstadoCitaMedica.sql" />
+    <Build Include="Tables\Appointments\SeEspecializa.sql" />
+    <Build Include="Tables\Appointments\EspecialidadMedica.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Scripts\Script.PostDeployment.sql" />
@@ -168,6 +170,7 @@
     <None Include="Scripts\PostDeployment\MedicalRecords_PostDeployment.sql" />
     <None Include="Scripts\PostDeployment\Alergies_PostDeployment.sql" />
     <None Include="Scripts\PostDeployment\MedAppointments_PostDeployment.sql" />
+    <None Include="Scripts\PostDeployment\Specialties_PostDeployment.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Triggers\DeleteMultimediaContent.sql" />

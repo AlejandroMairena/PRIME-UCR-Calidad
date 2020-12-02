@@ -9,12 +9,25 @@ Post-Deployment Script Template
                SELECT * FROM [$(TableName)]					
 --------------------------------------------------------------------------------------
 */
-:r .\PostDeployment\Users_PostDeployment.sql
-:r .\PostDeployment\Identity_PostDeployment.sql
-:r .\PostDeployment\Appointments_PostDeployment.sql
-:r .\PostDeployment\Incidents_PostDeployment.sql
-:r .\PostDeployment\Checklists_PostDeployment.sql
-:r .\PostDeployment\MedicalRecords_PostDeployment.sql
-:r .\PostDeployment\Alergies_PostDeployment.sql
-:r .\PostDeployment\MedAppointments_PostDeployment.sql
-:r .\PostDeployment\Specialties_PostDeployment.sql
+/*
+DELETE FROM SeEspecializa
+DELETE FROM EspecialidadMedica
+
+INSERT INTO EspecialidadMedica(Nombre)
+VALUES
+    ('Dermatología'),
+    ('Psiquiatría'),
+    ('Oftalmología'),
+    ('Radiología'),
+    ('Pediatría'),
+    ('Neurocirugía');
+
+INSERT INTO SeEspecializa(NombreEspecialidad, CedulaMedico)
+VALUES
+    ('Dermatología', '22222222'),
+    ('Psiquiatría', '22222222'),
+    ('Oftalmología', '22222222'),
+    ('Radiología', '89012345'),
+    ('Pediatría', '89012345'),
+    ('Neurocirugía', '89012345');
+*/
