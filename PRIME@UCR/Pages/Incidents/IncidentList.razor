@@ -9,7 +9,7 @@
     <div class="jumbotron white-panel">
         <h1>Lista de Incidentes</h1>
         <Table TableItem="IncidentListModel" Items="incidentsList" PageSize="10" @ref="Table" ColumnReorder="true" ShowSearchBar="true" class="table table-bordered">
-            <Column TableItem="IncidentListModel" Title="Fecha de registro" Field="@(x => x.FechaHoraRegistro)" Filterable="true" Sortable="true" Width="18%"  DefaultSortDescending="true" DefaultSortColumn="true" />
+            <Column TableItem="IncidentListModel" Title="Fecha de registro" Field="@(x => x.FechaHoraRegistro)" Filterable="true" Sortable="true" Width="18%" />
             <Column TableItem="IncidentListModel" Title="Código" Field="@(x => x.Codigo)" Filterable="true" Sortable="true" Width="18%">
                 <Template>
                     <a href="/incidents/@context.Codigo">@context.Codigo</a>

@@ -105,7 +105,8 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Incidents
                     // Incidente
                     @"
                         select *
-                        from Incidente;
+                        from Incidente I
+                        Order by I.Codigo Desc;
                     " +
                     // Cita
                     @"
@@ -245,7 +246,7 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Incidents
             {
                 var authorizedCodes = await connection.ExecuteQueryAsync<string>(@"
                 select i.Codigo from Incidente i
-                join Centro_Ubicacion c on i.IdOrigen = c.IdCentro
+                join Centro_Ubicacion c on i.IdOrigen = c.Id
                 where c.CédulaMédico = @Id
                 ", new { Id = id });
                 return authorizedCodes;
@@ -264,7 +265,7 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Incidents
             {
                 var authorizedCodes = await connection.ExecuteQueryAsync<string>(@"
                 select i.Codigo from Incidente i
-                join Centro_Ubicacion c on i.IdDestination = c.IdCentro
+                join Centro_Ubicacion c on i.IdDestino = c.Id
                 where c.CédulaMédico = @Id
                 ", new { Id = id });
                 return authorizedCodes;
