@@ -20,14 +20,14 @@
                                       TextProperty="Matricula"
                                       ValueComparer="@((UnidadDeTransporte u) => u.Matricula == _model.TransportUnit?.Matricula)"
                                       @bind-Value="_model.TransportUnit"
-                                      Required="false"/>
+                                      Required="true"/>
                         <DropDownMenu T="CoordinadorTécnicoMédico" Data="_coordinators"
                                       Label="Coordinador técnico médico"
                                       DefaultText="Seleccione al coordinador del incidente"
                                       TextProperty="NombreCompleto"
                                       ValueComparer="@((CoordinadorTécnicoMédico ctm) => ctm.Cédula == _model.Coordinator?.Cédula)"
                                       @bind-Value="_model.Coordinator"
-                                      Required="false"/>
+                                      Required="true"/>
                         <div class="form-group">
                             <label>Miembros del equipo</label>
                             <RadzenDropDown Multiple="true" Data="_specialists"
