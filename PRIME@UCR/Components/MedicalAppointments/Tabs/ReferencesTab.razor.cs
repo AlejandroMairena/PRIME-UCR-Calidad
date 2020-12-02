@@ -23,6 +23,8 @@ namespace PRIME_UCR.Components.MedicalAppointments.Tabs
 
         public Persona selected_doctor { get; set; }
 
+        public DateTime date { get; set; }
+
         public bool data_inserted { get; set; } = false; 
 
 

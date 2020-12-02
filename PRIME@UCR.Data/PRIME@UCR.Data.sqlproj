@@ -159,6 +159,7 @@
     <Build Include="Tables\Appointments\EstadoCitaMedica.sql" />
     <Build Include="Tables\Appointments\SeEspecializa.sql" />
     <Build Include="Tables\Appointments\EspecialidadMedica.sql" />
+    <Build Include="Tables\Appointments\ReferenciaCita.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Scripts\Script.PostDeployment.sql" />

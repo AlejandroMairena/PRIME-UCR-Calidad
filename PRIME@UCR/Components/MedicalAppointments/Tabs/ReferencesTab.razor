@@ -44,9 +44,15 @@
                     </div>
                 </div>
             </Loading>
+
+
+            <div class="form-group col-xl-8 col-lg-10">
+                <label>Fecha de la cita<strong class="text-danger">*</strong></label>
+                <InputDate id="FechaHoraCreacion" @bind-Value="@date" class="form-control"></InputDate>
+            </div>
         }
 
-        @if (data_inserted)
+        @if (true)
         {
             <button type="submit" class="btn btn-primary">Guardar</button>
         }

@@ -29,6 +29,7 @@ namespace PRIME_UCR.Application.Implementations.Appointments
         private readonly IMedAppMetricRepository _metapprepo;
         private readonly IMedicalSpecialtyRepository _medspecirepo;
         private readonly ISpecializesRepository _speciarepo;
+        private readonly IAppointmentReferenceRepository _appreferepo;
         //private readonly IAppointmentStatusRepository  _appostatusrep;
 
         public AppointmentService(IActionTypeRepository actionTypeRepo,
@@ -41,7 +42,8 @@ namespace PRIME_UCR.Application.Implementations.Appointments
             IMedCenterRepository medcenrepo,
             IMedAppMetricRepository metapprepo,
             IMedicalSpecialtyRepository medspeci,
-            ISpecializesRepository speciarepo
+            ISpecializesRepository speciarepo,
+            IAppointmentReferenceRepository appreferepo
             /*,IAppointmentStatusRepository appstatusrepo*/)
         {
             _actionTypeRepo = actionTypeRepo;
@@ -55,6 +57,7 @@ namespace PRIME_UCR.Application.Implementations.Appointments
             _metapprepo = metapprepo;
             _medspecirepo = medspeci;
             _speciarepo = speciarepo;
+            _appreferepo = appreferepo;
             //_appostatusrep = appstatusrepo;
         }
 

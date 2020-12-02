@@ -26,5 +26,7 @@ namespace PRIME_UCR.Domain.Models
 
         public List<CitaMedica> CitasMedicas { get; set; }
 
+        public List<ReferenciaCita> Referencias { get; set; }
+
     }
 }

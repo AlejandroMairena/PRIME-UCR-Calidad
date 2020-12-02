@@ -86,6 +86,8 @@ namespace PRIME_UCR.Infrastructure.DataProviders.Implementations
 
         public DbSet<SeEspecializa> Specializes { get; set; }
 
+        public DbSet<ReferenciaCita> AppointmentReference { get; set; }
+
         public ApplicationDbContext(DbContextOptions options, IConfiguration configuration) : base(options)
         {
             DbConnection = Database.GetDbConnection();
@@ -150,6 +152,7 @@ namespace PRIME_UCR.Infrastructure.DataProviders.Implementations
             builder.ApplyConfiguration(new EstadoCitaMedicaMap());
             builder.ApplyConfiguration(new EspecialidadMedicaMap()); ;
             builder.ApplyConfiguration(new SeEspecializaMap());
+            builder.ApplyConfiguration(new ReferenciaCitaMap());
         }
 
         public Task<int> SaveChangesAsync()

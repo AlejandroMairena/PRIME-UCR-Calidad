@@ -77,6 +77,8 @@ namespace PRIME_UCR.Infrastructure.DataProviders
 
         DbSet<SeEspecializa> Specializes { get; set; }
 
+        DbSet<ReferenciaCita> AppointmentReference { get; set; }
+
         DbSet<T> Set<T>() where T : class;
         Task<int> SaveChangesAsync();     
     }
