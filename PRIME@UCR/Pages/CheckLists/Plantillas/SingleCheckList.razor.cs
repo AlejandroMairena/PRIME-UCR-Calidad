@@ -202,13 +202,6 @@ namespace PRIME_UCR.Pages.CheckLists.Plantillas
         public void Dispose()
         {
             _statusMessage = "";
-            lists = null;
-            coreItems = null;
-            items = null;
-            subItems = null;
-            itemsList = new List<Item>();
-            orderedList = null;
-            orderedListLevel = null;
 
             createItem = false;
             createSubItem = false;
