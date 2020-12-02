@@ -2,11 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace PRIME_UCR.Application.Services.Dashboard
 {
     public interface IFileManagerService
     {
-         string createFile(List<Incidente> filteredIncidentsData);
+         Task createFileAsync(List<Incidente> filteredIncidentsData, string userIdentifier);
     }
 }

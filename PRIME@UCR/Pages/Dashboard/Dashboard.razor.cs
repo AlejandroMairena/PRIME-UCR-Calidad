@@ -108,28 +108,9 @@ namespace PRIME_UCR.Pages.Dashboard
 
         private async Task CrearArchivoAsync()
         {
-            var path = FileManagerService.createFile(DashboardData.filteredIncidentsData);
-           /* var stream = File.OpenRead(path);
-            var size = stream.Length;
-            var file = new FormFile(stream, 0, stream.Length, null, Path.GetFileName(stream.Name))
-            {
-                Headers = new HeaderDictionary(),
-                ContentType = "text/csv"
-            };
 
-            List<IFormFile> lista = new List<IFormFile>();
-            lista.Add(file);*/
-            emailUser = "luisandres2712@gmail.com";
-            var message = new EmailContentModel()
-            {
-                Destination = emailUser,
-                Subject = "PRIME@UCR: Solicitud de lista de incidentes",
-                Body = $"<p>A continuación, se adjunta un archivo .csv con la lista de incidentes actualizada.</p>",
-                AttachmentPath = path
-            };
-
-            await mailService.SendEmailAsync(message);
-
+            await FileManagerService.createFileAsync(DashboardData.filteredIncidentsData, emailUser);           
+            
         }
 
     }

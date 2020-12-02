@@ -43,7 +43,7 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
                 multipart.Add(Attachment);
                 email.Body = multipart;
             }
-            else 
+            else
             {
                 email.Body = Body;
             }
