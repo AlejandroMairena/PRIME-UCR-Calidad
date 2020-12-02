@@ -106,7 +106,7 @@
 
         }
     }
-        @if (RecordModel.Paciente != null && !patient_inserted)// && !record_inserted
+        @if (!record_inserted && RecordModel?.Expediente != null)// && !record_inserted
         {
             <div class="row">
                 <div class="col-xl-4 col-lg-6">
@@ -125,7 +125,7 @@
 
                         @if (RecordModel?.Expediente.CedulaMedicoDuenno == null)
                         {
-                            <TextBox Label="Cédula médico creador" ValueExpression="() => record.CedulaMedicoDuenno" ValueChanged="(string id) => SetMedicCed(id)" />
+                            <TextBox Label="Cédula médico creador" ValueExpression="() => record.CedulaMedicoDuenno" Required="true" ValueChanged="(string id) => SetMedicCed(id)" />
                         }
                         else
                         {
@@ -136,7 +136,7 @@
                         @if (RecordModel?.Expediente.Clinica == null)
                         {
 
-                            <DropDownMenu T="CentroMedico" Data="clinics" Label="Centro Médico" DefaultText="Seleccione una Clinica" TextProperty="Nombre" Required="false" Disabled="RecordModel.Expediente.Clinica != null" @bind-Value="RecordModel.CentroMedico" />
+                            <DropDownMenu T="CentroMedico" Data="clinics" Label="Centro Médico" DefaultText="Seleccione una Clinica" TextProperty="Nombre" Required="true" Disabled="RecordModel.Expediente.Clinica != null" @bind-Value="RecordModel.CentroMedico" />
 
                         }
                         else

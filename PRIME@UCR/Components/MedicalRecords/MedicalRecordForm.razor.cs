@@ -71,89 +71,92 @@ namespace PRIME_UCR.Components.MedicalRecords
         {
             is_loading_record = true;
 
-            medic_status = -1;
 
-            save_record_data_pushed = true;
-
-            if (patient_status != 0)
+            if (RecordModel?.CentroMedico.Nombre != null && RecordModel.CedMedicoDuenno != null)
             {
+                medic_status = -1;
+                save_record_data_pushed = true;
 
-                if (RecordModel?.CentroMedico.Nombre != null)
-                {
-                    RecordModel.Expediente.Clinica = RecordModel.CentroMedico.Nombre;
-                }
-
-                if (RecordModel.CedMedicoDuenno != null)
-                {
-                    RecordModel.Expediente.CedulaMedicoDuenno = RecordModel.CedMedicoDuenno;
-                }
-
-                if (save_patient_data_pushed || patient_status != 2)
-                {
-                    await medical_record_service.InsertAsync(RecordModel.Expediente);
-                    record_inserted = true;
-                    is_loading_record = false;
-
-                    await redirect();
-                    RecordModel.set_to_null();
-                }
-                else
-                {
-                    record_unfinisehd = true;
-                }
-            }
-            else
-            {
-
-                record_inserted = true;
-                is_loading_record = false;
-
-                if (RecordModel.CedMedicoDuenno != null)
-                {
-                    RecordModel.Expediente.CedulaMedicoDuenno = RecordModel.CedMedicoDuenno;
-                }
-                if (RecordModel?.CentroMedico.Nombre != null)
-                {
-                    RecordModel.Expediente.Clinica = RecordModel.CentroMedico.Nombre;
-                }
-
-                await medical_record_service.UpdateMedicalRecordAsync(RecordModel.Expediente);
-                RecordModel.set_to_null();
-
-            }
-            is_loading_patient = true;
-
-            save_patient_data_pushed = true;
-
-            if (patient_status == 2)
-            {
-
-                RecordModel.Paciente.Sexo = RecordModel.Sexo.ToString();
-
-                if (RecordModel.Paciente.Nombre != null && RecordModel.Paciente.PrimerApellido != null)
+                if (patient_status != 0)
                 {
 
-                    await patient_service.CreatePatientAsync(RecordModel.Paciente);
-                    patient_inserted = true;
+                    if (RecordModel?.CentroMedico.Nombre != null)
+                    {
+                        RecordModel.Expediente.Clinica = RecordModel.CentroMedico.Nombre;
+                    }
 
-                    if (save_record_data_pushed)
+                    if (RecordModel.CedMedicoDuenno != null)
+                    {
+                        RecordModel.Expediente.CedulaMedicoDuenno = RecordModel.CedMedicoDuenno;
+                    }
+
+                    if (save_patient_data_pushed || patient_status != 2)
                     {
                         await medical_record_service.InsertAsync(RecordModel.Expediente);
                         record_inserted = true;
-                        record_unfinisehd = false;
+                        is_loading_record = false;
+
                         await redirect();
                         RecordModel.set_to_null();
                     }
-                    is_loading_record = false;
+                    else
+                    {
+                        record_unfinisehd = true;
+                    }
                 }
                 else
                 {
-                    not_done = true;
-                }
 
+                    record_inserted = true;
+                    is_loading_record = false;
+
+                    if (RecordModel.CedMedicoDuenno != null)
+                    {
+                        RecordModel.Expediente.CedulaMedicoDuenno = RecordModel.CedMedicoDuenno;
+                    }
+                    if (RecordModel?.CentroMedico.Nombre != null)
+                    {
+                        RecordModel.Expediente.Clinica = RecordModel.CentroMedico.Nombre;
+                    }
+
+                    await medical_record_service.UpdateMedicalRecordAsync(RecordModel.Expediente);
+                    RecordModel.set_to_null();
+
+                }
+            }
+            is_loading_patient = true;
+            if (!save_patient_data_pushed)
+            {
+                save_patient_data_pushed = true;
+                if (patient_status == 2)
+                {
+
+                    RecordModel.Paciente.Sexo = RecordModel.Sexo.ToString();
+
+                    if (RecordModel.Paciente.Nombre != null && RecordModel.Paciente.PrimerApellido != null)
+                    {
+
+                        await patient_service.CreatePatientAsync(RecordModel.Paciente);
+                        patient_inserted = true;
+
+                        if (save_record_data_pushed)
+                        {
+                            await medical_record_service.InsertAsync(RecordModel.Expediente);
+                            record_inserted = true;
+                            record_unfinisehd = false;
+                            await redirect();
+                            RecordModel.set_to_null();
+                        }
+                        is_loading_record = false;
+                    }
+                    else
+                    {
+                        not_done = true;
+                    }
+
+                }               
             }
             is_loading_patient = false;
-
         }
 
         //private async Task SaveRecordData()
