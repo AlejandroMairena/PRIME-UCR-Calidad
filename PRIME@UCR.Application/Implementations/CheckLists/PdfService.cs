@@ -25,9 +25,9 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
             paragraphAfterSpacing = 8;
         }
 
-        public MemoryStream GenerateIncidentPdf(/*PdfModel information*/)
+        public MemoryStream GenerateIncidentPdf(PdfModel information)
         {
-            if (/*information.Incident != null*/true) 
+            if (information.Incident != null) 
             {
                 using (PdfDocument pdfDocument = new PdfDocument()) 
                 {
@@ -53,8 +53,8 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
                     title.StringFormat.Alignment = PdfTextAlignment.Center;
                     result = title.Draw(page, new RectangleF(0, 0 + paragraphAfterSpacing, page.GetClientSize().Width, page.GetClientSize().Height), format);
 
-                    AddGeneralInformation(pdfDocument);
-                    AddCovidNote(pdfDocument);
+                    AddGeneralInformation(pdfDocument, information);
+                    AddCovidNote(pdfDocument, information);
                     AddPatientInformation(pdfDocument);
                     AddVitalSigns(pdfDocument);
                     AddBreathingInformation(pdfDocument);
@@ -158,7 +158,7 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
             return row;
         }
 
-        private void AddGeneralInformation(PdfDocument doc)
+        private void AddGeneralInformation(PdfDocument doc, PdfModel generalInformation)
         {
             PdfStandardFont contentTitleFont = new PdfStandardFont(PdfFontFamily.TimesRoman, 12, PdfFontStyle.Bold);
             DrawText("INFORMACIÓN GENERAL", contentTitleFont, result.Bounds.Bottom + paragraphAfterSpacing);
@@ -176,9 +176,9 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
             List<List<string>> information = new List<List<string>>();
             List<string> rowInformation = new List<string>
             {
-                "Temp",
-                "Temp",
-                "Temp"
+                generalInformation.AssignedMembers.Coordinator.NombreCompleto,
+                "No manejado por el sistema.",
+                generalInformation.Incident.Origin.DisplayName
             };
             information.Add(rowInformation);
 
@@ -197,24 +197,33 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
                 "Edad"
             };
 
+            string birthDate = "No ingresada en el sistema.";
+            string age = "No ingresada en el sistema.";
+            if (generalInformation.Patient.FechaNacimiento != null)
+            {
+                birthDate = generalInformation.Patient.FechaNacimiento.ToString();
+                DateTime patientBirth = (DateTime)generalInformation.Patient.FechaNacimiento;
+                int patientAge = DateTime.Now.Year - patientBirth.Year;
+                age = patientAge.ToString();
+            }
             information = new List<List<string>>();
             rowInformation = new List<string>
             {
-                "Temp",
-                "Temp",
-                "Temp",
-                "Temp"
+                generalInformation.Patient.NombreCompleto,
+                generalInformation.Incident.MedicalRecord.CedulaPaciente,
+                birthDate,
+                age
             };
             information.Add(rowInformation);
 
             pdfGrid = CreateTable(4, 1, headers, information, 12);
 
-            pdfGrid.Columns[3].Width = 50;
+            // pdfGrid.Columns[3].Width = 50;
 
             result = pdfGrid.Draw(result.Page, new PointF(0, result.Bounds.Bottom + paragraphAfterSpacing));
         }
 
-        private void AddCovidNote(PdfDocument doc)
+        private void AddCovidNote(PdfDocument doc, PdfModel generalInformation)
         {
             PdfStandardFont contentTitleFont = new PdfStandardFont(PdfFontFamily.TimesRoman, 12, PdfFontStyle.Bold);
             DrawText("NOTA TRASLADO UNIDAD COVID – NOTA MÉDICA", contentTitleFont, result.Bounds.Bottom + paragraphAfterSpacing);
@@ -227,10 +236,30 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
                 "No"
             };
 
+            string background = "No ingresado en el sistema.";
+            if (generalInformation.Background != null)
+            {
+                background = "";
+                for (int index = 0; index < generalInformation.Background.Count; index++)
+                {
+                    background += generalInformation.Background[index].ListaAntecedentes.NombreAntecedente;
+                    background += ".\n";
+                }
+            }
+            string treatment = "No ingresado en el sistema.";
+            if (generalInformation.ChronicConditions != null)
+            {
+                treatment = "";
+                for (int index = 0; index < generalInformation.ChronicConditions.Count; index++)
+                {
+                    treatment += generalInformation.ChronicConditions[index].ListaPadecimiento.NombrePadecimiento;
+                    treatment += ".\n";
+                }
+            }
             List<List<string>> information = new List<List<string>>();
             List<string> rowInformation = new List<string>
             {
-                "Utilizando un temp lo suficientementelargo como para ver que sucede.",
+                background,
                 "Tabaco",
                 "",
                 ""
@@ -290,8 +319,8 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
             information = new List<List<string>>();
             rowInformation = new List<string>
             {
-                "Temp",
-                "Temp\nTemp"
+                treatment,
+                ""
             };
             information.Add(rowInformation);
 
@@ -327,11 +356,11 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
             information.Add(rowInformation);
             rowInformation = new List<string>
             {
-                "Temp",
-                "Temp",
-                "Temp",
-                "Temp",
-                "Temp"
+                " ",
+                " ",
+                " ",
+                " ",
+                " "
             };
             information.Add(rowInformation);
 
@@ -356,7 +385,7 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
             information = new List<List<string>>();
             rowInformation = new List<string>
             {
-                "Temp\nTemp\nTemp\nTenp"
+                " "
             };
             information.Add(rowInformation);
 
@@ -459,51 +488,51 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
             List<string> rowInformation = new List<string>
             {
                 "HB:",
-                "Temp",
+                " ",
                 "Glicemia:",
-                "Temp",
+                " ",
                 "PCT:",
-                "Temp",
+                " ",
             };
             information.Add(rowInformation);
             rowInformation = new List<string>
             {
                 "Leucos:",
-                "Temp",
+                " ",
                 "DHL:",
-                "Temp",
+                " ",
                 "UN:",
-                "Temp",
+                " ",
             };
             information.Add(rowInformation);
             rowInformation = new List<string>
             {
                 "Linfos:",
-                "Temp",
+                " ",
                 "DD:",
-                "Temp",
+                " ",
                 "CREA:",
-                "Temp",
+                " ",
             };
             information.Add(rowInformation);
             rowInformation = new List<string>
             {
                 "Troponina:",
-                "Temp",
+                " ",
                 "Ferretina:",
-                "Temp",
+                " ",
                 "RX Tórax:",
-                "Temp",
+                " ",
             };
             information.Add(rowInformation);
             rowInformation = new List<string>
             {
                 "TNT:",
-                "Temp",
+                " ",
                 "PCR:",
-                "Temp",
+                " ",
                 "Otro:",
-                "Temp",
+                " ",
             };
             information.Add(rowInformation);
 
@@ -524,7 +553,7 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
             List<List<string>> information = new List<List<string>>();
             List<string> rowInformation = new List<string>
             {
-                "Temp"
+                " "
             };
             information.Add(rowInformation);
 
@@ -541,7 +570,7 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
             List<string> headers = new List<string>
             {
                 "Fecha:",
-                "Temp",
+                " ",
                 "Fecha:",
                 "",
                 "Fecha:",
@@ -551,7 +580,7 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
             List<string> rowInformation = new List<string>
             {
                 "PH",
-                "Temp",
+                " ",
                 "PH",
                 "",
                 "PH",
@@ -561,7 +590,7 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
             rowInformation = new List<string>
             {
                 "PO2",
-                "Temp",
+                " ",
                 "PO2",
                 "",
                 "PO2",
@@ -571,7 +600,7 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
             rowInformation = new List<string>
             {
                 "PCO2",
-                "Temp",
+                " ",
                 "PCO2",
                 "",
                 "PCO2",
@@ -581,7 +610,7 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
             rowInformation = new List<string>
             {
                 "HCO3",
-                "Temp",
+                " ",
                 "HCO3",
                 "",
                 "HCO3",
@@ -591,7 +620,7 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
             rowInformation = new List<string>
             {
                 "LAC",
-                "Temp",
+                " ",
                 "LAC",
                 "",
                 "LAC",
@@ -601,7 +630,7 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
             rowInformation = new List<string>
             {
                 "PAFI",
-                "Temp",
+                " ",
                 "PAFI",
                 "",
                 "PAFI",
@@ -611,7 +640,7 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
             rowInformation = new List<string>
             {
                 "FIO2",
-                "Temp",
+                " ",
                 "FIO2",
                 "",
                 "FIO2",
@@ -626,21 +655,21 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
             rowInformation = new List<string>
             {
                 "Invasiones (Vía Periférica – CVC):",
-                "Temp",
+                " ",
                 ""
             };
             information.Add(rowInformation);
             rowInformation = new List<string>
             {
                 "Medicamentos:",
-                "Temp",
+                " ",
                 ""
             };
             information.Add(rowInformation);
             rowInformation = new List<string>
             {
                 "Dispositivo de oxigenación:",
-                "Temp",
+                " ",
                 ""
             };
             information.Add(rowInformation);
@@ -648,28 +677,28 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
             {
                 "Estratificación del paciente ",
                 "Índice respiratorio - PaO2/FiO2:",
-                "Temp"
+                " "
             };
             information.Add(rowInformation);
             rowInformation = new List<string>
             {
                 "",
                 "Escala SOFA (Ver anexo 1):",
-                "Temp"
+                " "
             };
             information.Add(rowInformation);
             rowInformation = new List<string>
             {
                 "",
                 "Factores de riesgo identificables al ingreso\n(Obesidad, asma, arritmia, etc.):",
-                "Temp"
+                " "
             };
             information.Add(rowInformation);
             rowInformation = new List<string>
             {
                 "",
                 "ETA:",
-                "Temp"
+                " "
             };
             information.Add(rowInformation);
 
@@ -696,7 +725,7 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
             List<List<string>> information = new List<List<string>>();
             List<string> rowInformation = new List<string>
             {
-                "Temp\nTemp\nTemp\nTemp\nTemp\n"
+                " "
             };
             information.Add(rowInformation);
 

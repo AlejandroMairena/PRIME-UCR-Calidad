@@ -10,15 +10,19 @@ using PRIME_UCR.Application.Services.CheckLists;
 using PRIME_UCR.Application.Services.Incidents;
 using PRIME_UCR.Application.Services.MedicalRecords;
 using Microsoft.JSInterop;
+using PRIME_UCR.Application.Services.UserAdministration;
 
 namespace PRIME_UCR.Components.CheckLists
 {
     public partial class PdfComponent
     {
-        [Inject] private Microsoft.JSInterop.IJSRuntime JS { get; set; }
+        [Inject] private IJSRuntime JS { get; set; }
         [Inject] private IPdfService MyPdfService { get; set; }
         [Inject] private IIncidentService MyIncidentService { get; set; }
         [Inject] private IChronicConditionService MyChronicConditionService { get; set; }
+        [Inject] private IMedicalBackgroundService MyMedicalBackgroundService { get; set; }
+        [Inject] private IAssignmentService MyAssignmentService { get; set; }
+        [Inject] private IPatientService MyPatientService { get; set; }
         [Parameter] public string IncidentCode { get; set; }
         [Parameter] public string IncidentState { get; set; }
         [Parameter] public EventCallback<bool> ChangeLoading { get; set; }
@@ -38,9 +42,12 @@ namespace PRIME_UCR.Components.CheckLists
             await ChangeLoading.InvokeAsync(true);
             PdfModel pdfModel = new PdfModel();
             pdfModel.Incident = await MyIncidentService.GetIncidentDetailsAsync(IncidentCode);
-            pdfModel.ChronicConditions = await MyChronicConditionService.GetChronicConditionByRecordId(pdfModel.Incident.MedicalRecord.Id);
+            pdfModel.Patient = await MyPatientService.GetPatientByIdAsync(pdfModel.Incident.MedicalRecord.CedulaPaciente);
+            pdfModel.AssignedMembers = await MyAssignmentService.GetAssignmentsByIncidentIdAsync(IncidentCode);
+            pdfModel.ChronicConditions = (await MyChronicConditionService.GetChronicConditionByRecordId(pdfModel.Incident.MedicalRecord.Id)).ToList();
+            pdfModel.Background = (await MyMedicalBackgroundService.GetBackgroundByRecordId(pdfModel.Incident.MedicalRecord.Id)).ToList();
             string fileName = "Reporte " + IncidentCode + ".pdf";
-            using (MemoryStream excelStream = MyPdfService.GenerateIncidentPdf())
+            using (MemoryStream excelStream = MyPdfService.GenerateIncidentPdf(pdfModel))
             {
                 await JS.InvokeAsync<object>("saveAsFile", fileName, Convert.ToBase64String(excelStream.ToArray()));
             }

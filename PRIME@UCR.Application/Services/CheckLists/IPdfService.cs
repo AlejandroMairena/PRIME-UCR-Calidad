@@ -9,6 +9,6 @@ namespace PRIME_UCR.Application.Services.CheckLists
 {
     public interface IPdfService
     {
-        MemoryStream GenerateIncidentPdf(/*PdfModel information*/);
+        MemoryStream GenerateIncidentPdf(PdfModel information);
     }
 }
