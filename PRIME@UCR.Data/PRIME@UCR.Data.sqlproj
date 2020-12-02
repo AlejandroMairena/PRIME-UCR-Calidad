@@ -76,6 +76,7 @@
     <Folder Include="Indexes\Incidents\" />
     <Folder Include="StoredProcedures\Dashboard" />
     <Folder Include="Indexes\Incidents\" />
+    <Folder Include="Indexes\Checklist" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Indexes\Incidents\ix_incidente_activo.sql" />
@@ -155,6 +156,9 @@
     <Build Include="Triggers\CheckearItem.sql" />
     <Build Include="Tables\MedicalRecords\PadecimientosCronicos.sql" />
     <Build Include="Tables\MedicalRecords\ListaPadecimiento.sql" />
+    <Build Include="Indexes\Checklist\ix_checklist_activas.sql" />
+    <Build Include="Triggers\AfterDeleteInstance.sql" />
+    <Build Include="Triggers\AfterInsertInstance.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Scripts\Script.PostDeployment.sql" />

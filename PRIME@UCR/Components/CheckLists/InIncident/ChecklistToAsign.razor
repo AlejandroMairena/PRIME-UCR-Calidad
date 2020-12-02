@@ -39,7 +39,7 @@
             </EditForm>
         </div>
         <div class="rounded" style="background-color: white;padding-left: 10px;padding-right: 10px;padding-top:10px;">
-            <h5>Listas de chequeo instanciadas</h5>
+            <h5>Listas de chequeo asignadas al incidente</h5>
             <EditForm Model="TempLists" OnValidSubmit="@HandleSubmit">
                 <Table TableItem="CheckList" Items="TempLists" PageSize="3">
                     <Column TableItem="CheckList" Title="Nombre" Field="@( x => x.Nombre)" Width="20%">
@@ -60,6 +60,14 @@
                     <a class="btn btn-outline-secondary" @onclick="CancelAsignment" id="a_LC3">Cancelar</a>
                 </div>
             </EditForm>
+            <br />
+            @if (saved)
+            {
+            <h6>Guardando asignacion de listas de chequeo: @porcentComplete</h6>
+            <div class="progress">
+                <div class="progress-bar" role="progressbar" style="width: @porcentComplete%" aria-valuenow="@porcentComplete" aria-valuemin="0" aria-valuemax="100">@porcentComplete%</div>
+            </div>
+            }
         </div>
     </div>
 </Loading>

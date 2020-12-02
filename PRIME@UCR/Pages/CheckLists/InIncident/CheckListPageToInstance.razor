@@ -6,14 +6,14 @@
 <link href="css/Checklist.css" rel="stylesheet" />
 
 <div id="All_LC">
-    <h3> Listas de chequeo para asignar a un incidente</h3>
+    <h2> Listas de chequeo para asignar a un incidente</h2>
     <hr />
     @if (_exist)
     {
         <Loading IsLoading="lists == null">
             @if (lists.Count() == 0)
             {
-                <p><em class="nav-link">No se ha creado ninguna lista, presione el boton + para crear una.</em></p>
+                <p><em class="nav-link">No se ha creado ninguna lista</em></p>
             }
             else
             {

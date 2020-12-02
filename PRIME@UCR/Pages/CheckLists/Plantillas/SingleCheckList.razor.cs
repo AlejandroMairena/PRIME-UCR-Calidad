@@ -1,17 +1,13 @@
 ﻿using Microsoft.AspNetCore.Components;
-using PRIME_UCR.Application.Services;
-using PRIME_UCR.Domain.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using PRIME_UCR.Application.Services.CheckLists;
-using PRIME_UCR.Components.CheckLists.Plantillas;
 using Microsoft.AspNetCore.Components.Forms;
 using PRIME_UCR.Domain.Models.CheckLists;
 using System.Linq;
 using System;
-using System.Threading;
-using Microsoft.AspNetCore.Components.Rendering;
-using MatBlazor;
+using Radzen;
+using Radzen.Blazor;
 
 namespace PRIME_UCR.Pages.CheckLists.Plantillas
 {
@@ -20,27 +16,39 @@ namespace PRIME_UCR.Pages.CheckLists.Plantillas
     * */
     public class SingleCheckListBase : ComponentBase
     {
+        public SingleCheckListBase()
+        {
+            details.Add("");
+            details.Add("");
+            //mensajes edición
+            instruct.Add("Puede editar la lista de chequeo y eliminar, editar y agregar items");
+            instruct.Add("No se pueden eliminar ni agregar items porque está siendo utilizada en un incidente");
+            //mensajes de activación
+            instruct.Add("Puede ser modificada y asignada a incidentes");
+            instruct.Add("No puede ser modificada ni asignada a incidentes");
+            states.Add("Estado de la plantilla: ");
+            states.Add("");
+            _statusMessage = "";
+        }
         [Parameter]
         public int id { get; set; }
-        private int Index { get; set; } = 0;
-
-        private bool isDisabled { get; set; } = true;
 
         protected bool createItem { get; set; } = false;
+        private bool isDisabled { get; set; } = true;
 
         protected bool editItem { get; set; } = false;
         protected bool createSubItem { get; set; } = false;
 
-        protected IEnumerable<CheckList> lists { get; set; }
+        protected IEnumerable<CheckList> lists { get; set; } = null;
 
-        protected IEnumerable<Item> coreItems { get; set; }
+        protected IEnumerable<Item> coreItems { get; set; } = null;
 
-        protected IEnumerable<Item> items { get; set; }
-        protected IEnumerable<Item> subItems { get; set; }
+        protected IEnumerable<Item> items { get; set; } = null;
+        protected IEnumerable<Item> subItems { get; set; } = null;
         protected List<Item> itemsList = new List<Item>();
 
-        protected List<Item> orderedList;
-        protected List<int> orderedListLevel;
+        protected List<Item> orderedList = null;
+        protected List<int> orderedListLevel = null;
         protected List<string> _types { get; set; }
 
         public CheckList list { get; set; }
@@ -49,24 +57,48 @@ namespace PRIME_UCR.Pages.CheckLists.Plantillas
         protected Item tempItem;
         protected int parentItemId { get; set; }
 
+        public int startingIndex = -1;
+
         protected bool formInvalid = false;
         protected EditContext editContext;
+        // list for template state to edith checklist
+        public List<string> states = new List<string>();
+        // details for state
+        public List<string> details = new List<string>();
+        //array of instruction
+        public List<string> instruct = new List<string>();
+        public string _statusMessage;
 
         [Inject] protected ICheckListService MyCheckListService { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
+            lists = null;
+            coreItems = null;
+            items = null;
+            subItems = null;
+            itemsList = new List<Item>();
+            orderedList = null;
+            orderedListLevel = null;
+
             editedList = new CheckList();
             await RefreshModels();
         }
 
         protected override void OnParametersSet()
         {
+            lists = null;
+            coreItems = null;
+            items = null;
+            subItems = null;
+            itemsList = new List<Item>();
+            orderedList = null;
+            orderedListLevel = null;
+
             createItem = false;
             createSubItem = false;
             editItem = false;
         }
-
         /**
          * Gets the checklist corresponding to this page, its items and the list of checklists in the database
          * */
@@ -95,6 +127,42 @@ namespace PRIME_UCR.Pages.CheckLists.Plantillas
             editedList.Descripcion = list.Descripcion;
             editedList.Tipo = list.Tipo;
             editedList.Orden = list.Orden;
+            updateState();
+        }
+        public void updateState()
+        {
+            if (list.Editable)
+            {
+                details[0] = "Editable";
+                details[1] = instruct[0];
+            }
+            else
+            {
+                isDisabled = true;
+                createItem = false;
+                editItem = false;
+                createSubItem = false;
+                details[0] = "No editable";
+                details[1] = instruct[1];
+            }
+        }
+        protected async Task UpdateActive()
+        {
+            _statusMessage="";
+            if (list.Activada == true)
+            {
+                list.Activada = false;
+            }
+            else
+            {
+                list.Activada = true;
+                isDisabled = true;
+                createItem = false;
+                editItem = false;
+                createSubItem = false;
+            }
+            await UpdateActivation();
+
         }
 
         protected void HandleFieldChanged(object sender, FieldChangedEventArgs e)
@@ -115,6 +183,7 @@ namespace PRIME_UCR.Pages.CheckLists.Plantillas
             createSubItem = false;
             editItem = false;
             formInvalid = false;
+            _statusMessage = "Se guardaron los cambios exitosamente.";
             await RefreshModels();
             StateHasChanged();
         }
@@ -125,12 +194,22 @@ namespace PRIME_UCR.Pages.CheckLists.Plantillas
             createSubItem = false;
             editItem = false;
             formInvalid = false;
+            _statusMessage = "Se guardaron los cambios exitosamente.";
             await RefreshModels();
             StateHasChanged();
         }
 
         public void Dispose()
         {
+            _statusMessage = "";
+            lists = null;
+            coreItems = null;
+            items = null;
+            subItems = null;
+            itemsList = new List<Item>();
+            orderedList = null;
+            orderedListLevel = null;
+
             createItem = false;
             createSubItem = false;
             editItem = false;
@@ -138,12 +217,12 @@ namespace PRIME_UCR.Pages.CheckLists.Plantillas
             StateHasChanged();
         }
 
-
         /**
          * Sets flags to display the item creation form
          * */
         protected void StartNewItemCreation()
         {
+            _statusMessage = "";
             tempItem = new Item();
             tempItem.IDSuperItem = null;
             tempItem.IDLista = id;
@@ -158,6 +237,7 @@ namespace PRIME_UCR.Pages.CheckLists.Plantillas
          * */
         protected async Task CreateSubItem(int itemId)
         {
+            _statusMessage = "";
             subItems = await MyCheckListService.GetItemsBySuperitemId(itemId);
             tempItem = new Item();
             tempItem.IDLista = id;
@@ -171,6 +251,7 @@ namespace PRIME_UCR.Pages.CheckLists.Plantillas
 
         protected async Task EditItem(int itemId)
         {
+            _statusMessage = "";
             tempItem = await MyCheckListService.GetItemById(itemId);
             parentItemId = itemId;
             createItem = false;
@@ -185,21 +266,29 @@ namespace PRIME_UCR.Pages.CheckLists.Plantillas
 
         protected async Task UpdateCheckList()
         {
+            _statusMessage = "";
             list.Nombre = editedList.Nombre;
             list.Descripcion = editedList.Descripcion;
             list.Tipo = editedList.Tipo;
             list.Orden = editedList.Orden;
             await MyCheckListService.UpdateCheckList(list);
+            _statusMessage = "Se guardaron los cambios exitosamente.";
             await RefreshModels();
             formInvalid = false;
+        }
+        protected async Task UpdateActivation()
+        {
+            await MyCheckListService.UpdateCheckList(list);
+            _statusMessage = "Se guardaron los cambios exitosamente.";
+            await RefreshModels();
         }
 
         /**
          * Gets an item based on its id
          * */
-        protected int getItemIndex(Item itemInList)
+        protected int getItemIndex(Item itemInList, List<Item> list)
         {
-            return itemsList.FindIndex(item => item.Id == itemInList.Id);
+            return list.FindIndex(item => item.Id == itemInList.Id);
         }
 
         /**
@@ -209,6 +298,7 @@ namespace PRIME_UCR.Pages.CheckLists.Plantillas
         {
             orderedList.Add(item);
             orderedListLevel.Add(level);
+            item.SubItems = item.SubItems.OrderBy(item => item.Orden).ToList<Item>();
             List<Item> subItems = itemsList.FindAll(tempItem => tempItem.IDSuperItem == item.Id);
             subItems = subItems.OrderBy(item => item.Orden).ToList<Item>();
             if (subItems.Count() > 0)
@@ -239,6 +329,101 @@ namespace PRIME_UCR.Pages.CheckLists.Plantillas
             if (String.IsNullOrEmpty(text)) return "";
             int maxLength = lines * (65 - level * 5);
             return text.Length <= maxLength ? text : text.Substring(0, maxLength) + "...";
+        }
+
+        protected void StartDrag(Item item)
+        {
+            startingIndex = orderedList.FindIndex(i => i.Id == item.Id);
+        }
+
+        // Updates the order of the items
+        protected async Task ReorderItems(Item item, int oldIndex, int newIndex)
+        {
+            _statusMessage = "";
+            int startingIndexReorder = -1;
+            int endingIndexReorder = -1;
+            int shiftOrder = 1;
+
+            // Checks if the item was placed above or bellow its origial position
+            if (newIndex + 1 < orderedList.Count() && orderedList[newIndex + 1].Orden < item.Orden)
+            {
+                startingIndexReorder = newIndex + 1;
+                endingIndexReorder = oldIndex;
+                item.Orden = orderedList[newIndex + 1].Orden;
+            }
+            else if (newIndex - 1 >= 0 && orderedList[newIndex - 1].Orden > item.Orden)
+            {
+                shiftOrder = -1;
+                endingIndexReorder = newIndex - 1;
+                startingIndexReorder = oldIndex;
+                item.Orden = orderedList[newIndex - 1].Orden;
+            }
+
+            await MyCheckListService.UpdateItem(item);
+
+            Item TempItem;
+            for (int index = startingIndexReorder; 0 <= index && index < orderedList.Count() && index <= endingIndexReorder; ++index)
+            {
+                TempItem = orderedList[index];
+                if (TempItem.IDSuperItem == item.IDSuperItem)
+                {
+                    TempItem.Orden += shiftOrder;
+                    await MyCheckListService.UpdateItem(TempItem);
+                }
+            }
+            _statusMessage = "Se guardaron los cambios exitosamente.";
+            await RefreshModels();
+            StateHasChanged();
+        }
+
+        protected bool CanDragToParent(Item item, Item ItemUnder)
+        {
+            if (ItemUnder == null)
+            {
+                return true;
+            }
+            else
+            {
+                return item.IDSuperItem == ItemUnder.IDSuperItem;
+            }
+        }
+
+        protected async void Drop(Item item, RadzenTreeItem context)
+        {
+            if (item != null && startingIndex >= 0 && startingIndex < orderedList.Count())
+            {
+
+                int endingIndex = getItemIndex(item, orderedList);
+                if (endingIndex == startingIndex) return; // Item is in the same position
+
+                // check for parent
+                Item draggedItem = orderedList[startingIndex];
+
+                if (!CanDragToParent(draggedItem, item)) return;
+
+                int level = orderedListLevel[startingIndex];
+
+                orderedList.RemoveAt(startingIndex);
+                orderedList.Insert(endingIndex, draggedItem);
+
+                orderedListLevel.RemoveAt(startingIndex);
+                orderedListLevel.Insert(endingIndex, level);
+
+                await ReorderItems(draggedItem, startingIndex, endingIndex);
+                if (!item.SubItems.Any())
+                {
+                    StateHasChanged();
+                }
+            }
+        }
+
+        public void OnExpand(TreeExpandEventArgs args)
+        {
+            var item = args.Value as Item;
+
+            args.Children.Data = item.SubItems;
+            args.Children.TextProperty = "Nombre";
+            args.Children.HasChildren = i => (i as Item).SubItems.Any();
         }
     }
 }

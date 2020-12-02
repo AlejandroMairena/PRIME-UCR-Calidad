@@ -319,3 +319,32 @@ div#All_LC {
     padding-right: 10px;
     padding-top: 10px;
 }
+
+
+
+.checklist-table {
+    margin: 0;
+    order: 3;
+}
+
+.checklist-table>tbody>tr>td, .checklist-table>tbody>tr>th {
+    border: 0;
+}
+
+.ui-tree-toggler {
+    order: 2;
+}
+
+/*.ui-tree-toggler.pi-caret-right:before {
+    content: none;
+}*/
+
+.ui-treenode-content-selected {
+    background-color: rgba(0,0,0,.075);
+}
+
+.ui-treenode-content:not(.ui-treenode-content-selected):hover {
+    background-color: rgba(0,0,0,.075);
+    color: #ffffff;
+    border-radius: 2px;
+}
