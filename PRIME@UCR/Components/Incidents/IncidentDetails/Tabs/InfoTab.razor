@@ -29,7 +29,7 @@ else if (DetailsModel.CurrentState == IncidentStates.Rejected.Nombre)
     <br />
     <PermissionAuthorizeView Permission="@AuthorizationPermissions.CanReviewIncidents" ShowDeniedPermissionMessage=false>
         <div class="container">
-            <StatePanel Incident="@DetailsModel" OnSave="@OnSave" CurrentUser="@CurrentUser" LastChange="@LastChange" />
+            <StatePanel Incident="@DetailsModel" OnSave="@OnSave" CurrentUser="@CurrentUser" />
         </div>
     </PermissionAuthorizeView>
 </Loading>

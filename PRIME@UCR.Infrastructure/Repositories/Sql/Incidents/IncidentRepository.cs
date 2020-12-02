@@ -232,5 +232,31 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Incidents
                 .FirstOrDefault();
             }
         }
+
+        public async Task<CambioIncidente> GetLastChange(string code)
+        {
+            using (var connection = new SqlConnection(_db.ConnectionString))
+            {
+                return (await connection.ExecuteQueryAsync<CambioIncidente>(@"
+                    select CambioIncidente.* from CambioIncidente
+                    where CodigoIncidente = @Id
+                    order by FechaHora desc
+                ", new { Id = code }))
+                .FirstOrDefault();
+            }
+        }
+
+        public async Task UpdateLastChange(CambioIncidente change)
+        {
+            using (var connection = new SqlConnection(_db.ConnectionString))
+            {
+                var incident =
+                    (await connection.QueryAsync<Incidente>(i => i.Codigo == change.CodigoIncidente))
+                    .FirstOrDefault();
+                if (incident != null)
+                    change.Incidente = incident;
+                await connection.InsertAsync(change);
+            }
+        }
     }
 }

@@ -13,7 +13,6 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
     public partial class InfoTab
     {
         [Parameter] public IncidentDetailsModel DetailsModel { get; set; }
-        [Parameter] public LastChangeModel LastChange { get; set; }
         [Parameter] public EventCallback OnSave { get; set; }
         [Parameter] public Persona CurrentUser { get; set; }
         [CascadingParameter] public Task<AuthenticationState> AuthState { get; set; }
