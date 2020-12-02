@@ -12,8 +12,7 @@
     }
     else if (DetailsModel.CurrentState == IncidentStates.Rejected.Nombre)
     {        
-        <StatusMessage Message="@($"Aprobado por {DetailsModel.Reviewer.NombreCompleto} Razón: {DetailsModel.FeedBack.RazonDeRechazo}" )" Class="primary" />
-        <AlertRowMessage>
+        <AlertRowMessage Class="danger">
             <AlertRowTemplate Header="Rechazado por" Message="@DetailsModel.Reviewer.NombreCompleto" />
             <AlertRowTemplate Header="Razón de rechazo" Message="@DetailsModel.FeedBack.RazonDeRechazo" />
         </AlertRowMessage>
