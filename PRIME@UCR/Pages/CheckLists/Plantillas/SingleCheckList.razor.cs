@@ -28,7 +28,7 @@ namespace PRIME_UCR.Pages.CheckLists.Plantillas
             instruct.Add("No puede ser modificada ni asignada a incidentes");
             states.Add("Estado de la plantilla: ");
             states.Add("");
-
+            _statusMessage = "";
         }
         [Parameter]
         public int id { get; set; }
@@ -67,6 +67,7 @@ namespace PRIME_UCR.Pages.CheckLists.Plantillas
         public List<string> details = new List<string>();
         //array of instruction
         public List<string> instruct = new List<string>();
+        public string _statusMessage;
 
         [Inject] protected ICheckListService MyCheckListService { get; set; }
 
@@ -147,6 +148,7 @@ namespace PRIME_UCR.Pages.CheckLists.Plantillas
         }
         protected async Task UpdateActive()
         {
+            _statusMessage="";
             if (list.Activada == true)
             {
                 list.Activada = false;
@@ -181,6 +183,7 @@ namespace PRIME_UCR.Pages.CheckLists.Plantillas
             createSubItem = false;
             editItem = false;
             formInvalid = false;
+            _statusMessage = "Se guardaron los cambios exitosamente.";
             await RefreshModels();
             StateHasChanged();
         }
@@ -191,12 +194,14 @@ namespace PRIME_UCR.Pages.CheckLists.Plantillas
             createSubItem = false;
             editItem = false;
             formInvalid = false;
+            _statusMessage = "Se guardaron los cambios exitosamente.";
             await RefreshModels();
             StateHasChanged();
         }
 
         public void Dispose()
         {
+            _statusMessage = "";
             lists = null;
             coreItems = null;
             items = null;
@@ -217,6 +222,7 @@ namespace PRIME_UCR.Pages.CheckLists.Plantillas
          * */
         protected void StartNewItemCreation()
         {
+            _statusMessage = "";
             tempItem = new Item();
             tempItem.IDSuperItem = null;
             tempItem.IDLista = id;
@@ -231,6 +237,7 @@ namespace PRIME_UCR.Pages.CheckLists.Plantillas
          * */
         protected async Task CreateSubItem(int itemId)
         {
+            _statusMessage = "";
             subItems = await MyCheckListService.GetItemsBySuperitemId(itemId);
             tempItem = new Item();
             tempItem.IDLista = id;
@@ -244,6 +251,7 @@ namespace PRIME_UCR.Pages.CheckLists.Plantillas
 
         protected async Task EditItem(int itemId)
         {
+            _statusMessage = "";
             tempItem = await MyCheckListService.GetItemById(itemId);
             parentItemId = itemId;
             createItem = false;
@@ -258,17 +266,20 @@ namespace PRIME_UCR.Pages.CheckLists.Plantillas
 
         protected async Task UpdateCheckList()
         {
+            _statusMessage = "";
             list.Nombre = editedList.Nombre;
             list.Descripcion = editedList.Descripcion;
             list.Tipo = editedList.Tipo;
             list.Orden = editedList.Orden;
             await MyCheckListService.UpdateCheckList(list);
+            _statusMessage = "Se guardaron los cambios exitosamente.";
             await RefreshModels();
             formInvalid = false;
         }
         protected async Task UpdateActivation()
         {
             await MyCheckListService.UpdateCheckList(list);
+            _statusMessage = "Se guardaron los cambios exitosamente.";
             await RefreshModels();
         }
 
@@ -328,6 +339,7 @@ namespace PRIME_UCR.Pages.CheckLists.Plantillas
         // Updates the order of the items
         protected async Task ReorderItems(Item item, int oldIndex, int newIndex)
         {
+            _statusMessage = "";
             int startingIndexReorder = -1;
             int endingIndexReorder = -1;
             int shiftOrder = 1;
@@ -359,7 +371,7 @@ namespace PRIME_UCR.Pages.CheckLists.Plantillas
                     await MyCheckListService.UpdateItem(TempItem);
                 }
             }
-
+            _statusMessage = "Se guardaron los cambios exitosamente.";
             await RefreshModels();
             StateHasChanged();
         }
