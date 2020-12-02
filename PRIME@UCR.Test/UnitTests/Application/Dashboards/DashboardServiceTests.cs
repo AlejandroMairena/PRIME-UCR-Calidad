@@ -38,12 +38,12 @@ namespace PRIME_UCR.Test.UnitTests.Application.Dashboards
             mockRepo
                 .Setup(s => s.GetAllIncidentsAsync())
                 .Returns(Task.FromResult<List<Incidente>>(data));
-           
+
             var mockSecurity = new Mock<IPrimeSecurityService>();
             mockSecurity.Setup(s => s.CheckIfIsAuthorizedAsync(It.IsAny<AuthorizationPermissions[]>()));
 
             var service = new SecureDashboardService(
-                mockRepo.Object, null,null,null,null,mockSecurity.Object);
+                mockRepo.Object, null, null, null, null, mockSecurity.Object);
 
             //act 
             var result = await service.GetAllIncidentsAsync();
@@ -166,7 +166,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.Dashboards
             int count = 0;
 
             mockRepo
-                .Setup(d => d.GetIncidentsCounterAsync("modalidad"))
+                .Setup(d => d.GetIncidentsCounterAsync("modalidad", string.Empty))
                 .Returns(Task.FromResult<int>(count));
 
             var mockSecurity = new Mock<IPrimeSecurityService>();
@@ -178,7 +178,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.Dashboards
                 null, null, null, null, mockSecurity.Object);
 
             // act
-            var result = await service.GetIncidentCounterAsync("modalidad");
+            var result = await service.GetIncidentCounterAsync("modalidad", String.Empty);
 
             // assert
             Assert.Equal(0, result);

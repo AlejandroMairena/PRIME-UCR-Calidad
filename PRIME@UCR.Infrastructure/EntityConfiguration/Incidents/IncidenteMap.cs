@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PRIME_UCR.Domain.Models;
+using PRIME_UCR.Domain.Models.Incidents;
 using PRIME_UCR.Domain.Models.UserAdministration;
 
 namespace PRIME_UCR.Infrastructure.EntityConfiguration.Incidents
@@ -24,8 +25,7 @@ namespace PRIME_UCR.Infrastructure.EntityConfiguration.Incidents
                 .HasMaxLength(50)
                 .HasDefaultValueSql();
             builder
-                .Property(p => p.Modalidad)
-                .HasColumnName("Modalidad");
+                .Property(p => p.Modalidad);
             builder
                 .HasOne<Modalidad>()
                 .WithMany(p => p.Incidentes)
@@ -49,4 +49,3 @@ namespace PRIME_UCR.Infrastructure.EntityConfiguration.Incidents
         }
     }
 }
-
