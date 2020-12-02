@@ -52,11 +52,15 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
         public IAssignmentService AssignmentService { get; set; }
 
         private List<EspecialistaTécnicoMédico> _specialists;
+
+        
         [Inject]
         public IUserService userService { get; set; }
 
         private AssignmentModel _model;
         protected string IncidentURL = "/incidents/";
+
+        private CoordinadorTécnicoMédico coordinators;
 
         public List<Tuple<string, string>> IncidentStatesList = new List<Tuple<string, string>> {
             Tuple.Create(IncidentStates.InCreationProcess.Nombre ,"Iniciado"),
@@ -148,13 +152,13 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
 
         public async void sendInformation()
         {
+           
             if (nextState == "Asignado") {
                 _model = await AssignmentService.GetAssignmentsByIncidentIdAsync(Incident.Code);
                 _specialists = _model.TeamMembers;
                 /*_specialists =
                     (await AssignmentService.GetSpecialistsAsync())
                     .ToList();*/
-
                 foreach (var special in _specialists)
                 {
                     var user = (await userService.GetAllUsersWithDetailsAsync()).ToList().Find(u => u.CedPersona == special.Cédula);
@@ -171,10 +175,23 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
                     StateHasChanged();
 
                 }
+                
+                coordinators = _model.Coordinator;
+                var user2 = (await userService.GetAllUsersWithDetailsAsync()).ToList().Find(u => u.CedPersona == coordinators.Cédula);
+                var url2 = "https://localhost:44368" + IncidentURL + Incident.Code;
+                var message2 = new EmailContentModel()
+                {
+                    Destination = user2.Email,
+                    Subject = "PRIME@UCR: Asignado al incidente:" + Incident.Code,
+                    Body = $"<p>Usted ha sido asignado al incidente:{Incident.Code}. <a href=\"{url2}\"> Haga click aquí para ser redirigido</a></p>"
+                };
 
-            }
-            
+                await mailService.SendEmailAsync(message2);
+                StateHasChanged();
+
+            } 
         }
+
     }
 }
 
