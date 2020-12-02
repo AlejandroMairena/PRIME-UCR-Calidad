@@ -6,6 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="wwwroot\datas\**" />
+    <Content Remove="wwwroot\datas\**" />
+    <EmbeddedResource Remove="wwwroot\datas\**" />
+    <None Remove="wwwroot\datas\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Validators\UserAdministration\NewFile.txt" />
   
   
@@ -42,10 +49,6 @@
     <ProjectReference Include="..\PRIME@UCR.Application\PRIME@UCR.Application.csproj" />
     <ProjectReference Include="..\PRIME@UCR.Domain\PRIME@UCR.Domain.csproj" />
     <ProjectReference Include="..\PRIME@UCR.Infrastructure\PRIME@UCR.Infrastructure.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="wwwroot\datas\" />
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>

@@ -171,7 +171,19 @@ namespace PRIME_UCR.Application.Implementations.Multimedia
             }
             return resp;
         }
-
+        //Reemplaza todos los caracteres no permitidos por los directorios
+        public string EncodeString(string uncodedString) {
+            string encodedString = "";
+            string str1 = uncodedString.Replace("/", "-");
+            encodedString = str1.Replace("+", "_");
+            return encodedString;
+        }
+        public string DecodeString(string codedString) {
+            string decodedString = "";
+            string str1 = codedString.Replace("-", "/");
+            decodedString = str1.Replace("_", "+");
+            return decodedString;
+        }
         public byte[] Encrypt(string plainText)
         {
             // Check arguments.

@@ -53,7 +53,7 @@ namespace PRIME_UCR.Components.Multimedia
             if (MContent != null)
             {
                 string pathEncrypted = MContent.Archivo;
-                byte[] pathEncryptedByte = System.Convert.FromBase64String(pathEncrypted);
+                byte[] pathEncryptedByte = Convert.FromBase64String(pathEncrypted);
                 string pathDecrypted = encrypt_service.Decrypt(pathEncryptedByte);
                 encrypt_service.EncryptFile(pathDecrypted);
                 MContent = null;
@@ -62,7 +62,7 @@ namespace PRIME_UCR.Components.Multimedia
         }
         string getSrc() {
             string pathEncrypted = MContent.Archivo;
-            byte[] pathEncryptedByte = System.Convert.FromBase64String(pathEncrypted);
+            byte[] pathEncryptedByte = Convert.FromBase64String(pathEncrypted);
             string pathDecrypted = encrypt_service.Decrypt(pathEncryptedByte);
             string filename = MContent.Nombre;
             encrypt_service.DecryptFile(pathDecrypted);
@@ -70,40 +70,38 @@ namespace PRIME_UCR.Components.Multimedia
             return path;
         }
         string getName() {
-            byte[] nameEncrypted = Convert.FromBase64String(MContent.Nombre);
+            string nameE = encrypt_service.DecodeString(MContent.Nombre);
+            byte[] nameEncrypted = Convert.FromBase64String(nameE);
             string name = encrypt_service.Decrypt(nameEncrypted);
             return name + MContent.Extension;
         }
         async Task getPDF() {
             string pathEncrypted = MContent.Archivo;
-            byte[] pathEncryptedByte = System.Convert.FromBase64String(pathEncrypted);
+            byte[] pathEncryptedByte = Convert.FromBase64String(pathEncrypted);
             string pathDecrypted = encrypt_service.Decrypt(pathEncryptedByte);
             string filename = MContent.Nombre;
             encrypt_service.DecryptFile(pathDecrypted);
             string path = pathDecrypted.Replace("wwwroot/", "");
             bool done = await JS.InvokeAsync<bool>("showTxt", path);
-            Thread.Sleep(2000);
+            Thread.Sleep(3000);
             encrypt_service.EncryptFile(pathDecrypted);
-            
+            ShowPDF = false;
         }
         string getAudio() {
-            string pathEncrypted = MContent.Archivo; //jasbdabsldjbnailñjsdnilñajndinainihbfaksljnkjan
-            byte[] pathEncryptedByte = System.Convert.FromBase64String(pathEncrypted);
-            string pathDecrypted = encrypt_service.Decrypt(pathEncryptedByte);//wwwroot/lasjdkjn/kasbdbha/ljasndjakjasbdkj
+            string pathEncrypted = MContent.Archivo;
+            byte[] pathEncryptedByte = Convert.FromBase64String(pathEncrypted);
+            string pathDecrypted = encrypt_service.Decrypt(pathEncryptedByte);
             encrypt_service.DecryptFile(pathDecrypted);
             string path = pathDecrypted.Replace("wwwroot/", "");
             return path;
         }
         string getVideo() {
             string pathEncrypted = MContent.Archivo;
-            byte[] pathEncryptedByte = System.Convert.FromBase64String(pathEncrypted);
+            byte[] pathEncryptedByte = Convert.FromBase64String(pathEncrypted);
             string pathDecrypted = encrypt_service.Decrypt(pathEncryptedByte);
             encrypt_service.DecryptFile(pathDecrypted);
             string path = pathDecrypted.Replace("wwwroot/", "");
             return path;
         }
-        
-
-
     }
 }
