@@ -28,7 +28,7 @@ namespace PRIME_UCR.Components.CheckLists
         protected override async Task OnInitializedAsync()
         {
             // You can only generate the pdf if the incident is after the 'Asignado' state
-            if (IncidentState == "Iniciado" || IncidentState == "Creado" || IncidentState == "Rechazado" || IncidentState == "Aprobado" || IncidentState == "Asignado")
+            if (IncidentState == "Iniciado" || IncidentState == "Creado" || IncidentState == "Rechazado" || IncidentState == "Aprobado")
             {
                 Disabled = true;
             }

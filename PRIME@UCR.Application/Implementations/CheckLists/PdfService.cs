@@ -15,8 +15,14 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
 {
     public class PdfService : IPdfService
     {
+        private PdfPage page;
+        private PdfLayoutResult result;
+        private PdfLayoutFormat format;
+        private int paragraphAfterSpacing;
+
         public PdfService()
         {
+            paragraphAfterSpacing = 8;
         }
 
         public MemoryStream GenerateIncidentPdf(/*PdfModel information*/)
@@ -25,10 +31,9 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
             {
                 using (PdfDocument pdfDocument = new PdfDocument()) 
                 {
-                    int paragraphAfterSpacing = 8;
 
                     // Add page to the PDF document
-                    PdfPage page = pdfDocument.Pages.Add();
+                    page = pdfDocument.Pages.Add();
 
                     // Setting the header in the pdf.
                     PdfPageTemplateElement header = SetHeader(pdfDocument, "Caja Costarricense del Seguro Social – CEACO - Unidad COV19\nNúmeros Telefónicos: 2539-1313 / 8910-6105");
@@ -38,17 +43,24 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
                     // Font used for the main title.
                     PdfStandardFont titleFont = new PdfStandardFont(PdfFontFamily.TimesRoman, 16, PdfFontStyle.Bold);
 
-                    // Adding the main title.
-                    PdfTextElement title = new PdfTextElement("PRESENTACIÓN DE PACIENTE A UNIDAD COV19", titleFont, PdfBrushes.Blue);
-                    PdfLayoutResult result = title.Draw(page, new PointF(75, 0));
-
                     // Format to follow for everything added to PDF.
-                    PdfLayoutFormat format = new PdfLayoutFormat();
+                    format = new PdfLayoutFormat();
                     format.Layout = PdfLayoutType.Paginate;
 
+                    // Adding the main title.
+                    PdfTextElement title = new PdfTextElement("PRESENTACIÓN DE PACIENTE A UNIDAD COV19", titleFont, PdfBrushes.Blue);
+                    title.StringFormat = new PdfStringFormat();
+                    title.StringFormat.Alignment = PdfTextAlignment.Center;
+                    result = title.Draw(page, new RectangleF(0, 0 + paragraphAfterSpacing, page.GetClientSize().Width, page.GetClientSize().Height), format);
 
-                    AddGeneralInformation(pdfDocument, result, page, format, paragraphAfterSpacing);
-
+                    AddGeneralInformation(pdfDocument);
+                    AddCovidNote(pdfDocument);
+                    AddPatientInformation(pdfDocument);
+                    AddVitalSigns(pdfDocument);
+                    AddBreathingInformation(pdfDocument);
+                    AddLaboratoriesAndCabinet(pdfDocument);
+                    AddChestRX(pdfDocument);
+                    AddArterialGases(pdfDocument);
 
                     using (MemoryStream stream = new MemoryStream())
                     {
@@ -83,12 +95,22 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
             return header;
         }
 
-        private PdfGrid CreateTable(int columns, int rows, List<string> headers, List<List<string>> information)
+        private void DrawText(string text, PdfStandardFont font, float position)
+        {
+            PdfTextElement title = new PdfTextElement(text, font, PdfBrushes.Black)
+            {
+                StringFormat = new PdfStringFormat()
+            };
+            title.StringFormat.Alignment = PdfTextAlignment.Center;
+            result = title.Draw(result.Page, new RectangleF(0, position, page.GetClientSize().Width, page.GetClientSize().Height), format);
+        }
+
+        private PdfGrid CreateTable(int columns, int rows, List<string> headers, List<List<string>> information, int fontSize)
         {
             // Margin used in the cells.
             int cellMargin = 8;
             // Font used in the table.
-            PdfStandardFont contentFont = new PdfStandardFont(PdfFontFamily.TimesRoman, 12);
+            PdfStandardFont contentFont = new PdfStandardFont(PdfFontFamily.TimesRoman, fontSize);
 
             PdfGrid pdfGrid = new PdfGrid();
             pdfGrid.Style.CellPadding.Left = cellMargin;
@@ -135,52 +157,530 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
             return row;
         }
 
-        private void AddGeneralInformation(PdfDocument doc, PdfLayoutResult result, PdfPage page, PdfLayoutFormat format, int paragraphAfterSpacing)
+        private void AddGeneralInformation(PdfDocument doc)
         {
             PdfStandardFont contentTitleFont = new PdfStandardFont(PdfFontFamily.TimesRoman, 12, PdfFontStyle.Bold);
-            PdfTextElement content = new PdfTextElement("INFORMACIÓN GENERAL", contentTitleFont, PdfBrushes.Black);
-
-            result = content.Draw(page, new RectangleF(175, result.Bounds.Bottom + paragraphAfterSpacing, page.GetClientSize().Width, page.GetClientSize().Height), format);
+            DrawText("INFORMACIÓN GENERAL", contentTitleFont, result.Bounds.Bottom + paragraphAfterSpacing);
 
             PdfTextElement medicData = new PdfTextElement("Datos del Médico", contentTitleFont, PdfBrushes.Black);
             result = medicData.Draw(page, new RectangleF(0, result.Bounds.Bottom + paragraphAfterSpacing, page.GetClientSize().Width, page.GetClientSize().Height), format);
 
-            List<string> headers = new List<string>();
-            headers.Add("Nombre Completo");
-            headers.Add("Número telefónico");
-            headers.Add("Lugar de donde llama");
+            List<string> headers = new List<string>
+            {
+                "Nombre Completo",
+                "Número telefónico",
+                "Lugar de donde llama"
+            };
 
             List<List<string>> information = new List<List<string>>();
-            List<string> rowInformation = new List<string>();
-            rowInformation.Add("Temp");
-            rowInformation.Add("Temp");
-            rowInformation.Add("Temp");
+            List<string> rowInformation = new List<string>
+            {
+                "Temp",
+                "Temp",
+                "Temp"
+            };
             information.Add(rowInformation);
 
-            PdfGrid pdfGrid = CreateTable(3, 1, headers, information);
+            PdfGrid pdfGrid = CreateTable(3, 1, headers, information, 12);
 
-            result = pdfGrid.Draw(page, new PointF(0, result.Bounds.Bottom + paragraphAfterSpacing));
+            result = pdfGrid.Draw(result.Page, new PointF(0, result.Bounds.Bottom + paragraphAfterSpacing));
 
             PdfTextElement patientData = new PdfTextElement("Datos del Paciente", contentTitleFont, PdfBrushes.Black);
             result = patientData.Draw(page, new RectangleF(0, result.Bounds.Bottom + paragraphAfterSpacing, page.GetClientSize().Width, page.GetClientSize().Height), format);
 
-            headers = new List<string>();
-            headers.Add("Nombre Completo");
-            headers.Add("ID del Paciente");
-            headers.Add("Fecha de Nacimiento");
-            headers.Add("Edad");
+            headers = new List<string>
+            {
+                "Nombre Completo",
+                "ID del Paciente",
+                "Fecha de Nacimiento",
+                "Edad"
+            };
 
             information = new List<List<string>>();
-            rowInformation = new List<string>();
-            rowInformation.Add("Temp");
-            rowInformation.Add("Temp");
-            rowInformation.Add("Temp");
-            rowInformation.Add("Temp");
+            rowInformation = new List<string>
+            {
+                "Temp",
+                "Temp",
+                "Temp",
+                "Temp"
+            };
             information.Add(rowInformation);
 
-            pdfGrid = CreateTable(4, 1, headers, information);
+            pdfGrid = CreateTable(4, 1, headers, information, 12);
 
-            result = pdfGrid.Draw(page, new PointF(0, result.Bounds.Bottom + paragraphAfterSpacing));
+            pdfGrid.Columns[3].Width = 50;
+
+            result = pdfGrid.Draw(result.Page, new PointF(0, result.Bounds.Bottom + paragraphAfterSpacing));
+        }
+
+        private void AddCovidNote(PdfDocument doc)
+        {
+            PdfStandardFont contentTitleFont = new PdfStandardFont(PdfFontFamily.TimesRoman, 12, PdfFontStyle.Bold);
+            DrawText("NOTA TRASLADO UNIDAD COVID – NOTA MÉDICA", contentTitleFont, result.Bounds.Bottom + paragraphAfterSpacing);
+
+            List<string> headers = new List<string>
+            {
+                "Antecedente Personales\nPatológicos:",
+                "Antecedente Personales\nNo Patológicos:",
+                "Sí",
+                "No"
+            };
+
+            List<List<string>> information = new List<List<string>>();
+            List<string> rowInformation = new List<string>
+            {
+                "Utilizando un temp lo suficientementelargo como para ver que sucede.",
+                "Tabaco",
+                "",
+                ""
+            };
+            information.Add(rowInformation);
+            rowInformation = new List<string>
+            {
+                "",
+                "Alcohol",
+                "",
+                ""
+            };
+            information.Add(rowInformation);
+            rowInformation = new List<string>
+            {
+                "",
+                "Drogas",
+                "",
+                ""
+            };
+            information.Add(rowInformation);
+            rowInformation = new List<string>
+            {
+                "",
+                "Alergias a Medicamentos",
+                "",
+                ""
+            };
+            information.Add(rowInformation);
+            rowInformation = new List<string>
+            {
+                "",
+                "Otros",
+                "",
+                ""
+            };
+            information.Add(rowInformation);
+
+            PdfGrid pdfGrid = CreateTable(headers.Count, information.Count, headers, information, 12);
+
+            // Setting manually Column Spans
+            pdfGrid.Rows[1].Cells[0].RowSpan = 5;
+            pdfGrid.Rows[5].Cells[1].ColumnSpan = 3;
+            // Setting the width manually
+            pdfGrid.Columns[1].Width = 150;
+            pdfGrid.Columns[2].Width = 35;
+            pdfGrid.Columns[3].Width = 35;
+
+            result = pdfGrid.Draw(result.Page, new PointF(0, result.Bounds.Bottom + paragraphAfterSpacing));
+
+            headers = new List<string>
+            {
+                "Tratamiento Crónico:",
+                "AQX de Importancia:"
+            };
+
+            information = new List<List<string>>();
+            rowInformation = new List<string>
+            {
+                "Temp",
+                "Temp\nTemp"
+            };
+            information.Add(rowInformation);
+
+            pdfGrid = CreateTable(2, 1, headers, information, 12);
+
+            result = pdfGrid.Draw(result.Page, new PointF(0, result.Bounds.Bottom + paragraphAfterSpacing));
+
+        }
+
+        private void AddPatientInformation(PdfDocument doc)
+        {
+            PdfStandardFont contentTitleFont = new PdfStandardFont(PdfFontFamily.TimesRoman, 12, PdfFontStyle.Bold);
+            DrawText("INFORMACIÓN DEL PACIENTE - COVID-19", contentTitleFont, result.Bounds.Bottom + paragraphAfterSpacing);
+
+            List<string> headers = new List<string>
+            {
+                "Tratamiento Crónico:",
+                "",
+                "AQX de Importancia:",
+                "",
+                ""
+            };
+
+            List<List<string>> information = new List<List<string>>();
+            List<string> rowInformation = new List<string>
+            {
+                "Positivo",
+                "Nexo",
+                "Fecha Diagnóstico",
+                "Fecha: Inicio Síntomas",
+                "Días de Evolución"
+            };
+            information.Add(rowInformation);
+            rowInformation = new List<string>
+            {
+                "Temp",
+                "Temp",
+                "Temp",
+                "Temp",
+                "Temp"
+            };
+            information.Add(rowInformation);
+
+            PdfGrid pdfGrid = CreateTable(headers.Count, information.Count, headers, information, 12);
+
+            // Setting manually Column Spans.
+            pdfGrid.Rows[0].Cells[0].ColumnSpan = 2;
+            pdfGrid.Rows[0].Cells[2].ColumnSpan = 3;
+            for (int index = 0; index < rowInformation.Count; index++)
+            {
+                pdfGrid.Rows[1].Cells[index].StringFormat.Alignment = PdfTextAlignment.Center;
+                pdfGrid.Rows[1].Cells[index].Style.BackgroundBrush = PdfBrushes.Aqua;
+            }
+
+            result = pdfGrid.Draw(result.Page, new PointF(0, result.Bounds.Bottom + paragraphAfterSpacing));
+
+            headers = new List<string>
+            {
+                "Padecimiento Actual / MC:"
+            };
+            
+            information = new List<List<string>>();
+            rowInformation = new List<string>
+            {
+                "Temp\nTemp\nTemp\nTenp"
+            };
+            information.Add(rowInformation);
+
+            pdfGrid = CreateTable(rowInformation.Count, information.Count, headers, information, 12);
+
+            result = pdfGrid.Draw(result.Page, new PointF(0, result.Bounds.Bottom + paragraphAfterSpacing));
+        }
+
+        private void AddVitalSigns(PdfDocument doc)
+        {
+            PdfStandardFont contentTitleFont = new PdfStandardFont(PdfFontFamily.TimesRoman, 12, PdfFontStyle.Bold);
+            DrawText("SIGNOS VITALES", contentTitleFont, result.Bounds.Bottom + paragraphAfterSpacing);
+
+            List<List<string>> information = new List<List<string>>();
+            List<string> rowInformation = new List<string>
+            {
+                "FR: ___ RPM",
+                "FC: ___ LPM",
+                "T: ___ C ",
+                "SPO2: ___%",
+                "PA: ___ MMHG",
+                "GLASGOW: ___",
+                "GLI: ___"
+            };
+            information.Add(rowInformation);
+
+            PdfGrid pdfGrid = CreateTable(rowInformation.Count, information.Count, null, information, 10);
+
+            // Cell width is adjusted based on text width.
+            pdfGrid.Style.AllowHorizontalOverflow = true;
+
+            result = pdfGrid.Draw(result.Page, new PointF(0, result.Bounds.Bottom + paragraphAfterSpacing));
+        }
+
+        private void AddBreathingInformation(PdfDocument doc)
+        {
+            PdfStandardFont contentTitleFont = new PdfStandardFont(PdfFontFamily.TimesRoman, 12, PdfFontStyle.Bold);
+            DrawText("RESPIRANDO CON", contentTitleFont, result.Bounds.Bottom + paragraphAfterSpacing);
+
+            List<string> headers = new List<string>
+            {
+                "Ventilador",
+                "",
+                "Parámetros\n(Flujo y FiO2)",
+                "Ventilador",
+                "",
+                "Parámetros\n(Flujo y FiO2)"
+            };
+            List<List<string>> information = new List<List<string>>();
+            List<string> rowInformation = new List<string>
+            {
+                "( )",
+                "NC",
+                "",
+                "( )",
+                "CAF",
+                "",
+            };
+            information.Add(rowInformation);
+            rowInformation = new List<string>
+            {
+                "( )",
+                "VENTURY",
+                "",
+                "( )",
+                "VMNI",
+                "",
+            };
+            information.Add(rowInformation);
+            rowInformation = new List<string>
+            {
+                "( )",
+                "RESERVORIO",
+                "",
+                "( )",
+                "TET",
+                "",
+            };
+            information.Add(rowInformation);
+
+            PdfGrid pdfGrid = CreateTable(rowInformation.Count, information.Count, headers, information, 12);
+
+            // Setting manually Column Spans
+            pdfGrid.Rows[0].Cells[0].ColumnSpan = 2;
+            pdfGrid.Rows[0].Cells[3].ColumnSpan = 2;
+
+            // Setting the width manually
+            pdfGrid.Columns[0].Width = 30;
+            pdfGrid.Columns[3].Width = 30;
+
+            result = pdfGrid.Draw(result.Page, new PointF(0, result.Bounds.Bottom + paragraphAfterSpacing), format);
+        }
+
+        private void AddLaboratoriesAndCabinet(PdfDocument doc)
+        {
+            PdfStandardFont contentTitleFont = new PdfStandardFont(PdfFontFamily.TimesRoman, 12, PdfFontStyle.Bold);
+            DrawText("LABORATORIOS Y GABINETE", contentTitleFont, result.Bounds.Bottom + paragraphAfterSpacing);
+
+            List<List<string>> information = new List<List<string>>();
+            List<string> rowInformation = new List<string>
+            {
+                "HB:",
+                "Temp",
+                "Glicemia:",
+                "Temp",
+                "PCT:",
+                "Temp",
+            };
+            information.Add(rowInformation);
+            rowInformation = new List<string>
+            {
+                "Leucos:",
+                "Temp",
+                "DHL:",
+                "Temp",
+                "UN:",
+                "Temp",
+            };
+            information.Add(rowInformation);
+            rowInformation = new List<string>
+            {
+                "Linfos:",
+                "Temp",
+                "DD:",
+                "Temp",
+                "CREA:",
+                "Temp",
+            };
+            information.Add(rowInformation);
+            rowInformation = new List<string>
+            {
+                "Troponina:",
+                "Temp",
+                "Ferretina:",
+                "Temp",
+                "RX Tórax:",
+                "Temp",
+            };
+            information.Add(rowInformation);
+            rowInformation = new List<string>
+            {
+                "TNT:",
+                "Temp",
+                "PCR:",
+                "Temp",
+                "Otro:",
+                "Temp",
+            };
+            information.Add(rowInformation);
+
+            PdfGrid pdfGrid = CreateTable(rowInformation.Count, information.Count, null, information, 12);
+
+            result = pdfGrid.Draw(result.Page, new PointF(0, result.Bounds.Bottom + paragraphAfterSpacing), format);
+        }
+
+        private void AddChestRX(PdfDocument doc)
+        {
+            PdfStandardFont contentTitleFont = new PdfStandardFont(PdfFontFamily.TimesRoman, 12, PdfFontStyle.Bold);
+            DrawText("RX TÓRAX", contentTitleFont, result.Bounds.Bottom + paragraphAfterSpacing);
+
+            List<string> headers = new List<string>
+            {
+                "Descripción:"
+            };
+            List<List<string>> information = new List<List<string>>();
+            List<string> rowInformation = new List<string>
+            {
+                "Temp"
+            };
+            information.Add(rowInformation);
+
+            PdfGrid pdfGrid = CreateTable(rowInformation.Count, information.Count, headers, information, 12);
+
+            result = pdfGrid.Draw(result.Page, new PointF(0, result.Bounds.Bottom + paragraphAfterSpacing), format);
+        }
+
+        private void AddArterialGases(PdfDocument doc)
+        {
+            PdfStandardFont contentTitleFont = new PdfStandardFont(PdfFontFamily.TimesRoman, 12, PdfFontStyle.Bold);
+            DrawText("GASES ARTERIALES", contentTitleFont, result.Bounds.Bottom + paragraphAfterSpacing);
+
+            List<string> headers = new List<string>
+            {
+                "Fecha:",
+                "Temp",
+                "Fecha:",
+                "",
+                "Fecha:",
+                ""
+            };
+            List<List<string>> information = new List<List<string>>();
+            List<string> rowInformation = new List<string>
+            {
+                "PH",
+                "Temp",
+                "PH",
+                "",
+                "PH",
+                ""
+            };
+            information.Add(rowInformation);
+            rowInformation = new List<string>
+            {
+                "PO2",
+                "Temp",
+                "PO2",
+                "",
+                "PO2",
+                ""
+            };
+            information.Add(rowInformation);
+            rowInformation = new List<string>
+            {
+                "PCO2",
+                "Temp",
+                "PCO2",
+                "",
+                "PCO2",
+                ""
+            };
+            information.Add(rowInformation);
+            rowInformation = new List<string>
+            {
+                "HCO3",
+                "Temp",
+                "HCO3",
+                "",
+                "HCO3",
+                ""
+            };
+            information.Add(rowInformation);
+            rowInformation = new List<string>
+            {
+                "LAC",
+                "Temp",
+                "LAC",
+                "",
+                "LAC",
+                ""
+            };
+            information.Add(rowInformation);
+            rowInformation = new List<string>
+            {
+                "PAFI",
+                "Temp",
+                "PAFI",
+                "",
+                "PAFI",
+                ""
+            };
+            information.Add(rowInformation);
+            rowInformation = new List<string>
+            {
+                "FIO2",
+                "Temp",
+                "FIO2",
+                "",
+                "FIO2",
+                ""
+            };
+            information.Add(rowInformation);
+            PdfGrid pdfGrid = CreateTable(rowInformation.Count, information.Count, headers, information, 12);
+
+            result = pdfGrid.Draw(result.Page, new PointF(0, result.Bounds.Bottom + paragraphAfterSpacing), format);
+
+            information = new List<List<string>>();
+            rowInformation = new List<string>
+            {
+                "Invasiones (Vía Periférica – CVC):",
+                "Temp",
+                ""
+            };
+            information.Add(rowInformation);
+            rowInformation = new List<string>
+            {
+                "Medicamentos:",
+                "Temp",
+                ""
+            };
+            information.Add(rowInformation);
+            rowInformation = new List<string>
+            {
+                "Dispositivo de oxigenación:",
+                "Temp",
+                ""
+            };
+            information.Add(rowInformation);
+            rowInformation = new List<string>
+            {
+                "Estratificación del paciente ",
+                "Índice respiratorio - PaO2/FiO2:",
+                "Temp"
+            };
+            information.Add(rowInformation);
+            rowInformation = new List<string>
+            {
+                "",
+                "Escala SOFA (Ver anexo 1):",
+                "Temp"
+            };
+            information.Add(rowInformation);
+            rowInformation = new List<string>
+            {
+                "",
+                "Factores de riesgo identificables al ingreso\n(Obesidad, asma, arritmia, etc.):",
+                "Temp"
+            };
+            information.Add(rowInformation);
+            rowInformation = new List<string>
+            {
+                "",
+                "ETA:",
+                "Temp"
+            };
+            information.Add(rowInformation);
+
+            pdfGrid = CreateTable(rowInformation.Count, information.Count, null, information, 12);
+
+            for (int index = 0; index < 3; index++)
+            {
+                pdfGrid.Rows[index].Cells[1].ColumnSpan = 2;
+            }
+            pdfGrid.Rows[3].Cells[0].RowSpan = 4;
+
+            result = pdfGrid.Draw(result.Page, new PointF(0, result.Bounds.Bottom + paragraphAfterSpacing), format);
         }
     }
 }
