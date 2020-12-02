@@ -61,6 +61,7 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
                     AddLaboratoriesAndCabinet(pdfDocument);
                     AddChestRX(pdfDocument);
                     AddArterialGases(pdfDocument);
+                    AddAnalisis(pdfDocument);
 
                     using (MemoryStream stream = new MemoryStream())
                     {
@@ -679,6 +680,27 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
                 pdfGrid.Rows[index].Cells[1].ColumnSpan = 2;
             }
             pdfGrid.Rows[3].Cells[0].RowSpan = 4;
+
+            result = pdfGrid.Draw(result.Page, new PointF(0, result.Bounds.Bottom + paragraphAfterSpacing), format);
+        }
+
+        private void AddAnalisis(PdfDocument doc)
+        {
+            PdfStandardFont contentTitleFont = new PdfStandardFont(PdfFontFamily.TimesRoman, 12, PdfFontStyle.Bold);
+            DrawText("ANÁLISIS", contentTitleFont, result.Bounds.Bottom + paragraphAfterSpacing);
+
+            List<string> headers = new List<string>
+            {
+                "Análisis"
+            };
+            List<List<string>> information = new List<List<string>>();
+            List<string> rowInformation = new List<string>
+            {
+                "Temp\nTemp\nTemp\nTemp\nTemp\n"
+            };
+            information.Add(rowInformation);
+
+            PdfGrid pdfGrid = CreateTable(rowInformation.Count, information.Count, headers, information, 12);
 
             result = pdfGrid.Draw(result.Page, new PointF(0, result.Bounds.Bottom + paragraphAfterSpacing), format);
         }
