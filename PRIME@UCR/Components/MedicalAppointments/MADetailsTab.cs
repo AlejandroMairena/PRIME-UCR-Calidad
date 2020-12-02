@@ -16,6 +16,8 @@ namespace PRIME_UCR.Components.MedicalAppointments
         [Description("Contenido Multimedia")]
         Multimedia,
         [Description("Métricas")]
-        Metricas
+        Metricas,
+        [Description("Referencias")]
+        Referencias
     }
 }

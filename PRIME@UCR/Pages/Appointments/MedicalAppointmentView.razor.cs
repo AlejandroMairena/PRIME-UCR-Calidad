@@ -52,6 +52,9 @@ namespace PRIME_UCR.Pages.Appointments
                     case MADetailsTab.Metricas:
                         _tabs.Add(new Tuple<MADetailsTab, string>(MADetailsTab.Metricas, ""));
                         break;
+                    case MADetailsTab.Referencias:
+                        _tabs.Add(new Tuple<MADetailsTab, string>(MADetailsTab.Referencias, ""));
+                        break;
                 }
             }
         }

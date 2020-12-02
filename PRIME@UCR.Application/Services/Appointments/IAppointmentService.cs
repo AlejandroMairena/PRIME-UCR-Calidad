@@ -56,6 +56,10 @@ namespace PRIME_UCR.Application.Services.Appointments
 
         Task<Cita> InsertAppointmentAsync(Cita model);
 
+        Task<IEnumerable<EspecialidadMedica>> GetMedicalSpecialtiesAsync();
+
+        Task<IEnumerable<Persona>> GetDoctorsBySpecialtyNameAsync(string specialty_name); 
+
         // Task<EstadoCitaMedica> GetMedAppointmentStatusAsync(int id); 
     }
 }

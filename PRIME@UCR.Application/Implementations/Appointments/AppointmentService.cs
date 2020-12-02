@@ -63,6 +63,13 @@ namespace PRIME_UCR.Application.Implementations.Appointments
             return await _metapprepo.GetAppMetricsByAppId(id); 
         }
 
+        public async Task<IEnumerable<Persona>> GetDoctorsBySpecialtyNameAsync(string specialty_name) {
+            return await _speciarepo.GetDoctorsWithSpecialty(specialty_name);
+        }
+
+        public async Task<IEnumerable<EspecialidadMedica>> GetMedicalSpecialtiesAsync() {
+            return await _medspecirepo.GetAllAsync(); 
+        }
 
         public async Task InsertMetrics(MetricasCitaMedica metrics) {
              await _metapprepo.InsertAsync(metrics); 

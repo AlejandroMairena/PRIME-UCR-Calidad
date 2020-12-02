@@ -1,0 +1,55 @@
+﻿@using PRIME_UCR.Domain.Models.Appointments
+@using PRIME_UCR.Domain.Models.UserAdministration 
+@inject IAppointmentService appointment_service
+
+<h3>Referencias Médicas</h3>
+
+<style>
+    body {
+        background-color:white; 
+    }
+</style>
+
+
+<Loading IsLoading="_context == null">
+    <EditForm EditContext="_context" OnValidSubmit="scheduleAppo">
+        <FluentValidationValidator />
+
+        <div class="row">
+            <div class="col-xl-8 col-lg-10">
+                <DropDownMenu T="EspecialidadMedica" Data="EspecialidadesMedicas"
+                              Label="Especialidad Médica"
+                              TextProperty="Nombre"
+                              DefaultText="Seleccione una especialidad médica"
+                              Required="true"
+                              Disabled="false"
+                              Value="@selected_specialty"
+                              ValueExpression="() => selected_specialty"
+                              ValueChanged="@((EspecialidadMedica e) => OnChangeSpecialty(e))" />
+            </div>
+        </div>
+
+        @if (already_selected == true)
+        {
+            <Loading IsLoading="Doctors == null">
+                <div class="row">
+                    <div class="col-xl-8 col-lg-10">
+                        <DropDownMenu T="Persona" Data="Doctors"
+                                      Label="@get_msgname()"
+                                      TextProperty="NombreCompleto"
+                                      DefaultText="Seleccione un médico especialista"
+                                      Required="true"
+                                      Disabled="false"
+                                      @bind-Value="@selected_doctor" />
+                    </div>
+                </div>
+            </Loading>
+        }
+
+        @if (data_inserted)
+        {
+            <button type="submit" class="btn btn-primary">Guardar</button>
+        }
+
+    </EditForm>
+</Loading>
