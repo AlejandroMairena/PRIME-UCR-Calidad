@@ -57,16 +57,16 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
                     FROM Perfil;
                 ");
 
-                var users = extractor.Extract<Usuario>().AsList(); 
+                var users = extractor.Extract<Usuario>().AsList();
                 var userProfiles = extractor.Extract<Pertenece>().AsList();
                 var allowed = extractor.Extract<Permite>().AsList();
                 var permissions = extractor.Extract<Permiso>().AsList();
                 profiles = extractor.Extract<Perfil>().AsList();
 
-                userProfiles.ForEach(userProfile => 
+                userProfiles.ForEach(userProfile =>
                     userProfile.Usuario = users.FirstOrDefault(u => u.Id == userProfile.IDUsuario));
 
-                allowed.ForEach(allow => 
+                allowed.ForEach(allow =>
                     allow.Permiso = permissions.FirstOrDefault(p => p.IDPermiso == allow.IDPermiso));
 
                 profiles.ForEach(profile => {

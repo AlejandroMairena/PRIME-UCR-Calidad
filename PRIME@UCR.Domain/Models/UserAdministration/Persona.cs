@@ -15,7 +15,7 @@ namespace PRIME_UCR.Domain.Models.UserAdministration
 
         /*String that identify the person*/
         public string NombreCompleto => $"{Nombre} {PrimerApellido} {SegundoApellido}";
-        
+
         public string Cédula { get; set; }
 
         /*String that store the name of the person*/
@@ -28,7 +28,7 @@ namespace PRIME_UCR.Domain.Models.UserAdministration
         public string? SegundoApellido { get; set; }
 
         /*Character that store the sex of the person*/
-        public string Sexo { get; set; }
+        public string? Sexo { get; set; }
 
         /*Variable that store the birth date of the person*/
         public DateTime? FechaNacimiento { get; set; }
