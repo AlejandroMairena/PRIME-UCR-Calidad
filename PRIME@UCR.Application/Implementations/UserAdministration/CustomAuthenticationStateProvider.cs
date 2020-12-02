@@ -33,8 +33,6 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
 
         private readonly IAuthenticationService authenticationService;
 
-        private readonly IEncryptionService encriptionService;
-
         private readonly JWTKeyModel keyModel;
 
 
@@ -43,14 +41,12 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
             UserManager<Usuario> _userManager,
             ILocalStorageService _localStorageService,
             IAuthenticationService _authenticationService,
-            IEncryptionService _encriptionService,
             IOptions<JWTKeyModel> _jwtKeyModel)
         {
             SignInManager = _signInManager;
             UserManager = _userManager;
             localStorageService = _localStorageService;
             authenticationService = _authenticationService;
-            encriptionService = _encriptionService;
             keyModel = _jwtKeyModel.Value;
         }
 
