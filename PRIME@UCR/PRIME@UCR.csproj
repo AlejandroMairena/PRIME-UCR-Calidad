@@ -4,7 +4,7 @@
     <TargetFramework>net5.0</TargetFramework>
     <RootNamespace>PRIME_UCR</RootNamespace>
     <LangVersion>default</LangVersion>
-    <Nullable>annotations</Nullable>
+    <Nullable>disable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
