@@ -8,6 +8,7 @@ using System.Linq;
 using System;
 using Radzen;
 using Radzen.Blazor;
+using Microsoft.AspNetCore.Components.Web;
 
 namespace PRIME_UCR.Pages.CheckLists.Plantillas
 {
@@ -376,11 +377,10 @@ namespace PRIME_UCR.Pages.CheckLists.Plantillas
             }
         }
 
-        protected async void Drop(Item item, RadzenTreeItem context)
+        protected async void Drop(Item item)
         {
             if (item != null && startingIndex >= 0 && startingIndex < orderedList.Count())
             {
-
                 int endingIndex = getItemIndex(item, orderedList);
                 if (endingIndex == startingIndex) return; // Item is in the same position
 
@@ -398,20 +398,8 @@ namespace PRIME_UCR.Pages.CheckLists.Plantillas
                 orderedListLevel.Insert(endingIndex, level);
 
                 await ReorderItems(draggedItem, startingIndex, endingIndex);
-                if (!item.SubItems.Any())
-                {
-                    StateHasChanged();
-                }
+                StateHasChanged();
             }
-        }
-
-        public void OnExpand(TreeExpandEventArgs args)
-        {
-            var item = args.Value as Item;
-
-            args.Children.Data = item.SubItems;
-            args.Children.TextProperty = "Nombre";
-            args.Children.HasChildren = i => (i as Item).SubItems.Any();
         }
     }
 }

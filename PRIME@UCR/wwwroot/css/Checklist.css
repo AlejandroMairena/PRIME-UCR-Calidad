@@ -149,7 +149,6 @@ button:hover#BP_LC6.btn.btn-primary {
 /* boby, have items and subitems from a checklist */
 #Body_LC {
     background: #E6E6E6;
-    padding: 10px;
     border-radius: 5px;
     position: relative;
     border-color: black;
@@ -335,10 +334,6 @@ div#All_LC {
     order: 2;
 }
 
-/*.ui-tree-toggler.pi-caret-right:before {
-    content: none;
-}*/
-
 .ui-treenode-content-selected {
     background-color: rgba(0,0,0,.075);
 }
@@ -347,4 +342,23 @@ div#All_LC {
     background-color: rgba(0,0,0,.075);
     color: #ffffff;
     border-radius: 2px;
+}
+
+.ui-treenode-content-selected > .blankSpace {
+    background-color: #d4d4d4;
+    color: #d4d4d4;
+}
+
+.ui-treenode-content:not(.ui-treenode-content-selected):hover > .blankSpace {
+    background-color: #d4d4d4;
+    color: #d4d4d4;
+}
+
+.blankSpace {
+    position: absolute;
+    background: #E6E6E6;
+    width: 20px;
+    opacity: 1;
+    z-index: 9;
+    color: #E6E6E6;
 }
