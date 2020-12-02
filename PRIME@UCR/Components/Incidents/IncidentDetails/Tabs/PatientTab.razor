@@ -45,7 +45,7 @@
                                          ValueExpression="() => _model.CedPaciente"
                                          ValueChanged="(string s) => OnIdChange(s)"/>
                             }else{
-                                <TextBox Disabled="true" @bind-Value="@_model.CedPaciente" Label="Cédula del Paciente"/>
+                                <TextBox Disabled="true" Required="false" @bind-Value="@_model.CedPaciente" Label="Cédula del Paciente"/>
                             }
                             @if (_model.Patient == null)
                             {
@@ -67,8 +67,8 @@
                 {
                     <EditForm EditContext="_patientContext" OnValidSubmit="Submit">
                         <FluentValidationValidator/>
-                        <TextBox Disabled="IsReadOnly()" @bind-Value="_model.Patient.Nombre" Label="Nombre"/>
-                        <TextBox Disabled="IsReadOnly()" @bind-Value="_model.Patient.PrimerApellido" Label="Primer apellido"/>
+                        <TextBox Disabled="IsReadOnly()" Required="!ReadOnly" @bind-Value="_model.Patient.Nombre" Label="Nombre"/>
+                        <TextBox Disabled="IsReadOnly()" Required=!ReadOnly @bind-Value="_model.Patient.PrimerApellido" Label="Primer apellido"/>
                         @if (!IsReadOnly() || !String.IsNullOrEmpty(_model.Patient.SegundoApellido))
                         {
                             <TextBox Disabled="IsReadOnly()" Required="false" @bind-Value="_model.Patient.SegundoApellido" Label="Segundo apellido"/>

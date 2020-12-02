@@ -38,9 +38,9 @@
                                             class="form-control"/>
                         </div>
                     }else {
-                        <TextBox Disabled="true" @bind-Value="@_model.TransportUnit.Matricula" Label="Unidad de transporte"/>
-                        <TextBox Disabled="true" @bind-Value="@CordinName" Label="Coordinador técnico médico"/>
-                        <TextBox Disabled="true" @bind-Value="@SpecialistsNames" Label="Miembros del equipo"/>
+                        <TextBox Disabled="true" Required="false" @bind-Value="@_model.TransportUnit.Matricula" Label="Unidad de transporte"/>
+                        <TextBox Disabled="true" Required="false" @bind-Value="@CordinName" Label="Coordinador técnico médico"/>
+                        <TextBox Disabled="true" Required="false" @bind-Value="@SpecialistsNames" Label="Miembros del equipo"/>
                     }
                 </div>
             </div>
