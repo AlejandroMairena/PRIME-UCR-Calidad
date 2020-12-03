@@ -6,51 +6,98 @@
         <h2>Video</h2>
         <hr />
 
-        <div class="row">
+        <MultimediaTitleComponent Title="video" OnTitleChanged="OnTitleChanged"></MultimediaTitleComponent>
+
+        @* Video Feed *@
+        <video class="rt-box" autoplay muted @ref="videoPreview"></video>
+        @* Video Preview *@
+        <video class="rt-box" controls @ref="recordedVideo"></video>
+
+        @* Button Row *@
+        <div class="row" style="margin-top: 20px">
+            @* Open/Close Camera *@
             <div class="col">
-                @* Video Preview *@
-                <div class="row">
-                    <video class="rt-box rt-box" autoplay muted @ref="videoPreview"></video>
-                </div>
-                <div class="row" style="margin-top: 20px">
-                    @* Open Close Camera Button *@
-                    <div class="col">
-                        <button type="button" class="btn btn-primary rt-button" @ref="startButton">Grabar</button>
-                    </div>
-                    @* Take Photograph Button *@
-                    <div class="col">
-                        <button class="btn btn-danger rt-button" disabled @ref="stopButton">
-                            Detener
-                        </button>
-                    </div>
-                </div>
+                <button type="button" class="btn btn-primary rt-button" 
+                        @onclick="HandleOpenCloseClick"
+                        @ref="closeButton">
+                    @openCloseButtonText
+                </button>
             </div>
 
+            @* Record/Stop Button *@
             <div class="col">
-                @* Preview *@
-                <div class="row">
-                    <video class="rt-box rt-box" controls @ref="recordedVideo"></video>
-                </div>
-                <div class="row" style="margin-top: 20px">
-                    @* Cancel Button *@
-                    <div class="col">
-                        
-                    </div>
-                    @* Save Photograph Button *@
-                    <div class="col">
-                        <div class="btn btn-primary rt-button">
-                            <a style="color: white;" @ref="downloadButton">
-                                Descargar
-                            </a>
-                        </div>
-                        @*<a class="btn btn-primary rt-button" role="button" @ref="downloadLinkRef">
-                                Descargar
-                            </a>*@
-                    </div>
-                </div>
+                @* Record *@
+                <button type="button" class="btn btn-primary rt-button" disabled="@cameraClose" @ref="startButton">
+                    Grabar
+                </button>
+                @* Stop *@
+                <button class="btn btn-danger rt-button" disabled="@cameraClose" @ref="stopButton">
+                    Detener
+                </button>
             </div>
 
+            @* Download Button *@
+            <div class="col">
+                <div class="btn btn-primary rt-button">
+                    <a style="color: white;" @ref="downloadButton">
+                        Descargar
+                    </a>
+                </div>
+            </div>
         </div>
+
+        @* Exit Button *@
+        <div class="row" style="margin-top: 20px">
+            <div class="col">
+                <button class="btn btn-danger rt-button" @onclick="OnClose">Salir</button>
+            </div>
+        </div>
+
+        <!--<div class="row">
+        <div class="col">-->
+        @* Video Preview *@
+        <!--<div class="row">
+        <video class="rt-box rt-box" autoplay muted @ref="videoPreview"></video>
+    </div>
+    <div class="row" style="margin-top: 20px">-->
+        @* Open Close Camera Button *@
+        <!--<div class="col">
+        <button type="button" class="btn btn-primary rt-button" @ref="startButton">Grabar</button>
+    </div>-->
+        @* Take Photograph Button *@
+        <!--<div class="col">
+                <button class="btn btn-danger rt-button" disabled @ref="stopButton">
+                    Detener
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="col">-->
+        @* Preview *@
+        <!--<div class="row">
+        <video class="rt-box rt-box" controls @ref="recordedVideo"></video>
+    </div>
+    <div class="row" style="margin-top: 20px">-->
+        @* Cancel Button *@
+        <!--<div class="col">
+
+    </div>-->
+        @* Save Photograph Button *@
+        <!--<div class="col">
+        <div class="btn btn-primary rt-button">
+            <a style="color: white;" @ref="downloadButton">
+                Descargar
+            </a>
+        </div>-->
+        @*<a class="btn btn-primary rt-button" role="button" @ref="downloadLinkRef">
+            Descargar
+        </a>*@
+        <!--</div>
+            </div>
+        </div>
+
+    </div>-->
 
     </div>
 

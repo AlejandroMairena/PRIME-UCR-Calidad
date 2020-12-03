@@ -19,6 +19,7 @@ namespace PRIME_UCR.Components.Incidents.LocationPickers
         [Parameter] public bool IsFirst { get; set; }
         [Parameter] public EventCallback<HouseholdModel> OnSave { get; set; }
         [Parameter] public EventCallback OnDiscard { get; set; }
+        [Parameter] public bool ReadOnly { get; set; } = false;
 
         private List<Provincia> _provinces;
         private List<Canton> _cantons;

@@ -19,7 +19,8 @@ namespace PRIME_UCR.Components.Incidents.LocationPickers
         [Parameter] public EventCallback<InternationalModel> OnSave { get; set; }
         [Parameter] public EventCallback OnDiscard { get; set; }
         [Parameter] public bool IsFirst { get; set; }
-        
+        [Parameter] public bool ReadOnly { get; set; } = false;// If the elements in tab are readOnly or input required
+
         private bool _saveButtonEnabled = false;
         private EditContext _context;
         private List<Pais> _values;
