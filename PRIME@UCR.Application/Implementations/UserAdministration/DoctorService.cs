@@ -13,32 +13,23 @@ using PRIME_UCR.Domain.Models.UserAdministration;
 
 namespace PRIME_UCR.Application.Implementations.UserAdministration
 {
-    public partial class DoctorService : IDoctorService
+    internal class DoctorService : IDoctorService
     {
         private readonly IDoctorRepository _repository;
 
-        private readonly IPrimeSecurityService primeSecurityService;
-
-        public DoctorService(IDoctorRepository repository,
-            IPrimeSecurityService _primeSecurityService)
+        public DoctorService(IDoctorRepository repository)
         {
             _repository = repository;
-            primeSecurityService = _primeSecurityService;
         }
 
         public async Task<Médico> GetDoctorByIdAsync(string id)
         {
-            await primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             return await _repository.GetByKeyAsync(id);
         }
 
         public async Task<IEnumerable<Médico>> GetAllDoctorsAsync()
         {
-            await primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             return await _repository.GetAllAsync();
         }
     }
-
-    [MetadataType(typeof(DoctorServiceAuthorization))]
-    public partial class DoctorService { }
 }

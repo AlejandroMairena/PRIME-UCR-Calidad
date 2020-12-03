@@ -71,10 +71,6 @@ namespace PRIME_UCR.Components.UserAdministration
                         notRegistered = "hide";
                         invalidUser = "show";
                     } 
-                    else
-                    {
-                        await sessionStorage.SetItemAsync("emailAddress",logInInfo.Correo);
-                    }
                 }
                 else
                 {

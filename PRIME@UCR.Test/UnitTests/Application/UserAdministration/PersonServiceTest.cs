@@ -1,8 +1,10 @@
 ﻿using Moq;
 using PRIME_UCR.Application.DTOs.UserAdministration;
 using PRIME_UCR.Application.Implementations.UserAdministration;
+using PRIME_UCR.Application.Permissions.UserAdministration;
 using PRIME_UCR.Application.Repositories.UserAdministration;
 using PRIME_UCR.Application.Services.UserAdministration;
+using PRIME_UCR.Domain.Constants;
 using PRIME_UCR.Domain.Models.UserAdministration;
 using System;
 using System.Collections.Generic;
@@ -22,9 +24,9 @@ namespace PRIME_UCR.Test.UnitTests.Application.UserAdministration
             mockRepo.Setup(p => p.GetByKeyPersonaAsync(String.Empty)).Returns(Task.FromResult<Persona>(null));
 
             var mockSecurity = new Mock<IPrimeSecurityService>();
-            mockSecurity.Setup(s => s.CheckIfIsAuthorizedAsync(typeof(PersonService), "GetPersonByIdAsync"));
+            mockSecurity.Setup(s => s.CheckIfIsAuthorizedAsync(It.IsAny<AuthorizationPermissions[]>()));
 
-            var personService = new PersonService(mockRepo.Object, mockSecurity.Object);
+            var personService = new SecurePersonService(mockRepo.Object, mockSecurity.Object);
 
             var result = await personService.GetPersonByIdAsync(String.Empty);
             Assert.Null(result);
@@ -44,9 +46,9 @@ namespace PRIME_UCR.Test.UnitTests.Application.UserAdministration
             }));
 
             var mockSecurity = new Mock<IPrimeSecurityService>();
-            mockSecurity.Setup(s => s.CheckIfIsAuthorizedAsync(typeof(PersonService), "GetPersonByIdAsync"));
+            mockSecurity.Setup(s => s.CheckIfIsAuthorizedAsync(It.IsAny<AuthorizationPermissions[]>()));
 
-            var personService = new PersonService(mockRepo.Object, mockSecurity.Object);
+            var personService = new SecurePersonService(mockRepo.Object, mockSecurity.Object);
 
             var result = await personService.GetPersonByIdAsync(id);
             
@@ -65,9 +67,9 @@ namespace PRIME_UCR.Test.UnitTests.Application.UserAdministration
             mockRepo.Setup(p => p.DeleteAsync(id));
 
             var mockSecurity = new Mock<IPrimeSecurityService>();
-            mockSecurity.Setup(s => s.CheckIfIsAuthorizedAsync(typeof(PersonService), "DeletePersonAsync"));
+            mockSecurity.Setup(s => s.CheckIfIsAuthorizedAsync(It.IsAny<AuthorizationPermissions[]>()));
 
-            var personService = new PersonService(mockRepo.Object, mockSecurity.Object);
+            var personService = new SecurePersonService(mockRepo.Object, mockSecurity.Object);
 
             await personService.DeletePersonAsync(id);
 
@@ -89,9 +91,9 @@ namespace PRIME_UCR.Test.UnitTests.Application.UserAdministration
             mockRepo.Setup(p => p.InsertAsync(person));
 
             var mockSecurity = new Mock<IPrimeSecurityService>();
-            mockSecurity.Setup(s => s.CheckIfIsAuthorizedAsync(typeof(PersonService), "StoreNewPersonAsync"));
+            mockSecurity.Setup(s => s.CheckIfIsAuthorizedAsync(It.IsAny<AuthorizationPermissions[]>()));
 
-            var personService = new PersonService(mockRepo.Object, mockSecurity.Object);
+            var personService = new SecurePersonService(mockRepo.Object, mockSecurity.Object);
 
             PersonFormModel personFormModel = new PersonFormModel
             {
@@ -109,9 +111,9 @@ namespace PRIME_UCR.Test.UnitTests.Application.UserAdministration
             var mockRepo = new Mock<IPersonaRepository>();
 
             var mockSecurity = new Mock<IPrimeSecurityService>();
-            mockSecurity.Setup(s => s.CheckIfIsAuthorizedAsync(typeof(PersonService), "GetPersonModelFromRegisterModelAsync"));
+            mockSecurity.Setup(s => s.CheckIfIsAuthorizedAsync(It.IsAny<AuthorizationPermissions[]>()));
 
-            var personService = new PersonService(mockRepo.Object, mockSecurity.Object);
+            var personService = new SecurePersonService(mockRepo.Object, mockSecurity.Object);
 
             RegisterUserFormModel registerUserForm = new RegisterUserFormModel
             {
@@ -134,9 +136,9 @@ namespace PRIME_UCR.Test.UnitTests.Application.UserAdministration
             var mockRepo = new Mock<IPersonaRepository>();
 
             var mockSecurity = new Mock<IPrimeSecurityService>();
-            mockSecurity.Setup(s => s.CheckIfIsAuthorizedAsync(typeof(PersonService), "GetPersonModelFromRegisterModelAsync"));
+            mockSecurity.Setup(s => s.CheckIfIsAuthorizedAsync(It.IsAny<AuthorizationPermissions[]>()));
 
-            var personService = new PersonService(mockRepo.Object, mockSecurity.Object);
+            var personService = new SecurePersonService(mockRepo.Object, mockSecurity.Object);
 
             RegisterUserFormModel registerUserForm = null;
 
@@ -152,9 +154,9 @@ namespace PRIME_UCR.Test.UnitTests.Application.UserAdministration
             mockRepo.Setup(p => p.GetByCedPersonaAsync(String.Empty)).Returns(Task.FromResult<Persona>(null));
 
             var mockSecurity = new Mock<IPrimeSecurityService>();
-            mockSecurity.Setup(s => s.CheckIfIsAuthorizedAsync(typeof(PersonService), "GetPersonByCedAsync"));
+            mockSecurity.Setup(s => s.CheckIfIsAuthorizedAsync(It.IsAny<AuthorizationPermissions[]>()));
 
-            var personService = new PersonService(mockRepo.Object, mockSecurity.Object);
+            var personService = new SecurePersonService(mockRepo.Object, mockSecurity.Object);
             var result = await personService.GetPersonByCedAsync(String.Empty);
             Assert.Null(result);
         }
@@ -172,9 +174,9 @@ namespace PRIME_UCR.Test.UnitTests.Application.UserAdministration
             }));
 
             var mockSecurity = new Mock<IPrimeSecurityService>();
-            mockSecurity.Setup(s => s.CheckIfIsAuthorizedAsync(typeof(PersonService), "GetPersonByCedAsync"));
+            mockSecurity.Setup(s => s.CheckIfIsAuthorizedAsync(It.IsAny<AuthorizationPermissions[]>()));
 
-            var personService = new PersonService(mockRepo.Object, mockSecurity.Object);
+            var personService = new SecurePersonService(mockRepo.Object, mockSecurity.Object);
             var result = await personService.GetPersonByCedAsync(ced);
             Assert.Equal("12345678", result.Cédula);
             Assert.Equal("Juan", result.Nombre);

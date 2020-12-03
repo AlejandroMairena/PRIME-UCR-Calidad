@@ -11,22 +11,18 @@ using System.Threading.Tasks;
 
 namespace PRIME_UCR.Application.Implementations.Incidents
 {
-    public partial class StateService : IStateService
+    internal class StateService : IStateService
     {
         private readonly IStateRepository _stateRepository;
-        private readonly IPrimeSecurityService _primeSecurityService;
-        public StateService(IStateRepository stateRepository, IPrimeSecurityService primeSecurityService)
+
+        public StateService(IStateRepository stateRepository)
         {
             _stateRepository = stateRepository;
-            _primeSecurityService = primeSecurityService;
         }
+
         public async Task<IEnumerable<Estado>> GetAllStates()
         {
-            await _primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             return await _stateRepository.GetAllStates();
         }
     }
-    [MetadataType(typeof(StateServicePermissions))]
-    public partial class StateService { }
-
 }

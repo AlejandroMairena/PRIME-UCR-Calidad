@@ -8,6 +8,8 @@ using PRIME_UCR.Domain.Models.UserAdministration;
 using PRIME_UCR.Application.Repositories.UserAdministration;
 using PRIME_UCR.Application.Services.UserAdministration;
 using PRIME_UCR.Application.Implementations.UserAdministration;
+using PRIME_UCR.Application.Permissions.UserAdministration;
+using PRIME_UCR.Domain.Constants;
 
 namespace PRIME_UCR.Test.UnitTests.Application.UserAdministration
 {
@@ -23,9 +25,9 @@ namespace PRIME_UCR.Test.UnitTests.Application.UserAdministration
             mockRepo.Setup(p => p.InsertPermissionAsync(idProfile,idPermission));
 
             var mockSecurity = new Mock<IPrimeSecurityService>();
-            mockSecurity.Setup(s => s.CheckIfIsAuthorizedAsync(typeof(PermiteService), "InsertPermissionAsync"));
+            mockSecurity.Setup(s => s.CheckIfIsAuthorizedAsync(It.IsAny<AuthorizationPermissions[]>()));
 
-            var permiteService = new PermiteService(mockRepo.Object, mockSecurity.Object);
+            var permiteService = new SecurePermiteService(mockRepo.Object, mockSecurity.Object);
             await permiteService.InsertPermissionAsync(idProfile,idPermission);
         }
 
@@ -39,11 +41,10 @@ namespace PRIME_UCR.Test.UnitTests.Application.UserAdministration
             mockRepo.Setup(p => p.DeletePermissionAsync(idProfile, idPermission));
 
             var mockSecurity = new Mock<IPrimeSecurityService>();
-            mockSecurity.Setup(s => s.CheckIfIsAuthorizedAsync(typeof(PermiteService), "InsertPermissionAsync"));
+            mockSecurity.Setup(s => s.CheckIfIsAuthorizedAsync(It.IsAny<AuthorizationPermissions[]>()));
 
-            var permiteService = new PermiteService(mockRepo.Object, mockSecurity.Object);
+            var permiteService = new SecurePermiteService(mockRepo.Object, mockSecurity.Object);
             await permiteService.DeletePermissionAsync(idProfile, idPermission);
-
         }
 
     }
