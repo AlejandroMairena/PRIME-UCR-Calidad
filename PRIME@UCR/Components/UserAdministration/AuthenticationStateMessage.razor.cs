@@ -15,6 +15,9 @@ namespace PRIME_UCR.Components.UserAdministration
         [CascadingParameter]
         private Task<AuthenticationState> _authenticationState { get; set; }
 
+        [Inject]
+        private NavigationManager navigationManager { get; set; }
+
         bool isAuthenticated = false;
 
         /*
@@ -34,6 +37,11 @@ namespace PRIME_UCR.Components.UserAdministration
             {
                 return "Para acceder a esta página debe registarse.";
             }
+        }
+
+        private void goToPageAskPermission()
+        {
+            navigationManager.NavigateTo("/AskPermission");
         }
     }
 }
