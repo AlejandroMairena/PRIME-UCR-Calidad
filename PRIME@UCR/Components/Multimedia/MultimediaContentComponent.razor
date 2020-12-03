@@ -33,6 +33,8 @@
         @* Dropdown del boton *@
         <div class="@ddMenuClass" aria-labelledby="dropdownMenuButton" id="multiMenu">
             <div class="m-menu-div">
+                @if (!ViewOnly)
+                {
                 <div class="row">
                     @* InputFileComponent *@
                     <div class="col">
@@ -66,13 +68,13 @@
                     </div>
                     @* Text Logo *@
                     <div class="col">
-                        <button class="rt-img-cont" @onclick="OpenTextComponent">
+                        <button class="rt-img-cont" @onclick="() => OpenText(null)">
                             <span class="tooltiptext">Capturar texto</span>
                             <img class="data_btn" src="img/ico-texto.jpg" />
                         </button>
                     </div>
                 </div>
-
+                }
                 @* Lista de Archivos asociados *@
                 @if (!validFileType)
                 {
@@ -97,8 +99,11 @@
                                 <th scope="col">Nombre</th>
                                 <th scope="col">Tipo</th>
                                 <th scope="col">Fecha</th>
-                                <th scope="col"></th>
-                                <th scope="col"></th>
+                                <th scope="col"></th> @* See Button Column*@
+                                @if (!ViewOnly)
+                                {
+                                <th scope="col"></th> @* Delete Button Column*@
+                                }
                             </tr>
                         </thead>
 
@@ -115,7 +120,10 @@
                                             @GetButonName(mcontent)
                                         </button>
                                     </td>
-                                    <td><button type="button" class="btn btn-danger m-btn m-btn-rm" @onclick="(()=> DeleteMultimediaContent(mcontent))">Eliminar</button></td>
+                                    @if (!ViewOnly)
+                                    {
+                                    <td><button type="button" class="btn btn-danger m-btn m-btn-rm" @onclick="(() => DeleteMultimediaContent(mcontent))">Eliminar</button></td>
+                                    }
                                 </tr>
                             }
                         </tbody>
