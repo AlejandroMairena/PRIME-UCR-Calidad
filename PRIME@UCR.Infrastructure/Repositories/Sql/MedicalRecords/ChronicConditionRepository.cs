@@ -22,5 +22,15 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.MedicalRecords
                 .Include(e => e.Expediente)
                 .Include(e => e.ListaPadecimiento).Where(expression).ToListAsync();
         }
+
+        public async Task DeleteByIdsAsync(int recordId, int listId)
+        {
+            var borrado = _db.Set<PadecimientosCronicos>().Find(recordId, listId);
+            if (borrado != null)
+            {
+                _db.Set<PadecimientosCronicos>().Remove(borrado);
+            }
+            await _db.SaveChangesAsync();
+        }
     }
 }
