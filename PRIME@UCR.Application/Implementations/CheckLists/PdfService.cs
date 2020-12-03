@@ -173,12 +173,24 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
                 "Lugar de donde llama"
             };
 
+            string doctorName = "";
+            string telephoneNumber = "No manejado por el sistema.";
+            string originName = "";
+            if (generalInformation.AssignedMembers != null)
+            {
+                doctorName = generalInformation.AssignedMembers.Coordinator.NombreCompleto;
+            }
+            if (generalInformation.Incident.Origin != null)
+            {
+                originName = generalInformation.Incident.Origin.DisplayName;
+            }
+
             List<List<string>> information = new List<List<string>>();
             List<string> rowInformation = new List<string>
             {
-                generalInformation.AssignedMembers.Coordinator.NombreCompleto,
-                "No manejado por el sistema.",
-                generalInformation.Incident.Origin.DisplayName
+                doctorName,
+                telephoneNumber,
+                originName
             };
             information.Add(rowInformation);
 
@@ -197,20 +209,28 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
                 "Edad"
             };
 
+            string fullName = "";
+            string personId = "";
             string birthDate = "No ingresada en el sistema.";
             string age = "No ingresada en el sistema.";
-            if (generalInformation.Patient.FechaNacimiento != null)
+            
+            if (generalInformation.Patient != null)
             {
-                DateTime patientBirth = (DateTime)generalInformation.Patient.FechaNacimiento;
-                birthDate = patientBirth.ToString("dd/MM/yyyy");
-                int patientAge = DateTime.Now.Year - patientBirth.Year;
-                age = patientAge.ToString() + "años.";
+                fullName = generalInformation.Patient.NombreCompleto;
+                personId = generalInformation.Incident.MedicalRecord.CedulaPaciente;
+                if (generalInformation.Patient.FechaNacimiento != null)
+                {
+                    DateTime patientBirth = (DateTime)generalInformation.Patient.FechaNacimiento;
+                    birthDate = patientBirth.ToString("dd/MM/yyyy");
+                    int patientAge = DateTime.Now.Year - patientBirth.Year;
+                    age = patientAge.ToString() + " años.";
+                }
             }
             information = new List<List<string>>();
             rowInformation = new List<string>
             {
-                generalInformation.Patient.NombreCompleto,
-                generalInformation.Incident.MedicalRecord.CedulaPaciente,
+                fullName,
+                personId,
                 birthDate,
                 age
             };
