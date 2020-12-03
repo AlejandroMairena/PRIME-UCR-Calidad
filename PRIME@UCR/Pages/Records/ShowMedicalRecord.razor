@@ -2,7 +2,10 @@
 @using PRIME_UCR.Domain.Models.MedicalRecords
 @using BlazorTable
 @using MatBlazor;
-@using PRIME_UCR.Components.MedicalRecords 
+@using PRIME_UCR.Components.MedicalRecords
+@using PRIME_UCR.Application.Implementations.UserAdministration
+@using PRIME_UCR.Domain.Constants
+@attribute [HasPermission(AuthorizationPermissions.CanSeeAllMedicalRecords)]
 @inject NavigationManager NavManager
 @inject PRIME_UCR.Application.Services.MedicalRecords.IMedicalRecordService medical_record_service
 
@@ -40,8 +43,8 @@
 
         <Pager ShowPageNumber="true" ShowTotalCount="true" />
     </Table>
-        <PaginationDropdown changeSize="size_changed" MaxElements="medical_records.Count"> </PaginationDropdown>
-    
+    <PaginationDropdown changeSize="size_changed" MaxElements="medical_records.Count"> </PaginationDropdown>
+
 </Loading>
 
 

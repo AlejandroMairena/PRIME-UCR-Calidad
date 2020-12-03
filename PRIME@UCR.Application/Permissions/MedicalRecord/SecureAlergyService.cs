@@ -42,10 +42,10 @@ namespace PRIME_UCR.Application.Permissions.MedicalRecord
             return await AllergyService.GetAll();
         }
 
-        public async Task<Alergias> InsertAllergyAsync(Alergias model)
+        public async Task InsertAllergyAsync(int recordId, List<ListaAlergia> insertList, List<ListaAlergia> deleteList)
         {
             await primeSecurityService.CheckIfIsAuthorizedAsync(new[] { AuthorizationPermissions.CanSeeAllMedicalRecords, AuthorizationPermissions.CanSeeMedicalRecordsOfHisPatients });
-            return await AllergyService.InsertAllergyAsync(model);
+            await AllergyService.InsertAllergyAsync(recordId, insertList, deleteList);
         }
     }
 }

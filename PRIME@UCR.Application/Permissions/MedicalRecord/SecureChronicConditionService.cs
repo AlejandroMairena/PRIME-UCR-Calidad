@@ -42,10 +42,10 @@ namespace PRIME_UCR.Application.Permissions.MedicalRecord
             return await ChronicConditionService.GetAll();
         }
 
-        public async Task<PadecimientosCronicos> InsertChronicConditionAsync(PadecimientosCronicos model)
+        public async Task InsertConditionAsync(int recordId, List<ListaPadecimiento> insertList, List<ListaPadecimiento> deleteList)
         {
             await primeSecurityService.CheckIfIsAuthorizedAsync(new[] { AuthorizationPermissions.CanSeeAllMedicalRecords, AuthorizationPermissions.CanSeeMedicalRecordsOfHisPatients });
-            return await ChronicConditionService.InsertChronicConditionAsync(model);
+            await ChronicConditionService.InsertConditionAsync(recordId, insertList, deleteList);
         }
     }
 }
