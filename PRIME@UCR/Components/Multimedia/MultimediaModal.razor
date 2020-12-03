@@ -41,19 +41,20 @@
             <source src=@vid type="video/mp4">
         </video>
     }
-    @if (ShowText)
+    @*@if (ShowText)
     {
      <div id="caption">Se ha abierto una nueva pestaña para mostrar el archivo...</div>
      getText();
-    }
+    }*@
     @if (ShowVideoComponent)
     {
         <VideoComponent MultimediaModal="this"></VideoComponent>
     }
-    @if (ShowTextComponent)
+    @if (ShowText)
     {
         <TextComponent OnFileUpload="OnFileUpload"
-                       EncryptionService="encrypt_service"
+                       MultimediaContent="MContent"
+                       MultimediaModal="this"
                        ></TextComponent>
     }
 
