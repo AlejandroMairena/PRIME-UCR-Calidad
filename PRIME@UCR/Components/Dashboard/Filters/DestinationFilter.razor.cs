@@ -16,9 +16,10 @@ namespace PRIME_UCR.Components.Dashboard.Filters
 {
     public partial class DestinationFilter
     {
-        [Inject] public ILocationService LocationService { get; set; }
         [Parameter] public FilterModel Value { get; set; }
         [Parameter] public EventCallback<FilterModel> ValueChanged { get; set; }
+        [Parameter] public DashboardDataModel Data { get; set; }
+        [Parameter] public EventCallback<DashboardDataModel> DataChanged { get; set; }
 
         private List<CentroMedico> _medicalCenters;
         private bool _isLoading = true;
@@ -35,39 +36,27 @@ namespace PRIME_UCR.Components.Dashboard.Filters
                 _changesMade = true;
             }
             Value._selectedMedicalCenterDestination.MedicalCenter = medicalCenter;
-            //await ValueChanged.InvokeAsync(Value);
         }
 
-        private async Task LoadMedicalCenters(bool firstRender)
-        {
-            _medicalCenters =
-                (await LocationService.GetAllMedicalCentersAsync())
-                .ToList();
-            if (!firstRender)
-                Value.MedicalCenterDestination.MedicalCenter = null;                
-        }
-
-
-        private async Task LoadExistingValues()
+        private void LoadExistingValues()
         {
             _isLoading = true;
             StateHasChanged();
-            await LoadMedicalCenters(true);
+            _medicalCenters = Data.medicalCenters;
             _isLoading = false;
         }
 
-        protected override async Task OnInitializedAsync()
+        protected override void OnInitialized()
         {
-            await LoadExistingValues();
+            LoadExistingValues();
         }
 
-        private async Task Discard()
+        private void Discard()
         {
             _changesMade = false;
             Value._selectedMedicalCenterDestination.MedicalCenter = Value.MedicalCenterDestination.MedicalCenter;
-            await ValueChanged.InvokeAsync(Value);
-
         }
+
         private async Task Save()
         {
             StateHasChanged();

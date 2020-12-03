@@ -15,45 +15,39 @@ using PRIME_UCR.Application.Services.UserAdministration;
 
 namespace PRIME_UCR.Application.Implementations.Incidents
 {
-    public partial class AssignmentService : IAssignmentService
+    public class AssignmentService : IAssignmentService
     {
         private readonly ITransportUnitRepository _transportUnitRepository;
         private readonly ICoordinadorTécnicoMédicoRepository _coordinatorRepo;
         private readonly IEspecialistaTécnicoMédicoRepository _specialistRepo;
         private readonly IAssignmentRepository _assignmentRepo;
         private readonly IIncidentRepository _incidentRepository;
-        private readonly IPrimeSecurityService _primeSecurityService;
 
         public AssignmentService(ITransportUnitRepository transportUnitRepository,
             ICoordinadorTécnicoMédicoRepository coordinatorRepo,
             IEspecialistaTécnicoMédicoRepository specialistRepo,
             IAssignmentRepository assignmentRepo,
-            IIncidentRepository incidentRepository,
-            IPrimeSecurityService primeSecurityService)
+            IIncidentRepository incidentRepository)
         {
             _transportUnitRepository = transportUnitRepository;
             _coordinatorRepo = coordinatorRepo;
             _specialistRepo = specialistRepo;
             _assignmentRepo = assignmentRepo;
             _incidentRepository = incidentRepository;
-            _primeSecurityService = primeSecurityService;
         }
 
         public async Task<IEnumerable<UnidadDeTransporte>> GetAllTransportUnitsByMode(string mode)
         {
-            await _primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             return await _transportUnitRepository.GetAllTransporUnitsByMode(mode);
         }
 
         public async Task<IEnumerable<CoordinadorTécnicoMédico>> GetCoordinatorsAsync()
         {
-            await _primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             return await _coordinatorRepo.GetAllAsync();
         }
 
         public async Task<IEnumerable<EspecialistaTécnicoMédico>> GetSpecialistsAsync()
         {
-            await _primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             return await _specialistRepo.GetAllAsync();
         }
 
@@ -69,7 +63,6 @@ namespace PRIME_UCR.Application.Implementations.Incidents
 
         public async Task<AssignmentModel> GetAssignmentsByIncidentIdAsync(string code)
         {
-            await _primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             var incident = await _incidentRepository.GetByKeyAsync(code);
             if (incident == null)
             {
@@ -90,7 +83,6 @@ namespace PRIME_UCR.Application.Implementations.Incidents
 
         public async Task AssignToIncidentAsync(string code, AssignmentModel model)
         {
-            await _primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             var incident = await _incidentRepository.GetByKeyAsync(code);
             incident.CedulaTecnicoCoordinador = model.Coordinator?.Cédula;
             incident.MatriculaTrans = model.TransportUnit?.Matricula;
@@ -136,8 +128,5 @@ namespace PRIME_UCR.Application.Implementations.Incidents
             }
             return hasPermission;
         }
-
     }
-    [MetadataType(typeof(AssignmentServiceAuthorization))]
-    public partial class AssignmentService { }
 }

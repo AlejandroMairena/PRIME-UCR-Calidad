@@ -14,32 +14,23 @@ using System.Threading.Tasks;
 
 namespace PRIME_UCR.Application.Implementations.UserAdministration
 {
-    public partial class PerteneceService : IPerteneceService
+    internal class PerteneceService : IPerteneceService
     {
         private readonly IPerteneceRepository _perteneceRepository;
 
-        private readonly IPrimeSecurityService primeSecurityService;
-
-        public PerteneceService(IPerteneceRepository perteneceRepository,
-            IPrimeSecurityService _primeSecurityService)
+        public PerteneceService(IPerteneceRepository perteneceRepository)
         {
             _perteneceRepository = perteneceRepository;
-            primeSecurityService = _primeSecurityService;
         }
 
         public async Task DeleteUserOfProfileAsync(string idUser, string idProfile)
         {
-            await primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             await _perteneceRepository.DeleteUserFromProfileAsync(idUser, idProfile);
         }
 
         public async Task InsertUserOfProfileAsync(string idUser, string idProfile)
         {
-            await primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             await _perteneceRepository.InsertUserToProfileAsync(idUser, idProfile);
         }
     }
-
-    [MetadataType(typeof(PerteneceServiceAuthorization))]
-    public partial class PerteneceService { }
 }
