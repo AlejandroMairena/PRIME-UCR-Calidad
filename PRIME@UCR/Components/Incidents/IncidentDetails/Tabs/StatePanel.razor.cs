@@ -156,26 +156,26 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
             if (nextState == "Asignado") {
                 _model = await AssignmentService.GetAssignmentsByIncidentIdAsync(Incident.Code);
                 _specialists = _model.TeamMembers;
+                var allocator = CurrentUser.NombreCompleto;
+                var url = "https://localhost:44368";
                 foreach (var special in _specialists)
                 {
                     var user = (await userService.GetAllUsersWithDetailsAsync()).ToList().Find(u => u.CedPersona == special.Cédula);
-                    var url = "https://localhost:44368" + IncidentURL + Incident.Code;
                     var message = new EmailContentModel()
                     {
                         Destination = user.Email,
                         Subject = "PRIME@UCR: Asignado al incidente:" + Incident.Code,
-                        Body = $"<p>Proceda a completar las listas de chequeo asignadas al incidente:<a href=\"{url}\">Haga click aquí para ser redirigido</a></p>"
+                        Body = $"<p>{allocator} lo ha asignado a un incidente</br>Proceda a completar las listas de chequeo asignadas al incidente:<a href=\"{url}\">Haga click aquí para ser redirigido</a></p>"
                     };
                     await mailService.SendEmailAsync(message);
                 }
                 coordinators = _model.Coordinator;
                 var user2 = (await userService.GetAllUsersWithDetailsAsync()).ToList().Find(u => u.CedPersona == coordinators.Cédula);
-                var url2 = "https://localhost:44368" + IncidentURL + Incident.Code;
                 var message2 = new EmailContentModel()
                 {
                     Destination = user2.Email,
                     Subject = "PRIME@UCR: Asignado al incidente:" + Incident.Code,
-                    Body = $"<p>Usted ha sido asignado al incidente:{Incident.Code}. <a href=\"{url2}\"> Haga click aquí para ser redirigido</a></p>"
+                    Body = $"<p>Usted ha sido asignado al incidente:{Incident.Code} por {allocator}. <a href=\"{url}\"> Haga click aquí para ser redirigido</a></p>"
                 };
                 await mailService.SendEmailAsync(message2);
             } 
