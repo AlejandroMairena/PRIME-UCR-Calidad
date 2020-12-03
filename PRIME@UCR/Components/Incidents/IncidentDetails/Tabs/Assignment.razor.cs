@@ -57,6 +57,7 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
             _isLoading = true;
             StateHasChanged();
             await OnSave.InvokeAsync(_model);
+            await AssignmentService.AssignToIncidentAsync(Incident.Code, _model);
             _statusMessage = "Se guardaron los cambios exitosamente.";
             _context = new EditContext(_model);
             _saveButtonEnabled = false;

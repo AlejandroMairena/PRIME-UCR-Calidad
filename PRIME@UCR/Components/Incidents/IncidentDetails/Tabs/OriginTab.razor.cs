@@ -66,6 +66,7 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
 
         private void OnOriginChange(Ubicacion origin)
         {
+            ParentPage.ClearStatusMessage();
             _model.Origin = origin;
         }
 
