@@ -119,7 +119,7 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
 
             var user = new ClaimsPrincipal(identity);
 
-            NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(user)));
+            //NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(user)));
 
             return await Task.FromResult(new AuthenticationState(user));
         }
