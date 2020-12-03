@@ -25,6 +25,12 @@ namespace PRIME_UCR.Components.UserAdministration.ProfilesModifications
         public IPermiteService permiteService { get; set; }
 
         [Inject]
+        public IMailService mailService { get; set; }
+
+        [Inject]
+        public IUserService userService { get; set; }
+
+        [Inject]
         public AuthenticationStateProvider authenticationStateProvider { get; set; }
 
         public List<Permiso> ListPermissions { get; set; }
@@ -64,18 +70,45 @@ namespace PRIME_UCR.Components.UserAdministration.ProfilesModifications
             if(Value.PermissionsList != null)
             {
                 var Permission = (ListPermissions.Find(p => p.IDPermiso == idPermission));
+
                 if ((bool)e.Value)
                 {
                     Value.PermissionsList.Add(Permission);
                     await permiteService.InsertPermissionAsync(Value.ProfileName, idPermission);
-                    Value.StatusMessage = "El permiso \"" + Permission.DescripciónPermiso + "\" fue agregado al perfil " + Value.ProfileName + ". Para que los usuarios afectados puedan notar los cambios, deberán reiniciar su sesión.";
+                    foreach(var user in Value.UserLists)
+                    {
+                        var userPerson = (await userService.GetAllUsersWithDetailsAsync()).ToList().Find(u => u.Email == user.Email);
+                        var message = new EmailContentModel()
+                        {
+                            Destination = user.Email,
+                            Subject = "PRIME@UCR: Se le ha otorgado un nuevo permiso",
+                            Body = $"<p>Estimado(a) {userPerson.Persona.Nombre}, el permiso \"{Permission.DescripciónPermiso}\" ha sido agregado al perfil \"{Value.ProfileName}\". Por lo tanto, a partir de este momento, usted posee dicho permiso en su cuenta de la aplicación PRIME@UCR. </p>"
+                        };
+
+                        await mailService.SendEmailAsync(message);
+
+                    }
+                    Value.StatusMessage = "El permiso \"" + Permission.DescripciónPermiso + "\" fue agregado al perfil " + Value.ProfileName + " y se ha notificado a los usuarios." ;
                     Value.StatusMessageType = "success";
                 }
                 else 
                 {
                     Value.PermissionsList.Remove(Permission);
                     await permiteService.DeletePermissionAsync(Value.ProfileName,idPermission);
-                    Value.StatusMessage = "El permiso \"" + Permission.DescripciónPermiso + "\" fue removido del perfil " + Value.ProfileName + ". Para que los usuarios afectados puedan notar los cambios, deberán reiniciar su sesión.";
+                    foreach (var user in Value.UserLists)
+                    {
+                        var userPerson = (await userService.GetAllUsersWithDetailsAsync()).ToList().Find(u => u.Email == user.Email);
+                        var message = new EmailContentModel()
+                        {
+                            Destination = user.Email,
+                            Subject = "PRIME@UCR: Se le ha removido un permiso",
+                            Body = $"<p>Estimado(a) {userPerson.Persona.Nombre}, el permiso \"{Permission.DescripciónPermiso}\" ha sido removido del perfil \"{Value.ProfileName}\". Por lo tanto, a partir de este momento, usted no posee dicho permiso en su cuenta de la aplicación PRIME@UCR. </p>"
+                        };
+
+                        await mailService.SendEmailAsync(message);
+
+                    }
+                    Value.StatusMessage = "El permiso \"" + Permission.DescripciónPermiso + "\" fue removido del perfil " + Value.ProfileName + " y se ha notificado a los usuarios.";
                     Value.StatusMessageType = "warning";
                 }
                 await authenticationStateProvider.GetAuthenticationStateAsync();
