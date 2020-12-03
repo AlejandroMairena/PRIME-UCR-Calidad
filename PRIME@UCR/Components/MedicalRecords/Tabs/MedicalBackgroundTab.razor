@@ -21,10 +21,6 @@
         <Pager ShowPageNumber="true" ShowTotalCount="true" />
     </Table>
     <div>
-        @if (backgroundAlreadyAdded)
-        {
-            <StatusMessage Message="Este antecedente ya fue agregado" Class="warning" />
-        }
     <Loading IsLoading="_contAnte == null">
         <EditForm EditContext="_contAnte" OnValidSubmit="SaveMedicalBackground">
             <label>Antecedentes</label>
@@ -43,7 +39,8 @@
                 else
                 {
                     <button type="submit" class="btn btn-primary">Guardar</button>
-                    <button role="button" class="btn btn-outline-secondary" @onclick="LoadRecordBackgrounds" @onclick:preventDefault>Descartar</button>}
+                    <button role="button" class="btn btn-outline-secondary" @onclick="LoadRecordBackgrounds" @onclick:preventDefault>Descartar</button>
+                }
             </div>
         </EditForm>
     </Loading>
@@ -65,28 +62,29 @@
         <Pager ShowPageNumber="true" ShowTotalCount="true" />
     </Table>
     <div>
-        @if (allergyAlreadyAdded)
-        {
-            <StatusMessage Message="Esta alergia ya fue agregada" Class="warning" />
-        }
-        @if (showAllergy == true)
-        {
-            <EditForm EditContext="_contAle">
-                <DropDownMenu T="ListaAlergia" Data="ListaAlergia"
-                              Label="Alergias"
-                              TextProperty="NombreAlergia"
-                              DefaultText="Seleccione una alergia"
-                              Required="false"
-                              Disabled="false"
-                              @bind-Value="@AlergiaPrueba" />
-            </EditForm>
-            <button type="submit" class="btn btn-primary mt-4 mb-4" @onclick="insertAllergy">Guardar</button>
-        }
-        else
-        {
-            <button type="submit" class="btn btn-primary mt-4 mb-4" @onclick="showAllergyOptions">Agregar alergia</button>
-        }
-
+    <Loading IsLoading="_contAle == null">
+        <EditForm EditContext="_contAle" OnValidSubmit="SaveAllergies">
+            <label>Alergias</label>
+            <RadzenDropDown Multiple="true" Data="ListaAlergia"
+                            TextProperty="NombreAlergia"
+                            ValueProperty="Id"
+                            @bind-Value="@RegisteredAllergies"
+                            Placeholder="Seleccione alergias"
+                            class="form-control" />
+            <div class="mt-2">
+                @if (!_saveAllergyButtonEnabled)
+                {
+                    <button disabled type="submit" class="btn btn-primary">Guardar</button>
+                    <button disabled class="btn btn-outline-secondary">Descartar</button>
+                }
+                else
+                {
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                    <button role="button" class="btn btn-outline-secondary" @onclick="LoadAllergies" @onclick:preventDefault>Descartar</button>
+                }
+            </div>
+        </EditForm>
+    </Loading>
     </div>
 </div>
 <div class="jumbotron white-panel">
@@ -95,34 +93,36 @@
         <Column TableItem="PadecimientosCronicos" Title="Fecha de creación" Field="@(x => x.FechaCreacion)" Width="18%" />
         <EmptyDataTemplate>
             <div class="text-center">
-                No se encontraron Padecimientos registradas.
+                No se encontraron Padecimientos registrados.
             </div>
         </EmptyDataTemplate>
 
         <Pager ShowPageNumber="true" ShowTotalCount="true" />
     </Table>
     <div>
-        @if (ChronicConditionAlreadyAdded)
-        {
-            <StatusMessage Message="Este Padecimiento ya fue agregado" Class="warning" />
-        }
-        @if (showChronicCondition == true)
-        {
-            <EditForm EditContext="_contCond">
-                <DropDownMenu T="ListaPadecimiento" Data="ListaPadecimiento"
-                              Label="Padecimientos"
-                              TextProperty="NombrePadecimiento"
-                              DefaultText="Seleccione un Padecimiento"
-                              Required="false"
-                              Disabled="false"
-                              @bind-Value="@PadecimientoPrueba" />
-            </EditForm>
-            <button type="submit" class="btn btn-primary mt-4 mb-4" @onclick="insertChronicCondition">Guardar</button>
-        }
-        else
-        {
-            <button type="submit" class="btn btn-primary mt-4 mb-4" @onclick="showChronicConditionOptions">Agregar Padecimiento</button>
-        }
+    <Loading IsLoading="_contCond == null">
+        <EditForm EditContext="_contCond" OnValidSubmit="SaveConditions">
+            <label>Padecimientos crónicos</label>
+            <RadzenDropDown Multiple="true" Data="ListaPadecimiento"
+                            TextProperty="NombrePadecimiento"
+                            ValueProperty="Id"
+                            @bind-Value="@RegisteredConditions"
+                            Placeholder="Seleccione padecimientos crónicos"
+                            class="form-control" />
+            <div class="mt-2">
+                @if (!_saveConditionButtonEnabled)
+                {
+                    <button disabled type="submit" class="btn btn-primary">Guardar</button>
+                    <button disabled class="btn btn-outline-secondary">Descartar</button>
+                }
+                else
+                {
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                    <button role="button" class="btn btn-outline-secondary" @onclick="LoadConditions" @onclick:preventDefault>Descartar</button>
+                }
+            </div>
+        </EditForm>
+    </Loading>
 
     </div>
 </div>
