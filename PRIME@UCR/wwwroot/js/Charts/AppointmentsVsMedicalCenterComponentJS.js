@@ -35,7 +35,7 @@ function CreateAppointmentsVsMedicalCenterComponentJS(results) {
         chart.language.locale = am4lang_es_ES;
 
         var categoryAxis = chart.yAxes.push(new am4charts.CategoryAxis());
-        categoryAxis.title.text = "Destino";
+        categoryAxis.title.text = "Centro Medico";
         categoryAxis.title.fontWeight = "bold";
         categoryAxis.renderer.grid.template.location = 0;
         categoryAxis.dataFields.category = "destination";
@@ -49,7 +49,7 @@ function CreateAppointmentsVsMedicalCenterComponentJS(results) {
         valueAxis.max = 50;
 
         valueAxis.min = 0;
-        valueAxis.title.text = "Cantidad de Incidentes";
+        valueAxis.title.text = "Cantidad de Citas";
         valueAxis.title.fontWeight = "bold";
 
 

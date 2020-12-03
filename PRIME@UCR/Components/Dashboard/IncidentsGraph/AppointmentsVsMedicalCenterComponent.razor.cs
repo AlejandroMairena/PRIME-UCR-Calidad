@@ -70,7 +70,7 @@ namespace PRIME_UCR.Components.Dashboard.IncidentsGraph
                 }
             });*/
 
-            appointmentsQuantity = 10;
+            appointmentsQuantity = 11;
             var results = new List<String>();
             var appointments = new List<int>() {2,3,3,3,3 };
             var i = 0;
