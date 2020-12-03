@@ -12,6 +12,9 @@ namespace PRIME_UCR.Components.Dashboard.IncidentsGraph
         public string Title { get; set; }
 
         [Parameter]
+        public string QuantityTitle { get; set; }
+
+        [Parameter]
         public int EventQuantity { get; set; }
 
         [Parameter]
