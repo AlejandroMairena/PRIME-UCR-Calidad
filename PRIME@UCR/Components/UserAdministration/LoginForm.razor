@@ -1,5 +1,5 @@
 ﻿@inject AuthenticationStateProvider AuthenticationStateProvider
-@inject Blazored.SessionStorage.ISessionStorageService sessionStorage
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
 
 <div class="mt-5 text-white">
     <EditForm EditContext="_context" OnValidSubmit="@ValidateUser">
