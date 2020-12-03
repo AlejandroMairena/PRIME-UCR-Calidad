@@ -3,9 +3,11 @@ using Microsoft.Extensions.DependencyInjection;
 using PRIME_UCR.Application.Dtos.Incidents;
 using PRIME_UCR.Application.DTOs.Incidents;
 using PRIME_UCR.Domain.Models.UserAdministration;
+using PRIME_UCR.StateManagement.Implementations.Incidents;
+using PRIME_UCR.StateManagement.Interfaces.Incidents;
 using PRIME_UCR.Validators.Incidents;
 
-namespace PRIME_UCR.Validators
+namespace PRIME_UCR
 {
     public static class DependencyInjection
     {
@@ -20,6 +22,13 @@ namespace PRIME_UCR.Validators
             services.AddTransient<IValidator<PatientModel>, PatientModelValidator>();
             services.AddTransient<IValidator<Paciente>, PacienteValidator>();
             services.AddTransient<IValidator<AssignmentModel>, AssignmentModelValidator>();
+            return services;
+        }
+
+        public static IServiceCollection AddStateManagement(this IServiceCollection services)
+        {
+            // incidents
+            services.AddTransient<IRealTimeMapState, RealTimeMapState>();
             return services;
         }
     }

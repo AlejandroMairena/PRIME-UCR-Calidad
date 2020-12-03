@@ -76,12 +76,13 @@ namespace PRIME_UCR
                 .AddTokenProvider<PasswordRecoveryTokenProvider<Usuario>>(passwordResetProvider)
                 .AddTokenProvider<EmailValidationTokenProvider<Usuario>>(emailValidationProvider);
 
-            
+
             //services.AddBlazoredSessionStorage();
             services.AddBlazoredLocalStorage();
             services.AddApplicationLayer();
             services.AddInfrastructureLayer();
             services.AddValidators();
+            services.AddStateManagement();
 
             // authentication
             services.AddTransient<IPrimeSecurityService, PrimeSecurityService>();

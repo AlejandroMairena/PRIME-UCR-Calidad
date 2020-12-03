@@ -9,7 +9,7 @@
                          Center=@_center
                          MarkerClick=@OnMarkerClick>
             <Markers>
-                @foreach (var gps in _data)
+                @foreach (var gps in RealTimeMapState.GpsData)
                 {
                     <RadzenGoogleMapMarker Title="@(gps.IncidentCode)"
                                            Label="@(gps.IncidentCode)"
