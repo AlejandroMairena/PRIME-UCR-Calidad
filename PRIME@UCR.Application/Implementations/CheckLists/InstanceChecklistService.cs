@@ -41,10 +41,10 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
             IEnumerable<InstanceChecklist> lists = await _instancechecklistRepository.GetAllAsync();
             return lists;//.OrderBy(InstanceChecklist => InstanceChecklist.Orden);
         }
-        public async Task<InstanceChecklist> InsertInstanceChecklist(InstanceChecklist list)
+        public async Task InsertInstanceChecklist(InstanceChecklist list)
         {
             await _primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
-            return await _instancechecklistRepository.InsertAsync(list);
+            await _instancechecklistRepository.InsertInstanceCheckListAsync(list.PlantillaId,list.IncidentCod);
         }
 
         public async Task<InstanceChecklist> GetById(int id)
