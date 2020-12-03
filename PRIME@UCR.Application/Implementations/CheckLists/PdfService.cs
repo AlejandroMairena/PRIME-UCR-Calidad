@@ -201,10 +201,10 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
             string age = "No ingresada en el sistema.";
             if (generalInformation.Patient.FechaNacimiento != null)
             {
-                birthDate = generalInformation.Patient.FechaNacimiento.ToString();
                 DateTime patientBirth = (DateTime)generalInformation.Patient.FechaNacimiento;
+                birthDate = patientBirth.ToString("dd/MM/yyyy");
                 int patientAge = DateTime.Now.Year - patientBirth.Year;
-                age = patientAge.ToString();
+                age = patientAge.ToString() + "años.";
             }
             information = new List<List<string>>();
             rowInformation = new List<string>
@@ -237,7 +237,7 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
             };
 
             string background = "No ingresado en el sistema.";
-            if (generalInformation.Background != null)
+            if (generalInformation.Background != null && generalInformation.Background.Count != 0)
             {
                 background = "";
                 for (int index = 0; index < generalInformation.Background.Count; index++)
@@ -247,7 +247,7 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
                 }
             }
             string treatment = "No ingresado en el sistema.";
-            if (generalInformation.ChronicConditions != null)
+            if (generalInformation.ChronicConditions != null && generalInformation.ChronicConditions.Count != 0)
             {
                 treatment = "";
                 for (int index = 0; index < generalInformation.ChronicConditions.Count; index++)
