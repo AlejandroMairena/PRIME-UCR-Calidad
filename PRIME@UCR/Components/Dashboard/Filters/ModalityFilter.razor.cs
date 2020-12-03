@@ -11,24 +11,23 @@ namespace PRIME_UCR.Components.Dashboard.Filters
 {
     public partial class ModalityFilter
     {
-        [Inject]
-        public IIncidentService IncidentService { get; set; }
         [Parameter] public FilterModel Value { get; set; }
         [Parameter] public EventCallback<FilterModel> ValueChanged { get; set; }
         [Parameter] public EventCallback OnDiscard { get; set; }
+        [Parameter] public DashboardDataModel Data { get; set; }
+        [Parameter] public EventCallback<DashboardDataModel> DataChanged { get; set; }
 
         private List<Modalidad> _modes;
         private bool _isLoading = true;
         private bool _changesMade = false;
-        protected override async Task OnInitializedAsync()
+
+        protected override void OnInitialized()
         {
-            _modes =
-                (await IncidentService.GetTransportModesAsync())
-                .ToList();
+            _modes = Data.modalities;
             _isLoading = false;
         }
 
-        private async Task OnModalityChange(Modalidad modalidad) 
+        private void OnModalityChange(Modalidad modalidad) 
         {
             if (modalidad == Value.ModalityFilter)
             {
@@ -39,14 +38,14 @@ namespace PRIME_UCR.Components.Dashboard.Filters
                 _changesMade = true;
             }
             Value._selectedModality = modalidad;
-            await ValueChanged.InvokeAsync(Value);
         }
-        private async Task Discard()
+
+        private void Discard()
         {
             _changesMade = false;
             Value._selectedModality = Value.ModalityFilter;
-            await ValueChanged.InvokeAsync(Value);
         }
+
         private async Task Save()
         {
             StateHasChanged();

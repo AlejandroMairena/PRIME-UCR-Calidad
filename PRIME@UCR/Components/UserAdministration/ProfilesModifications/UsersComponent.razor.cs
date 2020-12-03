@@ -25,6 +25,9 @@ namespace PRIME_UCR.Components.UserAdministration.ProfilesModifications
         public IPerteneceService perteneceService { get; set; }
 
         [Inject]
+        public IMailService mailService { get; set; }
+
+        [Inject]
         public AuthenticationStateProvider authenticationStateProvider { get; set; }
 
         public List<Usuario> ListUsers { get; set; }
@@ -71,15 +74,35 @@ namespace PRIME_UCR.Components.UserAdministration.ProfilesModifications
                 if ((bool)e.Value)
                 {
                     Value.UserLists.Add(User);
+
                     await perteneceService.InsertUserOfProfileAsync(User.Id, Value.ProfileName);
-                    Value.StatusMessage = "El usuario " + User.UserName + " fue agregado del perfil " + Value.ProfileName + ". Para que " + User.UserName+ " pueda notar los cambios, deberá reiniciar su sesión.";
+                    var message = new EmailContentModel()
+                    {
+                        Destination = User.Email,
+                        Subject = "PRIME@UCR: Se le ha agregado un perfil a su cuenta",
+                        Body = $"<p>Estimado(a) {User.Persona.Nombre}, su cuenta ha sido agregada al perfil \"{Value.ProfileName}\". Por lo tanto, a partir de este momento, usted tiene acceso a todas las funcionalidades otorgadas a dicho perfil en su cuenta de la aplicación PRIME@UCR. </p>"
+                    };
+
+                    await mailService.SendEmailAsync(message);
+
+                    Value.StatusMessage = "El usuario " + User.UserName + " fue agregado del perfil " + Value.ProfileName + " y se le ha enviado un correo de notificación. ";
                     Value.StatusMessageType = "success";
                 }
                 else
                 {
                     Value.UserLists.Remove(User);
+
                     await perteneceService.DeleteUserOfProfileAsync(User.Id, Value.ProfileName);
-                    Value.StatusMessage = "El usuario " + User.UserName + " fue removido del perfil " + Value.ProfileName + ". Para que " + User.UserName + " pueda notar los cambios, deberá reiniciar su sesión.";
+                    var message = new EmailContentModel()
+                    {
+                        Destination = User.Email,
+                        Subject = "PRIME@UCR: Se le ha removido un perfil a su cuenta",
+                        Body = $"<p>Estimado(a) {User.Persona.Nombre}, el perfil \"{Value.ProfileName}\" ha sido removido de su cuenta. Por lo tanto, a partir de este momento, usted no tiene acceso a las funcionalidades correspondientes a dicho perfil en su cuenta de la aplicación PRIME@UCR. </p>"
+                    };
+
+                    await mailService.SendEmailAsync(message);
+
+                    Value.StatusMessage = "El usuario " + User.UserName + " fue removido del perfil " + Value.ProfileName + " y se le ha enviado un correo de notificación. ";
                     Value.StatusMessageType = "warning";
                 }
                 Value.CheckedUsers[(Value.CheckedUsers.FindIndex(p => p.Item1 == IdUser))] =  new Tuple<string, bool>(IdUser,(bool)e.Value);

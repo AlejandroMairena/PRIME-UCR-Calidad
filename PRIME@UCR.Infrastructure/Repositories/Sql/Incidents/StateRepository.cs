@@ -14,26 +14,18 @@ using RepoDb;
 
 namespace PRIME_UCR.Infrastructure.Repositories.Sql.Incidents
 {
-    public partial class StateRepository : RepoDbRepository<Estado, string>, IStateRepository
+    internal class StateRepository : RepoDbRepository<Estado, string>, IStateRepository
     {
-        private readonly IPrimeSecurityService _primeSecurityService;
-        public StateRepository(ISqlDataProvider dataProvider, IPrimeSecurityService primeSecurityService) : base(dataProvider)
+        public StateRepository(ISqlDataProvider dataProvider) : base(dataProvider)
         {
-            _primeSecurityService = primeSecurityService;
         }
 
         public async Task<IEnumerable<Estado>> GetAllStates()
         {
-            await _primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             using (var connection = new SqlConnection(_db.ConnectionString))
             {
                 return await connection.QueryAllAsync<Estado>();
             }
         }
     }
-    [MetadataType(typeof(StateRepositoryPermissions))]
-    public partial class StateRepository
-    {
-    }
-
 }

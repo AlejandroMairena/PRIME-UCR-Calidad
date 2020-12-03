@@ -19,21 +19,18 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
     /**
      * Class used to manage checklists and their items
      */
-    public partial class InstanceChecklistService : IInstanceChecklistService
+    internal class InstanceChecklistService : IInstanceChecklistService
     {
         private readonly IInstanceChecklistRepository _instancechecklistRepository;
         private readonly IInstanceItemRepository _instanceItemRepository;
         // private readonly IItemRepository _itemRepository;
-        private readonly IPrimeSecurityService _primeSecurityService;
 
         public InstanceChecklistService(IInstanceChecklistRepository instancechecklistRepository,
-                                        IInstanceItemRepository instanceItemRepository,
-                                        IPrimeSecurityService primeSecurityService)//, IItemRepository itemRepository)
+                                        IInstanceItemRepository instanceItemRepository)//, IItemRepository itemRepository)
         {
             _instancechecklistRepository = instancechecklistRepository;
             _instanceItemRepository = instanceItemRepository;
             //_itemRepository = itemRepository;
-            _primeSecurityService = primeSecurityService;
         }
 
         public async Task<IEnumerable<InstanceChecklist>> GetAll()
@@ -43,7 +40,6 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
         }
         public async Task InsertInstanceChecklist(InstanceChecklist list)
         {
-            await _primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             await _instancechecklistRepository.InsertInstanceCheckListAsync(list.PlantillaId,list.IncidentCod);
         }
 
@@ -64,7 +60,6 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
 
         public async Task<InstanceChecklist> UpdateInstanceChecklist(InstanceChecklist list)
         {
-            await _primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             await _instancechecklistRepository.UpdateAsync(list);
             return list;
         }
@@ -92,13 +87,11 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
 
         public async Task DeleteInstanceChecklist(int id, string cod)
         {
-            await _primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             await _instancechecklistRepository.DeleteAsync(id, cod);
         }
 
         public async Task<InstanciaItem> InsertInstanceItem(InstanciaItem instanceItem)
         {
-            await _primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             return await _instanceItemRepository.InsertAsync(instanceItem);
         }
 
@@ -119,12 +112,8 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
 
         public async Task<InstanciaItem> UpdateItemInstance(InstanciaItem item)
         {
-            await _primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             await _instanceItemRepository.UpdateAsync(item);
             return item;
         }
     }
-
-    [MetadataType(typeof(InstanceChecklistServiceAuthorization))]
-    public partial class InstanceChecklistService { }
 }
