@@ -1,29 +1,6 @@
 ﻿@page "/uyuy"
 @using PRIME_UCR.Domain.Models.MedicalRecords
 
-<style>
-    .dd {
-        background-color: lightgrey;
-        border-color: none;
-    }
-
-    /*
-    .dd:active {
-        border-color: white;
-    }
-    */
-
-    .title {
-        font-size: 15px;
-    }
-    .dropdown {
-        /*position: absolute;
-        top: 175px;*/
-        left: 900px;
-    }
-</style>
-
-@*<div class="title">Registros</div>*@
 <div class="dropdown">
     <button class="btn dropdown-toggle dd" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         Registros
@@ -35,8 +12,6 @@
         <a class="dropdown-item" @onclick="@(() => ChangePageSize(MaxElements))">Max</a>
     </div>
 </div>
-
-
 
 
 @*

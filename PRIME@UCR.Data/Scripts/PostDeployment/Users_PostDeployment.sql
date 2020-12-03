@@ -37,7 +37,7 @@ VALUES
     ('b97aac93-cfaf-4485-81d4-cb12e652ef68','fabian.hernandez@prime.com','FABIAN.HERNANDEZ@PRIME.COM','fabian.hernandez@prime.com','FABIAN.HERNANDEZ@PRIME.COM',1,'AQAAAAEAACcQAAAAELTZe/dQ0H81AzD632vv2DyJ4XnOrzO5uFlLUlS1KJuSXUhRh+6L2KQMe90GBK3KaQ==','XW7YV5A3STAFWJKB6LNHDKMYSTIFKYCM','43d5cb32-4d1a-4e1e-8285-c585d1c3670b',NULL,0,0,NULL,1,0),
     ('8af8648e-2ccc-4261-a69a-1ad92a691399','teodoro.barquero@prime.com','TEODORO.BARQUERO@PRIME.COM','teodoro.barquero@prime.com','TEODORO.BARQUERO@PRIME.COM',1,'AQAAAAEAACcQAAAAEHAmVY3K6Gp6Eck1SnW5ZGUsKZUTCnXumQIl57pnb60T1cOzifua1IxOUgNbynNopw==','V2RDSXVBAISGPR3DTGK7REY2DWTC3RPX','e20ff5fb-b260-4a6c-b82d-a0a59b369c77',NULL,0,0,NULL,1,0),
     ('df025dd6-57c9-4c3e-8ae2-e319080ca07b','shannon.zuniga@prime.com','SHANNON.ZUNIGA@PRIME.COM','shannon.zuniga@prime.com','SHANNON.ZUNIGA@PRIME.COM',1,'AQAAAAEAACcQAAAAEFK8Ee1g/O7ntPAXnnYKvwoNEwT290f/h+q/hBsz6ybcX1pVBrLG22rtZ78mScSV5g==','FYWVZRUHB46QLLFPFJIOTHJKJMYKAIMM','24e2c1eb-578b-4d2f-9fd4-7cf379447f61',NULL,0,0,NULL,1,0),
-    ('e8b07151-040d-4b2c-95dd-03314508c40f','jaikel.rivas@prime.com','JAIKEL.RIVAS@PRIME.COM','jaikel.rivas@prime.com','JAIKEL.RIVAS@PRIME.COM',1,'AQAAAAEAACcQAAAAEII1jGldBK6jolZ2bPIvV84xZsAXe/+ODtiiVvbcKDWzd2QMRUUKnxgfkqCcSXI2pg==','IWPN2PPJ5GEAHFYDJVFRRNEM7PISBQXX','e8270c87-935a-4fcb-b096-8a048264b171',NULL,0,0,NULL,1,0),
+    ('e8b07151-040d-4b2c-95dd-03314508c40f','jaikel.rivas@prime.com','JAIKEL.RIVAS@PRIME.COM','jaikel.rivas@prime.com','JAIKEL.RIVAS@PRIME.COM',0,'AQAAAAEAACcQAAAAEII1jGldBK6jolZ2bPIvV84xZsAXe/+ODtiiVvbcKDWzd2QMRUUKnxgfkqCcSXI2pg==','IWPN2PPJ5GEAHFYDJVFRRNEM7PISBQXX','e8270c87-935a-4fcb-b096-8a048264b171',NULL,0,0,NULL,1,0),
     ('95b3d7ae-03ff-4b50-af8b-0e1582750640','irene.ruiz@prime.com','IRENE.RUIZ@PRIME.COM','irene.ruiz@prime.com','IRENE.RUIZ@PRIME.COM',1,'AQAAAAEAACcQAAAAEEDTux/AmLwnRZjedeXcuPSKa/LF1rEbGVb1xUTHzMpV2KDK32Mp8LcFoBfqcLFdmg==','OZOMTPSXPOE7ZI2UJXVKLWSRTU6TM6LE','d06ad0e2-973d-4b03-bdb2-50e0092eb97a',NULL,0,0,NULL,1,0);
 
 INSERT INTO Persona (Cédula, Nombre, PrimerApellido, FechaNacimiento)
@@ -136,6 +136,7 @@ VALUES  (1,'Administrador'),
         (8,'Especialista técnico médico'),
         (21,'Especialista técnico médico'),
         (22,'Especialista técnico médico'),
+        (6,'Médico'),
         (8,'Médico'),
         (9,'Médico'),
         (21,'Médico'),

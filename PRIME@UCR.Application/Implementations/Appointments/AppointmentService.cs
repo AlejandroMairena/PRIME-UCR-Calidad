@@ -22,21 +22,90 @@ namespace PRIME_UCR.Application.Implementations.Appointments
         private readonly IAppointmentRepository _appointmentRepository;
         private readonly IMedicalRecordRepository _medicalRecordRepository;
         private readonly IPrimeSecurityService _primeSecurityService;
+        private readonly IMedicalAppointmentRepository _medapprepo;
+        private readonly IHavePrescriptionRepository _havepresc;
+        private readonly IDrugRepository _drugrepo; 
 
         public AppointmentService(IActionTypeRepository actionTypeRepo,
             IAppointmentRepository appointmentRepository,
             IMedicalRecordRepository medicalRecordRepository,
-            IPrimeSecurityService primeSecurityService)
+            IPrimeSecurityService primeSecurityService,
+            IMedicalAppointmentRepository medapp,
+            IHavePrescriptionRepository havepres,
+            IDrugRepository drugrep)
         {
             _actionTypeRepo = actionTypeRepo;
             _appointmentRepository = appointmentRepository;
             _medicalRecordRepository = medicalRecordRepository;
             _primeSecurityService = primeSecurityService;
+            _medapprepo = medapp;
+            _havepresc = havepres;
+            _drugrepo = drugrep; 
         }
+
+        public async Task UpdateAsync(PoseeReceta prescription) {
+            await _havepresc.UpdateAsync(prescription);
+        }
+
+        public async Task<IEnumerable<RecetaMedica>> GetDrugsByConditionAsync(string drugname) {
+            return await _drugrepo.GetByConditionAsync(e => e.NombreReceta == drugname); 
+        }
+
+        public async Task<IEnumerable<RecetaMedica>> GetDrugsByFilterAsync(string filter) {
+            string drug = "%" + filter + "%";
+            return await _drugrepo.GetDrugsByFilterAsync(drug); 
+        }
+
+        public async Task<PoseeReceta> UpdatePrescriptionDosis(int idMedicalPrescription, int idMedicalAppointment, string dosis) {
+            return await _havepresc.UpdatePescription(idMedicalPrescription, idMedicalAppointment, dosis); 
+        
+        }
+
+        public async Task<PoseeReceta> GetDrugByConditionAsync(int drug_id, int appointmentId) {
+
+            return await _havepresc.GetPrescriptionByDrugId(drug_id, appointmentId); 
+        }
+
+        public async Task<CitaMedica> GetMedicalAppointmentByAppointmentId(int id) {
+            return await _medapprepo.GetByAppointmentId(id); 
+        }
+
+        public async Task<CitaMedica> GetMedicalAppointmentByKeyAsync(int id) {
+            return await _medapprepo.GetByKeyAsync(id); 
+        }
+
+
+        public async Task<PoseeReceta> InsertPrescription(int idMedicalPrescription, int idMedicalAppointment) {
+            PoseeReceta temp = new PoseeReceta()
+            {
+                IdRecetaMedica = idMedicalPrescription,
+                IdCitaMedica = idMedicalAppointment,
+                Dosis = ""
+            };
+
+            return await _havepresc.InsertAsync(temp); 
+
+        }
+
+        public async Task<IEnumerable<RecetaMedica>> GetDrugsAsync() {
+            return await _drugrepo.GetAllAsync(); 
+        }
+
+        public async Task<IEnumerable<PoseeReceta>> GetPrescriptionsByAppointmentId(int id) {
+
+            //return await _havepresc.GetByConditionAsync(e => e.IdCitaMedica == id); 
+
+            return await _havepresc.GetPrescriptionByAppointmentId(id); 
+        }
+
 
         public async Task<IEnumerable<TipoAccion>> GetActionTypesAsync(bool isIncident = true)
         {
             return await _actionTypeRepo.GetByConditionAsync(a => a.EsDeIncidente == true);
+        }
+
+        public async Task<IEnumerable<TipoAccion>> GetActionsTypesMedicalAppointmentAsync(bool isMedAppointment = true) {
+            return await _actionTypeRepo.GetByConditionAsync(a => a.EsDeCitaMedica == isMedAppointment); 
         }
 
         public async Task<Expediente> AssignMedicalRecordAsync(int appointmentId, Paciente patient)
