@@ -15,22 +15,17 @@ using System.Threading.Tasks;
 
 namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
 {
-    public partial class PersonaRepository : IPersonaRepository
+    internal class PersonaRepository : IPersonaRepository
     {
         private readonly ISqlDataProvider _db;
 
-        private readonly IPrimeSecurityService primeSecurityService;
-
-        public PersonaRepository(ISqlDataProvider dataProvider, 
-            IPrimeSecurityService _primeSecurityService)
+        public PersonaRepository(ISqlDataProvider dataProvider)
         {
             _db = dataProvider;
-            primeSecurityService = _primeSecurityService;
         }
 
         public async Task DeleteAsync(string cedPersona)
         {
-            await primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             var person = await _db.People.FindAsync(cedPersona);
             if(person != null)
             {
@@ -41,19 +36,16 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
 
         public async Task<Persona> GetByCedPersonaAsync(string ced)
         {
-            await primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             return await _db.People.FindAsync(ced);
         }
 
         public async Task<Persona> GetByKeyPersonaAsync(string id)
         {
-            await primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             return await _db.People.FindAsync(id);
         }
 
         public async Task<Persona> GetWithDetailsAsync(string id)
         {
-            await primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             return await _db.People
                     .Include(i => i.Cédula)
                     .Include(i => i.Nombre)
@@ -65,14 +57,8 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
 
         public async Task InsertAsync(Persona persona)
         {
-            await primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             _db.People.Add(persona);
             await _db.SaveChangesAsync();
         }
-    }
-
-    [MetadataType(typeof(PersonaRepositoryAuthorization))]
-    public partial class PersonaRepository
-    {
     }
 }

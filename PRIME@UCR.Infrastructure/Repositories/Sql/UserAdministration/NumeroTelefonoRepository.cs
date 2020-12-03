@@ -16,31 +16,20 @@ using System.Threading.Tasks;
 
 namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
 {
-    public partial class NumeroTelefonoRepository : INumeroTelefonoRepository
+    internal class NumeroTelefonoRepository : INumeroTelefonoRepository
     {
-
         private readonly ISqlDataProvider _db;
-        private readonly IPrimeSecurityService primeSecurityService;
 
-        public NumeroTelefonoRepository(ISqlDataProvider dataProvider,
-            IPrimeSecurityService _primeSecurityService)
+        public NumeroTelefonoRepository(ISqlDataProvider dataProvider)
         {
             _db = dataProvider;
-            primeSecurityService = _primeSecurityService;
         }
 
         public async Task<int> AddPhoneNumberAsync(NúmeroTeléfono phoneNumber)
-        {
-            await primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
-            
+        {            
             await _db.PhoneNumbers.AddAsync(phoneNumber);
             var returnValue = await _db.SaveChangesAsync();
             return returnValue;
         }
-    }
-
-    [MetadataType(typeof(NumeroTelefonicoRepositoryAuthorization))]
-    public partial class NumeroTelefonoRepository
-    {
     }
 }

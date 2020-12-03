@@ -10,22 +10,18 @@ using System.Threading.Tasks;
 
 namespace PRIME_UCR.Application.Implementations.UserAdministration
 {
-    public partial class UsersService : IUserService
+    internal class UsersService : IUserService
     {
         private readonly IUsuarioRepository _usuarioRepository;
 
         private readonly UserManager<Usuario> userManager;
 
-        private readonly IPrimeSecurityService primeSecurityService;
-
         public UsersService(
             IUsuarioRepository usuarioRepository,
-            UserManager<Usuario> _userManager,
-            IPrimeSecurityService _primeSecurityService)
+            UserManager<Usuario> _userManager)
         {
             _usuarioRepository = usuarioRepository;
             userManager = _userManager;
-            primeSecurityService = _primeSecurityService;
         }
 
         /**
@@ -33,7 +29,6 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
          */
         public async Task<Persona> getPersonWithDetailstAsync(string email)
         {
-            await primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             var user = await userManager.FindByEmailAsync(email);
             if (user != null)
             {
@@ -48,15 +43,14 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
          *
          * Return: A user DTO with the info of the user.
          */
-        public async Task<UserFormModel> GetUserFormFromRegisterUserFormAsync(RegisterUserFormModel userToRegister)
+        public Task<UserFormModel> GetUserFormFromRegisterUserFormAsync(RegisterUserFormModel userToRegister)
         {
-            await primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             if(userToRegister != null)
             {
                 UserFormModel userModel = new UserFormModel();
                 userModel.Email = userToRegister.Email;
                 userModel.IdCardNumber = userToRegister.IdCardNumber;
-                return userModel;
+                return Task.FromResult(userModel);
             }
             return null; 
         }
@@ -80,9 +74,8 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
          * 
          * Return: A user with the info given in the DTO.
          */
-        private async Task<Usuario> GetUserFromUserModelAsync(UserFormModel userToRegister)
+        public Usuario GetUserFromUserModel(UserFormModel userToRegister)
         {
-            await primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             Usuario user = new Usuario();
             user.Email = user.UserName = userToRegister.Email;
             return user;
@@ -93,8 +86,7 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
          */
         public async Task<bool> StoreUserAsync(UserFormModel userToRegist)
         {
-            await primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
-            var user = await GetUserFromUserModelAsync(userToRegist);
+            var user = GetUserFromUserModel(userToRegist);
             var existInDB = (await userManager.FindByEmailAsync(user.Email)) == null ? false : true;
             if (!existInDB)
             {
@@ -128,12 +120,5 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
         {
             return await _usuarioRepository.GetNotAuthenticatedUsers();
         }
-
-
     }
-
-    [MetadataType(typeof(UserServiceAuthorization))]
-    public partial class UsersService { }
-
-
 }

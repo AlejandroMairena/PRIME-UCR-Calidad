@@ -14,32 +14,23 @@ using System.Threading.Tasks;
 
 namespace PRIME_UCR.Application.Implementations.UserAdministration
 {
-    public partial class PermiteService : IPermiteService
+    internal class PermiteService : IPermiteService
     {
         private readonly IPermiteRepository _IPermiteRepository;
 
-        private readonly IPrimeSecurityService primeSecurityService;
-
-        public PermiteService(IPermiteRepository IPermiteRepository,
-            IPrimeSecurityService _primeSecurityService) 
+        public PermiteService(IPermiteRepository IPermiteRepository) 
         {
             _IPermiteRepository = IPermiteRepository;
-            primeSecurityService = _primeSecurityService;
         }
 
         public async Task DeletePermissionAsync(string idProfile, int idPermission)
         {
-            await primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             await _IPermiteRepository.DeletePermissionAsync(idProfile, idPermission);
         }
 
         public async Task InsertPermissionAsync(string idProfile, int idPermission)
         {
-            await primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             await _IPermiteRepository.InsertPermissionAsync(idProfile, idPermission);
         }
     }
-
-    [MetadataType(typeof(PermiteServiceAuthorization))]
-    public partial class PermiteService { }
 }

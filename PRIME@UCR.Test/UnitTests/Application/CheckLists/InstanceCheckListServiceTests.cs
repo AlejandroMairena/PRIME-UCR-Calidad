@@ -8,6 +8,7 @@ using PRIME_UCR.Domain.Models;
 using PRIME_UCR.Domain.Models.CheckLists;
 using Xunit;
 using System;
+using PRIME_UCR.Application.Permissions.CheckLists;
 
 namespace PRIME_UCR.Test.UnitTests.Application.CheckLists
 {
@@ -22,7 +23,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.CheckLists
             mockRepo
                 .Setup(p => p.GetByIncidentCodAndCheckListId("código válido", 1))
                 .Returns(Task.FromResult<IEnumerable<InstanciaItem>>(data));
-            var service = new InstanceChecklistService(
+            var service = new SecureInstanceChecklistService(
                 null, mockRepo.Object, new CheckListAuthMock().Object);
 
             // act
@@ -47,7 +48,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.CheckLists
             mockRepo
                 .Setup(p => p.GetByIncidentCodAndCheckListId("código válido", 1))
                 .Returns(Task.FromResult<IEnumerable<InstanciaItem>>(data));
-            var service = new InstanceChecklistService(
+            var service = new SecureInstanceChecklistService(
                 null, mockRepo.Object, new CheckListAuthMock().Object);
 
             // act
@@ -72,7 +73,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.CheckLists
             mockRepo
                 .Setup(p => p.GetByIncidentCodAndCheckListId("código válido", 1))
                 .Returns(Task.FromResult<IEnumerable<InstanciaItem>>(data));
-            var service = new InstanceChecklistService(
+            var service = new SecureInstanceChecklistService(
                 null, mockRepo.Object, new CheckListAuthMock().Object);
 
             // act
@@ -97,7 +98,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.CheckLists
             mockRepo
                 .Setup(p => p.GetByIncidentCodAndCheckListId("código válido", 1))
                 .Returns(Task.FromResult<IEnumerable<InstanciaItem>>(data));
-            var service = new InstanceChecklistService(
+            var service = new SecureInstanceChecklistService(
                 null, mockRepo.Object, new CheckListAuthMock().Object);
 
             // act
@@ -116,7 +117,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.CheckLists
             mockRepo
                 .Setup(p => p.GetCoreItems("código válido", 1))
                 .Returns(Task.FromResult<IEnumerable<InstanciaItem>>(data));
-            var service = new InstanceChecklistService(
+            var service = new SecureInstanceChecklistService(
                 null, mockRepo.Object, new CheckListAuthMock().Object);
 
             // act
@@ -139,7 +140,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.CheckLists
             mockRepo
                 .Setup(p => p.GetCoreItems("código válido", 1))
                 .Returns(Task.FromResult<IEnumerable<InstanciaItem>>(data));
-            var service = new InstanceChecklistService(
+            var service = new SecureInstanceChecklistService(
                 null, mockRepo.Object, new CheckListAuthMock().Object);
 
             // act
@@ -162,7 +163,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.CheckLists
             mockRepo
                 .Setup(p => p.GetItemsByFatherId("código válido", 1, 1))
                 .Returns(Task.FromResult<IEnumerable<InstanciaItem>>(data));
-            var service = new InstanceChecklistService(
+            var service = new SecureInstanceChecklistService(
                 null, mockRepo.Object, new CheckListAuthMock().Object);
 
             // act
@@ -185,7 +186,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.CheckLists
             mockRepo
                 .Setup(p => p.GetItemsByFatherId("código válido", 1, 1))
                 .Returns(Task.FromResult<IEnumerable<InstanciaItem>>(data));
-            var service = new InstanceChecklistService(
+            var service = new SecureInstanceChecklistService(
                 null, mockRepo.Object, new CheckListAuthMock().Object);
 
             // act
@@ -207,7 +208,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.CheckLists
             mockRepo
                 .Setup(p => p.GetAllAsync())
                 .Returns(Task.FromResult<IEnumerable<InstanceChecklist>>(data));
-            var service = new InstanceChecklistService(mockRepo.Object, null, new InstanceCheckListAuthMock().Object);
+            var service = new SecureInstanceChecklistService(mockRepo.Object, null, new InstanceCheckListAuthMock().Object);
 
             // act
             var result = await service.GetAll();
@@ -231,7 +232,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.CheckLists
             mockRepo
                 .Setup(p => p.GetAllAsync())
                 .Returns(Task.FromResult<IEnumerable<InstanceChecklist>>(data));
-            var service = new InstanceChecklistService(
+            var service = new SecureInstanceChecklistService(
                 mockRepo.Object, null, new InstanceCheckListAuthMock().Object);
 
             // act
