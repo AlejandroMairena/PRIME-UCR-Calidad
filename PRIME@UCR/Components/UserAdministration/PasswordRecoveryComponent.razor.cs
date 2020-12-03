@@ -28,14 +28,19 @@ namespace PRIME_UCR.Components.UserAdministration
         [Inject]
         public IMailService MailService { get; set; }
 
+        [Inject]
+        public IUserService userService { get; set; }
+
         private bool _isBusy = false;
 
         public async void CheckUserForRecoveryAsync()
         {
             _isBusy = true;
             var user = await UserManager.FindByNameAsync(EmailModel.Email);
-            if(user != null)
+   
+            if (user != null)
             {
+                var userPerson = (await userService.GetAllUsersWithDetailsAsync()).ToList().Find(u => u.Email == EmailModel.Email);
                 var passwordRecoveryToken = await UserManager.GeneratePasswordResetTokenAsync(user);
                 var code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(passwordRecoveryToken));
                 var firstHalf = ((int)code.Length / 2);
@@ -47,7 +52,7 @@ namespace PRIME_UCR.Components.UserAdministration
                 {
                     Destination = EmailModel.Email,
                     Subject = "PRIME@UCR: Recuperar contraseña",
-                    Body = $"<p>Estimado usuario, para recuperar la contraseña presione <a href=\"{url}\">aquí</a>. </p>"
+                    Body = $"<p>Estimado(a) {userPerson.Persona.Nombre}, si desea recuperar la contraseña para la aplicación PRIME@UCR, favor presione <a href=\"{url}\">aquí</a>. </p>"
                 };
                 await MailService.SendEmailAsync(emailContent);
                 EmailModel.Email = String.Empty;

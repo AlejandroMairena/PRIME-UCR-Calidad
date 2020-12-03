@@ -12,14 +12,14 @@
                     case "Dashboard":
                         break;
                     case "Expedientes":
-                        <MedicalRecordsMenuComponent />
-                        break;
+    <MedicalRecordsMenuComponent /> break;
                     case "Administración de usuarios":
-                        <UserAdministrationMenuComponent/>
-                        break;
+    <UserAdministrationMenuComponent />break;
                     case "Listas de chequeo":
                         break;
                     case "Incidentes":
+                        break;
+                    case "Mapa de incidentes":
                         break;
                     default:
                         break;
@@ -33,13 +33,19 @@
                 <span class="oi oi-map" aria-hidden="true"></span> Incidentes
             </NavLink>
         </li>
+        <li class="nav-item px-3 @showMap">
+            <NavLink class="nav-link" href="map" Match="NavLinkMatch.All" @onclick="showMapMenu">
+                <span class="oi oi-map-marker" aria-hidden="true"></span> Mapa de incidentes
+            </NavLink>
+        </li>
         <li class="nav-item px-3 @showCheckList">
             <NavLink class="nav-link" href="checklist" Match="NavLinkMatch.All" @onclick="showCheckListMenu">
                 <span class="oi oi-list" aria-hidden="true"></span> Listas de chequeo
             </NavLink>
         </li>
         <li class="nav-item px-3 @showMedicalRecords">
-            <NavLink class="nav-link" href="show-medical-record" Match="NavLinkMatch.All" @onclick="showMedicalRecordsMenu"> <!-- Esta oculto por ahora. Quitar clase hide para mostrar -->
+            <NavLink class="nav-link" href="show-medical-record" Match="NavLinkMatch.All" @onclick="showMedicalRecordsMenu">
+                <!-- Esta oculto por ahora. Quitar clase hide para mostrar -->
                 <span class="oi oi-medical-cross" aria-hidden="true"></span> Expedientes
             </NavLink>
         </li>

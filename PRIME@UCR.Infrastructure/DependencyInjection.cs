@@ -15,6 +15,7 @@ using PRIME_UCR.Infrastructure.DataProviders.Implementations;
 using PRIME_UCR.Infrastructure.Permissions.Dashboard;
 using PRIME_UCR.Infrastructure.Permissions.Incidents;
 using PRIME_UCR.Infrastructure.Permissions.UserAdministration;
+using PRIME_UCR.Infrastructure.Repositories.External;
 using PRIME_UCR.Infrastructure.Repositories.Sql;
 using PRIME_UCR.Infrastructure.Repositories.Sql.Appointments;
 using PRIME_UCR.Infrastructure.Repositories.Sql.CheckLists;
@@ -53,7 +54,7 @@ namespace PRIME_UCR.Infrastructure
             services.AddTransient<IAppointmentRepository, AppointmentRepository>();
             services.AddTransient<IUbicationCenterRepository, UbicationCenterRepository>();
 
-            services.AddTransient<IMedCenterRepository, MedCenterRepository>(); 
+            services.AddTransient<IMedCenterRepository, MedCenterRepository>();
             // incidents repositories
             services.AddTransient<IStateRepository, SecureStateRepository>();
             services.AddTransient<ICountryRepository, CountryRepository>();
@@ -67,6 +68,7 @@ namespace PRIME_UCR.Infrastructure
             services.AddTransient<ILocationRepository, LocationRepository>();
             services.AddTransient<ITransportUnitRepository, TransportUnitRepository>();
             services.AddTransient<IActionTypeRepository, ActionTypeRepository>();
+            services.AddTransient<IGpsDataRepository, GpsDataRepository>();
 
             // medical records
             services.AddTransient<IMedicalRecordRepository, MedicalRecordRepository>();
@@ -107,7 +109,7 @@ namespace PRIME_UCR.Infrastructure
             // temporary file service with no encryption
             services.AddTransient<ITempFileServiceNoEncryption, TempFileServiceNoEncryption>();
 
-         
+
             return services;
         }
     }

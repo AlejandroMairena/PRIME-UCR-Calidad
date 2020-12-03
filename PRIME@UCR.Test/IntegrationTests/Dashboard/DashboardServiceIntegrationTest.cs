@@ -60,7 +60,7 @@ namespace PRIME_UCR.Test.IntegrationTests.Dashboards
             Assert.True(allIncidents.Count() > result.Count());
         }
 
-        [Fact]
+       [Fact]
         public async Task TaskGetIncidentCounterAsyncReturnsNotNull()
         {
             /* Case: There are incidents in post deployment and at least one incident have the requirements
@@ -73,7 +73,7 @@ namespace PRIME_UCR.Test.IntegrationTests.Dashboards
             var result = 0;
             try
             {
-               result = await dashboardService.GetIncidentCounterAsync(modality);
+               result = await dashboardService.GetIncidentCounterAsync(modality, String.Empty);
             }
             catch (Exception e)
             {
@@ -82,8 +82,6 @@ namespace PRIME_UCR.Test.IntegrationTests.Dashboards
             
             Assert.True(result >= 0);
         }
-
-        
 
     }
 }
