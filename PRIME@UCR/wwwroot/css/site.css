@@ -52,6 +52,7 @@ a, .btn-link {
 
 .btn-disabled {
     background: #676766;
+    color: white;
     height: 100%;
     opacity: 0.5;
     margin-top: 0;
@@ -390,6 +391,7 @@ span.navigation-item-text:hover {
 
 .btn-secondaryOne {
     background: #676766;
+    color: white;
     height: 100%;
     opacity: 0.5;
     margin-top: 0;
@@ -399,6 +401,7 @@ span.navigation-item-text:hover {
 
     .btn-secondaryOne:hover {
         background: #303030;
+        color: white;
     }
 
 
