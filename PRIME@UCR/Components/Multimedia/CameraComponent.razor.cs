@@ -35,11 +35,45 @@ namespace PRIME_UCR.Components.Multimedia
         bool validTitle = false;
         bool notValidSave =>  photoNotTaken || !validTitle;
 
+        string fileName = "";
+        MAlertMessage AlertMessage;
+        MAlertMessage OpenCameraAlertMessage;
+        MAlertMessage PressTakePhotoAlertMessage;
+        MAlertMessage PhotoTakenAlertMessage;
+
+        /* Appointment code for auto naming real time multimedia content.
+         */
+        [Parameter]
+        public string ApCode { get; set; }
+
         protected override void OnInitialized()
         {
             // add CloseComponent method to OnModalClosed event
             if (MultimediaModal != null)
                 MultimediaModal.OnModalClosed += CloseComponent;
+
+            fileName = GetFileName();
+
+            OpenCameraAlertMessage = new MAlertMessage
+            {
+                AlertType = AlertType.Primary,
+                Message = "Abra la cámara para tomar fotografía."
+            };
+
+            PressTakePhotoAlertMessage = new MAlertMessage
+            {
+                AlertType = AlertType.Primary,
+                Message = "Presionar el botón de Tomar Fotografía para tomar fotografía."
+            };
+
+            PhotoTakenAlertMessage = new MAlertMessage
+            {
+                AlertType = AlertType.Primary,
+                Message = "Presione el botón de Guardar para adjuntar la fotografía o Volver a tomar para tomar " +
+                "otra fotografía."
+            };
+
+            AlertMessage = OpenCameraAlertMessage;
         }
 
         // Open Close Camera Button Code
@@ -52,11 +86,13 @@ namespace PRIME_UCR.Components.Multimedia
         {
             await JS.InvokeAsync<bool>("openCamera", videoElement);
             cameraOpen = true;
+            AlertMessage = PressTakePhotoAlertMessage;
         }
         async Task CloseCamera()
         {
             await JS.InvokeAsync<bool>("closeCamera", videoElement);
             cameraOpen = false;
+            AlertMessage = OpenCameraAlertMessage;
         }
         string OpenCloseButtonText()
         {
@@ -67,11 +103,15 @@ namespace PRIME_UCR.Components.Multimedia
         {
             await JS.InvokeAsync<string>("takePhotograph", canvasElement, videoElement, imageElement, downloadLinkRef);
             photoTaken = true;
+            AlertMessage = PhotoTakenAlertMessage;
         }
         async Task CancelPhotograph()
         {
             photoTaken = false;
             await JS.InvokeAsync<bool>("clearCanvas", canvasElement);
+            fileName = GetFileName();
+            AlertMessage = PressTakePhotoAlertMessage;
+
         }
         async Task CloseComponent()
         {
@@ -79,19 +119,14 @@ namespace PRIME_UCR.Components.Multimedia
             if (MultimediaModal != null)
                 MultimediaModal.OnModalClosed -= CloseComponent;
         }
-
-        async Task OnTitleChanged(Tuple<bool, string> tuple)
-        {
-            validTitle = !tuple.Item1;
-            if (validTitle)
-            {
-                await JS.InvokeAsync<bool>("updateImageDownloadName", downloadLinkRef, tuple.Item2);
-            }
-        }
-
         async Task OnClose()
         {
             MultimediaModal?.CloseImageView();
+        }
+
+        string GetFileName()
+        {
+            return "IMG-" + ApCode + "-" + MultimediaContentComponent.FormatDate(DateTime.Now);
         }
 
     }

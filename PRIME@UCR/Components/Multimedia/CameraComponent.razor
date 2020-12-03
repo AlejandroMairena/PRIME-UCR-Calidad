@@ -6,7 +6,8 @@
         <h2>Cámara</h2>
         <hr />
 
-        <MultimediaTitleComponent OnTitleChanged="OnTitleChanged" Title="imagen"></MultimediaTitleComponent>
+        <MultimediaAlert Message="AlertMessage"></MultimediaAlert>
+        <MultimediaTitleComponent Title="@fileName" Disabled="true"></MultimediaTitleComponent>
 
         @* Video Preview *@
         <video autoplay class="@videoClass" @ref=videoElement></video>
@@ -32,7 +33,7 @@
                 <button class="@cancelButtonClass"
                         disabled="@photoNotTaken"
                         @onclick="CancelPhotograph">
-                    Cancelar
+                    Volver a tomar
                 </button>
             </div>
 

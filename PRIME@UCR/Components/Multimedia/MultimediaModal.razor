@@ -12,7 +12,7 @@
 
     @if (ShowCamera)
     {
-        <CameraComponent MultimediaModal="this"></CameraComponent>
+        <CameraComponent MultimediaModal="this" ApCode="@ApCode"></CameraComponent>
     }
     @if (ShowMicrophone)
     {
@@ -41,11 +41,6 @@
             <source src=@vid type="video/mp4">
         </video>
     }
-    @*@if (ShowText)
-    {
-     <div id="caption">Se ha abierto una nueva pestaña para mostrar el archivo...</div>
-     getText();
-    }*@
     @if (ShowVideoComponent)
     {
         <VideoComponent MultimediaModal="this"></VideoComponent>

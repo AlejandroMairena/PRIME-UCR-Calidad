@@ -28,6 +28,10 @@ namespace PRIME_UCR.Components.Multimedia
          */
         [Parameter]
         public bool ViewOnly { get; set; } = false;
+        /* Appointment code for auto naming real time multimedia content.
+         */
+        [Parameter]
+        public string ApCode { get; set; } = "COD";
 
         // List of valid file types 
         public List<string> validTypeFiles;
@@ -301,6 +305,15 @@ namespace PRIME_UCR.Components.Multimedia
             byte[] bEPath = Convert.FromBase64String(mcontent.Archivo);
             string path = encrypt_service.Decrypt(bEPath);
             file_service.DeleteFile(path);
+        }
+
+        public static string FormatDate(DateTime dateTime)
+        {
+            string sDateTime = dateTime.ToString();
+            sDateTime = sDateTime.Replace('/', '-'); // replace slashes in date
+            sDateTime = sDateTime.Replace(' ', '-'); // replace space between date and time
+            sDateTime = sDateTime.Replace(':', '-'); // replace double dots in time
+            return sDateTime;
         }
 
 

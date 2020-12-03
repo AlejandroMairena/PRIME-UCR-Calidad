@@ -38,9 +38,13 @@ namespace PRIME_UCR.Components.Multimedia
         public bool ShowAudio { get; set; } = false;
         [Parameter]
         public EventCallback<MultimediaContent> OnFileUpload { get; set; }
-
         public delegate Task ModalClosed();
         public event ModalClosed OnModalClosed;
+
+        /* Appointment code for auto naming real time multimedia content.
+         */
+        [Parameter]
+        public string ApCode { get; set; }
 
         public async Task CloseImageView()
         {
