@@ -11,7 +11,7 @@
 <hr />
 <hr />
 
-<MultimediaContentComponent></MultimediaContentComponent>
+<MultimediaContentComponent MultimediaContent="MC" ViewOnly="true"></MultimediaContentComponent>
 
 <br />
 <br />
@@ -21,9 +21,18 @@
 
 @code {
 
+    List<MultimediaContent> MC;
+
     protected override void OnInitialized()
     {
-
+        MC = new List<MultimediaContent>();
+        MC.Add(new MultimediaContent
+        {
+            Nombre = "prueba.txt",
+            Tipo = "txt",
+            Archivo = "",
+            Fecha_Hora = DateTime.Now
+        });
 
     }
 

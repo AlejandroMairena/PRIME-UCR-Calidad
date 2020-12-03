@@ -131,14 +131,24 @@ namespace PRIME_UCR.Application.Permissions.Incidents
             return _incidentService.GetApprovedStatePendingTasks(model);
         }
 
-        public async Task ChangeState(string code, string nextState)
+        public async Task ChangeState(IncidentDetailsModel model, string nextState)
         {
-            await _incidentService.ChangeState(code, nextState);
+            await _incidentService.ChangeState(model, nextState);
         }
 
         public async Task<bool> UpdateTransportUnit(IncidentDetailsModel model, Incidente incident)
         {
             return await _incidentService.UpdateTransportUnit(model, incident);
+        }
+
+        public async Task<List<StatesModel>> GetStatesLog(string code)
+        {
+            return await _incidentService.GetStatesLog(code);
+        }
+
+        public EstadoIncidente FindState(List<EstadoIncidente> statesList, Estado state)
+        {
+            return _incidentService.FindState(statesList, state);
         }
     }
 }

@@ -378,3 +378,27 @@ span.navigation-item-text:hover {
     border: 0px;
     background-color: transparent;
 }
+
+.btn-transparent {
+    background-color: transparent;
+    height: 100%;
+    margin-top: 0;
+    z-index: 2;
+    position: relative;
+    border-color: transparent;
+}
+
+.btn-secondaryOne {
+    background: #676766;
+    height: 100%;
+    opacity: 0.5;
+    margin-top: 0;
+    z-index: 2;
+    position: relative;
+}
+
+    .btn-secondaryOne:hover {
+        background: #303030;
+    }
+
+

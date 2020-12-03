@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.EntityFrameworkCore;
 using PRIME_UCR.Application.Dtos.Incidents;
+using PRIME_UCR.Application.Services.UserAdministration;
 using PRIME_UCR.Components.Incidents.IncidentDetails.Tabs;
 using PRIME_UCR.Domain.Exceptions;
 using PRIME_UCR.Domain.Models;
+using PRIME_UCR.Domain.Models.UserAdministration;
 
 namespace PRIME_UCR.Pages.Incidents
 {
@@ -17,6 +20,9 @@ namespace PRIME_UCR.Pages.Incidents
         
         [Parameter] public string Code { get; set; }
         [Parameter] public string StartingTab { get; set; }
+
+        [Inject] public IUserService UserService { get; set; }
+        [CascadingParameter] public Task<AuthenticationState> AuthState { get; set; }
 
         private bool _exists = true;
 
@@ -111,6 +117,8 @@ namespace PRIME_UCR.Pages.Incidents
 
         private async Task Save(IncidentDetailsModel model)
         {
+            if (model.Reviewer == null)
+                model.Reviewer = await getCurrentUser();
             try
             {
                 _incidentModel = await IncidentService.UpdateIncidentDetailsAsync(model);
@@ -136,6 +144,14 @@ namespace PRIME_UCR.Pages.Incidents
         {
             _activeTab = newTab;
             StateHasChanged();
+        }
+
+        /*When the state is going from Initiated to Created, the state update automatically so this is needed in order to
+         save the person who change the state. This avoid repetition in the Patient, Origin and Destination tabs*/
+        private async Task<Persona> getCurrentUser()
+        {
+            var emailUser = (await AuthState).User.Identity.Name;
+            return await UserService.getPersonWithDetailstAsync(emailUser);
         }
     }
 }
