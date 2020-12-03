@@ -35,7 +35,7 @@ function CreateAppointmentVsPatientComponentJS(results) {
         var chart = am4core.create("AppointmentVsPatientComponent", am4charts.XYChart);
 
         var data = [];
-        var value = 120;
+        var value = 12;
 
         var names = ["Raina",
             "Demarcus",
@@ -69,7 +69,7 @@ function CreateAppointmentVsPatientComponentJS(results) {
         ];
 
         for (var i = 0; i < names.length; i++) {
-            value += Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * 5);
+            value = Math.round(Math.random() * 12);
             data.push({ category: names[i], value: value });
         }
 

@@ -23,7 +23,7 @@ namespace PRIME_UCR.Components.Dashboard.IncidentsGraph
         [Parameter] public bool ZoomActive { get; set; }
 
 
-        private int appointmentsQuantity { get; set; }
+        private int patientQuantity { get; set; }
 
         [Inject]
         IJSRuntime JS { get; set; }
@@ -71,7 +71,7 @@ namespace PRIME_UCR.Components.Dashboard.IncidentsGraph
                 }
             });*/
 
-            appointmentsQuantity = 11;
+            patientQuantity = 29;
             var results = new List<String>();
             var appointments = new List<int>() { 2, 3, 3, 3, 3 };
             var i = 0;
