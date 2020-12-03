@@ -16,34 +16,30 @@ using System.Threading.Tasks;
 
 namespace PRIME_UCR.Application.Implementations.Dashboard
 {
-    public partial class DashboardService : IDashboardService
+    internal class DashboardService : IDashboardService
     {
         public readonly IDashboardRepository dashboardRepository;
-        public readonly IPrimeSecurityService primeSecurity;
         public readonly IIncidentRepository incidentRepository;
         public readonly IDistrictRepository districtRepository;
         public readonly ICountryRepository countryRepository;
         public readonly IMedicalCenterRepository medicalCenterRepository;
 
         public DashboardService(IDashboardRepository dashboardRep, 
-            IPrimeSecurityService primeSecurityService,
             IIncidentRepository _incidentRepository,
             IDistrictRepository _districtRepository,
             ICountryRepository _countryRepository,
             IMedicalCenterRepository _medicalCenterRepository)
         {
             dashboardRepository = dashboardRep;
-            primeSecurity = primeSecurityService;
             incidentRepository = _incidentRepository;
             districtRepository = _districtRepository;
             countryRepository = _countryRepository;
             medicalCenterRepository = _medicalCenterRepository;
         }
 
-        public async Task<int> GetIncidentCounterAsync(string modality)
+        public async Task<int> GetIncidentCounterAsync(string modality, string filter)
         {
-            await primeSecurity.CheckIfIsAuthorizedAsync(this.GetType());
-            return await dashboardRepository.GetIncidentsCounterAsync(modality);
+            return await dashboardRepository.GetIncidentsCounterAsync(modality, filter);
         }
 
         public async Task<List<Incidente>> GetAllIncidentsAsync()
@@ -162,11 +158,5 @@ namespace PRIME_UCR.Application.Implementations.Dashboard
 
             return filteredList;
         }
-    }
-
-    [MetadataType(typeof(DashboardServicePermissions))]
-    public partial class DashboardService
-    {
-
     }
 }

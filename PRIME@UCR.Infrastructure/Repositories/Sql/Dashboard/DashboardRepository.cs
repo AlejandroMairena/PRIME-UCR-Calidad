@@ -19,20 +19,17 @@ using System.Threading.Tasks;
 
 namespace PRIME_UCR.Infrastructure.Repositories.Sql.Dashboard
 {
-    public partial class DashboardRepository : IDashboardRepository
+    internal class DashboardRepository : IDashboardRepository
     {
         public readonly ISqlDataProvider _db;
-        public readonly IPrimeSecurityService primeSecurity;
 
-        public DashboardRepository(ISqlDataProvider sqlDataProvider, IPrimeSecurityService securityService)
+        public DashboardRepository(ISqlDataProvider sqlDataProvider)
         {
             _db = sqlDataProvider;
-            primeSecurity = securityService;
         }
 
-        public async Task<int> GetIncidentsCounterAsync(string modality)
+        public async Task<int> GetIncidentsCounterAsync(string modality, string filter)
         {
-            await primeSecurity.CheckIfIsAuthorizedAsync(this.GetType());
             var result = 0;
             await Task.Run(() =>
             {
@@ -45,7 +42,7 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Dashboard
                     if (cmd.Connection.State == System.Data.ConnectionState.Open)
                     {
                         cmd.CommandText =
-                            $"EXECUTE dbo.GetIncidentsCounter @modality='{modality}'";
+                            $"EXECUTE dbo.GetIncidentsCounter @modality='{modality}' , @filter='{filter}'";
 
                         var dbResult = cmd.ExecuteScalar();
                         result = int.Parse(dbResult.ToString());
@@ -182,11 +179,5 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Dashboard
         {
             throw new NotImplementedException();
         }
-    }
-
-    [MetadataType(typeof(DashboardRepositoryPermissions))]
-    public partial class DashboardRepository
-    {
-        
     }
 }

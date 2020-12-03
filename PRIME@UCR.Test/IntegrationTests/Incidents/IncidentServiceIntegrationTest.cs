@@ -49,7 +49,7 @@ namespace PRIME_UCR.Test.IntegrationTests.Incidents
              * -> returns an incident with the respective code.
              */
             var incidentService = _factory.Services.GetRequiredService<IIncidentService>();
-            var incidentCode = "2020-11-16-0001-IT-TER";
+            var incidentCode = DateTime.Now.ToString("yyyy-MM-dd") + "-0001-IT-TER";        //Requires an existent incident
             var result = await incidentService.GetIncidentAsync(incidentCode);
             Assert.NotNull(result);
         }
@@ -62,7 +62,7 @@ namespace PRIME_UCR.Test.IntegrationTests.Incidents
              * -> returns an incident state for the respective code.
              */
             var incidentService = _factory.Services.GetRequiredService<IIncidentService>();
-            var incidentCode = "2020-11-16-0001-IT-TER";
+            var incidentCode = DateTime.Now.ToString("yyyy-MM-dd") + "-0001-IT-TER";        //Requires an existent incident
             var result = await incidentService.GetIncidentStateByIdAsync(incidentCode);
             Assert.NotNull(result);
         }

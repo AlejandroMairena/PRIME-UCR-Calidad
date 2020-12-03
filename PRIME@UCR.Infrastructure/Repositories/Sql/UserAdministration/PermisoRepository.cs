@@ -17,28 +17,18 @@ using System.Threading.Tasks;
 
 namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
 {
-    public partial class PermisoRepository : IPermisoRepository
+    internal class PermisoRepository : IPermisoRepository
     {
-        private readonly IPrimeSecurityService primeSecurityService;
-
         private readonly ISqlDataProvider _db; 
 
-        public PermisoRepository(ISqlDataProvider dataProvider,
-            IPrimeSecurityService _primeSecurityService)
+        public PermisoRepository(ISqlDataProvider dataProvider)
         {
             _db = dataProvider;
-            primeSecurityService = _primeSecurityService;
         }
 
         public async Task<List<Permiso>> GetAllAsync()
         {
-            await primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             return await _db.Permissions.ToListAsync();
         }
-    }
-
-    [MetadataType(typeof(PermisoRepositoryAuthorization))]
-    public partial class PermisoRepository
-    {
     }
 }
