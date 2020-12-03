@@ -159,6 +159,8 @@
     <Build Include="Indexes\Checklist\ix_checklist_activas.sql" />
     <Build Include="Triggers\AfterDeleteInstance.sql" />
     <Build Include="Triggers\AfterInsertInstance.sql" />
+    <Build Include="StoredProcedures\CheckLists\InsertarInstaciaItem.sql" />
+    <Build Include="StoredProcedures\CheckLists\InsertarListaIntanciada.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Scripts\Script.PostDeployment.sql" />

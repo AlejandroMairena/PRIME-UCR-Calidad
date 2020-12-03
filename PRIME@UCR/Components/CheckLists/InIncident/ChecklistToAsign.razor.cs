@@ -141,7 +141,7 @@ namespace PRIME_UCR.Components.CheckLists.InIncident
             if (!instancelists.Any(p => p.PlantillaId == instance.PlantillaId && p.IncidentCod == incidentCod))
             {
                 await MyInstanceChecklistService.InsertInstanceChecklist(instance);
-                await AddCoreItems(instance);
+                //await AddCoreItems(instance);
             }
         }
 
