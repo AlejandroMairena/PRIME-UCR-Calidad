@@ -88,8 +88,19 @@ namespace PRIME_UCR.Components.Multimedia
                 path += encrypt_service.EncodeString(ActionNameEncryptedString);
                 path += "/";
             }
-            else { 
-                //esta siendo llamado desde listas de chequeo (recuperar la informacion para hacer el repositorio)
+            else {
+                byte[] IncidentCodeEncryptedByte = encrypt_service.Encrypt(IncidentCode);
+                string IncidentCodeEncryptedString = Convert.ToBase64String(IncidentCodeEncryptedByte);
+                path += encrypt_service.EncodeString(IncidentCodeEncryptedString);
+                path += "/";
+                byte[] checkListNameByte = encrypt_service.Encrypt(CheckListName);
+                string checkListNameEncryptedString = Convert.ToBase64String(checkListNameByte);
+                path += encrypt_service.EncodeString(checkListNameEncryptedString);
+                path += "/";
+                byte[] checkListItemByte = encrypt_service.Encrypt(CheckListItemName);
+                string checkListItemString = Convert.ToBase64String(checkListItemByte);
+                path += encrypt_service.EncodeString(checkListItemString);
+                path += "/";
             }
             return path;
         }
