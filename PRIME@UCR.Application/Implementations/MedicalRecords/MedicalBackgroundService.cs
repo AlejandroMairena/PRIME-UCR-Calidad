@@ -15,7 +15,7 @@ using PRIME_UCR.Infrastructure.Repositories.Sql.MedicalRecords;
 
 namespace PRIME_UCR.Application.Implementations.MedicalRecords
 {
-    public class MedicalBackgroundService : IMedicalBackgroundService
+    internal class MedicalBackgroundService : IMedicalBackgroundService
     {
         private readonly IMedicalBackgroundRepository _repo;
         private readonly IMedicalBackgroundListRepository _repoLista;

@@ -12,7 +12,7 @@ using PRIME_UCR.Infrastructure.Repositories.Sql.MedicalRecords;
 
 namespace PRIME_UCR.Application.Implementations.MedicalRecords
 {
-    public class ChronicConditionService : IChronicConditionService
+    internal class ChronicConditionService : IChronicConditionService
     {
         private readonly IChronicConditionRepository _repo;
         private readonly IChronicConditionListRepository _repoLista;

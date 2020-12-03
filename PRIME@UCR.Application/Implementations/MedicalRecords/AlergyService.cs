@@ -16,7 +16,7 @@ using PRIME_UCR.Infrastructure.Repositories.Sql.MedicalRecords;
 
 namespace PRIME_UCR.Application.Implementations.MedicalRecords
 {
-    public class AlergyService : IAlergyService
+    internal class AlergyService : IAlergyService
     {
         private readonly IAlergyRepository _repo;
         private readonly IAlergyListRepository _repoLista;
