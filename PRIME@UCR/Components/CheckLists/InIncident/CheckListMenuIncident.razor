@@ -2,9 +2,9 @@
 
     @* Contains the list of existing checklists instanced in this incident*@
     <div class="container">
-        <h6>
+        <h5>
             Listas de chequeo:
-        </h6>
+        </h5>
         <div>
             <ul class="nav nav-pills flex-column">
                 @if (instancelists != null && instancelists.Count() > 0)
@@ -14,7 +14,7 @@
                         <li class="nav-item mt-2">
                             @* Navigation link for each checklist *@
                             <NavLink href='@string.Format("incidents/{0}/{1}",@tempList.IncidentCod,@tempList.PlantillaId)' class="nav-link" id="a_LC4">
-                                •  @GetName2(tempList.PlantillaId)
+                                @GetName2(tempList.PlantillaId)
                             </NavLink>
                         </li>
                     }

@@ -94,7 +94,7 @@ namespace PRIME_UCR.Pages.UserAdministration
                     {
                         Destination = userModel.Email,
                         Subject = "PRIME@UCR: Validación nueva cuenta de usuario",
-                        Body = $"<p>Estimado usuario, para validar su cuenta, presione <a href=\"{url}\">acá</a>. </p>"
+                        Body = $"<p>Estimado(a) {user.Persona.Nombre}, se ha creado una cuenta a su nombre en la aplicación PRIME@UCR. Si desea validar su cuenta, para poder hacer uso de ella y sus funcionalidades, favor presionar <a href=\"{url}\">aquí</a>. En caso contrario, favor ignorar este correo. </p>"
                     };
 
                     await mailService.SendEmailAsync(message);

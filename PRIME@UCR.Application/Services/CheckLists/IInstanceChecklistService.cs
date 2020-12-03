@@ -10,7 +10,7 @@ namespace PRIME_UCR.Application.Services.CheckLists
     public interface IInstanceChecklistService
     {
         Task<IEnumerable<InstanceChecklist>> GetAll();
-        Task<InstanceChecklist> InsertInstanceChecklist(InstanceChecklist list);
+        Task InsertInstanceChecklist(InstanceChecklist list);
         Task<InstanceChecklist> GetById(int id);
         Task<IEnumerable<InstanceChecklist>> GetByIncidentCod(string cod);
         Task<IEnumerable<InstanceChecklist>> GetByIdAndIncidentCode(int checkListId, string IncidentCode);

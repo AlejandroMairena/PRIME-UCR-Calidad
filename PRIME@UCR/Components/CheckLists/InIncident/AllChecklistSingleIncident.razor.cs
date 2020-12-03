@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Components.Forms;
 using System.Linq;
 using PRIME_UCR.Domain.Models.CheckLists;
 using MatBlazor;
+using BlazorTable;
 
 namespace PRIME_UCR.Components.CheckLists.InIncident
 {
@@ -21,6 +22,7 @@ namespace PRIME_UCR.Components.CheckLists.InIncident
         [Inject]
         private NavigationManager NavManager { get; set; }
 
+        public ITable<InstanceChecklist> Table;
         protected IEnumerable<CheckList> lists { get; set; }
         protected IEnumerable<InstanceChecklist> instancelists { get; set; }
         protected List<InstanceChecklist> instancelistsThis { get; set; }

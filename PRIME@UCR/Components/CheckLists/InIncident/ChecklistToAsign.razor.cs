@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Components.Forms;
 using System.Linq;
 using PRIME_UCR.Domain.Models.CheckLists;
 using Radzen;
+using System;
 
 namespace PRIME_UCR.Components.CheckLists.InIncident
 {
@@ -38,11 +39,16 @@ namespace PRIME_UCR.Components.CheckLists.InIncident
         public int min = 0;//sumar 1
         public int count = 0;
         public string afterUrl;
+        public bool saved;
+        public string porcentComplete = "0";
+        public double numPorcentComplete = 0;
+        public double longit;
 
         protected override async Task OnInitializedAsync()
         {
             await RefreshModels();
             Llenar();
+            saved = false;
         }
         /**
          * Gets the list of checklists and list of instance checklists in the database
@@ -50,7 +56,7 @@ namespace PRIME_UCR.Components.CheckLists.InIncident
         protected async Task RefreshModels()
         {
             TempLists = new List<CheckList>();
-            lists = await MyService.GetAll();
+            lists = await MyService.GetAllChecklistActivates();
             instancelists = await MyInstanceChecklistService.GetByIncidentCod(incidentCod);
         }
 
@@ -135,7 +141,7 @@ namespace PRIME_UCR.Components.CheckLists.InIncident
             if (!instancelists.Any(p => p.PlantillaId == instance.PlantillaId && p.IncidentCod == incidentCod))
             {
                 await MyInstanceChecklistService.InsertInstanceChecklist(instance);
-                await AddCoreItems(instance);
+                //await AddCoreItems(instance);
             }
         }
 
@@ -210,6 +216,8 @@ namespace PRIME_UCR.Components.CheckLists.InIncident
                 {
                     await DeleteInstanceCheckList(instance);
                 }
+                numPorcentComplete += longit;
+                porcentComplete = Convert.ToString(numPorcentComplete);
             }
             await RefreshModels();
         }
@@ -219,6 +227,8 @@ namespace PRIME_UCR.Components.CheckLists.InIncident
          * */
         protected async Task HandleSubmit()
         {
+            saved = true;
+            longit = 100 / TempDetail.Count();
             await AddAsign();
             //afterUrl = "/incidents/" + "1";// instanceCL.InstanciadoId;
             //NavManager.NavigateTo(afterUrl); // to do: go to checklist panel
