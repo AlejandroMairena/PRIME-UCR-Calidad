@@ -8,7 +8,7 @@
 @implements IDisposable
 <link href="css/Checklist.css" rel="stylesheet" />
 
-<h3>Plantillas de listas de chequeo</h3>
+<h2>Plantillas de listas de chequeo</h2>
 <hr />
 <Loading IsLoading="lists == null">
     <div class="row">
@@ -16,7 +16,8 @@
         <div class="col">
             @* Contains editable information about this checklist *@
             <div class="container" id="contAll_LC" style="background: white;">
-                <h5>Definición de una plantilla de lista de chequeo</h5>
+                <StatusMessage Message="@_statusMessage" Class="success" />
+                <h3>Definición de una plantilla de lista de chequeo</h3>
                 @if (list.Activada && list.Editable)
                 {
                     <EditForm EditContext="@editContext" OnValidSubmit="@UpdateCheckList">
@@ -158,7 +159,7 @@
                         </div>
                     </div>
                     <SummaryMessage Content="states" Values="details" Class="info" /> @*checklist template state*@
-                    <h5> Items de la plantilla de lista de chequeo</h5>
+                    <h3> Items de la plantilla de lista de chequeo</h3>
                     <div id="Body_LC">
                         @if (items == null)
                         {

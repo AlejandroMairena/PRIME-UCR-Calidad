@@ -7,7 +7,7 @@
 @attribute [HasPermission(AuthorizationPermissions.CanCreateChecklist)]
 <link href="css/Checklist.css" rel="stylesheet" />
 
-<h3>Plantillas de listas de chequeo</h3>
+<h2>Plantillas de listas de chequeo</h2>
 <hr />
 <div class="row">
     <CheckListMenu Lists="lists" />
@@ -19,7 +19,7 @@
     <div class="col">
         @* Contains the form to create a new checklist *@
         <div class="container" id="contAll_LC" style="background: white;">
-            <h5>Crear plantilla de lista de chequeo</h5>
+            <h3>Crear plantilla de lista de chequeo</h3>
             <br />
             <EditForm EditContext="@editContext" OnValidSubmit="@HandleValidSubmit">
                 <FluentValidationValidator />
