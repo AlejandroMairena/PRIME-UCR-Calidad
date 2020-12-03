@@ -29,22 +29,29 @@ namespace PRIME_UCR.Application.Implementations.Multimedia
             // Explicitly use service account credentials by specifying the private key file.
             //GoogleCredential credential = GoogleCredential.FromFile("../PRIME@UCR/google_auth.json");
             // Create the client.
+            string jsonAppSettings = System.IO.File.ReadAllText("../PRIME@UCR/appsettings.json");
+            var jsonObjct = JObject.Parse(jsonAppSettings);
+            string googleAuth = (string)jsonObjct["AuthPath"];
+            string projectNameStr = (string)jsonObjct["ProjectName"];
+            string keyNameStr = (string)jsonObjct["KeyName"];
+            string ivNameStr = (string)jsonObjct["IvName"];
+
             SecretManagerServiceClientBuilder builder = new SecretManagerServiceClientBuilder
             {
-                CredentialsPath = "../PRIME@UCR/google_auth.json"
+                CredentialsPath = googleAuth
             };
             SecretManagerServiceClient client = builder.Build();
             // Build the resource name.
-            ProjectName projectName = new ProjectName("speedy-insight-297203");
+            ProjectName projectName = new ProjectName(projectNameStr);
             string nomb = "";
             // Call the API.
-            SecretName keyName = new SecretName("speedy-insight-297203", "LlavePRIME");
-            SecretName ivName = new SecretName("speedy-insight-297203", "IvPrime");
+            SecretName keyName = new SecretName(projectNameStr, keyNameStr);
+            SecretName ivName = new SecretName(projectNameStr, ivNameStr);
 
             Secret key = client.GetSecret(keyName);
             Secret iv = client.GetSecret(ivName);
-            SecretVersionName keyV = new SecretVersionName("speedy-insight-297203", "LlavePRIME","1");
-            SecretVersionName ivV = new SecretVersionName("speedy-insight-297203", "IvPrime", "2");
+            SecretVersionName keyV = new SecretVersionName(projectNameStr, keyNameStr, "1");
+            SecretVersionName ivV = new SecretVersionName(projectNameStr, ivNameStr, "2");
             AccessSecretVersionResponse resultKey = client.AccessSecretVersion(keyV);
             AccessSecretVersionResponse resultIv = client.AccessSecretVersion(ivV);
             string keyString = resultKey.Payload.Data.ToStringUtf8();
