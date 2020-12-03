@@ -18,6 +18,7 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
     {
         [Parameter] public IncidentDetailsModel Incident { get; set; }
         [Inject] public IAssignmentService AssignmentService { get; set; }
+        [Inject] private IIncidentService IncidentService { get; set; }
 
         private IEnumerable<string> Specialists
         {
@@ -43,6 +44,12 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
 
         // Info for Incident summary that is shown at top of the page
         public IncidentSummary Summary = new IncidentSummary();
+        //Finished state atributes
+        private Estado _state = new Estado();
+        private bool ReadOnly;
+        private string CordinName;
+        private string SpecialistsNames;
+
         private async Task Save()
         {
             _isLoading = true;
@@ -55,12 +62,36 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
             _isLoading = false;
         }
 
+        private void LoadSpecialistsNames()
+        {
+            SpecialistsNames = "";
+            for (int i=0; i < _specialists.Count; i++)
+            {
+                SpecialistsNames += _specialists[i].NombreCompleto;
+                if(i < _specialists.Count -1)
+                {
+                    SpecialistsNames += ", ";
+                }
+
+            }
+        }
+
+        private void CheckReadOnly()
+        {
+            if (_state.Nombre == "Finalizado")
+            {
+                LoadSpecialistsNames();
+                CordinName = _model.Coordinator.NombreCompleto;
+                ReadOnly = true;
+            }
+        }
+
         private async Task LoadExistingValues()
         {
             Summary.LoadValues(Incident);
             // make sure it's initialized
             _model = await AssignmentService.GetAssignmentsByIncidentIdAsync(Incident.Code);
-            
+            _state = await IncidentService.GetIncidentStateByIdAsync(Incident.Code);
             _context = new EditContext(_model);
             _saveButtonEnabled = false;
             _context.OnFieldChanged += ToggleSaveButton;
@@ -77,6 +108,7 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
                 (await AssignmentService.GetSpecialistsAsync())
                 .ToList();
             
+            CheckReadOnly();
             _statusMessage = "";
             _isLoading = false;
         }

@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Components.Forms;
 using System.Linq;
 using PRIME_UCR.Domain.Models.CheckLists;
 using MatBlazor;
+using PRIME_UCR.Application.Services.Incidents;
+using PRIME_UCR.Domain.Models.Incidents;
 
 namespace PRIME_UCR.Components.CheckLists
 {
@@ -26,6 +28,7 @@ namespace PRIME_UCR.Components.CheckLists
         protected List<InstanceChecklist> instancelistsThis { get; set; }
         [Inject] protected ICheckListService MyCheckListService { get; set; }
         [Inject] protected IInstanceChecklistService MyInstanceService { get; set; }
+        [Inject] protected IIncidentService IncidentService { get; set; }
         [Parameter] public string IncidentCod { get; set; }
         public CheckList Alist = new CheckList(); //templist
         protected List<string> SummaryList { get; set; }
@@ -33,9 +36,20 @@ namespace PRIME_UCR.Components.CheckLists
          * Se debe hacer Inject de IIncidentService y usar el metodo: GetIncidentStateByIdAsync(Incident id).
          * Tiene un atributo Nombre, entonce un ej de uso: var state = incidentService.GetIncidentStateByIdAsync(code) -> state.Nombre es el que tiene el estado
          */
+        public Estado _state = new Estado();
+        public bool ReadOnly;
+
+        private void CheckReadOnly()
+        {
+            if (_state.Nombre == "Finalizado")
+                ReadOnly = true;
+        }
+
         protected override async Task OnInitializedAsync()
         {
             SummaryList = new List<string>();
+            _state = await IncidentService.GetIncidentStateByIdAsync(IncidentCod);
+            CheckReadOnly();
             await RefreshModels();
         }
 
