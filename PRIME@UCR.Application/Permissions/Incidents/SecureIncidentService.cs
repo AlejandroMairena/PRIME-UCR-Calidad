@@ -33,7 +33,8 @@ namespace PRIME_UCR.Application.Permissions.Incidents
             IPersonaRepository personRepository,
             IAssignmentRepository assignmentRepository,
             IPrimeSecurityService primeSecurityService,
-            IDocumentacionIncidenteRepository documentationRepository)
+            IDocumentacionIncidenteRepository documentationRepository,
+            IProfilesService profileService)
         {
             _primeSecurityService = primeSecurityService;
             _incidentService = new IncidentService(incidentRepository, 
@@ -44,7 +45,8 @@ namespace PRIME_UCR.Application.Permissions.Incidents
                                                     medicalRecordRepository, 
                                                     personRepository, 
                                                     assignmentRepository,
-                                                    documentationRepository);
+                                                    documentationRepository,
+                                                    profileService);
         }
 
         public async Task ApproveIncidentAsync(string code, string reviewerId)
@@ -162,6 +164,11 @@ namespace PRIME_UCR.Application.Permissions.Incidents
         public EstadoIncidente FindState(List<EstadoIncidente> statesList, Estado state)
         {
             return _incidentService.FindState(statesList, state);
+        }
+
+        public async Task<IEnumerable<IncidentListModel>> GetIncidentListModelsAsync(string id)
+        {
+            return await _incidentService.GetIncidentListModelsAsync(id);
         }
     }
 }

@@ -44,7 +44,7 @@ namespace PRIME_UCR.Application.Implementations.Incidents
             IMedicalRecordRepository medicalRecordRepository,
             IPersonaRepository personRepository,
             IAssignmentRepository assignmentRepository,
-            IDocumentacionIncidenteRepository documentationRepository)
+            IDocumentacionIncidenteRepository documentationRepository,
             IProfilesService profileService)
         {
             _incidentRepository = incidentRepository;
