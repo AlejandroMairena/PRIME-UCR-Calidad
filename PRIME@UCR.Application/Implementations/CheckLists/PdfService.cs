@@ -62,6 +62,8 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
                     AddChestRX(pdfDocument);
                     AddArterialGases(pdfDocument);
                     AddAnalisis(pdfDocument);
+                    AddAnnex1(pdfDocument);
+                    AddIncidentMultimedia(pdfDocument, information);
 
                     using (MemoryStream stream = new MemoryStream())
                     {
@@ -174,15 +176,15 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
             };
 
             string doctorName = "";
-            string telephoneNumber = "No manejado por el sistema.";
+            string telephoneNumber = " ";
             string originName = "";
             if (generalInformation.AssignedMembers != null)
             {
                 doctorName = generalInformation.AssignedMembers.Coordinator.NombreCompleto;
-            }
-            if (generalInformation.Incident.Origin != null)
-            {
-                originName = generalInformation.Incident.Origin.DisplayName;
+                if (generalInformation.Incident.Origin != null)
+                {
+                    originName = generalInformation.Incident.Origin.DisplayName;
+                }
             }
 
             List<List<string>> information = new List<List<string>>();
@@ -211,13 +213,15 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
 
             string fullName = "";
             string personId = "";
-            string birthDate = "No ingresada en el sistema.";
-            string age = "No ingresada en el sistema.";
+            string birthDate = " ";
+            string age = " ";
             
             if (generalInformation.Patient != null)
             {
                 fullName = generalInformation.Patient.NombreCompleto;
                 personId = generalInformation.Incident.MedicalRecord.CedulaPaciente;
+                birthDate = "No ingresada en el sistema.";
+                age = "No ingresada en el sistema.";
                 if (generalInformation.Patient.FechaNacimiento != null)
                 {
                     DateTime patientBirth = (DateTime)generalInformation.Patient.FechaNacimiento;
@@ -256,7 +260,7 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
                 "No"
             };
 
-            string background = "No ingresado en el sistema.";
+            string background = " ";
             if (generalInformation.Background != null && generalInformation.Background.Count != 0)
             {
                 background = "";
@@ -266,7 +270,7 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
                     background += ".\n";
                 }
             }
-            string treatment = "No ingresado en el sistema.";
+            string treatment = " ";
             if (generalInformation.ChronicConditions != null && generalInformation.ChronicConditions.Count != 0)
             {
                 treatment = "";
@@ -752,6 +756,152 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
             PdfGrid pdfGrid = CreateTable(rowInformation.Count, information.Count, headers, information, 12);
 
             result = pdfGrid.Draw(result.Page, new PointF(0, result.Bounds.Bottom + paragraphAfterSpacing), format);
+        }
+
+        private void AddAnnex1(PdfDocument doc)
+        {
+            PdfStandardFont contentTitleFont = new PdfStandardFont(PdfFontFamily.TimesRoman, 12, PdfFontStyle.Bold);
+            DrawText("Escala SOFA (Sepsis related Organ Failure Assessment)", contentTitleFont, result.Bounds.Bottom + paragraphAfterSpacing);
+
+            List<string> headers = new List<string>
+            {
+                "Criterio",
+                "0",
+                "+1",
+                "+2",
+                "+3",
+                "+4",
+                "PTS."
+            };
+            List<List<string>> information = new List<List<string>>();
+            List<string> rowInformation = new List<string>
+            {
+                "Respiración\nPaO2/FIO2 (mm Hg)",
+                " ",
+                " ",
+                " ",
+                " ",
+                " ",
+                " "
+            };
+            information.Add(rowInformation);
+            rowInformation = new List<string>
+            {
+                "Coagulación\nPlaquetas 103/mm3",
+                " ",
+                " ",
+                " ",
+                " ",
+                " ",
+                " "
+            };
+            information.Add(rowInformation);
+            rowInformation = new List<string>
+            {
+                "Hepático\nBilirubina (mg/dL)",
+                " ",
+                " ",
+                " ",
+                " ",
+                " ",
+                " "
+            };
+            information.Add(rowInformation);
+            rowInformation = new List<string>
+            {
+                "Cardiovascular\nTensión arterial",
+                " ",
+                " ",
+                " ",
+                " ",
+                " ",
+                " "
+            };
+            information.Add(rowInformation);
+            rowInformation = new List<string>
+            {
+                "SNC\nEscala de Glasgow",
+                " ",
+                " ",
+                " ",
+                " ",
+                " ",
+                " "
+            };
+            information.Add(rowInformation);
+            rowInformation = new List<string>
+            {
+                "Renal\nCreatinina (mg/dL) o\nFlujo urinario (mL/d)",
+                " ",
+                " ",
+                " ",
+                " ",
+                " ",
+                " "
+            };
+            information.Add(rowInformation);
+
+            PdfGrid pdfGrid = CreateTable(rowInformation.Count, information.Count, headers, information, 12);
+
+            pdfGrid.Columns[6].Width = 40;
+
+            result = pdfGrid.Draw(result.Page, new PointF(0, result.Bounds.Bottom + paragraphAfterSpacing), format);
+        }
+
+        private void AddIncidentMultimedia(PdfDocument doc, PdfModel information)
+        {
+            PdfStandardFont contentTitleFont = new PdfStandardFont(PdfFontFamily.TimesRoman, 12, PdfFontStyle.Bold);
+            DrawText("CONTENIDO MULTIMEDIA ASOCIADO AL INCIDENTE", contentTitleFont, result.Bounds.Bottom + paragraphAfterSpacing);
+            if (information.ActionTypes != null && information.ActionTypes.Count != 0)
+            {
+                List<string> headers = new List<string>
+                {
+                    "Nombre",
+                    "Tipo",
+                    "Fecha"
+                };
+                for (int index = 0; index < information.ActionTypes.Count; index++)
+                {
+                    PdfTextElement actionName = new PdfTextElement(information.ActionTypes[index].Nombre, contentTitleFont, PdfBrushes.Black);
+                    result = actionName.Draw(result.Page, new RectangleF(0, result.Bounds.Bottom + paragraphAfterSpacing, page.GetClientSize().Width, page.GetClientSize().Height), format);
+
+                    if (information.ExistingFiles[index] != null && information.ExistingFiles[index].Count != 0)
+                    {
+                        List<List<string>> tableInformation = new List<List<string>>();
+                        int numberOfRows = 0;
+
+                        for (int counter = 0; counter < information.ExistingFiles[index].Count; counter++)
+                        {
+                            List<string> rowInformation = new List<string>
+                            {
+                                information.ExistingFiles[index][counter].Nombre,
+                                information.ExistingFiles[index][counter].Tipo,
+                                information.ExistingFiles[index][counter].Fecha_Hora.ToString()
+                            };
+                            tableInformation.Add(rowInformation);
+                            numberOfRows++;
+                        }
+                        PdfGrid pdfGrid = CreateTable(headers.Count, tableInformation.Count, headers, tableInformation, 12);
+
+                        result = pdfGrid.Draw(result.Page, new PointF(0, result.Bounds.Bottom + paragraphAfterSpacing), format);
+                    } else
+                    {
+                        List<List<string>> tableInformation = new List<List<string>>();
+                        List<string> rowInformation = new List<string>
+                        {
+                            "No se adjuntó ninguno archivo multimedia",
+                            "",
+                            ""
+                        };
+                        tableInformation.Add(rowInformation);
+                        PdfGrid pdfGrid = CreateTable(headers.Count, tableInformation.Count, headers, tableInformation, 12);
+
+                        pdfGrid.Rows[1].Cells[0].ColumnSpan = 3;
+
+                        result = pdfGrid.Draw(result.Page, new PointF(0, result.Bounds.Bottom + paragraphAfterSpacing), format);
+                    }
+                }
+            }
         }
     }
 }

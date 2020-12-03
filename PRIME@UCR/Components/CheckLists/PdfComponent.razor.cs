@@ -9,8 +9,11 @@ using PRIME_UCR.Application.DTOs.Incidents;
 using PRIME_UCR.Application.Services.CheckLists;
 using PRIME_UCR.Application.Services.Incidents;
 using PRIME_UCR.Application.Services.MedicalRecords;
+using PRIME_UCR.Application.Services.Multimedia;
 using Microsoft.JSInterop;
 using PRIME_UCR.Application.Services.UserAdministration;
+using PRIME_UCR.Domain.Models;
+using PRIME_UCR.Application.Services.Appointments;
 
 namespace PRIME_UCR.Components.CheckLists
 {
@@ -23,6 +26,8 @@ namespace PRIME_UCR.Components.CheckLists
         [Inject] private IMedicalBackgroundService MyMedicalBackgroundService { get; set; }
         [Inject] private IAssignmentService MyAssignmentService { get; set; }
         [Inject] private IPatientService MyPatientService { get; set; }
+        [Inject] public IMultimediaContentService MyMultimediaContentService { get; set; }
+        [Inject] public IAppointmentService AppointmentService { get; set; }
         [Parameter] public string IncidentCode { get; set; }
         [Parameter] public string IncidentState { get; set; }
         [Parameter] public EventCallback<bool> ChangeLoading { get; set; }
@@ -31,21 +36,37 @@ namespace PRIME_UCR.Components.CheckLists
 
         protected override async Task OnInitializedAsync()
         {
-            // You can only generate the pdf if the incident is after the 'Asignado' state
-            if (IncidentState == "Iniciado" || IncidentState == "Creado" || IncidentState == "Rechazado" || IncidentState == "Aprobado")
-            {
-                Disabled = true;
-            }
+            // Nothing in here for now.
         }
         protected async Task ExportToPdf()
         {
             await ChangeLoading.InvokeAsync(true);
             PdfModel pdfModel = new PdfModel();
             pdfModel.Incident = await MyIncidentService.GetIncidentDetailsAsync(IncidentCode);
-            pdfModel.Patient = await MyPatientService.GetPatientByIdAsync(pdfModel.Incident.MedicalRecord.CedulaPaciente);
-            pdfModel.AssignedMembers = await MyAssignmentService.GetAssignmentsByIncidentIdAsync(IncidentCode);
-            pdfModel.ChronicConditions = (await MyChronicConditionService.GetChronicConditionByRecordId(pdfModel.Incident.MedicalRecord.Id)).ToList();
-            pdfModel.Background = (await MyMedicalBackgroundService.GetBackgroundByRecordId(pdfModel.Incident.MedicalRecord.Id)).ToList();
+            if (pdfModel.Incident.MedicalRecord != null)
+            {
+                pdfModel.Patient = await MyPatientService.GetPatientByIdAsync(pdfModel.Incident.MedicalRecord.CedulaPaciente);
+                pdfModel.ChronicConditions = (await MyChronicConditionService.GetChronicConditionByRecordId(pdfModel.Incident.MedicalRecord.Id)).ToList();
+                pdfModel.Background = (await MyMedicalBackgroundService.GetBackgroundByRecordId(pdfModel.Incident.MedicalRecord.Id)).ToList();
+            }
+            if (IncidentState != "Iniciado" && IncidentState != "Creado" && IncidentState != "Rechazado" && IncidentState != "Aprobado" && IncidentState != "En proceso de creación")
+            {
+                pdfModel.AssignedMembers = await MyAssignmentService.GetAssignmentsByIncidentIdAsync(IncidentCode);
+            }
+
+            // Multimedia content
+            pdfModel.ActionTypes =
+                (await AppointmentService.GetActionTypesAsync())
+                .ToList();
+            pdfModel.ExistingFiles = new List<List<MultimediaContent>>();
+            foreach (var i in pdfModel.ActionTypes)
+            {
+                var content =
+                    (await MyMultimediaContentService.GetByAppointmentAction(pdfModel.Incident.AppointmentId, i.Nombre))
+                    .ToList();
+                pdfModel.ExistingFiles.Add(content);
+            }
+
             string fileName = "Reporte " + IncidentCode + ".pdf";
             using (MemoryStream excelStream = MyPdfService.GenerateIncidentPdf(pdfModel))
             {
