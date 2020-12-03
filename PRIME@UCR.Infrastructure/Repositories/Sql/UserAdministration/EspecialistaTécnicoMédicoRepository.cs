@@ -21,13 +21,9 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
     {
         private readonly ISqlDataProvider _db;
 
-        private readonly IPrimeSecurityService primeSecurityService;
-
-        public EspecialistaTécnicoMédicoRepository(ISqlDataProvider dataProvider,
-            IPrimeSecurityService _primeSecurityService)
+        public EspecialistaTécnicoMédicoRepository(ISqlDataProvider dataProvider)
         {
             _db = dataProvider;
-            primeSecurityService = _primeSecurityService;
         }
 
         public Task<EspecialistaTécnicoMédico> GetByKeyAsync(string key)
@@ -37,7 +33,6 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
 
         public async Task<IEnumerable<EspecialistaTécnicoMédico>> GetAllAsync()
         {
-            await primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             using (var connection = new SqlConnection(_db.DbConnection.ConnectionString))
             {
                 var result = await connection.ExecuteQueryAsync<EspecialistaTécnicoMédico>(@"
@@ -69,10 +64,5 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
         {
             throw new NotImplementedException();
         }
-    }
-
-    [MetadataType(typeof(EspecialistaTécnicoMédicoRepositoryAuthorization))]
-    public partial class EspecialistaTécnicoMédicoRepository
-    {
     }
 }

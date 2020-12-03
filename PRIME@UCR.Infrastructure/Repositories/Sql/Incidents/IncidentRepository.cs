@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using PRIME_UCR.Application.DTOs.Incidents;
 using PRIME_UCR.Application.Repositories.Incidents;
+using PRIME_UCR.Domain.Constants;
 using PRIME_UCR.Domain.Models;
 using PRIME_UCR.Domain.Models.Incidents;
 using PRIME_UCR.Domain.Models.MedicalRecords;
@@ -201,6 +202,35 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Incidents
             }
 
             return null;
+        }
+
+        public async Task<IEnumerable<OngoingIncident>> GetOngoingIncidentsAsync()
+        {
+            // query all incidents with requiered data
+            var data =
+                await _db.Incidents
+                    .AsNoTracking()
+                    .Include(i => i.Origen)
+                    .Include(i => i.Destino)
+                    .Include(i => i.UnidadDeTransporte)
+                    .Include(i => i.EstadoIncidentes)
+                    .ToListAsync();
+
+            // filter out the incidents that are not ongoing
+            return data
+                .Where(i =>
+                {
+                    var currentState = i.EstadoIncidentes.First(s => s.Activo);
+                    return IncidentStates.OngoingStates.Exists(s => s.Nombre == currentState.NombreEstado);
+                })
+                .Select(i => new OngoingIncident // create OngoingIncident DTO to return
+                {
+                    Origin = i.Origen,
+                    Destination = i.Destino,
+                    Incident = i,
+                    TransportUnit = i.UnidadDeTransporte,
+                    UnitType = new Modalidad { Tipo = i.Modalidad }
+                });
         }
 
         public override async Task<Incidente> GetByKeyAsync(string key)

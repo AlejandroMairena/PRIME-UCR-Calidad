@@ -25,6 +25,7 @@ namespace PRIME_UCR.Application.Dtos.Incidents
         public string TransportUnitId { get; set; }
         public UnidadDeTransporte TransportUnit { get; set; }
         public Expediente MedicalRecord { get; set; }
+        public DocumentacionIncidente FeedBack { get; set; }
 
     }
 }

@@ -17,13 +17,12 @@ using PRIME_UCR.Domain.Exceptions.Incidents;
 using PRIME_UCR.Domain.Models;
 using PRIME_UCR.Domain.Models.Incidents;
 using PRIME_UCR.Domain.Models.UserAdministration;
-using PRIME_UCR.Application.Services.UserAdministration;
 using System.ComponentModel.DataAnnotations;
 using PRIME_UCR.Application.Permissions.Incidents;
 
 namespace PRIME_UCR.Application.Implementations.Incidents
 {
-    public partial class IncidentService : IIncidentService
+    internal class IncidentService : IIncidentService
     {
         private readonly IIncidentRepository _incidentRepository;
         private readonly IModesRepository _modesRepository;
@@ -33,7 +32,7 @@ namespace PRIME_UCR.Application.Implementations.Incidents
         private readonly IMedicalRecordRepository _medicalRecordRepository;
         private readonly IPersonaRepository _personRepository;
         private readonly IAssignmentRepository _assignmentRepository;
-        private readonly IPrimeSecurityService _primeSecurityService;
+        private readonly IDocumentacionIncidenteRepository _documentationRepository;
         private readonly IProfilesService _profileService;
 
         public IncidentService(
@@ -45,7 +44,7 @@ namespace PRIME_UCR.Application.Implementations.Incidents
             IMedicalRecordRepository medicalRecordRepository,
             IPersonaRepository personRepository,
             IAssignmentRepository assignmentRepository,
-            IPrimeSecurityService primeSecurityService,
+            IDocumentacionIncidenteRepository documentationRepository)
             IProfilesService profileService)
         {
             _incidentRepository = incidentRepository;
@@ -56,7 +55,7 @@ namespace PRIME_UCR.Application.Implementations.Incidents
             _medicalRecordRepository = medicalRecordRepository;
             _personRepository = personRepository;
             _assignmentRepository = assignmentRepository;
-            _primeSecurityService = primeSecurityService;
+            _documentationRepository = documentationRepository;
             _profileService = profileService;
         }
 
@@ -86,7 +85,6 @@ namespace PRIME_UCR.Application.Implementations.Incidents
 
         public async Task<Incidente> CreateIncidentAsync(IncidentModel model, Persona person)
         {
-            await _primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             if (model.EstimatedDateOfTransfer == null)
             {
                 throw new ArgumentNullException("model.EstimatedDateOfTransfer");
@@ -114,6 +112,7 @@ namespace PRIME_UCR.Application.Implementations.Incidents
                 NombreEstado = IncidentStates.InCreationProcess.Nombre,
                 CodigoIncidente = entity.Codigo,
                 FechaHora = DateTime.Now,
+                AprobadoPor = person.Cédula,
                 Activo = true
             };
 
@@ -129,13 +128,16 @@ namespace PRIME_UCR.Application.Implementations.Incidents
          */
         public async Task<IncidentDetailsModel> GetIncidentDetailsAsync(string code)
         {
-            await _primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             var incident = await _incidentRepository.GetWithDetailsAsync(code);
             if (incident != null)
             {
                 var transportUnit = await _transportUnitRepository.GetTransporUnitByIncidentIdAsync(incident.Codigo);
                 var reviewer = await _personRepository.GetByKeyPersonaAsync(incident.CedulaRevisor);
                 var state = await _statesRepository.GetCurrentStateByIncidentId(incident.Codigo);
+                var documentacionIncidente = await _documentationRepository.GetAllDocumentationByIncidentCode(incident.Codigo);
+                List<DocumentacionIncidente> lista = documentacionIncidente.ToList();
+                lista = lista.OrderBy(i => i.Id).ToList();
+                DocumentacionIncidente documentacion = lista.FirstOrDefault();
                 var medicalRecord =
                     incident.Cita.Expediente;
                 var model = new IncidentDetailsModel
@@ -154,8 +156,10 @@ namespace PRIME_UCR.Application.Implementations.Incidents
                     TransportUnitId = transportUnit?.Matricula,
                     TransportUnit = transportUnit,
                     MedicalRecord = medicalRecord,
-                    Reviewer = reviewer
+                    Reviewer = reviewer,
+                    FeedBack = documentacion
                 };
+
 
                 return model;
             }
@@ -171,7 +175,6 @@ namespace PRIME_UCR.Application.Implementations.Incidents
          */
         public async Task<IncidentDetailsModel> UpdateIncidentDetailsAsync(IncidentDetailsModel model)
         {
-            await _primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             var incident = await _incidentRepository.GetByKeyAsync(model.Code);
 
             if (model.Origin is CentroUbicacion origin
@@ -213,7 +216,8 @@ namespace PRIME_UCR.Application.Implementations.Incidents
                     CodigoIncidente = incident.Codigo,
                     NombreEstado = IncidentStates.Created.Nombre,
                     Activo = true,
-                    FechaHora = DateTime.Now
+                    FechaHora = DateTime.Now,
+                    AprobadoPor = model.Reviewer.Cédula
                 };
                 await _statesRepository.AddState(incidentState);
             }
@@ -278,7 +282,6 @@ namespace PRIME_UCR.Application.Implementations.Incidents
          */
         public async Task<IEnumerable<Incidente>> GetAllAsync()
         {
-            await _primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             return await _incidentRepository.GetAllAsync();
         }
 
@@ -288,6 +291,21 @@ namespace PRIME_UCR.Application.Implementations.Incidents
         public async Task<IEnumerable<IncidentListModel>> GetIncidentListModelsAsync()
         {
             return await _incidentRepository.GetIncidentListModelsAsync();
+        }
+
+        public async Task<IEnumerable<DocumentacionIncidente>> GetAllDocumentationByIncidentCode(string incidentCode)
+        {
+            return await _documentationRepository.GetAllDocumentationByIncidentCode(incidentCode);
+        }
+
+        public async Task<DocumentacionIncidente> InsertFeedback(string code, string feedBack)
+        {
+            DocumentacionIncidente newFeedBack = new DocumentacionIncidente
+            {
+                CodigoIncidente = code,
+                RazonDeRechazo = feedBack
+            };
+            return await _documentationRepository.InsertAsync(newFeedBack);       
         }
 
 
@@ -337,7 +355,6 @@ namespace PRIME_UCR.Application.Implementations.Incidents
         * */
         public async Task ApproveIncidentAsync(string code, string reviewerId)
         {
-            await _primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             var incident = await _incidentRepository.GetByKeyAsync(code);
             if (incident == null)
             {
@@ -357,7 +374,8 @@ namespace PRIME_UCR.Application.Implementations.Incidents
                 CodigoIncidente = code,
                 NombreEstado = IncidentStates.Approved.Nombre,
                 Activo = true,
-                FechaHora = DateTime.Now
+                FechaHora = DateTime.Now,
+                AprobadoPor = reviewerId
             });
 
             incident.CedulaRevisor = reviewerId;
@@ -372,7 +390,6 @@ namespace PRIME_UCR.Application.Implementations.Incidents
         * */
         public async Task RejectIncidentAsync(string code, string reviewerId)
         {
-            await _primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             var incident = await _incidentRepository.GetByKeyAsync(code);
             if (incident == null)
             {
@@ -391,7 +408,8 @@ namespace PRIME_UCR.Application.Implementations.Incidents
                 CodigoIncidente = code,
                 NombreEstado = IncidentStates.Rejected.Nombre,
                 Activo = true,
-                FechaHora = DateTime.Now
+                FechaHora = DateTime.Now,
+                AprobadoPor = reviewerId
             });
 
             incident.CedulaRevisor = reviewerId;
@@ -510,24 +528,26 @@ namespace PRIME_UCR.Application.Implementations.Incidents
             return pendingTasks;
         }
 
-        public async Task ChangeState(string code, string nextState)
+        public async Task ChangeState(IncidentDetailsModel model, string nextState)
         {
-            var incident = await _incidentRepository.GetByKeyAsync(code);
+            var incident = await _incidentRepository.GetByKeyAsync(model.Code);
             if (incident == null)
             {
                 throw new ArgumentException(
-                    $"Invalid incident id {code}.");
+                    $"Invalid incident id {model.Code}.");
             }
 
             await _statesRepository.AddState(new EstadoIncidente
             {
-                CodigoIncidente = code,
+                CodigoIncidente = model.Code,
                 NombreEstado = nextState,
                 Activo = true,
-                FechaHora = DateTime.Now
+                FechaHora = DateTime.Now,
+                AprobadoPor = model.Reviewer.Cédula
             });
             await _incidentRepository.UpdateAsync(incident);
         }
+
         /*
          * Function:     This method will search for the current state of an incident
          *
@@ -538,8 +558,56 @@ namespace PRIME_UCR.Application.Implementations.Incidents
         {
             return await _statesRepository.GetCurrentStateByIncidentId(code);
         }
-    }
 
-    [MetadataType(typeof(IncidentServiceAuthorization))]
-    public partial class IncidentService { }
+        /*
+         * Function:    This method will search for an specific state. The purpose of this method is to help 
+         *              the GetStatesLog method to save the states in order.
+         * Param:       StatesList -> The states log of an specific incident
+         *              state -> An specific state, the one we will look for in the states list, to grab all the info
+         *              about it (date, approved by).
+         * Returns:     That specific state of states list.
+         */
+        public EstadoIncidente FindState(List<EstadoIncidente> statesList, Estado state)
+        {
+            for (var index = 0; index < statesList.Count; ++index)
+            {
+                if(statesList[index].NombreEstado == state.Nombre)
+                {
+                    return statesList[index];
+                }
+            }
+            return null;
+        }
+
+        /*
+         * Function:    This method will search for all the states that an incident has passed. The states are not needed
+         *              in the return list because this method will ensure to set that list in order.   
+         * Param:       Code -> Incident ID
+         * Returns:     A list OF State models of: Date when the incident reached the state, id of coordinator
+         *              that aproved that change of state and the name of the state itself.
+         */
+        public async Task<List<StatesModel>> GetStatesLog(string code)
+        {
+            List<StatesModel> log = new List<StatesModel>();
+            List<EstadoIncidente> statesList = (await _statesRepository.GetIncidentStatesByIncidentId(code)).ToList();
+            foreach (var state in IncidentStates.IncidentStatesList)
+            {
+                var stateInOrder = FindState(statesList, state);
+                if (stateInOrder != null)   //When an incident is not rejected, this can be null in states after rejected.
+                {
+                    log.Add( 
+                        new StatesModel
+                        {
+                            NombreEstado = stateInOrder.NombreEstado,
+                            AprobadoPor = stateInOrder.AprobadoPor,
+                            FechaHora = stateInOrder.FechaHora
+                        }
+                    );
+                    if (stateInOrder.Activo == true)    //To avoid iterating into pending states
+                        break;
+                }
+            }
+            return log;
+        }
+    }
 }

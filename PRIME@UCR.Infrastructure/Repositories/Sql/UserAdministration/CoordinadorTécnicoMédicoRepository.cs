@@ -18,22 +18,17 @@ using System.ComponentModel.DataAnnotations;
 
 namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
 {
-    public partial class CoordinadorTécnicoMédicoRepository : ICoordinadorTécnicoMédicoRepository
+    internal class CoordinadorTécnicoMédicoRepository : ICoordinadorTécnicoMédicoRepository
     {
         private readonly ISqlDataProvider _db;
 
-        private readonly IPrimeSecurityService primeSecurityService;
-
-        public CoordinadorTécnicoMédicoRepository(ISqlDataProvider dataProvider,
-            IPrimeSecurityService _primeSecurityService)
+        public CoordinadorTécnicoMédicoRepository(ISqlDataProvider dataProvider)
         {
             _db = dataProvider;
-            primeSecurityService = _primeSecurityService;
         }
 
         public async Task<CoordinadorTécnicoMédico> GetByKeyAsync(string key)
         {
-            await primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             using (var connection = new SqlConnection(_db.DbConnection.ConnectionString))
             {
                 var result = await connection.ExecuteQueryAsync<CoordinadorTécnicoMédico>(@"
@@ -50,7 +45,6 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
 
         public async Task<IEnumerable<CoordinadorTécnicoMédico>> GetAllAsync()
         {
-            await primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             using (var connection = new SqlConnection(_db.DbConnection.ConnectionString))
             {
                 var result = await connection.ExecuteQueryAsync<CoordinadorTécnicoMédico>(@"
@@ -83,10 +77,5 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
         {
             throw new NotImplementedException();
         }
-    }
-
-    [MetadataType(typeof(CoordinadorTécnicoMédicoRepositoryAuthorization))]
-    public partial class CoordinadorTécnicoMédicoRepository
-    {
     }
 }
