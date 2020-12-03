@@ -83,9 +83,9 @@ namespace PRIME_UCR.Components.Multimedia
             encrypt_service.DecryptFile(pathDecrypted);
             string path = pathDecrypted.Replace("wwwroot/", "");
             bool done = await JS.InvokeAsync<bool>("showTxt", path);
-            Thread.Sleep(3000);
+            //ShowPDF = false;
+            Thread.Sleep(2000);
             encrypt_service.EncryptFile(pathDecrypted);
-            ShowPDF = false;
         }
         string getAudio() {
             string pathEncrypted = MContent.Archivo;

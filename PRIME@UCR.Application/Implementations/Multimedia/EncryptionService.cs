@@ -25,10 +25,6 @@ namespace PRIME_UCR.Application.Implementations.Multimedia
 
         void setKeyIV()
         {
-            // Some APIs, like Storage, accept a credential in their Create() method.
-            // Explicitly use service account credentials by specifying the private key file.
-            //GoogleCredential credential = GoogleCredential.FromFile("../PRIME@UCR/google_auth.json");
-            // Create the client.
             string jsonAppSettings = System.IO.File.ReadAllText("../PRIME@UCR/appsettings.json");
             var jsonObjct = JObject.Parse(jsonAppSettings);
             string googleAuth = (string)jsonObjct["AuthPath"];

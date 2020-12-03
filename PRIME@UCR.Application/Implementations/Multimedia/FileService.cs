@@ -19,7 +19,6 @@ namespace PRIME_UCR.Application.Implementations.Multimedia
             FilePath = "wwwroot/datas/";
             ES = new EncryptionService();
         }
-        //00EIWb1ubBfgsk9el1G2tBsJ1fRX0DGsD53xrHcClP1jMDHK+z2qyLwUG2-uMV9ZHZapHnuKj95-mWYuCwqBVA==.mp3
         public async Task<bool> StoreFile(string pathDecrypted, string fileName, string extension, Stream fileStream)
         {
             DirectoryInfo info = new DirectoryInfo(pathDecrypted);
@@ -27,7 +26,7 @@ namespace PRIME_UCR.Application.Implementations.Multimedia
                 info.Create();
             }
             string completeFileName = fileName + extension;
-            string path = Path.Combine(pathDecrypted, completeFileName); //wwwroot/asdkjbaskdn/ljasndljna/kajsndf.jpg
+            string path = Path.Combine(pathDecrypted, completeFileName); 
             using (FileStream outputFileStream = new FileStream(path, FileMode.Create))
             {
                 await fileStream.CopyToAsync(outputFileStream);

@@ -24,15 +24,15 @@ namespace PRIME_UCR.Components.Multimedia
         [Parameter]
         public EventCallback<MultimediaContent> OnFileUpload { get; set; }
         [Parameter]
-        public string IncidentCode { get; set; } = "";
+        public string IncidentCode { get; set; } = null;
         [Parameter]
-        public string ActionName { get; set; } = "";
+        public string ActionName { get; set; } = null;
         [Parameter]
-        public bool CallingFromAction { get; set; } = false;
+        public string CallingPlace { get; set; } = "";
         [Parameter]
-        public string CheckListName { get; set; } = "";
+        public string CheckListName { get; set; } = null;
         [Parameter]
-        public string CheckListItemName { get; set; } = "";
+        public string CheckListItemName { get; set; } = null;
 
         
         // List of valid file types 
@@ -76,34 +76,47 @@ namespace PRIME_UCR.Components.Multimedia
         //@Funcion: Genera la direccion en la cual se va a guardar el archivo (segun la estructura del repositorio)
         //@Retorno: La direccion del directorio donde se guardara el archivo
         string getFilePath() {
-            string path = "wwwroot/";
-            if (CallingFromAction)
-            {
-                byte[] IncidentCodeEncryptedByte = encrypt_service.Encrypt(IncidentCode);
-                string IncidentCodeEncryptedString = Convert.ToBase64String(IncidentCodeEncryptedByte);
-                path += encrypt_service.EncodeString(IncidentCodeEncryptedString);
-                path += "/";
-                byte[] ActionNameEncryptedByte = encrypt_service.Encrypt(ActionName);
-                string ActionNameEncryptedString = Convert.ToBase64String(ActionNameEncryptedByte);
-                path += encrypt_service.EncodeString(ActionNameEncryptedString);
-                path += "/";
-            }
-            else {
-                byte[] IncidentCodeEncryptedByte = encrypt_service.Encrypt(IncidentCode);
-                string IncidentCodeEncryptedString = Convert.ToBase64String(IncidentCodeEncryptedByte);
-                path += encrypt_service.EncodeString(IncidentCodeEncryptedString);
-                path += "/";
-                byte[] checkListNameByte = encrypt_service.Encrypt(CheckListName);
-                string checkListNameEncryptedString = Convert.ToBase64String(checkListNameByte);
-                path += encrypt_service.EncodeString(checkListNameEncryptedString);
-                path += "/";
-                byte[] checkListItemByte = encrypt_service.Encrypt(CheckListItemName);
-                string checkListItemString = Convert.ToBase64String(checkListItemByte);
-                path += encrypt_service.EncodeString(checkListItemString);
-                path += "/";
+            string multiString = "Multimedia";
+            byte[] multiByte = encrypt_service.Encrypt(multiString);
+            string multiEncrypted = Convert.ToBase64String(multiByte);
+            string path = "wwwroot/"+ encrypt_service.EncodeString(multiEncrypted)+"/";
+            byte[] IncidentCodeEncryptedByte = null;
+            string IncidentCodeEncryptedString = "";
+            string general = "General";
+            switch (CallingPlace){
+                case "action":
+                    IncidentCodeEncryptedByte = encrypt_service.Encrypt(IncidentCode);
+                    IncidentCodeEncryptedString = Convert.ToBase64String(IncidentCodeEncryptedByte);
+                    path += encrypt_service.EncodeString(IncidentCodeEncryptedString);
+                    path += "/";
+                    byte[] ActionNameEncryptedByte = encrypt_service.Encrypt(ActionName);
+                    string ActionNameEncryptedString = Convert.ToBase64String(ActionNameEncryptedByte);
+                    path += encrypt_service.EncodeString(ActionNameEncryptedString);
+                    path += "/";
+                break;
+                case "checkListItem":
+                    IncidentCodeEncryptedByte = encrypt_service.Encrypt(IncidentCode);
+                    IncidentCodeEncryptedString = Convert.ToBase64String(IncidentCodeEncryptedByte);
+                    path += encrypt_service.EncodeString(IncidentCodeEncryptedString);
+                    path += "/";
+                    byte[] checkListNameByte = encrypt_service.Encrypt(CheckListName);
+                    string checkListNameEncryptedString = Convert.ToBase64String(checkListNameByte);
+                    path += encrypt_service.EncodeString(checkListNameEncryptedString);
+                    path += "/";
+                    byte[] checkListItemByte = encrypt_service.Encrypt(CheckListItemName);
+                    string checkListItemString = Convert.ToBase64String(checkListItemByte);
+                    path += encrypt_service.EncodeString(checkListItemString);
+                    path += "/";
+                break;
+                default:
+                    byte[] generalRepositoyByte = encrypt_service.Encrypt(general);
+                    string generalRepositoyByteString = Convert.ToBase64String(generalRepositoyByte);
+                    path += encrypt_service.EncodeString(generalRepositoyByteString);
+                    path += "/";
+                    break;
             }
             return path;
-        }
+    }
         //@Parametros: Un array de archivos fisicos
         //@Funcion: Elige el primer archivo del array y hace todas las operaciones sobre este para almacenarlo en la base 
         //          y en el directorio correspondiente dentro del servidor
@@ -193,7 +206,7 @@ namespace PRIME_UCR.Components.Multimedia
                 OpenImage(mcontent);
             else if (extension == ".txt")
                 OpenText(mcontent);
-            else if (extension == ".mp4" || extension == ".webm" || extension ==".avi")
+            else if (extension == ".mp4" || extension == ".webm" || extension ==".avi" || extension==".mp4avi")
                 OpenVideo(mcontent);
             else if (extension == ".mp3" || extension == ".ogg")
                 OpenAudio(mcontent);
