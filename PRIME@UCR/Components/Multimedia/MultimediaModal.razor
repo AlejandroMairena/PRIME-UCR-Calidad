@@ -29,16 +29,20 @@
         @if (ShowAudio)
         {
             string path = getAudio();
-            <audio controls="controls">
-                <source src=@path type="audio/mpeg">
-            </audio>
+            <div style="padding: 40%; padding-top: 20%;">
+                <audio controls="controls">
+                    <source src=@path type="audio/mpeg">
+                </audio>
+            </div>
         }
         @if (ShowVideo)
         {
             string vid = getVideo();
-            <video width="1280" height="720" controls="controls">
-                <source src=@vid type="video/mp4">
-            </video>
+            <div style="padding-top: 10%; padding-right: 25%;padding-left: 25%;">
+                <video width="640" height="480" controls="controls">
+                    <source src=@vid type="video/mp4">
+                </video>
+            </div>
         }
         @if (ShowVideoComponent)
         {
