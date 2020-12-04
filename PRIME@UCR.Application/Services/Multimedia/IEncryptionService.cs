@@ -21,5 +21,7 @@ namespace PRIME_UCR.Application.Services.Multimedia
         public void SetKeyIV(byte[]iv,byte[]key);
         public byte[] generateKey();
         public byte[] generateIV();
+        public string EncodeString(string uncodedString);
+        public string DecodeString(string codedString);
     }
 }

@@ -35,7 +35,9 @@ namespace PRIME_UCR.Components.Multimedia
         {
             if (viewMode)
             {
-                fileName = MultimediaContent.Nombre;
+                string nameDecoded = encrypt_service.DecodeString(MultimediaContent.Nombre);
+                byte[] nameDecodedByte = Convert.FromBase64String(nameDecoded);
+                fileName = encrypt_service.Decrypt(nameDecodedByte);
                 text = GetMCText();
             }
         }

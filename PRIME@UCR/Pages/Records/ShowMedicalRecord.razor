@@ -2,6 +2,7 @@
 @using PRIME_UCR.Domain.Models.MedicalRecords
 @using BlazorTable
 @using MatBlazor;
+@using PRIME_UCR.Components.MedicalRecords 
 @inject NavigationManager NavManager
 @inject PRIME_UCR.Application.Services.MedicalRecords.IMedicalRecordService medical_record_service
 
@@ -47,50 +48,3 @@
 <MatThemeProvider Theme="@AddButtonTheme">
     <MatFAB Icon="@MatIconNames.Add" Class="app-fab--absolute" OnClick="@(_ => Redirect())"></MatFAB>
 </MatThemeProvider>
-
-
-@code {
-
-    public int page_size { get; set; } = 5;
-
-    public List<Expediente> medical_records { get; set; }
-
-    public ITable<Expediente> MedicalRecordsModel { get; set; }
-
-    private const string create_medical_record = "/create-medical-record";
-
-    MatTheme AddButtonTheme = new MatTheme()
-    {
-        Primary = "white",
-        Secondary = "#095290"
-    };
-
-
-    protected override async Task OnInitializedAsync()
-    {
-        await get_records();
-    }
-
-    private async Task get_records()
-    {
-        IEnumerable<Expediente> records = await medical_record_service.GetAllAsync();
-        medical_records = records.ToList();
-    }
-
-
-    private async Task size_changed(int new_size) {
-        page_size = new_size;
-    }
-
-    public string get_record_link(int recordId)
-    {
-        return $"/medicalrecord/{recordId}";
-    }
-
-
-
-    void Redirect()
-    {
-        NavManager.NavigateTo($"{create_medical_record}");
-    }
-}
