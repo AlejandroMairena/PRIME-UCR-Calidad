@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
 using PRIME_UCR.Application.Dtos.Incidents;
+using PRIME_UCR.Application.DTOs.Incidents;
+using PRIME_UCR.Application.DTOs.UserAdministration;
 using PRIME_UCR.Application.Services.Incidents;
 using PRIME_UCR.Application.Services.UserAdministration;
 using PRIME_UCR.Domain.Constants;
@@ -17,11 +19,22 @@ using System.Linq;
 using System.Security.Policy;
 using System.Threading.Tasks;
 
+using PRIME_UCR.Application.Services;
+using PRIME_UCR.Domain.Models;
+using PRIME_UCR.Application.Services.CheckLists;
+using PRIME_UCR.Components.CheckLists.InIncident;
+using PRIME_UCR.Components.Incidents.IncidentDetails.Constants;
+using Microsoft.AspNetCore.Components.Forms;
+using PRIME_UCR.Domain.Models.CheckLists;
+using PRIME_UCR.Application.Services.Multimedia;
+using PRIME_UCR.Application.DTOs.UserAdministration;
+using PRIME_UCR.Application.Implementations.Incidents;
+using PRIME_UCR.Application.DTOs.Incidents;
+
 namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
 {
     public partial class StatePanel
     {
-
         public string nextState;
 
         public List<Tuple<string, string>> PendingTasks = new List<Tuple<string, string>>();
@@ -41,6 +54,35 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
         MatButton Button2;
         BaseMatMenu Menu2;
         private bool _isLoading = true;
+
+
+        [Inject]
+        public IMailService mailService { get; set; }
+
+        [Inject]
+        public IAssignmentService AssignmentService { get; set; }
+
+        private List<EspecialistaTécnicoMédico> _specialists;
+
+        
+        [Inject]
+        public IUserService userService { get; set; }
+
+        private AssignmentModel _model;
+        protected string IncidentURL = "/incidents/";
+
+        private CoordinadorTécnicoMédico coordinators;
+
+        protected string IncidentURL = "/incidents/";
+        public IMailService mailService { get; set; }
+        public IAssignmentService AssignmentService { get; set; }
+        private bool _isLoading = true;
+
+        private AssignmentModel _model;
+
+        private List<EspecialistaTécnicoMédico> _specialists;
+
+        public IUserService userService { get; set; }
 
         public List<Tuple<string, string>> IncidentStatesList = new List<Tuple<string, string>> {
             Tuple.Create(IncidentStates.InCreationProcess.Nombre ,"Iniciado"),
@@ -102,6 +144,7 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
 
         private async Task Approve()
         {
+            
             await IncidentService
                 .ApproveIncidentAsync(Incident.Code, CurrentUser.Cédula);
             await OnSave.InvokeAsync(null);
@@ -118,6 +161,7 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
 
         private async Task ChangeState()
         {
+            sendInformation();
             await IncidentService.ChangeState(Incident.Code, nextState);
             await OnSave.InvokeAsync(null);
             await LoadValues();
@@ -150,6 +194,64 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
                     return "Resumen";       //common case
             }
         }
+
+        public async void sendInformation()
+        {
+            _model = await AssignmentService.GetAssignmentsByIncidentIdAsync(Incident.Code);
+            _specialists = _model.TeamMembers;
+            /*_specialists =
+                (await AssignmentService.GetSpecialistsAsync())
+                .ToList();*/
+
+            foreach (var special in _specialists)
+            {
+                var user = (await userService.GetAllUsersWithDetailsAsync()).ToList().Find(u => u.CedPersona == special.Cédula);
+                var url = "https://localhost:44368" + IncidentURL + Incident.Code;
+                var message = new EmailContentModel()
+                {
+                    Destination = user.Email,
+                    Subject = "PRIME@UCR: Asignado al incidente:" + Incident.Code,
+                    Body = $"<p>Proceda a completar las listas de chequeo asignadas al incidente:<a href=\"{url}\">Haga click aquí para ser redirigido</a></p>"
+                };
+
+                await mailService.SendEmailAsync(message);
+
+                StateHasChanged();
+            }
+        }
+        }
+
+        public async void sendInformation()
+        {
+           
+            if (nextState == "Asignado") {
+                _model = await AssignmentService.GetAssignmentsByIncidentIdAsync(Incident.Code);
+                _specialists = _model.TeamMembers;
+                var allocator = CurrentUser.NombreCompleto;
+                var url = "https://localhost:44368";
+                foreach (var special in _specialists)
+                {
+                    var user = (await userService.GetAllUsersWithDetailsAsync()).ToList().Find(u => u.CedPersona == special.Cédula);
+                    var message = new EmailContentModel()
+                    {
+                        Destination = user.Email,
+                        Subject = "PRIME@UCR: Asignado al incidente:" + Incident.Code,
+                        Body = $"<p>{allocator} lo ha asignado a un incidente</br>Proceda a completar las listas de chequeo asignadas al incidente:<a href=\"{url}\">Haga click aquí para ser redirigido</a></p>"
+                    };
+                    await mailService.SendEmailAsync(message);
+                }
+                coordinators = _model.Coordinator;
+                var user2 = (await userService.GetAllUsersWithDetailsAsync()).ToList().Find(u => u.CedPersona == coordinators.Cédula);
+                var message2 = new EmailContentModel()
+                {
+                    Destination = user2.Email,
+                    Subject = "PRIME@UCR: Asignado al incidente:" + Incident.Code,
+                    Body = $"<p>Usted ha sido asignado al incidente:{Incident.Code} por {allocator}. <a href=\"{url}\"> Haga click aquí para ser redirigido</a></p>"
+                };
+                await mailService.SendEmailAsync(message2);
+            } 
+        }
+
     }
 }
 

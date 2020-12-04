@@ -8,6 +8,6 @@
     [IDSuperItem] INT NULL, 
     [IDLista] INT NULL,
 	PRIMARY KEY CLUSTERED ([Id] ASC),
-    Foreign key (IDSuperItem) References Item (Id), 
+    Foreign key (IDSuperItem) References Item (Id) 	On Delete Cascade, 
     Foreign key (IDLista) References CheckList (Id)	On Delete Cascade
 )
