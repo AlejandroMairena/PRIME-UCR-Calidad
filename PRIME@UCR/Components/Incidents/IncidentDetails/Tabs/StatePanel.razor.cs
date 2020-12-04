@@ -69,20 +69,10 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
         public IUserService userService { get; set; }
 
         private AssignmentModel _model;
-        protected string IncidentURL = "/incidents/";
 
         private CoordinadorTécnicoMédico coordinators;
 
-        //protected string IncidentURL = "/incidents/";
-        //public IMailService mailService { get; set; }
-        //public IAssignmentService AssignmentService { get; set; }
-        //private bool _isLoading = true;
-
-        //private AssignmentModel _model;
-
-        //private List<EspecialistaTécnicoMédico> _specialists;
-
-        //public IUserService userService { get; set; }
+        protected string IncidentURL = "/incidents/";
 
         public List<Tuple<string, string>> IncidentStatesList = new List<Tuple<string, string>> {
             Tuple.Create(IncidentStates.InCreationProcess.Nombre ,"Iniciado"),
@@ -194,34 +184,9 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
                     return "Resumen";       //common case
             }
         }
-        
+
+
         public async void sendInformation()
-        {
-            _model = await AssignmentService.GetAssignmentsByIncidentIdAsync(Incident.Code);
-            _specialists = _model.TeamMembers;
-            /*_specialists =
-                (await AssignmentService.GetSpecialistsAsync())
-                .ToList();*/
-
-            foreach (var special in _specialists)
-            {
-                var user = (await userService.GetAllUsersWithDetailsAsync()).ToList().Find(u => u.CedPersona == special.Cédula);
-                var url = "https://localhost:44368" + IncidentURL + Incident.Code;
-                var message = new EmailContentModel()
-                {
-                    Destination = user.Email,
-                    Subject = "PRIME@UCR: Asignado al incidente:" + Incident.Code,
-                    Body = $"<p>Proceda a completar las listas de chequeo asignadas al incidente:<a href=\"{url}\">Haga click aquí para ser redirigido</a></p>"
-                };
-
-                await mailService.SendEmailAsync(message);
-
-                StateHasChanged();
-            }
-        }
-        
-
-        public async void sendInformations()
         {
            
             if (nextState == "Asignado") {
