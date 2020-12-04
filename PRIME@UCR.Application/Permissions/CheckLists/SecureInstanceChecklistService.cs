@@ -106,5 +106,10 @@ namespace PRIME_UCR.Application.Permissions.CheckLists
         {
             return await instanceChecklistService.GetItemsByFatherId(incidentCode, checklistId, itemId);
         }
+
+        public void LoadRelations(List<InstanciaItem> items)
+        {
+            instanceChecklistService.LoadRelations(items);
+        }
     }
 }

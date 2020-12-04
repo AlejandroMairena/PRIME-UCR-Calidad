@@ -28,5 +28,6 @@ namespace PRIME_UCR.Application.Services.CheckLists
         // Task<IEnumerable<Item>> GetCoreItems(int checkListId);
         //Task<Item> SaveImageItem(Item item);
         Task<InstanciaItem> UpdateItemInstance(InstanciaItem item);
+        void LoadRelations(List<InstanciaItem> items);
     }
 }

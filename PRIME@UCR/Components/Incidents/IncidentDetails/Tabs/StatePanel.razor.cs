@@ -73,16 +73,16 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
 
         private CoordinadorTécnicoMédico coordinators;
 
-        protected string IncidentURL = "/incidents/";
-        public IMailService mailService { get; set; }
-        public IAssignmentService AssignmentService { get; set; }
-        private bool _isLoading = true;
+        //protected string IncidentURL = "/incidents/";
+        //public IMailService mailService { get; set; }
+        //public IAssignmentService AssignmentService { get; set; }
+        //private bool _isLoading = true;
 
-        private AssignmentModel _model;
+        //private AssignmentModel _model;
 
-        private List<EspecialistaTécnicoMédico> _specialists;
+        //private List<EspecialistaTécnicoMédico> _specialists;
 
-        public IUserService userService { get; set; }
+        //public IUserService userService { get; set; }
 
         public List<Tuple<string, string>> IncidentStatesList = new List<Tuple<string, string>> {
             Tuple.Create(IncidentStates.InCreationProcess.Nombre ,"Iniciado"),
@@ -194,7 +194,7 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
                     return "Resumen";       //common case
             }
         }
-
+        
         public async void sendInformation()
         {
             _model = await AssignmentService.GetAssignmentsByIncidentIdAsync(Incident.Code);
@@ -219,9 +219,9 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
                 StateHasChanged();
             }
         }
-        }
+        
 
-        public async void sendInformation()
+        public async void sendInformations()
         {
            
             if (nextState == "Asignado") {

@@ -323,15 +323,10 @@ div#All_LC {
 
 .checklist-table {
     margin: 0;
-    order: 3;
 }
 
 .checklist-table>tbody>tr>td, .checklist-table>tbody>tr>th {
     border: 0;
-}
-
-.ui-tree-toggler {
-    order: 2;
 }
 
 .ui-treenode-content-selected {

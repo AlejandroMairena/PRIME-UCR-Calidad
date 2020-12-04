@@ -98,13 +98,30 @@
                             }
                             else
                             {
-                                @for (int tempIndex = 0; tempIndex < orderedList.Count(); tempIndex++)
-                                {
-                                    PRIME_UCR.Domain.Models.CheckLists.InstanciaItem itemInList = orderedList[tempIndex];
-                                    string style = orderedListLevel[tempIndex] * 2 + "em";
-                                    itemIndex = GetItemIndex(itemInList);
-
-                                    <table class="table">
+                                <AuthorizeView Policy="@AuthorizationPermissions.CanCheckItemsInChecklists.ToString()">
+                                    <NotAuthorized>
+                                        @{ canEdit = false; }
+                                    </NotAuthorized>
+                                </AuthorizeView>
+                                <AuthorizeView Policy="@AuthorizationPermissions.CanAttachMultimediaInChecklists.ToString()">
+                                    <NotAuthorized>
+                                        @{ canEdit = false; }
+                                    </NotAuthorized>
+                                </AuthorizeView>
+                        <RadzenTree Data=@coreItems ondragover="event.preventDefault();" Style="width: 100%">
+                                <RadzenTreeLevel TextProperty="IncidentCod" ChildrenProperty="SubItems">
+                                    <Template>
+                                        @{
+                                            PRIME_UCR.Domain.Models.CheckLists.InstanciaItem itemInList = (context.Value as PRIME_UCR.Domain.Models.CheckLists.InstanciaItem);
+                                            int itemIndex = GetItemIndex(itemInList);
+                                            string style = orderedListLevel[itemIndex] * 0 + "em";
+                                        }
+                                        
+                                        @if (itemInList.SubItems.Count() <= 0)
+                                        {
+                                            <div class="blankSpace">.</div>
+                                        }
+                                    <table class="table checklist-table">
                                         @* Contains information about every item in this checklist *@
                                         <tbody>
                                             <tr>
@@ -115,16 +132,6 @@
                                                     @* Displys the image of the item *@
 
                                                     <div style="width: 100%; display:inline-flex;">
-                                                        <AuthorizeView Policy="@AuthorizationPermissions.CanCheckItemsInChecklists.ToString()">
-                                                            <NotAuthorized>
-                                                                @{ canEdit = false; }
-                                                            </NotAuthorized>
-                                                        </AuthorizeView>
-                                                        <AuthorizeView Policy="@AuthorizationPermissions.CanAttachMultimediaInChecklists.ToString()">
-                                                            <NotAuthorized>
-                                                                @{ canEdit = false; }
-                                                            </NotAuthorized>
-                                                        </AuthorizeView>
                                                         @if (validateEdit == 1) // state in transfer
                                                         {
                                                     <div class="custom-control custom-checkbox" style="margin:auto">
@@ -161,7 +168,7 @@
                                                             <p style=" padding-top: 0px; padding-bottom: 0px; ">@itemInList.FechaHoraInicio</p>
                                                         </td>
                                                         <td rowspan="2" class="align-middle" align="right" style="width: 54px">
-                                                            <MultimediaContentComponent MultimediaContent="@MyMultimediaContent[tempIndex]" OnFileUpload="(MultimediaContent mc) => OnFileUpload(itemInList, mc)"></MultimediaContentComponent>
+                                                            <MultimediaContentComponent MultimediaContent="@MyMultimediaContent[itemIndex]" OnFileUpload="(MultimediaContent mc) => OnFileUpload(itemInList, mc)"></MultimediaContentComponent>
                                                         </td>
                                                     }
                                                     else if (validateEdit == 2)
@@ -170,7 +177,7 @@
                                                             <p style=" padding-top: 0px; padding-bottom: 0px; ">@itemInList.FechaHoraInicio</p>
                                                         </td>
                                                         <td rowspan="2" class="align-middle" align="right" style="width: 54px">
-                                                            <MultimediaContentComponent MultimediaContent="@MyMultimediaContent[tempIndex]"></MultimediaContentComponent>
+                                                            <MultimediaContentComponent MultimediaContent="@MyMultimediaContent[itemIndex]"></MultimediaContentComponent>
                                                         </td>
                                                     }
                                                 }
@@ -205,7 +212,10 @@
                                             </tr>
                                         </tbody>
                                     </table>
-                                }
+                                    </Template>
+                                </RadzenTreeLevel>
+                            </RadzenTree>
+                                
                             }
 
                         }

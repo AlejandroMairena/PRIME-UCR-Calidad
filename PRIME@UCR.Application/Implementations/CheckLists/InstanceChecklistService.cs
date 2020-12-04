@@ -115,5 +115,23 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
             await _instanceItemRepository.UpdateAsync(item);
             return item;
         }
+
+
+        public async void LoadRelations(List<InstanciaItem> items) {
+            InstanciaItem father = null;
+            InstanciaItem item = null;
+            int parentIndex = -1;
+            for(int Index = 0; Index < items.Count(); ++Index)
+            {
+                item = items[Index];
+                if (item.ItemPadreId != null)
+                {
+                    father = await _instanceItemRepository.GetItem(item.ItemPadreId, item.IncidentCodPadre, item.PlantillaPadreId);
+                    items[Index].MyFather = father;
+                    parentIndex = items.FindIndex(a => a.ItemId == father.ItemId);
+                    items[parentIndex].SubItems.Add(item);
+                }
+            }
+        }
     }
 }
