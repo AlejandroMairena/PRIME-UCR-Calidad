@@ -263,6 +263,7 @@ button.btn.btn-danger.m-btn.m-btn-rm {
     width: 600px;
     display: block;
     margin: auto;
+    margin-top: 50px;
 }
 
 .rt-box {
@@ -345,4 +346,10 @@ button.btn.btn-danger.m-btn.m-btn-rm {
 .rt-img-cont:hover .tooltiptext {
     visibility: visible;
     opacity: 1;
+}
+
+.rt-align {
+    padding: 0px;
+    margin: 0px;
+    text-align: left !important;
 }

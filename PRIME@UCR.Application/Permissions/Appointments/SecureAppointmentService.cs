@@ -30,7 +30,7 @@ namespace PRIME_UCR.Application.Permissions.Appointments
             IMedicalRecordRepository medicalRecordRepository,
             IPrimeSecurityService _primeSecurityService)
         {
-            appointmentService = new AppointmentService(actionTypeRepo, appointmentRepository, medicalRecordRepository);
+            appointmentService = new AppointmentService(actionTypeRepo, appointmentRepository, medicalRecordRepository, null, null, null);
             primeSecurityService = _primeSecurityService;
 
         }
@@ -41,14 +41,69 @@ namespace PRIME_UCR.Application.Permissions.Appointments
             return await appointmentService.AssignMedicalRecordAsync(appointmentId, patient);
         }
 
+        public Task<IEnumerable<TipoAccion>> GetActionsTypesMedicalAppointmentAsync(bool isMedAppointment = true)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<IEnumerable<TipoAccion>> GetActionTypesAsync(bool isIncident = true)
         {
             return await appointmentService.GetActionTypesAsync(isIncident);
         }
 
+        public Task<PoseeReceta> GetDrugByConditionAsync(int drug_id, int appointmentId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<RecetaMedica>> GetDrugsAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<RecetaMedica>> GetDrugsByConditionAsync(string drugname)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<RecetaMedica>> GetDrugsByFilterAsync(string filter)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<Cita> GetLastAppointmentDateAsync(int id)
         {
             return await appointmentService.GetLastAppointmentDateAsync(id);
+        }
+
+        public Task<CitaMedica> GetMedicalAppointmentByAppointmentId(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<CitaMedica> GetMedicalAppointmentByKeyAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<PoseeReceta>> GetPrescriptionsByAppointmentId(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<PoseeReceta> InsertPrescription(int idMedicalPrescription, int idMedicalAppointment)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task UpdateAsync(PoseeReceta prescription)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<PoseeReceta> UpdatePrescriptionDosis(int idMedicalPrescription, int idMedicalAppointment, string dosis)
+        {
+            throw new NotImplementedException();
         }
     }
 }

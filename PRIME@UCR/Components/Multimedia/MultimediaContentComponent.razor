@@ -111,7 +111,7 @@
                             @foreach (var mcontent in MultimediaContent)
                             {
                                 <tr>
-                                    <td>@mcontent.Nombre</td>
+                                    <td>@GetFileName(mcontent)</td>
                                     <td>@mcontent.Tipo</td>
                                     <td>@mcontent.Fecha_Hora</td>
                                     <td>

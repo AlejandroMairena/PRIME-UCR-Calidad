@@ -53,6 +53,8 @@ namespace PRIME_UCR.Components.Multimedia
                 MultimediaModal.OnModalClosed += CloseComponent;
 
             fileName = GetFileName();
+            UpdateFileName();
+
 
             OpenCameraAlertMessage = new MAlertMessage
             {
@@ -110,6 +112,7 @@ namespace PRIME_UCR.Components.Multimedia
             photoTaken = false;
             await JS.InvokeAsync<bool>("clearCanvas", canvasElement);
             fileName = GetFileName();
+            UpdateFileName();
             AlertMessage = PressTakePhotoAlertMessage;
 
         }
@@ -128,6 +131,12 @@ namespace PRIME_UCR.Components.Multimedia
         {
             return "IMG-" + ApCode + "-" + MultimediaContentComponent.FormatDate(DateTime.Now);
         }
+
+        async Task UpdateFileName()
+        {
+            await JS.InvokeAsync<bool>("updateImageDownloadName", downloadLinkRef, fileName);
+        }
+
 
     }
 }

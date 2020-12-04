@@ -31,9 +31,7 @@ namespace PRIME_UCR.Components.Multimedia
         /* Appointment code for auto naming real time multimedia content.
          */
         [Parameter]
-        public string ApCode { get; set; } = "COD";
-        [Parameter]
-        public string IncidentCode { get; set; } = null;
+        public string ApCode { get; set; } = "";
         [Parameter]
         public string ActionName { get; set; } = null;
         [Parameter]
@@ -94,7 +92,7 @@ namespace PRIME_UCR.Components.Multimedia
             string general = "General";
             switch (CallingPlace){
                 case "action":
-                    IncidentCodeEncryptedByte = encrypt_service.Encrypt(IncidentCode);
+                    IncidentCodeEncryptedByte = encrypt_service.Encrypt(ApCode);
                     IncidentCodeEncryptedString = Convert.ToBase64String(IncidentCodeEncryptedByte);
                     path += encrypt_service.EncodeString(IncidentCodeEncryptedString);
                     path += "/";
@@ -104,7 +102,7 @@ namespace PRIME_UCR.Components.Multimedia
                     path += "/";
                 break;
                 case "checkListItem":
-                    IncidentCodeEncryptedByte = encrypt_service.Encrypt(IncidentCode);
+                    IncidentCodeEncryptedByte = encrypt_service.Encrypt(ApCode);
                     IncidentCodeEncryptedString = Convert.ToBase64String(IncidentCodeEncryptedByte);
                     path += encrypt_service.EncodeString(IncidentCodeEncryptedString);
                     path += "/";
@@ -217,7 +215,7 @@ namespace PRIME_UCR.Components.Multimedia
                 OpenText(mcontent);
             else if (extension == ".mp4" || extension == ".webm" || extension ==".avi" || extension==".mp4avi")
                 OpenVideo(mcontent);
-            else if (extension == ".mp3" || extension == ".ogg")
+            else if (extension == ".mp3" || extension == ".ogg" || extension == ".oga")
                 OpenAudio(mcontent);
             else if (extension == ".pdf")
                 OpenPDF(mcontent);

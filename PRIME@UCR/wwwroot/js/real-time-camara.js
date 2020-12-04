@@ -63,7 +63,7 @@ function setImageDowloadLink(imageRef, downloadLinkRef) {
 }
 
 function updateImageDownloadName(downloadLinkRef, newName) {
-    imageName = newName;
+    imageName = newName + ".png";
     downloadLinkRef.download = imageName;
     return true;
 }
