@@ -32,7 +32,8 @@ namespace PRIME_UCR.Application.Permissions.Incidents
             IMedicalRecordRepository medicalRecordRepository,
             IPersonaRepository personRepository,
             IAssignmentRepository assignmentRepository,
-            IPrimeSecurityService primeSecurityService)
+            IPrimeSecurityService primeSecurityService,
+            IDocumentacionIncidenteRepository documentationRepository)
         {
             _primeSecurityService = primeSecurityService;
             _incidentService = new IncidentService(incidentRepository, 
@@ -42,7 +43,8 @@ namespace PRIME_UCR.Application.Permissions.Incidents
                                                     transportUnitRepository,
                                                     medicalRecordRepository, 
                                                     personRepository, 
-                                                    assignmentRepository);
+                                                    assignmentRepository,
+                                                    documentationRepository);
         }
 
         public async Task ApproveIncidentAsync(string code, string reviewerId)
@@ -101,6 +103,17 @@ namespace PRIME_UCR.Application.Permissions.Incidents
             return await _incidentService.GetIncidentListModelsAsync();
         }
 
+        public async Task<IEnumerable<DocumentacionIncidente>> GetAllDocumentationByIncidentCode(string incidentCode)
+        {
+            return await _incidentService.GetAllDocumentationByIncidentCode(incidentCode);
+        }
+
+        public async Task<DocumentacionIncidente> InsertFeedback(string code, string feedBack)
+        {
+            await _primeSecurityService.CheckIfIsAuthorizedAsync(new[] { AuthorizationPermissions.CanReviewIncidents });
+            return await _incidentService.InsertFeedback(code, feedBack);
+        }
+
         public async Task<Incidente> GetIncidentByDateCodeAsync(int id)
         {
             return await _incidentService.GetIncidentByDateCodeAsync(id);
@@ -131,14 +144,34 @@ namespace PRIME_UCR.Application.Permissions.Incidents
             return _incidentService.GetApprovedStatePendingTasks(model);
         }
 
-        public async Task ChangeState(string code, string nextState)
+        public async Task ChangeState(IncidentDetailsModel model, string nextState)
         {
-            await _incidentService.ChangeState(code, nextState);
+            await _incidentService.ChangeState(model, nextState);
         }
 
         public async Task<bool> UpdateTransportUnit(IncidentDetailsModel model, Incidente incident)
         {
             return await _incidentService.UpdateTransportUnit(model, incident);
+        }
+
+        public async Task<List<StatesModel>> GetStatesLog(string code)
+        {
+            return await _incidentService.GetStatesLog(code);
+        }
+
+        public EstadoIncidente FindState(List<EstadoIncidente> statesList, Estado state)
+        {
+            return _incidentService.FindState(statesList, state);
+        }
+
+        public async Task<CambioIncidente> GetLastChange(string code)
+        {
+            return await _incidentService.GetLastChange(code);
+        }
+
+        public async Task UpdateLastChange(LastChangeModel model)
+        {
+            await _incidentService.UpdateLastChange(model);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
@@ -57,6 +58,16 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Incidents
                     (await connection.QueryAsync<Estado>(e =>
                         e.Nombre == (result != null ? result.NombreEstado : null)))
                     .FirstOrDefault();
+            }
+        }
+
+        public async Task<IEnumerable<EstadoIncidente>> GetIncidentStatesByIncidentId(string incidentCode)
+        {
+            using (var connection = new SqlConnection(_db.ConnectionString))
+            {
+                return await connection.QueryAsync<EstadoIncidente>(e =>
+                    e.CodigoIncidente == incidentCode
+                );
             }
         }
     }

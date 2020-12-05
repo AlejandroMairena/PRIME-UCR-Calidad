@@ -156,6 +156,8 @@
     <Build Include="Triggers\CheckearItem.sql" />
     <Build Include="Tables\MedicalRecords\PadecimientosCronicos.sql" />
     <Build Include="Tables\MedicalRecords\ListaPadecimiento.sql" />
+    <Build Include="Tables\Incidents\DocumentacionIncidente.sql" />
+    <Build Include="Tables\Incidents\CambioIncidente.sql" />
     <Build Include="Indexes\Checklist\ix_checklist_activas.sql" />
     <Build Include="Triggers\AfterDeleteInstance.sql" />
     <Build Include="Triggers\AfterInsertInstance.sql" />

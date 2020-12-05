@@ -20,8 +20,9 @@ namespace PRIME_UCR.Application.Services.Incidents
         Task<IncidentDetailsModel> UpdateIncidentDetailsAsync(IncidentDetailsModel model);
         Task<IEnumerable<Incidente>> GetAllAsync();
         Task<IEnumerable<IncidentListModel>> GetIncidentListModelsAsync();
-
+        Task<IEnumerable<DocumentacionIncidente>> GetAllDocumentationByIncidentCode(string incidentCode);
         Task<Incidente> GetIncidentByDateCodeAsync(int id);
+        Task<DocumentacionIncidente> InsertFeedback(string code, string feedBack);
 
         public Task ApproveIncidentAsync(string code, string reviewerId);
         public Task RejectIncidentAsync(string code, string reviewerId);
@@ -30,6 +31,10 @@ namespace PRIME_UCR.Application.Services.Incidents
         public List<Tuple<string, string>> GetCreatedStatePendingTasks(IncidentDetailsModel model);
         public Task<List<Tuple<string, string>>> GetAssignedStatePendingTasks(IncidentDetailsModel model);
         public List<Tuple<string, string>> GetApprovedStatePendingTasks(IncidentDetailsModel model);
-        public Task ChangeState(string code, string nextState);
+        public Task ChangeState(IncidentDetailsModel model, string nextState);
+        public Task<List<StatesModel>> GetStatesLog(string code);
+        public EstadoIncidente FindState(List<EstadoIncidente> statesList, Estado state);
+        public Task<CambioIncidente> GetLastChange(string code);
+        public Task UpdateLastChange(LastChangeModel model);
     }
 }

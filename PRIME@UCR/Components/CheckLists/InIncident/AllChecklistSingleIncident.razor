@@ -18,9 +18,7 @@
 
                         <Column TableItem="InstanceChecklist" Title="Nombre" Field="@( x => x.PlantillaId)" Width="25%">
                             <Template Context="tempList">
-                                <a href='@string.Format("incidents/{0}/{1}", @tempList.IncidentCod,@tempList.PlantillaId)'>
-                                    @GetName2(tempList.PlantillaId)
-                                </a>
+                                <a href='@string.Format("incidents/{0}/{1}", @tempList.IncidentCod, @tempList.PlantillaId)'>@GetName2(tempList.PlantillaId)</a>
                             </Template>
 
                         </Column>
