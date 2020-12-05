@@ -27,7 +27,7 @@ namespace PRIME_UCR.Components.Dashboard.Filters
 
         private void OnChangeMedicalCenter(CentroMedico medicalCenter)
         {
-            if (medicalCenter == Value._selectedHospital.MedicalCenter)
+            if (Value.Hospital.Find((h) => h.MedicalCenter == medicalCenter) != null)
             {
                 _changesMade = false;
             }
@@ -54,14 +54,23 @@ namespace PRIME_UCR.Components.Dashboard.Filters
         private void Discard()
         {
             _changesMade = false;
-            Value._selectedHospital.MedicalCenter = Value.Hospital.MedicalCenter;
+            Value._selectedHospital.MedicalCenter = Value.Hospital.Last().MedicalCenter;
         }
 
         private async Task Save()
         {
             StateHasChanged();
-            Value.Hospital.MedicalCenter = Value._selectedHospital.MedicalCenter;
-            if (Value.Hospital.MedicalCenter != null)
+            if (Value._selectedHospital == null)
+            {
+                Value.Hospital.Clear();
+            }
+            else
+            {
+                MedicalCenterLocationModel medicalCenterLocationModel = new MedicalCenterLocationModel { MedicalCenter = Value._selectedHospital.MedicalCenter };
+                Value.Hospital.Add(medicalCenterLocationModel);
+            }
+
+            if (Value.Hospital.Count() != 0)
             {
                 Value.ButtonEnabled = true;
             }

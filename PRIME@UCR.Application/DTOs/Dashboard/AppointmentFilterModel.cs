@@ -13,16 +13,16 @@ namespace PRIME_UCR.Application.DTOs.Dashboard
         public AppointmentFilterModel()
         {
             // final
-            Hospital = new MedicalCenterLocationModel();
-            PatientModel = new PatientModel();
+            Hospital = new List<MedicalCenterLocationModel>();
+            PatientModel = new List<PatientModel>();
             // selected
             _selectedHospital = new MedicalCenterLocationModel();
             _selectedPatientModel = new PatientModel();
         }
 
         // final
-        public MedicalCenterLocationModel Hospital { get; set; }
-        public PatientModel PatientModel { get; set; }
+        public List<MedicalCenterLocationModel> Hospital { get; set; }
+        public List<PatientModel> PatientModel { get; set; }
 
         // selected
         public MedicalCenterLocationModel _selectedHospital { get; set; }

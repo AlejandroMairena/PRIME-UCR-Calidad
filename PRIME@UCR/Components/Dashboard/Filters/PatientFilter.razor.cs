@@ -27,7 +27,7 @@ namespace PRIME_UCR.Components.Dashboard.Filters
 
         private void OnChangePatient(Paciente patient)
         {
-            if (patient == Value.PatientModel.Patient)
+            if (Value.PatientModel.Find((p) => p.Patient == patient) != null)
             {
                 _changesMade = false;
             }
@@ -54,14 +54,22 @@ namespace PRIME_UCR.Components.Dashboard.Filters
         private void Discard()
         {
             _changesMade = false;
-            Value._selectedPatientModel.Patient = Value.PatientModel.Patient;
+            Value._selectedPatientModel.Patient = Value.PatientModel.Last().Patient;
         }
 
         private async Task Save()
         {
             StateHasChanged();
-            Value.PatientModel.Patient = Value._selectedPatientModel.Patient;
-            if (Value.PatientModel.Patient != null)
+            if (Value._selectedPatientModel == null)
+            {
+                Value.PatientModel.Clear();
+            }
+            else
+            {
+                PatientModel patientModel = new PatientModel { Patient = Value._selectedPatientModel.Patient };
+                Value.PatientModel.Add(patientModel);
+            }
+            if (Value.PatientModel.Count() != 0)
             {
                 Value.ButtonEnabled = true;
             }
