@@ -229,14 +229,18 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
             Assert.Equal("código válido", result.Codigo);
         }
 
-        /*
         [Fact]
         public async Task GetIncidentDetailsAsyncReturnsValid()
         {
+            /*If the service receives valid entries it should run flawlessly.
+             */
             var _MockIncidentRepository = new Mock<IIncidentRepository>();
             var _MockTransportUnitRepository = new Mock<ITransportUnitRepository>();
             var _MockPersonRepository = new Mock<IPersonaRepository>();
             var _MockStateRepository = new Mock<IIncidentStateRepository>();
+            var _MockDocumentationRepository = new Mock<IDocumentacionIncidenteRepository>();
+            IEnumerable<DocumentacionIncidente> _listadocu = new List<DocumentacionIncidente>();
+
             string CodeToTest = "codigoTotest";
             Cita CitaToTest = new Cita
             {
@@ -277,9 +281,12 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
             _MockStateRepository
                 .Setup(p => p.GetCurrentStateByIncidentId(IncidentToTest.Codigo))
                 .Returns(Task.FromResult(StateToTest));
-            var incidentServiceToTest = new SecureIncidentService(_MockIncidentRepository.Object, null, _MockStateRepository.Object, null, _MockTransportUnitRepository.Object, null, _MockPersonRepository.Object, null, new AuthorizationMock().Object, null, null);
+            _MockDocumentationRepository.
+                Setup(p => p.GetAllDocumentationByIncidentCode(IncidentToTest.Codigo))
+                .Returns(Task.FromResult(_listadocu));
+            var incidentServiceToTest = new SecureIncidentService(_MockIncidentRepository.Object, null, _MockStateRepository.Object, null, _MockTransportUnitRepository.Object, null, _MockPersonRepository.Object, null, new AuthorizationMock().Object, _MockDocumentationRepository.Object, null);
 
-            IncidentDetailsModel result =  await incidentServiceToTest.GetIncidentDetailsAsync(CodeToTest);
+            IncidentDetailsModel result = await incidentServiceToTest.GetIncidentDetailsAsync(CodeToTest);
             Assert.True
                 (
                     result.Code == IncidentToTest.Codigo
@@ -294,7 +301,6 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
                     && result.Reviewer.Cédula == ReviewerToTest.Cédula
                 );
         }
-         */
 
         [Fact]
         public async Task GetIncidentDetailsAsyncReturnsNull()
