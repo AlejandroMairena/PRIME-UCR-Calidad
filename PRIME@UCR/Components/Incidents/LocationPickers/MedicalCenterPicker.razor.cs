@@ -21,7 +21,10 @@ namespace PRIME_UCR.Components.Incidents.LocationPickers
         [Parameter] public EventCallback<MedicalCenterLocationModel> OnSave { get; set; }
         [Parameter] public EventCallback OnDiscard { get; set; }
         [Parameter] public bool IsFirst { get; set; }
+        [Parameter] public bool ReadOnly { get; set; } = false;// If the elements in tab are readOnly or input required
         public string DoctorForLabel => IsOrigin ? "Médico en origen" : "Médico en destino";
+        private string BedNumberText;//String conversion of integer bednumber
+        public string DoctorFullName;
 
         private List<CentroMedico> _medicalCenters;
         private List<Médico> _doctors;
@@ -67,9 +70,11 @@ namespace PRIME_UCR.Components.Incidents.LocationPickers
         private async Task LoadExistingValues()
         {
             _isLoading = true;
+            BedNumberText = Value.BedNumber?.ToString();
             StateHasChanged();
             await LoadMedicalCenters(true);
             await LoadDoctors(true);
+            DoctorFullName = Value.Doctor?.NombreCompleto;
             _isLoading = false;
         }
         

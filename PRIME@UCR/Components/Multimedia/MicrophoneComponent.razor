@@ -8,14 +8,17 @@
 
         <div class="row">
             <div class="col">
+                @* Record Button *@
                 <button class="btn btn-primary rt-button" @ref="recordButton">Grabar</button>
                 <p @ref="timer"></p>
             </div>
             <div class="col">
+                @* Stop Button *@
                 <button class="btn btn-danger rt-button" id="mic_stop_button" @ref="stopButton">Detener</button>
             </div>
         </div>
         <div class="row" style="margin-top: 20px">
+            @* Recorded Audio *@
             <audio style="width:250px; margin: auto" @ref="audio"></audio>
         </div>
 

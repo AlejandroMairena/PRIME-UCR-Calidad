@@ -15,7 +15,15 @@
     {
         if (instancelists.Count() == 0)
         {
-            <p><em class="nav-link">No se ha asignado ninguna lista, presione el boton + para asignar alguna.</em></p> }
+            @if (!ReadOnly)// If incident not in finished state
+            {
+                <p><em class="nav-link">No se ha asignado ninguna lista, presione el boton + para asignar alguna.</em></p> 
+            }
+            else
+            {
+                <p><em class="nav-link">No se asignó ninguna lista al incidente.</em></p> 
+            }
+        }
         else
         {
             <div class="rounded" style="background-color: white;padding-left: 10px;padding-right: 10px; padding-top:10px;">
@@ -24,7 +32,7 @@
 
                         <Column TableItem="InstanceChecklist" Title="Nombre" Field="@( x => x.PlantillaId)" Width="25%">
                             <Template Context="tempList">
-                                <a href='@string.Format("incidents/{0}/{1}", @tempList.IncidentCod,@tempList.PlantillaId)'>@GetName2(tempList.PlantillaId)</a>
+                                <a href='@string.Format("incidents/{0}/{1}", @tempList.IncidentCod, @tempList.PlantillaId)'>@GetName2(tempList.PlantillaId)</a>
                             </Template>
 
                         </Column>
@@ -58,7 +66,7 @@
                         <Pager ShowPageNumber="true" />
                     </Table>
                 </EditForm>
-                </div>
-                }
-                }
             </div>
+        }
+    }
+</div>

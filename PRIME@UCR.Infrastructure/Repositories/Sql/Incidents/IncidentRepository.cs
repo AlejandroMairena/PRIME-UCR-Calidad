@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using PRIME_UCR.Application.DTOs.Incidents;
 using PRIME_UCR.Application.Repositories.Incidents;
+using PRIME_UCR.Domain.Constants;
 using PRIME_UCR.Domain.Models;
 using PRIME_UCR.Domain.Models.Incidents;
 using PRIME_UCR.Domain.Models.MedicalRecords;
@@ -41,10 +42,10 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Incidents
                     {"IdDestino", null},
                     {"MatriculaTrans", null}
                 };
-                
+
                 var result = await connection.ExecuteScalarAsync(
                     "dbo.InsertarNuevoIncidente", parameters, CommandType.StoredProcedure);
-                
+
                 model.Codigo = result.ToString();
 
                 return model;
@@ -56,7 +57,7 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Incidents
                     .Include(p => p.Origen)
                     .Include(p => p.Destino)
                     .Include(p => p.EstadoIncidentes)
-                    .FirstOrDefaultAsync(i => i.CodigoCita == id); 
+                    .FirstOrDefaultAsync(i => i.CodigoCita == id);
         }
 
         public async Task<Incidente> GetWithDetailsAsync(string code)
@@ -81,7 +82,7 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Incidents
                              .FirstOrDefault();
                  }
             }
-                
+
             var modelWithLocations = await _db.Incidents
                 .AsNoTracking()
                 .Include(i => i.Origen)
@@ -93,7 +94,7 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Incidents
                 incident.Origen = modelWithLocations.Origen;
                 incident.Destino = modelWithLocations.Destino;
             }
-            
+
             return incident;
         }
 
@@ -127,7 +128,7 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Incidents
                         join EstadoIncidente EI on Incidente.Codigo = EI.CodigoIncidente
                         where EI.Activo = 1;
                     ";
-                
+
                 using (var result = await connection.ExecuteQueryMultipleAsync(sql))
                 {
                     var incidents = await result.ExtractAsync<Incidente>();
@@ -202,6 +203,35 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Incidents
             return null;
         }
 
+        public async Task<IEnumerable<OngoingIncident>> GetOngoingIncidentsAsync()
+        {
+            // query all incidents with requiered data
+            var data =
+                await _db.Incidents
+                    .AsNoTracking()
+                    .Include(i => i.Origen)
+                    .Include(i => i.Destino)
+                    .Include(i => i.UnidadDeTransporte)
+                    .Include(i => i.EstadoIncidentes)
+                    .ToListAsync();
+
+            // filter out the incidents that are not ongoing
+            return data
+                .Where(i =>
+                {
+                    var currentState = i.EstadoIncidentes.First(s => s.Activo);
+                    return IncidentStates.OngoingStates.Exists(s => s.Nombre == currentState.NombreEstado);
+                })
+                .Select(i => new OngoingIncident // create OngoingIncident DTO to return
+                {
+                    Origin = i.Origen,
+                    Destination = i.Destino,
+                    Incident = i,
+                    TransportUnit = i.UnidadDeTransporte,
+                    UnitType = new Modalidad { Tipo = i.Modalidad }
+                });
+        }
+
         public override async Task<Incidente> GetByKeyAsync(string key)
         {
             using (var connection = new SqlConnection(_db.ConnectionString))
@@ -214,7 +244,7 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Incidents
                     incident.Cita =
                         (await connection.QueryAsync<Cita>(c => c.Id == incident.CodigoCita))
                         .FirstOrDefault();
-                
+
                 return incident;
             }
         }
@@ -230,6 +260,32 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Incidents
                     where M.Cédula = @Id
                 ", new { Id = id }))
                 .FirstOrDefault();
+            }
+        }
+
+        public async Task<CambioIncidente> GetLastChange(string code)
+        {
+            using (var connection = new SqlConnection(_db.ConnectionString))
+            {
+                return (await connection.ExecuteQueryAsync<CambioIncidente>(@"
+                    select CambioIncidente.* from CambioIncidente
+                    where CodigoIncidente = @Id
+                    order by FechaHora desc
+                ", new { Id = code }))
+                .FirstOrDefault();
+            }
+        }
+
+        public async Task UpdateLastChange(CambioIncidente change)
+        {
+            using (var connection = new SqlConnection(_db.ConnectionString))
+            {
+                var incident =
+                    (await connection.QueryAsync<Incidente>(i => i.Codigo == change.CodigoIncidente))
+                    .FirstOrDefault();
+                if (incident != null)
+                    change.Incidente = incident;
+                await connection.InsertAsync(change);
             }
         }
     }

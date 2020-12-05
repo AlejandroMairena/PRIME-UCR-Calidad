@@ -32,6 +32,7 @@ namespace PRIME_UCR.Application.Implementations.Incidents
         private readonly IMedicalRecordRepository _medicalRecordRepository;
         private readonly IPersonaRepository _personRepository;
         private readonly IAssignmentRepository _assignmentRepository;
+        private readonly IDocumentacionIncidenteRepository _documentationRepository;
 
         public IncidentService(
             IIncidentRepository incidentRepository,
@@ -41,7 +42,8 @@ namespace PRIME_UCR.Application.Implementations.Incidents
             ITransportUnitRepository transportUnitRepository,
             IMedicalRecordRepository medicalRecordRepository,
             IPersonaRepository personRepository,
-            IAssignmentRepository assignmentRepository)
+            IAssignmentRepository assignmentRepository,
+            IDocumentacionIncidenteRepository documentationRepository)
         {
             _incidentRepository = incidentRepository;
             _modesRepository = modesRepository;
@@ -51,6 +53,7 @@ namespace PRIME_UCR.Application.Implementations.Incidents
             _medicalRecordRepository = medicalRecordRepository;
             _personRepository = personRepository;
             _assignmentRepository = assignmentRepository;
+            _documentationRepository = documentationRepository;
         }
 
         public async Task<Incidente> GetIncidentAsync(string code)
@@ -106,6 +109,7 @@ namespace PRIME_UCR.Application.Implementations.Incidents
                 NombreEstado = IncidentStates.InCreationProcess.Nombre,
                 CodigoIncidente = entity.Codigo,
                 FechaHora = DateTime.Now,
+                AprobadoPor = person.Cédula,
                 Activo = true
             };
 
@@ -127,6 +131,10 @@ namespace PRIME_UCR.Application.Implementations.Incidents
                 var transportUnit = await _transportUnitRepository.GetTransporUnitByIncidentIdAsync(incident.Codigo);
                 var reviewer = await _personRepository.GetByKeyPersonaAsync(incident.CedulaRevisor);
                 var state = await _statesRepository.GetCurrentStateByIncidentId(incident.Codigo);
+                var documentacionIncidente = await _documentationRepository.GetAllDocumentationByIncidentCode(incident.Codigo);
+                List<DocumentacionIncidente> lista = documentacionIncidente.ToList();
+                lista = lista.OrderBy(i => i.Id).ToList();
+                DocumentacionIncidente documentacion = lista.FirstOrDefault();
                 var medicalRecord =
                     incident.Cita.Expediente;
                 var model = new IncidentDetailsModel
@@ -145,8 +153,10 @@ namespace PRIME_UCR.Application.Implementations.Incidents
                     TransportUnitId = transportUnit?.Matricula,
                     TransportUnit = transportUnit,
                     MedicalRecord = medicalRecord,
-                    Reviewer = reviewer
+                    Reviewer = reviewer,
+                    FeedBack = documentacion
                 };
+
 
                 return model;
             }
@@ -203,7 +213,8 @@ namespace PRIME_UCR.Application.Implementations.Incidents
                     CodigoIncidente = incident.Codigo,
                     NombreEstado = IncidentStates.Created.Nombre,
                     Activo = true,
-                    FechaHora = DateTime.Now
+                    FechaHora = DateTime.Now,
+                    AprobadoPor = model.Reviewer.Cédula
                 };
                 await _statesRepository.AddState(incidentState);
             }
@@ -276,6 +287,21 @@ namespace PRIME_UCR.Application.Implementations.Incidents
             return await _incidentRepository.GetIncidentListModelsAsync();
         }
 
+        public async Task<IEnumerable<DocumentacionIncidente>> GetAllDocumentationByIncidentCode(string incidentCode)
+        {
+            return await _documentationRepository.GetAllDocumentationByIncidentCode(incidentCode);
+        }
+
+        public async Task<DocumentacionIncidente> InsertFeedback(string code, string feedBack)
+        {
+            DocumentacionIncidente newFeedBack = new DocumentacionIncidente
+            {
+                CodigoIncidente = code,
+                RazonDeRechazo = feedBack
+            };
+            return await _documentationRepository.InsertAsync(newFeedBack);       
+        }
+
         /*
         * Function: Will mark the respective incident as "Approved"
         * @Params: The incident´s code.
@@ -303,7 +329,8 @@ namespace PRIME_UCR.Application.Implementations.Incidents
                 CodigoIncidente = code,
                 NombreEstado = IncidentStates.Approved.Nombre,
                 Activo = true,
-                FechaHora = DateTime.Now
+                FechaHora = DateTime.Now,
+                AprobadoPor = reviewerId
             });
 
             incident.CedulaRevisor = reviewerId;
@@ -336,7 +363,8 @@ namespace PRIME_UCR.Application.Implementations.Incidents
                 CodigoIncidente = code,
                 NombreEstado = IncidentStates.Rejected.Nombre,
                 Activo = true,
-                FechaHora = DateTime.Now
+                FechaHora = DateTime.Now,
+                AprobadoPor = reviewerId
             });
 
             incident.CedulaRevisor = reviewerId;
@@ -455,24 +483,26 @@ namespace PRIME_UCR.Application.Implementations.Incidents
             return pendingTasks;
         }
 
-        public async Task ChangeState(string code, string nextState)
+        public async Task ChangeState(IncidentDetailsModel model, string nextState)
         {
-            var incident = await _incidentRepository.GetByKeyAsync(code);
+            var incident = await _incidentRepository.GetByKeyAsync(model.Code);
             if (incident == null)
             {
                 throw new ArgumentException(
-                    $"Invalid incident id {code}.");
+                    $"Invalid incident id {model.Code}.");
             }
 
             await _statesRepository.AddState(new EstadoIncidente
             {
-                CodigoIncidente = code,
+                CodigoIncidente = model.Code,
                 NombreEstado = nextState,
                 Activo = true,
-                FechaHora = DateTime.Now
+                FechaHora = DateTime.Now,
+                AprobadoPor = model.Reviewer.Cédula
             });
             await _incidentRepository.UpdateAsync(incident);
         }
+
         /*
          * Function:     This method will search for the current state of an incident
          *
@@ -482,6 +512,74 @@ namespace PRIME_UCR.Application.Implementations.Incidents
         public async Task<Estado> GetIncidentStateByIdAsync(string code)
         {
             return await _statesRepository.GetCurrentStateByIncidentId(code);
+        }
+
+        /*
+         * Function:    This method will search for an specific state. The purpose of this method is to help 
+         *              the GetStatesLog method to save the states in order.
+         * Param:       StatesList -> The states log of an specific incident
+         *              state -> An specific state, the one we will look for in the states list, to grab all the info
+         *              about it (date, approved by).
+         * Returns:     That specific state of states list.
+         */
+        public EstadoIncidente FindState(List<EstadoIncidente> statesList, Estado state)
+        {
+            for (var index = 0; index < statesList.Count; ++index)
+            {
+                if(statesList[index].NombreEstado == state.Nombre)
+                {
+                    return statesList[index];
+                }
+            }
+            return null;
+        }
+
+        /*
+         * Function:    This method will search for all the states that an incident has passed. The states are not needed
+         *              in the return list because this method will ensure to set that list in order.   
+         * Param:       Code -> Incident ID
+         * Returns:     A list OF State models of: Date when the incident reached the state, id of coordinator
+         *              that aproved that change of state and the name of the state itself.
+         */
+        public async Task<List<StatesModel>> GetStatesLog(string code)
+        {
+            List<StatesModel> log = new List<StatesModel>();
+            List<EstadoIncidente> statesList = (await _statesRepository.GetIncidentStatesByIncidentId(code)).ToList();
+            foreach (var state in IncidentStates.IncidentStatesList)
+            {
+                var stateInOrder = FindState(statesList, state);
+                if (stateInOrder != null)   //When an incident is not rejected, this can be null in states after rejected.
+                {
+                    log.Add( 
+                        new StatesModel
+                        {
+                            NombreEstado = stateInOrder.NombreEstado,
+                            AprobadoPor = stateInOrder.AprobadoPor,
+                            FechaHora = stateInOrder.FechaHora
+                        }
+                    );
+                    if (stateInOrder.Activo == true)    //To avoid iterating into pending states
+                        break;
+                }
+            }
+            return log;
+        }
+
+        public async Task<CambioIncidente> GetLastChange(string code)
+        {
+            return await _incidentRepository.GetLastChange(code);
+        }
+
+        public async Task UpdateLastChange(LastChangeModel model)
+        {
+            CambioIncidente change = new CambioIncidente
+            {
+                CedFuncionario = model.Responsable.Cédula,
+                CodigoIncidente = model.CodigoIncidente,
+                FechaHora = model.FechaHora,
+                UltimoCambio = model.UltimoCambio
+            };
+            await _incidentRepository.UpdateLastChange(change);
         }
     }
 }
