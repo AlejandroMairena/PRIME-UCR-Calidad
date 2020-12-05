@@ -229,58 +229,66 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
             Assert.Equal("código válido", result.Codigo);
         }
 
-        /*
-        [Fact]
+        
+       [Fact]
         public async Task GetIncidentDetailsAsyncReturnsValid()
         {
-            var _MockIncidentRepository = new Mock<IIncidentRepository>();
-            var _MockTransportUnitRepository = new Mock<ITransportUnitRepository>();
-            var _MockPersonRepository = new Mock<IPersonaRepository>();
-            var _MockStateRepository = new Mock<IIncidentStateRepository>();
-            string CodeToTest = "codigoTotest";
-            Cita CitaToTest = new Cita
-            {
-                Expediente = new Expediente { CedulaPaciente = "123", CedulaMedicoDuenno = "1234" },
-                FechaHoraCreacion = DateTime.Today,
-                FechaHoraEstimada = DateTime.Today,
-            };
-            Estado StateToTest = new Estado
-            {
-                Nombre = "estadoValido"
-            };
-            Incidente IncidentToTest = new Incidente
-            {
-                Codigo = CodeToTest,
-                Cita = CitaToTest,
-                CedulaRevisor = "cedulaValida",
-                Modalidad = "modalityToTest",
-                CedulaAdmin = "cedulaValida",
-                CodigoCita = 1
-            };
-            UnidadDeTransporte TransportUnitToTest = new UnidadDeTransporte
-            {
-                Matricula = "validString"
-            };
-            Persona ReviewerToTest = new Persona
-            {
-                Cédula = "cedulaValida"
-            };
-            _MockIncidentRepository
-                .Setup(p => p.GetWithDetailsAsync(CodeToTest))
-                .Returns(Task.FromResult(IncidentToTest));
-            _MockTransportUnitRepository
-                .Setup(p => p.GetTransporUnitByIncidentIdAsync(IncidentToTest.Codigo))
-                .Returns(Task.FromResult(TransportUnitToTest));
-            _MockPersonRepository
-                .Setup(p => p.GetByKeyPersonaAsync(IncidentToTest.CedulaRevisor))
-                .Returns(Task.FromResult(ReviewerToTest));
-            _MockStateRepository
-                .Setup(p => p.GetCurrentStateByIncidentId(IncidentToTest.Codigo))
-                .Returns(Task.FromResult(StateToTest));
-            var incidentServiceToTest = new SecureIncidentService(_MockIncidentRepository.Object, null, _MockStateRepository.Object, null, _MockTransportUnitRepository.Object, null, _MockPersonRepository.Object, null, new AuthorizationMock().Object, null, null);
+            /*If the service receives valid entries it should run flawlessly.
+             */
+        var _MockIncidentRepository = new Mock<IIncidentRepository>();
+        var _MockTransportUnitRepository = new Mock<ITransportUnitRepository>();
+        var _MockPersonRepository = new Mock<IPersonaRepository>();
+        var _MockStateRepository = new Mock<IIncidentStateRepository>();
+        var _MockDocumentationRepository = new Mock<IDocumentacionIncidenteRepository>();
+        IEnumerable<DocumentacionIncidente> _listadocu = new List<DocumentacionIncidente>();
 
-            IncidentDetailsModel result =  await incidentServiceToTest.GetIncidentDetailsAsync(CodeToTest);
-            Assert.True
+        string CodeToTest = "codigoTotest";
+        Cita CitaToTest = new Cita
+        {
+            Expediente = new Expediente { CedulaPaciente = "123", CedulaMedicoDuenno = "1234" },
+            FechaHoraCreacion = DateTime.Today,
+            FechaHoraEstimada = DateTime.Today,
+        };
+        Estado StateToTest = new Estado
+        {
+            Nombre = "estadoValido"
+        };
+        Incidente IncidentToTest = new Incidente
+        {
+            Codigo = CodeToTest,
+            Cita = CitaToTest,
+            CedulaRevisor = "cedulaValida",
+            Modalidad = "modalityToTest",
+            CedulaAdmin = "cedulaValida",
+            CodigoCita = 1
+        };
+        UnidadDeTransporte TransportUnitToTest = new UnidadDeTransporte
+        {
+            Matricula = "validString"
+        };
+        Persona ReviewerToTest = new Persona
+        {
+            Cédula = "cedulaValida"
+        };
+        _MockIncidentRepository
+            .Setup(p => p.GetWithDetailsAsync(CodeToTest))
+                .Returns(Task.FromResult(IncidentToTest));
+        _MockTransportUnitRepository
+            .Setup(p => p.GetTransporUnitByIncidentIdAsync(IncidentToTest.Codigo))
+                .Returns(Task.FromResult(TransportUnitToTest));
+        _MockPersonRepository
+            .Setup(p => p.GetByKeyPersonaAsync(IncidentToTest.CedulaRevisor))
+                .Returns(Task.FromResult(ReviewerToTest));
+        _MockStateRepository
+            .Setup(p => p.GetCurrentStateByIncidentId(IncidentToTest.Codigo))
+                .Returns(Task.FromResult(StateToTest));
+        _MockDocumentationRepository.
+            Setup(p => p.GetAllDocumentationByIncidentCode(IncidentToTest.Codigo))
+                .Returns(Task.FromResult(_listadocu));
+        var incidentServiceToTest = new SecureIncidentService(_MockIncidentRepository.Object, null, _MockStateRepository.Object, null, _MockTransportUnitRepository.Object, null, _MockPersonRepository.Object, null, new AuthorizationMock().Object, _MockDocumentationRepository.Object, null);
+
+        IncidentDetailsModel result = await incidentServiceToTest.GetIncidentDetailsAsync(CodeToTest);
+        Assert.True
                 (
                     result.Code == IncidentToTest.Codigo
                     && result.Mode == IncidentToTest.Modalidad
@@ -294,7 +302,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.Incidents
                     && result.Reviewer.Cédula == ReviewerToTest.Cédula
                 );
         }
-         */
+         
 
         [Fact]
         public async Task GetIncidentDetailsAsyncReturnsNull()
