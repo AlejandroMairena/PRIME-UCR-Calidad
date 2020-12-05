@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using PRIME_UCR.Domain.Constants;
+using PRIME_UCR.Components.Controls;
 
 namespace PRIME_UCR.Components.UserAdministration
 {
@@ -18,6 +20,9 @@ namespace PRIME_UCR.Components.UserAdministration
         [Inject]
         private NavigationManager navigationManager { get; set; }
 
+        [Parameter]
+        public AuthorizationPermissions? Permission { get; set; } = null; 
+
         bool isAuthenticated = false;
 
         /*
@@ -31,7 +36,16 @@ namespace PRIME_UCR.Components.UserAdministration
             if (result.Identity.IsAuthenticated)
             {
                 isAuthenticated = true;
-                return "Para acceder a esta página debe contar con los permisos necesarios.";
+                string deniedMessage;
+                if (Permission != null)
+                {
+                    deniedMessage = $"Para acceder a esta página debe contar con el permiso de {EnumUtils.GetDescription(Permission)}.";
+                }
+                else 
+                {
+                    deniedMessage = "Para acceder a esta página debe contar con los permisoss necesarios";
+                }
+                return deniedMessage;
             }
             else
             {

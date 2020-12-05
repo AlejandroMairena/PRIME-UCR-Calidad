@@ -18,5 +18,7 @@ namespace PRIME_UCR.Application.Repositories.CheckLists
 
         Task DeleteAsync(int id, string cod);
 
+        Task InsertInstanceCheckListAsync(int checklistId, string incidentcod);
+
     }
 }

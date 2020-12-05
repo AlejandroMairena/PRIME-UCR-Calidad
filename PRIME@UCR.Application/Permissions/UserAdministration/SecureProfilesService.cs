@@ -29,5 +29,25 @@ namespace PRIME_UCR.Application.Permissions.UserAdministration
         {
             return await profilesService.GetPerfilesWithDetailsAsync();
         }
+
+        public async Task<bool> IsAdministratorAsync(string id)
+        {
+            return await perfilRepository.IsAdministratorAsync(id);
+        }
+
+        public async Task<bool> IsCoordinatorAsync(string id)
+        {
+            return await perfilRepository.IsCoordinatorAsync(id);
+        }
+
+        public async Task<bool> IsDoctorAsync(string id)
+        {
+            return await perfilRepository.IsDoctorAsync(id);
+        }
+
+        public async Task<bool> IsTechnicalSpecialistAsync(string id)
+        {
+            return await perfilRepository.IsTechnicalSpecialistAsync(id);
+        }
     }
 }

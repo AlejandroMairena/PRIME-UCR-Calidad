@@ -9,7 +9,9 @@ using PRIME_UCR.Application.Services.UserAdministration;
 using PRIME_UCR.Components.Controls;
 using PRIME_UCR.Components.Incidents.IncidentDetails.Constants;
 using PRIME_UCR.Components.Incidents.LocationPickers;
+using PRIME_UCR.Components.Incidents.IncidentDetails;
 using PRIME_UCR.Domain.Models;
+using PRIME_UCR.Domain.Models.Incidents;
 
 namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
 {
@@ -31,6 +33,8 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
         [Inject] private IDoctorService DoctorService { get; set; }
         [Parameter] public IncidentDetailsModel Incident { get; set; }
         [Parameter] public EventCallback<OriginModel> OnSave { get; set; }
+        [CascadingParameter] public Pages.Incidents.IncidentDetails ParentPage { get; set; }
+        [Inject] public IIncidentService IncidentService { get; set; }
         [CascadingParameter] public Action ClearStatusMessageCallback { get; set; }
         [Parameter] public string StatusMessage { get; set; }
         [Parameter] public string StatusClass { get; set; }
@@ -43,7 +47,11 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
         private HouseholdModel _householdModel = new HouseholdModel();
         private InternationalModel _internationalModel = new InternationalModel();
         private MedicalCenterLocationModel _medicalCenterModel = new MedicalCenterLocationModel();
-        
+        private Estado _state = new Estado();
+        private string TypeOfOrigin;
+        private bool ReadOnly;
+
+
         // Lists of options
         private readonly List<Tuple<OriginType, string>> _dropdownValuesOrigin = new List<Tuple<OriginType, string>>
         {
@@ -54,7 +62,7 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
 
         private void OnOriginTypeChange(Tuple<OriginType, string> type)
         {
-            ClearStatusMessageCallback();
+            ParentPage.ClearStatusMessage();
             _selectedOriginType = type;
         }
 
@@ -115,10 +123,18 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
             await OnSave.InvokeAsync(_model);
         }
 
+        private void CheckReadOnly()
+        {
+            if (_state.Nombre == "Finalizado")
+                ReadOnly = true;
+        }
+
         private async Task LoadExistingValues()
         {
             _isLoading = true;
             Origin = Incident.Origin;
+            _state = await IncidentService.GetIncidentStateByIdAsync(Incident.Code);
+            CheckReadOnly();
             StateHasChanged();
             switch (Origin)
             {
@@ -160,9 +176,10 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
                     _selectedOriginType = _dropdownValuesOrigin[0];
                     break;
             }
-            
             _model.Origin = Origin;
-            ClearStatusMessageCallback();
+            ParentPage.ClearStatusMessage();
+            TypeOfOrigin = _selectedOriginType.Item2; 
+            _model.Origin = Origin;
             _isLoading = false;
         }
 

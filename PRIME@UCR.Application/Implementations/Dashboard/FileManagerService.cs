@@ -40,8 +40,8 @@ namespace PRIME_UCR.Application.Implementations.Dashboard
                 container += incident.Codigo + "," + incident.Origen?.GetType().Name + "," 
                             + incident.Destino?.GetType().Name + "," + incident.Modalidad + "," 
                             +  incident.Cita.FechaHoraCreacion  +"," + incident.Cita.FechaHoraEstimada +"," 
-                            + incident.EstadoIncidentes.ToArray()[incident.EstadoIncidentes.Count - 1].NombreEstado + "," 
-                            + incident.IdDestino + "," + incident.Cita.Expediente.CedulaPaciente + "\n";
+                            + incident.EstadoIncidentes.ToArray()[incident.EstadoIncidentes.Count - 1].NombreEstado + ","
+                            + incident.IdDestino + "\n";
             }
             string path = await fileService.StoreTextFile(container, fileName);
 
