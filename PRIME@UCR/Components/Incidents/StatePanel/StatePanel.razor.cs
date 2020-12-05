@@ -1,6 +1,8 @@
-﻿using MatBlazor;
+﻿
+using MatBlazor;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.AspNetCore.Components.Forms;
 using PRIME_UCR.Application.Dtos.Incidents;
 using PRIME_UCR.Application.DTOs.Incidents;
 using PRIME_UCR.Application.Services.Incidents;
@@ -25,7 +27,6 @@ namespace PRIME_UCR.Components.Incidents.StatePanel
         [Parameter]
         public Persona CurrentUser { get; set; }
         public LastChangeModel LastChange = new LastChangeModel();
-
         [Inject]
         public IIncidentService IncidentService { get; set; }
         [Inject]
@@ -45,6 +46,11 @@ namespace PRIME_UCR.Components.Incidents.StatePanel
         // Arrays needed for SummaryMessage to show Last Change in Incident
         public List<string> Values = new List<string>();
         public List<string> Content = new List<string>();
+        // Needed for feedback
+        private IncidentFeedbackModel _feedBackmodel = new IncidentFeedbackModel();
+        [CascadingParameter] public Pages.Incidents.IncidentDetails ParentPage { get; set; }
+
+        public bool showFeedBack = false;
 
         protected override async Task OnInitializedAsync()
         {
@@ -91,13 +97,37 @@ namespace PRIME_UCR.Components.Incidents.StatePanel
             await LoadValues();
         }
 
+        private void showFeedbackInput()
+        {
+            if (showFeedBack)
+            {
+                showFeedBack = false;
+                _feedBackmodel.FeedBack = " ";
+            }
+            else
+            {
+                showFeedBack = true;
+            }
+        }
+        
         private async Task Reject()
         {
+            showFeedBack = false;
+            await createFeedBack();
             await IncidentService
                 .RejectIncidentAsync(Incident.Code, CurrentUser.Cédula);
             await OnSave.InvokeAsync(null);
             await LoadValues();
+            ParentPage.refresh();
         }
+
+        private async Task createFeedBack()
+        {
+            string Code = Incident.Code;
+            string FeedBack = _feedBackmodel.FeedBack;
+            await IncidentService.InsertFeedback(Code, FeedBack);
+        }
+
 
         private async Task ChangeState()
         {

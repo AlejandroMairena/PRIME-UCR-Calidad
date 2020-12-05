@@ -1,6 +1,7 @@
 ﻿DELETE FROM AsignadoA
 DELETE FROM EstadoIncidente
 DELETE FROM Estado
+DELETE FROM DocumentacionIncidente
 DELETE FROM Incidente
 DELETE FROM Unidad_De_Transporte
 DELETE FROM Modalidad
@@ -17,7 +18,7 @@ DBCC CHECKIDENT ('Canton', RESEED, 0)
 DBCC CHECKIDENT ('Centro_Medico', RESEED, 0)
 DBCC CHECKIDENT ('Distrito', RESEED, 0)
 DBCC CHECKIDENT ('Ubicacion', RESEED, 0)
-
+DBCC CHECKIDENT ('DocumentacionIncidente', RESEED, 0)
 -- Pais
 INSERT INTO Pais (Nombre)
 VALUES

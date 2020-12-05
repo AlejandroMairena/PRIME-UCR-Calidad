@@ -58,10 +58,13 @@
             @* Approve or Reject buttons *@
             @if (Incident.CurrentState == IncidentStates.Created.Nombre)
             {
-                <div class="text-center mt-4">
-                    <button class="btn btn-primary" @onclick="@Approve">Cambiar a estado Aprobado</button>
-                    <button class="btn btn-outline-danger" @onclick="@Reject">Cambiar a estado Rechazado</button>
-                </div>
+                @if (!showFeedBack)
+                { 
+                    <div class="text-center mt-4">
+                        <button class="btn btn-primary" @onclick="@Approve">Cambiar a estado Aprobado</button>
+                        <button class="btn btn-outline-danger" @onclick="@showFeedbackInput">Rechazar incidente con retroalimentación</button>
+                    </div>
+                }                
             }
             else if (Incident.CurrentState == IncidentStates.Rejected.Nombre)
             {
@@ -85,7 +88,18 @@
                 }
             </div>
         }
-
+        @if (showFeedBack)
+        {
+            <EditForm Model="_feedBackmodel" OnValidSubmit="Reject">
+                <FluentValidationValidator />
+                <div class="text-center mt-4 ">
+                    <TextAreaInput Label="Retroalimentación incidente" @bind-Value="@_feedBackmodel.FeedBack" Rows="5"/>
+                    @*<TextBox Label="Retroalimentación incidente" @bind-Value="@_feedBackmodel.FeedBack" />*@
+                    <button class="btn btn-primary">Cambiar a estado Rechazado</button>
+                    <button class="btn btn-outline-secondary" @onclick="@showFeedbackInput">Cancelar</button>
+                </div>
+            </EditForm>
+        }
         <StatePendingTasks PendingTasks="@PendingTasks" Incident="@Incident" NextState="@nextState" />
 
     </Loading>
