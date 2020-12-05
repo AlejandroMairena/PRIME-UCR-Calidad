@@ -8,6 +8,7 @@ namespace PRIME_UCR.Application.DTOs.Incidents
     public class LastChangeModel
     {
         public Persona Responsable { get; set; }
+        public string CodigoIncidente { get; set; }
         public DateTime FechaHora { get; set; }
         public string UltimoCambio { get; set;}
     }

@@ -564,5 +564,22 @@ namespace PRIME_UCR.Application.Implementations.Incidents
             }
             return log;
         }
+
+        public async Task<CambioIncidente> GetLastChange(string code)
+        {
+            return await _incidentRepository.GetLastChange(code);
+        }
+
+        public async Task UpdateLastChange(LastChangeModel model)
+        {
+            CambioIncidente change = new CambioIncidente
+            {
+                CedFuncionario = model.Responsable.Cédula,
+                CodigoIncidente = model.CodigoIncidente,
+                FechaHora = model.FechaHora,
+                UltimoCambio = model.UltimoCambio
+            };
+            await _incidentRepository.UpdateLastChange(change);
+        }
     }
 }

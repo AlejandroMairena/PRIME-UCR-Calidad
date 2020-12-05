@@ -156,6 +156,7 @@
     <Build Include="Tables\MedicalRecords\PadecimientosCronicos.sql" />
     <Build Include="Tables\MedicalRecords\ListaPadecimiento.sql" />
     <Build Include="Tables\Incidents\DocumentacionIncidente.sql" />
+    <Build Include="Tables\Incidents\CambioIncidente.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Scripts\Script.PostDeployment.sql" />
