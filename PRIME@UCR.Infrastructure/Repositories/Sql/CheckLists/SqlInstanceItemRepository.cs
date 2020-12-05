@@ -63,5 +63,29 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.CheckLists
                 );
             }
         }
+        public override async Task UpdateAsync(InstanciaItem item)
+        {
+            using (var connection = new SqlConnection(_db.ConnectionString))
+            {
+                await connection.UpdateAsync(item, i => i.ItemId == item.ItemId && i.PlantillaId == item.PlantillaId && i.IncidentCod == item.IncidentCod);
+            }
+        }
+
+
+        public async Task<InstanciaItem> GetItem(int? itemId, string incidentCod, int? plantillaId)
+        {
+            IEnumerable<InstanciaItem> items;
+            using (var connection = new SqlConnection(_db.ConnectionString))
+            {
+                items = await connection.ExecuteQueryAsync<InstanciaItem>(
+                    @"
+                    select *
+                    from InstanciaItem
+                    where Codigo_Incidente = @IncidentCode and Id_Lista = @ChecklistId and Id_Item = @ItemId",
+                    new { IncidentCode = incidentCod, ChecklistId = plantillaId, ItemId = itemId }
+                );
+            }
+            return items.FirstOrDefault();
+        }
     }
 }
