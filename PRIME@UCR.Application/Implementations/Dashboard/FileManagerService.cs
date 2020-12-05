@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
-using CsvHelper;
 using PRIME_UCR.Domain.Models;
 using PRIME_UCR.Application.DTOs.Incidents;
 using PRIME_UCR.Application.Services.Dashboard;
@@ -19,38 +18,30 @@ namespace PRIME_UCR.Application.Implementations.Dashboard
     {
         private readonly IFileService fileService;
         private readonly IMailService mailService;
-
+        private readonly Random _random;
         public FileManagerService(IFileService _fileService, IMailService _mailService)
         {
             fileService = _fileService;
             mailService = _mailService;
+            _random = new Random();
         }
 
         public async Task createFileAsync(List<Incidente> filteredIncidentsData, string userIdentifier)
         {
             List<IncidentListModel> listaIncidentes = new List<IncidentListModel>();
-            string PATH = "../PRIME@UCR.Application/FilesToSend/file"+ userIdentifier + ".csv";
+            var differentiator = RandomString(10);
+           
+            string container = "";
+            string fileName = userIdentifier + differentiator + ".csv";
+            container += "Código,Origen,Destino,Modalidad,Fecha y hora de registro,Fecha y hora de registro,Estado,Id Destino\n";
+
             foreach (Incidente incident in filteredIncidentsData)
             {
-                listaIncidentes.Add(new IncidentListModel
-                {
-                    Codigo = incident.Codigo,
-                    Origen = incident.Origen?.GetType().Name,
-                    Destino = incident.Destino?.GetType().Name,
-                    Modalidad = incident.Modalidad,
-                    FechaHoraRegistro = incident.Cita.FechaHoraEstimada,
-                    Estado = incident.EstadoIncidentes.ToArray()[incident.EstadoIncidentes.Count -1].NombreEstado,
-                    IdDestino = incident.IdDestino
-                });
-            }
-            
-            string container = "";
-            string fileName = userIdentifier + ".csv";
-            container += "Código,Origen,Destino,Modalidad,Fecha y hora de registro,Estado,Id Destino\n";
-
-            foreach (IncidentListModel incidente in listaIncidentes)
-            {
-                container += incidente.Codigo + "," + incidente.Origen + "," + incidente.Destino + "," + incidente.Modalidad + "," + incidente.FechaHoraRegistro + "," + incidente.Estado + "," + incidente.IdDestino + "\n";
+                container += incident.Codigo + "," + incident.Origen?.GetType().Name + "," 
+                            + incident.Destino?.GetType().Name + "," + incident.Modalidad + "," 
+                            +  incident.Cita.FechaHoraCreacion  +"," + incident.Cita.FechaHoraEstimada +"," 
+                            + incident.EstadoIncidentes.ToArray()[incident.EstadoIncidentes.Count - 1].NombreEstado + "," 
+                            + incident.IdDestino + "," + incident.Cita.Expediente.CedulaPaciente + "\n";
             }
             string path = await fileService.StoreTextFile(container, fileName);
 
@@ -66,6 +57,21 @@ namespace PRIME_UCR.Application.Implementations.Dashboard
             fileService.DeleteFile(path);
         }
 
+        private string RandomString(int size)
+        {
+            var builder = new StringBuilder(size);
+
+            
+            const int lettersOffset = 26; // A...Z or a..z: length=26  
+            var offset = 'a';
+            for (var i = 0; i < size; i++)
+            {
+                var @char = (char)_random.Next(offset, offset + lettersOffset);
+                builder.Append(@char);
+            }
+            var returnValue = builder.ToString();
+            return returnValue;
+        }
     }
 
 }
