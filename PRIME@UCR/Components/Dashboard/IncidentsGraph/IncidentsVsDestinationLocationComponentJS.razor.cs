@@ -99,7 +99,7 @@ namespace PRIME_UCR.Components.Dashboard.IncidentsGraph
             var parameters = new ModalParameters();
             parameters.Add(nameof(IncidentsVsDestinationLocationComponentJS.Data), Data);
             parameters.Add(nameof(IncidentsVsDestinationLocationComponentJS.ZoomActive), true);
-            Modal.Show<IncidentsVsDestinationLocationComponentJS>("Incidentes VS Ubicacion de Destino", parameters, modalOptions);
+            Modal.Show<IncidentsVsDestinationLocationComponentJS>("Incidentes por destino", parameters, modalOptions);
         }
     }
 }

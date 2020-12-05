@@ -65,7 +65,6 @@ namespace PRIME_UCR.Application.Permissions.UserAdministration
 
         public async Task<Usuario> getUsuarioWithDetailsAsync(string id)
         {
-            await primeSecurityService.CheckIfIsAuthorizedAsync(new[] { AuthorizationPermissions.CanManageUsers });
             return await userService.getUsuarioWithDetailsAsync(id);
         }
 

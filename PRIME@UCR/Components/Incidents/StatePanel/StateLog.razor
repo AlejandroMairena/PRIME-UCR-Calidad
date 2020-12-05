@@ -1,0 +1,20 @@
+﻿<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">Estado</th>
+            <th scope="col">Fecha de actualización</th>
+            <th scope="col">Aprobado por</th>
+        </tr>
+    </thead>
+    
+    <tbody>
+        @for (var index = 0; index < StatesLog.Count; ++index)
+        {
+            <tr>
+                <td>@StatesLog[index].NombreEstado</td>
+                <td>@StatesLog[index].FechaHora</td>
+                <td>@StatesLog[index].Aprobador?.NombreCompleto</td>
+            </tr>
+        }
+    </tbody>
+</table>

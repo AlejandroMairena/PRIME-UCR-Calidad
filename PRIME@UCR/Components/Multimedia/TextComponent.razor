@@ -8,18 +8,34 @@
         <form>
             @* Title *@
             <div class="form-group">
-                <label for="fileName">Título:</label>
-                <input type="text" class="form-control" id="fileName" placeholder="Título" @bind="fileName">
+                @*<label for="fileName">Título:</label>
+                <input type="text" class="form-control" id="fileName" placeholder="Título" @bind="fileName">*@
+                <MultimediaTitleComponent Title="@fileName" 
+                                          Disabled="@viewMode"
+                                          OnTitleChanged="OnTitleChanged">
+                </MultimediaTitleComponent>
+
             </div>
             @* Text Area *@
             <div class="form-group">
                 <label for="textArea">Texto</label>
-                <textarea class="form-control" id="textArea" rows="6" @bind="text"></textarea>
+                <textarea class="form-control" id="textArea" rows="6" @bind="text"
+                          disabled="@viewMode"></textarea>
             </div>
 
-            @* Submit Button *@
-            <button class="btn btn-primary" @onclick="StoreTextFile">Guardar</button>
+            @if (!viewMode)
+            {
+                @* Submit Button *@
+                <button class="btn btn-primary" @onclick="StoreTextFile">Guardar</button>
+            }
         </form>
+
+        @* Exit Button *@
+        <div class="row" style="margin-top: 20px">
+            <div class="col">
+                <button class="btn btn-danger rt-button" @onclick="OnClose">Salir</button>
+            </div>
+        </div>
 
     </div>
 

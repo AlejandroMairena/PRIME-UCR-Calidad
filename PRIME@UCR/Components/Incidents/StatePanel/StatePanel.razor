@@ -1,0 +1,68 @@
+﻿@using PRIME_UCR.Domain.Constants;
+
+@* State Log header with collapse option *@
+<div id="accordion">
+    <div class="card">
+        <div class="card-header justify-content-between" id="headingOne">
+            <h3 class="mb-0" data-toggle="tooltip" title="Presione sobre el título para desplegar o esconder la bitácora">
+                <a class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                    Bitácora de estados del incidente
+                </a>
+            </h3>
+        </div>
+    </div>
+
+    <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+        <div class="card-body">
+            <StateLog StatesLog="@StatesLog"/>
+        </div>
+    </div>
+</div>
+<br />
+<br />
+@* State Panel *@
+
+@if (Incident.CurrentState != IncidentStates.Done.Nombre)
+{
+    <h3>Estados del Incidente</h3>
+    <Loading IsLoading="@_isLoading">
+
+        <StateProgressBar CurrentStateIndex="@currentStateIndex" />
+
+        @if (Incident.CurrentState == IncidentStates.Created.Nombre || Incident.CurrentState == IncidentStates.Rejected.Nombre)
+        {
+            @* Approve or Reject buttons *@
+            @if (Incident.CurrentState == IncidentStates.Created.Nombre)
+            {
+                <div class="text-center mt-4">
+                    <button class="btn btn-primary" @onclick="@Approve">Cambiar a estado Aprobado</button>
+                    <button class="btn btn-outline-danger" @onclick="@Reject">Cambiar a estado Rechazado</button>
+                </div>
+            }
+            else if (Incident.CurrentState == IncidentStates.Rejected.Nombre)
+            {
+                <div class="text-center mt-4">
+                    <button class="btn btn-primary" @onclick="@Approve">Cambiar a estado Aprobado</button>
+                    <button disabled class="btn btn-outline-danger">Cambiar a estado Rechazado</button>
+                </div>
+            }
+        }
+        else
+        {
+            @* Change state buttons *@
+            <div class="text-center">
+                @if (PendingTasks.Count > 0)
+                {
+                    <button disabled type="submit" class="btn btn-primary">Cambiar a estado @nextState</button>
+                }
+                else
+                {
+                    <button @onclick="@ChangeState" type="submit" class="btn btn-primary">Cambiar a estado @nextState</button>
+                }
+            </div>
+        }
+
+        <StatePendingTasks PendingTasks="@PendingTasks" Incident="@Incident" NextState="@nextState" />
+
+    </Loading>
+}

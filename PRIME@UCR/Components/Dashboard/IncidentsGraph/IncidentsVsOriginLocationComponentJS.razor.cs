@@ -186,7 +186,7 @@ namespace PRIME_UCR.Components.Dashboard.IncidentsGraph
             parameters.Add(nameof(IncidentsVsOriginLocationComponentJS.Value), Value);
             parameters.Add(nameof(IncidentsVsOriginLocationComponentJS.Data), Data);
             parameters.Add(nameof(IncidentsVsOriginLocationComponentJS.ZoomActive), true);
-            Modal.Show<IncidentsVsOriginLocationComponentJS>("Incidentes VS Ubicacion de Origen", parameters, modalOptions);
+            Modal.Show<IncidentsVsOriginLocationComponentJS>("Incidentes por origen", parameters, modalOptions);
         }
     }
 }
