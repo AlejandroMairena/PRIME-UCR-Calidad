@@ -44,7 +44,6 @@ namespace PRIME_UCR.Infrastructure.Permissions.UserAdministration
 
         public async Task<Usuario> GetWithDetailsAsync(string id)
         {
-            await primeSecurityService.CheckIfIsAuthorizedAsync(new[] { AuthorizationPermissions.CanSeeBasicDetailsOfIncidents });
             return await usuarioRepository.GetWithDetailsAsync(id);
         }
 

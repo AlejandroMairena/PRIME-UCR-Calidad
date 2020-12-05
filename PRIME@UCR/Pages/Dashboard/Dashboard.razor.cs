@@ -8,6 +8,7 @@ using PRIME_UCR.Application.DTOs.UserAdministration;
 using PRIME_UCR.Application.Services.Dashboard;
 using PRIME_UCR.Application.Services.Incidents;
 using PRIME_UCR.Application.Services.UserAdministration;
+using PRIME_UCR.Application.Services.MedicalRecords;
 using PRIME_UCR.Components.Dashboard.IncidentsGraph;
 using System;
 using System.Collections.Generic;
@@ -25,12 +26,18 @@ namespace PRIME_UCR.Pages.Dashboard
         public IncidentsCounterModel incidentsCounter = new IncidentsCounterModel();
         public EventCallback<IncidentsCounterModel> incidentsCounterChanged;
 
+        public AppointmentFilterModel AppointmentFilter = new AppointmentFilterModel();
+        public EventCallback<AppointmentFilterModel> AppointmentValueChanged;
+
         public DashboardDataModel DashboardData = new DashboardDataModel();
         public EventCallback<DashboardDataModel> DashboardDataChanged;
 
         public string _selectedFilter;
         public EventCallback<string> _selectedFilterChanged;
         private object userModel;
+
+        [Inject]
+        public IMedicalRecordService MedicalRecordService { get; set; }
 
         [Inject]
         public ILocationService LocationService { get; set; }
@@ -92,6 +99,19 @@ namespace PRIME_UCR.Pages.Dashboard
             DashboardData.isReadyToShowGraphs = true;
             StateHasChanged();
         }
+        private async Task ClearAppointmentFilters()
+        {
+            DashboardData.isReadyToShowGraphs = false;
+            StateHasChanged();
+
+            AppointmentFilter = new AppointmentFilterModel();
+            DashboardData = new DashboardDataModel();
+            await InitializeDashboardData();
+            await DashboardDataChanged.InvokeAsync(DashboardData);
+            await ValueChanged.InvokeAsync(Value);
+            DashboardData.isReadyToShowGraphs = true;
+            StateHasChanged();
+        }
 
         private async Task InitializeDashboardData()
         {
@@ -101,6 +121,7 @@ namespace PRIME_UCR.Pages.Dashboard
             DashboardData.districts = (await DashboardService.GetAllDistrictsAsync());
             DashboardData.states = (await StateService.GetAllStates()).ToList();
             DashboardData.modalities = (await IncidentService.GetTransportModesAsync()).ToList();
+            DashboardData.patients = (await MedicalRecordService.GetPatients()).ToList();
             DashboardData.filteredIncidentsData = DashboardData.incidentsData;
 
             DashboardData.isReadyToShowFilters = true; // Always after loading all filters data

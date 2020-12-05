@@ -15,6 +15,7 @@ using PRIME_UCR.Domain.Models.UserAdministration;
 using Microsoft.AspNetCore.Components.Authorization;
 using PRIME_UCR.Application.Implementations.UserAdministration;
 using Blazored.SessionStorage;
+using Blazored.LocalStorage;
 using PRIME_UCR.Validators;
 using PRIME_UCR.Application.DTOs.UserAdministration;
 using System.Linq;
@@ -75,8 +76,8 @@ namespace PRIME_UCR
                 .AddTokenProvider<EmailValidationTokenProvider<Usuario>>(emailValidationProvider);
 
             
-            services.AddBlazoredSessionStorage();
-
+            //services.AddBlazoredSessionStorage();
+            services.AddBlazoredLocalStorage();
             services.AddApplicationLayer();
             services.AddInfrastructureLayer();
             services.AddValidators();
@@ -102,7 +103,7 @@ namespace PRIME_UCR
             });
 
             services.Configure<MailSettingsModel>(Configuration.GetSection("MailSettings"));
-
+            services.Configure<JWTKeyModel>(Configuration.GetSection("JWT_Key"));
 
             //Modal Service
             services.AddBlazoredModal();

@@ -18,8 +18,6 @@ using PRIME_UCR.Application.Services.Dashboard;
 using PRIME_UCR.Application.Implementations.Dashboard;
 using Microsoft.AspNetCore.Components.Authorization;
 using PRIME_UCR.Infrastructure.Repositories.Sql.MedicalRecords;
-using PRIME_UCR.Application.Services.Dashboard;
-using PRIME_UCR.Application.Implementations.Dashboard;
 using PRIME_UCR.Application.Permissions.UserAdministration;
 using PRIME_UCR.Application.Permissions.Incidents;
 using PRIME_UCR.Application.Permissions.Dashboard;
@@ -41,6 +39,7 @@ namespace PRIME_UCR.Application
             services.AddTransient<IIncidentService, SecureIncidentService>();
             services.AddTransient<IStateService, SecureStateService>();
             services.AddTransient<ILocationService, LocationService>();
+            services.AddTransient<IGpsDataService, GpsDataService>();
 
             // medical records
             services.AddTransient<IMedicalRecordService, MedicalRecordService>();
@@ -51,7 +50,7 @@ namespace PRIME_UCR.Application
             // multimedia
             services.AddTransient<IMultimediaContentService, MultimediaContentService>();
             services.AddTransient<IEncryptionService, EncryptionService>();
-            
+
             // user administration
             services.AddScoped<IPermissionsService, SecurePermissionService>();
             services.AddScoped<IProfilesService, SecureProfilesService>();

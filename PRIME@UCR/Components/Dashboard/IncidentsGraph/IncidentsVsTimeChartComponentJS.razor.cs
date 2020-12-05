@@ -71,7 +71,7 @@ namespace PRIME_UCR.Components.Dashboard.IncidentsGraph
             var parameters = new ModalParameters();
             parameters.Add(nameof(IncidentsVsTimeChartComponentJS.Data), Data);
             parameters.Add(nameof(IncidentsVsTimeChartComponentJS.ZoomActive), true);
-            Modal.Show<IncidentsVsTimeChartComponentJS>("Incidentes vs Tiempo", parameters, modalOptions);
+            Modal.Show<IncidentsVsTimeChartComponentJS>("Incidentes en el tiempo", parameters, modalOptions);
         }
     }
 }
