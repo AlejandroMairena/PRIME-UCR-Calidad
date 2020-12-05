@@ -16,6 +16,25 @@
 
 <link href="css/Dashboard.css" rel="stylesheet" />
 
+<div class="modal fade bd-example-modal-lg" id="incidentList" tabindex="-1" role="dialog" aria-labelledby="incidentListLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="incidentListLabel">Listado de incidentes</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <IncidentsListInDashboard @bind-Data="DashboardData" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondaryOne" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <Loading IsLoading="!DashboardData.isReadyToShowFilters && !incidentsCounter.isReadyToShowCounters && !DashboardData.isReadyToShowGraphs">
     <div class="wrapper">
@@ -69,7 +88,7 @@
                     <div class="text-center">
                         @if (Value.ButtonEnabled)
                         {
-                            <button role="button" @onclick:preventDefault @onclick="@ClearFilters" class="btn btn-outline-secondary">Limpiar filtros</button> 
+                            <button role="button" @onclick:preventDefault @onclick="@ClearFilters" class="btn btn-outline-secondary">Limpiar filtros</button>
                         }
                         else
                         {
@@ -106,9 +125,46 @@
                 <IncidentsVsDestinationLocationComponentJS @bind-Data="DashboardData" />
             </div>
         </div>
+
     </Loading>
 
 
     <br />
+
+    <div class="wrapper">
+        <div class="rounded" style="background-color: white;padding-left: 10px;padding-right: 10px;">
+            @*FILTER COMPONENT*@
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+            <div class="row">
+                <div class="col align-content-center" style="font-size:30px">
+                    Filtros
+                </div>
+                <div class="col p-3">
+                    <HospitalFilter Value="AppointmentFilter"
+                                    ValueChanged="UpdateFilteredIncidentsData"
+                                    @bind-Data="DashboardData" />
+                </div>
+                <div class="col p-3">
+                    <PatientFilter Value="AppointmentFilter"
+                                   ValueChanged="UpdateFilteredIncidentsData"
+                                   @bind-Data="DashboardData" />
+                </div>
+                <div class="col p-2">
+                    <div class="text-center">
+                        @if (AppointmentFilter.ButtonEnabled)
+                        {
+                            <button role="button" @onclick:preventDefault @onclick="@ClearAppointmentFilters" class="btn btn-outline-secondary">Limpiar filtros</button>
+                        }
+                        else
+                        {
+                            <button disabled class="btn btn-outline-secondary">Limpiar filtros</button>
+                        }
+                    </div>
+                </div>
+            </div>
+            @*FILTER COMPONENT*@
+        </div>
+    </div>
 
 </Loading>
