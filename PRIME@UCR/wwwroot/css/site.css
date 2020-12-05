@@ -401,4 +401,15 @@ span.navigation-item-text:hover {
         background: #303030;
     }
 
+.sidebar-cursor{
+    cursor: pointer;
+}
+
+.responsive-sidebar {
+    background-color: #095290;
+}
+
+.navbar-toggler-icon {
+    border-color: rgb(255,102,203);
+}
 
