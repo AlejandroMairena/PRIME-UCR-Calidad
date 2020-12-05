@@ -166,6 +166,16 @@ namespace PRIME_UCR.Application.Permissions.Incidents
             return _incidentService.FindState(statesList, state);
         }
 
+        public async Task<CambioIncidente> GetLastChange(string code)
+        {
+            return await _incidentService.GetLastChange(code);
+        }
+
+        public async Task UpdateLastChange(LastChangeModel model)
+        {
+            await _incidentService.UpdateLastChange(model);
+        }
+
         public async Task<IEnumerable<IncidentListModel>> GetIncidentListModelsAsync(string id)
         {
             return await _incidentService.GetIncidentListModelsAsync(id);

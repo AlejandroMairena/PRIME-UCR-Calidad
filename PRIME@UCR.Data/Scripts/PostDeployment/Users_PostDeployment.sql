@@ -1,4 +1,5 @@
 ﻿DELETE FROM AsignadoA
+DELETE FROM CambioIncidente
 DELETE FROM EstadoIncidente
 DELETE FROM Estado
 DELETE FROM Incidente

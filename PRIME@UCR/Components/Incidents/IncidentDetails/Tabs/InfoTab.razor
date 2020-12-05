@@ -6,33 +6,33 @@
 <h3> Información general del incidente</h3>
 <br />
 <Loading IsLoading="@_isLoading">
-    @if (DetailsModel.CurrentState == IncidentStates.Approved.Nombre)
-    {
-        <StatusMessage Message="@($"Aprobado por {DetailsModel.Reviewer.NombreCompleto}")" Class="primary" />
-    }
-    else if (DetailsModel.CurrentState == IncidentStates.Rejected.Nombre)
+@if (DetailsModel.CurrentState == IncidentStates.Approved.Nombre)
+{
+<StatusMessage Message="@($"Aprobado por {DetailsModel.Reviewer.NombreCompleto}")" Class="primary" />
+ }
+else if (DetailsModel.CurrentState == IncidentStates.Rejected.Nombre)
     {        
         <AlertRowMessage Class="danger">
             <AlertRowTemplate Header="Rechazado por" Message="@DetailsModel.Reviewer.NombreCompleto" />
             <AlertRowTemplate Header="Razón de rechazo" Message="@DetailsModel.FeedBack.RazonDeRechazo" />
         </AlertRowMessage>
     }
-        <ul class="list-group">
-            <ListItem Title="Identificador" Text="@DetailsModel.Code" />
-            <ListItem Title="Estado" Text="@DetailsModel.CurrentState" />
-            <ListItem Title="Modalidad" Text="@DetailsModel.Mode" />
-            <ListItem Title="Fecha estimada del traslado"
-                      Text="@($"{DetailsModel.EstimatedDateOfTransfer.ToShortDateString()} - {DetailsModel.EstimatedDateOfTransfer.ToShortTimeString()}")" />
-            <ListItem Title="Fecha de registro"
-                      Text="@($"{DetailsModel.RegistrationDate.ToShortDateString()} - {DetailsModel.RegistrationDate.ToShortTimeString()}")" />
-            <ListItem Title="Creado por"
-                      Text="@(_creator?.NombreCompleto)" />
-        </ul>
-        <br />
-        <br />
-        <PermissionAuthorizeView Permission="@AuthorizationPermissions.CanReviewIncidents" ShowDeniedPermissionMessage=false>
-            <div class="container">
-                <StatePanel Incident="@DetailsModel" OnSave="@OnSave" CurrentUser="@CurrentUser" LastChange="@LastChange" />
-            </div>
-        </PermissionAuthorizeView>
+    <ul class="list-group">
+        <ListItem Title="Identificador" Text="@DetailsModel.Code" />
+        <ListItem Title="Estado" Text="@DetailsModel.CurrentState" />
+        <ListItem Title="Modalidad" Text="@DetailsModel.Mode" />
+        <ListItem Title="Fecha estimada del traslado"
+                  Text="@($"{DetailsModel.EstimatedDateOfTransfer.ToShortDateString()} - {DetailsModel.EstimatedDateOfTransfer.ToShortTimeString()}")" />
+        <ListItem Title="Fecha de registro"
+                  Text="@($"{DetailsModel.RegistrationDate.ToShortDateString()} - {DetailsModel.RegistrationDate.ToShortTimeString()}")" />
+        <ListItem Title="Creado por"
+                  Text="@(_creator?.NombreCompleto)" />
+    </ul>
+    <br />
+    <br />
+    <PermissionAuthorizeView Permission="@AuthorizationPermissions.CanReviewIncidents" ShowDeniedPermissionMessage=false>
+        <div class="container">
+            <StatePanel Incident="@DetailsModel" OnSave="@OnSave" CurrentUser="@CurrentUser"/>
+        </div>
+    </PermissionAuthorizeView>
 </Loading>

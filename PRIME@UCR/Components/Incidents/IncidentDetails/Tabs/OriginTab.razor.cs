@@ -31,10 +31,11 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
 
         [Inject] private ILocationService LocationService { get; set; }
         [Inject] private IDoctorService DoctorService { get; set; }
-        [Inject] public IIncidentService IncidentService { get; set; }
         [Parameter] public IncidentDetailsModel Incident { get; set; }
         [Parameter] public EventCallback<OriginModel> OnSave { get; set; }
         [CascadingParameter] public Pages.Incidents.IncidentDetails ParentPage { get; set; }
+        [Inject] public IIncidentService IncidentService { get; set; }
+        [CascadingParameter] public Action ClearStatusMessageCallback { get; set; }
         [Parameter] public string StatusMessage { get; set; }
         [Parameter] public string StatusClass { get; set; }
         public Ubicacion Origin { get; set; }
@@ -49,6 +50,7 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
         private Estado _state = new Estado();
         private string TypeOfOrigin;
         private bool ReadOnly;
+
 
         // Lists of options
         private readonly List<Tuple<OriginType, string>> _dropdownValuesOrigin = new List<Tuple<OriginType, string>>
@@ -66,7 +68,6 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
 
         private void OnOriginChange(Ubicacion origin)
         {
-            ParentPage.ClearStatusMessage();
             _model.Origin = origin;
         }
 
@@ -122,7 +123,6 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
             await OnSave.InvokeAsync(_model);
         }
 
-
         private void CheckReadOnly()
         {
             if (_state.Nombre == "Finalizado")
@@ -176,9 +176,10 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
                     _selectedOriginType = _dropdownValuesOrigin[0];
                     break;
             }
-            TypeOfOrigin = _selectedOriginType.Item2; 
             _model.Origin = Origin;
             ParentPage.ClearStatusMessage();
+            TypeOfOrigin = _selectedOriginType.Item2; 
+            _model.Origin = Origin;
             _isLoading = false;
         }
 

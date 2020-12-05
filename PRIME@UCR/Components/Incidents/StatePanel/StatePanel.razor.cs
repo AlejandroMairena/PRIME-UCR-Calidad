@@ -26,8 +26,7 @@ namespace PRIME_UCR.Components.Incidents.StatePanel
         public EventCallback OnSave { get; set; }
         [Parameter]
         public Persona CurrentUser { get; set; }
-        [Parameter] 
-        public LastChangeModel LastChange { get; set; }
+        public LastChangeModel LastChange = new LastChangeModel();
         [Inject]
         public IIncidentService IncidentService { get; set; }
         [Inject]
@@ -55,7 +54,16 @@ namespace PRIME_UCR.Components.Incidents.StatePanel
 
         protected override async Task OnInitializedAsync()
         {
-            if(!string.IsNullOrEmpty(LastChange.UltimoCambio))
+            // Search and assign last change in incident
+            var _lastChange = await IncidentService.GetLastChange(Incident.Code);
+            if (_lastChange != null)
+            {
+                LastChange.CodigoIncidente = _lastChange.CodigoIncidente;
+                LastChange.Responsable = await PersonService.GetPersonByIdAsync(_lastChange.CedFuncionario);
+                LastChange.FechaHora = _lastChange.FechaHora;
+                LastChange.UltimoCambio = _lastChange.UltimoCambio;
+            }
+            if (!string.IsNullOrEmpty(LastChange.UltimoCambio))
             {
                 Content = new List<string> { "Responsable: ", "Fecha: ", "Modificación en: " };
                 Values = new List<string> { LastChange.Responsable.NombreCompleto,

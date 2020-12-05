@@ -19,9 +19,14 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails
         [Parameter] public string StatusMessage { get; set; }
         [Parameter] public string StatusClass { get; set; }
         [Parameter] public EventCallback<IncidentDetailsModel> OnSave { get; set; }
+
+        // Services needed to keep in track last changes in incidents
         [Inject] public IUserService UserService { get; set; }
         [Inject] public IAssignmentService AssignmentService { get; set; }
+        [Inject] public IIncidentService IncidentService { get; set; }
+        [Inject] public IPersonService PersonService { get; set; }
         [CascadingParameter] public Task<AuthenticationState> AuthState { get; set; }
+
         public LastChangeModel LastChange = new LastChangeModel();
         private Persona CurrentUser;
 
@@ -29,6 +34,8 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails
         {
             LastChange.FechaHora = DateTime.Now;
             LastChange.Responsable = CurrentUser;
+            LastChange.CodigoIncidente = Incident.Code;
+            await IncidentService.UpdateLastChange(LastChange);
             await OnSave.InvokeAsync(Incident);
         }
 
@@ -59,6 +66,8 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails
             LastChange.UltimoCambio = "Asignación";
             LastChange.FechaHora = DateTime.Now;
             LastChange.Responsable = CurrentUser;
+            LastChange.CodigoIncidente = Incident.Code;
+            await IncidentService.UpdateLastChange(LastChange);
         }
 
         protected async override Task OnInitializedAsync()
