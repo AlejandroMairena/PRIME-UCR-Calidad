@@ -17,6 +17,8 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
     public partial class Assignment
     {
         [Parameter] public IncidentDetailsModel Incident { get; set; }
+        [Parameter] public EventCallback<AssignmentModel> OnSave { get; set; }
+
         [Inject] public IAssignmentService AssignmentService { get; set; }
         [Inject] private IIncidentService IncidentService { get; set; }
 
@@ -54,7 +56,7 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
         {
             _isLoading = true;
             StateHasChanged();
-            await AssignmentService.AssignToIncidentAsync(Incident.Code, _model);
+            await OnSave.InvokeAsync(_model);
             _statusMessage = "Se guardaron los cambios exitosamente.";
             _context = new EditContext(_model);
             _saveButtonEnabled = false;
