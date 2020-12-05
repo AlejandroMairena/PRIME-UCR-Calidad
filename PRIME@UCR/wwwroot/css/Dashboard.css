@@ -33,6 +33,10 @@
     height: 600px;
 }
 
+#AppointmentsVsMedicalRecordsComponent {
+    width: 100%;
+    height: 600px;
+}
 
 .graph-zoom-modal {
     width: calc(85vw - 32px);
