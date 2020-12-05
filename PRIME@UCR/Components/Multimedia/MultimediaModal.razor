@@ -16,7 +16,7 @@
         }
         @if (ShowMicrophone)
         {
-            <MicrophoneComponent></MicrophoneComponent>
+            <MicrophoneComponent MultimediaModal="this" ApCode="@ApCode"></MicrophoneComponent>
         }
         @if (ShowImage)
         {
@@ -46,12 +46,13 @@
         }
         @if (ShowVideoComponent)
         {
-            <VideoComponent MultimediaModal="this"></VideoComponent>
+            <VideoComponent MultimediaModal="this" ApCode="@ApCode"></VideoComponent>
         }
         @if (ShowText)
         {
             <TextComponent OnFileUpload="OnFileUpload"
                            MultimediaContent="MContent"
+                           ApCode="@ApCode"
                            MultimediaModal="this"></TextComponent>
         }
 

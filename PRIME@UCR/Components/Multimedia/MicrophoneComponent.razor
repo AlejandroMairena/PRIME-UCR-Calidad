@@ -3,10 +3,11 @@
 <div class="rt-container">
 
     <div class="card" style="padding: 20px">
-        <h2>Grabadora</h2>
+        <h2 class="rt-align">Grabadora</h2>
         <hr />
 
-        <MultimediaTitleComponent OnTitleChanged="OnTitleChanged" Title="audio"></MultimediaTitleComponent>
+        <MultimediaAlert Message="AlertMessage"></MultimediaAlert>
+        <MultimediaTitleComponent Title="@fileName" Disabled="true"></MultimediaTitleComponent>
 
         @* Timer *@
         <div class="row" style="width: 120px; margin: auto;">
@@ -15,9 +16,9 @@
 
         @* Start/Stop Recording Buttons *@
         <div class="row">
-            <button class="btn btn-primary rt-button" @ref="recordButton">Grabar</button>
-            
-            <button class="btn btn-danger rt-button hidden" @ref="stopButton">Detener</button>
+            <button class="btn btn-primary rt-button" @ref="recordButton" @onclick="OnRecord">Grabar</button>
+
+            <button class="btn btn-danger rt-button hidden" @ref="stopButton" @onclick="OnStop">Detener</button>
         </div>
 
         <div class="row" style="margin-top: 20px">

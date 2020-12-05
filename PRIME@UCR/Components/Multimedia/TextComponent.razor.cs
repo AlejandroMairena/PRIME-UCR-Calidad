@@ -12,6 +12,10 @@ namespace PRIME_UCR.Components.Multimedia
     {
         [Inject]
         protected IFileService fileService { get; set; }
+        /* Appointment code for auto naming real time multimedia content.
+         */
+        [Parameter]
+        public string ApCode { get; set; }
         [Inject]
         public IEncryptionService EncryptionService { get; set; }
         [Inject]
@@ -30,6 +34,30 @@ namespace PRIME_UCR.Components.Multimedia
         string fileName; //input file name
         string text; // input file text
         bool viewMode => MultimediaContent != null;
+
+        MAlertMessage AlertMessage;
+        MAlertMessage PressSaveAlertMessage;
+        MAlertMessage PressNewAlertMessage;
+
+        protected override void OnInitialized()
+        {
+            fileName = GetFileName();
+
+            PressSaveAlertMessage = new MAlertMessage
+            {
+                AlertType = AlertType.Primary,
+                Message = "Presione el botón de Guardar después de escribir la nota para adjuntar " +
+                "el archivo."
+            };
+
+            PressNewAlertMessage = new MAlertMessage
+            {
+                AlertType = AlertType.Primary,
+                Message = "Presione el botón Nueva Nota para escribir una nueva nota."
+            };
+
+            AlertMessage = PressSaveAlertMessage;
+        }
 
         protected override async Task OnInitializedAsync()
         {
@@ -82,6 +110,11 @@ namespace PRIME_UCR.Components.Multimedia
         void OnTitleChanged(Tuple<bool, string> tuple)
         {
             fileName = tuple.Item2;
+        }
+
+        string GetFileName()
+        {
+            return "NOTA-" + ApCode + "-" + MultimediaContentComponent.FormatDate(DateTime.Now);
         }
 
     }
