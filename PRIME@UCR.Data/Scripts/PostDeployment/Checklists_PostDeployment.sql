@@ -187,7 +187,7 @@ insert into Item(Nombre, Orden, IDSuperItem, IDLista)
 Values('Colocar TET/ insuflar balón Neumotaponador ', 4, 47, 3);
 ----------------------------------------------
 insert into Item(Nombre, Orden, IDLista)		--52
-Values('Manejo post-intubación', 1, 3);
+Values('Manejo post-intubación', 5, 3);
 
 insert into Item(Nombre, Orden, IDSuperItem, IDLista)
 Values('Fijación TET', 1, 52, 3);

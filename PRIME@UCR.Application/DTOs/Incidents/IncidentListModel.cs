@@ -20,5 +20,7 @@ namespace PRIME_UCR.Application.DTOs.Incidents
         public string Destino { get; set; }
         public int? IdDestino { get; set; }
 
+        public string CedulaEspecialista { get; set; }
+
     }
 }

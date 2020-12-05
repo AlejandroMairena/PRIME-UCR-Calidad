@@ -1,6 +1,7 @@
 ﻿DELETE FROM AsignadoA
 DELETE FROM EstadoIncidente
 DELETE FROM Estado
+DELETE FROM DocumentacionIncidente
 DELETE FROM Incidente
 DELETE FROM Unidad_De_Transporte
 DELETE FROM Modalidad
@@ -17,7 +18,7 @@ DBCC CHECKIDENT ('Canton', RESEED, 0)
 DBCC CHECKIDENT ('Centro_Medico', RESEED, 0)
 DBCC CHECKIDENT ('Distrito', RESEED, 0)
 DBCC CHECKIDENT ('Ubicacion', RESEED, 0)
-
+DBCC CHECKIDENT ('DocumentacionIncidente', RESEED, 0)
 -- Pais
 INSERT INTO Pais (Nombre)
 VALUES
@@ -294,13 +295,13 @@ VALUES
 -- Incidente
 INSERT INTO Incidente (CedulaAdmin, CodigoCita, IdOrigen, Modalidad)
 VALUES
-    ('11111111', 1, 1, 'Terrestre'),
+	('11111111', 1, 1, 'Terrestre'),
     ('11111111', 2, 2, 'Aéreo'),
     --Agregados por Atenienses
     ('11111111', 3, 3, 'Aéreo'),
     ('11111111', 4, 4, 'Aéreo'),
     ('11111111', 5, 5, 'Aéreo'),
-    ('11111111', 6, 6, 'Aéreo'),
+    ('11111111', 6, 6, 'Aéreo'), 
     ('11111111', 7, 7, 'Aéreo'),
     ('11111111', 8, 8, 'Aéreo'),
     ('11111111', 9, 9, 'Aéreo'),

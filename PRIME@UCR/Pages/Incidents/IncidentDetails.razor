@@ -23,11 +23,9 @@
             </div>
             <div class="col col-sm-10 col-md-10">
                 <div class="jumbotron white-panel">
-                    <CascadingValue Value="ClearStatusMessageCallback">
-                        <CascadingValue Value="ChangeActiveTabCallback">
-                            <ActiveTab Active="@_activeTab" Incident="_incidentModel" OnSave="@Save"
-                                       StatusMessage="@_statusMessage" StatusClass="@_statusClass"/>
-                        </CascadingValue>
+                    <CascadingValue Value="@this">
+                        <ActiveTab Active="@_activeTab" Incident="_incidentModel" OnSave="@Save"
+                                    StatusMessage="@_statusMessage" StatusClass="@_statusClass"/>
                     </CascadingValue>
                 </div>
             </div>

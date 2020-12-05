@@ -99,5 +99,9 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
             await _itemRepository.UpdateAsync(item);
             return item;
         }
+        public async Task<IEnumerable<CheckList>> GetAllChecklistActivates()
+        {
+            return await _checklistRepository.GetActivated();
+        }
     }
 }

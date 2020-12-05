@@ -3,7 +3,9 @@
 	@tipo				NVARCHAR(20),
 	@descripcion		NVARCHAR(200),
 	@orden				INT,
-	@imagenDescriptiva	NVARCHAR(MAX)
+	@imagenDescriptiva	NVARCHAR(MAX),
+	@editable bit,
+	@activada bit
 AS
 	BEGIN
 		declare @MyTable TABLE (
@@ -16,7 +18,9 @@ AS
 			@tipo,
 			@descripcion,
 			@orden,
-			@imagenDescriptiva
+			@imagenDescriptiva,
+			@editable ,
+			@activada
 		)
 
 		SELECT ListId from @MyTable;
