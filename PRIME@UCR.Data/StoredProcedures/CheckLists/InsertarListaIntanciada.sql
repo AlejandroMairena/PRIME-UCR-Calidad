@@ -4,6 +4,7 @@
 	AS 
 	BEGIN
 			BEGIN TRY
+				set transaction isolation level serializable;
 				BEGIN TRANSACTION T1 
 					Insert into InstanceChecklist (PlantillaId,IncidentCod) values (@plantillaId,@incidenteCod)
 					

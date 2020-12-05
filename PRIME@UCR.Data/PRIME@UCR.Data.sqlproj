@@ -163,6 +163,7 @@
     <Build Include="Triggers\AfterInsertInstance.sql" />
     <Build Include="StoredProcedures\CheckLists\InsertarInstaciaItem.sql" />
     <Build Include="StoredProcedures\CheckLists\InsertarListaIntanciada.sql" />
+    <Build Include="Indexes\Checklist\ix_ListaID.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Scripts\Script.PostDeployment.sql" />
