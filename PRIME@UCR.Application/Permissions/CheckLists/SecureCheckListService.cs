@@ -96,5 +96,10 @@ namespace PRIME_UCR.Application.Permissions.CheckLists
         {
             return await checkListService.GetCoreItems(checkListId);
         }
+
+        public async Task<IEnumerable<CheckList>> GetAllChecklistActivates()
+        {
+            return await checkListService.GetAllChecklistActivates();
+        }
     }
 }

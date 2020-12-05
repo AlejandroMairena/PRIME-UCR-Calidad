@@ -11,5 +11,6 @@ namespace PRIME_UCR.Application.Repositories.CheckLists
         Task<IEnumerable<InstanciaItem>> GetByIncidentCodAndCheckListId(string incidentCode, int checklistId);
         Task<IEnumerable<InstanciaItem>> GetCoreItems(string incidentCode, int checklistId);
         Task<IEnumerable<InstanciaItem>> GetItemsByFatherId(string incidentCode, int checklistId, int itemId);
+        Task<InstanciaItem> GetItem(int? itemId, string incidentCod, int? plantillaId);
     }
 }
