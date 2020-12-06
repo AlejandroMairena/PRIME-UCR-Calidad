@@ -60,5 +60,10 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
                 showDeniedMessage = false;
             }
         }
+
+        public void IsLoading(bool loadingValue)
+        {
+            _isLoading = loadingValue;
+        }
     }
 }

@@ -9,7 +9,15 @@
 <Loading IsLoading="lists == null">
         @if (instancelists.Count() == 0)
         {
-            <p><em class="nav-link">No se ha asignado ninguna lista, presione el <a href='@string.Format("/checklist/{0}",IncidentCod)'>boton +</a> para asignar alguna.</em></p> }
+            if (!ReadOnly)//Incident not in finished state
+            {
+                <p><em class="nav-link">No se ha asignado ninguna lista, presione el <a href='@string.Format("/checklist/{0}",IncidentCod)'>boton +</a> para asignar alguna.</em></p> 
+            }
+            else
+            {
+                <p><em>No se asignó ninguna lista de chequeo durante el incidente.</em></p> 
+            }
+        }
         else
         {
             <div class="rounded" style="background-color: white;padding-left: 10px;padding-right: 10px; padding-top:10px;">
