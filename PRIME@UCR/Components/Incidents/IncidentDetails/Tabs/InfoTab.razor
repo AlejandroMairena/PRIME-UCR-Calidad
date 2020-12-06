@@ -17,17 +17,29 @@ else if (DetailsModel.CurrentState == IncidentStates.Rejected.Nombre)
             <AlertRowTemplate Header="Razón de rechazo" Message="@DetailsModel.FeedBack.RazonDeRechazo" />
         </AlertRowMessage>
     }
-    <ul class="list-group">
-        <ListItem Title="Identificador" Text="@DetailsModel.Code" />
-        <ListItem Title="Estado" Text="@DetailsModel.CurrentState" />
-        <ListItem Title="Modalidad" Text="@DetailsModel.Mode" />
-        <ListItem Title="Fecha estimada del traslado"
-                  Text="@($"{DetailsModel.EstimatedDateOfTransfer.ToShortDateString()} - {DetailsModel.EstimatedDateOfTransfer.ToShortTimeString()}")" />
-        <ListItem Title="Fecha de registro"
-                  Text="@($"{DetailsModel.RegistrationDate.ToShortDateString()} - {DetailsModel.RegistrationDate.ToShortTimeString()}")" />
-        <ListItem Title="Creado por"
-                  Text="@(_creator?.NombreCompleto)" />
-    </ul>
+<ul class="list-group">
+    <li class="list-group-item">
+        <div class="row">
+            <div class="col-6">
+                <strong>Identificador</strong>:
+            </div>
+            <div class="col-4">
+                @DetailsModel.Code
+            </div>
+            <div class="col-2">
+                <PdfComponent IncidentCode="@DetailsModel.Code" IncidentState="@DetailsModel.CurrentState" ChangeLoading="@IsLoading"></PdfComponent>
+            </div>
+        </div>
+    </li>
+    <ListItem Title="Estado" Text="@DetailsModel.CurrentState" />
+    <ListItem Title="Modalidad" Text="@DetailsModel.Mode" />
+    <ListItem Title="Fecha estimada del traslado"
+              Text="@($"{DetailsModel.EstimatedDateOfTransfer.ToShortDateString()} - {DetailsModel.EstimatedDateOfTransfer.ToShortTimeString()}")" />
+    <ListItem Title="Fecha de registro"
+              Text="@($"{DetailsModel.RegistrationDate.ToShortDateString()} - {DetailsModel.RegistrationDate.ToShortTimeString()}")" />
+    <ListItem Title="Creado por"
+              Text="@(_creator?.NombreCompleto)" />
+</ul>
     <br />
     <br />
     <PermissionAuthorizeView Permission="@AuthorizationPermissions.CanReviewIncidents" ShowDeniedPermissionMessage=false>
