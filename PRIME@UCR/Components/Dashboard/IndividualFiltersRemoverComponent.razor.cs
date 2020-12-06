@@ -16,8 +16,6 @@ namespace PRIME_UCR.Components.Dashboard
         [Parameter]
         public EventCallback<FilterModel> FilterInfoChanged { get; set; }
 
-        private void Test() { }
-
         /*
          * Function: Method used to remove origin filter of type house holder.
          */

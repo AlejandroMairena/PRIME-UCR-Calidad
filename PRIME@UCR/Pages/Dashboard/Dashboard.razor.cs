@@ -70,6 +70,11 @@ namespace PRIME_UCR.Pages.Dashboard
             StateHasChanged();
         }
 
+        private void UpdateAppointmentFilteredIncidentsData()
+        {
+            /*Acá va la funcionalidad para refrescar los datos de los gráficos de citas.*/
+        }
+
         private async Task ClearFilters()
         {
             DashboardData.isReadyToShowGraphs = false;

@@ -35,7 +35,6 @@
     </div>
 </div>
 
-
 <Loading IsLoading="!DashboardData.isReadyToShowFilters && !incidentsCounter.isReadyToShowCounters && !DashboardData.isReadyToShowGraphs">
     <div class="wrapper">
         <div class="rounded" style="background-color: white;padding: 10px">
@@ -137,17 +136,23 @@
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
             <div class="row">
-                <div class="col align-content-center" style="font-size:30px">
+                <div class="p-2 align-content-start" style="font-size:30px">
                     Filtros
                 </div>
+                <div class="p-2 align-content-start">
+                    <IndividualAppointmentsFiltersRemoverComponent AppointmentFilters="AppointmentFilter"
+                                                                   AppointmentFiltersChanged="UpdateAppointmentFilteredIncidentsData" />
+                </div>
+            </div>
+            <div class="row">
                 <div class="col p-3">
                     <HospitalFilter Value="AppointmentFilter"
-                                    ValueChanged="UpdateFilteredIncidentsData"
+                                    ValueChanged="UpdateAppointmentFilteredIncidentsData"
                                     @bind-Data="DashboardData" />
                 </div>
                 <div class="col p-3">
                     <PatientFilter Value="AppointmentFilter"
-                                   ValueChanged="UpdateFilteredIncidentsData"
+                                   ValueChanged="UpdateAppointmentFilteredIncidentsData"
                                    @bind-Data="DashboardData" />
                 </div>
                 <div class="col p-2">
@@ -163,8 +168,11 @@
                     </div>
                 </div>
             </div>
+
             @*FILTER COMPONENT*@
         </div>
     </div>
+
+    <br />
 
 </Loading>

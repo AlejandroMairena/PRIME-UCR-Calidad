@@ -12,13 +12,19 @@ namespace PRIME_UCR.Components.Dashboard.Filters
         public string Label { get; set; }
 
         [Parameter]
-        public string ExtraLabel  { get; set; }
+        public string ExtraLabel { get; set; } = String.Empty;
 
         [Parameter]
         public char Value { get; set; }
 
         [Parameter]
         public EventCallback<char> ValueChanged { get; set; }
+
+        protected override void OnParametersSet()
+        {
+            var a = Label;
+            var b = !String.IsNullOrEmpty(ExtraLabel);
+        }
 
         private async Task FilterRemoved()
         {
