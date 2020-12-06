@@ -29,18 +29,25 @@ namespace PRIME_UCR.Components.UserAdministration
 
         private string messageType = String.Empty;
 
+        private bool isLoading;
+
         protected override void OnInitialized()
         {
             ListNotAuthenticatedUsers = new List<Usuario>();
+            isLoading = false;
         }
 
         protected override async Task OnInitializedAsync()
         {
             ListNotAuthenticatedUsers = (await userService.GetNotAuthenticatedUsers()).ToList();
+            isLoading = false;
         }
 
         public async void resendEMailConfirmation(string userEmail)
         {
+            isLoading = true;
+            StateHasChanged();
+
             var user = (await userService.GetAllUsersWithDetailsAsync()).ToList().Find(u => u.Email == userEmail);
 
             var emailConfirmedToken = await userManager.GenerateEmailConfirmationTokenAsync(user);
@@ -61,8 +68,9 @@ namespace PRIME_UCR.Components.UserAdministration
             await mailService.SendEmailAsync(message);
             statusMessage = "Se ha reenviado un correo de validación de cuenta al usuario indicado.";
             messageType = "success";
+            isLoading = false;
             StateHasChanged();
-
+            
         }
     }
 }

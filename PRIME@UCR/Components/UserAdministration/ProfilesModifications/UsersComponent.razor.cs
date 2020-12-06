@@ -40,6 +40,11 @@ namespace PRIME_UCR.Components.UserAdministration.ProfilesModifications
         [Parameter]
         public EventCallback<ProfileModel> ValueChanged { get; set; }
 
+        [Parameter]
+        public bool isLoading { get; set; }
+        
+        [Parameter]
+        public EventCallback<bool> isLoadingChanged { get; set; }
         /**
          * Function: Assigns, a new list of users to the attribute ListUsers once IsInitialized  is set to true.
          */
@@ -68,6 +73,8 @@ namespace PRIME_UCR.Components.UserAdministration.ProfilesModifications
          */
         protected async Task update_profile(string IdUser, ChangeEventArgs e)
         {
+            isLoading = true;
+            await isLoadingChanged.InvokeAsync(isLoading);
             if (Value.PermissionsList != null)
             {
                 var User = (ListUsers.Find(p => p.Id == IdUser));
@@ -108,7 +115,10 @@ namespace PRIME_UCR.Components.UserAdministration.ProfilesModifications
                 Value.CheckedUsers[(Value.CheckedUsers.FindIndex(p => p.Item1 == IdUser))] =  new Tuple<string, bool>(IdUser,(bool)e.Value);
                 await authenticationStateProvider.GetAuthenticationStateAsync();
                 await ValueChanged.InvokeAsync(Value);
+
             }
+            isLoading = false;
+            await isLoadingChanged.InvokeAsync(isLoading);
         }
 
     }
