@@ -6,7 +6,7 @@
  * NO SENSITIVE DATA SHOULD BE TREATED IN THIS CODE
  */
 
-function CreateAppointmentsVsMedicalRecordsComponentWeightJS(results) {
+function CreateAppointmentsVsMedicalRecordsWeightComponentJS(results) {
     am4core.ready(function () {
         /*
 
@@ -29,7 +29,7 @@ function CreateAppointmentsVsMedicalRecordsComponentWeightJS(results) {
         am4core.useTheme(am4themes_animated);
         // Themes end
 
-        var chart = am4core.create("AppointmentsVsMedicalRecordsComponent", am4charts.XYChart);
+        var chart = am4core.create("AppointmentsVsMedicalRecordsWeightComponent", am4charts.XYChart);
 
         // Add data
         chart.data = [{

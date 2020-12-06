@@ -225,13 +225,16 @@
 
         @*Patient Evolution*@
         <br />
-        <div class="row rounded px-2 py-2" style="background-color:white;">
-            <div class="col-lg-4 col-md-12">
-                <AppointmentsVsMedicalRecordComponent @bind-Data="DashboardData" />
-            </div>
-            <div class="col-lg-4 col-md-12">
-            </div>
-            <div class="col-lg-4 col-md-12">
+        <div class="rounded p-2" style="background-color:white;">
+            <h2>Evolucion Metricas por Paciente</h2>
+            <div class="row ">
+                <div class="col-lg-4 col-md-12">
+                    <AppointmentsVsMedicalRecordWeightComponent @bind-Data="DashboardData" />
+                </div>
+                <div class="col-lg-4 col-md-12">
+                </div>
+                <div class="col-lg-4 col-md-12">
+                </div>
             </div>
         </div>
             }

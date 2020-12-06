@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace PRIME_UCR.Components.Dashboard.IncidentsGraph
 {
-    public partial class AppointmentsVsMedicalRecordComponent
+    public partial class AppointmentsVsMedicalRecordWeightComponent
     {
         [Parameter] public DashboardDataModel Data { get; set; }
         [Parameter] public EventCallback<DashboardDataModel> DataChanged { get; set; }
@@ -93,7 +93,7 @@ namespace PRIME_UCR.Components.Dashboard.IncidentsGraph
                 //results.Add(incidents.ToList().Count().ToString());
             }
 
-            await JS.InvokeVoidAsync("CreateAppointmentsVsMedicalRecordsComponentWeightJS", (object)results);
+            await JS.InvokeVoidAsync("CreateAppointmentsVsMedicalRecordsWeightComponentJS", (object)results);
         }
 
         void ShowModal()
