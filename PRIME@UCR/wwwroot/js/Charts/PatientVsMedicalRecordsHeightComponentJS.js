@@ -6,7 +6,7 @@
  * NO SENSITIVE DATA SHOULD BE TREATED IN THIS CODE
  */
 
-function CreateAppointmentsVsMedicalRecordsWeightComponentJS(results) {
+function CreateAppointmentsVsMedicalRecordsHeightComponentJS(results) {
     am4core.ready(function () {
         
         // Themes begin
@@ -14,7 +14,7 @@ function CreateAppointmentsVsMedicalRecordsWeightComponentJS(results) {
         // Themes end
 
         // Create chart instance
-        var chart = am4core.create("AppointmentsVsMedicalRecordsWeightComponent", am4charts.XYChart);
+        var chart = am4core.create("AppointmentsVsMedicalRecordsHeightComponent", am4charts.XYChart);
 
         //
 
@@ -74,7 +74,7 @@ function CreateAppointmentsVsMedicalRecordsWeightComponentJS(results) {
         for (var i = 0; i < results.length; i += 2) {
             var dateName = "date" + i.toString();
             var valueName = "value" + i.toString();
-            createAxisAndSeries(valueName, dateName, results[i][0] + " Peso", false);
+            createAxisAndSeries(valueName, dateName, results[i][0] + " Altura", false);
         }
 
 
