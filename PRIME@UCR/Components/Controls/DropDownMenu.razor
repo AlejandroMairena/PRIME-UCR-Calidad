@@ -10,7 +10,8 @@
     {
         <label>@Label</label>
     }
-<select class="@($"custom-select {ValidationCssClass}")"
+<select id="@Id"
+        class="@($"custom-select {ValidationCssClass}")"
         value="@SelectedValue"
         @onchange="OnChangeEvent"
         disabled="@Disabled">
