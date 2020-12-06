@@ -183,6 +183,7 @@
                                         {
                                             <div class="blankSpace">.</div>
                                         }
+
                                         <table class="checklist-table table" draggable="true" @ondrop="@(()=> Drop(itemInList))" @ondrag="@(()=> StartDrag(itemInList))">
                                             @* Contains information about every item in this checklist *@
                                             <tbody>
@@ -206,15 +207,17 @@
                                                     <th class="align-middle" data-toggle="tooltip" title="@itemInList.Nombre">@truncate(itemInList.Nombre, orderedListLevel[itemIndex], 1)</th>
                                                     <td rowspan="2" class="align-middle" align="right" style="width: 54px">
                                                         @if (list.Activada && list.Editable)
-                                                        {@* Drop down button to show additional options *@
-                                                                                            <button type="button" class="btn btn-default " data-toggle="dropdown">
-                                                                                                ⋮<span class="caret"></span>
-                                                                                                <span class="sr-only">Desplegar menú</span>
-                                                                                            </button> @* Button to create a new sub item *@
-                                                                                                                                <ul class="dropdown-menu" role="menu">
-                                                                                                                                    <li><button class="dropdown-item" @onclick="() => CreateSubItem(itemInList.Id)">Agregar Subítem</button></li>
-                                                                                                                                    <li><button class="dropdown-item" @onclick="() => EditItem(itemInList.Id)">Editar ítem</button></li>
-                                                                                                                                </ul>}
+                                                        {
+                                                            @* Drop down button to show additional options *@
+                                                            <button type="button" class="btn btn-default " data-toggle="dropdown">
+                                                                ⋮<span class="caret"></span>
+                                                                <span class="sr-only">Desplegar menú</span>
+                                                            </button> @* Button to create a new sub item *@
+                                                            <ul class="dropdown-menu" role="menu">
+                                                                <li><button class="dropdown-item" @onclick="() => CreateSubItem(itemInList.Id)">Agregar Subítem</button></li>
+                                                                <li><button class="dropdown-item" @onclick="() => EditItem(itemInList.Id)">Editar ítem</button></li>
+                                                            </ul>
+                                                        }
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -222,20 +225,31 @@
                                                 </tr>
                                                 @if (list.Activada && list.Editable)
                                                 {
-                                    @if (createSubItem == true && parentItemId == itemInList.Id)
-                                    {
-                                    <tr>
-                                        <td colspan="4">
-                                            <CreateItem @bind-item="tempItem" creating="createSubItem" OnCreatingChanged="creatingFinished">Crear SubItem</CreateItem>
-                                        </td>
-                                    </tr>}
-                                                                        @if (editItem == true && parentItemId == itemInList.Id)
-                                                                        {
-                                    <tr>
-                                        <td colspan="4">
-                                            <EditItem @bind-item="tempItem" editing="editItem" OnEditingChanged="editingFinished">Editar Item</EditItem>
-                                        </td>
-                                    </tr>}}
+                                                    @if (createSubItem == true && parentItemId == itemInList.Id)
+                                                    {
+                                                        <tr>
+                                                            <td colspan="4">
+                                                                <CreateItem @bind-item="tempItem" creating="createSubItem" OnCreatingChanged="creatingFinished">Crear SubItem</CreateItem>
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                    @if (editItem == true && parentItemId == itemInList.Id)
+                                                    {
+                                                        <tr>
+                                                            <td colspan="4">
+                                                                <EditItem @bind-item="tempItem" editing="editItem" OnEditingChanged="editingFinished">Editar Item</EditItem>
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                    @if (invalidItemMoved == itemInList.Id)
+                                                    {
+                                                        <tr>
+                                                            <td colspan="4">
+                                                                <StatusMessage Message="@_moveItemInvalid" Class="warning" />
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                }
                                             </tbody>
                                         </table>
                                     </Template>
