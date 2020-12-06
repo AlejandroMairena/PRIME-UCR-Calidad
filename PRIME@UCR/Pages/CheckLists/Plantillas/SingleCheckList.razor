@@ -213,10 +213,11 @@
                                                                 ⋮<span class="caret"></span>
                                                                 <span class="sr-only">Desplegar menú</span>
                                                             </button> @* Button to create a new sub item *@
-                                                            <ul class="dropdown-menu" role="menu">
-                                                                <li><button class="dropdown-item" @onclick="() => CreateSubItem(itemInList.Id)">Agregar Subítem</button></li>
-                                                                <li><button class="dropdown-item" @onclick="() => EditItem(itemInList.Id)">Editar ítem</button></li>
-                                                            </ul>
+                                                    <ul class="dropdown-menu" role="menu">
+                                                        <li><button class="dropdown-item" @onclick="() => CreateSubItem(itemInList.Id)">Agregar Subítem</button></li>
+                                                        <li><button class="dropdown-item" @onclick="() => EditItem(itemInList.Id)">Editar ítem</button></li>
+                                                        <li><button class="dropdown-item" @onclick="() => DeleteItem(itemInList.Id)">Eliminar item</button></li>
+                                                    </ul>
                                                         }
                                                     </td>
                                                 </tr>

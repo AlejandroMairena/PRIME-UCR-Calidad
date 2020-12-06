@@ -256,6 +256,15 @@ namespace PRIME_UCR.Pages.CheckLists.Plantillas
             editItem = true;
         }
 
+        protected async Task DeleteItem(int itemId)
+        {
+            _statusMessage = "";
+            await MyCheckListService.DeleteItems(itemId);
+            await RefreshModels();
+        }
+
+        
+
         protected override async Task OnParametersSetAsync()
         {
             await RefreshModels();
