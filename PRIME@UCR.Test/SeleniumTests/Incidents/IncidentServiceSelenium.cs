@@ -22,7 +22,7 @@ namespace PRIME_UCR.Test.SeleniumTests.Incidents
         {
             driver.Dispose();
         }
-
+        /*
         [Fact]
         public void GetToIncidentListPage()
         {
@@ -44,7 +44,7 @@ namespace PRIME_UCR.Test.SeleniumTests.Incidents
             Element = TryToFind("//h1");
             Assert.Equal("Administración del incidente", Element.Text);
         }
-
+*/
         [Fact]
         public void FillIncidentInfo()
         {
@@ -57,12 +57,15 @@ namespace PRIME_UCR.Test.SeleniumTests.Incidents
         private void MockInfoInIncident()
         {
             MockOriginTab();
+            MockDestinationTab();
+            MockPatientTab();
         }
 
         private void MockOriginTab()
         {
             Element = TryToFind("//div[@class='row']/div/ul/li[2]");//Origin tab
             Element.Click();
+            Timeout(1000);//Load tab
             Element = TryToFindById("Tipo");//Dropdown menu tipo de origen
             oSelect = new SelectElement(Element);
             oSelect.SelectByIndex(1);//Select Internacional en el dropdown menu
@@ -71,14 +74,51 @@ namespace PRIME_UCR.Test.SeleniumTests.Incidents
             oSelect.SelectByIndex(1);//Select El salvador en el dropdown menu
             Element = TryToFindById("Guardar");//Find guardar button
             Element.Click();
-            Timeout(3000);
         }
 
         private void MockDestinationTab()
         {
             Element = TryToFind("//div[@class='row']/div/ul/li[3]");//Destination tab
             Element.Click();
+            Timeout(1000);//Load tab
+            Element = TryToFindById("Centro");//Dropdown menu Centro Medico
+            oSelect = new SelectElement(Element);
+            oSelect.SelectByIndex(2);//Select Centro Nacional de Rehabilitacion en el dropdown menu
+            Element = TryToFindById("Medico");
+            Timeout(1000);//Load Medicos
+            oSelect = new SelectElement(Element);
+            oSelect.SelectByIndex(1);//Select Wilbert Lopez en el dropdown menu
+            Element = TryToFindById("Guardar");//Find guardar button
+            Element.Click();
+        }
 
+
+        private void MockPatientTab()
+        {
+            Element = TryToFind("//div[@class='row']/div/ul/li[4]");//Patient tab
+            Element.Click();
+            Timeout(1000);//Load tab
+            Element = TryToFindById("Cedula");//Input cedula
+            Element.Clear();
+            Element.SendKeys("111111111");//Mock
+            Element = TryToFindById("Nombre");//Input Nombre
+            Element.Clear();
+            Element.SendKeys("Daniel");//Mock
+            Element = TryToFindById("PrimerAp");//Input Primer Apellido
+            Element.Clear();
+            Element.SendKeys("Salazar");//Mock
+            Element = TryToFindById("Guardar");//Input Nombre
+            Element.Click();
+            Timeout(2000);//Load Values
+        }
+
+        private void MockChangeState()
+        {
+            Element = TryToFind("//div[@class='row']/div/ul/li[1]");//Destination tab
+            Element.Click();
+            Timeout(1000);//Load tab
+            Element = TryToFindById("Cambiar");
+            Element.Click();
         }
 
         private IWebElement TryToFind(string path)
