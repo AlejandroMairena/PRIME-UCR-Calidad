@@ -8,108 +8,77 @@
 
 function CreateAppointmentsVsMedicalRecordsWeightComponentJS(results) {
     am4core.ready(function () {
-        /*
-
-        var chartData = [];
-
-        for (var i = 0; i < results.length; i += 2) {
-            var destination = results[i];
-            var quantity = results[i + 1];
-
-
-            chartData.push({
-                "destination": destination,
-                "quantity": quantity
-            });
-        }
-
-*/
-
+        
         // Themes begin
         am4core.useTheme(am4themes_animated);
         // Themes end
 
+        // Create chart instance
         var chart = am4core.create("AppointmentsVsMedicalRecordsWeightComponent", am4charts.XYChart);
 
-        // Add data
-        chart.data = [{
-            "date": new Date(2020, 3, 21),
-            "value": 60
-        }, {
-                "date": new Date(2020, 4, 22),
-            "value": 63
-        }, {
-                "date": new Date(2020, 5, 23),
-            "value": 62
-        }, {
-                "date": new Date(2020, 6, 24),
-            "value": 60
-        }, {
-                "date": new Date(2020, 7, 25),
-            "value": 61
-        }, {
-                "date": new Date(2020, 8, 26),
-            "value": 62,
-            "disabled": false
-        }];
+        //
 
-
+        // Increase contrast by taking evey second color
+        chart.colors.step = 2;
 
         // Create axes
         var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
-
-        dateAxis.title.text = "Fecha de la Cita";
-        dateAxis.title.align = "center";
-        dateAxis.title.fontWeight = 600;
-        dateAxis.renderer.grid.template.location = 0.5;
-        dateAxis.dateFormatter.inputDateFormat = "yyyy-MM-dd";
-        dateAxis.renderer.minGridDistance = 40;
-        dateAxis.tooltipDateFormat = "MMM dd, yyyy";
-        dateAxis.dateFormats.setKey("day", "dd");
-        // Create value axis
-        var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-
-        valueAxis.title.text = "Peso del Paciente";
-        valueAxis.title.align = "center";
-        valueAxis.title.fontWeight = 600;
-
-        //Graph Scale
-        valueAxis.min = 0;
-        valueAxis.max = 100;
-        valueAxis.maxPrecision = 0;
+        dateAxis.renderer.minGridDistance = 50;
 
         // Create series
-        var lineSeries = chart.series.push(new am4charts.LineSeries());
+        function createAxisAndSeries(field, name, opposite) {
+            var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+            if (chart.yAxes.indexOf(valueAxis) != 0) {
+                valueAxis.syncWithAxis = chart.yAxes.getIndex(0);
+            }
 
-        lineSeries.dataFields.valueY = "value";
-        lineSeries.dataFields.dateX = "date";
-        lineSeries.name = "Sales";
-        lineSeries.strokeWidth = 3;
-        lineSeries.strokeDasharray = "5,4";
+            var series = chart.series.push(new am4charts.LineSeries());
+            series.dataFields.valueY = field;
+            series.dataFields.dateX = "date";
+            series.strokeWidth = 2;
+            series.yAxis = valueAxis;
+            series.name = name;
+            series.tooltipText = "{name}: [bold]{valueY}[/]";
+            series.tensionX = 0.8;
+            series.showOnInit = true;
 
-        // Add simple bullet
-        var bullet = lineSeries.bullets.push(new am4charts.CircleBullet());
-        bullet.disabled = true;
-        bullet.propertyFields.disabled = "disabled";
+            var interfaceColors = new am4core.InterfaceColorSet();
 
-        var secondCircle = bullet.createChild(am4core.Circle);
-        secondCircle.radius = 6;
-        secondCircle.fill = chart.colors.getIndex(8);
+            var bullet = series.bullets.push(new am4charts.CircleBullet());
+            bullet.circle.stroke = interfaceColors.getFor("background");
+            bullet.circle.strokeWidth = 2;
 
-
-        bullet.events.on("inited", function (event) {
-            animateBullet(event.target.circle);
-        })
-
-
-        //Animate final bullet
-        function animateBullet(bullet) {
-            var animation = bullet.animate([{ property: "scale", from: 1, to: 5 }, { property: "opacity", from: 1, to: 0 }], 1000, am4core.ease.circleOut);
-            animation.events.on("animationended", function (event) {
-                animateBullet(event.target.object);
-            })
+            valueAxis.renderer.line.strokeOpacity = 1;
+            valueAxis.renderer.line.strokeWidth = 2;
+            valueAxis.renderer.line.stroke = series.stroke;
+            valueAxis.renderer.labels.template.fill = series.stroke;
+            valueAxis.renderer.opposite = opposite;
         }
 
+        
+
+        for (var i = 0; i < results.length; i += 2) {
+            var chartData = [];
+            for (var j = 0; j < results[i+1].length; j += 2) {
+                var date = results[i+1][j];
+                var value = results[i+1][j + 1];
+                chartData.push({
+                    "date": date,
+                    "value": value
+                });
+            }
+
+            chart.data = chartData;
+            createAxisAndSeries("value", results[i][0] + " Weight", false);
+           
+        }
+
+
+        // Add legend
+        chart.legend = new am4charts.Legend();
+
+        // Add cursor
+        chart.cursor = new am4charts.XYCursor();
 
     }); // end am4core.ready()
 }

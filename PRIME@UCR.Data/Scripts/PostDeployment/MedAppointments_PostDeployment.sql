@@ -13,11 +13,11 @@ Post-Deployment Script Template
 
 INSERT INTO Cita(FechaHoraCreacion, FechaHoraEstimada, IdExpediente)
 VALUES
-    (GETDATE(), GETDATE(), 18),
-    (GETDATE(), GETDATE(), 18),
-    (GETDATE(), GETDATE(), 18),
-    (GETDATE(), GETDATE(), 18),
-    (GETDATE(), GETDATE(), 18);
+    (GETDATE(), DATEADD(month,-5,getdate()), 18),
+	(GETDATE(), DATEADD(month,-4,getdate()), 18),
+	(GETDATE(), DATEADD(month,-3,getdate()), 18),
+	(GETDATE(), DATEADD(month,-2,getdate()), 18),
+	(GETDATE(), DATEADD(month,-1,getdate()), 18);
 
 INSERT INTO CitaMedica(ExpedienteId, CedMedicoAsignado, CentroMedicoId, EstadoId, CitaId)
 VALUES

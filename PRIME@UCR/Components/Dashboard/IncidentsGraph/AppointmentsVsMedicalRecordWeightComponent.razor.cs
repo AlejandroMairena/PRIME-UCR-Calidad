@@ -55,14 +55,21 @@ namespace PRIME_UCR.Components.Dashboard.IncidentsGraph
 
             var appointmentsPerPatient = appointmentsList.GroupBy(a => a.Cita.Expediente.CedulaPaciente);
 
-            foreach( var patientA in appointmentsPerPatient)
-            {
+            appointmentsQuantity = appointmentsList.Count();
+            var results = new List<List<string>>();
 
+            foreach (var patientA in appointmentsPerPatient)
+            {
+                var tempResult = new List<string>();
+                foreach(var appointment in patientA)
+                {
+                    tempResult.Add(appointment.Cita.FechaHoraEstimada.ToString().Substring(0, 10));
+                    tempResult.Add(appointment.Cita.Metricas.First().Peso);
+                }
+                results.Add(new List<String>() { patientA.First().Cita.Expediente.CedulaPaciente });
+                results.Add(tempResult);
             }
 
-            appointmentsQuantity = 11;
-            var results = new List<String>();
-            
 
             await JS.InvokeVoidAsync("CreateAppointmentsVsMedicalRecordsWeightComponentJS", (object)results);
         }
