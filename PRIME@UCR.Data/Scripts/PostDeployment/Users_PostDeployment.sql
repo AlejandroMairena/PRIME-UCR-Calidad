@@ -1,4 +1,5 @@
 ﻿DELETE FROM AsignadoA
+DELETE FROM CambioIncidente
 DELETE FROM EstadoIncidente
 DELETE FROM Estado
 DELETE FROM Incidente
@@ -136,6 +137,7 @@ VALUES  (1,'Administrador'),
         (8,'Especialista técnico médico'),
         (21,'Especialista técnico médico'),
         (22,'Especialista técnico médico'),
+        (4,'Médico'),
         (6,'Médico'),
         (8,'Médico'),
         (9,'Médico'),

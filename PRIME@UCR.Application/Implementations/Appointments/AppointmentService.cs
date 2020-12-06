@@ -16,11 +16,12 @@ using PRIME_UCR.Domain.Models;
 
 namespace PRIME_UCR.Application.Implementations.Appointments
 {
-    public partial class AppointmentService : IAppointmentService
+    internal class AppointmentService : IAppointmentService
     {
         private readonly IActionTypeRepository _actionTypeRepo;
         private readonly IAppointmentRepository _appointmentRepository;
         private readonly IMedicalRecordRepository _medicalRecordRepository;
+        private readonly IPrimeSecurityService _primeSecurityService;
         private readonly IMedicalAppointmentRepository _medapprepo;
         private readonly IHavePrescriptionRepository _havepresc;
         private readonly IDrugRepository _drugrepo; 
@@ -28,6 +29,7 @@ namespace PRIME_UCR.Application.Implementations.Appointments
         public AppointmentService(IActionTypeRepository actionTypeRepo,
             IAppointmentRepository appointmentRepository,
             IMedicalRecordRepository medicalRecordRepository,
+            IPrimeSecurityService primeSecurityService,
             IMedicalAppointmentRepository medapp,
             IHavePrescriptionRepository havepres,
             IDrugRepository drugrep)
@@ -35,6 +37,7 @@ namespace PRIME_UCR.Application.Implementations.Appointments
             _actionTypeRepo = actionTypeRepo;
             _appointmentRepository = appointmentRepository;
             _medicalRecordRepository = medicalRecordRepository;
+            _primeSecurityService = primeSecurityService;
             _medapprepo = medapp;
             _havepresc = havepres;
             _drugrepo = drugrep; 
@@ -135,6 +138,5 @@ namespace PRIME_UCR.Application.Implementations.Appointments
         {
             return await _appointmentRepository.getLatestAppointmentByRecordId(id);
         }
-
     }
 }

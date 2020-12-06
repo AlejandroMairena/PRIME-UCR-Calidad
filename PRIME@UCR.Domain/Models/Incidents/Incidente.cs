@@ -11,6 +11,7 @@ namespace PRIME_UCR.Domain.Models
         public Incidente()
         {
             EstadoIncidentes = new List<EstadoIncidente>();
+            CambioIncidentes = new List<CambioIncidente>();
         }
 
         public string Codigo { get; set; }
@@ -27,6 +28,7 @@ namespace PRIME_UCR.Domain.Models
         public string CedulaAdmin { set; get; }
         public string CedulaTecnicoCoordinador { get; set; }
         public string CedulaRevisor { get; set; }
+        public List<CambioIncidente> CambioIncidentes { get; private set; }
 
         public bool IsCompleted()
         {

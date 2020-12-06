@@ -30,7 +30,7 @@ namespace PRIME_UCR.Application.Permissions.Appointments
             IMedicalRecordRepository medicalRecordRepository,
             IPrimeSecurityService _primeSecurityService)
         {
-            appointmentService = new AppointmentService(actionTypeRepo, appointmentRepository, medicalRecordRepository, null, null, null);
+            appointmentService = new AppointmentService(actionTypeRepo, appointmentRepository, medicalRecordRepository, null, null, null, null);
             primeSecurityService = _primeSecurityService;
 
         }

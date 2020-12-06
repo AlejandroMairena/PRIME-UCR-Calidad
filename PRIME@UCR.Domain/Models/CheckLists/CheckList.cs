@@ -17,6 +17,8 @@ namespace PRIME_UCR.Domain.Models.CheckLists
         public int? Orden { get; set; }
         public string ImagenDescriptiva { get; set; }
 
+        public bool Editable { get; set; }
+        public bool Activada { get; set; }
         // List of items in this checklist
         public List<Item> Items { get; set; }
         public TipoListaChequeo MyType { get; set; }
