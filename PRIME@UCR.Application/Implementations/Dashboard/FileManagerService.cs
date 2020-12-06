@@ -26,7 +26,7 @@ namespace PRIME_UCR.Application.Implementations.Dashboard
             _random = new Random();
         }
 
-        public async Task createFileAsync(List<Incidente> filteredIncidentsData, string userIdentifier)
+        public async Task createFileAsync(List<Incidente> filteredIncidentsData, string userIdentifier, string userName )
         {
             List<IncidentListModel> listaIncidentes = new List<IncidentListModel>();
             var differentiator = RandomString(10);
@@ -49,7 +49,7 @@ namespace PRIME_UCR.Application.Implementations.Dashboard
             {
                 Destination = userIdentifier,
                 Subject = "PRIME@UCR: Solicitud de lista de incidentes",
-                Body = $"<p>A continuación, se adjunta un archivo .csv con la lista de incidentes actualizada.</p>",
+                Body = $"<p>Estimado(a) {userName}, usted ha solicitado la generación un archivo .csv con la lista de incidentes en la aplicación PRIME@UCR.</p>",
                 AttachmentPath = path
             };
 
