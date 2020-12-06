@@ -50,9 +50,8 @@ namespace PRIME_UCR
             services.AddDbContext<ApplicationDbContext>(options =>
             {
                 options.LogTo(Console.WriteLine);
-                options.EnableSensitiveDataLogging();
-                options.UseSqlServer(Configuration.GetConnectionString("DevelopmentDbConnection"));
-                //options.UseSqlServer(Configuration.GetConnectionString("ProductionDbConnection"));
+                options.EnableSensitiveDataLogging(); // TODO: Remove for production
+                options.UseSqlServer(Configuration.GetConnectionString("DbConnection"));
             });
 
             var passwordResetProvider = "RecoveryPasswordProvider";
@@ -86,7 +85,7 @@ namespace PRIME_UCR
             services.AddStateManagement();
             services.AddFluxor(options =>
                 options.ScanAssemblies(typeof(Program).Assembly)
-                       .UseReduxDevTools()
+                       .UseReduxDevTools() // TODO: remove for production
             );
 
             // authentication
@@ -126,6 +125,7 @@ namespace PRIME_UCR
             }
             else
             {
+                app.UseDeveloperExceptionPage(); // TODO: remove for production
                 app.UseExceptionHandler("/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();

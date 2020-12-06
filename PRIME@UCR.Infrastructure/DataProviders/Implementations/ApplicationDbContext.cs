@@ -22,7 +22,7 @@ namespace PRIME_UCR.Infrastructure.DataProviders.Implementations
     {
         private readonly IConfiguration _configuration;
         public IDbConnection DbConnection { get; }
-        public string ConnectionString => _configuration.GetConnectionString("DevelopmentDbConnection");
+        public string ConnectionString => _configuration.GetConnectionString("DbConnection");
         
         public DbSet<CheckList> CheckList { get; set; }
         public DbSet<TipoListaChequeo> CheckListTypes { get; set; }
