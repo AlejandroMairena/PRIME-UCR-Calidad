@@ -82,9 +82,9 @@ namespace PRIME_UCR.Components.Dashboard.IncidentsGraph
             };
 
             var parameters = new ModalParameters();
-            parameters.Add(nameof(AppointmentsVsMedicalCenterComponent.Data), Data);
-            parameters.Add(nameof(AppointmentsVsMedicalCenterComponent.ZoomActive), true);
-            Modal.Show<AppointmentsVsMedicalCenterComponent>("Evolucion Metricas de Paciente", parameters, modalOptions);
+            parameters.Add(nameof(AppointmentsVsMedicalRecordWeightComponent.Data), Data);
+            parameters.Add(nameof(AppointmentsVsMedicalRecordWeightComponent.ZoomActive), true);
+            Modal.Show<AppointmentsVsMedicalRecordWeightComponent>("Evolucion Metricas de Paciente", parameters, modalOptions);
         }
     }
 }

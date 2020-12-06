@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace PRIME_UCR.Components.Dashboard.IncidentsGraph
 {
-    public partial class AppointmentsVsMedicalRecordHeightComponent
+    public partial class AppointmentsVsMedicalRecordPressureComponent
     {
         [Parameter] public DashboardDataModel Data { get; set; }
         [Parameter] public EventCallback<DashboardDataModel> DataChanged { get; set; }
@@ -64,14 +64,14 @@ namespace PRIME_UCR.Components.Dashboard.IncidentsGraph
                 foreach (var appointment in patientA)
                 {
                     tempResult.Add(appointment.Cita.FechaHoraEstimada.ToString().Substring(0, 10));
-                    tempResult.Add(appointment.Cita.Metricas.First().Altura);
+                    tempResult.Add(appointment.Cita.Metricas.First().Presion);
                 }
                 results.Add(new List<String>() { patientA.First().Cita.Expediente.CedulaPaciente });
                 results.Add(tempResult);
             }
 
 
-            await JS.InvokeVoidAsync("CreateAppointmentsVsMedicalRecordsHeightComponentJS", (object)results);
+            await JS.InvokeVoidAsync("CreateAppointmentsVsMedicalRecordsPressureComponentJS", (object)results);
         }
 
         void ShowModal()
@@ -82,9 +82,9 @@ namespace PRIME_UCR.Components.Dashboard.IncidentsGraph
             };
 
             var parameters = new ModalParameters();
-            parameters.Add(nameof(AppointmentsVsMedicalRecordHeightComponent.Data), Data);
-            parameters.Add(nameof(AppointmentsVsMedicalRecordHeightComponent.ZoomActive), true);
-            Modal.Show<AppointmentsVsMedicalRecordHeightComponent>("Evolucion Metricas de Paciente", parameters, modalOptions);
+            parameters.Add(nameof(AppointmentsVsMedicalRecordPressureComponent.Data), Data);
+            parameters.Add(nameof(AppointmentsVsMedicalRecordPressureComponent.ZoomActive), true);
+            Modal.Show<AppointmentsVsMedicalRecordPressureComponent>("Evolucion Metricas de Paciente", parameters, modalOptions);
         }
     }
 }
