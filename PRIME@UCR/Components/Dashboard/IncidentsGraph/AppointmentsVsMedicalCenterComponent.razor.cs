@@ -52,44 +52,39 @@ namespace PRIME_UCR.Components.Dashboard.IncidentsGraph
         private async Task GenerateAppointmentsVsMedicalCenterComponent()
         {
             //TODO: Use Cita Data to create this
-            //var incidentsData = Data.filteredIncidentsData;
+            var appointments = Data.filteredAppointmentsData;
 
-            //eventQuantity = incidentsData.Count();
-
+            appointmentsQuantity = appointments.Count();
             var medicalCenters = Data.medicalCenters;
 
-            /*var incidentsPerDestination = incidentsData.GroupBy(i => {
-                if (i.Destino != null)
+            var appointmentDestination = appointments.GroupBy(a => {
+                if (a.CedMedicoAsignado != null)
                 {
-                    var cu = i.Destino as CentroUbicacion;
-                    return cu.CentroMedicoId;
+                    return a.CentroMedicoId;
                 }
                 else
                 {
                     return 0;
                 }
-            });*/
+            });
 
-            appointmentsQuantity = 11;
             var results = new List<String>();
-            var appointments = new List<int>() {2,3,3,3,3 };
-            var i = 0;
-            foreach (var medicalCenter in medicalCenters)
+            foreach (var appointmentsItem in appointmentDestination)
             {
-                /*
-                var labelName = "No Asignado";
-                if (incidents.Key != 0)
+                if (appointmentsQuantity > 0)
                 {
-                    var medicalCenter = medicalCenters.Where((medCenter) => incidents.ToList().First().Destino is CentroUbicacion cu
-                                                                                        && cu.CentroMedicoId == medCenter.Id);
-                    if (medicalCenter.Any())
+                    var labelName = "No Asignado";
+
+
+                    var selectedMedicalCenter = medicalCenters.Where((medCenter) => appointmentsItem.ToList().First().CentroMedicoId == medCenter.Id);
+                    if (selectedMedicalCenter.Any())
                     {
-                        labelName = medicalCenter.First().Nombre;
+                        labelName = selectedMedicalCenter.First().Nombre;
                     }
-                }*/
-                results.Add(medicalCenter.Nombre);
-                results.Add(appointments[i].ToString());
-                i++;
+
+                    results.Add(labelName);
+                    results.Add(appointmentsItem.ToList().Count().ToString());
+                }
                 //results.Add(incidents.ToList().Count().ToString());
             }
 

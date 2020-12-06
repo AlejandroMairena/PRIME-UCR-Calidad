@@ -1,4 +1,5 @@
 ﻿using PRIME_UCR.Domain.Models;
+using PRIME_UCR.Domain.Models.Appointments;
 using PRIME_UCR.Domain.Models.Incidents;
 using PRIME_UCR.Domain.Models.UserAdministration;
 using System;
@@ -43,5 +44,9 @@ namespace PRIME_UCR.Application.DTOs.Dashboard
         public bool isReadyToShowGraphs { get; set; }
 
         public string userEmail { get; set;}
+
+        //Appointments
+        public List<CitaMedica> appointmentsData { get; set; }
+        public List<CitaMedica> filteredAppointmentsData { get; set; }
     }
 }

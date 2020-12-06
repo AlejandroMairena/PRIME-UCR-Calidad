@@ -77,6 +77,8 @@ namespace PRIME_UCR.Pages.Dashboard
             incidentsCounter.isReadyToShowCounters = true; // Always after loading all incidents counter data
             DashboardData.isReadyToShowGraphs = true;
             DashboardData.userEmail = (await authenticationState).User.Identity.Name;
+
+            //Appointments
         }
 
         private async Task UpdateFilteredIncidentsData()
@@ -88,9 +90,13 @@ namespace PRIME_UCR.Pages.Dashboard
             StateHasChanged();
         }
 
-        private void UpdateAppointmentFilteredIncidentsData()
+        private async Task UpdateAppointmentFilteredIncidentsData()
         {
-            /*Acá va la funcionalidad para refrescar los datos de los gráficos de citas.*/
+            DashboardData.isReadyToShowGraphs = false;
+            StateHasChanged();
+            DashboardData.filteredAppointmentsData = await DashboardService.GetFilteredMedicalAppointmentsAsync(AppointmentFilter, DashboardData.medicalCenters, DashboardData.patients);
+            DashboardData.isReadyToShowGraphs = true;
+            StateHasChanged();
         }
 
         private async Task ClearFilters()
@@ -128,12 +134,15 @@ namespace PRIME_UCR.Pages.Dashboard
             DashboardData.districts = (await DashboardService.GetAllDistrictsAsync());
             DashboardData.states = (await StateService.GetAllStates()).ToList();
             DashboardData.modalities = (await IncidentService.GetTransportModesAsync()).ToList();
-            DashboardData.patients = (await MedicalRecordService.GetPatients()).ToList();
             DashboardData.filteredIncidentsData = DashboardData.incidentsData;
 
             DashboardData.isReadyToShowFilters = true; // Always after loading all filters data
             DashboardData.userEmail = (await authenticationState).User.Identity.Name;
 
+            //Appointments
+            DashboardData.patients = (await MedicalRecordService.GetPatients()).ToList();
+            DashboardData.appointmentsData = (await DashboardService.GetAllMedicalAppointmentsAsync());
+            DashboardData.filteredAppointmentsData = DashboardData.appointmentsData;
         }
         private async Task CrearArchivoAsync()
         {
