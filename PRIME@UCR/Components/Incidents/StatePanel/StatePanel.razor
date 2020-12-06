@@ -14,7 +14,9 @@
 
     <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
         <div class="card-body">
-            <StateLog StatesLog="@StatesLog" />
+            <div class="table-responsive">
+                <StateLog StatesLog="@StatesLog" />
+            </div>
         </div>
     </div>
 </div>
@@ -80,7 +82,7 @@
             <div class="text-center">
                 @if (PendingTasks.Count > 0)
                 {
-                    <button disabled type="submit" class="btn btn-primary">Cambiar a estado @nextState</button>
+                    <button disabled type="submit" class="btn btn-disabled">Cambiar a estado @nextState</button>
                 }
                 else
                 {
@@ -96,7 +98,7 @@
                     <TextAreaInput Label="Retroalimentación incidente" @bind-Value="@_feedBackmodel.FeedBack" Rows="5"/>
                     @*<TextBox Label="Retroalimentación incidente" @bind-Value="@_feedBackmodel.FeedBack" />*@
                     <button class="btn btn-primary">Cambiar a estado Rechazado</button>
-                    <button class="btn btn-outline-secondary" @onclick="@showFeedbackInput">Cancelar</button>
+                    <button class="btn btn-secondaryOne" @onclick="@showFeedbackInput">Cancelar</button>
                 </div>
             </EditForm>
         }

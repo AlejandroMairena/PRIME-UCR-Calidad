@@ -6,7 +6,7 @@
 @attribute [HasPermission(AuthorizationPermissions.CanSeeIncidentsList)]
 
 <Loading IsLoading="@_isLoading">
-    <div class="jumbotron white-panel">
+    <div class="jumbotron white-panel pb-3 pt-3 px-4">
         <h1>Lista de Incidentes</h1>
         <Table TableItem="IncidentListModel" Items="incidentsList" PageSize="10" @ref="Table" ColumnReorder="true" ShowSearchBar="true" class="table table-bordered">
             <Column TableItem="IncidentListModel" Title="Fecha de registro" Field="@(x => x.FechaHoraRegistro)" Filterable="true" Sortable="true" Width="18%" />
@@ -61,3 +61,4 @@
 <MatThemeProvider Theme="@AddButtonTheme">
     <MatFAB Icon="@MatIconNames.Add" Class="app-fab--absolute" OnClick="@(_ => Redirect())" data-toggle="tooltip" title="Presione para agregar un nuevo incidente"></MatFAB>
 </MatThemeProvider>
+
