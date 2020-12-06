@@ -5,11 +5,14 @@
             <div style="width:100%"></div>
             @if (!ZoomActive)
             {
-        <button class="btn btn-light text-center mr-2"  @onclick="ShowModal">
-            
-            <span style="color:#095290;" class="oi oi-zoom-in text-right"></span>
-        </button>
-                
+                <button class="btn btn-light text-center mr-2" data-toggle="modal" data-target="#incidentList">
+
+                    <span style="color:#095290;" class="oi oi-list text-right"></span>
+                </button>
+                <button class="btn btn-light text-center mr-2" @onclick="ShowModal">
+
+                    <span style="color:#095290;" class="oi oi-zoom-in text-right"></span>
+                </button>
             }
 
         </div>

@@ -33,7 +33,7 @@ namespace PRIME_UCR.Application
             // services
             services.AddTransient<ICheckListService, SecureCheckListService>();
             services.AddTransient<IInstanceChecklistService, SecureInstanceChecklistService>();
-
+            services.AddTransient<IPdfService, PdfService>();
             // incidents
             services.AddTransient<IAssignmentService, SecureAssignmentService>();
             services.AddTransient<IIncidentService, SecureIncidentService>();
@@ -66,7 +66,7 @@ namespace PRIME_UCR.Application
 
             //Dashboard
             services.AddTransient<IDashboardService, SecureDashboardService>();
-
+            services.AddTransient<IFileManagerService, FileManagerService>();
             services.AddTransient<IMailService, MailService>();
             return services;
         }

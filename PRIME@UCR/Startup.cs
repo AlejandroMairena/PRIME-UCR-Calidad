@@ -25,7 +25,6 @@ using Microsoft.AspNetCore.DataProtection;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Logging;
 using PRIME_UCR.Application.TokenProviders;
-
 using Blazored.Modal;
 
 namespace PRIME_UCR

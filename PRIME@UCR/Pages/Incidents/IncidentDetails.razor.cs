@@ -33,7 +33,6 @@ namespace PRIME_UCR.Pages.Incidents
         private string _statusMessage = "";
         private string _statusClass = "";
         public Action ClearStatusMessageCallback { get; set; }
-        public Action<DetailsTab> ChangeActiveTabCallback { get; set; }
 
         private void FillTabStates()
         {
@@ -100,7 +99,6 @@ namespace PRIME_UCR.Pages.Incidents
         protected override void OnInitialized()
         {
             ClearStatusMessageCallback = ClearStatusMessage;
-            ChangeActiveTabCallback = ChangeActiveTab;
             _activeTab = String.IsNullOrWhiteSpace(StartingTab)
                 ? DefaultTab
                 : GetTabByName(StartingTab);
@@ -134,15 +132,20 @@ namespace PRIME_UCR.Pages.Incidents
             FillTabStates();
         }
 
-        private void ClearStatusMessage()
+        public void ClearStatusMessage()
         {
             _statusMessage = "";
             StateHasChanged();
         }
 
-        private void ChangeActiveTab(DetailsTab newTab)
+        public void ChangeActiveTab(DetailsTab newTab)
         {
             _activeTab = newTab;
+            StateHasChanged();
+        }
+
+        public void refresh() 
+        {
             StateHasChanged();
         }
 

@@ -10,5 +10,6 @@ namespace PRIME_UCR.Application.Repositories.CheckLists
     {
         Task<IEnumerable<CheckList>> GetByName(string name);
         Task<CheckList> InsertCheckListAsync(CheckList list);
+        Task<IEnumerable<CheckList>> GetActivated();
     }
 }

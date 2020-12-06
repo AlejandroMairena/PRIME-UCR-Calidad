@@ -17,8 +17,10 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
     public partial class Assignment
     {
         [Parameter] public IncidentDetailsModel Incident { get; set; }
+        [Parameter] public EventCallback<AssignmentModel> OnSave { get; set; }
         [Inject] public IAssignmentService AssignmentService { get; set; }
         [Inject] private IIncidentService IncidentService { get; set; }
+
 
         private IEnumerable<string> Specialists
         {
@@ -50,10 +52,12 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
         private string CordinName;
         private string SpecialistsNames;
 
+
         private async Task Save()
         {
             _isLoading = true;
             StateHasChanged();
+            await OnSave.InvokeAsync(_model);
             await AssignmentService.AssignToIncidentAsync(Incident.Code, _model);
             _statusMessage = "Se guardaron los cambios exitosamente.";
             _context = new EditContext(_model);
@@ -86,6 +90,7 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
             }
         }
 
+
         private async Task LoadExistingValues()
         {
             Summary.LoadValues(Incident);
@@ -106,8 +111,7 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
 
             _specialists =
                 (await AssignmentService.GetSpecialistsAsync())
-                .ToList();
-            
+                .ToList();          
             CheckReadOnly();
             _statusMessage = "";
             _isLoading = false;

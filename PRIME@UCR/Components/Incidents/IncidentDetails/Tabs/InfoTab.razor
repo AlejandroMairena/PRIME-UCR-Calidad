@@ -5,15 +5,18 @@
 
 <h3> Información general del incidente</h3>
 <br />
+<Loading IsLoading="@_isLoading">
 @if (DetailsModel.CurrentState == IncidentStates.Approved.Nombre)
 {
 <StatusMessage Message="@($"Aprobado por {DetailsModel.Reviewer.NombreCompleto}")" Class="primary" />
  }
 else if (DetailsModel.CurrentState == IncidentStates.Rejected.Nombre)
-{
-<StatusMessage Message="@($"Rechazado por {DetailsModel.Reviewer.NombreCompleto}")" Class="danger" />
-}
-<Loading IsLoading="@_isLoading">
+    {        
+        <AlertRowMessage Class="danger">
+            <AlertRowTemplate Header="Rechazado por" Message="@DetailsModel.Reviewer.NombreCompleto" />
+            <AlertRowTemplate Header="Razón de rechazo" Message="@DetailsModel.FeedBack.RazonDeRechazo" />
+        </AlertRowMessage>
+    }
     <ul class="list-group">
         <ListItem Title="Identificador" Text="@DetailsModel.Code" />
         <ListItem Title="Estado" Text="@DetailsModel.CurrentState" />
@@ -29,7 +32,7 @@ else if (DetailsModel.CurrentState == IncidentStates.Rejected.Nombre)
     <br />
     <PermissionAuthorizeView Permission="@AuthorizationPermissions.CanReviewIncidents" ShowDeniedPermissionMessage=false>
         <div class="container">
-            <StatePanel Incident="@DetailsModel" OnSave="@OnSave" CurrentUser="@_currentUser" />
+            <StatePanel Incident="@DetailsModel" OnSave="@OnSave" CurrentUser="@CurrentUser"/>
         </div>
     </PermissionAuthorizeView>
 </Loading>

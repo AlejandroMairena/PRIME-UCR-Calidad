@@ -5,6 +5,8 @@
 	[Descripcion]	NVARCHAR (500)		NULL,
 	[Orden]			INT					NOT NULL,
 	[ImagenDescriptiva]	NVARCHAR (MAX)		DEFAULT '/images/defaultCheckList.svg',
+	[Editable] BIT NULL DEFAULT 1, 
+    [Activada] BIT NULL DEFAULT 1,
 	PRIMARY KEY CLUSTERED ([Id] ASC),
 	FOREIGN KEY(Tipo)
 		REFERENCES TipoListaChequeo(Nombre)

@@ -1,5 +1,6 @@
 ﻿using PRIME_UCR.Domain.Models;
 using PRIME_UCR.Domain.Models.Incidents;
+using PRIME_UCR.Domain.Models.UserAdministration;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -16,6 +17,7 @@ namespace PRIME_UCR.Application.DTOs.Dashboard
             states = new List<Estado>();
             districts = new List<Distrito>();
             filteredIncidentsData = new List<Incidente>();
+            patients = new List<Paciente>();
             isReadyToShowFilters = false;
             isReadyToShowGraphs = false;
         }
@@ -34,8 +36,12 @@ namespace PRIME_UCR.Application.DTOs.Dashboard
 
         public List<Incidente> filteredIncidentsData { get; set; }
 
+        public List<Paciente> patients { get; set; }
+
         public bool isReadyToShowFilters { get; set; }
 
         public bool isReadyToShowGraphs { get; set; }
+
+        public string userEmail { get; set;}
     }
 }
