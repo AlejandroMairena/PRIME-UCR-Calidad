@@ -73,6 +73,9 @@ namespace PRIME_UCR.Pages.Dashboard
 
         string userMail;
 
+        bool isBusy = false;
+
+
         protected override async Task OnInitializedAsync()
         {
             await InitializeDashboardData();
@@ -144,8 +147,9 @@ namespace PRIME_UCR.Pages.Dashboard
         }
         private async Task CrearArchivoAsync()
         {
+            isBusy = true;
             await FileManagerService.createFileAsync(DashboardData.filteredIncidentsData, userMail, userName);
-
+            isBusy = false;
         }
 
 
