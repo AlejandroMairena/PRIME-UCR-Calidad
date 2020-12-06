@@ -105,6 +105,9 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Incidents
                 var sql =
                     // Incidente
                     @"
+                        set implicit_transactions off;
+	                    set transaction isolation level read committed;
+	                    begin transaction t1;
                         select *
                         from Incidente I
                         Order by I.Codigo Desc;
@@ -128,6 +131,7 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Incidents
                         from Incidente
                         join EstadoIncidente EI on Incidente.Codigo = EI.CodigoIncidente
                         where EI.Activo = 1;
+                        commit transaction t1;
                     ";
 
                 using (var result = await connection.ExecuteQueryMultipleAsync(sql))
@@ -301,9 +305,13 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Incidents
             using (var connection = new SqlConnection(_db.ConnectionString))
             {
                 var authorizedCodes = await connection.ExecuteQueryAsync<string>(@"
+                set implicit_transactions off;
+	            set transaction isolation level read committed;
+	            begin transaction t1;
                 select i.Codigo from Incidente i
                 join Centro_Ubicacion c on i.IdOrigen = c.Id
                 where c.CédulaMédico = @Id
+                commit transaction t1;
                 ", new { Id = id });
                 return authorizedCodes;
             }
@@ -320,9 +328,13 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Incidents
             using (var connection = new SqlConnection(_db.ConnectionString))
             {
                 var authorizedCodes = await connection.ExecuteQueryAsync<string>(@"
+                set implicit_transactions off;
+	            set transaction isolation level read committed;
+	            begin transaction t1;
                 select i.Codigo from Incidente i
                 join Centro_Ubicacion c on i.IdDestino = c.Id
                 where c.CédulaMédico = @Id
+                commit transaction t1;
                 ", new { Id = id });
                 return authorizedCodes;
             }
@@ -338,13 +350,19 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Incidents
         public async Task<IEnumerable<string>> GetAuthorizedCodesForSpecialist(string id)
         {
             using (var connection = new SqlConnection(_db.ConnectionString)) 
-            { 
+            {
+                
                 var authorizedCodes = await connection.ExecuteQueryAsync<string>(@"
+                    set implicit_transactions off;
+	                set transaction isolation level read committed;
+	                begin transaction t1;
                     select i.Codigo from Incidente i
                     join AsignadoA a on a.Codigo = i.Codigo
                     where a.CedulaEspecialista = @Id
+                    commit transaction t1;
                     ", new { Id = id });
                 return authorizedCodes;
+                
             } 
         }
 
