@@ -17,7 +17,7 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
         [Inject] public IPersonService PersonService { get; set; }
         [Inject] public IIncidentService IncidentService { get; set; }
         [Inject] public IUserService UserService { get; set; }
-        
+
         private Persona _creator;
         private Persona _currentUser;
         private bool _isLoading = true;
@@ -30,6 +30,6 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
             _creator = await PersonService.GetPersonByIdAsync(DetailsModel.AdminId);
             _isLoading = false;
         }
-        
+
     }
 }

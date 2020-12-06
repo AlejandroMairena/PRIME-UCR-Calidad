@@ -27,6 +27,7 @@ using Microsoft.Extensions.Logging;
 using PRIME_UCR.Application.TokenProviders;
 
 using Blazored.Modal;
+using Fluxor;
 
 namespace PRIME_UCR
 {
@@ -83,6 +84,10 @@ namespace PRIME_UCR
             services.AddInfrastructureLayer();
             services.AddValidators();
             services.AddStateManagement();
+            services.AddFluxor(options =>
+                options.ScanAssemblies(typeof(Program).Assembly)
+                       .UseReduxDevTools()
+            );
 
             // authentication
             services.AddTransient<IPrimeSecurityService, PrimeSecurityService>();
