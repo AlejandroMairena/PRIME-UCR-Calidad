@@ -41,7 +41,7 @@
                     }
                 </Template>
             </Column>
-            <Column TableItem="IncidentListModel" Title="Informe" Field="@(x => x.Destino)"  Width="8%">
+            <Column TableItem="IncidentListModel" Title="Reporte" Field="@(x => x.Destino)"  Width="8%">
                 <Template>
                     <PdfComponent IncidentCode="@context.Codigo" IncidentState="@context.Estado" ChangeLoading="@IsLoading"></PdfComponent>
                 </Template>
