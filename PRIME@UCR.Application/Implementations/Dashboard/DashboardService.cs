@@ -193,7 +193,7 @@ namespace PRIME_UCR.Application.Implementations.Dashboard
             var filteredList = await GetAllMedicalAppointmentsAsync();
 
             //MedicalCenter
-            if (Value.Hospital != null)
+            if (Value.Hospital != null && Value.Hospital.Count() > 0)
             {
                 var tempFilteredList = new List<CitaMedica>();
                 foreach(var medicalCenter in Value.Hospital)
@@ -205,7 +205,16 @@ namespace PRIME_UCR.Application.Implementations.Dashboard
             }
 
             //Patients
-            if()
+            if(Value.PatientModel != null)
+            {
+                var tempFilteredList = new List<CitaMedica>();
+                foreach (var patient in Value.PatientModel)
+                {
+                    var temp = filteredList.Where((citaMedica) => patient.CedPaciente == "").ToList();
+                    tempFilteredList.AddRange(temp);
+                }
+                //filteredList = tempFilteredList;
+            }
 
             return filteredList;
         }
