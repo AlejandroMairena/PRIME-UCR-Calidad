@@ -20,6 +20,7 @@
   <ItemGroup>
     <PackageReference Include="Blazored.LocalStorage" Version="3.0.0" />
     <PackageReference Include="Blazored.SessionStorage" Version="1.0.12" />
+    <PackageReference Include="CsvHelper" Version="12.2.1" />
     <PackageReference Include="MailKit" Version="2.9.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="5.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
@@ -35,6 +36,7 @@
 
   <ItemGroup>
     <Folder Include="Implementations\Appointments\" />
+    <Folder Include="FilesToSend\" />
   </ItemGroup>
 
 </Project>

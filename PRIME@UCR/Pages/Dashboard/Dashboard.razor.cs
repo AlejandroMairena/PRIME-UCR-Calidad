@@ -1,15 +1,21 @@
 ﻿using Blazored.Modal;
 using Blazored.Modal.Services;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.Http;
 using PRIME_UCR.Application.DTOs.Dashboard;
+using PRIME_UCR.Application.DTOs.UserAdministration;
 using PRIME_UCR.Application.Services.Dashboard;
 using PRIME_UCR.Application.Services.Incidents;
+using PRIME_UCR.Application.Services.UserAdministration;
 using PRIME_UCR.Application.Services.MedicalRecords;
 using PRIME_UCR.Components.Dashboard.IncidentsGraph;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using PRIME_UCR.Application.Implementations.Dashboard;
 
 namespace PRIME_UCR.Pages.Dashboard
 {
@@ -29,6 +35,7 @@ namespace PRIME_UCR.Pages.Dashboard
 
         public string _selectedFilter;
         public EventCallback<string> _selectedFilterChanged;
+        private object userModel;
 
         public bool AreIncidentsGraphSelected = true;
 
@@ -48,13 +55,20 @@ namespace PRIME_UCR.Pages.Dashboard
         [Inject]
         public IStateService StateService { get; set; }
 
+        [Inject]
+        public IMailService mailService { get; set; }
+
+        [Inject]
+        public IFileManagerService FileManagerService { get; set; }
+        [CascadingParameter]
+        private Task<AuthenticationState> authenticationState { get; set; }
         //FILTER COMPONENT
         [Parameter] public EventCallback OnDiscard { get; set; }
+        
 
         protected override async Task OnInitializedAsync()
         {
             await InitializeDashboardData();
-
             incidentsCounter.totalIncidentsCounter = await DashboardService.GetIncidentCounterAsync(String.Empty, "Día");
             incidentsCounter.maritimeIncidents = await DashboardService.GetIncidentCounterAsync("Marítimo", "Día");
             incidentsCounter.airIncidentsCounter = await DashboardService.GetIncidentCounterAsync("Aéreo", "Día");
@@ -62,6 +76,7 @@ namespace PRIME_UCR.Pages.Dashboard
             
             incidentsCounter.isReadyToShowCounters = true; // Always after loading all incidents counter data
             DashboardData.isReadyToShowGraphs = true;
+            DashboardData.userEmail = (await authenticationState).User.Identity.Name;
         }
 
         private async Task UpdateFilteredIncidentsData()
@@ -117,7 +132,15 @@ namespace PRIME_UCR.Pages.Dashboard
             DashboardData.filteredIncidentsData = DashboardData.incidentsData;
 
             DashboardData.isReadyToShowFilters = true; // Always after loading all filters data
+            DashboardData.userEmail = (await authenticationState).User.Identity.Name;
+
         }
+        private async Task CrearArchivoAsync()
+        {
+            await FileManagerService.createFileAsync(DashboardData.filteredIncidentsData, DashboardData.userEmail);
+
+        }
+
 
     }
 }
