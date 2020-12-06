@@ -68,10 +68,27 @@ namespace PRIME_UCR.Infrastructure.DataProviders.Implementations
         public DbSet<Antecedentes> MedicalBackground { get; set; }
         public DbSet<ListaAntecedentes> MedicalBackgroundList { get; set; }
 
+        public DbSet<CitaMedica> MedicalAppointment { get; set; }
+
+        public DbSet<PoseeReceta> HavePrescription { get; set; }
+
+        public DbSet<RecetaMedica> Prescription { get; set; }
+
         public DbSet<Alergias> Alergies { get; set; }
         public DbSet<ListaAlergia> ListAlergies { get; set; }
         public DbSet<PadecimientosCronicos> ChronicCondition { get; set; }
         public DbSet<ListaPadecimiento> ListChronicCondition { get; set; }
+
+        public DbSet<EstadoCitaMedica> MedicalAppointmentStatus { get; set; }
+
+        public DbSet<MetricasCitaMedica> MedAppMetrics { get; set; }
+
+        public DbSet<EspecialidadMedica> MedicalSpecialty { get; set; }
+
+        public DbSet<SeEspecializa> Specializes { get; set; }
+
+        public DbSet<ReferenciaCita> AppointmentReference { get; set; }
+
         public ApplicationDbContext(DbContextOptions options, IConfiguration configuration) : base(options)
         {
             DbConnection = Database.GetDbConnection();
@@ -124,8 +141,6 @@ namespace PRIME_UCR.Infrastructure.DataProviders.Implementations
             builder.ApplyConfiguration(new CitaMap());
             builder.ApplyConfiguration(new AccionMap());
             builder.ApplyConfiguration(new TipoAccionMap());
-            builder.ApplyConfiguration(new MetricasMap());
-            builder.ApplyConfiguration(new MetricasIncidenteMap());
             builder.ApplyConfiguration(new MetricasCitaMedicaMap());
             builder.ApplyConfiguration(new AntecedenteMap());
             builder.ApplyConfiguration(new ListaAntecedenteMap());
@@ -133,6 +148,13 @@ namespace PRIME_UCR.Infrastructure.DataProviders.Implementations
             builder.ApplyConfiguration(new ListaAlergiaMap());
             builder.ApplyConfiguration(new PadecimientoCronicoMap());
             builder.ApplyConfiguration(new ListaPadecimientosMap());
+            builder.ApplyConfiguration(new CitaMedicaMap());
+            builder.ApplyConfiguration(new RecetaMedicaMap());
+            builder.ApplyConfiguration(new PoseeRecetaMap());
+            builder.ApplyConfiguration(new EstadoCitaMedicaMap());
+            builder.ApplyConfiguration(new EspecialidadMedicaMap()); ;
+            builder.ApplyConfiguration(new SeEspecializaMap());
+            builder.ApplyConfiguration(new ReferenciaCitaMap());
         }
 
         public Task<int> SaveChangesAsync()
