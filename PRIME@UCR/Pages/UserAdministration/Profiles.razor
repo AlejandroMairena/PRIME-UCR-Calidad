@@ -22,25 +22,24 @@
 
 @if (!String.IsNullOrEmpty(profile.ProfileName))
 {
-<div class="container-fluid">
-    <div class="row">
-        <Loading IsLoading="profile.ProfileName == null">
-            <div class="col-6">
-                <div class="rounded" style="background-color: white;padding-left: 10px;padding-right: 10px;">
-                    <br />
-                    <h5>Usuarios</h5>
-                    <UsersComponent @bind-Value="profile" />
-                    <br />
-                </div>
+<div class="row">
+    <Loading IsLoading="profile.ProfileName == null">
+        <div class="col-6">
+            <div class="rounded" style="background-color: white;padding-left: 10px;padding-right: 10px;">
+                <br />
+                <h5>Usuarios</h5>
+                <UsersComponent @bind-Value="profile" />
+                <br />
             </div>
-            <div class="col-6">
-                <div class="col-md rounded" style="background-color:white;padding-left: 10px;padding-right: 10px;">
-                    <br />
-                    <h5>Permisos</h5>
-                    <PermissionsComponent @bind-Value="profile" />
-                </div>
+        </div>
+        <div class="col-6">
+            <div class="col-md rounded" style="background-color:white;padding-left: 10px;padding-right: 10px;">
+                <br />
+                <h5>Permisos</h5>
+                <PermissionsComponent @bind-Value="profile" />
             </div>
-            <div class="row w-100"></div>
-        </Loading>
-    </div>
-</div>}
+        </div>
+        <div class="row w-100"></div>
+    </Loading>
+</div>
+}
