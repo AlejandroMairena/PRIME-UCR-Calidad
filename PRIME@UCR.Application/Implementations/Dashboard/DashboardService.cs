@@ -210,7 +210,7 @@ namespace PRIME_UCR.Application.Implementations.Dashboard
                 var tempFilteredList = new List<CitaMedica>();
                 foreach (var patient in Value.PatientModel)
                 {
-                    var temp = filteredList.Where((citaMedica) => patient.CedPaciente == citaMedica.Cita.Expediente.CedulaPaciente).ToList();
+                    var temp = filteredList.Where((citaMedica) => patient.Patient.Cédula == citaMedica.Cita.Expediente.CedulaPaciente).ToList();
                     tempFilteredList.AddRange(temp);
                 }
                 filteredList = tempFilteredList;
