@@ -10,6 +10,7 @@ using System.Linq;
 using PRIME_UCR.Domain.Models.CheckLists;
 using Radzen;
 using System;
+using System.Threading;
 
 namespace PRIME_UCR.Components.CheckLists.InIncident
 {
@@ -82,7 +83,7 @@ namespace PRIME_UCR.Components.CheckLists.InIncident
 
         public void CancelAsignment() {
             Dispose();
-            NavManager.NavigateTo($"/incidents/{incidentCod}/Checklist");
+            NavManager.NavigateTo($"/incidents/{incidentCod}");
         }
 
         protected void CheckIempList(int idd, CheckList list, ChangeEventArgs e)
@@ -232,7 +233,7 @@ namespace PRIME_UCR.Components.CheckLists.InIncident
             await AddAsign();
             //afterUrl = "/incidents/" + "1";// instanceCL.InstanciadoId;
             //NavManager.NavigateTo(afterUrl); // to do: go to checklist panel
-            NavManager.NavigateTo($"/incidents/{incidentCod}/Checklist");
+            NavManager.NavigateTo($"/incidents/{incidentCod}");
         }
     }
 }
