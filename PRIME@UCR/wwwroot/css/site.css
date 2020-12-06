@@ -59,6 +59,10 @@ a, .btn-link {
     z-index: 2;
     position: relative;
 }
+    .btn-disabled:hover {
+        background: #676766;
+        color: white;
+    }
 
 
 app {
