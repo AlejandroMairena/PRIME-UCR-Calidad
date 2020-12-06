@@ -136,13 +136,12 @@ namespace PRIME_UCR.Pages.Dashboard
             DashboardData.modalities = (await IncidentService.GetTransportModesAsync()).ToList();
             DashboardData.filteredIncidentsData = DashboardData.incidentsData;
 
-            DashboardData.isReadyToShowFilters = true; // Always after loading all filters data
             DashboardData.userEmail = (await authenticationState).User.Identity.Name;
-
             //Appointments
             DashboardData.patients = (await MedicalRecordService.GetPatients()).ToList();
             DashboardData.appointmentsData = (await DashboardService.GetAllMedicalAppointmentsAsync());
             DashboardData.filteredAppointmentsData = DashboardData.appointmentsData;
+            DashboardData.isReadyToShowFilters = true; // Always after loading all filters data
         }
         private async Task CrearArchivoAsync()
         {

@@ -213,30 +213,32 @@
 
                 <br/>
 
+                <Loading IsLoading="!DashboardData.isReadyToShowGraphs">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-12">
+                            <AppointmentsVsMedicalCenterComponent @bind-Data="DashboardData" />
+                        </div>
+                        <div class="col-lg-6 col-md-12">
+                            <AppointmentsVsPatientComponent @bind-Data="DashboardData" />
+                        </div>
+                    </div>
 
-        <div class="row">
-            <div class="col-lg-6 col-md-12">
-                <AppointmentsVsMedicalCenterComponent @bind-Data="DashboardData"/>
-            </div>
-            <div class="col-lg-6 col-md-12">
-                <AppointmentsVsPatientComponent @bind-Data="DashboardData" />
-            </div>
-        </div>
+                    @*Patient Evolution*@
+                    <br />
+                    <div class="rounded p-2" style="background-color:white;">
+                        <h2>Evolucion Metricas por Paciente</h2>
+                        <div class="row ">
+                            <div class="col-lg-4 col-md-12">
+                                <AppointmentsVsMedicalRecordWeightComponent @bind-Data="DashboardData" />
+                            </div>
+                            <div class="col-lg-4 col-md-12">
+                            </div>
+                            <div class="col-lg-4 col-md-12">
+                            </div>
+                        </div>
+                    </div>
 
-        @*Patient Evolution*@
-        <br />
-        <div class="rounded p-2" style="background-color:white;">
-            <h2>Evolucion Metricas por Paciente</h2>
-            <div class="row ">
-                <div class="col-lg-4 col-md-12">
-                    <AppointmentsVsMedicalRecordWeightComponent @bind-Data="DashboardData" />
-                </div>
-                <div class="col-lg-4 col-md-12">
-                </div>
-                <div class="col-lg-4 col-md-12">
-                </div>
-            </div>
-        </div>
+                </Loading>
             }
 
             <br />
