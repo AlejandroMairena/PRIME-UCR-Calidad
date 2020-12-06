@@ -52,46 +52,26 @@ namespace PRIME_UCR.Components.Dashboard.IncidentsGraph
          */
         private async Task GenerateCreateAppointmentVsPatientComponent()
         {
-            //TODO: Use Cita Data to create this
-            //var incidentsData = Data.filteredIncidentsData;
 
-            //eventQuantity = incidentsData.Count();
+            var appointmentList = Data.filteredAppointmentsData;
 
-            var medicalCenters = Data.medicalCenters;
+            var appointmentsPerPatient = appointmentList.GroupBy(a => a.Cita.Expediente.CedulaPaciente);
 
-            /*var incidentsPerDestination = incidentsData.GroupBy(i => {
-                if (i.Destino != null)
-                {
-                    var cu = i.Destino as CentroUbicacion;
-                    return cu.CentroMedicoId;
-                }
-                else
-                {
-                    return 0;
-                }
-            });*/
-
-            patientQuantity = 29;
+            patientQuantity = appointmentsPerPatient.Count();
             var results = new List<String>();
-            var appointments = new List<int>() { 2, 3, 3, 3, 3 };
-            var i = 0;
-            foreach (var medicalCenter in medicalCenters)
+            foreach (var patientA in appointmentsPerPatient)
             {
-                /*
+                
                 var labelName = "No Asignado";
-                if (incidents.Key != 0)
+                if (patientA != null)
                 {
-                    var medicalCenter = medicalCenters.Where((medCenter) => incidents.ToList().First().Destino is CentroUbicacion cu
-                                                                                        && cu.CentroMedicoId == medCenter.Id);
-                    if (medicalCenter.Any())
+                    if (patientA.Any())
                     {
-                        labelName = medicalCenter.First().Nombre;
+                        labelName = patientA.First().Cita.Expediente.CedulaPaciente;
                     }
-                }*/
-                results.Add(medicalCenter.Nombre);
-                results.Add(appointments[i].ToString());
-                i++;
-                //results.Add(incidents.ToList().Count().ToString());
+                }
+                results.Add(labelName);
+                results.Add(patientA.Count().ToString());
             }
 
             await JS.InvokeVoidAsync("CreateAppointmentVsPatientComponentJS", (object)results);

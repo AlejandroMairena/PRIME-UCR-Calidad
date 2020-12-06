@@ -18,8 +18,8 @@ function CreateAppointmentVsPatientComponentJS(results) {
 
 
             chartData.push({
-                "destination": destination,
-                "quantity": quantity
+                "category": destination,
+                "value": quantity
             });
         }
 
@@ -34,46 +34,7 @@ function CreateAppointmentVsPatientComponentJS(results) {
 
         var chart = am4core.create("AppointmentVsPatientComponent", am4charts.XYChart);
 
-        var data = [];
-        var value = 12;
-
-        var names = ["Raina",
-            "Demarcus",
-            "Carlo",
-            "Jacinda",
-            "Richie",
-            "Antony",
-            "Amada",
-            "Idalia",
-            "Janella",
-            "Marla",
-            "Curtis",
-            "Shellie",
-            "Meggan",
-            "Nathanael",
-            "Jannette",
-            "Tyrell",
-            "Sheena",
-            "Maranda",
-            "Briana",
-            "Rosa",
-            "Rosanne",
-            "Herman",
-            "Wayne",
-            "Shamika",
-            "Suk",
-            "Clair",
-            "Olivia",
-            "Hans",
-            "Glennie",
-        ];
-
-        for (var i = 0; i < names.length; i++) {
-            value = Math.round(Math.random() * 12);
-            data.push({ category: names[i], value: value });
-        }
-
-        chart.data = data;
+        chart.data = chartData;
         var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
         categoryAxis.renderer.grid.template.location = 0;
         categoryAxis.dataFields.category = "category";
