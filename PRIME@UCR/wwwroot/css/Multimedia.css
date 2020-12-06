@@ -268,10 +268,10 @@ button.btn.btn-danger.m-btn.m-btn-rm {
 
 .rt-box {
     margin: auto;
-    /*width: 512px;*/
-    width: 250px;
-    /*height: 384px;*/
-    height: 188px;
+    width: 555px; /* 512 */
+    /*width: 250px;*/
+    height: 416px;
+    /*height: 188px;*/
     border: 2px solid #cfcfcf;
     background-color: black;
 }
@@ -282,8 +282,8 @@ button.btn.btn-danger.m-btn.m-btn-rm {
 }
 
 .rt-button {
-    width: 100px;
-    height: 80px;
+    width: 160px;
+    /*height: 50px;*/
     margin-left: auto;
     margin-right: auto;
     display:block;
