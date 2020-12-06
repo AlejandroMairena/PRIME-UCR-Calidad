@@ -24,10 +24,20 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
         private bool _isLoading = true;
         // Info for Incident summary that is shown at top of the page
         public IncidentSummary Summary = new IncidentSummary();
+        private bool ReadOnly;
+
+        private void CheckReadOnly()
+        {
+            if (Incident.CurrentState == "Finalizado")
+            {
+                ReadOnly = true;
+            }
+        }
 
         protected override async Task OnInitializedAsync()
         {
             Summary.LoadValues(Incident);
+            CheckReadOnly();
             _actionTypes =
                 (await AppointmentService.GetActionTypesAsync())
                 .ToList();

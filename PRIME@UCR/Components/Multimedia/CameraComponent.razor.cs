@@ -11,21 +11,35 @@ namespace PRIME_UCR.Components.Multimedia
 
     public partial class CameraComponent
     {
+        // Reference to Multimedia Modal Parent
         [Parameter]
         public MultimediaModal MultimediaModal { get; set; }
 
+        // Element References
         ElementReference videoElement;
         ElementReference canvasElement;
         ElementReference imageElement;
         ElementReference downloadLinkRef;
+
+        // State Variables
         bool cameraOpen = false;
         bool cameraClose => !cameraOpen;
         bool photoTaken = false;
         bool photoNotTaken => !photoTaken;
+        // Class Variables
+        string videoClass => !photoTaken ? "rt-box" : "hidden";
+        string canvasClass => photoTaken ? "rt-box" : "hidden";
+        string tpButtonClass => !photoTaken ? "btn btn-primary rt-button" : "hidden"; // Take Photograph Button Class
+        string cancelButtonClass => photoTaken ? "btn btn-danger rt-button" : "hidden";
+        // Valid file name Indicator
+        bool validTitle = false;
+        bool notValidSave =>  photoNotTaken || !validTitle;
 
         protected override void OnInitialized()
         {
-            MultimediaModal.OnModalClosed += CloseComponent;
+            // add CloseComponent method to OnModalClosed event
+            if (MultimediaModal != null)
+                MultimediaModal.OnModalClosed += CloseComponent;
         }
 
         // Open Close Camera Button Code
@@ -49,7 +63,6 @@ namespace PRIME_UCR.Components.Multimedia
             return !cameraOpen ? "Abrir Cámara" : "Cerrar Cámara";
         }
 
-
         async Task TakePhotograph()
         {
             await JS.InvokeAsync<string>("takePhotograph", canvasElement, videoElement, imageElement, downloadLinkRef);
@@ -63,7 +76,14 @@ namespace PRIME_UCR.Components.Multimedia
         async Task CloseComponent()
         {
             await CloseCamera();
-            MultimediaModal.OnModalClosed -= CloseComponent;
+            if (MultimediaModal != null)
+                MultimediaModal.OnModalClosed -= CloseComponent;
         }
+
+        void OnTitleChanged(Tuple<bool, string> tuple)
+        {
+            validTitle = !tuple.Item1;
+        }
+
     }
 }

@@ -9,6 +9,7 @@ using System.IO;
 using BlazorInputFile;
 using PRIME_UCR.Domain.Models.CheckLists;
 using System.Collections.Generic;
+using System;
 
 namespace PRIME_UCR.Components.CheckLists
 {
@@ -45,6 +46,7 @@ namespace PRIME_UCR.Components.CheckLists
 
         protected string lastFile = "";
         protected string dropClass = "";
+        protected string[] acceptedTypes = { "image/png", "image/gif", "image/jpeg", "image/jpg", "image/svg" };
 
         /**
         * Sets the class of the dropdown zone to upload an image
@@ -85,13 +87,16 @@ namespace PRIME_UCR.Components.CheckLists
         {
             dropClass = "";
             IFileListEntry file = files.FirstOrDefault();
+
+            if (!acceptedTypes.Contains(file.Type)) return;
+
             string filePath = "/images/" + file.Name;
             // Update the name of the uploaded image
             lastFile = file.Name;
 
             // stores the file (without encrypting it) in the /wwwroot/images directory)
             await file_service.StoreFile(file.Name, file.Data);
-            
+
             if (list != null)
             {
                 // Saves the name of the file into the correconding checklist entry
@@ -101,7 +106,8 @@ namespace PRIME_UCR.Components.CheckLists
                 {
                     await checklist_service.UpdateCheckList(list);
                 }
-            } else if (item != null)
+            }
+            else if (item != null)
             {
                 // Saves the name of the file into the correconding item entry
                 item.ImagenDescriptiva = filePath;

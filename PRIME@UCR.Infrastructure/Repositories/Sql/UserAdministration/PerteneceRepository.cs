@@ -16,23 +16,17 @@ using System.Threading.Tasks;
 
 namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
 {
-    public partial class PerteneceRepository : IPerteneceRepository
+    internal class PerteneceRepository : IPerteneceRepository
     {
-        private readonly IPrimeSecurityService _primeSecurityService;
-
         private readonly ISqlDataProvider _db;
 
-        public PerteneceRepository(ISqlDataProvider dataProvider,
-            IPrimeSecurityService primeSecurityService)
+        public PerteneceRepository(ISqlDataProvider dataProvider)
         {
             _db = dataProvider;
-            _primeSecurityService = primeSecurityService;
-
         }
 
         public async Task DeleteUserFromProfileAsync(string idUser, string idProfile)
         {
-            await _primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             await Task.Run(() =>
             {
                 using (var cmd = _db.DbConnection.CreateCommand())
@@ -55,8 +49,6 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
 
         public async Task InsertUserToProfileAsync(string idUser, string idProfile)
         {
-            await _primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
-
             await Task.Run(() =>
             {
                 using (var cmd = _db.DbConnection.CreateCommand())
@@ -76,10 +68,5 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
                 }
             });
         }
-    }
-
-    [MetadataType(typeof(PerteneceRepositoryAuthorization))]
-    public partial class PerteneceRepository
-    {
     }
 }

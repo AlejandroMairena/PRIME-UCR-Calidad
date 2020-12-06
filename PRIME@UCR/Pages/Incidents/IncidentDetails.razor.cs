@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.EntityFrameworkCore;
 using PRIME_UCR.Application.Dtos.Incidents;
+using PRIME_UCR.Application.Services.UserAdministration;
 using PRIME_UCR.Components.Incidents.IncidentDetails.Tabs;
 using PRIME_UCR.Domain.Exceptions;
 using PRIME_UCR.Domain.Models;
+using PRIME_UCR.Domain.Models.UserAdministration;
 
 namespace PRIME_UCR.Pages.Incidents
 {
@@ -18,6 +21,9 @@ namespace PRIME_UCR.Pages.Incidents
         [Parameter] public string Code { get; set; }
         [Parameter] public string StartingTab { get; set; }
 
+        [Inject] public IUserService UserService { get; set; }
+        [CascadingParameter] public Task<AuthenticationState> AuthState { get; set; }
+
         private bool _exists = true;
 
         private readonly List<Tuple<DetailsTab, string>> _tabs = new List<Tuple<DetailsTab, string>>();
@@ -27,7 +33,6 @@ namespace PRIME_UCR.Pages.Incidents
         private string _statusMessage = "";
         private string _statusClass = "";
         public Action ClearStatusMessageCallback { get; set; }
-        public Action<DetailsTab> ChangeActiveTabCallback { get; set; }
 
         private void FillTabStates()
         {
@@ -94,7 +99,6 @@ namespace PRIME_UCR.Pages.Incidents
         protected override void OnInitialized()
         {
             ClearStatusMessageCallback = ClearStatusMessage;
-            ChangeActiveTabCallback = ChangeActiveTab;
             _activeTab = String.IsNullOrWhiteSpace(StartingTab)
                 ? DefaultTab
                 : GetTabByName(StartingTab);
@@ -111,6 +115,8 @@ namespace PRIME_UCR.Pages.Incidents
 
         private async Task Save(IncidentDetailsModel model)
         {
+            if (model.Reviewer == null)
+                model.Reviewer = await getCurrentUser();
             try
             {
                 _incidentModel = await IncidentService.UpdateIncidentDetailsAsync(model);
@@ -126,16 +132,29 @@ namespace PRIME_UCR.Pages.Incidents
             FillTabStates();
         }
 
-        private void ClearStatusMessage()
+        public void ClearStatusMessage()
         {
             _statusMessage = "";
             StateHasChanged();
         }
 
-        private void ChangeActiveTab(DetailsTab newTab)
+        public void ChangeActiveTab(DetailsTab newTab)
         {
             _activeTab = newTab;
             StateHasChanged();
+        }
+
+        public void refresh() 
+        {
+            StateHasChanged();
+        }
+
+        /*When the state is going from Initiated to Created, the state update automatically so this is needed in order to
+         save the person who change the state. This avoid repetition in the Patient, Origin and Destination tabs*/
+        private async Task<Persona> getCurrentUser()
+        {
+            var emailUser = (await AuthState).User.Identity.Name;
+            return await UserService.getPersonWithDetailstAsync(emailUser);
         }
     }
 }

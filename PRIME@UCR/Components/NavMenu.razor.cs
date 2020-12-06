@@ -22,11 +22,14 @@ namespace PRIME_UCR.Components
 
         private string showIncidents = "show";
 
+        private string showMap = "show";
+
         private string showUserAdmin = "show";
 
         private string showCheckList = "show";
 
         private string incidentUrl = "incidents";
+        private string mapUrl = "map";
         private string checklistUrl = "checklist";
         private string dashboardUrl = "dashboard";
         private string usersUrl = "user_administration/profiles";
@@ -46,6 +49,8 @@ namespace PRIME_UCR.Components
                     return checklistUrl;
                 case "Incidentes":
                     return incidentUrl;
+                case "Mapa de incidentes":
+                    return mapUrl;
                 default:
                     return null;
             }
@@ -66,6 +71,10 @@ namespace PRIME_UCR.Components
                 else if (uri == "incidents")
                 {
                     showIncidentsMenu();
+                }
+                else if(uri == "map")
+                {
+                    showMapMenu();
                 }
                 else if (uri == "user_administration")
                 {
@@ -91,15 +100,23 @@ namespace PRIME_UCR.Components
         {
             moduleToShow = "Incidentes";
             showIncidents = "hide";
-            showMedicalRecords = showUserAdmin = showCheckList = showDashboard = "show";
+            showMap = showMedicalRecords = showUserAdmin = showCheckList = showDashboard = "show";
             classOfModule = "oi oi-map";
+        }
+
+        private void showMapMenu()
+        {
+            moduleToShow = "Mapa de incidentes";
+            showMap = "hide";
+            showIncidents = showMedicalRecords = showUserAdmin = showCheckList = showDashboard = "show";
+            classOfModule = "oi oi-map-marker";
         }
 
         private void showCheckListMenu()
         {
             moduleToShow = "Listas de chequeo";
             showCheckList = "hide";
-            showMedicalRecords = showUserAdmin = showIncidents = showDashboard = "show";
+            showMedicalRecords = showUserAdmin = showIncidents = showMap = showDashboard = "show";
             classOfModule = "oi oi-list";
         }
 
@@ -107,7 +124,7 @@ namespace PRIME_UCR.Components
         {
             moduleToShow = "Expedientes";
             showMedicalRecords = "hide";
-            showCheckList = showUserAdmin = showIncidents = showDashboard = "show";
+            showCheckList = showUserAdmin = showIncidents = showMap = showDashboard = "show";
             classOfModule = "oi oi-list";
         }
 
@@ -115,7 +132,7 @@ namespace PRIME_UCR.Components
         {
             moduleToShow = "Dashboard";
             showDashboard = "hide";
-            showCheckList = showUserAdmin = showIncidents = showMedicalRecords = "show";
+            showCheckList = showUserAdmin = showIncidents = showMap = showMedicalRecords = "show";
             classOfModule = "oi oi-dashboard";
         }
 
@@ -123,7 +140,7 @@ namespace PRIME_UCR.Components
         {
             moduleToShow = "Administración de usuarios";
             showUserAdmin = "hide";
-            showCheckList = showDashboard = showIncidents = showMedicalRecords = "show";
+            showCheckList = showDashboard = showIncidents = showMap = showMedicalRecords = "show";
             classOfModule = "oi oi-book";
         }
     }

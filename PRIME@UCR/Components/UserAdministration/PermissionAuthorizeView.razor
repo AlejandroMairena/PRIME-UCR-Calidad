@@ -5,7 +5,7 @@
     <NotAuthorized>
         @if (ShowDeniedPermissionMessage) 
         { 
-            <AuthenticationStateMessage />        
+            <AuthenticationStateMessage Permission="@Permission"/>        
         }
     </NotAuthorized>     
 </AuthorizeView>

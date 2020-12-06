@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using PRIME_UCR.Application.DTOs.Incidents;
 using PRIME_UCR.Application.Repositories.Incidents;
+using PRIME_UCR.Domain.Constants;
 using PRIME_UCR.Domain.Models;
 using PRIME_UCR.Domain.Models.Incidents;
 using PRIME_UCR.Domain.Models.MedicalRecords;
@@ -41,10 +42,10 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Incidents
                     {"IdDestino", null},
                     {"MatriculaTrans", null}
                 };
-                
+
                 var result = await connection.ExecuteScalarAsync(
                     "dbo.InsertarNuevoIncidente", parameters, CommandType.StoredProcedure);
-                
+
                 model.Codigo = result.ToString();
 
                 return model;
@@ -56,7 +57,7 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Incidents
                     .Include(p => p.Origen)
                     .Include(p => p.Destino)
                     .Include(p => p.EstadoIncidentes)
-                    .FirstOrDefaultAsync(i => i.CodigoCita == id); 
+                    .FirstOrDefaultAsync(i => i.CodigoCita == id);
         }
 
         public async Task<Incidente> GetWithDetailsAsync(string code)
@@ -64,24 +65,24 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Incidents
             Incidente incident;
             using (var connection = new SqlConnection(_db.ConnectionString))
             {
-                 incident =
-                    (await connection.QueryAsync<Incidente>(code))
-                    .FirstOrDefault();
+                incident =
+                   (await connection.QueryAsync<Incidente>(code))
+                   .FirstOrDefault();
 
-                 if (incident != null)
-                 {
-                     incident.Cita =
-                         (await connection.QueryAsync<Cita>(incident.CodigoCita))
-                         .FirstOrDefault();
+                if (incident != null)
+                {
+                    incident.Cita =
+                        (await connection.QueryAsync<Cita>(incident.CodigoCita))
+                        .FirstOrDefault();
 
 
-                     if (incident.Cita?.IdExpediente != null)
-                         incident.Cita.Expediente =
-                             (await connection.QueryAsync<Expediente>(incident.Cita.IdExpediente))
-                             .FirstOrDefault();
-                 }
+                    if (incident.Cita?.IdExpediente != null)
+                        incident.Cita.Expediente =
+                            (await connection.QueryAsync<Expediente>(incident.Cita.IdExpediente))
+                            .FirstOrDefault();
+                }
             }
-                
+
             var modelWithLocations = await _db.Incidents
                 .AsNoTracking()
                 .Include(i => i.Origen)
@@ -93,7 +94,7 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Incidents
                 incident.Origen = modelWithLocations.Origen;
                 incident.Destino = modelWithLocations.Destino;
             }
-            
+
             return incident;
         }
 
@@ -105,7 +106,8 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Incidents
                     // Incidente
                     @"
                         select *
-                        from Incidente;
+                        from Incidente I
+                        Order by I.Codigo Desc;
                     " +
                     // Cita
                     @"
@@ -127,7 +129,7 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Incidents
                         join EstadoIncidente EI on Incidente.Codigo = EI.CodigoIncidente
                         where EI.Activo = 1;
                     ";
-                
+
                 using (var result = await connection.ExecuteQueryMultipleAsync(sql))
                 {
                     var incidents = await result.ExtractAsync<Incidente>();
@@ -142,32 +144,32 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Incidents
                             .Select(i => i.Origen);
 
                     return from i in incidents
-                        join a in appointments
-                            on i.CodigoCita equals a.Id
-                        join s in states
-                            on i.Codigo equals s.CodigoIncidente
-                        join add in origins
-                            on i.IdOrigen equals add?.Id
-                            into orgs
-                            from o in orgs.DefaultIfEmpty() // left join
-                        join add in destinations
-                            on i.IdDestino equals add?.Id
-                            into cUs
-                            from d in cUs.DefaultIfEmpty() // left join
-                        join add in medicalCenters
-                            on d?.CentroMedicoId equals add?.Id
-                            into cMs
-                            from mc in cMs.DefaultIfEmpty() // left join
-                        select new IncidentListModel
-                        {
-                            Codigo = i.Codigo,
-                            FechaHoraRegistro = a.FechaHoraCreacion,
-                            Modalidad = i.Modalidad,
-                            Origen = o?.DisplayName,
-                            Estado = s.NombreEstado,
-                            IdDestino = i.IdDestino,
-                            Destino = mc?.Nombre
-                        };
+                           join a in appointments
+                               on i.CodigoCita equals a.Id
+                           join s in states
+                               on i.Codigo equals s.CodigoIncidente
+                           join add in origins
+                               on i.IdOrigen equals add?.Id
+                               into orgs
+                           from o in orgs.DefaultIfEmpty() // left join
+                           join add in destinations
+                               on i.IdDestino equals add?.Id
+                               into cUs
+                           from d in cUs.DefaultIfEmpty() // left join
+                           join add in medicalCenters
+                               on d?.CentroMedicoId equals add?.Id
+                               into cMs
+                           from mc in cMs.DefaultIfEmpty() // left join
+                           select new IncidentListModel
+                           {
+                               Codigo = i.Codigo,
+                               FechaHoraRegistro = a.FechaHoraCreacion,
+                               Modalidad = i.Modalidad,
+                               Origen = o?.DisplayName,
+                               Estado = s.NombreEstado,
+                               IdDestino = i.IdDestino,
+                               Destino = mc?.Nombre
+                           };
                 }
             }
         }
@@ -202,6 +204,35 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Incidents
             return null;
         }
 
+        public async Task<IEnumerable<OngoingIncident>> GetOngoingIncidentsAsync()
+        {
+            // query all incidents with requiered data
+            var data =
+                await _db.Incidents
+                    .AsNoTracking()
+                    .Include(i => i.Origen)
+                    .Include(i => i.Destino)
+                    .Include(i => i.UnidadDeTransporte)
+                    .Include(i => i.EstadoIncidentes)
+                    .ToListAsync();
+
+            // filter out the incidents that are not ongoing
+            return data
+                .Where(i =>
+                {
+                    var currentState = i.EstadoIncidentes.First(s => s.Activo);
+                    return IncidentStates.OngoingStates.Exists(s => s.Nombre == currentState.NombreEstado);
+                })
+                .Select(i => new OngoingIncident // create OngoingIncident DTO to return
+                {
+                    Origin = i.Origen,
+                    Destination = i.Destino,
+                    Incident = i,
+                    TransportUnit = i.UnidadDeTransporte,
+                    UnitType = new Modalidad { Tipo = i.Modalidad }
+                });
+        }
+
         public override async Task<Incidente> GetByKeyAsync(string key)
         {
             using (var connection = new SqlConnection(_db.ConnectionString))
@@ -214,7 +245,7 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Incidents
                     incident.Cita =
                         (await connection.QueryAsync<Cita>(c => c.Id == incident.CodigoCita))
                         .FirstOrDefault();
-                
+
                 return incident;
             }
         }
@@ -232,5 +263,117 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Incidents
                 .FirstOrDefault();
             }
         }
+
+        public async Task<CambioIncidente> GetLastChange(string code)
+        {
+            using (var connection = new SqlConnection(_db.ConnectionString))
+            {
+                return (await connection.ExecuteQueryAsync<CambioIncidente>(@"
+                    select CambioIncidente.* from CambioIncidente
+                    where CodigoIncidente = @Id
+                    order by FechaHora desc
+                ", new { Id = code }))
+                .FirstOrDefault();
+            }
+        }
+
+        public async Task UpdateLastChange(CambioIncidente change)
+        {
+            using (var connection = new SqlConnection(_db.ConnectionString))
+            {
+                var incident =
+                    (await connection.QueryAsync<Incidente>(i => i.Codigo == change.CodigoIncidente))
+                    .FirstOrDefault();
+                if (incident != null)
+                    change.Incidente = incident;
+                await connection.InsertAsync(change);
+            }
+        }
+
+        /*
+         * Function: Obtains the Incident´s codes for which a specific Doctor is assigned to the incident´s origin
+         * @Params: The id (cedula) of the doctor to be checked
+         * @Return: A list with all the incidents' codes where the specified Id is assigned as origin doctor
+         * @Story ID: PIG01IIC20-712
+         */
+        public async Task<IEnumerable<string>> GetAuthorizedCodesForOriginDoctor(string id)
+        {
+            using (var connection = new SqlConnection(_db.ConnectionString))
+            {
+                var authorizedCodes = await connection.ExecuteQueryAsync<string>(@"
+                select i.Codigo from Incidente i
+                join Centro_Ubicacion c on i.IdOrigen = c.Id
+                where c.CédulaMédico = @Id
+                ", new { Id = id });
+                return authorizedCodes;
+            }
+        }
+
+        /*
+         * Function: Obtains the Incident´s codes for which a specific Doctor is assigned to the incident´s destination
+         * @Params: The id (cedula) of the doctor to be checked
+         * @Return: A list with all the incidents' codes where the specified Id is assigned as destination doctor
+         * @Story ID: PIG01IIC20-712
+         */
+        public async Task<IEnumerable<string>> GetAuthorizedCodesForDestinationDoctor(string id)
+        {
+            using (var connection = new SqlConnection(_db.ConnectionString))
+            {
+                var authorizedCodes = await connection.ExecuteQueryAsync<string>(@"
+                select i.Codigo from Incidente i
+                join Centro_Ubicacion c on i.IdDestino = c.Id
+                where c.CédulaMédico = @Id
+                ", new { Id = id });
+                return authorizedCodes;
+            }
+        }
+
+
+        /*
+         * Function: Obtains the incident's codes for which a specific Technical Specialist is assigned to
+         * @Params: The id (cedula) of the specialist to be checked
+         * @Return: A list with all the incidents' codes where the specified Id is assigned to
+         * @Story ID: PIG01IIC20-712
+         */
+        public async Task<IEnumerable<string>> GetAuthorizedCodesForSpecialist(string id)
+        {
+            using (var connection = new SqlConnection(_db.ConnectionString)) 
+            { 
+                var authorizedCodes = await connection.ExecuteQueryAsync<string>(@"
+                    select i.Codigo from Incidente i
+                    join AsignadoA a on a.Codigo = i.Codigo
+                    where a.CedulaEspecialista = @Id
+                    ", new { Id = id });
+                return authorizedCodes;
+            } 
+        }
+
+        /*
+         * Function: Returns a list with all the incidents and their details that are assigned to a specified technical specialist
+         * @Params: The id (cedula) of the specialist to be checked
+         * @Return: A list with all the incidents' details where the specified id is assigned to
+         * @Story ID: PIG01IIC20-712
+         */
+        public async Task<IEnumerable<IncidentListModel>> GetAuthorizedSpecialistIncidentListModelsAsync(string id)
+        {
+            var authorizedCodes = await GetAuthorizedCodesForSpecialist(id); // Get only the authorized incidents for this user 
+            var incidentsList = await GetIncidentListModelsAsync(); // Get all incidents
+            return incidentsList.Where(i => authorizedCodes.Contains(i.Codigo));  // Return the details of the incidents assigned to the user
+        }
+
+        /*
+        * Function: Returns a list with all the incidents and their details that are assigned to a specified doctor
+         * @Params: The id (cedula) of the doctor to be checked
+         * @Return: A list with all the incidents' details where the specified id is assigned to
+         * @Story ID: PIG01IIC20-712
+        */
+        public async Task<IEnumerable<IncidentListModel>> GetAuthorizedDoctorIncidentListModelsAsync(string id)
+        {
+            var authorizedOriginCodes = await GetAuthorizedCodesForOriginDoctor(id); // Get only the authorized incidents for this user 
+            var authorizedDestinationCodes = await GetAuthorizedCodesForDestinationDoctor(id); // Get only the authorized incidents for this user 
+            var incidentsList = await GetIncidentListModelsAsync(); // Get all incidents
+            return incidentsList.Where(i => authorizedOriginCodes.Contains(i.Codigo) || authorizedDestinationCodes.Contains(i.Codigo)); // Return the details of the incidents assigned to the user
+        }
     }
-}
+
+ }

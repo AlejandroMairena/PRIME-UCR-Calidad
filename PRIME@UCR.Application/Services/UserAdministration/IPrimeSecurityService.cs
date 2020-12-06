@@ -13,5 +13,7 @@ namespace PRIME_UCR.Application.Services.UserAdministration
     {
 
         Task CheckIfIsAuthorizedAsync(Type type, [CallerMemberName]string methodName = null);
+
+        Task CheckIfIsAuthorizedAsync(AuthorizationPermissions[] permissions);
     }
 }

@@ -16,7 +16,7 @@ using PRIME_UCR.Domain.Models;
 
 namespace PRIME_UCR.Application.Implementations.Appointments
 {
-    public partial class AppointmentService : IAppointmentService
+    internal class AppointmentService : IAppointmentService
     {
         private readonly IActionTypeRepository _actionTypeRepo;
         private readonly IAppointmentRepository _appointmentRepository;
@@ -110,7 +110,6 @@ namespace PRIME_UCR.Application.Implementations.Appointments
 
         public async Task<Expediente> AssignMedicalRecordAsync(int appointmentId, Paciente patient)
         {
-            await _primeSecurityService.CheckIfIsAuthorizedAsync(this.GetType());
             var appointment = await _appointmentRepository.GetByKeyAsync(appointmentId);
             if (appointment == null)
             {
@@ -139,8 +138,5 @@ namespace PRIME_UCR.Application.Implementations.Appointments
         {
             return await _appointmentRepository.getLatestAppointmentByRecordId(id);
         }
-
     }
-        [MetadataType(typeof(AppointmentServiceAuthorization))]
-        public partial class AppointmentService { }
 }
