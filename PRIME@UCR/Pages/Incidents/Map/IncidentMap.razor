@@ -1,4 +1,7 @@
 ﻿@page "/map"
+@using PRIME_UCR.Components.Controls
+@using PRIME_UCR.Domain.Constants
+@attribute [HasPermission(AuthorizationPermissions.CanViewMapsInRealTime)]
 
 <h3>Mapa de incidentes en tiempo real</h3>
 <br />
@@ -16,24 +19,24 @@
                               Value="s.Filter"
                               ValueExpression="() => s.Filter"
                               ValueChanged="@((Modalidad f) => OnFilterChange(f))"
-                              ValueComparer="@((Modalidad f) => f.Tipo == s.Filter.Tipo)"/>
+                              ValueComparer="@((Modalidad f) => f.Tipo == s.Filter.Tipo)" />
             </EditForm>
             @if (s.GpsData.Any())
             {
 
-            <RadzenGoogleMap style="height: 100%"
-                             Zoom="10" ApiKey="@Configuration["MapApiKey"]"
-                             Center="@(new GoogleMapPosition{ Lng = s.Center.Longitude, Lat = s.Center.Latitude })"
-                             MarkerClick="@OnMarkerClick">
-                <Markers>
-                    @foreach (var gps in s.GpsData)
-                    {
-                        <RadzenGoogleMapMarker Title="@(gps.IncidentCode)"
-                                               Label="@(gps.IncidentCode)"
-                                               Position=@(new GoogleMapPosition {Lat = gps.CurrentLatitude, Lng = gps.CurrentLongitude})/>
-                    }
-                </Markers>
-            </RadzenGoogleMap>
+                <RadzenGoogleMap style="height: 100%"
+                                 Zoom="10" ApiKey="@Configuration["MapApiKey"]"
+                                 Center="@(new GoogleMapPosition{ Lng = s.Center.Longitude, Lat = s.Center.Latitude })"
+                                 MarkerClick="@OnMarkerClick">
+                    <Markers>
+                        @foreach (var gps in s.GpsData)
+                        {
+                            <RadzenGoogleMapMarker Title="@(gps.IncidentCode)"
+                                                   Label="@(gps.IncidentCode)"
+                                                   Position=@(new GoogleMapPosition {Lat = gps.CurrentLatitude, Lng = gps.CurrentLongitude}) />
+                        }
+                    </Markers>
+                </RadzenGoogleMap>
             }
             else
             {
