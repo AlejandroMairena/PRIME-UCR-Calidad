@@ -16,6 +16,9 @@ namespace PRIME_UCR.Components.Dashboard
         [Parameter]
         public EventCallback<AppointmentFilterModel> AppointmentFiltersChanged { get; set; }
 
+        /*
+         * Method used to remove all hospital filters.
+         */
         private async Task RemoveAllHospitalsFilter()
         {
             AppointmentFilters.Hospital.Clear();
@@ -23,6 +26,9 @@ namespace PRIME_UCR.Components.Dashboard
             await AppointmentFiltersChanged.InvokeAsync(AppointmentFilters);
         }
 
+        /*
+         * Method used to remove a specific medical center from the filters.
+         */
         private async Task RemoveSpecificHospital(MedicalCenterLocationModel hospital)
         {
             AppointmentFilters.Hospital.Remove(hospital);
@@ -30,6 +36,9 @@ namespace PRIME_UCR.Components.Dashboard
             await AppointmentFiltersChanged.InvokeAsync(AppointmentFilters);
         }
 
+        /*
+         * Method used to remove all patients filters.
+         */
         private async Task RemoveAllPatientsFilter()
         {
             AppointmentFilters.PatientModel.Clear();
@@ -37,6 +46,9 @@ namespace PRIME_UCR.Components.Dashboard
             await AppointmentFiltersChanged.InvokeAsync(AppointmentFilters);
         }
 
+        /*
+         * Method used to remove a specific patient from the filters.
+         */
         private async Task RemoveSpecificPatient(PatientModel paciente)
         {
             AppointmentFilters.PatientModel.Remove(paciente);

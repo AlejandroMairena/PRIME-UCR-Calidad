@@ -30,6 +30,9 @@ namespace PRIME_UCR.Pages.Dashboard
         public string _selectedFilter;
         public EventCallback<string> _selectedFilterChanged;
 
+        public bool AreIncidentsGraphSelected = true;
+
+
         [Inject]
         public IMedicalRecordService MedicalRecordService { get; set; }
 
