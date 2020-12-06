@@ -69,11 +69,19 @@ namespace PRIME_UCR.Pages.UserAdministration
                     messageType = "danger";
                 } else
                 {
-                    await telefonoService.AddNewPhoneNumberAsync(personModel.IdCardNumber, infoOfUserToRegister.PrimaryPhoneNumber);
-                    if(!String.IsNullOrEmpty(infoOfUserToRegister.SecondaryPhoneNumber))
+                    try
                     {
-                        await telefonoService.AddNewPhoneNumberAsync(personModel.IdCardNumber, infoOfUserToRegister.SecondaryPhoneNumber);
+                        await telefonoService.AddNewPhoneNumberAsync(personModel.IdCardNumber, infoOfUserToRegister.PrimaryPhoneNumber);
+                        if (!String.IsNullOrEmpty(infoOfUserToRegister.SecondaryPhoneNumber))
+                        {
+                            await telefonoService.AddNewPhoneNumberAsync(personModel.IdCardNumber, infoOfUserToRegister.SecondaryPhoneNumber);
+                        }
                     }
+                    catch (Exception)
+                    {
+                        //Nothing happens phone number duplicated
+                    }
+                   
 
                     var user = (await userService.GetAllUsersWithDetailsAsync()).ToList().Find(u => u.Email == userModel.Email);
 
