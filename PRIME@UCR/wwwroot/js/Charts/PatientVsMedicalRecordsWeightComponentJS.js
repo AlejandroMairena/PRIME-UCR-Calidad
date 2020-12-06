@@ -26,7 +26,7 @@ function CreateAppointmentsVsMedicalRecordsWeightComponentJS(results) {
         dateAxis.renderer.minGridDistance = 50;
 
         // Create series
-        function createAxisAndSeries(field, name, opposite) {
+        function createAxisAndSeries(field, dateName, name, opposite) {
             var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
             if (chart.yAxes.indexOf(valueAxis) != 0) {
                 valueAxis.syncWithAxis = chart.yAxes.getIndex(0);
@@ -34,7 +34,7 @@ function CreateAppointmentsVsMedicalRecordsWeightComponentJS(results) {
 
             var series = chart.series.push(new am4charts.LineSeries());
             series.dataFields.valueY = field;
-            series.dataFields.dateX = "date";
+            series.dataFields.dateX = dateName;
             series.strokeWidth = 2;
             series.yAxis = valueAxis;
             series.name = name;
@@ -56,21 +56,25 @@ function CreateAppointmentsVsMedicalRecordsWeightComponentJS(results) {
         }
 
         
-
+        var chartData = [];
         for (var i = 0; i < results.length; i += 2) {
-            var chartData = [];
+            var dateName = "date" + i.toString();
+            var valueName = "value" + i.toString();
             for (var j = 0; j < results[i+1].length; j += 2) {
                 var date = results[i+1][j];
-                var value = results[i+1][j + 1];
-                chartData.push({
-                    "date": date,
-                    "value": value
-                });
+                var value = results[i + 1][j + 1];
+                var object = {};
+                object[dateName] = date;
+                object[valueName] = value;
+                chartData.push(object);
             }
+        }
+        chart.data = chartData;
 
-            chart.data = chartData;
-            createAxisAndSeries("value", results[i][0] + " Weight", false);
-           
+        for (var i = 0; i < results.length; i += 2) {
+            var dateName = "date" + i.toString();
+            var valueName = "value" + i.toString();
+            createAxisAndSeries(valueName, dateName, results[i][0] + " Weight", false);
         }
 
 
