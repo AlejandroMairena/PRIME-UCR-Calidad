@@ -205,7 +205,7 @@ namespace PRIME_UCR.Application.Implementations.Dashboard
             }
 
             //Patients
-            if(Value.PatientModel != null)
+            if (Value.PatientModel != null && Value.PatientModel.Count() > 0) 
             {
                 var tempFilteredList = new List<CitaMedica>();
                 foreach (var patient in Value.PatientModel)

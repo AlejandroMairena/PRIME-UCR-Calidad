@@ -69,6 +69,8 @@ namespace PRIME_UCR.Pages.Dashboard
         protected override async Task OnInitializedAsync()
         {
             await InitializeDashboardData();
+            //Appointments
+            await InitializeAppointmentsData();
             incidentsCounter.totalIncidentsCounter = await DashboardService.GetIncidentCounterAsync(String.Empty, "Día");
             incidentsCounter.maritimeIncidents = await DashboardService.GetIncidentCounterAsync("Marítimo", "Día");
             incidentsCounter.airIncidentsCounter = await DashboardService.GetIncidentCounterAsync("Aéreo", "Día");
@@ -77,8 +79,6 @@ namespace PRIME_UCR.Pages.Dashboard
             incidentsCounter.isReadyToShowCounters = true; // Always after loading all incidents counter data
             DashboardData.isReadyToShowGraphs = true;
             DashboardData.userEmail = (await authenticationState).User.Identity.Name;
-
-            //Appointments
         }
 
         private async Task UpdateFilteredIncidentsData()
@@ -116,10 +116,8 @@ namespace PRIME_UCR.Pages.Dashboard
         {
             DashboardData.isReadyToShowGraphs = false;
             StateHasChanged();
-
             AppointmentFilter = new AppointmentFilterModel();
-            DashboardData = new DashboardDataModel();
-            await InitializeDashboardData();
+            await InitializeAppointmentsData();
             await DashboardDataChanged.InvokeAsync(DashboardData);
             await ValueChanged.InvokeAsync(Value);
             DashboardData.isReadyToShowGraphs = true;
@@ -128,6 +126,7 @@ namespace PRIME_UCR.Pages.Dashboard
 
         private async Task InitializeDashboardData()
         {
+            DashboardData.isReadyToShowFilters = false;
             DashboardData.medicalCenters = (await LocationService.GetAllMedicalCentersAsync()).ToList();
             DashboardData.countries = (await LocationService.GetAllCountriesAsync()).ToList();
             DashboardData.incidentsData = (await DashboardService.GetAllIncidentsAsync()).ToList();
@@ -135,14 +134,20 @@ namespace PRIME_UCR.Pages.Dashboard
             DashboardData.states = (await StateService.GetAllStates()).ToList();
             DashboardData.modalities = (await IncidentService.GetTransportModesAsync()).ToList();
             DashboardData.filteredIncidentsData = DashboardData.incidentsData;
-
             DashboardData.userEmail = (await authenticationState).User.Identity.Name;
+            DashboardData.isReadyToShowFilters = true; // Always after loading all filters data
+        }
+
+        private async Task InitializeAppointmentsData()
+        {
+            DashboardData.isReadyToShowFilters = false;
             //Appointments
             DashboardData.patients = (await MedicalRecordService.GetPatients()).ToList();
             DashboardData.appointmentsData = (await DashboardService.GetAllMedicalAppointmentsAsync());
             DashboardData.filteredAppointmentsData = DashboardData.appointmentsData;
-            DashboardData.isReadyToShowFilters = true; // Always after loading all filters data
+            DashboardData.isReadyToShowFilters = true;
         }
+
         private async Task CrearArchivoAsync()
         {
             await FileManagerService.createFileAsync(DashboardData.filteredIncidentsData, DashboardData.userEmail);
