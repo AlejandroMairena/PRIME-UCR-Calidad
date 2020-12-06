@@ -41,5 +41,7 @@ namespace PRIME_UCR.Application.DTOs.Dashboard
         public bool isReadyToShowFilters { get; set; }
 
         public bool isReadyToShowGraphs { get; set; }
+
+        public string userEmail { get; set;}
     }
 }
