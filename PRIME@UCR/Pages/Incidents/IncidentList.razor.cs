@@ -41,6 +41,8 @@ namespace PRIME_UCR.Pages.Incidents
         [CascadingParameter]
         private Task<AuthenticationState> AuthenticationState { get; set; }
 
+        private bool _isLoading = true;
+
         protected override async Task OnInitializedAsync()
         {
             var user = await AuthenticationState;
@@ -51,6 +53,12 @@ namespace PRIME_UCR.Pages.Incidents
             var person = await PersonService.GetPersonByIdAsync(_currentUser.Cédula);
 
             incidentsList = (await IncidentService.GetIncidentListModelsAsync(person.Cédula)).ToList();
+
+            if(incidentsList != null)
+            {
+                _isLoading = false;
+            }
+
         }
 
 
@@ -65,7 +73,12 @@ namespace PRIME_UCR.Pages.Incidents
         {
             NavManager.NavigateTo($"{CreateIncidentUrl}");
         }
-      
+
+        public void IsLoading(bool loadingValue)
+        {
+            _isLoading = loadingValue;
+        }
+
     }
 
 }
