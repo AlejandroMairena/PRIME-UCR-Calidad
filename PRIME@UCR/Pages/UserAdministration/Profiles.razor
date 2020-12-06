@@ -24,17 +24,21 @@
 
 @if (!String.IsNullOrEmpty(profile.ProfileName))
 {
-    <Loading IsLoading="profile.ProfileName == null">
+    <Loading IsLoading="profile.ProfileName == null || isLoading == true">
         <div class="wrapper">
             <div class="rounded" style="background-color: white;padding-left: 10px;padding-right: 10px;">
                 <br />
                 <h5>Usuarios</h5>
-                <UsersComponent @bind-Value="profile" />
+                <UsersComponent @bind-Value="profile"
+                                isLoading="isLoading"
+                                isLoadingChanged="() => { isLoading = !isLoading; StateHasChanged(); }"/>
             </div>
             <div class="rounded" style="background-color:white;padding-left: 10px;padding-right: 10px;">
                 <br />
                 <h5>Permisos</h5>
-                <PermissionsComponent @bind-Value="profile" />
+                <PermissionsComponent @bind-Value="profile" 
+                                      isLoading="isLoading"
+                                      isLoadingChanged="()=> { isLoading = !isLoading; StateHasChanged(); }"/>
             </div>
 
         </div>
