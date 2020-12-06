@@ -1,15 +1,21 @@
 ﻿let recordingTimeMS = 30000;
 let startButton;
 let stopButton;
-
+let videoFeed;
+let videoPreview;
+let closeButton;
+let videoName = "video.webm";
 
 function wait(delayInMS) {
     return new Promise(resolve => setTimeout(resolve, delayInMS));
 }
 
 function startRecording(stream, lengthInMS) {
-    startButton.disabled = true;
-    stopButton.disabled = false;
+    startButton.className = "hidden";
+    stopButton.className = "btn btn-danger rt-button";
+    videoFeed.className = "rt-box";
+    videoPreview.className = "hidden";
+    closeButton.disabled = true;
 
     let recorder = new MediaRecorder(stream);
     let data = [];
@@ -32,19 +38,34 @@ function startRecording(stream, lengthInMS) {
     ]).then(() => data);
 }
 
-function stop(stream) {
-    startButton.disabled = false;
-    stopButton.disabled = true;
+function stop(video, reset) {
+    startButton.className = "btn btn-primary rt-button";
+    stopButton.className = "hidden";
+    videoFeed.className = "hidden";
+    videoPreview.className = "rt-box";
+    closeButton.disabled = false;
 
-    stream.getTracks().forEach(track => track.stop());
+    stream = video.srcObject;
+    if (stream != null) {
+        stream.getTracks().forEach(track => track.stop());
+    }
+    if (reset) {
+        videoFeed.className = "rt-box";
+        videoPreview.className = "hidden";
+    }
+    return true;
 }
 
-function videoInit(_startButton, preview, recording, downloadButton, _stopButton) {
+function videoInit(_startButton, preview, recording, downloadButton, _stopButton, _closeButton) {
     startButton = _startButton;
     stopButton = _stopButton;
+    videoFeed = preview;
+    videoPreview = recording;
+    closeButton = _closeButton;
 
-    stopButton.disable = true;
-    
+    stopButton.className = "hidden";
+    videoPreview.className = "hidden";
+
     startButton.addEventListener("click", function () {
         navigator.mediaDevices.getUserMedia({
             video: true,
@@ -59,15 +80,21 @@ function videoInit(_startButton, preview, recording, downloadButton, _stopButton
                 let recordedBlob = new Blob(recordedChunks, { type: "video/webm" });
                 recording.src = URL.createObjectURL(recordedBlob);
                 downloadButton.href = recording.src;
-                downloadButton.download = "RecordedVideo.webm";
+                downloadButton.download = videoName;
             })
             .catch((e) => console.log(e));
     }, false);
 
     stopButton.addEventListener("click", function () {
-        stop(preview.srcObject);
+        stop(preview, false);
     }, false);
 
 
+    return true;
+}
+
+function setDownloadName(fileName) {
+    videoName = fileName + ".webm";
+    console.log(videoName);
     return true;
 }

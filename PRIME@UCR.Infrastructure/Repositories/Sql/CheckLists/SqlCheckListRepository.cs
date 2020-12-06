@@ -31,6 +31,8 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.CheckLists
                 {"descripcion", list.Descripcion},
                 {"orden", list.Orden},
                 {"imagenDescriptiva", list.ImagenDescriptiva},
+                {"editable",list.Editable },
+                {"activada",list.Activada }
             };
             var result = await connection.ExecuteScalarAsync(
                 "dbo.InsertarListaChequeo", parameters, CommandType.StoredProcedure);
@@ -43,6 +45,10 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.CheckLists
         public async Task<IEnumerable<CheckList>> GetByName(string name)
         {
             return await this.GetByConditionAsync(checkListModel => checkListModel.Nombre == name);
+        }
+        public async Task<IEnumerable<CheckList>> GetActivated()
+        {
+            return await this.GetByConditionAsync(checkListModel => checkListModel.Activada == true);
         }
     }
 }

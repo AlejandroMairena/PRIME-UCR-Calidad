@@ -15,15 +15,25 @@ namespace PRIME_UCR.Components.Multimedia
     {
         [Parameter]
         public RenderFragment ChildContent { get; set; }
+        // The List of Multimedia Content displayed by the component
         [Parameter]
         public List<MultimediaContent> MultimediaContent { get; set; }
+        /* Function pass as parameter from Parent Component to be notified
+         * when a file has been uploaded. 
+         */
         [Parameter]
         public EventCallback<MultimediaContent> OnFileUpload { get; set; }
+        /* Parameter that indicates if the component is view only or
+         * if it accepts changes.
+         */
+        [Parameter]
+        public bool ViewOnly { get; set; } = false;
 
+        // List of valid file types 
         public List<string> validTypeFiles;
         bool validFileType = true;
 
-        bool open = false;
+        bool open = false; // State of the dropdown 
         string divDDClass = "dropdown";
         string ddMenuClass = "dropdown-menu dropdown-menu-right";
         string invalidMessage = "";
@@ -40,16 +50,13 @@ namespace PRIME_UCR.Components.Multimedia
         bool showTextComponent = false;
 
         bool showDropdown = false;
+        // MultimediaContent pass to the MultimediaModal component
         MultimediaContent modalMContent = null;
-
+         
         protected override void OnInitialized()
         {
+            // initialization of valid file types
             validTypeFiles = new List<string>() { "ogg", "oga", "jpeg", "webm", "mpeg", "pdf", "doc", "docx", "xls", "txt", "mp3", "jpg", "png", "mp4", "wmv", "avi", "text/plain" };
-        }
-
-        protected override async Task OnInitializedAsync()
-        {
-            await JS.InvokeAsync<bool>("hasGetUserMedia", null);
         }
 
         // Method to handle main button click
@@ -144,12 +151,9 @@ namespace PRIME_UCR.Components.Multimedia
 
        
         async Task ShowPopUp(MultimediaContent mcontent) {
-            //para probar, esta con una imagen y path quemadas
-            string name = mcontent.Nombre; //
-            string pathEncrypted = mcontent.Archivo; //AQUI EL PATH ESTA ENCRIPTADO
+            string name = mcontent.Nombre; 
+            string pathEncrypted = mcontent.Archivo;
             string type = mcontent.Tipo;
-            //SE LLAMA A UN METODO GENERAL QUE DIFERENCIA LAS VISTAS DE LOS TIPOS
-            //await JS.InvokeAsync<bool>("showMultimedia", pathQuemadoImg, nombreQuemadoImg, type);
             if (type == "image/png")
                 OpenImage(mcontent);
             else if (type == "application/pdf" || type == "text/plain")
@@ -232,7 +236,7 @@ namespace PRIME_UCR.Components.Multimedia
             showVideo = false;
             modalMContent = mcontent;
             showVideoComponent = false;
-            showTextComponent = false;
+            //showTextComponent = false;
         }
         void OpenVideo(MultimediaContent mcontent) {
             showModal = true;
@@ -275,20 +279,20 @@ namespace PRIME_UCR.Components.Multimedia
             showTextComponent = false;
         }
 
-        void OpenTextComponent()
-        {
-            showModal = true;
-            showCamera = false;
-            showAudio = false;
-            showImage = false;
-            showMicrophone = false;
-            showText = false;
-            showVideo = false;
-            modalMContent = null;
-            showVideo = false;
-            showVideoComponent = false;
-            showTextComponent = true;
-        }
+        //void OpenTextComponent()
+        //{
+        //    showModal = true;
+        //    showCamera = false;
+        //    showAudio = false;
+        //    showImage = false;
+        //    showMicrophone = false;
+        //    showText = false;
+        //    showVideo = false;
+        //    modalMContent = null;
+        //    showVideo = false;
+        //    showVideoComponent = false;
+        //    showTextComponent = true;
+        //}
 
         async Task DeleteMultimediaContent(MultimediaContent mcontent)
         {

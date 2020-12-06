@@ -149,7 +149,6 @@ button:hover#BP_LC6.btn.btn-primary {
 /* boby, have items and subitems from a checklist */
 #Body_LC {
     background: #E6E6E6;
-    padding: 10px;
     border-radius: 5px;
     position: relative;
     border-color: black;
@@ -291,4 +290,70 @@ button#Menu_LC { /*.btn.btn-primary*/
 /* button of image in checklist definition*/
 button.none#BN_LC {
     border: 0px;
+}
+/*All checklst templates*/
+div#All_LC {
+    background: white;
+    padding-left: 16px;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    padding-right: 16px;
+}
+
+/* state for a single checklist in incident*/
+#state_LC {
+    background: white; /* #E6E6E6*/
+    border-radius: 5px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 10px;
+}
+/*definition of a single checklist in incident*/
+#def_LC_Inst {
+    background: #E6E6E6; /*white;*/
+    border-radius: 5px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 10px;
+}
+
+
+
+.checklist-table {
+    margin: 0;
+}
+
+.checklist-table>tbody>tr>td, .checklist-table>tbody>tr>th {
+    border: 0;
+}
+
+.ui-treenode-content-selected {
+    background-color: rgba(0,0,0,.075);
+}
+
+.ui-treenode-content:not(.ui-treenode-content-selected):hover {
+    background-color: rgba(0,0,0,.075);
+    color: #ffffff;
+    border-radius: 2px;
+}
+
+.ui-treenode-content-selected > .blankSpace {
+    background-color: #d4d4d4;
+    color: #d4d4d4;
+}
+
+.ui-treenode-content:not(.ui-treenode-content-selected):hover > .blankSpace {
+    background-color: #d4d4d4;
+    color: #d4d4d4;
+}
+
+.blankSpace {
+    position: absolute;
+    background: #E6E6E6;
+    width: 20px;
+    opacity: 1;
+    z-index: 9;
+    color: #E6E6E6;
 }

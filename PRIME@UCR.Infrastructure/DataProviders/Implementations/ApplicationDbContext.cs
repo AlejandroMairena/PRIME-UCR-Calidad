@@ -22,8 +22,8 @@ namespace PRIME_UCR.Infrastructure.DataProviders.Implementations
     {
         private readonly IConfiguration _configuration;
         public IDbConnection DbConnection { get; }
-        public string ConnectionString => _configuration.GetConnectionString("DbConnection");
-        
+        public string ConnectionString => DbConnection.ConnectionString;
+
         public DbSet<CheckList> CheckList { get; set; }
         public DbSet<TipoListaChequeo> CheckListTypes { get; set; }
         public DbSet<Item> Item { get; set; }
@@ -40,6 +40,7 @@ namespace PRIME_UCR.Infrastructure.DataProviders.Implementations
         public DbSet<UnidadDeTransporte> TransportUnits { get; set; }
         public DbSet<Estado> States { get; set; }
         public DbSet<EstadoIncidente> IncidentStates { get; set; }
+        public DbSet<CambioIncidente> ChangeInIncident { get; set; }
         public DbSet<Incidente> Incidents { get; set; }
         public DbSet<Expediente> MedicalRecords { get; set; }
         public DbSet<Canton> Cantons { get; set; }
@@ -101,6 +102,7 @@ namespace PRIME_UCR.Infrastructure.DataProviders.Implementations
             builder.ApplyConfiguration(new UnidadDeTransporteMap());
             builder.ApplyConfiguration(new EstadoMap());
             builder.ApplyConfiguration(new EstadoIncidenteMap());
+            builder.ApplyConfiguration(new CambioIncidenteMap());
             builder.ApplyConfiguration(new MultimediaContentMap());
             builder.ApplyConfiguration(new UsuarioMap());
             builder.ApplyConfiguration(new AdministradorMap());

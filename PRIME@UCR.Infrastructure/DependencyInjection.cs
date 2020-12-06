@@ -69,6 +69,7 @@ namespace PRIME_UCR.Infrastructure
             services.AddTransient<ITransportUnitRepository, TransportUnitRepository>();
             services.AddTransient<IActionTypeRepository, ActionTypeRepository>();
             services.AddTransient<IGpsDataRepository, GpsDataRepository>();
+            services.AddTransient<IDocumentacionIncidenteRepository, DocumentacionIncidenteRepository>();
 
             // medical records
             services.AddTransient<IMedicalRecordRepository, MedicalRecordRepository>();

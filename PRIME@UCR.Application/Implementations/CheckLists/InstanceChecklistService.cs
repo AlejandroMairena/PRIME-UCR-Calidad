@@ -38,9 +38,9 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
             IEnumerable<InstanceChecklist> lists = await _instancechecklistRepository.GetAllAsync();
             return lists;//.OrderBy(InstanceChecklist => InstanceChecklist.Orden);
         }
-        public async Task<InstanceChecklist> InsertInstanceChecklist(InstanceChecklist list)
+        public async Task InsertInstanceChecklist(InstanceChecklist list)
         {
-            return await _instancechecklistRepository.InsertAsync(list);
+            await _instancechecklistRepository.InsertInstanceCheckListAsync(list.PlantillaId,list.IncidentCod);
         }
 
         public async Task<InstanceChecklist> GetById(int id)
@@ -114,6 +114,24 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
         {
             await _instanceItemRepository.UpdateAsync(item);
             return item;
+        }
+
+
+        public async void LoadRelations(List<InstanciaItem> items) {
+            InstanciaItem father = null;
+            InstanciaItem item = null;
+            int parentIndex = -1;
+            for(int Index = 0; Index < items.Count(); ++Index)
+            {
+                item = items[Index];
+                if (item.ItemPadreId != null)
+                {
+                    father = await _instanceItemRepository.GetItem(item.ItemPadreId, item.IncidentCodPadre, item.PlantillaPadreId);
+                    items[Index].MyFather = father;
+                    parentIndex = items.FindIndex(a => a.ItemId == father.ItemId);
+                    items[parentIndex].SubItems.Add(item);
+                }
+            }
         }
     }
 }

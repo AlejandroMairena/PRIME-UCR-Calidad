@@ -32,15 +32,15 @@ namespace PRIME_UCR.Application.Permissions.CheckLists
             //_itemRepository = itemRepository;
         }
 
-        public async Task<InstanceChecklist> InsertInstanceChecklist(InstanceChecklist list)
+        public async Task InsertInstanceChecklist(InstanceChecklist list)
         {
             await primeSecurityService.CheckIfIsAuthorizedAsync(new AuthorizationPermissions[] { AuthorizationPermissions.CanInstantiateChecklist });
-            return await instanceChecklistService.InsertInstanceChecklist(list);
+            await instanceChecklistService.InsertInstanceChecklist(list);
         }
 
         public async Task<InstanceChecklist> UpdateInstanceChecklist(InstanceChecklist list)
         {
-            await primeSecurityService.CheckIfIsAuthorizedAsync(new AuthorizationPermissions[] { AuthorizationPermissions.CanManageIncidentChecklists });
+            await primeSecurityService.CheckIfIsAuthorizedAsync(new AuthorizationPermissions[] { AuthorizationPermissions.CanCheckItemsInChecklists });
             return await instanceChecklistService.UpdateInstanceChecklist(list);
         }
 
@@ -105,6 +105,11 @@ namespace PRIME_UCR.Application.Permissions.CheckLists
         public async Task<IEnumerable<InstanciaItem>> GetItemsByFatherId(string incidentCode, int checklistId, int itemId)
         {
             return await instanceChecklistService.GetItemsByFatherId(incidentCode, checklistId, itemId);
+        }
+
+        public void LoadRelations(List<InstanciaItem> items)
+        {
+            instanceChecklistService.LoadRelations(items);
         }
     }
 }
