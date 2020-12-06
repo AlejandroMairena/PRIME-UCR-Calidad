@@ -8,6 +8,6 @@ namespace PRIME_UCR.Application.Services.Dashboard
 {
     public interface IFileManagerService
     {
-         Task createFileAsync(List<Incidente> filteredIncidentsData, string userIdentifier);
+        Task createFileAsync(List<Incidente> filteredIncidentsData, string userIdentifier, string userName);
     }
 }
