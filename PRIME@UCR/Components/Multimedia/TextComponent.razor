@@ -7,7 +7,10 @@
         <h2 class="rt-align">Notas</h2>
         <hr />
 
+        @if (!viewMode)
+        {
         <MultimediaAlert Message="AlertMessage"></MultimediaAlert>
+        }
         <form>
             @* Title *@
             <div class="form-group">

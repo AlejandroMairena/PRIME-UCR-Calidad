@@ -16,7 +16,7 @@
 }
 
 .m-menu-div {
-    padding-left: 15px;
+    /*padding-left: 15px;*/
     margin-top: 4px;
     margin-bottom: 4px;
 
@@ -352,4 +352,12 @@ button.btn.btn-danger.m-btn.m-btn-rm {
     padding: 0px;
     margin: 0px;
     text-align: left !important;
+}
+
+.rt-filename {
+    padding: 0px;
+    white-space: nowrap;
+    width: 125px;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }

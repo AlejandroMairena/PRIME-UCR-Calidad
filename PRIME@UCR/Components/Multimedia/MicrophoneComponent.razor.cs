@@ -22,12 +22,17 @@ namespace PRIME_UCR.Components.Multimedia
         ElementReference audio;
         ElementReference timer;
         ElementReference downloadLink;
+        ElementReference fillDiv;
 
         string fileName = "";
         MAlertMessage AlertMessage;
         MAlertMessage RecordAlertMessage;
         MAlertMessage StopAlertMessage;
         MAlertMessage SaveAudioMessageAlertMessage;
+
+        bool recording = false;
+        bool audioRecorded = false;
+        string downloadLinkClass => !recording && audioRecorded ? "btn btn-primary rt-button" : "hidden";
 
         protected override void OnInitialized()
         {
@@ -49,17 +54,20 @@ namespace PRIME_UCR.Components.Multimedia
             SaveAudioMessageAlertMessage = new MAlertMessage
             {
                 AlertType = AlertType.Primary,
-                Message = "Presione el botón de Guardar para adjuntar el audio o Grabar para grabar" +
+                Message = "Presione el botón de Descargar para descargar el audio o Grabar para grabar" +
                 " otro audio."
             };
 
             AlertMessage = RecordAlertMessage;
         }
 
+        bool firstRender = true;
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             // call JS code to initialize Element References
-            await JS.InvokeAsync<bool>("initAudio", recordButton, stopButton, audio, timer, downloadLink);
+            if (firstRender)
+                await JS.InvokeAsync<bool>("initAudio", recordButton, stopButton, audio, timer, downloadLink, fillDiv);
+            firstRender = false;
         }
 
         void OnClose()
@@ -70,11 +78,16 @@ namespace PRIME_UCR.Components.Multimedia
         void OnRecord()
         {
             AlertMessage = StopAlertMessage;
+            recording = true;
         }
 
         void OnStop()
         {
             AlertMessage = SaveAudioMessageAlertMessage;
+            fileName = GetFileName();
+            UpdateFileName();
+            recording = false;
+            audioRecorded = true;
         }
 
 

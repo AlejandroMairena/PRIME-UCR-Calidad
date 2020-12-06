@@ -111,11 +111,12 @@
                             @foreach (var mcontent in MultimediaContent)
                             {
                                 <tr>
-                                    <td>@GetFileName(mcontent)</td>
+                                    <td><p class="rt-filename">@GetFileName(mcontent)</p></td>
                                     <td>@mcontent.Tipo</td>
                                     <td>@mcontent.Fecha_Hora</td>
                                     <td>
                                         <button type="button" class="btn btn-secondary m-btn m-btn-rm action_buttom"
+                                                style="width: 85px"
                                                 @onclick="(() => ShowPopUp(mcontent))">
                                             @GetButonName(mcontent)
                                         </button>
@@ -154,5 +155,9 @@
                  ShowTextComponent="showTextComponent"
                  OnFileUpload="OnFileUpload"
                  ApCode="@ApCode"
+                 ActionName="@ActionName"
+                 CallingPlace="@CallingPlace"
+                 CheckListName="@CheckListName"
+                 CheckListItemName="@CheckListItemName"
                  OnClose="(bool val) => showModal = val">
 </MultimediaModal>

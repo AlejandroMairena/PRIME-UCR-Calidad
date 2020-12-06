@@ -11,7 +11,7 @@ let downloadLinkRef;
 let audioName = "audio";
 
 
-function initAudio(record, stop, audio, _timerRef, downloadLink) {
+function initAudio(record, stop, audio, _timerRef, downloadLink, fillDiv) {
     timerRef = _timerRef;
     downloadLinkRef = downloadLink;
     if (navigator.mediaDevices.getUserMedia) {
@@ -24,6 +24,9 @@ function initAudio(record, stop, audio, _timerRef, downloadLink) {
             const mediaRecorder = new MediaRecorder(stream);
 
             record.onclick = function () {
+                audio.classList = "hidden";
+                fillDiv.classList = "";
+
                 initTimer();
 
                 mediaRecorder.start();
@@ -35,6 +38,9 @@ function initAudio(record, stop, audio, _timerRef, downloadLink) {
             }
 
             stop.onclick = function () {
+                audio.classList = "";
+                fillDiv.classList = "hidden";
+
                 stopTimer();
 
                 mediaRecorder.stop();
@@ -123,7 +129,7 @@ function stopTimer() {
     clearInterval(secTimerInterval);
     clearInterval(minTimerInterval);
     decsCounter = secCounter = minCounter = 0;
-    timerRef.innerText = '';
+    //timerRef.innerText = '';
 }
 
 function updateAudioName(newName) {

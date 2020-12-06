@@ -45,7 +45,8 @@
 
             @* Download Button *@
             <div class="col">
-                <div class="btn btn-primary rt-button">
+                <button class="btn btn-primary rt-button" disabled @ref="mockDownloadButton">Descargar</button>
+                <div class="btn btn-primary rt-button hidden" @ref="downloadButtonContainer">
                     <a style="color: white;" @ref="downloadButton">
                         Descargar
                     </a>

@@ -31,6 +31,7 @@ namespace PRIME_UCR.Components.Multimedia
         string canvasClass => photoTaken ? "rt-box" : "hidden";
         string tpButtonClass => !photoTaken ? "btn btn-primary rt-button" : "hidden"; // Take Photograph Button Class
         string cancelButtonClass => photoTaken ? "btn btn-danger rt-button" : "hidden";
+        string downloadLinkClass => photoTaken ? "btn btn-primary rt-button" : "hidden";
         // Valid file name Indicator
         bool validTitle = false;
         bool notValidSave =>  photoNotTaken || !validTitle;
@@ -71,7 +72,7 @@ namespace PRIME_UCR.Components.Multimedia
             PhotoTakenAlertMessage = new MAlertMessage
             {
                 AlertType = AlertType.Primary,
-                Message = "Presione el botón de Guardar para adjuntar la fotografía o Volver a tomar para tomar " +
+                Message = "Presione el botón de Descargar para descargar la fotografía o Volver a tomar para tomar " +
                 "otra fotografía."
             };
 

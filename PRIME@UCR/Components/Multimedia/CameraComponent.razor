@@ -39,7 +39,11 @@
 
             @* Download Button *@
             <div class="col">
-                <div class="btn btn-primary rt-button">
+                @if (photoNotTaken)
+                {
+                    <button class="btn btn-primary rt-button" disabled>Descargar</button>
+                }
+                <div class="@downloadLinkClass">
                     <a style="color: white;" @ref="downloadLinkRef">
                         Descargar
                     </a>

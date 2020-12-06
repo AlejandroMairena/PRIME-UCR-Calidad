@@ -25,6 +25,8 @@ namespace PRIME_UCR.Components.Multimedia
         ElementReference downloadButton;
         ElementReference stopButton;
         ElementReference closeButton;
+        ElementReference mockDownloadButton;
+        ElementReference downloadButtonContainer;
 
         string fileName = "";
         MAlertMessage AlertMessage;
@@ -70,17 +72,20 @@ namespace PRIME_UCR.Components.Multimedia
             VideoReadyMessage = new MAlertMessage
             {
                 AlertType = AlertType.Primary,
-                Message = "Video procesado. Presione el botón de Guardar para adjuntar el video" +
-                " o Grabar para grabar otro video."
+                Message = "Por favor, espere a que el video sea procesado y luego presione el " +
+                "botón de Descargar para descargar el video o Grabar para grabar otro video."
             };
 
             AlertMessage = OpenCameraAlertMessage;
         }
 
+        bool firstRender = true;
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             // call JS code to initialize Element References
-            await JS.InvokeAsync<bool>("videoInit", startButton, videoPreview, recordedVideo, downloadButton, stopButton, closeButton);
+            if (firstRender)
+                await JS.InvokeAsync<bool>("videoInit", startButton, videoPreview, recordedVideo, downloadButton, stopButton, closeButton, mockDownloadButton, downloadButtonContainer);
+            firstRender = false;
         }
 
         async Task CloseComponent()
@@ -135,6 +140,9 @@ namespace PRIME_UCR.Components.Multimedia
         void OnStopPressed()
         {
             AlertMessage = VideoReadyMessage;
+            // actualizar fileName
+            fileName = GetFileName();
+            UpdateFileName();
         }
 
 

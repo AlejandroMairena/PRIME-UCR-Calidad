@@ -49,6 +49,14 @@ namespace PRIME_UCR.Components.Multimedia
          */
         [Parameter]
         public string ApCode { get; set; }
+        [Parameter]
+        public string ActionName { get; set; } = null;
+        [Parameter]
+        public string CallingPlace { get; set; } = "";
+        [Parameter]
+        public string CheckListName { get; set; } = null;
+        [Parameter]
+        public string CheckListItemName { get; set; } = null;
 
         public async Task CloseImageView()
         {

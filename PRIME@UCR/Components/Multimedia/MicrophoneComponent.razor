@@ -21,6 +21,9 @@
             <button class="btn btn-danger rt-button hidden" @ref="stopButton" @onclick="OnStop">Detener</button>
         </div>
 
+        @* Fill div *@
+        <div style="height: 54px" @ref="fillDiv"></div>
+
         <div class="row" style="margin-top: 20px">
             @* Recorded Audio *@
             <audio style="width:280px; margin: auto" @ref="audio"></audio>
@@ -36,10 +39,21 @@
                 </div>
             </div>
 
+            @* Download Button *@
             <div class="col">
-                @* Dowload Link *@
-                <a @ref="downloadLink">Descargar</a>
+                @if (recording || !audioRecorded)
+                {
+                    <button class="btn btn-primary rt-button" disabled>Descargar</button>
+                }
+                <div class="@downloadLinkClass">
+                    <a style="color: white;" @ref="downloadLink">
+                        Descargar
+                    </a>
+                </div>
+                @*<button class="btn btn-primary rt-button" disabled="@notValidSave">Descargar</button>*@
+
             </div>
+
 
         </div>
 

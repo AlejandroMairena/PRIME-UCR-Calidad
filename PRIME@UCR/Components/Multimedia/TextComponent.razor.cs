@@ -3,6 +3,7 @@ using PRIME_UCR.Application.Services.Multimedia;
 using PRIME_UCR.Domain.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -16,6 +17,15 @@ namespace PRIME_UCR.Components.Multimedia
          */
         [Parameter]
         public string ApCode { get; set; }
+        [Parameter]
+        public string ActionName { get; set; } = null;
+        [Parameter]
+        public string CallingPlace { get; set; } = "";
+        [Parameter]
+        public string CheckListName { get; set; } = null;
+        [Parameter]
+        public string CheckListItemName { get; set; } = null;
+
         [Inject]
         public IEncryptionService EncryptionService { get; set; }
         [Inject]
@@ -76,7 +86,6 @@ namespace PRIME_UCR.Components.Multimedia
             string pathEncrypted = MultimediaContent.Archivo;
             byte[] pathEncryptedByte = System.Convert.FromBase64String(pathEncrypted);
             string pathDecrypted = EncryptionService.Decrypt(pathEncryptedByte);
-            string filename = MultimediaContent.Nombre;
             EncryptionService.DecryptFile(pathDecrypted);
             textContent = System.IO.File.ReadAllText(pathDecrypted);
             return textContent;
@@ -85,20 +94,22 @@ namespace PRIME_UCR.Components.Multimedia
         // Method to store text file
         public async Task StoreTextFile()
         {
-            fileName += ".txt";
-            string path = await fileService.StoreTextFile(text, fileName);
+            byte[] encryptedByte = EncryptionService.Encrypt(fileName);
+            string justName = EncryptionService.EncodeString(Convert.ToBase64String(encryptedByte));
+            string path = await fileService.StoreTextFile(text, justName, ApCode, CallingPlace, ActionName, CheckListName, CheckListItemName);
             byte[] epArray = EncryptionService.Encrypt(path);
             string encryptedPath = Convert.ToBase64String(epArray);
             MultimediaContent mc = new MultimediaContent
             {
-                Nombre = fileName,
+                Nombre = justName,
                 Archivo = encryptedPath,
                 Descripcion = "",
                 Fecha_Hora = DateTime.Now,
-                Tipo = "text/plain"
+                Tipo = "text/plain",
+                Extension = ".txt"
             };
+
             mc = await mcService.AddMultimediaContent(mc); // add MC to DB
-            EncryptionService.EncryptFile(path); // encrypt file
             await OnFileUpload.InvokeAsync(mc); // invoke callback function
         }
 
@@ -107,10 +118,6 @@ namespace PRIME_UCR.Components.Multimedia
             MultimediaModal?.CloseImageView();
         }
 
-        void OnTitleChanged(Tuple<bool, string> tuple)
-        {
-            fileName = tuple.Item2;
-        }
 
         string GetFileName()
         {
