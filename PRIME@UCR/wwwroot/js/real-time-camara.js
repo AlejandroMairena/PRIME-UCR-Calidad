@@ -1,4 +1,6 @@
-﻿function hasGetUserMedia() {
+﻿let imageName = "imagen";
+
+function hasGetUserMedia() {
     let has_um = !!(navigator.mediaDevices &&
         navigator.mediaDevices.getUserMedia);
 
@@ -56,8 +58,14 @@ function handleError(error) {
 }
 
 function setImageDowloadLink(imageRef, downloadLinkRef) {
-    downloadLinkRef.download = 'download.png';
+    downloadLinkRef.download = imageName;
     downloadLinkRef.href = imageRef.src;
+}
+
+function updateImageDownloadName(downloadLinkRef, newName) {
+    imageName = newName + ".png";
+    downloadLinkRef.download = imageName;
+    return true;
 }
 
 function clearCanvas(canvasRef) {

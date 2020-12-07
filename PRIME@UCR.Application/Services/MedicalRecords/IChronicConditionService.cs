@@ -14,6 +14,7 @@ namespace PRIME_UCR.Application.Services.MedicalRecords
 
         Task<IEnumerable<ListaPadecimiento>> GetAll();
 
-        Task<PadecimientosCronicos> InsertChronicConditionAsync(PadecimientosCronicos model);
+        Task InsertConditionAsync(int recordId, List<ListaPadecimiento> insertedList, List<ListaPadecimiento> deletedList);
+
     }
 }

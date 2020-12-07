@@ -13,7 +13,7 @@
         <label>@TimeLabel</label>
         <input type="time" class="@($"form-control {ValidationCssClass}")"
                value="@_time"
-               @oninput="e => OnTimeChanged(e)"/>
+               @onchange="e => OnTimeChanged(e)"/>
         <ValidationMessage For="ValueExpression" />
     </div>
 </div>

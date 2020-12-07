@@ -6,6 +6,7 @@ using PRIME_UCR.Domain.Models.Incidents;
 using PRIME_UCR.Domain.Models.MedicalRecords;
 using PRIME_UCR.Domain.Models.UserAdministration;
 using PRIME_UCR.Domain.Models.CheckLists;
+using PRIME_UCR.Domain.Models.Appointments;
 
 namespace PRIME_UCR.Infrastructure.DataProviders
 {
@@ -62,6 +63,23 @@ namespace PRIME_UCR.Infrastructure.DataProviders
         DbSet<ListaAlergia> ListAlergies { get; set; }
         DbSet<PadecimientosCronicos> ChronicCondition { get; set; }
         DbSet<ListaPadecimiento> ListChronicCondition { get; set; }
+        
+        DbSet<CitaMedica> MedicalAppointment { get; set; }
+
+        DbSet<PoseeReceta> HavePrescription { get; set; }
+
+        DbSet<RecetaMedica> Prescription { get; set; }
+
+        DbSet<EstadoCitaMedica> MedicalAppointmentStatus { get; set; }
+
+        DbSet<MetricasCitaMedica> MedAppMetrics { get; set; }
+
+        DbSet<EspecialidadMedica> MedicalSpecialty { get; set; }
+
+        DbSet<SeEspecializa> Specializes { get; set; }
+
+        DbSet<ReferenciaCita> AppointmentReference { get; set; }
+
         DbSet<T> Set<T>() where T : class;
         Task<int> SaveChangesAsync();     
     }

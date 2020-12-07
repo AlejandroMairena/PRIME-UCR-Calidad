@@ -40,7 +40,12 @@ namespace PRIME_UCR.Components.UserAdministration.ProfilesModifications
 
         [Parameter]
         public EventCallback<ProfileModel> ValueChanged { get; set; }
+        
+        [Parameter]
+        public bool isLoading { get; set; }
 
+        [Parameter]
+        public EventCallback<bool> isLoadingChanged { get; set; }
         /**
          * Function: Assigns, a new list of permissions to the attribute ListPermissions once IsInitialized  is set to true.
          */
@@ -67,7 +72,9 @@ namespace PRIME_UCR.Components.UserAdministration.ProfilesModifications
          */
         protected async Task update_profile(int idPermission, ChangeEventArgs e)
         {
-            if(Value.PermissionsList != null)
+            isLoading = true;
+            await isLoadingChanged.InvokeAsync(isLoading);
+            if (Value.PermissionsList != null)
             {
                 var Permission = (ListPermissions.Find(p => p.IDPermiso == idPermission));
 
@@ -115,6 +122,8 @@ namespace PRIME_UCR.Components.UserAdministration.ProfilesModifications
                 Value.CheckedPermissions[idPermission-1] = (bool)e.Value;
                 await ValueChanged.InvokeAsync(Value);
             }
+            isLoading = false ;
+            await isLoadingChanged.InvokeAsync(isLoading);
         }
     }
 }

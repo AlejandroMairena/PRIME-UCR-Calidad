@@ -35,7 +35,7 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.CheckLists
         {
             return await this.GetByConditionAsync(InstanceChecklistModel => InstanceChecklistModel.PlantillaId == id);
         }
-        
+
         public async Task DeleteAsync(int id, string code)
         {
             var existing = await _db.Set<InstanceChecklist>().FindAsync(code, id);
@@ -48,12 +48,12 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.CheckLists
 
         public async Task InsertInstanceCheckListAsync(int checklistId, string incidentcod) {
 
-            await using var connection = new SqlConnection(_db.DbConnection.ConnectionString);
+            await using var connection = new SqlConnection(_db.ConnectionString);
             var parameters = new Dictionary<string, object>
             {
                 {"plantillaId", checklistId},
                 {"incidenteCod", incidentcod}
-               
+
             };
             var result = await connection.ExecuteScalarAsync(
                 "dbo.InsertarListaIntanciada", parameters, CommandType.StoredProcedure);

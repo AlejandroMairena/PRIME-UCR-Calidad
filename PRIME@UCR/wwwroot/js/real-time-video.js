@@ -5,6 +5,10 @@ let videoFeed;
 let videoPreview;
 let closeButton;
 let videoName = "video.webm";
+let stopPressed = false;
+let mockDownloadButton;
+let downloadButtonContainer;
+
 
 function wait(delayInMS) {
     return new Promise(resolve => setTimeout(resolve, delayInMS));
@@ -16,6 +20,11 @@ function startRecording(stream, lengthInMS) {
     videoFeed.className = "rt-box";
     videoPreview.className = "hidden";
     closeButton.disabled = true;
+
+    mockDownloadButton.classList.remove("hidden");
+    downloadButtonContainer.classList.add("hidden");
+
+    videoPreview.src = null;
 
     let recorder = new MediaRecorder(stream);
     let data = [];
@@ -39,6 +48,9 @@ function startRecording(stream, lengthInMS) {
 }
 
 function stop(video, reset) {
+    if (stopPressed) return true;
+    stopPressed = true;
+    console.log("STOP VIDEO");
     startButton.className = "btn btn-primary rt-button";
     stopButton.className = "hidden";
     videoFeed.className = "hidden";
@@ -53,15 +65,20 @@ function stop(video, reset) {
         videoFeed.className = "rt-box";
         videoPreview.className = "hidden";
     }
+    stopPressed = false;
     return true;
 }
 
-function videoInit(_startButton, preview, recording, downloadButton, _stopButton, _closeButton) {
+function videoInit(_startButton, preview, recording, downloadButton, _stopButton, _closeButton, mockDownButton, _downloadButtonContainer) {
+    console.log("INIT VIDEO");
     startButton = _startButton;
     stopButton = _stopButton;
     videoFeed = preview;
     videoPreview = recording;
     closeButton = _closeButton;
+
+    mockDownloadButton = mockDownButton;
+    downloadButtonContainer = _downloadButtonContainer;
 
     stopButton.className = "hidden";
     videoPreview.className = "hidden";
@@ -77,16 +94,19 @@ function videoInit(_startButton, preview, recording, downloadButton, _stopButton
             return new Promise(resolve => preview.onplaying = resolve);
         }).then(() => startRecording(preview.captureStream(), recordingTimeMS))
             .then(recordedChunks => {
+                // video ready
                 let recordedBlob = new Blob(recordedChunks, { type: "video/webm" });
                 recording.src = URL.createObjectURL(recordedBlob);
                 downloadButton.href = recording.src;
                 downloadButton.download = videoName;
+                mockDownButton.classList.add("hidden");
+                downloadButtonContainer.classList.remove("hidden");
             })
             .catch((e) => console.log(e));
     }, false);
 
     stopButton.addEventListener("click", function () {
-        stop(preview, false);
+        stop(videoFeed, false);
     }, false);
 
 
