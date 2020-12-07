@@ -6,7 +6,7 @@
 	[Id_Item_Padre]				INT			NULL,
 	[Id_Lista_Padre]			INT			NULL,
 	[Codigo_Incidente_Padre]	VARCHAR(50)	NULL,
-	[Completado]				BIT			NULL,
+	[Completado]				BIT			NOT NULL DEFAULT 0,
 	[FechaHoraInicio]			DATETIME	NULL,
 	[FechaHoraFin]				DATETIME	NULL,
 	PRIMARY KEY(Id_Item, Id_Lista, Codigo_Incidente),

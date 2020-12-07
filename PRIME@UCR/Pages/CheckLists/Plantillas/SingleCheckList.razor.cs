@@ -59,6 +59,8 @@ namespace PRIME_UCR.Pages.CheckLists.Plantillas
         protected int parentItemId { get; set; }
 
         public int startingIndex = -1;
+        public int? invalidItemMoved = -1;
+        public string _moveItemInvalid = "No puede colocar este item en ese lugar.";
 
         protected bool formInvalid = false;
         protected EditContext editContext;
@@ -95,6 +97,7 @@ namespace PRIME_UCR.Pages.CheckLists.Plantillas
             itemsList = new List<Item>();
             orderedList = null;
             orderedListLevel = null;
+            invalidItemMoved = -1;
 
             createItem = false;
             createSubItem = false;
@@ -149,7 +152,7 @@ namespace PRIME_UCR.Pages.CheckLists.Plantillas
         }
         protected async Task UpdateActive()
         {
-            _statusMessage="";
+            _statusMessage = "";
             if (list.Activada == true)
             {
                 list.Activada = false;
@@ -253,6 +256,15 @@ namespace PRIME_UCR.Pages.CheckLists.Plantillas
             editItem = true;
         }
 
+        protected async Task DeleteItem(int itemId)
+        {
+            _statusMessage = "";
+            await MyCheckListService.DeleteItems(itemId);
+            await RefreshModels();
+        }
+
+        
+
         protected override async Task OnParametersSetAsync()
         {
             await RefreshModels();
@@ -321,7 +333,7 @@ namespace PRIME_UCR.Pages.CheckLists.Plantillas
         protected string truncate(string text, int level, int lines)
         {
             if (String.IsNullOrEmpty(text)) return "";
-            int maxLength = lines * (65 - level * 5);
+            int maxLength = lines * (60 - level * 5);
             return text.Length <= maxLength ? text : text.Substring(0, maxLength) + "...";
         }
 
@@ -372,14 +384,17 @@ namespace PRIME_UCR.Pages.CheckLists.Plantillas
 
         protected bool CanDragToParent(Item item, Item ItemUnder)
         {
+            bool canDrop = false;
             if (ItemUnder == null)
             {
-                return true;
+                canDrop = true;
             }
             else
             {
-                return item.IDSuperItem == ItemUnder.IDSuperItem;
+                canDrop = item.IDSuperItem == ItemUnder.IDSuperItem;
             }
+            invalidItemMoved = canDrop ? -1 : item.Id;
+            return canDrop;
         }
 
         protected async void Drop(Item item)
