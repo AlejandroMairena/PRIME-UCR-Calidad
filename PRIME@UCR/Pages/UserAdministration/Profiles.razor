@@ -6,8 +6,6 @@
 
 @attribute [HasPermission(AuthorizationPermissions.CanManageUsers)]
 
-<link href="css/Profiles.css" rel="stylesheet" />
-
 <h3> Modificación de Permisos y Perfiles </h3>
 <hr />
 <div class="row">
@@ -27,7 +25,7 @@
 
             @if (!String.IsNullOrEmpty(profile.ProfileName))
             {
-                <div class="row">
+                <div class="row  d-flex justify-content-center">
                     <Loading IsLoading="profile.ProfileName == null || isLoading == true">
                         <div class="col-6">
                             <div class="rounded" style="background-color: white;padding-left: 10px;padding-right: 10px;">
@@ -44,10 +42,10 @@
                                 <br />
                                 <h5>Permisos</h5>
                                 <PermissionsComponent @bind-Value="profile"
-                                                      isLoading="isLoading"
-                                                      isLoadingChanged="()=> { isLoading = !isLoading; StateHasChanged(); }" />
+                                                        isLoading="isLoading"
+                                                        isLoadingChanged="()=> { isLoading = !isLoading; StateHasChanged(); }" />
                             </div>
-                        </div>
+                            </div>
                     </Loading>
                 </div>
             }
