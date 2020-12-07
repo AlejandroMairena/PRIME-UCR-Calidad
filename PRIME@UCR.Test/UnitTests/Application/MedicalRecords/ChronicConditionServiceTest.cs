@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿/*using System.Collections.Generic;
 using Xunit;
 using Moq;
 using System.Threading.Tasks;
@@ -80,3 +80,4 @@ namespace PRIME_UCR.Test.UnitTests.Application.MedicalRecords
     }
 }
 
+*/

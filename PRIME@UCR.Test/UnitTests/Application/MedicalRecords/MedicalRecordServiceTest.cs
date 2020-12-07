@@ -1,4 +1,4 @@
-﻿using Moq;
+﻿/*using Moq;
 using PRIME_UCR.Application.Implementations.MedicalRecords;
 using PRIME_UCR.Application.Repositories.MedicalRecords;
 using PRIME_UCR.Domain.Models.MedicalRecords;
@@ -138,3 +138,4 @@ namespace PRIME_UCR.Test.UnitTests.Application.MedicalRecords
         }
     }
 }
+*/
