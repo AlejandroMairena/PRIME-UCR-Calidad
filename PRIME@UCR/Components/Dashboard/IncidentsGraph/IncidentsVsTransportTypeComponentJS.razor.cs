@@ -37,6 +37,14 @@ namespace PRIME_UCR.Components.Dashboard.IncidentsGraph
             await GenerateColumnChart();
         }
 
+        /*
+         *  GenerateIncidentsVsTransportTypeComponentJS()
+         *  
+         *  Method that generates the IncidentsVsTransportType Graph 
+         *  based on the incoming list from the dashboard service in which 
+         *  data is already filtered 
+         *  
+         */
         private async Task GenerateColumnChart()
         {
             var incidentsData = Data.filteredIncidentsData;
@@ -55,7 +63,7 @@ namespace PRIME_UCR.Components.Dashboard.IncidentsGraph
 
 
 
-            await JS.InvokeVoidAsync("CreateColumnChart", (object)results);
+            await JS.InvokeVoidAsync("CreateIncidentsVsTransportTypeComponent", (object)results);
         }
 
 

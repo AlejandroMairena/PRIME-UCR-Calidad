@@ -25,16 +25,56 @@ namespace PRIME_UCR.Components.MedicalRecords.Tabs
         private EditContext _contAle;
         private EditContext _contCond;
 
+        public List<ListaAntecedentes> _backgroundList = new List<ListaAntecedentes>();
+        public List<ListaAntecedentes> _currentBackgroundList = new List<ListaAntecedentes>();
+
+        public List<ListaAlergia> _allergyList = new List<ListaAlergia>();
+        public List<ListaAlergia> _currentAllergyList = new List<ListaAlergia>();
+
+        public List<ListaPadecimiento> _conditionList = new List<ListaPadecimiento>();
+        public List<ListaPadecimiento> _currentConditionList = new List<ListaPadecimiento>();
+
         public ListaAntecedentes antecedentePrueba;
         public ListaAlergia AlergiaPrueba;
         public ListaPadecimiento PadecimientoPrueba;
 
-        private bool backgroundAlreadyAdded; 
-        private bool showBackground;
-        private bool allergyAlreadyAdded;
-        private bool showAllergy;
-        private bool ChronicConditionAlreadyAdded;
-        private bool showChronicCondition;
+        private bool backgroundAlreadyAdded;
+        private bool _saveBackgroundButtonEnabled;
+        private bool _saveAllergyButtonEnabled;
+        private bool _saveConditionButtonEnabled;
+
+        private IEnumerable<int> RegisteredBackgrounds
+        {
+            get => _backgroundList.Select(bg => bg.Id);
+            set =>
+                   _backgroundList =
+                        (from ante in ListaAntecedentes
+                         join id in value on ante.Id equals id
+                         select ante)
+                        .ToList();
+        }
+
+        private IEnumerable<int> RegisteredAllergies
+        {
+            get => _allergyList.Select(bg => bg.Id);
+            set =>
+                   _allergyList =
+                        (from ale in ListaAlergia
+                         join id in value on ale.Id equals id
+                         select ale)
+                        .ToList();
+        }
+
+        private IEnumerable<int> RegisteredConditions
+        {
+            get => _conditionList.Select(bg => bg.Id);
+            set =>
+                   _conditionList =
+                        (from cond in ListaPadecimiento
+                         join id in value on cond.Id equals id
+                         select cond)
+                        .ToList();
+        }
 
         MatTheme AddButtonTheme = new MatTheme()
         {
@@ -44,163 +84,187 @@ namespace PRIME_UCR.Components.MedicalRecords.Tabs
 
         protected override async Task OnInitializedAsync()
         {
-            _contAnte = new EditContext(ListaAntecedentes);
-            _contAle = new EditContext(ListaAlergia);
-            _contCond = new EditContext(ListaPadecimiento);
-            showBackground = false;
-            showAllergy = false;
-            backgroundAlreadyAdded = false;
-            allergyAlreadyAdded = false;
-            showChronicCondition = false;
-            ChronicConditionAlreadyAdded = false;
-    }
+            Antecedentes = (await MedicalBackgroundService.GetBackgroundByRecordId(idExpediente)).ToList();
+            PadecimientosCronicos = (await ChronicConditionService.GetChronicConditionByRecordId(idExpediente)).ToList();
+            Alergias = (await AllergyService.GetAlergyByRecordId(idExpediente)).ToList();
 
-        private void showBackgroundOptions()
-        {
-            if (showBackground)
-            {
-                showBackground = false;
-            }
-            else 
-            {
-                showBackground = true;
-            }
+            LoadRecordBackgrounds();
+            LoadAllergies();
+            LoadConditions();
         }
 
-        private void showChronicConditionOptions()
+        private async Task SaveMedicalBackground()
         {
-            if (showChronicCondition)
-            {
-                showChronicCondition = false;
-            }
-            else
-            {
-                showChronicCondition = true;
-            }
+            StateHasChanged();
+            List<ListaAntecedentes> insertedList = new List<ListaAntecedentes>();
+            ExceptBackgroundList(insertedList, _backgroundList, _currentBackgroundList);
+            List<ListaAntecedentes> deletedList = new List<ListaAntecedentes>();
+            ExceptBackgroundList(deletedList, _currentBackgroundList, _backgroundList);
+            await MedicalBackgroundService.InsertBackgroundAsync(idExpediente, insertedList, deletedList);
+            Antecedentes = (await MedicalBackgroundService.GetBackgroundByRecordId(idExpediente)).ToList();
+            _contAnte = new EditContext(_backgroundList);
+            _saveBackgroundButtonEnabled = false;
+            _contAnte.OnFieldChanged += ToggleSaveBackgroundButton;
+            LoadRecordBackgrounds();
         }
 
-        private bool ifExistsChronicCondition(int id)
+        private async Task SaveAllergies()
         {
-            bool result = false;
-            for (int i = 0; i < PadecimientosCronicos.Count && !result; ++i)
-            {
-                if (PadecimientosCronicos[i].IdListaPadecimiento == id)
+            StateHasChanged();
+            List<ListaAlergia> insertedList = new List<ListaAlergia>();
+            ExceptAllergyList(insertedList, _allergyList, _currentAllergyList);
+            List<ListaAlergia> deletedList = new List<ListaAlergia>();
+            ExceptAllergyList(deletedList, _currentAllergyList, _allergyList);
+            await AllergyService.InsertAllergyAsync(idExpediente, insertedList, deletedList);
+            Alergias = (await AllergyService.GetAlergyByRecordId(idExpediente)).ToList();
+            _contAle = new EditContext(_allergyList);
+            _saveAllergyButtonEnabled = false;
+            _contAle.OnFieldChanged += ToggleSaveAllergyButton;
+            LoadAllergies();
+        }
+
+        private async Task SaveConditions()
+        {
+            StateHasChanged();
+            List<ListaPadecimiento> insertedList = new List<ListaPadecimiento>();
+            ExceptConditionList(insertedList, _conditionList, _currentConditionList);
+            List<ListaPadecimiento> deletedList = new List<ListaPadecimiento>();
+            ExceptConditionList(deletedList, _currentConditionList, _conditionList);
+            await ChronicConditionService.InsertConditionAsync(idExpediente, insertedList, deletedList);
+            PadecimientosCronicos = (await ChronicConditionService.GetChronicConditionByRecordId(idExpediente)).ToList();
+            _contCond = new EditContext(_conditionList);
+            _saveConditionButtonEnabled = false;
+            _contCond.OnFieldChanged += ToggleSaveConditionButton;
+            LoadConditions();
+        }
+
+        private void ToggleSaveBackgroundButton(object? sender, FieldChangedEventArgs e)
+        {
+            _saveBackgroundButtonEnabled = _contAnte.IsModified();
+            StateHasChanged();
+        }
+
+        private void ToggleSaveAllergyButton(object? sender, FieldChangedEventArgs e)
+        {
+            _saveAllergyButtonEnabled = _contAle.IsModified();
+            StateHasChanged();
+        }
+
+        private void ToggleSaveConditionButton(object? sender, FieldChangedEventArgs e)
+        {
+            _saveConditionButtonEnabled = _contCond.IsModified();
+            StateHasChanged();
+        }
+
+        private void ExceptBackgroundList(List<ListaAntecedentes> returnList, List<ListaAntecedentes> inputList, List<ListaAntecedentes> exceptionList)
+        {
+            bool stop = false;
+            foreach (ListaAntecedentes background in inputList) {
+                for (int i = 0; i < exceptionList.Count() && !stop; ++i)
                 {
-                    result = true;
-                }
-            }
-            return result;
-        }
-
-        private bool ifExistsBackground(int id)
-        {
-            bool result = false;
-            for (int i = 0; i < Antecedentes.Count && !result; ++i)
-            {
-                if (Antecedentes[i].IdListaAntecedentes == id)
-                {
-                    result = true;
-                }
-            }
-            return result;
-        }
-
-        private bool ifExistsAllergy(int id)
-        {
-            bool result = false;
-            for (int i = 0; i < Alergias.Count && !result; ++i)
-            {
-                if (Alergias[i].IdListaAlergia == id)
-                {
-                    result = true;
-                }
-            }
-            return result;
-        }
-
-
-        private async Task insertBackground()
-        {
-            if (antecedentePrueba != null) { 
-                if (!ifExistsBackground(antecedentePrueba.Id))
-                {
-                    Antecedentes background = new Antecedentes()
+                    if (background.Id == exceptionList[i].Id)
                     {
-                        IdListaAntecedentes = antecedentePrueba.Id,
-                        IdExpediente = idExpediente,
-                        FechaCreacion = DateTime.Now
-                    };
-                    showBackground = false;
-                    backgroundAlreadyAdded = false;
-                    await MedicalBackgroundService.InsertBackgroundAsync(background);
-                    Antecedentes = (await MedicalBackgroundService.GetBackgroundByRecordId(idExpediente)).ToList();
-                    //StateHasChanged();
+                        stop = true;
+                    }
                 }
-                else
-                {
-                    backgroundAlreadyAdded = true;
+                if (!stop) {
+                    returnList.Add(background);
                 }
+                stop = false;
             }
         }
 
-        private async Task insertAllergy()
+        private void ExceptAllergyList(List<ListaAlergia> returnList, List<ListaAlergia> inputList, List<ListaAlergia> exceptionList)
         {
-            if (AlergiaPrueba != null)
+            bool stop = false;
+            foreach (ListaAlergia allergy in inputList)
             {
-                if (!ifExistsAllergy(AlergiaPrueba.Id))
+                for (int i = 0; i < exceptionList.Count() && !stop; ++i)
                 {
-                    Alergias allergy = new Alergias()
+                    if (allergy.Id == exceptionList[i].Id)
                     {
-                        IdListaAlergia = AlergiaPrueba.Id,
-                        IdExpediente = idExpediente,
-                        FechaCreacion = DateTime.Now
-                    };
-                    showAllergy = false;
-                    allergyAlreadyAdded = false;
-                    await AllergyService.InsertAllergyAsync(allergy);
-                    Alergias = (await AllergyService.GetAlergyByRecordId(idExpediente)).ToList();
+                        stop = true;
+                    }
                 }
-                else
+                if (!stop)
                 {
-                    allergyAlreadyAdded = true;
+                    returnList.Add(allergy);
                 }
+                stop = false;
             }
         }
 
-        private async Task insertChronicCondition()
+        private void ExceptConditionList(List<ListaPadecimiento> returnList, List<ListaPadecimiento> inputList, List<ListaPadecimiento> exceptionList)
         {
-            if (PadecimientoPrueba != null)
+            bool stop = false;
+            foreach (ListaPadecimiento condition in inputList)
             {
-                if (!ifExistsChronicCondition(PadecimientoPrueba.Id))
+                for (int i = 0; i < exceptionList.Count() && !stop; ++i)
                 {
-                    PadecimientosCronicos ChronicCondition = new PadecimientosCronicos()
+                    if (condition.Id == exceptionList[i].Id)
                     {
-                        IdListaPadecimiento = PadecimientoPrueba.Id,
-                        IdExpediente = idExpediente,
-                        FechaCreacion = DateTime.Now
-                    };
-                    showChronicCondition = false;
-                    ChronicConditionAlreadyAdded = false;
-                    await ChronicConditionService.InsertChronicConditionAsync(ChronicCondition);
-                    PadecimientosCronicos = (await ChronicConditionService.GetChronicConditionByRecordId(idExpediente)).ToList();
+                        stop = true;
+                    }
                 }
-                else
+                if (!stop)
                 {
-                    ChronicConditionAlreadyAdded = true;
+                    returnList.Add(condition);
                 }
+                stop = false;
             }
         }
 
-        private void showAllergyOptions()
+        private async Task LoadRecordBackgrounds()
         {
-            if (showAllergy)
+            _contAnte = new EditContext(_backgroundList);
+            _saveBackgroundButtonEnabled = false;
+            _contAnte.OnFieldChanged += ToggleSaveBackgroundButton;
+            _backgroundList.Clear();
+            _currentBackgroundList.Clear();
+            foreach (Antecedentes background in Antecedentes)
             {
-                showAllergy = false;
-            }
-            else
-            {
-                showAllergy = true;
+                _backgroundList.Add(background.ListaAntecedentes);
+                _currentBackgroundList.Add(background.ListaAntecedentes);
             }
         }
+
+        private async Task LoadAllergies()
+        {
+            _contAle = new EditContext(_allergyList);
+            _saveAllergyButtonEnabled = false;
+            _contAle.OnFieldChanged += ToggleSaveAllergyButton;
+            _allergyList.Clear();
+            _currentAllergyList.Clear();
+            foreach (Alergias allergy in Alergias)
+            {
+                _allergyList.Add(allergy.ListaAlergia);
+                _currentAllergyList.Add(allergy.ListaAlergia);
+            }
+        }
+
+        private async Task LoadConditions()
+        {
+            _contCond = new EditContext(_conditionList);
+            _saveConditionButtonEnabled = false;
+            _contCond.OnFieldChanged += ToggleSaveConditionButton;
+            _conditionList.Clear();
+            _currentConditionList.Clear();
+            foreach (PadecimientosCronicos condition in PadecimientosCronicos)
+            {
+                _conditionList.Add(condition.ListaPadecimiento);
+                _currentConditionList.Add(condition.ListaPadecimiento);
+            }
+        }
+
+        public void Dispose()
+        {
+            if (_contAnte != null)
+                _contAnte.OnFieldChanged -= ToggleSaveBackgroundButton;
+            if (_contAle != null)
+                _contAle.OnFieldChanged -= ToggleSaveAllergyButton;
+            if (_contCond != null)
+                _contCond.OnFieldChanged -= ToggleSaveConditionButton;
+        }
+
     }
 }

@@ -445,3 +445,4 @@ $RECYCLE.BIN/
 
 ## ignore data
 PRIME@UCR/wwwroot/datas
+/PRIME@UCR.Application/FilesToSend

@@ -2,11 +2,14 @@
 using PRIME_UCR.Application.DTOs.Dashboard;
 using PRIME_UCR.Application.DTOs.Incidents;
 using PRIME_UCR.Application.Permissions.Dashboard;
+using PRIME_UCR.Application.Repositories.Appointments;
 using PRIME_UCR.Application.Repositories.Dashboard;
 using PRIME_UCR.Application.Repositories.Incidents;
 using PRIME_UCR.Application.Services.Dashboard;
 using PRIME_UCR.Application.Services.UserAdministration;
 using PRIME_UCR.Domain.Models;
+using PRIME_UCR.Domain.Models.Appointments;
+using PRIME_UCR.Domain.Models.UserAdministration;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -23,18 +26,24 @@ namespace PRIME_UCR.Application.Implementations.Dashboard
         public readonly IDistrictRepository districtRepository;
         public readonly ICountryRepository countryRepository;
         public readonly IMedicalCenterRepository medicalCenterRepository;
+        public readonly IAppointmentRepository appointmentRepository;
+        public readonly IMedicalAppointmentRepository medicalAppointmentRepository;
 
         public DashboardService(IDashboardRepository dashboardRep, 
             IIncidentRepository _incidentRepository,
             IDistrictRepository _districtRepository,
             ICountryRepository _countryRepository,
-            IMedicalCenterRepository _medicalCenterRepository)
+            IMedicalCenterRepository _medicalCenterRepository, 
+            IAppointmentRepository _appointmentRepository,
+            IMedicalAppointmentRepository _medicalAppointmentRepository)
         {
             dashboardRepository = dashboardRep;
             incidentRepository = _incidentRepository;
             districtRepository = _districtRepository;
             countryRepository = _countryRepository;
             medicalCenterRepository = _medicalCenterRepository;
+            appointmentRepository = _appointmentRepository;
+            medicalAppointmentRepository = _medicalAppointmentRepository;
         }
 
         public async Task<int> GetIncidentCounterAsync(string modality, string filter)
@@ -51,6 +60,12 @@ namespace PRIME_UCR.Application.Implementations.Dashboard
         {
             return await dashboardRepository.GetAllDistrictsAsync();
         }
+        /**
+         * Method that query the list of all incidents and filter data
+         * based on the filters selected by the user 
+         * 
+         * return: Filtered List for graph creation
+         */
 
         public async  Task<List<Incidente>> GetFilteredIncidentsList(FilterModel Value)
         {
@@ -157,6 +172,56 @@ namespace PRIME_UCR.Application.Implementations.Dashboard
             }
 
             return filteredList;
+        }
+
+
+        //Appointments
+        public async Task<List<CitaMedica>> GetAllMedicalAppointmentsAsync()
+        {
+            var medicalAppointments =await  medicalAppointmentRepository.GetAllMedicalAppointmentsAsync();
+            return medicalAppointments.ToList();
+        }
+
+       public async Task<List<Cita>> GetAllAppointments()
+        {
+            var appointments = await appointmentRepository.GetAllAsync();
+            return appointments.ToList();
+        }
+
+        public async Task<List<CitaMedica>> GetFilteredMedicalAppointmentsAsync(AppointmentFilterModel Value, List<CentroMedico> medicalCenters, List<Paciente> patients)
+        {
+            var filteredList = await GetAllMedicalAppointmentsAsync();
+
+            //MedicalCenter
+            if (Value.Hospital != null && Value.Hospital.Count() > 0)
+            {
+                var tempFilteredList = new List<CitaMedica>();
+                foreach(var medicalCenter in Value.Hospital)
+                {
+                    var temp = filteredList.Where((citaMedica) => medicalCenter.MedicalCenter.Id == citaMedica.CentroMedicoId).ToList();
+                    tempFilteredList.AddRange(temp);
+                }
+                filteredList = tempFilteredList;
+            }
+
+            //Patients
+            if (Value.PatientModel != null && Value.PatientModel.Count() > 0) 
+            {
+                var tempFilteredList = new List<CitaMedica>();
+                foreach (var patient in Value.PatientModel)
+                {
+                    var temp = filteredList.Where((citaMedica) => patient.Patient.Cédula == citaMedica.Cita.Expediente.CedulaPaciente).ToList();
+                    tempFilteredList.AddRange(temp);
+                }
+                filteredList = tempFilteredList;
+            }
+
+            return filteredList;
+        }
+
+        public async Task<List<Paciente>> GetAllPacientes()
+        {
+            return await dashboardRepository.GetAllPacientes();
         }
     }
 }

@@ -59,6 +59,10 @@ a, .btn-link {
     z-index: 2;
     position: relative;
 }
+    .btn-disabled:hover {
+        background: #676766;
+        color: white;
+    }
 
 
 app {
@@ -404,4 +408,15 @@ span.navigation-item-text:hover {
         color: white;
     }
 
+.sidebar-cursor{
+    cursor: pointer;
+}
+
+.responsive-sidebar {
+    background-color: #095290;
+}
+
+.navbar-toggler-icon {
+    border-color: rgb(255,102,203);
+}
 

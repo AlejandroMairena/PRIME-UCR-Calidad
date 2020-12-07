@@ -33,6 +33,9 @@ namespace PRIME_UCR.Pages.UserAdministration
         [Inject]
         public UserManager<Usuario> userManager { get; set; }
 
+        [Inject]
+        public NavigationManager NavigationManager { get; set; }
+
         private string statusMessage;
 
         private string messageType;
@@ -69,11 +72,19 @@ namespace PRIME_UCR.Pages.UserAdministration
                     messageType = "danger";
                 } else
                 {
-                    await telefonoService.AddNewPhoneNumberAsync(personModel.IdCardNumber, infoOfUserToRegister.PrimaryPhoneNumber);
-                    if(!String.IsNullOrEmpty(infoOfUserToRegister.SecondaryPhoneNumber))
+                    try
                     {
-                        await telefonoService.AddNewPhoneNumberAsync(personModel.IdCardNumber, infoOfUserToRegister.SecondaryPhoneNumber);
+                        await telefonoService.AddNewPhoneNumberAsync(personModel.IdCardNumber, infoOfUserToRegister.PrimaryPhoneNumber);
+                        if (!String.IsNullOrEmpty(infoOfUserToRegister.SecondaryPhoneNumber))
+                        {
+                            await telefonoService.AddNewPhoneNumberAsync(personModel.IdCardNumber, infoOfUserToRegister.SecondaryPhoneNumber);
+                        }
                     }
+                    catch (Exception)
+                    {
+                        //Nothing happens phone number duplicated
+                    }
+                   
 
                     var user = (await userService.GetAllUsersWithDetailsAsync()).ToList().Find(u => u.Email == userModel.Email);
 
@@ -89,7 +100,7 @@ namespace PRIME_UCR.Pages.UserAdministration
                     var code1 = code.Substring(0, firstHalf);
                     var code2 = code.Substring(firstHalf, code.Length - firstHalf);
                     var emailCoded = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(user.Email));
-                    var url = "https://localhost:44368/validateUserAccount/" + emailCoded + "/" + code1 + "/" + code2;
+                    var url = $"{NavigationManager.BaseUri}/validateUserAccount/" + emailCoded + "/" + code1 + "/" + code2;
                     var message = new EmailContentModel()
                     {
                         Destination = userModel.Email,
