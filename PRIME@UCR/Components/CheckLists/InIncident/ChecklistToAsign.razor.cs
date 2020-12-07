@@ -16,6 +16,14 @@ namespace PRIME_UCR.Components.CheckLists.InIncident
 {
     public class ChecklistToAsignBase : ComponentBase
     {
+        public ChecklistToAsignBase()
+        {
+            details.Add("");
+            instruct.Add("No se pueden desasignar del incidente");
+            instruct.Add("Hay lista(s) de chequeo que han sido desactivada(s): ");
+            states.Add("");
+            showInfo = false;
+        }
         public class Todo
         {
             public bool IsDone { get; set; }
@@ -44,11 +52,16 @@ namespace PRIME_UCR.Components.CheckLists.InIncident
         public string porcentComplete = "0";
         public double numPorcentComplete = 0;
         public double longit;
+        //instrctions for the info to user
+        public List<string> instruct = new List<string>();
+        //array for show to user if some checklist was deactivated 
+        public List<string> states = new List<string>();
+        public List<string> details = new List<string>();
+        public bool showInfo;
 
         protected override async Task OnInitializedAsync()
         {
             await RefreshModels();
-            Llenar();
             saved = false;
         }
         /**
@@ -59,6 +72,10 @@ namespace PRIME_UCR.Components.CheckLists.InIncident
             TempLists = new List<CheckList>();
             lists = await MyService.GetAllChecklistActivates();
             instancelists = await MyInstanceChecklistService.GetByIncidentCod(incidentCod);
+            showInfo = false;
+            details[0] = "";
+            states[0] = "";
+            await Llenar();
         }
 
         protected async Task Update()
@@ -117,7 +134,7 @@ namespace PRIME_UCR.Components.CheckLists.InIncident
         /*
          * rellena el arreglo de la cantidad de listas de chequeo en falso
          */
-        public void Llenar()
+        public async Task Llenar()
         {
             foreach (var templist in lists)
             {
@@ -132,6 +149,26 @@ namespace PRIME_UCR.Components.CheckLists.InIncident
                 TempDetail.Add(TodoItem);
                 TempsIds.Add(idds);
             }
+            await LlenarDesactivadasAsync();
+        }
+        /*
+        * rellena el array de la cantidad de listas de chequeo en falso
+        */
+        public async Task LlenarDesactivadasAsync()
+        {
+            foreach (var instan in instancelists)
+            {
+                if (!lists.Any(p => p.Id == instan.PlantillaId))
+                {
+                    showInfo = true;
+                    CheckList Temp = new CheckList();
+                    Temp = await MyService.GetById(instan.PlantillaId);
+                    TempLists.Add(Temp);
+                    details[0] = instruct[0];
+                    states[0] = instruct[1];
+                }
+            }
+
         }
 
         /**
