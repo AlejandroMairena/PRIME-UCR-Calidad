@@ -25,13 +25,10 @@ function CreateAppointmentsVsMedicalRecordsWeightComponentJS(results) {
         var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
         dateAxis.renderer.minGridDistance = 50;
 
+        var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+
         // Create series
         function createAxisAndSeries(field, dateName, name, opposite) {
-            var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-            if (chart.yAxes.indexOf(valueAxis) != 0) {
-                valueAxis.syncWithAxis = chart.yAxes.getIndex(0);
-            }
-
             var series = chart.series.push(new am4charts.LineSeries());
             series.dataFields.valueY = field;
             series.dataFields.dateX = dateName;
@@ -47,12 +44,6 @@ function CreateAppointmentsVsMedicalRecordsWeightComponentJS(results) {
             var bullet = series.bullets.push(new am4charts.CircleBullet());
             bullet.circle.stroke = interfaceColors.getFor("background");
             bullet.circle.strokeWidth = 2;
-
-            valueAxis.renderer.line.strokeOpacity = 1;
-            valueAxis.renderer.line.strokeWidth = 2;
-            valueAxis.renderer.line.stroke = series.stroke;
-            valueAxis.renderer.labels.template.fill = series.stroke;
-            valueAxis.renderer.opposite = opposite;
         }
 
         
@@ -74,7 +65,7 @@ function CreateAppointmentsVsMedicalRecordsWeightComponentJS(results) {
         for (var i = 0; i < results.length; i += 2) {
             var dateName = "date" + i.toString();
             var valueName = "value" + i.toString();
-            createAxisAndSeries(valueName, dateName, results[i][0] + " Peso", false);
+            createAxisAndSeries(valueName, dateName, results[i][0], false);
         }
 
 
