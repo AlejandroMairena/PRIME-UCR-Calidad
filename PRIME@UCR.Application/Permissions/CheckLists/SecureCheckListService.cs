@@ -50,12 +50,6 @@ namespace PRIME_UCR.Application.Permissions.CheckLists
             return await checkListService.InsertCheckListItem(item);
         }
 
-        public async Task<Item> SaveImageItem(Item item)
-        {
-            await primeSecurityService.CheckIfIsAuthorizedAsync(new AuthorizationPermissions[] { AuthorizationPermissions.CanCreateChecklist });
-            return await checkListService.SaveImageItem(item);
-        }
-
         public async Task<Item> UpdateItem(Item item)
         {
             await primeSecurityService.CheckIfIsAuthorizedAsync(new AuthorizationPermissions[] { AuthorizationPermissions.CanCreateChecklist });
