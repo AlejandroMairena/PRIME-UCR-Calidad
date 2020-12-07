@@ -15,15 +15,38 @@ namespace PRIME_UCR.Components.Multimedia
     {
         [Parameter]
         public RenderFragment ChildContent { get; set; }
+        // The List of Multimedia Content displayed by the component
         [Parameter]
         public List<MultimediaContent> MultimediaContent { get; set; }
+        /* Function pass as parameter from Parent Component to be notified
+         * when a file has been uploaded. 
+         */
         [Parameter]
         public EventCallback<MultimediaContent> OnFileUpload { get; set; }
+        /* Parameter that indicates if the component is view only or
+         * if it accepts changes.
+         */
+        [Parameter]
+        public bool ViewOnly { get; set; } = false;
+        /* Appointment code for auto naming real time multimedia content.
+         */
+        [Parameter]
+        public string ApCode { get; set; } = "";
+        [Parameter]
+        public string ActionName { get; set; } = null;
+        [Parameter]
+        public string CallingPlace { get; set; } = "";
+        [Parameter]
+        public string CheckListName { get; set; } = null;
+        [Parameter]
+        public string CheckListItemName { get; set; } = null;
 
+        
+        // List of valid file types 
         public List<string> validTypeFiles;
         bool validFileType = true;
 
-        bool open = false;
+        bool open = false; // State of the dropdown 
         string divDDClass = "dropdown";
         string ddMenuClass = "dropdown-menu dropdown-menu-right";
         string invalidMessage = "";
@@ -38,22 +61,17 @@ namespace PRIME_UCR.Components.Multimedia
         bool showVideo = false;
         bool showVideoComponent = false;
         bool showTextComponent = false;
-
+        bool showPDF = false;
         bool showDropdown = false;
         MultimediaContent modalMContent = null;
-
+         
         protected override void OnInitialized()
         {
             validTypeFiles = new List<string>() { "ogg", "oga", "jpeg", "webm", "mpeg", "pdf", "doc", "docx", "xls", "txt", "mp3", "jpg", "png", "mp4", "wmv", "avi", "text/plain" };
         }
-
-        protected override async Task OnInitializedAsync()
-        {
-            await JS.InvokeAsync<bool>("hasGetUserMedia", null);
-        }
-
-        // Method to handle main button click
-        // It opens and closes the dropdown.
+        //@Parametros: Ninguno
+        //@Funcion: Controla que el dropdown de los archivos se abra y cierre correctamente
+        //@Retorno: Ninguno
         public void Open()
         {
             divDDClass = open ? "dropdown" : "dropdown show";
@@ -61,71 +79,114 @@ namespace PRIME_UCR.Components.Multimedia
 
             open = !open;
         }
-
-        // Method to handle the file selected by the user
-        // If the file has a valid type it will be stored as a 
-        // MultimediaContent instance in the DB and the file stored
-        // in the file repository.
-        // Otherwise, it will rejected and a warning will be shown
-        // to the user. 
+        //@Parametros: Ninguno
+        //@Funcion: Genera la direccion en la cual se va a guardar el archivo (segun la estructura del repositorio)
+        //@Retorno: La direccion del directorio donde se guardara el archivo
+        string getFilePath() {
+            string multiString = "Multimedia";
+            byte[] multiByte = encrypt_service.Encrypt(multiString);
+            string multiEncrypted = Convert.ToBase64String(multiByte);
+            string path = "wwwroot/"+ encrypt_service.EncodeString(multiEncrypted)+"/";
+            byte[] IncidentCodeEncryptedByte = null;
+            string IncidentCodeEncryptedString = "";
+            string general = "General";
+            switch (CallingPlace){
+                case "action":
+                    IncidentCodeEncryptedByte = encrypt_service.Encrypt(ApCode);
+                    IncidentCodeEncryptedString = Convert.ToBase64String(IncidentCodeEncryptedByte);
+                    path += encrypt_service.EncodeString(IncidentCodeEncryptedString);
+                    path += "/";
+                    byte[] ActionNameEncryptedByte = encrypt_service.Encrypt(ActionName);
+                    string ActionNameEncryptedString = Convert.ToBase64String(ActionNameEncryptedByte);
+                    path += encrypt_service.EncodeString(ActionNameEncryptedString);
+                    path += "/";
+                break;
+                case "checkListItem":
+                    IncidentCodeEncryptedByte = encrypt_service.Encrypt(ApCode);
+                    IncidentCodeEncryptedString = Convert.ToBase64String(IncidentCodeEncryptedByte);
+                    path += encrypt_service.EncodeString(IncidentCodeEncryptedString);
+                    path += "/";
+                    byte[] checkListNameByte = encrypt_service.Encrypt(CheckListName);
+                    string checkListNameEncryptedString = Convert.ToBase64String(checkListNameByte);
+                    path += encrypt_service.EncodeString(checkListNameEncryptedString);
+                    path += "/";
+                    byte[] checkListItemByte = encrypt_service.Encrypt(CheckListItemName);
+                    string checkListItemString = Convert.ToBase64String(checkListItemByte);
+                    path += encrypt_service.EncodeString(checkListItemString);
+                    path += "/";
+                break;
+                default:
+                    byte[] generalRepositoyByte = encrypt_service.Encrypt(general);
+                    string generalRepositoyByteString = Convert.ToBase64String(generalRepositoyByte);
+                    path += encrypt_service.EncodeString(generalRepositoyByteString);
+                    path += "/";
+                    break;
+            }
+            return path;
+    }
+        //@Parametros: Un array de archivos fisicos
+        //@Funcion: Elige el primer archivo del array y hace todas las operaciones sobre este para almacenarlo en la base 
+        //          y en el directorio correspondiente dentro del servidor
+        //@Retorno: La tarea asincronica
         async Task HandleFileSelected(IFileListEntry[] files)
         {
-            //leer llave
-            //leer iv
-            //string keyString = Configuration.GetConnectionString("Key");
-            //string ivString = Configuration.GetConnectionString("IV");
-            string keyString = "qXOctUgD1RQCyF6dl4IjgZLAosrLh8Dn8GCklADSmvo=";
-            string ivString = "fkmYijInbe9eWQbLoWtTNQ==";
-            byte[] ivByte = System.Convert.FromBase64String(ivString);
-            byte[] keyByte = System.Convert.FromBase64String(keyString);
-            file_service.SetKeyIV(ivByte, keyByte);
-            encrypt_service.SetKeyIV(ivByte, keyByte);
             IFileListEntry file = files.FirstOrDefault();
 
             validFileType = ValidateFile(file);
 
-            if (!validFileType) return; // archivo invalido
+            if (!validFileType) return; 
 
             MultimediaContent mcontent = await StoreMultimediaContent(file);
-
-            await file_service.StoreFile(file.Name, file.Data);
-            
+            await file_service.StoreFile(getFilePath(), mcontent.Nombre,mcontent.Extension, file.Data);
             await OnFileUpload.InvokeAsync(mcontent);
         }
-
-        // Method to store a MultimediaContent from a file
+        //@Parametros: El nombre completo del archivo, ejemplo: "prueba.pdf"
+        //@Funcion: Extrae la extension del nombre del archivo
+        //@Retorno: Un string que contiene la extension del archivo
+        string getType(string filename) {
+            string extension = ".";
+            foreach (string type in validTypeFiles) {
+                if (filename.Contains(type)) {
+                    extension += type;
+                }
+            }
+            return extension;
+        }
+        //@Parametros: El archivo adjuntado
+        //@Funcion: Genera un MultimediaContent con la informacion del archivo (llamando al metodo FileToMultimediaContent) y 
+        //          llama al servicio multimedia para guardar la informacion en la base de datos
+        //@Retorno: La tarea asincronica
         async Task<MultimediaContent> StoreMultimediaContent(IFileListEntry file)
         {
             if (file == null) return null;
-            string filePath = EncryptFilePath(file_service.FilePath, file.Name);
-            MultimediaContent mcontent = FileToMultimediaContent(file, filePath);
+            MultimediaContent mcontent = FileToMultimediaContent(file, getFilePath());
             return await multimedia_content_service.AddMultimediaContent(mcontent);
         }
-
-        // Method to create a MultimediaContent instance from a file and a path
-        // Req: encrypted path
-        MultimediaContent FileToMultimediaContent(IFileListEntry file, string path)
+        //@Parametros: El archivo adjuntado, el path fisico de ese archivo
+        //@Funcion: A partir de un archivo fisico, crea un MultimediaContent con la informacion del mismo
+        //@Retorno: El MultimediaContent con la informacion del archivo
+        MultimediaContent FileToMultimediaContent(IFileListEntry file, string pathDecrypted)
         {
+            string justName = file.Name.Replace(getType(file.Name),"");
+            byte[] fileNameEncrytedByte = encrypt_service.Encrypt(justName);
+            string fileNameEncrytedString = Convert.ToBase64String(fileNameEncrytedByte);
+            string filename = encrypt_service.EncodeString(fileNameEncrytedString);
+            string path = pathDecrypted + filename + getType(file.Name);
+            byte[] pathEncryptedByte = encrypt_service.Encrypt(path);
+            string pathEncryptedString = Convert.ToBase64String(pathEncryptedByte);
             return new MultimediaContent
             {
-                Nombre = file.Name,
-                Archivo = path, 
+                Nombre = filename,
+                Archivo = pathEncryptedString,
                 Descripcion = "",
                 Fecha_Hora = DateTime.Now,
-                Tipo = file.Type
+                Tipo = file.Type,
+                Extension = getType(file.Name)
             };
         }
-
-        // Method to Encrypt File Path
-        string EncryptFilePath(string basePath, string fileName)
-        {
-            string filePath = Path.Combine(basePath, fileName);
-            byte[] encryptedPathB = encrypt_service.Encrypt(filePath);
-            string encryptedPathS = System.Convert.ToBase64String(encryptedPathB);
-            return encryptedPathS;
-        }
-
-        // Method to Validate File Type according to accepted types
+        //@Parametros: El archivo que se quiere adjuntar
+        //@Funcion: Valida el archivo para evitar que se adjunten archivos no permitidos o vacios
+        //@Retorno: Un booleano que indica si es válido o no
         bool ValidateFile(IFileListEntry file)
         {
             if (file == null) return false;
@@ -141,24 +202,27 @@ namespace PRIME_UCR.Components.Multimedia
 
             return false;
         }
-
-       
+        //@Parametros: El multimedia content que contiene la infomacion del archivo
+        //@Funcion: Filtra que tipo de archivo se desea mostrar y llama al metodo encargado de establecer la vista
+        //@Retorno: La tarea asincronica
         async Task ShowPopUp(MultimediaContent mcontent) {
-            //para probar, esta con una imagen y path quemadas
-            string name = mcontent.Nombre; //
-            string pathEncrypted = mcontent.Archivo; //AQUI EL PATH ESTA ENCRIPTADO
-            string type = mcontent.Tipo;
-            //SE LLAMA A UN METODO GENERAL QUE DIFERENCIA LAS VISTAS DE LOS TIPOS
-            //await JS.InvokeAsync<bool>("showMultimedia", pathQuemadoImg, nombreQuemadoImg, type);
-            if (type == "image/png")
+            string name = mcontent.Nombre; 
+            string pathEncrypted = mcontent.Archivo;
+            string extension = mcontent.Extension;
+            if (extension == ".png" || extension == ".jpeg" || extension == ".jpg")
                 OpenImage(mcontent);
-            else if (type == "application/pdf" || type == "text/plain")
+            else if (extension == ".txt")
                 OpenText(mcontent);
-            else if (type == "video/mp4" || type == "video/webm")
+            else if (extension == ".mp4" || extension == ".webm" || extension ==".avi" || extension==".mp4avi")
                 OpenVideo(mcontent);
-            else if (type == "audio/mpeg" || type == "audio/ogg")
+            else if (extension == ".mp3" || extension == ".ogg" || extension == ".oga")
                 OpenAudio(mcontent);
+            else if (extension == ".pdf")
+                OpenPDF(mcontent);
         }
+        //@Parametros: Ninguno
+        //@Funcion: Muestra un mensaje de error al usuario debido al tipo de archivo ingresado
+        //@Retorno: El mensaje de error con los tipos de dato que acepta la aplicacion
         string InvalidTypeMessage()
         {
             string datas = "El archivo seleccionado no se encuentra dentro de los archivos válidos. Por favor seleccione un archivo con las siguientes extensiones: ";
@@ -172,6 +236,9 @@ namespace PRIME_UCR.Components.Multimedia
             }
             return datas;
         }
+        //@Parametros: El multimedia content que tiene la informacion del archivo
+        //@Funcion: Cambia el texto del botón "Ver" a "Escuchar" si es un audio
+        //@Retorno: El nombre que va a tener el botón
         string GetButonName(MultimediaContent mcontent) {
             string name = "";
             if (mcontent.Tipo == "audio/mpeg" || mcontent.Tipo == "audio/ogg") {
@@ -182,121 +249,170 @@ namespace PRIME_UCR.Components.Multimedia
             }
             return name; 
         }
-        void OpenCamera()
-        {
-            showModal = true;
-            showCamera = true;
-            showAudio = false;
-            showImage = false;
-            showMicrophone = false;
-            showText = false;
-            showVideo = false;
-            modalMContent = null;
-            showVideo = false;
-            showVideoComponent = false;
-            showTextComponent = false;
+        //@Parametros: El multimedia content que tiene la información del archivo
+        //@Funcion: Decodifica y desencripta el nombre del archivo para mostrarlo en la vista del usuario
+        //@Retorno: El nombre completo del archivo
+        string GetFileName(MultimediaContent mcontent) {
+            string decodedName = encrypt_service.DecodeString(mcontent.Nombre);
+            byte[] decodedNameByte = Convert.FromBase64String(decodedName);
+            string name = encrypt_service.Decrypt(decodedNameByte);
+            name += mcontent.Extension;
+            return name;
         }
-        void OpenAudio(MultimediaContent mcontent)
-        {
+        //@Parametros: El MultimediaContent que contiene la informacion del archivo
+        //@Funcion: Activa el evento necesario para que se muestre la Camara
+        //@Retorno: Ninguno
+        void OpenCamera(){
+            showModal = true;
+             showCamera = true;
+             showMicrophone = false;
+             showAudio = false;
+             showImage = false;
+             showText = false;
+             showVideo = false;
+             showVideoComponent = false;
+             showTextComponent = false;
+             showPDF = false;
+             modalMContent = null;
+        }
+        //@Parametros: El MultimediaContent que contiene la informacion del archivo
+        //@Funcion: Activa el evento necesario para que se muestre un audio
+        //@Retorno: Ninguno
+        void OpenAudio(MultimediaContent mcontent){
             showModal = true;
             showCamera = false;
+            showMicrophone = false;
             showAudio = true;
             showImage = false;
-            showMicrophone = false;
             showText = false;
             showVideo = false;
-            modalMContent = mcontent;
             showVideoComponent = false;
+            showTextComponent = false;
+            showPDF = false;
+            modalMContent = mcontent;
         }
-        void OpenImage(MultimediaContent mcontent)
-        {
+        //@Parametros: El MultimediaContent que contiene la informacion del archivo
+        //@Funcion: Activa el evento necesario para que se muestre la imagen
+        //@Retorno: Ninguno
+        void OpenImage(MultimediaContent mcontent){
             showModal = true;
             showCamera = false;
+            showMicrophone = false;
             showAudio = false;
             showImage = true;
-            showMicrophone = false;
             showText = false;
             showVideo = false;
-            modalMContent = mcontent;
             showVideoComponent = false;
             showTextComponent = false;
+            showPDF = false;
+            modalMContent = mcontent;
         }
-        void OpenText(MultimediaContent mcontent) 
-        {
+        //@Parametros: El MultimediaContent que contiene la informacion del archivo
+        //@Funcion: Activa el evento necesario para que se muestre el texto
+        //@Retorno: Ninguno
+        void OpenText(MultimediaContent mcontent) {
             showModal = true;
             showCamera = false;
+            showMicrophone = false;
             showAudio = false;
             showImage = false;
-            showMicrophone = false;
             showText = true;
             showVideo = false;
-            modalMContent = mcontent;
             showVideoComponent = false;
             showTextComponent = false;
+            showPDF = false;
+            modalMContent = mcontent;
         }
+        //@Parametros: El MultimediaContent que contiene la informacion del archivo
+        //@Funcion: Activa el evento necesario para que se muestre la Camara para capturar video
+        //@Retorno: Ninguno
         void OpenVideo(MultimediaContent mcontent) {
             showModal = true;
             showCamera = false;
+            showMicrophone = false;
             showAudio = false;
             showImage = false;
-            showMicrophone = false;
             showText = false;
             showVideo = true;
-            modalMContent = mcontent;
             showVideoComponent = false;
             showTextComponent = false;
+            showPDF = false;
+            modalMContent = mcontent;
         }
-
-
-        void OpenVideo()
-        {
+        //@Parametros: Ninguno
+        //@Funcion: Activa el evento necesario para que se muestre el video
+        //@Retorno: Ninguno
+        void OpenVideo(){
             showModal = true;
             showCamera = false;
+            showMicrophone = false;
             showAudio = false;
             showImage = false;
-            showMicrophone = false;
             showText = false;
             showVideo = false;
-            modalMContent = null;
             showVideoComponent = true;
             showTextComponent = false;
+            showPDF = false;
+            modalMContent = null;
         }
-        void OpenMicrophone()
-        {
+        //@Parametros: Ninguno
+        //@Funcion: Activa el evento necesario para que se muestre el microfono
+        //@Retorno: Ninguno
+        void OpenMicrophone(){
             showModal = true;
             showCamera = false;
+            showMicrophone = true;
             showAudio = false;
             showImage = false;
-            showMicrophone = true;
             showText = false;
             showVideo = false;
-            modalMContent = null;
             showVideoComponent = false;
             showTextComponent = false;
+            showPDF = false;
+            modalMContent = null;
         }
-
-        void OpenTextComponent()
-        {
-            showModal = true;
+        //@Parametros: El MultimediaContent que contiene la informacion del archivo
+        //@Funcion: Activa el evento necesario para que se muestre el pdf
+        //@Retorno: Ninguno
+        void OpenPDF(MultimediaContent mcontent) {
+            showModal = false;
             showCamera = false;
+            showMicrophone = false;
             showAudio = false;
             showImage = false;
-            showMicrophone = false;
             showText = false;
             showVideo = false;
-            modalMContent = null;
-            showVideo = false;
             showVideoComponent = false;
-            showTextComponent = true;
+            showTextComponent = false;
+            showPDF = true;
+            modalMContent = mcontent;
         }
-
-        async Task DeleteMultimediaContent(MultimediaContent mcontent)
-        {
+        //@Parametros: Ninguno
+        //@Funcion: Cierra todas las vistas de archivos
+        //@Retorno: Ninguno
+        void CloseAllViews() {
+            showModal = false;
+            showPDF = false;
+        }
+        //@Parametros: El MultimediaContent que contiene la informacion del archivo
+        //@Funcion: Borra el archivo seleccionado de la base de datos y fisicamente
+        //@Retorno: La tarea asincronica
+        async Task DeleteMultimediaContent(MultimediaContent mcontent){
+            CloseAllViews();
             await multimedia_content_service.DeleteMultimediaContent(mcontent);
             MultimediaContent.Remove(mcontent);
             byte[] bEPath = Convert.FromBase64String(mcontent.Archivo);
             string path = encrypt_service.Decrypt(bEPath);
             file_service.DeleteFile(path);
+        }
+
+        public static string FormatDate(DateTime dateTime)
+        {
+            string sDateTime = dateTime.ToString();
+            sDateTime = sDateTime.Replace('/', '-'); // replace slashes in date
+            sDateTime = sDateTime.Replace(' ', '-'); // replace space between date and time
+            sDateTime = sDateTime.Replace(':', '-'); // replace double dots in time
+            return sDateTime;
         }
 
 

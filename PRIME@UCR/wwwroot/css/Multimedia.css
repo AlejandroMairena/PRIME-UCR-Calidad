@@ -16,7 +16,7 @@
 }
 
 .m-menu-div {
-    padding-left: 15px;
+    /*padding-left: 15px;*/
     margin-top: 4px;
     margin-bottom: 4px;
 
@@ -180,7 +180,6 @@ button.btn.btn-danger.m-btn.m-btn-rm {
     display: block; /* Hidden by default */
     position: fixed; /* Stay in place */
     z-index: 10; /* Sit on top */
-    padding-top: 50px; /* Location of the box */
     left: 0;
     top: 0;
     width: 100%; /* Full width */
@@ -264,14 +263,15 @@ button.btn.btn-danger.m-btn.m-btn-rm {
     width: 600px;
     display: block;
     margin: auto;
+    margin-top: 50px;
 }
 
 .rt-box {
     margin: auto;
-    /*width: 512px;*/
-    width: 250px;
-    /*height: 384px;*/
-    height: 188px;
+    width: 555px; /* 512 */
+    /*width: 250px;*/
+    height: 416px;
+    /*height: 188px;*/
     border: 2px solid #cfcfcf;
     background-color: black;
 }
@@ -282,8 +282,8 @@ button.btn.btn-danger.m-btn.m-btn-rm {
 }
 
 .rt-button {
-    width: 100px;
-    height: 80px;
+    width: 160px;
+    /*height: 50px;*/
     margin-left: auto;
     margin-right: auto;
     display:block;
@@ -331,7 +331,6 @@ button.btn.btn-danger.m-btn.m-btn-rm {
     opacity: 0;
     transition: opacity 0.3s;
 }
-
 /* Tooltip arrow */
 .rt-img-cont .tooltiptext::after {
     content: "";
@@ -347,4 +346,18 @@ button.btn.btn-danger.m-btn.m-btn-rm {
 .rt-img-cont:hover .tooltiptext {
     visibility: visible;
     opacity: 1;
+}
+
+.rt-align {
+    padding: 0px;
+    margin: 0px;
+    text-align: left !important;
+}
+
+.rt-filename {
+    padding: 0px;
+    white-space: nowrap;
+    width: 125px;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }

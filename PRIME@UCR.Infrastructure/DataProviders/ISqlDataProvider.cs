@@ -35,6 +35,7 @@ namespace PRIME_UCR.Infrastructure.DataProviders
         DbSet<UnidadDeTransporte> TransportUnits { get; set; }
         DbSet<Estado> States { get; set; }
         DbSet<EstadoIncidente> IncidentStates { get; set; }
+        DbSet<CambioIncidente> ChangeInIncident { get; set; }
         DbSet<Incidente> Incidents { get; set; }
         DbSet<Expediente> MedicalRecords { get; set; }
         DbSet<Usuario> Usuarios {get; set;}

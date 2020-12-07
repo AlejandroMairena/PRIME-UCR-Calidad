@@ -56,6 +56,7 @@ namespace PRIME_UCR.Infrastructure
             services.AddTransient<IMedCenterRepository, MedCenterRepository>();
             services.AddTransient<IMedicalAppointmentRepository, MedicalAppointmentRepository>();
             services.AddTransient<IHavePrescriptionRepository, HavePrescriptionRepository>();
+            services.AddTransient<IDrugRepository, DrugRepository>(); 
             services.AddTransient<IDrugRepository, DrugRepository>();
             services.AddTransient<IMedAppMetricRepository, MedAppMetricRepository>();
             services.AddTransient<IMedicalSpecialtyRepository, MedicalSpecialtyRepository>();
@@ -76,6 +77,7 @@ namespace PRIME_UCR.Infrastructure
             services.AddTransient<ITransportUnitRepository, TransportUnitRepository>();
             services.AddTransient<IActionTypeRepository, ActionTypeRepository>();
             services.AddTransient<IGpsDataRepository, GpsDataRepository>();
+            services.AddTransient<IDocumentacionIncidenteRepository, DocumentacionIncidenteRepository>();
 
             // medical records
             services.AddTransient<IMedicalRecordRepository, MedicalRecordRepository>();

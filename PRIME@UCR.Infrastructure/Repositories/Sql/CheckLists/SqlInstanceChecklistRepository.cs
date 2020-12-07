@@ -9,6 +9,8 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data.SqlClient;
+using RepoDb;
 
 namespace PRIME_UCR.Infrastructure.Repositories.Sql.CheckLists
 {
@@ -42,6 +44,19 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.CheckLists
                 _db.InstanceChecklist.Remove(existing);
             }
             await _db.SaveChangesAsync();
+        }
+
+        public async Task InsertInstanceCheckListAsync(int checklistId, string incidentcod) {
+
+            await using var connection = new SqlConnection(_db.DbConnection.ConnectionString);
+            var parameters = new Dictionary<string, object>
+            {
+                {"plantillaId", checklistId},
+                {"incidenteCod", incidentcod}
+               
+            };
+            var result = await connection.ExecuteScalarAsync(
+                "dbo.InsertarListaIntanciada", parameters, CommandType.StoredProcedure);
         }
     }
 }
