@@ -4,7 +4,7 @@
 	[Tipo]			NVARCHAR (20)		NOT NULL,
 	[Descripcion]	NVARCHAR (500)		NULL,
 	[Orden]			INT					NOT NULL,
-	[ImagenDescriptiva]	NVARCHAR (MAX)		DEFAULT '/datas/defaultCheckList.svg',
+	[ImagenDescriptiva]	NVARCHAR (MAX)		DEFAULT '/images/defaultCheckList.svg',
 	[Editable] BIT NULL DEFAULT 1, 
     [Activada] BIT NULL DEFAULT 1,
 	PRIMARY KEY CLUSTERED ([Id] ASC),
