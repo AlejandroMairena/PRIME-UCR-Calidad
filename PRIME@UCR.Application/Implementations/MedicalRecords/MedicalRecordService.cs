@@ -16,7 +16,7 @@ using PRIME_UCR.Application.Repositories.Appointments;
 
 namespace PRIME_UCR.Application.Implementations.MedicalRecords
 {
-    public class MedicalRecordService : IMedicalRecordService
+    internal class MedicalRecordService : IMedicalRecordService
     {
         private readonly IMedicalRecordRepository _repo;
         private readonly IPersonaRepository _personRepo;
@@ -65,7 +65,7 @@ namespace PRIME_UCR.Application.Implementations.MedicalRecords
         }
 
 
-        public async Task<IEnumerable<Expediente>> GeyByConditionAsync(string name)
+        public async Task<IEnumerable<Expediente>> GetByConditionAsync(string name)
         {
 
             string patient_name = "";

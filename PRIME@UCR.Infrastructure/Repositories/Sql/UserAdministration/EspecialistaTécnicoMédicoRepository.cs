@@ -33,7 +33,7 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
 
         public async Task<IEnumerable<EspecialistaTécnicoMédico>> GetAllAsync()
         {
-            using (var connection = new SqlConnection(_db.DbConnection.ConnectionString))
+            using (var connection = new SqlConnection(_db.ConnectionString))
             {
                 var result = await connection.ExecuteQueryAsync<EspecialistaTécnicoMédico>(@"
                     select Persona.Cédula, Persona.Nombre, Persona.PrimerApellido, Persona.SegundoApellido, Persona.Sexo, Persona.FechaNacimiento

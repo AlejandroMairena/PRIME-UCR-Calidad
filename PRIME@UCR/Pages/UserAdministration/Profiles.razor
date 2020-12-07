@@ -5,41 +5,47 @@
 @using PRIME_UCR.Domain.Constants
 
 @attribute [HasPermission(AuthorizationPermissions.CanManageUsers)]
+
 @*<link href="css/Profiles.css" rel="stylesheet" />*@
 
 <br />
 <h3> Modificación de Permisos y Perfiles </h3>
 <br />
 
-<StatusMessage Message="@profile.StatusMessage" Class="@profile.StatusMessageType" />
+<div class="container-fluid">
+    <StatusMessage Message="@profile.StatusMessage" Class="@profile.StatusMessageType" />
 
-<div class="rounded" style="background-color: white;padding: 10px">
-    <h5>Perfiles</h5>
-    <ProfilesComponent @bind-Value="profile" />
-</div>
+    <div class="rounded" style="background-color: white;padding: 10px">
+        <h5>Perfiles</h5>
+        <ProfilesComponent @bind-Value="profile" />
+    </div>
 
-<br />
+    <br />
 
-@if (!String.IsNullOrEmpty(profile.ProfileName))
-{
-<div class="row">
-    <Loading IsLoading="profile.ProfileName == null">
-        <div class="col-6">
-            <div class="rounded" style="background-color: white;padding-left: 10px;padding-right: 10px;">
-                <br />
-                <h5>Usuarios</h5>
-                <UsersComponent @bind-Value="profile" />
-                <br />
-            </div>
+    @if (!String.IsNullOrEmpty(profile.ProfileName))
+    {
+        <div class="row  d-flex justify-content-center">
+            <Loading IsLoading="profile.ProfileName == null || isLoading == true">
+                <div class="col-6">
+                    <div class="rounded" style="background-color: white;padding-left: 10px;padding-right: 10px;">
+                        <br />
+                        <h5>Usuarios</h5>
+                        <UsersComponent @bind-Value="profile"
+                                        isLoading="isLoading"
+                                        isLoadingChanged="() => { isLoading = !isLoading; StateHasChanged(); }" />
+                    </div>
+                </div>
+                <div class="col-6">
+
+                    <div class="rounded" style="background-color:white;padding-left: 10px;padding-right: 10px;">
+                        <br />
+                        <h5>Permisos</h5>
+                        <PermissionsComponent @bind-Value="profile"
+                                              isLoading="isLoading"
+                                              isLoadingChanged="()=> { isLoading = !isLoading; StateHasChanged(); }" />
+                    </div>
+                </div>
+            </Loading>
         </div>
-        <div class="col-6">
-            <div class="col-md rounded" style="background-color:white;padding-left: 10px;padding-right: 10px;">
-                <br />
-                <h5>Permisos</h5>
-                <PermissionsComponent @bind-Value="profile" />
-            </div>
-        </div>
-        <div class="row w-100"></div>
-    </Loading>
+    }
 </div>
-}

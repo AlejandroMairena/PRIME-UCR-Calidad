@@ -2,11 +2,11 @@
 @using BlazorTable
 @using PRIME_UCR.Domain.Models.UserAdministration
 
-@if(statusMessage != String.Empty)
+@if (statusMessage != String.Empty)
 {
     <StatusMessage Message="@statusMessage" Class="@messageType" />
 }
-<Loading IsLoading="ListNotAuthenticatedUsers == null">
+<Loading IsLoading="ListNotAuthenticatedUsers == null || isLoading == true">
     <Table TableItem="Usuario" Items="ListNotAuthenticatedUsers" PageSize="12">
         <Column TableItem="Usuario" Title="" Field="@(x => x.EmailConfirmed)" Width="1%">
             <Template Context="button">

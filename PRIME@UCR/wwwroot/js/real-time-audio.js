@@ -1,10 +1,19 @@
 ﻿let timerRef;
-let timerInterval;
-let counter = 0;
+let decsTimerInterval;
+let secTimerInterval;
+let minTimerInterval;
+let decsCounter = 0;
+let secCounter = 0;
+let minCounter = 0;
+
+let hiddenClass = "hidden";
+let downloadLinkRef;
+let audioName = "audio";
 
 
-function initAudio(record, stop, audio, _timerRef) {
+function initAudio(record, stop, audio, _timerRef, downloadLink, fillDiv) {
     timerRef = _timerRef;
+    downloadLinkRef = downloadLink;
     if (navigator.mediaDevices.getUserMedia) {
         console.log('getUserMedia supported.');
 
@@ -15,27 +24,31 @@ function initAudio(record, stop, audio, _timerRef) {
             const mediaRecorder = new MediaRecorder(stream);
 
             record.onclick = function () {
-                timerInterval = setInterval(increaseCounter, 1000);
-                timerRef.innerText = '0 segundos';
+                audio.classList = "hidden";
+                fillDiv.classList = "";
+
+                initTimer();
 
                 mediaRecorder.start();
                 console.log(mediaRecorder.state);
                 console.log("recorder started");
 
-                stop.disabled = false;
-                record.disabled = true;
+                record.classList.add(hiddenClass);
+                stop.classList.remove(hiddenClass);
             }
 
             stop.onclick = function () {
-                clearInterval(timerInterval);
-                timerRef.innerText = '';
+                audio.classList = "";
+                fillDiv.classList = "hidden";
+
+                stopTimer();
 
                 mediaRecorder.stop();
                 console.log(mediaRecorder.state);
                 console.log("recorder stopped");
 
-                stop.disabled = true;
-                record.disabled = false;
+                record.classList.remove(hiddenClass);
+                stop.classList.add(hiddenClass);
             }
 
             mediaRecorder.onstop = function (e) {
@@ -50,7 +63,12 @@ function initAudio(record, stop, audio, _timerRef) {
                 chunks = [];
                 const audioURL = window.URL.createObjectURL(blob);
                 audio.src = audioURL;
+                console.log(audio);
+                console.log(audio.src);
                 console.log("recorder stopped");
+
+                downloadLink.href = audio.src;
+                downloadLink.download = audioName;
 
             }
 
@@ -72,12 +90,50 @@ function initAudio(record, stop, audio, _timerRef) {
     }
 }
 
-function increaseCounter() {
-    counter++;
-    if (counter == 1) {
-        timerRef.innerText = counter + ' segundo';
-    }
-    else {
-        timerRef.innerText = counter + ' segundos';
-    }
+function initTimer() {
+    decsTimerInterval = setInterval(descCounterFunc, 100);
+    secTimerInterval = setInterval(secCounterFunc, 1000);
+    minTimerInterval = setInterval(minCounterFunc, 60000);
+}
+
+function descCounterFunc() {
+    decsCounter++;
+    updateTimer();
+}
+
+function secCounterFunc() {
+    secCounter++;
+    decsCounter = 0;
+    updateTimer();
+}
+
+function minCounterFunc() {
+    minCounter++;
+    secCounter = 0;
+    updateTimer();
+}
+
+function updateTimer() {
+    var minText = minCounter.toString();
+    if (minCounter < 10) minText = '0' + minText;
+    var secText = secCounter.toString();
+    if (secCounter < 10) secText = '0' + secText;
+    var decsText = decsCounter.toString();
+    if (decsCounter < 10) decsText = '0' + decsText;
+
+    timerRef.innerText = minText + ':' + secText + ':' + decsText;
+}
+
+function stopTimer() {
+    clearInterval(decsTimerInterval);
+    clearInterval(secTimerInterval);
+    clearInterval(minTimerInterval);
+    decsCounter = secCounter = minCounter = 0;
+    //timerRef.innerText = '';
+}
+
+function updateAudioName(newName) {
+    audioName = newName;
+    downloadLinkRef.download = audioName;
+    return true;
 }

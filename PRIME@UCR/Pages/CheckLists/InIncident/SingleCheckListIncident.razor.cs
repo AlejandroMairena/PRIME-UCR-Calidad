@@ -352,7 +352,6 @@ namespace PRIME_UCR.Pages.CheckLists.InIncident
         protected void Redirect()
         {
             IncidentURL += incidentcod;
-            IncidentURL += "/Checklist";
             NavManager.NavigateTo($"{IncidentURL}");
         }
 

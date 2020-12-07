@@ -3,9 +3,15 @@
     @nombrePerfil nvarchar(60)
 AS
     BEGIN
-        INSERT INTO Pertenece
-        VALUES (
-            @idUsuario,
-            @NombrePerfil
-        );
+        BEGIN TRY
+            INSERT INTO Pertenece
+            VALUES (
+                @idUsuario,
+                @NombrePerfil
+            );
+		END TRY
+		BEGIN CATCH
+			PRINT('El usuario que intentó insertar al perfil ya había sido insertado.')
+		END CATCH
+
     END
