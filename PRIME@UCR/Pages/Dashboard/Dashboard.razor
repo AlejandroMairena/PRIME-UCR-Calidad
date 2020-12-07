@@ -31,8 +31,17 @@
                 <IncidentsListInDashboard @bind-Data="DashboardData" />
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" @onclick="CrearArchivoAsync">Enviar lista por correo</button>
-                <button type="button" class="btn btn-secondaryOne" data-dismiss="modal">Cerrar</button>
+                @if (isBusy) // Loading button
+                {
+                    <button class="btn btn-light width:13em mt-2" style="width:13em" type="button">
+                        <span class="spinner-border spinner-border-sm" style="background-color:white" role="status" aria-hidden="true"></span>Enviando correo
+                    </button>
+                }
+                else
+                {
+                    <button type="button" class="btn btn-primary width:13em mt-2" style="width:13em" @onclick="CrearArchivoAsync">Enviar lista por correo</button>
+                }
+                <button type="button" class="btn btn-secondaryOne mt-2" data-dismiss="modal">Cerrar</button>
             </div>
         </div>
     </div>

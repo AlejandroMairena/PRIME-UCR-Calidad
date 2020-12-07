@@ -60,11 +60,21 @@ namespace PRIME_UCR.Pages.Dashboard
 
         [Inject]
         public IFileManagerService FileManagerService { get; set; }
+        
+        [Inject]
+        public IAuthenticationService AuthenticationService { get; set; }
+
         [CascadingParameter]
         private Task<AuthenticationState> authenticationState { get; set; }
         //FILTER COMPONENT
         [Parameter] public EventCallback OnDiscard { get; set; }
-        
+
+        string userName;
+
+        string userMail;
+
+        bool isBusy = false;
+
 
         protected override async Task OnInitializedAsync()
         {
@@ -78,7 +88,8 @@ namespace PRIME_UCR.Pages.Dashboard
             
             incidentsCounter.isReadyToShowCounters = true; // Always after loading all incidents counter data
             DashboardData.isReadyToShowGraphs = true;
-            DashboardData.userEmail = (await authenticationState).User.Identity.Name;
+            userMail = (await authenticationState).User.Identity.Name;
+            userName = (await AuthenticationService.GetUserByEmailAsync(userMail)).Persona.Nombre;
         }
 
         private async Task UpdateFilteredIncidentsData()
@@ -150,8 +161,9 @@ namespace PRIME_UCR.Pages.Dashboard
 
         private async Task CrearArchivoAsync()
         {
-            await FileManagerService.createFileAsync(DashboardData.filteredIncidentsData, DashboardData.userEmail);
-
+            isBusy = true;
+            await FileManagerService.createFileAsync(DashboardData.filteredIncidentsData, userMail, userName);
+            isBusy = false;
         }
 
 
