@@ -30,7 +30,9 @@ namespace PRIME_UCR.Application.Services.Appointments
 
         Task<IEnumerable<RecetaMedica>> GetDrugsByFilterAsync(string filter); 
 
-        Task<PoseeReceta> GetDrugByConditionAsync(int drug_id, int appointmentId); 
+        Task<PoseeReceta> GetDrugByConditionAsync(int drug_id, int appointmentId);
+
+        void UpdateAppointmentStatus(int id);
 
         Task<PoseeReceta> InsertPrescription(int idMedicalPrescription, int idMedicalAppointment);
 

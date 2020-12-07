@@ -27,12 +27,15 @@ namespace PRIME_UCR.Components.MedicalAppointments
 
         private DateTime date;
 
+        private DateTime minTime;
+
         public bool options_unselected { get; set; } = false;
 
         public bool register_success { get; set; } = false; 
 
         protected override async Task OnInitializedAsync()
         {
+            minTime = DateTime.Now;
             DoctorList = (await DoctorService.GetAllDoctorsAsync()).ToList();
             MedicalCenterList = (await LocationService.GetAllMedicalCentersAsync()).ToList();
             _contextDoctor = new EditContext(DoctorList);

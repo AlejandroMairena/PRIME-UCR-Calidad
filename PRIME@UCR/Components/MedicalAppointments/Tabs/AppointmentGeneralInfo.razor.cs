@@ -38,8 +38,15 @@ namespace PRIME_UCR.Components.MedicalAppointments.Tabs
             Summary.LoadPatientValues(Pacient);
         }
 
-        public void NextState() { 
-            
+        public async void NextStatus()
+        {
+            if (current_state.NombreEstado != "Finalizada")
+            { 
+                appointment_service.UpdateAppointmentStatus(Appointment.Id);
+                Appointment = await appointment_service.GetMedicalAppointmentWithAppointmentByIdAsync(Appointment.Id);
+                current_state = (await appointment_service.GetStatusById(Appointment.EstadoId));
+                StateHasChanged();
+            }
         }
 
     }

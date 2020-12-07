@@ -1,6 +1,7 @@
 ﻿@using PRIME_UCR.Domain.Models.UserAdministration
 @using PRIME_UCR.Application.Services.UserAdministration
 @using PRIME_UCR.Components.MedicalRecords.Tabs 
+@inject NavigationManager NavManager
 @inject IAppointmentService appointment_service
 @inject IDoctorService doctor_service
 
@@ -27,4 +28,7 @@
 
     <ul class="list-group">
     </ul>
+
+    <button class="btn btn-primary" @onclick="NextStatus">Pasar al siguente estado</button>
+
 </Loading>

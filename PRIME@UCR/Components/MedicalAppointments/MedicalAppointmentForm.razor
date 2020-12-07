@@ -37,7 +37,7 @@
 
         <div class="form-group">
             <label>Fecha de la cita<strong class="text-danger">*</strong></label>
-            <InputDate id="FechaHoraCreacion" @bind-Value="@date" class="form-control"></InputDate>
+            <InputDate min="@(minTime.ToString("yyyy-MM-dd"))" id="FechaHoraCreacion" @bind-Value="@date" class="form-control"></InputDate>
         </div>
 
         @*<DatePicker @bind-Value="@date"
