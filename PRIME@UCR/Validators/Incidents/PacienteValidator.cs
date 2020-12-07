@@ -38,7 +38,7 @@ namespace PRIME_UCR.Validators.Incidents
                 .WithMessage("Debe digitar un apellido con 20 caracteres o menos.");
 
             RuleFor(p => p.SegundoApellido)
-                 .Must(nombre => !Regex.IsMatch(nombre, "[[{})(*&^%$#@!;,.<>/_0-9~?=+]"))
+                 .Must(nombre => nombre == null || !Regex.IsMatch(nombre, "[[{})(*&^%$#@!;,.<>/_0-9~?=+]"))
                  .WithMessage("Debe digitar un apellido con caracteres validos");
 
             RuleFor(p => p.SegundoApellido)

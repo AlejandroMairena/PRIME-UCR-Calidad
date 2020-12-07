@@ -25,7 +25,7 @@ namespace PRIME_UCR.Components.CheckLists.InIncident
             details.Add("");
             details.Add("");
             instruct.Add("Puede asignar y desasignar listas de chequeo a incidentes");//coordinador-before:asigned
-            instruct.Add("No puede asignar yni desasignar más listas de chequeo a este incidente");//coordinador-after:asigned
+            instruct.Add("No puede asignar ni desasignar más listas de chequeo a este incidente");//coordinador-after:asigned
             states.Add("El incidente se encuentra en estado: ");
             states.Add("");
 
