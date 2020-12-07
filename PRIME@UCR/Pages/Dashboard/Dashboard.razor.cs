@@ -153,7 +153,7 @@ namespace PRIME_UCR.Pages.Dashboard
         {
             DashboardData.isReadyToShowFilters = false;
             //Appointments
-            DashboardData.patients = (await MedicalRecordService.GetPatients()).ToList();
+            DashboardData.patients = await DashboardService.GetAllPacientes();
             DashboardData.appointmentsData = (await DashboardService.GetAllMedicalAppointmentsAsync());
             DashboardData.filteredAppointmentsData = DashboardData.appointmentsData;
             DashboardData.isReadyToShowFilters = true;

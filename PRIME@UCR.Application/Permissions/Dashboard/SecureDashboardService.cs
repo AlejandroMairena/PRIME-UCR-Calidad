@@ -38,45 +38,42 @@ namespace PRIME_UCR.Application.Permissions.Dashboard
 
         public async Task<int> GetIncidentCounterAsync(string modality, string filter)
         {
-            await primeSecurityService.CheckIfIsAuthorizedAsync(new[] { AuthorizationPermissions.CanSeeIncidentsInfoOnDashboard });
             return await dashboardService.GetIncidentCounterAsync(modality, filter);
         }
         
         public async Task<List<Distrito>> GetAllDistrictsAsync()
         {
-            await primeSecurityService.CheckIfIsAuthorizedAsync(new[] { AuthorizationPermissions.CanSeeIncidentsInfoOnDashboard });
             return await dashboardService.GetAllDistrictsAsync();
         }
 
         public async Task<List<Incidente>> GetAllIncidentsAsync()
         {
-            await primeSecurityService.CheckIfIsAuthorizedAsync(new[] { AuthorizationPermissions.CanSeeIncidentsInfoOnDashboard });
             return await dashboardService.GetAllIncidentsAsync();
         }
 
         public async Task<List<Incidente>> GetFilteredIncidentsList(FilterModel Value)
         {
-            await primeSecurityService.CheckIfIsAuthorizedAsync(new[] { AuthorizationPermissions.CanSeeIncidentsInfoOnDashboard });
             return await dashboardService.GetFilteredIncidentsList(Value);
         }
 
         public async Task<List<CitaMedica>> GetFilteredMedicalAppointmentsAsync(AppointmentFilterModel Value, List<CentroMedico> medicalCenters, List<Paciente> patients)
         {
-            await primeSecurityService.CheckIfIsAuthorizedAsync(new[] { AuthorizationPermissions.CanSeeIncidentsInfoOnDashboard });
             return await dashboardService.GetFilteredMedicalAppointmentsAsync(Value, medicalCenters, patients);
         }
 
         public async Task<List<CitaMedica>> GetAllMedicalAppointmentsAsync()
         {
-            await primeSecurityService.CheckIfIsAuthorizedAsync(new[] { AuthorizationPermissions.CanSeeIncidentsInfoOnDashboard });
             return await dashboardService.GetAllMedicalAppointmentsAsync();
-
         }
 
         public async Task<List<Cita>> GetAllAppointments()
         {
-            await primeSecurityService.CheckIfIsAuthorizedAsync(new[] { AuthorizationPermissions.CanSeeIncidentsInfoOnDashboard });
             return await dashboardService.GetAllAppointments();
+        }
+
+        public async Task<List<Paciente>> GetAllPacientes()
+        {
+            return await dashboardService.GetAllPacientes();
         }
     }
 }

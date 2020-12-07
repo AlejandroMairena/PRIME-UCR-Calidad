@@ -74,7 +74,7 @@ function CreateAppointmentsVsMedicalRecordsPressureComponentJS(results) {
         for (var i = 0; i < results.length; i += 2) {
             var dateName = "date" + i.toString();
             var valueName = "value" + i.toString();
-            createAxisAndSeries(valueName, dateName, results[i][0] + " Pressure", false);
+            createAxisAndSeries(valueName, dateName, results[i][0] + " Presión", false);
         }
 
 

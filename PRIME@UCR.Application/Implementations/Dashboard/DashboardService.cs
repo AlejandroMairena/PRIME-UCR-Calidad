@@ -218,5 +218,10 @@ namespace PRIME_UCR.Application.Implementations.Dashboard
 
             return filteredList;
         }
+
+        public async Task<List<Paciente>> GetAllPacientes()
+        {
+            return await dashboardRepository.GetAllPacientes();
+        }
     }
 }

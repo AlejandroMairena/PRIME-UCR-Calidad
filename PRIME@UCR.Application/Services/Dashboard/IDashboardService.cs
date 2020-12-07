@@ -27,5 +27,7 @@ namespace PRIME_UCR.Application.Services.Dashboard
         Task<List<CitaMedica>> GetAllMedicalAppointmentsAsync();
 
         Task<List<Cita>> GetAllAppointments();
+
+        Task<List<Paciente>> GetAllPacientes();
     }
 }

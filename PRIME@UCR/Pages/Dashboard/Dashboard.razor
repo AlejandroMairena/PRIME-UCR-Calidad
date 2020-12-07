@@ -1,7 +1,4 @@
 ﻿@page "/dashboard"
-@*Example of policy based authorization in a page*@
-
-@attribute [HasPermission(AuthorizationPermissions.CanSeeIncidentsInfoOnDashboard)]
 
 @layout MainLayout
 @using ChartJs.Blazor.Charts
@@ -47,213 +44,230 @@
     </div>
 </div>
 
-<div class="row">
-    <div class="col-sm-2 col-md-2 mb-4">
-        <ul class="nav nav-pills flex-column">
-            <li class="nav-item">
-                <a class="nav-link @(AreIncidentsGraphSelected ? "active" : "")"
-                   href=""
-                   @onclick="() => {
-                                 if (!AreIncidentsGraphSelected)
-                                 {
-                                     AreIncidentsGraphSelected = true;
-                                     StateHasChanged();
-                                 }
-                             }"
-                   @onclick:preventDefault>
-                    Gráficos de incidentes
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link @(AreIncidentsGraphSelected ? "" : "active")"
-                   href=""
-                   @onclick="() => {
-                                 if(AreIncidentsGraphSelected)
-                                 {
-                                     AreIncidentsGraphSelected = false;
-                                     StateHasChanged();
-                                 }
-                             }"
-                   @onclick:preventDefault>
-                    Gráficos de citas
-                </a>
-            </li>
-        </ul>
-    </div>
+<Loading IsLoading="!DashboardData.isReadyToShowFilters && !incidentsCounter.isReadyToShowCounters && !DashboardData.isReadyToShowGraphs">
+    <div class="row">
+        <div class="col-sm-2 col-md-2 mb-4">
+            <ul class="nav nav-pills flex-column">
+                <li class="nav-item">
+                    <a class="nav-link @(AreIncidentsGraphSelected ? "active" : "")"
+                       href=""
+                       @onclick="() => {
+                                     if (!AreIncidentsGraphSelected)
+                                     {
+                                         AreIncidentsGraphSelected = true;
+                                         StateHasChanged();
+                                     }
+                                 }"
+                       @onclick:preventDefault>
+                        Gráficos de incidentes
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link @(AreIncidentsGraphSelected ? "" : "active")"
+                       href=""
+                       @onclick="() => {
+                                     if(AreIncidentsGraphSelected)
+                                     {
+                                         AreIncidentsGraphSelected = false;
+                                         StateHasChanged();
+                                     }
+                                 }"
+                       @onclick:preventDefault>
+                        Gráficos de citas
+                    </a>
+                </li>
+            </ul>
+        </div>
 
-    <div class="col col-sm-10 col-md-10">
-        <Loading IsLoading="!DashboardData.isReadyToShowFilters && !incidentsCounter.isReadyToShowCounters && !DashboardData.isReadyToShowGraphs">
-            <div class="wrapper">
-                <div class="rounded" style="background-color: white;padding: 10px">
-                    <IncidentsCounterComponent @bind-Value="incidentsCounter" />
-                </div>
-            </div>
-
-            <br />
-
-            @if(AreIncidentsGraphSelected)
-            {
-                <div class="wrapper">
-                    <div class="rounded" style="background-color: white;padding-left: 10px;padding-right: 10px;">
-                        @*FILTER COMPONENT*@
-                        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-                        <div class="row">
-                            <div class="p-2 align-content-start" style="font-size:30px">
-                                Filtros
-                            </div>
-                            <div class="p-2 align-content-start">
-                                <IndividualFiltersRemoverComponent FilterInfo="Value"
-                                                                   FilterInfoChanged="UpdateFilteredIncidentsData" />
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col p-3">
-                                <OriginFilter Value="Value"
-                                              ValueChanged="UpdateFilteredIncidentsData"
-                                              @bind-Data="DashboardData" />
-                            </div>
-                            <div class="col p-3">
-                                <DestinationFilter Value="Value"
-                                                   ValueChanged="UpdateFilteredIncidentsData"
-                                                   @bind-Data="DashboardData" />
-                            </div>
-                            <div class="col p-3">
-                                <DateFilter Value="Value"
-                                            ValueChanged="UpdateFilteredIncidentsData" />
-                            </div>
-                            <div class="col p-3">
-                                <ModalityFilter Value="Value"
-                                                ValueChanged="UpdateFilteredIncidentsData"
-                                                @bind-Data="DashboardData" />
-                            </div>
-                            <div class="col p-3">
-                                <StateFilter Value="Value"
-                                             ValueChanged="UpdateFilteredIncidentsData"
-                                             @bind-Data="DashboardData" />
-                            </div>
-                            <div class="col p-2">
-                                <div class="text-center">
-                                    @if (Value.ButtonEnabled)
-                                    {
-                                        <button role="button" @onclick:preventDefault @onclick="@ClearFilters" class="btn btn-outline-secondary">Limpiar filtros</button>
-                                    }
-                                    else
-                                    {
-                                        <button disabled class="btn btn-outline-secondary">Limpiar filtros</button>
-                                    }
+        <div class="col col-sm-10 col-md-10">
+                @if(AreIncidentsGraphSelected)
+                {
+                    <AuthorizeView Policy="@AuthorizationPermissions.CanSeeIncidentsInfoOnDashboard.ToString()">
+                        <Authorized>
+                            <div class="wrapper">
+                                <div class="rounded" style="background-color: white;padding: 10px">
+                                    <IncidentsCounterComponent @bind-Value="incidentsCounter" />
                                 </div>
                             </div>
-                        </div>
-                        @*FILTER COMPONENT*@
-                    </div>
-                </div>
+
+                            <br />
+
+                            <div class="wrapper">
+                                <div class="rounded" style="background-color: white;padding-left: 10px;padding-right: 10px;">
+                                    @*FILTER COMPONENT*@
+                                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+                                    <div class="row">
+                                        <div class="p-2 align-content-start" style="font-size:30px">
+                                            Filtros
+                                        </div>
+                                        <div class="p-2 align-content-start">
+                                            <IndividualFiltersRemoverComponent FilterInfo="Value"
+                                                                               FilterInfoChanged="UpdateFilteredIncidentsData" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col p-3">
+                                            <OriginFilter Value="Value"
+                                                          ValueChanged="UpdateFilteredIncidentsData"
+                                                          @bind-Data="DashboardData" />
+                                        </div>
+                                        <div class="col p-3">
+                                            <DestinationFilter Value="Value"
+                                                               ValueChanged="UpdateFilteredIncidentsData"
+                                                               @bind-Data="DashboardData" />
+                                        </div>
+                                        <div class="col p-3">
+                                            <DateFilter Value="Value"
+                                                        ValueChanged="UpdateFilteredIncidentsData" />
+                                        </div>
+                                        <div class="col p-3">
+                                            <ModalityFilter Value="Value"
+                                                            ValueChanged="UpdateFilteredIncidentsData"
+                                                            @bind-Data="DashboardData" />
+                                        </div>
+                                        <div class="col p-3">
+                                            <StateFilter Value="Value"
+                                                         ValueChanged="UpdateFilteredIncidentsData"
+                                                         @bind-Data="DashboardData" />
+                                        </div>
+                                        <div class="col p-2">
+                                            <div class="text-center">
+                                                @if (Value.ButtonEnabled)
+                                                {
+                                                    <button role="button" @onclick:preventDefault @onclick="@ClearFilters" class="btn btn-outline-secondary">Limpiar filtros</button>
+                                                }
+                                                else
+                                                {
+                                                    <button disabled class="btn btn-outline-secondary">Limpiar filtros</button>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @*FILTER COMPONENT*@
+                                </div>
+                            </div>
+
+                            <br />
+
+                            <Loading IsLoading="!DashboardData.isReadyToShowGraphs">
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-12">
+                                        <IncidentsVsTransportTypeComponentJS @bind-Data="DashboardData" />
+                                    </div>
+                                    <div class="col-lg-6 col-md-12">
+                                        <IncidentsVsTimeChartComponentJS @bind-Data="DashboardData" />
+                                    </div>
+                                </div>
+
+                                <br />
+
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-12">
+
+                                        <IncidentsVsOriginLocationComponentJS @bind-Data="DashboardData"
+                                                                              @bind-Value="Value" />
+                                    </div>
+                                    <div class="col-lg-6 col-md-12">
+                                        <IncidentsVsDestinationLocationComponentJS @bind-Data="DashboardData" />
+                                    </div>
+                                </div>
+
+                                <br />
+                            </Loading>
+                        </Authorized>
+                        <NotAuthorized>
+                            <AuthenticationStateMessage Permission="AuthorizationPermissions.CanSeeIncidentsInfoOnDashboard" />
+                        </NotAuthorized>
+                    </AuthorizeView>
+
+                } else
+                {
+                    <AuthorizeView Policy="@AuthorizationPermissions.CanSeeMedicalInfoOnDashboard.ToString()">
+                        <Authorized>
+                            <div class="wrapper">
+                                <div class="rounded" style="background-color: white;padding-left: 10px;padding-right: 10px;">
+                                    @*FILTER COMPONENT*@
+                                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+                                    <div class="row">
+                                        <div class="p-2 align-content-start" style="font-size:30px">
+                                            Filtros
+                                        </div>
+                                        <div class="p-2 align-content-start">
+                                            <IndividualAppointmentsFiltersRemoverComponent AppointmentFilters="AppointmentFilter"
+                                                                                           AppointmentFiltersChanged="UpdateAppointmentFilteredIncidentsData" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col p-3">
+                                            <HospitalFilter Value="AppointmentFilter"
+                                                            ValueChanged="UpdateAppointmentFilteredIncidentsData"
+                                                            @bind-Data="DashboardData" />
+                                        </div>
+                                        <div class="col p-3">
+                                            <PatientFilter Value="AppointmentFilter"
+                                                           ValueChanged="UpdateAppointmentFilteredIncidentsData"
+                                                           @bind-Data="DashboardData" />
+                                        </div>
+                                        <div class="col p-2">
+                                            <div class="text-center">
+                                                @if (AppointmentFilter.ButtonEnabled)
+                                                {
+                                                    <button role="button" @onclick:preventDefault @onclick="@ClearAppointmentFilters" class="btn btn-outline-secondary">Limpiar filtros</button>
+                                                }
+                                                else
+                                                {
+                                                    <button disabled class="btn btn-outline-secondary">Limpiar filtros</button>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <br />
+
+                            <Loading IsLoading="!DashboardData.isReadyToShowGraphs">
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-12">
+                                        <AppointmentsVsMedicalCenterComponent @bind-Data="DashboardData" />
+                                    </div>
+                                    <div class="col-lg-6 col-md-12">
+                                        <AppointmentsVsPatientComponent @bind-Data="DashboardData" />
+                                    </div>
+                                </div>
+
+                                @*Patient Evolution*@
+                                <br />
+                                <div class="rounded p-2" style="background-color:white;">
+                                    <h2>Evolucion Metricas por Paciente</h2>
+                                    <div class="row ">
+                                        <div class="col-lg-4 col-md-12">
+                                            <AppointmentsVsMedicalRecordWeightComponent @bind-Data="DashboardData" />
+                                        </div>
+                                        <div class="col-lg-4 col-md-12">
+                                            <AppointmentsVsMedicalRecordHeightComponent @bind-Data="DashboardData" />
+                                        </div>
+                                        <div class="col-lg-4 col-md-12">
+                                            <AppointmentsVsMedicalRecordPressureComponent @bind-Data="DashboardData" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </Loading>
+                        </Authorized>
+                        <NotAuthorized>
+                            <AuthenticationStateMessage Permission="AuthorizationPermissions.CanSeeMedicalInfoOnDashboard" />
+                        </NotAuthorized>
+                    </AuthorizeView>
+
+                
+                }
 
                 <br />
 
-                <Loading IsLoading="!DashboardData.isReadyToShowGraphs">
-                    <div class="row">
-                        <div class="col-lg-6 col-md-12">
-                            <IncidentsVsTransportTypeComponentJS @bind-Data="DashboardData" />
-                        </div>
-                        <div class="col-lg-6 col-md-12">
-                            <IncidentsVsTimeChartComponentJS @bind-Data="DashboardData" />
-                        </div>
-                    </div>
-
-                    <br />
-
-                    <div class="row">
-                        <div class="col-lg-6 col-md-12">
-
-                <IncidentsVsOriginLocationComponentJS @bind-Data="DashboardData"
-                                                      @bind-Value="Value" />
-            </div>
-            <div class="col-lg-6 col-md-12">
-                <IncidentsVsDestinationLocationComponentJS @bind-Data="DashboardData" />
-            </div>
         </div>
-
-        <br />
-                </Loading>
-            } else
-            {
-                <div class="wrapper">
-                    <div class="rounded" style="background-color: white;padding-left: 10px;padding-right: 10px;">
-                        @*FILTER COMPONENT*@
-                        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-                        <div class="row">
-                            <div class="p-2 align-content-start" style="font-size:30px">
-                                Filtros
-                            </div>
-                            <div class="p-2 align-content-start">
-                                <IndividualAppointmentsFiltersRemoverComponent AppointmentFilters="AppointmentFilter"
-                                                                               AppointmentFiltersChanged="UpdateAppointmentFilteredIncidentsData" />
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col p-3">
-                                <HospitalFilter Value="AppointmentFilter"
-                                                ValueChanged="UpdateAppointmentFilteredIncidentsData"
-                                                @bind-Data="DashboardData" />
-                            </div>
-                            <div class="col p-3">
-                                <PatientFilter Value="AppointmentFilter"
-                                               ValueChanged="UpdateAppointmentFilteredIncidentsData"
-                                               @bind-Data="DashboardData" />
-                            </div>
-                            <div class="col p-2">
-                                <div class="text-center">
-                                    @if (AppointmentFilter.ButtonEnabled)
-                                    {
-                                        <button role="button" @onclick:preventDefault @onclick="@ClearAppointmentFilters" class="btn btn-outline-secondary">Limpiar filtros</button>
-                                    }
-                                    else
-                                    {
-                                        <button disabled class="btn btn-outline-secondary">Limpiar filtros</button>
-                                    }
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
-                <br/>
-
-                <Loading IsLoading="!DashboardData.isReadyToShowGraphs">
-                    <div class="row">
-                        <div class="col-lg-6 col-md-12">
-                            <AppointmentsVsMedicalCenterComponent @bind-Data="DashboardData"/>
-                        </div>
-                        <div class="col-lg-6 col-md-12">
-                            <AppointmentsVsPatientComponent @bind-Data="DashboardData" />
-                        </div>
-                    </div>
-
-                    @*Patient Evolution*@
-                    <br />
-                    <div class="rounded p-2" style="background-color:white;">
-                        <h2>Evolucion Metricas por Paciente</h2>
-                        <div class="row ">
-                            <div class="col-lg-4 col-md-12">
-                                <AppointmentsVsMedicalRecordWeightComponent @bind-Data="DashboardData" />
-                            </div>
-                            <div class="col-lg-4 col-md-12">
-                                <AppointmentsVsMedicalRecordHeightComponent @bind-Data="DashboardData"/>
-                            </div>
-                            <div class="col-lg-4 col-md-12">
-                                <AppointmentsVsMedicalRecordPressureComponent @bind-Data="DashboardData"/>
-                            </div>
-                        </div>
-                    </div>
-
-                </Loading>
-            }
-
-            <br />
-
-        </Loading>
     </div>
-</div>
+</Loading>

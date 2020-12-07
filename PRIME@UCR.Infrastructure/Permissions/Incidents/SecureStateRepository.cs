@@ -28,7 +28,6 @@ namespace PRIME_UCR.Infrastructure.Permissions.Incidents
 
         public async Task<IEnumerable<Estado>> GetAllStates()
         {
-            await primeSecurityService.CheckIfIsAuthorizedAsync(new[] { AuthorizationPermissions.CanSeeIncidentsInfoOnDashboard });
             return await stateRepository.GetAllStates();
         }
     }
