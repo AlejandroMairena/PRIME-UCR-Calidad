@@ -15,7 +15,7 @@ namespace PRIME_UCR.Infrastructure.EntityConfiguration.CheckLists
             // Sets NombreImagen to "defaultCheckList.png" as default value
             builder
                 .Property(p => p.ImagenDescriptiva)
-                .HasDefaultValue("/images/defaultCheckList.svg");
+                .HasDefaultValue("/datas/defaultCheckList.svg");
             builder
                 .HasOne(p => p.Checklist)
                 .WithMany(p => p.Items)
