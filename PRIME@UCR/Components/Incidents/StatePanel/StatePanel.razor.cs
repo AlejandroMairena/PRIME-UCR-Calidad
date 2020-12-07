@@ -176,7 +176,7 @@ namespace PRIME_UCR.Components.Incidents.StatePanel
                 _model = await AssignmentService.GetAssignmentsByIncidentIdAsync(Incident.Code);
                 _specialists = _model.TeamMembers;
                 var allocator = CurrentUser.NombreCompleto;
-                var url = "https://localhost:44368";
+                var url = "https://prime-ceaco.azurewebsites.net/";
                 foreach (var special in _specialists)
                 {
                     var user = (await userService.GetAllUsersWithDetailsAsync()).ToList().Find(u => u.CedPersona == special.Cédula);
