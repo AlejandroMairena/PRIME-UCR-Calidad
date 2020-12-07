@@ -45,13 +45,13 @@
             {
                 @if (!_saveButtonEnabled)
                 {
-                    <button disabled type="submit" class="btn btn-primary">Guardar</button>
-                    <button role="button" @onclick:preventDefault @onclick="@Discard" class="btn btn-outline-secondary">Descartar</button>
+                    <button disabled type="submit" class="btn btn-disabled">Guardar</button>
+                    <button role="button" @onclick:preventDefault @onclick="@Discard" class="btn btn-secondaryOne">Descartar</button>
                 }
                 else
                 {
                     <button type="submit" class="btn btn-primary">Guardar</button>
-                    <button role="button" @onclick:preventDefault @onclick="@Discard" class="btn btn-outline-secondary">Descartar</button>
+                    <button role="button" @onclick:preventDefault @onclick="@Discard" class="btn btn-secondaryOne">Descartar</button>
                 }
             }
         </div>

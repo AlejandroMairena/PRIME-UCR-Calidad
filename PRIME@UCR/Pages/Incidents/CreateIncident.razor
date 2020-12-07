@@ -4,8 +4,8 @@
 <!-- Only: (control center admin, medical technician coordinator) can create the incidents -->
 @attribute [HasPermission(AuthorizationPermissions.CanCreateIncidents)]
 
-<div class="jumbotron white-panel">
-    <h1>Crear incidente</h1>
+<div class="jumbotron white-panel pb-3 pt-3 px-4">
+    <h2>Crear incidente</h2>
     <Loading IsLoading="_modes == null">
     <div class="col-lg-6 col-md-8">
         <EditForm EditContext="_context" OnValidSubmit="@Create">
@@ -23,7 +23,7 @@
             }
             else
             {
-                <button type="submit" class="btn btn-secondary" disabled>Crear</button>
+                <button type="submit" class="btn btn-disabled" disabled>Crear</button>
             }
         </EditForm>
     </div>
