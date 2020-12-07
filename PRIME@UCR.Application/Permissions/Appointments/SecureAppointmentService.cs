@@ -72,173 +72,173 @@ namespace PRIME_UCR.Application.Permissions.Appointments
 
         public async Task<MetricasCitaMedica> GetMetricsMedAppointmentByAppId(int id)
         {
-            await _primeSecurityService.CheckIfIsAuthorizedAsync(new[] { AuthorizationPermissions.CanSeeAllMedicalRecords, AuthorizationPermissions.CanSeeMedicalRecordsOfHisPatients });
+            await _primeSecurityService.CheckIfIsAuthorizedAsync(new AuthorizationPermissions[0]);
             return await appointmentService.GetMetricsMedAppointmentByAppId(id);
         }
 
         public async Task<IEnumerable<ReferenciaCita>> GetReferencesByAppId(int id)
         {
-            await _primeSecurityService.CheckIfIsAuthorizedAsync(new[] { AuthorizationPermissions.CanSeeAllMedicalRecords, AuthorizationPermissions.CanSeeMedicalRecordsOfHisPatients });
+            await _primeSecurityService.CheckIfIsAuthorizedAsync(new AuthorizationPermissions[0]);
             return await appointmentService.GetReferencesByAppId(id);
         }
 
         public async Task<IEnumerable<Persona>> GetDoctorsBySpecialtyNameAsync(string specialty_name)
         {
-            await _primeSecurityService.CheckIfIsAuthorizedAsync(new[] { AuthorizationPermissions.CanSeeAllMedicalRecords, AuthorizationPermissions.CanSeeMedicalRecordsOfHisPatients });
+            await _primeSecurityService.CheckIfIsAuthorizedAsync(new AuthorizationPermissions[0]);
             return await appointmentService.GetDoctorsBySpecialtyNameAsync(specialty_name);
         }
 
         public async Task InsertAppointmentReference(ReferenciaCita reference)
         {
-            await _primeSecurityService.CheckIfIsAuthorizedAsync(new[] { AuthorizationPermissions.CanSeeAllMedicalRecords, AuthorizationPermissions.CanSeeMedicalRecordsOfHisPatients });
+            await _primeSecurityService.CheckIfIsAuthorizedAsync(new AuthorizationPermissions[0]);
             await appointmentService.InsertAppointmentReference(reference);
         }
 
         public async Task<IEnumerable<EspecialidadMedica>> GetMedicalSpecialtiesAsync()
         {
-            await _primeSecurityService.CheckIfIsAuthorizedAsync(new[] { AuthorizationPermissions.CanSeeAllMedicalRecords, AuthorizationPermissions.CanSeeMedicalRecordsOfHisPatients });
+            await _primeSecurityService.CheckIfIsAuthorizedAsync(new AuthorizationPermissions[0]);
             return await appointmentService.GetMedicalSpecialtiesAsync();
         }
 
         public async Task InsertMetrics(MetricasCitaMedica metrics)
         {
-            await _primeSecurityService.CheckIfIsAuthorizedAsync(new[] { AuthorizationPermissions.CanSeeAllMedicalRecords, AuthorizationPermissions.CanSeeMedicalRecordsOfHisPatients });
+            await _primeSecurityService.CheckIfIsAuthorizedAsync(new AuthorizationPermissions[0]);
             await appointmentService.InsertMetrics(metrics);
         }
 
         public async Task UpdateMetrics(MetricasCitaMedica metrics)
         {
-            await _primeSecurityService.CheckIfIsAuthorizedAsync(new[] { AuthorizationPermissions.CanSeeAllMedicalRecords, AuthorizationPermissions.CanSeeMedicalRecordsOfHisPatients });
+            await _primeSecurityService.CheckIfIsAuthorizedAsync(new AuthorizationPermissions[0]);
             await appointmentService.UpdateMetrics(metrics);
         }
 
         public async Task<CitaMedica> GetMedicalAppointmentWithAppointmentByIdAsync(int id)
         {
-            await _primeSecurityService.CheckIfIsAuthorizedAsync(new[] { AuthorizationPermissions.CanSeeAllMedicalRecords, AuthorizationPermissions.CanSeeMedicalRecordsOfHisPatients });
+            await _primeSecurityService.CheckIfIsAuthorizedAsync(new AuthorizationPermissions[0]);
             return await appointmentService.GetMedicalAppointmentWithAppointmentByIdAsync(id);
         }
 
         public async Task<CentroMedico> GetMedCenterByKeyAsync(int id)
         {
-            await _primeSecurityService.CheckIfIsAuthorizedAsync(new[] { AuthorizationPermissions.CanSeeAllMedicalRecords, AuthorizationPermissions.CanSeeMedicalRecordsOfHisPatients });
+            await _primeSecurityService.CheckIfIsAuthorizedAsync(new AuthorizationPermissions[0]);
             return await appointmentService.GetMedCenterByKeyAsync(id);
         }
 
         public async Task UpdateAppointmentStatus(int id)
         {
-            await _primeSecurityService.CheckIfIsAuthorizedAsync(new[] { AuthorizationPermissions.CanSeeAllMedicalRecords, AuthorizationPermissions.CanSeeMedicalRecordsOfHisPatients });
+            await _primeSecurityService.CheckIfIsAuthorizedAsync(new AuthorizationPermissions[0]);
             appointmentService.UpdateAppointmentStatus(id);
         }
 
         public async Task UpdateAsync(PoseeReceta prescription)
         {
-            await _primeSecurityService.CheckIfIsAuthorizedAsync(new[] { AuthorizationPermissions.CanSeeAllMedicalRecords, AuthorizationPermissions.CanSeeMedicalRecordsOfHisPatients });
+            await _primeSecurityService.CheckIfIsAuthorizedAsync(new AuthorizationPermissions[0]);
             await appointmentService.UpdateAsync(prescription);
         }
 
         public async Task<IEnumerable<RecetaMedica>> GetDrugsByConditionAsync(string drugname)
         {
-            await _primeSecurityService.CheckIfIsAuthorizedAsync(new[] { AuthorizationPermissions.CanSeeAllMedicalRecords, AuthorizationPermissions.CanSeeMedicalRecordsOfHisPatients });
+            await _primeSecurityService.CheckIfIsAuthorizedAsync(new AuthorizationPermissions[0]);
             return await appointmentService.GetDrugsByConditionAsync(drugname);
         }
 
         public async Task<IEnumerable<RecetaMedica>> GetDrugsByFilterAsync(string filter)
         {
-            await _primeSecurityService.CheckIfIsAuthorizedAsync(new[] { AuthorizationPermissions.CanSeeAllMedicalRecords, AuthorizationPermissions.CanSeeMedicalRecordsOfHisPatients });
+            await _primeSecurityService.CheckIfIsAuthorizedAsync(new AuthorizationPermissions[0]);
             return await appointmentService.GetDrugsByFilterAsync(filter);
         }
 
         public async Task<PoseeReceta> UpdatePrescriptionDosis(int idMedicalPrescription, int idMedicalAppointment, string dosis)
         {
-            await _primeSecurityService.CheckIfIsAuthorizedAsync(new[] { AuthorizationPermissions.CanSeeAllMedicalRecords, AuthorizationPermissions.CanSeeMedicalRecordsOfHisPatients });
+            await _primeSecurityService.CheckIfIsAuthorizedAsync(new AuthorizationPermissions[0]);
             return await appointmentService.UpdatePrescriptionDosis(idMedicalPrescription, idMedicalAppointment, dosis);
         }
 
         public async Task<PoseeReceta> GetDrugByConditionAsync(int drug_id, int appointmentId)
         {
-            await _primeSecurityService.CheckIfIsAuthorizedAsync(new[] { AuthorizationPermissions.CanSeeAllMedicalRecords, AuthorizationPermissions.CanSeeMedicalRecordsOfHisPatients });
+            await _primeSecurityService.CheckIfIsAuthorizedAsync(new AuthorizationPermissions[0]);
             return await appointmentService.GetDrugByConditionAsync(drug_id, appointmentId);
         }
 
         public async Task<CitaMedica> GetMedicalAppointmentByAppointmentId(int id)
         {
-            await _primeSecurityService.CheckIfIsAuthorizedAsync(new[] { AuthorizationPermissions.CanSeeAllMedicalRecords, AuthorizationPermissions.CanSeeMedicalRecordsOfHisPatients });
+            await _primeSecurityService.CheckIfIsAuthorizedAsync(new AuthorizationPermissions[0]);
             return await appointmentService.GetMedicalAppointmentByAppointmentId(id);
         }
 
         public async Task<CitaMedica> GetMedicalAppointmentByKeyAsync(int id)
         {
-            await _primeSecurityService.CheckIfIsAuthorizedAsync(new[] { AuthorizationPermissions.CanSeeAllMedicalRecords, AuthorizationPermissions.CanSeeMedicalRecordsOfHisPatients });
+            await _primeSecurityService.CheckIfIsAuthorizedAsync(new AuthorizationPermissions[0]);
             return await appointmentService.GetMedicalAppointmentByKeyAsync(id);
         }
 
         public async Task<CitaMedica> GetMedicalAppointmentWithAppointmentByKeyAsync(int id)
         {
-            await _primeSecurityService.CheckIfIsAuthorizedAsync(new[] { AuthorizationPermissions.CanSeeAllMedicalRecords, AuthorizationPermissions.CanSeeMedicalRecordsOfHisPatients });
+            await _primeSecurityService.CheckIfIsAuthorizedAsync(new AuthorizationPermissions[0]);
             return await appointmentService.GetMedicalAppointmentWithAppointmentByKeyAsync(id);
         }
 
         public async Task<Cita> GetAppointmentByKeyAsync(int id)
         {
-            await _primeSecurityService.CheckIfIsAuthorizedAsync(new[] { AuthorizationPermissions.CanSeeAllMedicalRecords, AuthorizationPermissions.CanSeeMedicalRecordsOfHisPatients });
+            await _primeSecurityService.CheckIfIsAuthorizedAsync(new AuthorizationPermissions[0]);
             return await appointmentService.GetAppointmentByKeyAsync(id);
         }
 
         public async Task<PoseeReceta> InsertPrescription(int idMedicalPrescription, int idMedicalAppointment)
         {
-            await _primeSecurityService.CheckIfIsAuthorizedAsync(new[] { AuthorizationPermissions.CanSeeAllMedicalRecords, AuthorizationPermissions.CanSeeMedicalRecordsOfHisPatients });
+            await _primeSecurityService.CheckIfIsAuthorizedAsync(new AuthorizationPermissions[0]);
             return await appointmentService.InsertPrescription(idMedicalPrescription, idMedicalAppointment);
         }
 
         public async Task<IEnumerable<RecetaMedica>> GetDrugsAsync()
         {
-            await _primeSecurityService.CheckIfIsAuthorizedAsync(new[] { AuthorizationPermissions.CanSeeAllMedicalRecords, AuthorizationPermissions.CanSeeMedicalRecordsOfHisPatients });
+            await _primeSecurityService.CheckIfIsAuthorizedAsync(new AuthorizationPermissions[0]);
             return await appointmentService.GetDrugsAsync();
         }
 
         public async Task<IEnumerable<PoseeReceta>> GetPrescriptionsByAppointmentId(int id)
         {
-            await _primeSecurityService.CheckIfIsAuthorizedAsync(new[] { AuthorizationPermissions.CanSeeAllMedicalRecords, AuthorizationPermissions.CanSeeMedicalRecordsOfHisPatients });
+            await _primeSecurityService.CheckIfIsAuthorizedAsync(new AuthorizationPermissions[0]);
             return await appointmentService.GetPrescriptionsByAppointmentId(id);
         }
 
         public async Task<IEnumerable<TipoAccion>> GetActionTypesAsync(bool isIncident = true)
         {
-            await _primeSecurityService.CheckIfIsAuthorizedAsync(new[] { AuthorizationPermissions.CanSeeAllMedicalRecords, AuthorizationPermissions.CanSeeMedicalRecordsOfHisPatients });
+            await _primeSecurityService.CheckIfIsAuthorizedAsync(new AuthorizationPermissions[0]);
             return await appointmentService.GetActionTypesAsync();
         }
 
         public async Task<IEnumerable<TipoAccion>> GetActionsTypesMedicalAppointmentAsync(bool isMedAppointment = true)
         {
-            await _primeSecurityService.CheckIfIsAuthorizedAsync(new[] { AuthorizationPermissions.CanSeeAllMedicalRecords, AuthorizationPermissions.CanSeeMedicalRecordsOfHisPatients });
+            await _primeSecurityService.CheckIfIsAuthorizedAsync(new AuthorizationPermissions[0]);
             return await appointmentService.GetActionsTypesMedicalAppointmentAsync();
         }
 
         public async Task<Expediente> AssignMedicalRecordAsync(int appointmentId, Paciente patient)
         {
-            await _primeSecurityService.CheckIfIsAuthorizedAsync(new[] { AuthorizationPermissions.CanSeeAllMedicalRecords, AuthorizationPermissions.CanSeeMedicalRecordsOfHisPatients });
+            await _primeSecurityService.CheckIfIsAuthorizedAsync(new AuthorizationPermissions[0]);
             return await appointmentService.AssignMedicalRecordAsync(appointmentId, patient);
         }
 
         public async Task<Cita> GetLastAppointmentDateAsync(int id)
         {
-            await _primeSecurityService.CheckIfIsAuthorizedAsync(new[] { AuthorizationPermissions.CanSeeAllMedicalRecords, AuthorizationPermissions.CanSeeMedicalRecordsOfHisPatients });
+            await _primeSecurityService.CheckIfIsAuthorizedAsync(new AuthorizationPermissions[0]);
             return await appointmentService.GetLastAppointmentDateAsync(id);
         }
 
         public async Task<CitaMedica> InsertMedicalAppointmentAsync(CitaMedica model)
         {
-            await _primeSecurityService.CheckIfIsAuthorizedAsync(new[] { AuthorizationPermissions.CanSeeAllMedicalRecords, AuthorizationPermissions.CanSeeMedicalRecordsOfHisPatients });
+            await _primeSecurityService.CheckIfIsAuthorizedAsync(new AuthorizationPermissions[0]);
             return await appointmentService.InsertMedicalAppointmentAsync(model);
         }
 
         public async Task<EstadoCitaMedica> GetStatusById(int id) {
-            await _primeSecurityService.CheckIfIsAuthorizedAsync(new[] { AuthorizationPermissions.CanSeeAllMedicalRecords, AuthorizationPermissions.CanSeeMedicalRecordsOfHisPatients });
+            await _primeSecurityService.CheckIfIsAuthorizedAsync(new AuthorizationPermissions[0]);
             return await appointmentService.GetStatusById(id);
         }
         public async Task<Cita> InsertAppointmentAsync(Cita model)
         {
-            await _primeSecurityService.CheckIfIsAuthorizedAsync(new[] { AuthorizationPermissions.CanSeeAllMedicalRecords, AuthorizationPermissions.CanSeeMedicalRecordsOfHisPatients });
+            await _primeSecurityService.CheckIfIsAuthorizedAsync(new AuthorizationPermissions[0]);
             return await appointmentService.InsertAppointmentAsync(model);
         }
     }
