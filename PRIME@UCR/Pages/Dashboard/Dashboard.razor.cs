@@ -16,6 +16,8 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using PRIME_UCR.Application.Implementations.Dashboard;
+using Microsoft.AspNetCore.Authorization;
+using PRIME_UCR.Domain.Constants;
 
 namespace PRIME_UCR.Pages.Dashboard
 {
@@ -64,6 +66,9 @@ namespace PRIME_UCR.Pages.Dashboard
         [Inject]
         public IAuthenticationService AuthenticationService { get; set; }
 
+        [Inject]
+        public IAuthorizationService AuthorizationService { get; set; }
+
         [CascadingParameter]
         private Task<AuthenticationState> authenticationState { get; set; }
         //FILTER COMPONENT
@@ -75,21 +80,28 @@ namespace PRIME_UCR.Pages.Dashboard
 
         bool isBusy = false;
 
+        private bool isAuthorized = true;
 
         protected override async Task OnInitializedAsync()
         {
-            await InitializeDashboardData();
-            //Appointments
-            await InitializeAppointmentsData();
-            incidentsCounter.totalIncidentsCounter = await DashboardService.GetIncidentCounterAsync(String.Empty, "Día");
-            incidentsCounter.maritimeIncidents = await DashboardService.GetIncidentCounterAsync("Marítimo", "Día");
-            incidentsCounter.airIncidentsCounter = await DashboardService.GetIncidentCounterAsync("Aéreo", "Día");
-            incidentsCounter.groundIncidentsCounter = await DashboardService.GetIncidentCounterAsync("Terrestre", "Día");
+            var user = (await authenticationState).User;
+            isAuthorized = (await AuthorizationService.AuthorizeAsync(user, AuthorizationPermissions.CanSeeIncidentsInfoOnDashboard.ToString())).Succeeded
+                || (await AuthorizationService.AuthorizeAsync(user, AuthorizationPermissions.CanSeeMedicalInfoOnDashboard.ToString())).Succeeded;
+            if(isAuthorized)
+            {
+                await InitializeDashboardData();
+                //Appointments
+                await InitializeAppointmentsData();
+                incidentsCounter.totalIncidentsCounter = await DashboardService.GetIncidentCounterAsync(String.Empty, "Día");
+                incidentsCounter.maritimeIncidents = await DashboardService.GetIncidentCounterAsync("Marítimo", "Día");
+                incidentsCounter.airIncidentsCounter = await DashboardService.GetIncidentCounterAsync("Aéreo", "Día");
+                incidentsCounter.groundIncidentsCounter = await DashboardService.GetIncidentCounterAsync("Terrestre", "Día");
             
-            incidentsCounter.isReadyToShowCounters = true; // Always after loading all incidents counter data
-            DashboardData.isReadyToShowGraphs = true;
-            userMail = (await authenticationState).User.Identity.Name;
-            userName = (await AuthenticationService.GetUserByEmailAsync(userMail)).Persona.Nombre;
+                incidentsCounter.isReadyToShowCounters = true; // Always after loading all incidents counter data
+                DashboardData.isReadyToShowGraphs = true;
+                userMail = (await authenticationState).User.Identity.Name;
+                userName = (await AuthenticationService.GetUserByEmailAsync(userMail)).Persona.Nombre;
+            }
         }
 
         private async Task UpdateFilteredIncidentsData()
