@@ -19,6 +19,8 @@ namespace PRIME_UCR.Pages.UserAdministration
 
         public ProfileModel profile;
 
+        public bool isLoading = false;
+
         protected override async Task OnInitializedAsync()
         {
             profile = new ProfileModel();
@@ -39,6 +41,7 @@ namespace PRIME_UCR.Pages.UserAdministration
             }
             profile.PermissionsList = new List<Permiso>();
             profile.UserLists = new List<Usuario>();
+
         }
 
     }

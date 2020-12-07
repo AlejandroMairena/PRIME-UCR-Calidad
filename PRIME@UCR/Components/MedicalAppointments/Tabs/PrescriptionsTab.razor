@@ -1,0 +1,12 @@
+﻿@using PRIME_UCR.Components.MedicalAppointments
+@inject IAppointmentService appointment_service;
+
+<div class="prescription_list">
+    <PrescriptionListComponent AppointmentId="@id" NotifyChanges="updateChanges" Medpres="medicalprescrip"></PrescriptionListComponent>
+</div>
+
+
+<div class="drugselector">
+    <DrugSelectorComponent IdMedicalPrescription="@id" Active="drug_selector_active" Description_not_done="prescription_description_not_done" UpdateList="updatelist"></DrugSelectorComponent>
+</div>
+

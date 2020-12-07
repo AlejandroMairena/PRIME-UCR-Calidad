@@ -23,6 +23,7 @@ using PRIME_UCR.Application.Permissions.Incidents;
 using PRIME_UCR.Application.Permissions.Dashboard;
 using PRIME_UCR.Application.Permissions.CheckLists;
 using PRIME_UCR.Application.Permissions.Appointments;
+using PRIME_UCR.Application.Permissions.MedicalRecord;
 
 namespace PRIME_UCR.Application
 {
@@ -42,10 +43,10 @@ namespace PRIME_UCR.Application
             services.AddTransient<IGpsDataService, GpsDataService>();
 
             // medical records
-            services.AddTransient<IMedicalRecordService, MedicalRecordService>();
-            services.AddTransient<IMedicalBackgroundService, MedicalBackgroundService>();
-            services.AddTransient<IAlergyService, AlergyService>();
-            services.AddTransient<IChronicConditionService, ChronicConditionService>();
+            services.AddTransient<IMedicalRecordService, SecureMedicalRecordService>();
+            services.AddTransient<IMedicalBackgroundService, SecureMedicalBackgroundService>();
+            services.AddTransient<IAlergyService, SecureAlergyService>();
+            services.AddTransient<IChronicConditionService, SecureChronicConditionService>();
             services.AddTransient<IAppointmentService, SecureAppointmentService>();
             // multimedia
             services.AddTransient<IMultimediaContentService, MultimediaContentService>();
@@ -66,7 +67,7 @@ namespace PRIME_UCR.Application
 
             //Dashboard
             services.AddTransient<IDashboardService, SecureDashboardService>();
-
+            services.AddTransient<IFileManagerService, FileManagerService>();
             services.AddTransient<IMailService, MailService>();
             return services;
         }

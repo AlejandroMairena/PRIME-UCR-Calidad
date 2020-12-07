@@ -12,6 +12,7 @@ using PRIME_UCR.Components.Incidents.LocationPickers;
 using PRIME_UCR.Components.Incidents.IncidentDetails;
 using PRIME_UCR.Domain.Models;
 using PRIME_UCR.Domain.Models.Incidents;
+using PRIME_UCR.Domain.Models;
 
 namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
 {
@@ -63,6 +64,7 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
         private void OnOriginTypeChange(Tuple<OriginType, string> type)
         {
             ParentPage.ClearStatusMessage();
+            ClearStatusMessageCallback();
             _selectedOriginType = type;
         }
 
@@ -180,6 +182,7 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
             ParentPage.ClearStatusMessage();
             TypeOfOrigin = _selectedOriginType.Item2; 
             _model.Origin = Origin;
+            ClearStatusMessageCallback();
             _isLoading = false;
         }
 

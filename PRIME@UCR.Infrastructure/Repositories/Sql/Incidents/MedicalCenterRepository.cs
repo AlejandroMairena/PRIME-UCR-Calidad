@@ -17,6 +17,10 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Incidents
         {
         }
 
+        public override async Task<IEnumerable<CentroMedico>> GetAllAsync() {
+            return await _db.MedicalCenters.ToListAsync();
+        }
+
         public async Task<IEnumerable<Médico>> GetDoctorsByMedicalCenterId(int id)
         {
             using (var connection = new SqlConnection(_db.ConnectionString))
