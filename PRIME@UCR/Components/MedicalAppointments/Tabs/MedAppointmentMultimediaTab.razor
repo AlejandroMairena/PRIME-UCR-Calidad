@@ -25,6 +25,9 @@
                     <td class="text-center">
                         <MultimediaContentComponent MultimediaContent="_existingFiles[_actionTypes.IndexOf(i)]"
                                                     OnFileUpload="(MultimediaContent mc) => OnFileUpload(i, mc)"
+                                                    ActionName="@i.Nombre"
+                                                    CallingPlace="action"
+                                                    ApCode="@medical_appointment.Codigo"
                                                     />
                     </td>
                     <td>
