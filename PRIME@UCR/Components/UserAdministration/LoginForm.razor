@@ -1,7 +1,7 @@
 ﻿@inject AuthenticationStateProvider AuthenticationStateProvider
 @inject Blazored.LocalStorage.ILocalStorageService localStorage
 
-<div class="mt-5 text-white">
+<div class="col-12 mt-5 text-white">
     <EditForm EditContext="_context" OnValidSubmit="@ValidateUser">
         <DataAnnotationsValidator />
 
@@ -20,8 +20,8 @@
         <div class="d-flex justify-content-center">
             @if (isBusy) // Loading button
             {
-                <button class="btn btn-light width:13em mt-2" type="button">
-                    <span class="spinner-border spinner-border-sm" style="background-color:white" role="status" aria-hidden="true"></span>Validando información
+                <button class="btn btn-light width:14em mt-2" type="button">
+                    <span class="spinner-border spinner-border-sm" style="background-color:white" role="status" aria-hidden="true" /> Validando datos 
                 </button> 
             }
             else
