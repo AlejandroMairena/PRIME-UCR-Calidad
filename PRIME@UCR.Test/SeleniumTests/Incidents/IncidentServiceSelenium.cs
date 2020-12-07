@@ -8,7 +8,7 @@ using Xunit;
 
 namespace PRIME_UCR.Test.SeleniumTests.Incidents
 {
- 
+
     public class IncidentServiceSelenium : IDisposable
     {
         IWebDriver driver;
@@ -45,14 +45,6 @@ namespace PRIME_UCR.Test.SeleniumTests.Incidents
             Assert.Equal("Administración del incidente", Element.Text);
         }
         
-        private void FillIncidentInfo()
-        {
-            driver = new ChromeDriver();
-            AccessToIncidentPage();
-            AccessToFirstIncident();
-            MockInfoInIncident();
-        }
-
         [Fact]
         public void FillInfoOriginTab()
         {
@@ -74,8 +66,6 @@ namespace PRIME_UCR.Test.SeleniumTests.Incidents
             string text = CheckSaveState("Mensaje de estado", "Se guardaron los cambios exitosamente.");
             Assert.Equal("Se guardaron los cambios exitosamente.", text);
         }
-        //Test Name:	PRIME_UCR.Test.SeleniumTests.Incidents.IncidentServiceSelenium.FillInfoDestinationTab
-//Result Message:	OpenQA.Selenium.StaleElementReferenceException : stale element reference: element is not attached to the page document
 
         [Fact]
         public void FillInfoPatientTab()
@@ -88,11 +78,15 @@ namespace PRIME_UCR.Test.SeleniumTests.Incidents
             Assert.Equal("Se guardaron los cambios exitosamente.", text);
         } 
 
-        private void MockInfoInIncident()
+        [Fact]
+        public void ApproveIncident()
         {
-            MockOriginTab();
-            MockDestinationTab();
-            MockPatientTab();
+            driver = new ChromeDriver();
+            AccessToIncidentPage();
+            AccessToFirstIncident();
+            MockChangeState();
+            Element = TryToFindById("Mensaje de estados");
+            Assert.Equal("Aprobado por Teodoro Barquero ", Element.Text);
         }
 
         private void MockOriginTab()
@@ -145,13 +139,15 @@ namespace PRIME_UCR.Test.SeleniumTests.Incidents
             Element.Click();
         }
 
+
         private void MockChangeState()
         {
-            Element = TryToFind("//div[@class='row']/div/ul/li[1]");//Destination tab
+            Element = TryToFind("//div[@class='row']/div/ul/li[1]");//Details tab
             Element.Click();
             Timeout(1000);//Load tab
-            Element = TryToFindById("Cambiar");
+            Element = TryToFindById("Aprobado");
             Element.Click();
+
         }
 
         private IWebElement TryToFind(string path)

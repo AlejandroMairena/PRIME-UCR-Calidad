@@ -69,7 +69,7 @@
             else if (Incident.CurrentState == IncidentStates.Rejected.Nombre)
             {
                 <div class="text-center mt-4">
-                    <button class="btn btn-primary" @onclick="@Approve">Cambiar a estado Aprobado</button>
+                    <button id="Aprobado" class="btn btn-primary" @onclick="@Approve">Cambiar a estado Aprobado</button>
                     <button disabled class="btn btn-outline-danger">Cambiar a estado Rechazado</button>
                 </div>
             }
