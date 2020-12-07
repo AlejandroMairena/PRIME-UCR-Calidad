@@ -130,6 +130,7 @@ namespace PRIME_UCR.Pages.Dashboard
             Value = new FilterModel();
             DashboardData = new DashboardDataModel();
             await InitializeDashboardData();
+            await InitializeAppointmentsData();
             await DashboardDataChanged.InvokeAsync(DashboardData);
             await ValueChanged.InvokeAsync(Value);
             DashboardData.isReadyToShowGraphs = true;

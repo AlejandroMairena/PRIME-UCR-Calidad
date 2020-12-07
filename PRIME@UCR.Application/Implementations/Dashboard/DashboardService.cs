@@ -84,7 +84,12 @@ namespace PRIME_UCR.Application.Implementations.Dashboard
             if (Value.FinalDateFilter.HasValue)
             {
                 var selectedDate = Value.FinalDateFilter.Value;
-                filteredList = filteredList.Where((incident) => DateTime.Compare(selectedDate, incident.Cita.FechaHoraEstimada) > 0).ToList();
+
+                filteredList = filteredList.Where((incident) => {
+                    var date = incident.Cita.FechaHoraEstimada;
+                    return selectedDate.Day == date.Day && selectedDate.Month == date.Month && selectedDate.Year == date.Year
+                        || DateTime.Compare(selectedDate, incident.Cita.FechaHoraEstimada) >= 0;
+                }).ToList();
             }
 
             //Modality
