@@ -12,9 +12,9 @@
     @using PRIME_UCR.Infrastructure
 
     @* MultimediaContentComponent*@
-<div>
+
     @* Boton Principal *@
-    <div class="@divDDClass">
+    <div>
         @* Div Contededor del Componente: Propiedades ligadas al codigo: class=@divDDClass *@
         <button class="btn btn-secondary dropdown-toggle m-button add-multimedia-button"
                 type="button" id="dropdownMenuButton"
@@ -111,11 +111,12 @@
                             @foreach (var mcontent in MultimediaContent)
                             {
                                 <tr>
-                                    <td>@mcontent.Nombre</td>
+                                    <td><p class="rt-filename">@GetFileName(mcontent)</p></td>
                                     <td>@mcontent.Tipo</td>
                                     <td>@mcontent.Fecha_Hora</td>
                                     <td>
                                         <button type="button" class="btn btn-secondary m-btn m-btn-rm action_buttom"
+                                                style="width: 85px"
                                                 @onclick="(() => ShowPopUp(mcontent))">
                                             @GetButonName(mcontent)
                                         </button>
@@ -139,10 +140,10 @@
             @MultimediaContent.Count
         </div>
     }
-</div>
 
 
 <MultimediaModal Show="showModal"
+                 ShowPDF="showPDF"
                  ShowCamera="showCamera"
                  ShowImage="showImage"
                  ShowMicrophone="showMicrophone"
@@ -153,5 +154,10 @@
                  ShowText="showText"
                  ShowTextComponent="showTextComponent"
                  OnFileUpload="OnFileUpload"
+                 ApCode="@ApCode"
+                 ActionName="@ActionName"
+                 CallingPlace="@CallingPlace"
+                 CheckListName="@CheckListName"
+                 CheckListItemName="@CheckListItemName"
                  OnClose="(bool val) => showModal = val">
 </MultimediaModal>

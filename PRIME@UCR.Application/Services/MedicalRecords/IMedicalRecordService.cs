@@ -15,7 +15,7 @@ namespace PRIME_UCR.Application.Services.MedicalRecords
 
         Task<IEnumerable<Expediente>> GetAllAsync();
 
-        Task<IEnumerable<Expediente>> GeyByConditionAsync(string name);
+        Task<IEnumerable<Expediente>> GetByConditionAsync(string name);
 
         Task<Expediente> InsertAsync(Expediente expediente);
 

@@ -3,10 +3,11 @@
 <div class="rt-container">
 
     <div class="card" style="padding: 20px">
-        <h2>Cámara</h2>
+        <h2 class="rt-align">Cámara</h2>
         <hr />
 
-        <MultimediaTitleComponent OnTitleChanged="OnTitleChanged"></MultimediaTitleComponent>
+        <MultimediaAlert Message="AlertMessage"></MultimediaAlert>
+        <MultimediaTitleComponent Title="@fileName" Disabled="true"></MultimediaTitleComponent>
 
         @* Video Preview *@
         <video autoplay class="@videoClass" @ref=videoElement></video>
@@ -32,18 +33,23 @@
                 <button class="@cancelButtonClass"
                         disabled="@photoNotTaken"
                         @onclick="CancelPhotograph">
-                    Cancelar
+                    Volver a tomar
                 </button>
             </div>
 
             @* Download Button *@
             <div class="col">
-                @*<div class="btn btn-primary rt-button">
+                @if (photoNotTaken)
+                {
+                    <button class="btn btn-primary rt-button" disabled>Descargar</button>
+                }
+                <div class="@downloadLinkClass">
                     <a style="color: white;" @ref="downloadLinkRef">
                         Descargar
                     </a>
-                </div>*@
-                <button class="btn btn-primary rt-button" disabled="@notValidSave">Guardar</button>
+                </div>
+                @*<button class="btn btn-primary rt-button" disabled="@notValidSave">Descargar</button>*@
+                
             </div>
 
         </div>
@@ -51,7 +57,7 @@
         @* Exit Button *@
         <div class="row" style="margin-top: 20px">
             <div class="col">
-                <button class="btn btn-danger rt-button">Salir</button>
+                <button class="btn btn-danger rt-button" @onclick="OnClose">Salir</button>
             </div>
         </div>
 

@@ -9,10 +9,11 @@ using PRIME_UCR.Application.Services.MedicalRecords;
 using PRIME_UCR.Domain.Models.MedicalRecords;
 using PRIME_UCR.Application.Repositories.MedicalRecords;
 using PRIME_UCR.Infrastructure.Repositories.Sql.MedicalRecords;
+using System;
 
 namespace PRIME_UCR.Application.Implementations.MedicalRecords
 {
-    public class ChronicConditionService : IChronicConditionService
+    internal class ChronicConditionService : IChronicConditionService
     {
         private readonly IChronicConditionRepository _repo;
         private readonly IChronicConditionListRepository _repoLista;
@@ -31,10 +32,32 @@ namespace PRIME_UCR.Application.Implementations.MedicalRecords
             return await _repoLista.GetAllAsync();
         }
 
-        public async Task<PadecimientosCronicos> InsertChronicConditionAsync(PadecimientosCronicos model)
+        public async Task InsertConditionAsync(int recordId, List<ListaPadecimiento> insertList, List<ListaPadecimiento> deleteList)
         {
-            await _repo.InsertAsync(model);
-            return model;
+            if (deleteList.Count > 0)
+            {
+                foreach (ListaPadecimiento condition in deleteList)
+                {
+                    await _repo.DeleteByIdsAsync(recordId, condition.Id);
+                }
+            }
+
+            if (insertList.Count > 0)
+            {
+
+                foreach (ListaPadecimiento condition in insertList)
+                {
+                    PadecimientosCronicos _cond = new PadecimientosCronicos()
+                    {
+                        IdExpediente = recordId,
+                        IdListaPadecimiento = condition.Id,
+                        FechaCreacion = DateTime.Now
+
+                    };
+                    await _repo.InsertAsync(_cond);
+                }
+
+            }
         }
     }
 }

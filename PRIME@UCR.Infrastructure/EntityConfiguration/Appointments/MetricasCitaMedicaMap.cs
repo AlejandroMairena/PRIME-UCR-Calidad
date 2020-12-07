@@ -11,7 +11,9 @@ namespace PRIME_UCR.Infrastructure.EntityConfiguration.Appointments
     {
         public void Configure(EntityTypeBuilder<MetricasCitaMedica> builder)
         {
-            builder.ToTable("MetricasCitaMedica");
+            builder.HasKey("Id"); 
+
+            builder.ToTable(nameof(MetricasCitaMedica));
         }
     }
 }
