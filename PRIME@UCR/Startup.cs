@@ -27,6 +27,7 @@ using Microsoft.Extensions.Logging;
 using PRIME_UCR.Application.TokenProviders;
 
 using Blazored.Modal;
+using Fluxor;
 
 namespace PRIME_UCR
 {
@@ -49,9 +50,8 @@ namespace PRIME_UCR
             services.AddDbContext<ApplicationDbContext>(options =>
             {
                 options.LogTo(Console.WriteLine);
-                options.EnableSensitiveDataLogging();
-                options.UseSqlServer(Configuration.GetConnectionString("DevelopmentDbConnection"));
-                //options.UseSqlServer(Configuration.GetConnectionString("ProductionDbConnection"));
+                options.EnableSensitiveDataLogging(); // TODO: Remove for production
+                options.UseSqlServer(Configuration.GetConnectionString("DbConnection"));
             });
 
             var passwordResetProvider = "RecoveryPasswordProvider";
@@ -76,12 +76,17 @@ namespace PRIME_UCR
                 .AddTokenProvider<PasswordRecoveryTokenProvider<Usuario>>(passwordResetProvider)
                 .AddTokenProvider<EmailValidationTokenProvider<Usuario>>(emailValidationProvider);
 
-            
+
             //services.AddBlazoredSessionStorage();
             services.AddBlazoredLocalStorage();
             services.AddApplicationLayer();
             services.AddInfrastructureLayer();
             services.AddValidators();
+            services.AddStateManagement();
+            services.AddFluxor(options =>
+                options.ScanAssemblies(typeof(Program).Assembly)
+                       .UseReduxDevTools() // TODO: remove for production
+            );
 
             // authentication
             services.AddTransient<IPrimeSecurityService, PrimeSecurityService>();
@@ -120,6 +125,7 @@ namespace PRIME_UCR
             }
             else
             {
+                app.UseDeveloperExceptionPage(); // TODO: remove for production
                 app.UseExceptionHandler("/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();

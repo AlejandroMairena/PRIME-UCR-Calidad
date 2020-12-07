@@ -22,7 +22,9 @@ namespace PRIME_UCR
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>();
+                    webBuilder
+                        .UseSetting(WebHostDefaults.DetailedErrorsKey, "true") // TODO: remove for production
+                        .UseStartup<Startup>();
                 });
     }
 }

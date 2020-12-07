@@ -24,28 +24,52 @@ namespace PRIME_UCR.Infrastructure.Repositories.External
 
         public async Task<IEnumerable<IncidentGpsData>> GetAllGpsDataAsync()
         {
-            var rand = new Random();
             var incidents = await _incidentRepository.GetOngoingIncidentsAsync();
             return incidents.Select(i => new IncidentGpsData
             {
                 OngoingIncident =  i,
                 IncidentCode = i.Incident.Codigo,
-                CurrentLatitude = rand.NextDouble() * (kMaxLatitude - kMinLatitude) + kMinLatitude,
-                CurrentLongitude = rand.NextDouble() * (kMaxLongitude - kMinLongitude) + kMinLongitude,
+                CurrentLatitude = RandomLatitude(),
+                CurrentLongitude = RandomLongitude(),
             });
         }
 
         public async Task<IEnumerable<IncidentGpsData>> GetGpsDataByUnitTypeAsync(Modalidad unitType)
         {
-            var rand = new Random();
+            if (unitType == null) throw new ArgumentNullException(nameof(unitType));
+
             var incidents = (await _incidentRepository.GetOngoingIncidentsAsync())
-                .Where(i => i.UnitType == unitType);
+                .Where(i => i.UnitType.Tipo == unitType.Tipo);
             return incidents.Select(i => new IncidentGpsData
             {
                 OngoingIncident =  i,
-                CurrentLatitude = rand.NextDouble(),
-                CurrentLongitude = rand.NextDouble(),
+                IncidentCode = i.Incident.Codigo,
+                CurrentLatitude = RandomLatitude(),
+                CurrentLongitude = RandomLongitude(),
             });
+        }
+
+        public Task<IEnumerable<Modalidad>> GetGpsDataFiltersAsync()
+        {
+            return Task.FromResult(new List<Modalidad>
+            {
+                new Modalidad { Tipo = "Aéreo" },
+                new Modalidad { Tipo = "Marítimo" },
+                new Modalidad { Tipo = "Terrestre" },
+            }.AsEnumerable());
+        }
+
+        private double RandomLongitude()
+        {
+            var rand = new Random();
+            return rand.NextDouble() * (kMaxLongitude - kMinLongitude) + kMinLongitude;
+        }
+
+
+        private double RandomLatitude()
+        {
+            var rand = new Random();
+            return rand.NextDouble() * (kMaxLatitude - kMinLatitude) + kMinLatitude;
         }
     }
 }

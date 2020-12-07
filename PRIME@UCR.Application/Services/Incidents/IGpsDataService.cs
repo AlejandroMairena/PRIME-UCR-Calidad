@@ -11,5 +11,6 @@ namespace PRIME_UCR.Application.Services.Incidents
         Task<IEnumerable<IncidentGpsData>> GetAllGpsDataAsync();
         // Gets all ongoing incidents with gps data filtered by unit type
         Task<IEnumerable<IncidentGpsData>> GetGpsDataByUnitTypeAsync(Modalidad unitType);
+        Task<IEnumerable<Modalidad>> GetGpsDataFiltersAsync();
     }
 }

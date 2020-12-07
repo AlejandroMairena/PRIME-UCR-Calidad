@@ -40,7 +40,7 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.CheckLists
 
         public async Task<Item> InsertCheckItemAsync(Item tempitem)
         {
-            await using var connection = new SqlConnection(_db.DbConnection.ConnectionString);
+            await using var connection = new SqlConnection(_db.ConnectionString);
             var parameters = new Dictionary<string, object>
             {
                 {"nombre", tempitem.Nombre},
