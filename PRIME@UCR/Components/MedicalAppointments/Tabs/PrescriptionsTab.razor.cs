@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
+using PRIME_UCR.Components.MedicalRecords.Constants;
 using PRIME_UCR.Domain.Models.Appointments;
+using PRIME_UCR.Domain.Models.UserAdministration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +15,9 @@ namespace PRIME_UCR.Components.MedicalAppointments.Tabs
 
         [Parameter] public string id { get; set; }
 
+        [Parameter] public Paciente Pacient { get; set; }
+        public RecordSummary Summary;
+
         public List<PoseeReceta> medicalprescrip { get; set; }
 
         public bool drug_selector_active { get; set; } = true;
@@ -24,7 +29,9 @@ namespace PRIME_UCR.Components.MedicalAppointments.Tabs
         protected override void OnInitialized()
         {
             medicalprescrip = new List<PoseeReceta>();
-            base.OnInitialized();
+            base.OnInitialized(); 
+            Summary = new RecordSummary();
+            Summary.LoadPatientValues(Pacient);
         }
 
 

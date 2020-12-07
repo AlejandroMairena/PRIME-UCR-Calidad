@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using PRIME_UCR.Components.MedicalRecords.Constants;
 using PRIME_UCR.Domain.Models;
 using PRIME_UCR.Domain.Models.Appointments;
+using PRIME_UCR.Domain.Models.UserAdministration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,8 +15,12 @@ namespace PRIME_UCR.Components.MedicalAppointments.Tabs
     { 
         [Parameter] public int AppointmentId { get; set; }
 
+        [Parameter] public Paciente Pacient { get; set; }
+
         private EditContext MetricContext;
 
+        public RecordSummary Summary;
+  
         private MetricsApp MetricsForm { get; set; }
 
         private MetricasCitaMedica Metrics;
@@ -27,7 +33,8 @@ namespace PRIME_UCR.Components.MedicalAppointments.Tabs
             MetricsForm = new MetricsApp();
             MetricContext = new EditContext(MetricsForm);
             Metrics = await appointment_service.GetMetricsMedAppointmentByAppId(AppointmentId);
-
+            Summary = new RecordSummary();
+            Summary.LoadPatientValues(Pacient);
             if (Metrics != null)
             {
                 MetricsForm.Altura = Metrics.Altura.ToString();

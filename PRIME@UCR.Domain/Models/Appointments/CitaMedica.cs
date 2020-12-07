@@ -14,6 +14,8 @@ namespace PRIME_UCR.Domain.Models.Appointments
 
         public int CitaId { get; set; } //fk-cita
 
+        public string Codigo { get; set; }
+
         public string CedMedicoAsignado { get; set; } //fk-medico
 
         public int CentroMedicoId { get; set; } //fk-centro medico

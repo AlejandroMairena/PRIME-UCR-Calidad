@@ -29,7 +29,7 @@ namespace PRIME_UCR.Application.Implementations.Appointments
         private readonly IMedicalSpecialtyRepository _medspecirepo;
         private readonly ISpecializesRepository _speciarepo;
         private readonly IAppointmentReferenceRepository _appreferepo;
-        //private readonly IAppointmentStatusRepository  _appostatusrep;
+        private readonly IAppointmentStatusRepository  _appostatusrep;
 
         public AppointmentService(IActionTypeRepository actionTypeRepo,
             IAppointmentRepository appointmentRepository,
@@ -42,7 +42,7 @@ namespace PRIME_UCR.Application.Implementations.Appointments
             IMedicalSpecialtyRepository medspeci,
             ISpecializesRepository speciarepo,
             IAppointmentReferenceRepository appreferepo
-            /*,IAppointmentStatusRepository appstatusrepo*/)
+            ,IAppointmentStatusRepository appstatusrepo)
         {
             _actionTypeRepo = actionTypeRepo;
             _appointmentRepository = appointmentRepository;
@@ -55,7 +55,7 @@ namespace PRIME_UCR.Application.Implementations.Appointments
             _medspecirepo = medspeci;
             _speciarepo = speciarepo;
             _appreferepo = appreferepo;
-            //_appostatusrep = appstatusrepo;
+            _appostatusrep = appstatusrepo;
         }
 
 
@@ -199,6 +199,10 @@ namespace PRIME_UCR.Application.Implementations.Appointments
             await _appointmentRepository.UpdateAsync(appointment);
 
             return record;
+        }
+
+        public async Task<EstadoCitaMedica> GetStatusById(int id) {
+            return await _appostatusrep.GetByKeyAsync(id);
         }
 
         public async Task<Cita> GetLastAppointmentDateAsync(int id)

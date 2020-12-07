@@ -57,7 +57,10 @@ namespace PRIME_UCR.Components.MedicalAppointments
                     EstadoId = 7,
                     CentroMedicoId = selectedMedicalCenter.Id,
                     ExpedienteId = RecordModel.Id,
-                    CedMedicoAsignado = selectedDoctor.Cédula
+                    CedMedicoAsignado = selectedDoctor.Cédula,
+                    Codigo = cita.FechaHoraCreacion.Year.ToString() + "-"
+                      + cita.FechaHoraCreacion.Month.ToString() + "-" +
+                       cita.FechaHoraCreacion.Day.ToString() + "-" + cita.Id + "-CM"
                 };
                 await AppointmentService.InsertMedicalAppointmentAsync(citaMedicaNueva);
                 register_success = true; 

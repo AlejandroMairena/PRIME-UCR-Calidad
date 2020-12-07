@@ -1,6 +1,7 @@
 ﻿using BlazorTable;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using PRIME_UCR.Components.MedicalRecords.Constants;
 using PRIME_UCR.Domain.Models;
 using PRIME_UCR.Domain.Models.Appointments;
 using PRIME_UCR.Domain.Models.UserAdministration;
@@ -18,6 +19,10 @@ namespace PRIME_UCR.Components.MedicalAppointments.Tabs
         [Parameter] public CitaMedica Medical_Appointment { get; set; }
 
         [Parameter] public Cita Appointment { get; set; }
+
+        [Parameter] public Paciente Pacient { get; set; }
+        public RecordSummary Summary;
+
 
         private EditContext _context;
 
@@ -51,7 +56,8 @@ namespace PRIME_UCR.Components.MedicalAppointments.Tabs
             //ReferenceModelModel = new ITable<Referen>
             EspecialidadesMedicas = (await appointment_service.GetMedicalSpecialtiesAsync()).ToList();
             _context = new EditContext(EspecialidadesMedicas);
-
+            Summary = new RecordSummary();
+            Summary.LoadPatientValues(Pacient);
 
             List<ReferenciaCita> appreferences = (await appointment_service.GetReferencesByAppId(Appointment.Id)).ToList();
 
@@ -111,7 +117,10 @@ namespace PRIME_UCR.Components.MedicalAppointments.Tabs
                 CitaId = cita.Id,
                 CedMedicoAsignado = selected_doctor.Cédula,
                 ExpedienteId = Medical_Appointment.ExpedienteId,
-                CentroMedicoId = Medical_Appointment.CentroMedicoId
+                CentroMedicoId = Medical_Appointment.CentroMedicoId,
+                Codigo = cita.FechaHoraCreacion.Year.ToString() + "-" 
+                + cita.FechaHoraCreacion.Month.ToString() + "-" + 
+                cita.FechaHoraCreacion.Day.ToString() + "-" + cita.Id + "-CM"
             };
 
             await appointment_service.InsertMedicalAppointmentAsync(newmedapp);

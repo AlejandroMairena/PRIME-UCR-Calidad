@@ -7,6 +7,8 @@ using PRIME_UCR.Domain.Models;
 using PRIME_UCR.Domain.Models.Appointments;
 using PRIME_UCR.Application.Services.Multimedia;
 using PRIME_UCR.Application.Services.Appointments;
+using PRIME_UCR.Components.MedicalRecords.Constants;
+using PRIME_UCR.Domain.Models.UserAdministration;
 
 namespace PRIME_UCR.Components.MedicalAppointments.Tabs
 {
@@ -21,6 +23,9 @@ namespace PRIME_UCR.Components.MedicalAppointments.Tabs
 
         [Parameter] public string MedicalAppointmentId { get; set; }
 
+        [Parameter] public Paciente Pacient { get; set; }
+        public RecordSummary Summary;
+
         public CitaMedica medical_appointment { get; set; }
 
         public List<TipoAccion> _actionTypes { get; set; }
@@ -31,7 +36,8 @@ namespace PRIME_UCR.Components.MedicalAppointments.Tabs
 
         protected override async Task OnInitializedAsync()
         {
-
+            Summary = new RecordSummary();
+            Summary.LoadPatientValues(Pacient);
             medical_appointment = await appointment_service.GetMedicalAppointmentByKeyAsync(Convert.ToInt32(MedicalAppointmentId));  
 
             _actionTypes =

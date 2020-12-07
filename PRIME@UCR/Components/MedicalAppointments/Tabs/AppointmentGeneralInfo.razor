@@ -7,6 +7,10 @@
 <h3>Informacion general</h3>
 
 <Loading IsLoading="Appointment == null">
+    @if (Summary != null)
+    {
+        <SummaryMessage Content="Summary.Content" Values="Summary.Values" Class="info" />
+    }
     <ListItem Title="Fecha de creación de la cita" Text="@Appointment.Cita.FechaHoraCreacion.ToString()" />
     <ListItem Title="Código de Cita" Text="@Appointment.CitaId.ToString()" />
     <ListItem Title="Locacion" Text="@Appointment.medical_center.Nombre" />
@@ -16,7 +20,8 @@
         <ListItem Title="Estado" Text="@current_state.NombreEstado" />
     }
 
-    @if (doctor != null) {
+    @if (doctor != null)
+    {
         <ListItem Title="Medico relacionado" Text="@doctor.NombreCompleto" />
     }
 

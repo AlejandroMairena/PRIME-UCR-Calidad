@@ -34,7 +34,7 @@ namespace PRIME_UCR.Application.Permissions.Appointments
         private readonly ISpecializesRepository _speciarepo;
         private readonly IAppointmentReferenceRepository _appreferepo;
         private readonly IPrimeSecurityService _primeSecurityService;
-
+        private readonly IAppointmentStatusRepository _appostatusrep;
         private readonly AppointmentService appointmentService;
 
         public SecureAppointmentService(IActionTypeRepository actionTypeRepo,
@@ -48,6 +48,7 @@ namespace PRIME_UCR.Application.Permissions.Appointments
             IMedicalSpecialtyRepository medspeci,
             ISpecializesRepository speciarepo,
             IAppointmentReferenceRepository appreferepo,
+            IAppointmentStatusRepository appstatusrepo,
             IPrimeSecurityService primeSecurityService)
         {
             _actionTypeRepo = actionTypeRepo;
@@ -62,9 +63,10 @@ namespace PRIME_UCR.Application.Permissions.Appointments
             _medspecirepo = medspeci;
             _speciarepo = speciarepo;
             _appreferepo = appreferepo;
+            _appostatusrep = appstatusrepo;
             appointmentService = new AppointmentService(_actionTypeRepo, _appointmentRepository, _medicalRecordRepository,
                                                         _medapprepo, _havepresc, _drugrepo, _medcenrepo,
-                                                        _metapprepo, _medspecirepo, _speciarepo, _appreferepo);
+                                                        _metapprepo, _medspecirepo, _speciarepo, _appreferepo, _appostatusrep);
 
         }
 
@@ -224,6 +226,10 @@ namespace PRIME_UCR.Application.Permissions.Appointments
             return await appointmentService.InsertMedicalAppointmentAsync(model);
         }
 
+        public async Task<EstadoCitaMedica> GetStatusById(int id) {
+            await _primeSecurityService.CheckIfIsAuthorizedAsync(new[] { AuthorizationPermissions.CanSeeAllMedicalRecords, AuthorizationPermissions.CanSeeMedicalRecordsOfHisPatients });
+            return await appointmentService.GetStatusById(id);
+        }
         public async Task<Cita> InsertAppointmentAsync(Cita model)
         {
             await _primeSecurityService.CheckIfIsAuthorizedAsync(new[] { AuthorizationPermissions.CanSeeAllMedicalRecords, AuthorizationPermissions.CanSeeMedicalRecordsOfHisPatients });

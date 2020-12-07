@@ -9,12 +9,16 @@
 
 @if (metrics_saved)
 {
-    <StatusMessage Message="Las métricas se guardaron exitosamento" Class="success"></StatusMessage>
+    <StatusMessage Message="Las mediciones se guardaron exitosamento" Class="success"></StatusMessage>
 }
 
 @if (metrics_updated)
 {
-    <StatusMessage Message="Las métricas se actualizaron" Class="success"></StatusMessage>
+    <StatusMessage Message="Las mediciones se actualizaron" Class="success"></StatusMessage>
+}
+@if (Summary != null)
+{
+    <SummaryMessage Content="Summary.Content" Values="Summary.Values" Class="info" />
 }
 
 <Loading IsLoading="MetricsForm == null">

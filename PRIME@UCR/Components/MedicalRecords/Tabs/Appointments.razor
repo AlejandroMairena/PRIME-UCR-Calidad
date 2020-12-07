@@ -20,11 +20,11 @@
             <Template>
                 @if (!context.appointment_status)
                 {
-                    <a href="@get_date_link(context.incident.Codigo)">@context.date.Id</a>
+                    <a href="@get_date_link(context.incident.Codigo)">@context.incident.Codigo</a>
                 }
                 else
                 {
-                    <a href="@get_appointment_link(context.appointment.Id)">@context.appointment.Id</a>
+                    <a href="@get_appointment_link(context.date.Id)">@context.appointment.Codigo</a>
                 }
             </Template>
         </Column>
@@ -45,7 +45,7 @@
                 }
                 else
                 {
-                    <p>@context.date.Id</p>
+                    <p>@context.appointment.Codigo</p>
                 }
             </Template>
         </Column>

@@ -28,55 +28,55 @@ namespace PRIME_UCR.Test.UnitTests.Application.MedicalRecords
         //    Assert.Null(result2);
         //}
 
-        [Fact]
-        public async void getChronicConditionByRecordIdInvalid()
-        {
-            var mockRepo = new Mock<IChronicConditionRepository>();
-            var mockRepoList = new Mock<IChronicConditionListRepository>();
-            //Sets mocks for repositories
-            IChronicConditionService ChronicConditionService =
-                new ChronicConditionService(mockRepo.Object, mockRepoList.Object);
-            //Creates Service for test
-            var result = (await ChronicConditionService.GetChronicConditionByRecordId(-1));
-            //Asserts the result
-            Assert.Empty(result);
-        }
+        //[Fact]
+        //public async void getChronicConditionByRecordIdInvalid()
+        //{
+        //    var mockRepo = new Mock<IChronicConditionRepository>();
+        //    var mockRepoList = new Mock<IChronicConditionListRepository>();
+        //    //Sets mocks for repositories
+        //    IChronicConditionService ChronicConditionService =
+        //        new ChronicConditionService(mockRepo.Object, mockRepoList.Object);
+        //    //Creates Service for test
+        //    var result = (await ChronicConditionService.GetChronicConditionByRecordId(-1));
+        //    //Asserts the result
+        //    Assert.Empty(result);
+        //}
 
-        [Fact]
-        public async void InsertChronicConditionAsync()
-        {
-            var mockRepo = new Mock<IChronicConditionRepository>();
-            var mockRepoList = new Mock<IChronicConditionListRepository>();
-            //Sets mocks for repositories
-            var chronicConditionTest = new PadecimientosCronicos
-            {
-                IdExpediente = 1,
-                IdListaPadecimiento = 1,
-                FechaCreacion = DateTime.Now
-            };
-            IChronicConditionService ChronicConditionService =
-                new ChronicConditionService(mockRepo.Object, mockRepoList.Object);
-            //Creates Service for test
-            var result = await ChronicConditionService.InsertChronicConditionAsync(chronicConditionTest);
-            //Asserts the result
-            Assert.Equal(chronicConditionTest.IdListaPadecimiento, result.IdListaPadecimiento);
-            Assert.Equal(chronicConditionTest.IdExpediente, result.IdExpediente);
-        }
+        //[Fact]
+        //public async void InsertChronicConditionAsync()
+        //{
+        //    var mockRepo = new Mock<IChronicConditionRepository>();
+        //    var mockRepoList = new Mock<IChronicConditionListRepository>();
+        //    //Sets mocks for repositories
+        //    var chronicConditionTest = new PadecimientosCronicos
+        //    {
+        //        IdExpediente = 1,
+        //        IdListaPadecimiento = 1,
+        //        FechaCreacion = DateTime.Now
+        //    };
+        //    IChronicConditionService ChronicConditionService =
+        //        new ChronicConditionService(mockRepo.Object, mockRepoList.Object);
+        //    //Creates Service for test
+        //    var result = await ChronicConditionService.InsertChronicConditionAsync(chronicConditionTest);
+        //    //Asserts the result
+        //    Assert.Equal(chronicConditionTest.IdListaPadecimiento, result.IdListaPadecimiento);
+        //    Assert.Equal(chronicConditionTest.IdExpediente, result.IdExpediente);
+        //}
 
-        [Fact]
-        public async void GetAllAsyncNull()
-        {
-            var mockRepo = new Mock<IChronicConditionRepository>();
-            var mockRepoList = new Mock<IChronicConditionListRepository>();
-            //Sets mocks for repositories
-            mockRepoList.Setup(p => p.GetAllAsync()).Returns(Task.FromResult<IEnumerable<ListaPadecimiento>>(null));
-            IChronicConditionService ChronicConditionService =
-                new ChronicConditionService(mockRepo.Object, mockRepoList.Object);
-            //Creates Service for test
-            var result = await ChronicConditionService.GetAll();
-            //Asserts the result
-            Assert.Null(result);
-        }
+        //[Fact]
+        //public async void GetAllAsyncNull()
+        //{
+        //    var mockRepo = new Mock<IChronicConditionRepository>();
+        //    var mockRepoList = new Mock<IChronicConditionListRepository>();
+        //    //Sets mocks for repositories
+        //    mockRepoList.Setup(p => p.GetAllAsync()).Returns(Task.FromResult<IEnumerable<ListaPadecimiento>>(null));
+        //    IChronicConditionService ChronicConditionService =
+        //        new ChronicConditionService(mockRepo.Object, mockRepoList.Object);
+        //    //Creates Service for test
+        //    var result = await ChronicConditionService.GetAll();
+        //    //Asserts the result
+        //    Assert.Null(result);
+        //}
     }
 }
 
