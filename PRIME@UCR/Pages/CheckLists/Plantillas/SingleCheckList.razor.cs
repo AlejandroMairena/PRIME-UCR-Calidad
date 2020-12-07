@@ -333,7 +333,7 @@ namespace PRIME_UCR.Pages.CheckLists.Plantillas
         protected string truncate(string text, int level, int lines)
         {
             if (String.IsNullOrEmpty(text)) return "";
-            int maxLength = lines * (65 - level * 5);
+            int maxLength = lines * (60 - level * 5);
             return text.Length <= maxLength ? text : text.Substring(0, maxLength) + "...";
         }
 

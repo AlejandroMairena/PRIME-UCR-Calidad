@@ -177,7 +177,6 @@
                                         @{
                                             PRIME_UCR.Domain.Models.CheckLists.Item itemInList = (context.Value as PRIME_UCR.Domain.Models.CheckLists.Item);
                                             int itemIndex = getItemIndex(itemInList, orderedList);
-                                            string style = orderedListLevel[itemIndex] * 0 + "em";
                                         }
                                         @if (itemInList.SubItems.Count() <= 0)
                                         {
@@ -188,7 +187,7 @@
                                             @* Contains information about every item in this checklist *@
                                             <tbody>
                                                 <tr>
-                                                    <td rowspan="2" class="align-middle" style="padding-left: @style; width: 100px;">
+                                                    <td rowspan="2" class="align-middle" style="width: 100px;">
                                                         @* Displys the image of the item *@
 
                                                         <div style="width: 100%; display:inline-flex;">

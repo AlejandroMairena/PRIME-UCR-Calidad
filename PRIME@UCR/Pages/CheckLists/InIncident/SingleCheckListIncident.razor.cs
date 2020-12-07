@@ -339,7 +339,7 @@ namespace PRIME_UCR.Pages.CheckLists.InIncident
         protected string truncate(string text, int level, int lines)
         {
             if (String.IsNullOrEmpty(text)) return "";
-            int maxLength = lines * (65 - level * 5);
+            int maxLength = lines * (38 - level * 5);
             return text.Length <= maxLength ? text : text.Substring(0, maxLength) + "...";
         }
 
@@ -358,26 +358,13 @@ namespace PRIME_UCR.Pages.CheckLists.InIncident
 
         protected async Task CheckItem(InstanciaItem itemIn, ChangeEventArgs e)
         {
-             itemIn.Completado = (bool)e.Value;
-            // metodo //MyCheckInstanceChechistService.UpdateItem(itemIn);
-            //count += (bool)e.Value ? 1 : -1;
+            itemIn.Completado = (bool)e.Value;
             getDate(itemIn, e);
             
             await MyCheckInstanceChechistService.UpdateItemInstance(itemIn);
             await RefreshModels();
             StateHasChanged();
         }
-
-        ///Borrar
-        // protected async Task updateItemInstance(InstanciaItem item) {
-        //     await MyCheckInstanceChechistService.UpdateItemInstance(item);
-        //     await RefreshModels();
-        // }
-        //
-
-        //metodo para actualizar estado de la lista de cheuqueo 
-        //unpdate
-        // {"Pendiente","En progreso","Completada"};
 
         protected async Task OnFileUpload(InstanciaItem item, MultimediaContent mc)
         {

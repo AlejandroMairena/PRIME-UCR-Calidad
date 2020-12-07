@@ -21,7 +21,8 @@ set nocount on
 					@FechaHoraInicio_Padre DATETIME,
 
 					-- Datos de los items en el mismo nivel
-					@Completados_Nivel BIT;
+					@Completados_Nivel BIT,
+					@Completados_Nivel_MAX BIT;
 		
 			DECLARE ptr_actualizados CURSOR FOR 
 				SELECT Id_Item, Id_Lista, Codigo_Incidente, Id_Item_Padre, Id_Lista_Padre, Codigo_Incidente_Padre, Completado, FechaHoraInicio
@@ -58,7 +59,7 @@ set nocount on
 					-- Si tiene padre
 					IF @Id_Item_Padre IS NOT NULL BEGIN
 						--  busca entre los items que tienen al mismo padre ('hermanos')
-						SELECT @Completados_Nivel = MIN(CASE(Completado) WHEN 1 THEN 1 ELSE 0 END)
+						SELECT @Completados_Nivel = MIN(CASE(Completado) WHEN 1 THEN 1 ELSE 0 END), @Completados_Nivel_MAX = MAX(CASE(Completado) WHEN 1 THEN 1 ELSE 0 END)
 						FROM InstanciaItem
 						WHERE Id_Lista = @Id_Lista AND Codigo_Incidente = @Codigo_Incidente AND Id_Item_Padre = @Id_Item_Padre
 
@@ -66,12 +67,16 @@ set nocount on
 						FROM InstanciaItem
 						WHERE @Id_Item_Padre = Id_Item AND @Id_Lista_Padre = Id_Lista AND @Codigo_Incidente_Padre = Codigo_Incidente
 					
-						IF (@Completado = 1 AND @Completado_Padre IS NULL AND @Completados_Nivel = 0) BEGIN
-							SET @Completado = 0
-							SET @FechaHoraInicio = NULL
+						
+						IF (@Completados_Nivel_MAX = 0) BEGIN
+							UPDATE InstanciaItem
+							SET FechaHoraInicio = NULL
+							WHERE @Id_Item_Padre = Id_Item AND @Id_Lista_Padre = Id_Lista AND @Codigo_Incidente_Padre = Codigo_Incidente
 						END
-
-						IF (@Completados_Nivel <> @Completado_Padre OR @Completado_Padre IS NULL) BEGIN
+						ELSE IF (@Completados_Nivel <> @Completado_Padre) BEGIN
+							IF (@Completado = 0) BEGIN
+								SET @FechaHoraInicio = NULL
+							END
 							UPDATE InstanciaItem
 							SET Completado = @Completado, FechaHoraFin = @FechaHoraInicio
 							WHERE @Id_Item_Padre = Id_Item AND @Id_Lista_Padre = Id_Lista AND @Codigo_Incidente_Padre = Codigo_Incidente
@@ -86,20 +91,24 @@ set nocount on
 					-- Si no tiene padre, revisa si se debe actualizar la lista
 					ELSE BEGIN
 						--  busca entre los items que no tienen padre (nivel 1 del arbol)
-						SELECT @Completados_Nivel = MIN(CASE(Completado) WHEN 1 THEN 1 ELSE 0 END)
+						SELECT @Completados_Nivel = MIN(CASE(Completado) WHEN 1 THEN 1 ELSE 0 END), @Completados_Nivel_MAX = MAX(CASE(Completado) WHEN 1 THEN 1 ELSE 0 END)
 						FROM InstanciaItem
 						WHERE Id_Lista = @Id_Lista AND Codigo_Incidente = @Codigo_Incidente AND Id_Item_Padre IS NULL
 					
 						SELECT @Completado_Padre = Completado, @FechaHoraInicio_Padre = FechaHoraInicio
 						FROM InstanceChecklist
 						WHERE @Id_Lista = PlantillaId AND @Codigo_Incidente = IncidentCod
-					
-						IF (@Completado = 1 AND @Completado_Padre IS NULL AND @Completados_Nivel = 0) BEGIN
-							SET @Completado = 0
-							SET @FechaHoraInicio = NULL
-						END
 
-						IF (@Completados_Nivel <> @Completado_Padre OR @Completado_Padre IS NULL) BEGIN
+						
+						IF (@Completados_Nivel_MAX = 0) BEGIN
+							UPDATE InstanceChecklist
+							SET FechaHoraInicio = NULL
+							WHERE @Id_Lista = PlantillaId AND @Codigo_Incidente = IncidentCod
+						END
+						ELSE IF (@Completados_Nivel <> @Completado_Padre) BEGIN
+							IF (@Completado = 0) BEGIN
+								SET @FechaHoraInicio = NULL
+							END
 							UPDATE InstanceChecklist
 							SET Completado = @Completado, FechaHoraFinal = @FechaHoraInicio
 							WHERE @Id_Lista = PlantillaId AND @Codigo_Incidente = IncidentCod
