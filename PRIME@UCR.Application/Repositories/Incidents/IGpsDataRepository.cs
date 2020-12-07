@@ -9,5 +9,6 @@ namespace PRIME_UCR.Application.Repositories.Incidents
     {
         Task<IEnumerable<IncidentGpsData>> GetAllGpsDataAsync();
         Task<IEnumerable<IncidentGpsData>> GetGpsDataByUnitTypeAsync(Modalidad unitType);
+        Task<IEnumerable<Modalidad>> GetGpsDataFiltersAsync();
     }
 }

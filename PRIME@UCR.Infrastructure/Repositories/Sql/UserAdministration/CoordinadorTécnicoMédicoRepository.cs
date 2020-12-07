@@ -29,7 +29,7 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
 
         public async Task<CoordinadorTécnicoMédico> GetByKeyAsync(string key)
         {
-            using (var connection = new SqlConnection(_db.DbConnection.ConnectionString))
+            using (var connection = new SqlConnection(_db.ConnectionString))
             {
                 var result = await connection.ExecuteQueryAsync<CoordinadorTécnicoMédico>(@"
                     select Persona.Cédula, Persona.Nombre, Persona.PrimerApellido, Persona.SegundoApellido, Persona.Sexo, Persona.FechaNacimiento
@@ -45,7 +45,7 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
 
         public async Task<IEnumerable<CoordinadorTécnicoMédico>> GetAllAsync()
         {
-            using (var connection = new SqlConnection(_db.DbConnection.ConnectionString))
+            using (var connection = new SqlConnection(_db.ConnectionString))
             {
                 var result = await connection.ExecuteQueryAsync<CoordinadorTécnicoMédico>(@"
                     select Persona.Cédula, Persona.Nombre, Persona.PrimerApellido, Persona.SegundoApellido, Persona.Sexo, Persona.FechaNacimiento

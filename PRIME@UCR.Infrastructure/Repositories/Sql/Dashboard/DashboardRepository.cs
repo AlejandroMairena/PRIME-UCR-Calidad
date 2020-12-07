@@ -124,7 +124,7 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Dashboard
         public async Task<List<Distrito>> GetAllDistrictsAsync()
         {
             var districts = new List<Distrito>();
-            using (var connection = new SqlConnection(_db.DbConnection.ConnectionString))
+            using (var connection = new SqlConnection(_db.ConnectionString))
             {
                 var returnedValue = await connection.ExecuteQueryMultipleAsync(@"
                     SELECT *
