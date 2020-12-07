@@ -28,7 +28,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.MedicalRecords
         //    Assert.Null(result2);
         //}
 
-        [Fact]
+        /*[Fact]
         public async void getMedicalBackgroundByRecordIdInvalid()
         {
             var mockRepo = new Mock<IMedicalBackgroundRepository>();
@@ -77,7 +77,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.MedicalRecords
             var result = await MedicalBackgroundService.GetAll();
             //Asserts the result
             Assert.Null(result);
-        }
+        }*/
     }
 }
 
