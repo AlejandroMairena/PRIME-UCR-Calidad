@@ -162,7 +162,7 @@
                                                             else if (validateEdit == 1)
                                                             { //state started
                                                                 <td rowspan="2" class="align-middle" style="margin:auto; width: 100px;">
-                                                                    <p style=" padding-top: 0px; padding-bottom: 0px; ">@itemInList.FechaHoraInicio</p>
+                                                                    <p style=" padding-top: 0px; padding-bottom: 0px;"> <span title="DD/MM/AA\nHH:MM:SS">@itemInList.FechaHoraInicio</span></p>
                                                                 </td>
                                                                 <td rowspan="2" class="align-middle" align="right" style="width: 54px">
                                                                     <MultimediaContentComponent MultimediaContent="@MyMultimediaContent[itemIndex]" OnFileUpload="(MultimediaContent mc) => OnFileUpload(itemInList, mc)"></MultimediaContentComponent>
@@ -171,7 +171,7 @@
                                                             else if (validateEdit == 2)
                                                             { //state finished 
                                                                 <td rowspan="2" class="align-middle" style="margin:auto; width: 100px;">
-                                                                    <p style=" padding-top: 0px; padding-bottom: 0px; ">@itemInList.FechaHoraInicio</p>
+                                                                    <p style=" padding-top: 0px; padding-bottom: 0px; "><span title="DD/MM/AA HH:MM:SS">@itemInList.FechaHoraInicio</span></p>
                                                                 </td>
                                                                 <td rowspan="2" class="align-middle" align="right" style="width: 54px">
                                                                     <MultimediaContentComponent MultimediaContent="@MyMultimediaContent[itemIndex]" ViewOnly="true"></MultimediaContentComponent>
