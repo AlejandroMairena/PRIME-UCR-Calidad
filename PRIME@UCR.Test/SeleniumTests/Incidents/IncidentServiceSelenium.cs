@@ -1,6 +1,7 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Firefox;
+using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
 using System;
 using System.Threading;
@@ -24,70 +25,60 @@ namespace PRIME_UCR.Test.SeleniumTests.Incidents
         }
 
         [Fact]
-        public void GetToIncidentListPage()
+        public void ChangeStateToApprovedFlow()
         {
             driver = new ChromeDriver();
+            GetToIncidentListPage();
+            ViewIncidentDetails();
+            FillInfoPatientTab();
+            FillInfoOriginTab();
+            FillInfoDestinationTab();
+            ApproveIncident();
+        }
+
+        private void GetToIncidentListPage()
+        {
             AccessToIncidentPage();
             Element = TryToFind("//h1");
             //Element = driver.FindElement(By.XPath("//h1"));//Find input for password
             Assert.Equal("Lista de Incidentes", Element.Text);
         }
 
-        [Fact]
-        public void ViewIncidentDetails()
+        private void ViewIncidentDetails()
         {
-            driver = new ChromeDriver();
-            AccessToIncidentPage();
             AccessToFirstIncident();
-            //Timeout(1000);
-            //Element = driver.FindElement(By.XPath("//h1"));
             Element = TryToFind("//h1");
             Assert.Equal("Administración del incidente", Element.Text);
         }
         
-        [Fact]
-        public void FillInfoOriginTab()
+        private void FillInfoOriginTab()
         {
-            driver = new ChromeDriver();
-            AccessToIncidentPage();
-            AccessToFirstIncident();
             MockOriginTab();
             string text = CheckSaveState("Mensaje de estado", "Se guardaron los cambios exitosamente.");
             Assert.Equal("Se guardaron los cambios exitosamente.", text);
         } 
 
-        [Fact]
-        public void FillInfoDestinationTab()
+        private void FillInfoDestinationTab()
         {
-            driver = new ChromeDriver();
-            AccessToIncidentPage();
-            AccessToFirstIncident();
             MockDestinationTab();
             string text = CheckSaveState("Mensaje de estado", "Se guardaron los cambios exitosamente.");
             Assert.Equal("Se guardaron los cambios exitosamente.", text);
         }
 
-        [Fact]
-        public void FillInfoPatientTab()
+        private void FillInfoPatientTab()
         {
-            driver = new ChromeDriver();
-            AccessToIncidentPage();
-            AccessToFirstIncident();
             MockPatientTab();
             string text = CheckSaveState("Mensaje de estado", "Se guardaron los cambios exitosamente.");
             Assert.Equal("Se guardaron los cambios exitosamente.", text);
         } 
 
-        [Fact]
-        public void ApproveIncident()
+        private void ApproveIncident()
         {
-            driver = new ChromeDriver();
-            AccessToIncidentPage();
-            AccessToFirstIncident();
             MockChangeState();
-            Element = TryToFindById("Mensaje de estados");
-            Assert.Equal("Aprobado por Teodoro Barquero ", Element.Text);
+            Element = TryToFindById("Mensaje de estado");
+            Assert.Equal("Aprobado por Teodoro Barquero", Element.Text);
         }
+
 
         private void MockOriginTab()
         {
@@ -142,6 +133,10 @@ namespace PRIME_UCR.Test.SeleniumTests.Incidents
 
         private void MockChangeState()
         {
+            IWebElement ToMove = TryToFind("//h1");
+            Actions actions = new Actions(driver);
+            actions.MoveToElement(ToMove);
+            actions.Perform();
             Element = TryToFind("//div[@class='row']/div/ul/li[1]");//Details tab
             Element.Click();
             Timeout(1000);//Load tab
@@ -149,6 +144,28 @@ namespace PRIME_UCR.Test.SeleniumTests.Incidents
             Element.Click();
 
         }
+
+        /*
+         Test Name:	PRIME_UCR.Test.SeleniumTests.Incidents.IncidentServiceSelenium.ChangeStateToApprovedFlow
+        Test FullName:	PRIME@UCR.Test.PRIME_UCR.Test.SeleniumTests.Incidents.IncidentServiceSelenium.PRIME_UCR.Test.SeleniumTests.Incidents.IncidentServiceSelenium.ChangeStateToApprovedFlow
+        Test Source:	C:\Users\PERSONAL\Documents\PI_IngeBases\ecci_ci0128_ii2020_g01_pi\PRIME@UCR.Test\SeleniumTests\Incidents\IncidentServiceSelenium.cs : line 27
+        Test Outcome:	Failed
+        Test Duration:	0:00:00
+
+        Test Name:	PRIME_UCR.Test.SeleniumTests.Incidents.IncidentServiceSelenium.ChangeStateToApprovedFlow
+        Test Outcome:	Failed
+        Result StackTrace:	
+        at PRIME_UCR.Test.SeleniumTests.Incidents.IncidentServiceSelenium.ApproveIncident() in C:\Users\PERSONAL\Documents\PI_IngeBases\ecci_ci0128_ii2020_g01_pi\PRIME@UCR.Test\SeleniumTests\Incidents\IncidentServiceSelenium.cs:line 78
+           at PRIME_UCR.Test.SeleniumTests.Incidents.IncidentServiceSelenium.ChangeStateToApprovedFlow() in C:\Users\PERSONAL\Documents\PI_IngeBases\ecci_ci0128_ii2020_g01_pi\PRIME@UCR.Test\SeleniumTests\Incidents\IncidentServiceSelenium.cs:line 35
+        Result Message:	
+        Assert.Equal() Failure
+                                         ↓ (pos 29)
+        Expected: ···por Teodoro Barquero 
+        Actual:   ···por Teodoro Barquero
+                                         ↑ (pos 29)
+
+
+         */
 
         private IWebElement TryToFind(string path)
         {
