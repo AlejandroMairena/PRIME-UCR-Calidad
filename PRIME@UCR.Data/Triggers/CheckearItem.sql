@@ -3,7 +3,7 @@ AFTER UPDATE AS
 BEGIN
 set nocount on
 	IF UPDATE(Completado) BEGIN TRY
-		set transaction isolation level serializable;
+		set transaction isolation level repeatable read;
 		BEGIN TRANSACTION TCheckearitem
 					-- Datos del item chequeado
 			DECLARE @Id_Item INT,

@@ -169,6 +169,7 @@
     <Build Include="Tables\Appointments\EspecialidadMedica.sql" />
     <Build Include="Tables\Appointments\ReferenciaCita.sql" />
     <Build Include="Indexes\Checklist\ix_ListaID.sql" />
+    <Build Include="Indexes\Checklist\ix_CoreItems.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Scripts\Script.PostDeployment.sql" />
