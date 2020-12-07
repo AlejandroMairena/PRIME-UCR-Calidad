@@ -13,7 +13,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.MedicalRecords
 {
     public class MedicalRecordServiceTest
     {
-        [Fact]
+        /*[Fact]
 
         public async void getMedicalRecordByNotValidId() {
 
@@ -135,6 +135,6 @@ namespace PRIME_UCR.Test.UnitTests.Application.MedicalRecords
             Assert.Equal(record.Antecedentes, result.Antecedentes);
             Assert.Equal(record.PadecimientosCronicos, result.PadecimientosCronicos);
             Assert.Equal(record.Citas, result.Citas);
-        }
+        }*/
     }
 }

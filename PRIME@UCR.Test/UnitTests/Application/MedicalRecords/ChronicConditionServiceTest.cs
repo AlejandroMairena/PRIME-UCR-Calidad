@@ -28,7 +28,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.MedicalRecords
         //    Assert.Null(result2);
         //}
 
-        [Fact]
+        /*[Fact]
         public async void getChronicConditionByRecordIdInvalid()
         {
             var mockRepo = new Mock<IChronicConditionRepository>();
@@ -76,7 +76,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.MedicalRecords
             var result = await ChronicConditionService.GetAll();
             //Asserts the result
             Assert.Null(result);
-        }
+        }*/
     }
 }
 

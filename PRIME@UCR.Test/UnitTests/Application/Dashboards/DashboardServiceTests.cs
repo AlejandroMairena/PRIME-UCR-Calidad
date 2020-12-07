@@ -43,7 +43,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.Dashboards
             mockSecurity.Setup(s => s.CheckIfIsAuthorizedAsync(It.IsAny<AuthorizationPermissions[]>()));
 
             var service = new SecureDashboardService(
-                mockRepo.Object, null, null, null, null, mockSecurity.Object);
+                mockRepo.Object, null, null, null, null, mockSecurity.Object, null, null);
 
             //act 
             var result = await service.GetAllIncidentsAsync();
@@ -76,7 +76,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.Dashboards
             mockSecurity.Setup(s => s.CheckIfIsAuthorizedAsync(It.IsAny<AuthorizationPermissions[]>()));
 
             var service = new SecureDashboardService(
-                mockRepo.Object, null, null, null, null, mockSecurity.Object);
+                mockRepo.Object, null, null, null, null, mockSecurity.Object, null, null);
 
             // act
             var result = await service.GetAllIncidentsAsync();
@@ -108,7 +108,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.Dashboards
             mockSecurity.Setup(s => s.CheckIfIsAuthorizedAsync(It.IsAny<AuthorizationPermissions[]>()));
 
             var service = new SecureDashboardService(
-                mockRepo.Object, null, null, null, null, mockSecurity.Object);
+                mockRepo.Object, null, null, null, null, mockSecurity.Object, null, null);
 
             //act 
             var result = await service.GetAllDistrictsAsync();
@@ -141,7 +141,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.Dashboards
             mockSecurity.Setup(s => s.CheckIfIsAuthorizedAsync(It.IsAny<AuthorizationPermissions[]>()));
 
             var service = new SecureDashboardService(
-                mockRepo.Object, null, null, null, null, mockSecurity.Object);
+                mockRepo.Object, null, null, null, null, mockSecurity.Object, null, null);
 
             // act
             var result = await service.GetAllDistrictsAsync();
@@ -175,7 +175,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.Dashboards
 
             var service = new SecureDashboardService(
                 mockRepo.Object,
-                null, null, null, null, mockSecurity.Object);
+                null, null, null, null, mockSecurity.Object, null, null);
 
             // act
             var result = await service.GetIncidentCounterAsync("modalidad", String.Empty);
@@ -211,7 +211,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.Dashboards
 
             var service = new SecureDashboardService(
                 mockRepo.Object,
-                 null, null, mockCountry.Object, mockMedical.Object, mockSecurity.Object);
+                 null, null, mockCountry.Object, mockMedical.Object, mockSecurity.Object, null, null);
 
             // act
             var modalityFilter = new Modalidad();
