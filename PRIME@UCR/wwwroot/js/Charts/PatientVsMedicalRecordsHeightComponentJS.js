@@ -25,12 +25,14 @@ function CreateAppointmentsVsMedicalRecordsHeightComponentJS(results) {
         var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
         dateAxis.renderer.minGridDistance = 50;
 
+        var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+
         // Create series
         function createAxisAndSeries(field, dateName, name, opposite) {
-            var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-            if (chart.yAxes.indexOf(valueAxis) != 0) {
-                valueAxis.syncWithAxis = chart.yAxes.getIndex(0);
-            }
+            //var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+            //if (chart.yAxes.indexOf(valueAxis) != 0) {
+            //    valueAxis.syncWithAxis = chart.yAxes.getIndex(0);
+            //}
 
             var series = chart.series.push(new am4charts.LineSeries());
             series.dataFields.valueY = field;
@@ -38,6 +40,7 @@ function CreateAppointmentsVsMedicalRecordsHeightComponentJS(results) {
             series.strokeWidth = 2;
             series.yAxis = valueAxis;
             series.name = name;
+
             series.tooltipText = "{name}: [bold]{valueY}[/]";
             series.tensionX = 0.8;
             series.showOnInit = true;
@@ -48,11 +51,11 @@ function CreateAppointmentsVsMedicalRecordsHeightComponentJS(results) {
             bullet.circle.stroke = interfaceColors.getFor("background");
             bullet.circle.strokeWidth = 2;
 
-            valueAxis.renderer.line.strokeOpacity = 1;
+           /* valueAxis.renderer.line.strokeOpacity = 1;
             valueAxis.renderer.line.strokeWidth = 2;
             valueAxis.renderer.line.stroke = series.stroke;
             valueAxis.renderer.labels.template.fill = series.stroke;
-            valueAxis.renderer.opposite = opposite;
+            valueAxis.renderer.opposite = opposite;*/
         }
 
         
