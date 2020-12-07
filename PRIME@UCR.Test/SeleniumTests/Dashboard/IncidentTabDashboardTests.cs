@@ -22,7 +22,7 @@ namespace PRIME_UCR.Test.SeleniumTests.Dashboard
 
             driver.Url = url;
 
-            Thread.Sleep(1000);
+            Thread.Sleep(3000);
 
             Login(false);            
 
@@ -30,7 +30,7 @@ namespace PRIME_UCR.Test.SeleniumTests.Dashboard
 
             EnterToDashboardTab();
 
-            Thread.Sleep(1000);
+            Thread.Sleep(3000);
 
             var output = driver.FindElement(By.XPath("/html/body/app/div/div/main/div/div[2]/div[2]/p")).Text;
 
@@ -182,11 +182,11 @@ namespace PRIME_UCR.Test.SeleniumTests.Dashboard
 
             driver.FindElement(By.XPath("/html/body/app/div/div/main/div/div[2]/div[2]/div[2]/div/div[2]/div[2]/div/div/div[1]/h4/a")).Click();
 
-            Thread.Sleep(1000);
+            Thread.Sleep(3000);
 
             driver.FindElement(By.XPath("//*[@id=\"collapse2\"]/form/div[1]/select")).Click();
             driver.FindElement(By.XPath("//*[@id=\"collapse2\"]/form/div[1]/select/option[3]")).Click();
-            Thread.Sleep(1000);
+            Thread.Sleep(3000);
 
             driver.FindElement(By.XPath("//*[@id=\"collapse2\"]/form/div[2]/button[1]")).Click();
 
@@ -218,11 +218,11 @@ namespace PRIME_UCR.Test.SeleniumTests.Dashboard
 
             driver.FindElement(By.XPath("/html/body/app/div/div/main/div/div[2]/div[2]/div[2]/div/div[2]/div[1]/div/div/div[1]/h4/a")).Click();
 
-            Thread.Sleep(1000);
+            Thread.Sleep(3000);
 
             driver.FindElement(By.XPath("//*[@id=\"collapse5\"]/form/div[1]/select")).Click();
             driver.FindElement(By.XPath("//*[@id=\"collapse5\"]/form/div[1]/select/option[2]")).Click();
-            Thread.Sleep(1000);
+            Thread.Sleep(3000);
 
             driver.FindElement(By.XPath("//*[@id=\"collapse5\"]/form/div[3]/button[1]")).Click();
 

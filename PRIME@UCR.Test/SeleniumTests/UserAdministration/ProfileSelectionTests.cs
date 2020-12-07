@@ -15,7 +15,7 @@ namespace PRIME_UCR.Test.SeleniumTests.UserAdministration
         private string url = "https://localhost:44368/";
 
         [Fact]
-        public void AssignNewPermission()
+        public void CreateNewUser()
         {
             driver = new ChromeDriver();
 

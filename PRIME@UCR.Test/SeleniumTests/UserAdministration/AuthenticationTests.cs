@@ -23,7 +23,7 @@ namespace PRIME_UCR.Test.SeleniumTests.UserAdministration
 
             driver.Url = url;
 
-            Thread.Sleep(1000);
+            Thread.Sleep(3000);
 
             driver.FindElement(By.XPath("/html/body/app/div/div/aside/nav/div/form/div[1]/input")).SendKeys("test@test.com");
             var output = driver.FindElement(By.XPath("/html/body/app/div/div/aside/nav/div/form/div[2]/div[2]")).Text;
@@ -39,7 +39,7 @@ namespace PRIME_UCR.Test.SeleniumTests.UserAdministration
 
             driver.Url = url;
 
-            Thread.Sleep(1000);
+            Thread.Sleep(3000);
 
             driver.FindElement(By.XPath("/html/body/app/div/div/aside/nav/div/form/div[2]/div[1]/input")).SendKeys("Test");
             var output = driver.FindElement(By.XPath("/html/body/app/div/div/aside/nav/div/form/div[1]/div")).Text;
@@ -55,12 +55,12 @@ namespace PRIME_UCR.Test.SeleniumTests.UserAdministration
 
             driver.Url = "https://localhost:44368/";
 
-            Thread.Sleep(1000);
+            Thread.Sleep(2000);
 
             driver.FindElement(By.XPath("/html/body/app/div/div/aside/nav/div/form/div[1]/input")).SendKeys("test@test.com");
             driver.FindElement(By.XPath("/html/body/app/div/div/aside/nav/div/form/div[2]/div[1]/input")).SendKeys("Test");
             driver.FindElement(By.XPath("/html/body/app/div/div/aside/nav/div/form/div[5]/button")).Click();
-            Thread.Sleep(3000);
+            Thread.Sleep(5000);
             var output = driver.FindElement(By.Id("emailHelp")).Text;
             Assert.Equal("Ingresó su usuario o contraseña incorrectamente. Intente de nuevo.", output);
         }
@@ -74,7 +74,7 @@ namespace PRIME_UCR.Test.SeleniumTests.UserAdministration
 
             driver.Url = "https://localhost:44368/";
 
-            Thread.Sleep(1000);
+            Thread.Sleep(3000);
 
             driver.FindElement(By.XPath("/html/body/app/div/div/aside/nav/div/form/div[1]/input")).SendKeys("juan.guzman@prime.com");
             driver.FindElement(By.XPath("/html/body/app/div/div/aside/nav/div/form/div[2]/div[1]/input")).SendKeys("Juan.Guzman10");
