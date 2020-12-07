@@ -278,14 +278,30 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Incidents
             }
         }
 
+        /*
+         * Function: Query to get the last change in an specific incident.
+         * @Return: A table of CambioIncidente that provides the date, the responsible and the tab of the last change in the incident.
+         * @TransactionLevel: 
+         *      If another transactions tries to make a change in an incident (in Patient, Origin, Destination or Assignment tabs) but fails to do so, it would be an 
+         *      error to show that change as the last change in an incident, since it wasn't actually a change.Therefore, we can't set the isolation 
+         *      level to read uncommitted
+         *      
+         *      Since the application needs to be able to handle several changes from various authorized users as quick as possible, we can't slow down the process of
+         *      making changes to an incidents with the isolation level set as serializable. Since the incidents are not used in any aggregate function (mean, max, etc),
+         *      we don't need to guarantee repeteable read. Therefore, the transaction isolation level is set as read committed
+         */
         public async Task<CambioIncidente> GetLastChange(string code)
         {
             using (var connection = new SqlConnection(_db.ConnectionString))
             {
                 return (await connection.ExecuteQueryAsync<CambioIncidente>(@"
+                    set implicit_transactions off;
+	                set transaction isolation level read committed;
+	                begin transaction t1;
                     select CambioIncidente.* from CambioIncidente
                     where CodigoIncidente = @Id
                     order by FechaHora desc
+                    commit transaction t1;
                 ", new { Id = code }))
                 .FirstOrDefault();
             }
