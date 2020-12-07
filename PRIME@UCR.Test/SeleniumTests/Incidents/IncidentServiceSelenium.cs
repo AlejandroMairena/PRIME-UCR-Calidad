@@ -22,7 +22,7 @@ namespace PRIME_UCR.Test.SeleniumTests.Incidents
         {
             driver.Dispose();
         }
-        /*
+
         [Fact]
         public void GetToIncidentListPage()
         {
@@ -44,15 +44,49 @@ namespace PRIME_UCR.Test.SeleniumTests.Incidents
             Element = TryToFind("//h1");
             Assert.Equal("Administración del incidente", Element.Text);
         }
-*/
-        [Fact]
-        public void FillIncidentInfo()
+        
+        private void FillIncidentInfo()
         {
             driver = new ChromeDriver();
             AccessToIncidentPage();
             AccessToFirstIncident();
             MockInfoInIncident();
         }
+
+        [Fact]
+        public void FillInfoOriginTab()
+        {
+            driver = new ChromeDriver();
+            AccessToIncidentPage();
+            AccessToFirstIncident();
+            MockOriginTab();
+            string text = CheckSaveState("Mensaje de estado", "Se guardaron los cambios exitosamente.");
+            Assert.Equal("Se guardaron los cambios exitosamente.", text);
+        } 
+
+        [Fact]
+        public void FillInfoDestinationTab()
+        {
+            driver = new ChromeDriver();
+            AccessToIncidentPage();
+            AccessToFirstIncident();
+            MockDestinationTab();
+            string text = CheckSaveState("Mensaje de estado", "Se guardaron los cambios exitosamente.");
+            Assert.Equal("Se guardaron los cambios exitosamente.", text);
+        }
+        //Test Name:	PRIME_UCR.Test.SeleniumTests.Incidents.IncidentServiceSelenium.FillInfoDestinationTab
+//Result Message:	OpenQA.Selenium.StaleElementReferenceException : stale element reference: element is not attached to the page document
+
+        [Fact]
+        public void FillInfoPatientTab()
+        {
+            driver = new ChromeDriver();
+            AccessToIncidentPage();
+            AccessToFirstIncident();
+            MockPatientTab();
+            string text = CheckSaveState("Mensaje de estado", "Se guardaron los cambios exitosamente.");
+            Assert.Equal("Se guardaron los cambios exitosamente.", text);
+        } 
 
         private void MockInfoInIncident()
         {
@@ -109,7 +143,6 @@ namespace PRIME_UCR.Test.SeleniumTests.Incidents
             Element.SendKeys("Salazar");//Mock
             Element = TryToFindById("Guardar");//Input Nombre
             Element.Click();
-            Timeout(2000);//Load Values
         }
 
         private void MockChangeState()
@@ -173,6 +206,32 @@ namespace PRIME_UCR.Test.SeleniumTests.Incidents
         {
             Thread.Sleep(miliseconds);
         }
+        
+        private string CheckSaveState(string ElementId, string MsgToCompare)
+        {
+            IWebElement _element = TryToFindById(ElementId);
+            string SavedMsg = "";
+            bool exit = false;
+            //OpenQA.Selenium.StaleElementReferenceException
+            while (!exit)
+            {
+                exit = true;
+                try
+                {
+                    SavedMsg = _element.Text;
+                    if(SavedMsg != MsgToCompare)
+                    {
+                        exit = false;
+                    }
+                }
+                catch (OpenQA.Selenium.StaleElementReferenceException e)
+                {
+                    _element = TryToFindById(ElementId);
+                    exit = false;
+                }
+            }
+            return SavedMsg;
+        }
 
         private void AccessToIncidentPage()
         {
@@ -180,16 +239,13 @@ namespace PRIME_UCR.Test.SeleniumTests.Incidents
             //_ = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
             driver.Url = IncidentsUrl;//Go to page
             driver.Manage().Window.Maximize();
-            //Timeout(TimeoutMiliseconds);
-            Element = driver.FindElement(By.Id("Correo"));//Find input for mail
+            Element = TryToFindById("Correo");
             Element.Clear();
             Element.SendKeys("teodoro.barquero@prime.com");//Mock
-            //Timeout(TimeoutMiliseconds);
-            Element = driver.FindElement(By.Id("Contrasena"));//Find input for password
+            Element = TryToFindById("Contrasena");
             Element.Clear();
             Element.SendKeys("Teodoro.Barquero10");//Mock
             driver.FindElement(By.Id("Ingresar")).Click();//Ingresar página
-            //Timeout(TimeoutMiliseconds);//Wait for validation
         }
     }
 }
