@@ -16,7 +16,7 @@ namespace PRIME_UCR.Application.Implementations.Multimedia
 
         public FileService()
         {
-            FilePath = "wwwroot/datas/";
+            FilePath = "wwwroot/data/";
             ES = new EncryptionService();
         }
         public async Task<bool> StoreFile(string pathDecrypted, string fileName, string extension, Stream fileStream)
@@ -79,7 +79,7 @@ namespace PRIME_UCR.Application.Implementations.Multimedia
             string multiString = "Multimedia";
             byte[] multiByte = ES.Encrypt(multiString);
             string multiEncrypted = Convert.ToBase64String(multiByte);
-            string path = "wwwroot/" + ES.EncodeString(multiEncrypted) + "/";
+            string path = "wwwroot/data/" + ES.EncodeString(multiEncrypted) + "/";
             byte[] IncidentCodeEncryptedByte = null;
             string IncidentCodeEncryptedString = "";
             string general = "General";
