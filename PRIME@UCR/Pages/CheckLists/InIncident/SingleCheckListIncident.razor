@@ -165,7 +165,7 @@
                                                                     <p style=" padding-top: 0px; padding-bottom: 0px;"> <span title="DD/MM/AA\nHH:MM:SS">@itemInList.FechaHoraInicio</span></p>
                                                                 </td>
                                                                 <td rowspan="2" class="align-middle" align="right" style="width: 54px">
-                                                                    <MultimediaContentComponent MultimediaContent="@MyMultimediaContent[itemIndex]" OnFileUpload="(MultimediaContent mc) => OnFileUpload(itemInList, mc)"></MultimediaContentComponent>
+                                                                    <MultimediaContentComponent MultimediaContent="@MyMultimediaContent[itemIndex]" OnFileUpload="(MultimediaContent mc) => OnFileUpload(itemInList, mc)" CallingPlace="checkListItem" ApCode=@incidentcod CheckListName=@list.Nombre CheckListItemName=@items[itemIndex].Nombre></MultimediaContentComponent>
                                                                 </td>
                                                             }
                                                             else if (validateEdit == 2)

@@ -18,7 +18,7 @@ namespace PRIME_UCR.Components.CheckLists
     * */
     public class LoadImageComponentBase : ComponentBase
     {
-        [Inject] public ITempFileServiceNoEncryption file_service { get; set; }
+        [Inject] public IFileService file_service { get; set; }
 
         [Inject] public ICheckListService checklist_service { get; set; }
 
@@ -90,12 +90,12 @@ namespace PRIME_UCR.Components.CheckLists
 
             if (!acceptedTypes.Contains(file.Type)) return;
 
-            string filePath = "/images/" + file.Name;
+            string filePath = "/datas/" + file.Name;
             // Update the name of the uploaded image
             lastFile = file.Name;
 
             // stores the file (without encrypting it) in the /wwwroot/images directory)
-            await file_service.StoreFile(file.Name, file.Data);
+            await file_service.StoreFileNoEncryption(file.Name, file.Data);
 
             if (list != null)
             {
