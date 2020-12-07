@@ -23,11 +23,10 @@
     <StatusMessage Message="Debe ingresar los datos obligatorios para crear la referencia" Class="warning"></StatusMessage>
 }
 
-
-    @if (Summary != null)
-    {
-        <SummaryMessage Content="Summary.Content" Values="Summary.Values" Class="info" />
-    }
+@if (Summary != null)
+{
+    <SummaryMessage Content="Summary.Content" Values="Summary.Values" Class="info" />
+}
 
 <Loading IsLoading="_context == null">
     <EditForm EditContext="_context" OnValidSubmit="scheduleAppo">
@@ -49,32 +48,38 @@
 
         @if (already_selected == true)
         {
-        <Loading IsLoading="Doctors == null">
-            <div class="row">
-                <div class="col-xl-8 col-lg-10">
-                    <DropDownMenu T="Persona" Data="Doctors"
-                                  Label="@get_msgname()"
-                                  TextProperty="NombreCompleto"
-                                  DefaultText="Seleccione un médico especialista"
-                                  Required="true"
-                                  Disabled="false"
-                                  @bind-Value="@selected_doctor" />
+            <Loading IsLoading="Doctors == null">
+                <div class="row">
+                    <div class="col-xl-8 col-lg-10">
+                        <DropDownMenu T="Persona" Data="Doctors"
+                                      Label="@get_msgname()"
+                                      TextProperty="NombreCompleto"
+                                      DefaultText="Seleccione un médico especialista"
+                                      Required="true"
+                                      Disabled="false"
+                                      @bind-Value="@selected_doctor" />
+                    </div>
                 </div>
-            </div>
 
 
-            <div class="row">
-                <div class="form-group col-xl-8 col-lg-10">
-                    <label>Fecha de la cita<strong class="text-danger">*</strong></label>
-                    <InputDate id="FechaHoraCreacion" @bind-Value="@date" class="form-control"></InputDate>
+                <div class="row">
+                    <div class="form-group col-xl-8 col-lg-10">
+                        <label>Fecha de la cita<strong class="text-danger">*</strong></label>
+                        <InputDate id="FechaHoraCreacion" @bind-Value="@date" class="form-control" min="@(minTime.ToString("yyyy-MM-dd"))"></InputDate>
+                    </div>
                 </div>
-            </div>
+                <div class="row">
+                    <div class="form-group col-xl-8 col-lg-10">
+                        <label>Ingrese la hora de la cita</label>
+                        <input type="time" @bind-value="@date" />
+                    </div>
+                </div>
 
-            @if (true)
-            {
-                <button type="submit" class="btn btn-primary">Guardar</button>
-            }
-    </Loading>
+                @if (true)
+                {
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                }
+</Loading>
         }
     </EditForm>
 </Loading>

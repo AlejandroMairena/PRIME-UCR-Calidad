@@ -124,7 +124,7 @@ namespace PRIME_UCR.Application.Permissions.Appointments
             return await appointmentService.GetMedCenterByKeyAsync(id);
         }
 
-        public async void UpdateAppointmentStatus(int id)
+        public async Task UpdateAppointmentStatus(int id)
         {
             await _primeSecurityService.CheckIfIsAuthorizedAsync(new[] { AuthorizationPermissions.CanSeeAllMedicalRecords, AuthorizationPermissions.CanSeeMedicalRecordsOfHisPatients });
             appointmentService.UpdateAppointmentStatus(id);

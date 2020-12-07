@@ -32,7 +32,7 @@ namespace PRIME_UCR.Application.Services.Appointments
 
         Task<PoseeReceta> GetDrugByConditionAsync(int drug_id, int appointmentId);
 
-        void UpdateAppointmentStatus(int id);
+        Task UpdateAppointmentStatus(int id);
 
         Task<PoseeReceta> InsertPrescription(int idMedicalPrescription, int idMedicalAppointment);
 

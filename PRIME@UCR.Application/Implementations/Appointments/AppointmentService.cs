@@ -165,7 +165,7 @@ namespace PRIME_UCR.Application.Implementations.Appointments
             return await _havepresc.GetPrescriptionByAppointmentId(id); 
         }
 
-        public async void UpdateAppointmentStatus(int id)
+        public async Task UpdateAppointmentStatus(int id)
         {
             CitaMedica appointment = await _medapprepo.GetMedicalAppointmentByWithAppointmentIdAsync(id);
             EstadoCitaMedica status = await _appostatusrep.GetByKeyAsync(appointment.EstadoId);
