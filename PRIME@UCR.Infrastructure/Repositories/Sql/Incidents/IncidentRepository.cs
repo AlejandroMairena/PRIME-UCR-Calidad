@@ -98,6 +98,16 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Incidents
             return incident;
         }
 
+        /*
+         * Function: Obtains all the incidents registered in the system, with their respective details
+         * @Return: A list with all the incidents registered in the system
+         * @TransactionLevel: 
+         *      If another transactions tries to register an incident but fails to do so, it would be an error to show that incident, since it wasn't registered correctly in the system
+         *          Therefore, we can't set the isolation level to read uncommitted
+         *      Since the application manages medical information (which is sometimes critical), we can't slow down the process of registering new incidents with the isolation level set as serializable
+         *      Since the incidents are not used in any aggregate function (mean, max, etc), we don't need to guarantee repeteable read
+         *          Therefore, the transaction isolation level is set as read committed
+         */
         public async Task<IEnumerable<IncidentListModel>> GetIncidentListModelsAsync()
         {
             using (var connection = new SqlConnection(_db.ConnectionString))
