@@ -49,13 +49,13 @@
                 <div class="mt-2">
                     @if (!_saveButtonEnabled)
                     {
-                        <button disabled type="submit" class="btn btn-primary">Guardar</button>
-                        <button disabled class="btn btn-outline-secondary">Descartar</button>
+                        <button disabled type="submit" class="btn btn-disabled">Guardar</button>
+                        <button disabled class="btn btn-secondaryOne">Descartar</button>
                     }
                     else
                     {
                         <button type="submit" class="btn btn-primary">Guardar</button>
-                        <button role="button" class="btn btn-outline-secondary" @onclick="LoadExistingValues" @onclick:preventDefault>Descartar</button>}
+                        <button role="button" class="btn btn-secondaryOne" @onclick="LoadExistingValues" @onclick:preventDefault>Descartar</button>}
                 </div>
             }
         </EditForm>
