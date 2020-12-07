@@ -116,7 +116,8 @@ VALUES
     -- Administrador del centro de control
         -- Se repite 5, 7, 16 y 21
     (21,'Puede administrar multimedia de un incidente'),
-    (22,'Puede administrar listas de chequeo de un incidente');
+    (22,'Puede administrar listas de chequeo de un incidente'),
+    (23,'Puede visualizar mapas en tiempo real');
 
 INSERT INTO Perfil (NombrePerfil)
 VALUES ('Administrador'),
@@ -163,6 +164,7 @@ VALUES  (1,'Administrador'),
         (20,'Coordinador técnico médico'),
         (21,'Coordinador técnico médico'),
         (22,'Coordinador técnico médico'),
+        (23,'Coordinador técnico médico'),
         (4,'Administrador de la central de control'),
         (6,'Administrador de la central de control'),
         (15,'Administrador de la central de control'),

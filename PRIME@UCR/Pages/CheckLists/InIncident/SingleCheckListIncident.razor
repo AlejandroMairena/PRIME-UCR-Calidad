@@ -116,7 +116,7 @@
                                             int itemIndex = GetItemIndex(itemInList);
                                             string style = orderedListLevel[itemIndex] * 0 + "em";
                                         }
-                                        
+
                                         @if (itemInList.SubItems.Count() <= 0)
                                         {
                                             <div class="blankSpace">.</div>
@@ -135,7 +135,7 @@
                                                         @if (validateEdit == 1) // state in transfer
                                                         {
                                                     <div class="custom-control custom-checkbox" style="margin:auto">
-                                                        <input type="checkbox" class="custom-control-input" disabled="@HasSubItems(itemInList)" id="customCheck @itemInList.ItemId" checked="@itemInList.Completado" @onchange="((ChangeEventArgs c) => CheckItem(itemInList, c))" />
+                                                        <input type="checkbox" class="custom-control-input" disabled="@HasSubItems(itemInList)" id="customCheck @itemInList.ItemId" checked="@itemInList.Completado" @onchange="@((ChangeEventArgs c) => CheckItem(itemInList, c))" />
                                                         <label class="custom-control-label" for="customCheck @itemInList.ItemId"></label>
                                                     </div> }
                                                                                     else // state not started or finished
@@ -215,7 +215,7 @@
                                     </Template>
                                 </RadzenTreeLevel>
                             </RadzenTree>
-                                
+
                             }
 
                         }

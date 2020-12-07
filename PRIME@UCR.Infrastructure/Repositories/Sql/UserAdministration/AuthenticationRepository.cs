@@ -34,7 +34,7 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
         public async Task<List<Perfil>> GetPerfilesWithDetailsAsync()
         {
             var profiles = new List<Perfil>();
-            using (var connection = new SqlConnection(_db.DbConnection.ConnectionString))
+            using (var connection = new SqlConnection(_db.ConnectionString))
             {
                 var extractor = await connection.ExecuteQueryMultipleAsync(@"
                     SELECT *
@@ -81,7 +81,7 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
 
         public async Task<Usuario> GetUserByEmailAsync(string email)
         {
-            using (var connection = new SqlConnection(_db.DbConnection.ConnectionString))
+            using (var connection = new SqlConnection(_db.ConnectionString))
             {
                 var returnedValue = await connection.ExecuteQueryMultipleAsync(@"
                     SELECT *

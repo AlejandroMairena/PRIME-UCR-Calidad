@@ -27,5 +27,10 @@ namespace PRIME_UCR.Application.Implementations.Incidents
             if (unitType == null) throw new ArgumentNullException(nameof(unitType));
             return await _repository.GetGpsDataByUnitTypeAsync(unitType);
         }
+
+        public async Task<IEnumerable<Modalidad>> GetGpsDataFiltersAsync()
+        {
+            return await _repository.GetGpsDataFiltersAsync();
+        }
     }
 }
