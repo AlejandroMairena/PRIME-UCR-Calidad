@@ -25,5 +25,8 @@ namespace PRIME_UCR.Components.Dashboard.IncidentsGraph
 
         [Parameter]
         public bool ZoomActive { get; set; }
+
+        [Parameter]
+        public bool IsAppointment { get; set; }
     }
 }
