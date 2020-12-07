@@ -132,5 +132,14 @@ namespace PRIME_UCR.Application.Implementations.Multimedia
             return true;
         }
 
+        public async Task<string> StoreTextFile(string text, string fileName)
+        {
+            string path = Path.Combine(FilePath, fileName);
+            using (StreamWriter sw = File.CreateText(path))
+            {
+                await sw.WriteLineAsync(text);
+            }
+            return path;
+        }
     }
 }
