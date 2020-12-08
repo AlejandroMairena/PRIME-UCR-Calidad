@@ -50,5 +50,29 @@ namespace PRIME_UCR.Test.SeleniumTests.Checklists
             driver.FindElement(By.XPath("/html/body/app/div/div/form/div[2]/div/input")).SendKeys("Teodoro.Barquero10");
             driver.FindElement(By.XPath("/html/body/app/div/div/form/div[5]/button")).Click();
         }
+
+        [Fact]
+        public void InsertItemTest()
+        {
+            driver = new ChromeDriver();
+            driver.Manage().Window.Maximize();
+            driver.Url = url;
+            LogIn();
+            Thread.Sleep(5000);
+            driver.FindElement(By.LinkText("Listas de chequeo")).Click();
+            Thread.Sleep(5000);
+            Assert.Equal("Salida de Paciente de la Unidad de Internamiento", driver.FindElement(By.LinkText("Salida de Paciente de la Unidad de Internamiento")).Text);
+            driver.FindElement(By.LinkText("Salida de Paciente de la Unidad de Internamiento")).Click();
+            Thread.Sleep(5000);
+            driver.FindElement(By.XPath("//div[2]/div/div[3]/button")).Click();
+            Thread.Sleep(5000);
+            driver.FindElement(By.XPath("//div[@id='Create_I-SI_LC']/form/div/input")).Click();
+            Thread.Sleep(5000);
+            driver.FindElement(By.XPath("//div[@id='Create_I-SI_LC']/form/div/input")).SendKeys("Pruebas selenium item");
+            Thread.Sleep(3000);
+            driver.FindElement(By.XPath("//div[5]/button")).Click();
+            Thread.Sleep(5000);
+            Assert.Equal("Pruebas selenium item", driver.FindElement(By.XPath("//th[contains(.,'Pruebas selenium item')]")).Text);
+        }
     }
 }
