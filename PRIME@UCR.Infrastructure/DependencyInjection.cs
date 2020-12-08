@@ -56,13 +56,13 @@ namespace PRIME_UCR.Infrastructure
             services.AddTransient<IMedCenterRepository, MedCenterRepository>();
             services.AddTransient<IMedicalAppointmentRepository, MedicalAppointmentRepository>();
             services.AddTransient<IHavePrescriptionRepository, HavePrescriptionRepository>();
-            services.AddTransient<IDrugRepository, DrugRepository>(); 
+            services.AddTransient<IDrugRepository, DrugRepository>();
             services.AddTransient<IDrugRepository, DrugRepository>();
             services.AddTransient<IMedAppMetricRepository, MedAppMetricRepository>();
             services.AddTransient<IMedicalSpecialtyRepository, MedicalSpecialtyRepository>();
             services.AddTransient<ISpecializesRepository, SpecializesRepository>();
-            services.AddTransient<IAppointmentReferenceRepository, AppointmentReferenceRepository>(); 
-            services.AddTransient<IAppointmentStatusRepository, AppointmentStatusRepository>(); 
+            services.AddTransient<IAppointmentReferenceRepository, AppointmentReferenceRepository>();
+            services.AddTransient<IAppointmentStatusRepository, AppointmentStatusRepository>();
             // incidents repositories
             services.AddTransient<IStateRepository, SecureStateRepository>();
             services.AddTransient<ICountryRepository, CountryRepository>();
@@ -113,9 +113,6 @@ namespace PRIME_UCR.Infrastructure
 
             //dashboard repositories
             services.AddTransient<IDashboardRepository, SecureDashboardRepository>();
-
-            // temporary file service with no encryption
-            services.AddTransient<ITempFileServiceNoEncryption, TempFileServiceNoEncryption>();
 
             // external
             services.AddScoped<IGpsDataRepository, GpsDataRepository>();

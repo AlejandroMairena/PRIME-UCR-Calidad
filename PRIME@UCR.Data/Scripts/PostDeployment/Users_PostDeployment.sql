@@ -3,6 +3,7 @@ DELETE FROM CambioIncidente
 DELETE FROM EstadoIncidente
 DELETE FROM Estado
 DELETE FROM Incidente
+DELETE FROM MetricasCitaMedica
 DELETE FROM CitaMedica
 DELETE FROM Cita
 DELETE FROM Expediente
@@ -137,6 +138,7 @@ VALUES  (1,'Administrador'),
         (6,'Especialista técnico médico'),
         (7,'Especialista técnico médico'),
         (8,'Especialista técnico médico'),
+        (13, 'Especialista técnico médico'),
         (21,'Especialista técnico médico'),
         (22,'Especialista técnico médico'),
         (4,'Médico'),
@@ -144,10 +146,18 @@ VALUES  (1,'Administrador'),
         (8,'Médico'),
         (9,'Médico'),
         (10,'Médico'),
+        (16,'Médico'),
+        (18,'Médico'),
+        (19,'Médico'),
+        (20,'Médico'),
         (21,'Médico'),
         (10,'Gerente médico'),
         (11,'Gerente médico'),
         (12,'Gerente médico'),
+        (16,'Gerente médico'),
+        (18,'Gerente médico'),
+        (19,'Gerente médico'),
+        (20,'Gerente médico'),
         (2,'Coordinador técnico médico'),
         (3,'Coordinador técnico médico'),
         (4,'Coordinador técnico médico'),

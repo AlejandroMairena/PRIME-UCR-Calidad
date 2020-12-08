@@ -38,5 +38,14 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.MedicalRecords
         
         }
 
+        public async Task<IEnumerable<CitaMedica>> GetAllMedicalAppointmentsAsync()
+        {
+            return await _db.MedicalAppointment.Include(p => p.Cita)
+                            .ThenInclude(c => c.Metricas)
+                            .Include(c => c.Cita.Expediente).ToListAsync();
+                                
+        }
+
+
     }
 }

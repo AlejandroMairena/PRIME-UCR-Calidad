@@ -12,7 +12,9 @@ namespace PRIME_UCR.Application.Repositories.Appointments
 
         Task<CitaMedica> GetMedicalAppointmentWithAppointmentByKeyAsync(int id);
 
-        Task<CitaMedica> GetMedicalAppointmentByWithAppointmentIdAsync(int id); 
+        Task<CitaMedica> GetMedicalAppointmentByWithAppointmentIdAsync(int id);
+
+        Task<IEnumerable<CitaMedica>> GetAllMedicalAppointmentsAsync();
 
     }
 }

@@ -5,7 +5,10 @@
 	 @iDItemPadre int
 	 AS
 	 BEGIN
-		DECLARE @itemIdtemp int 
+		BEGIN TRY
+			set transaction isolation level serializable;
+			BEGIN TRANSACTION T2
+			DECLARE @itemIdtemp int 
 			DECLARE cursor1 CURSOR FOR
 			Select i.Id From Item i Where i.IDLista = @plantillaId and i.IDSuperItem = @itemId Order by [Orden ] ASC 
 			OPEN cursor1
@@ -22,4 +25,9 @@
 			END
 			close cursor1
 			DEALLOCATE cursor1 
+			COMMIT TRANSACTION T2
+		END TRY
+		BEGIN CATCH
+			ROLLBACK TRANSACTION T2
+		END CATCH
 	 END 

@@ -28,37 +28,6 @@ namespace PRIME_UCR.Application.Implementations.UserAdministration
             authenticationStateProvider = _authenticationStateProvider;
         }
 
-
-        public async Task CheckIfIsAuthorizedAsync(Type type, [CallerMemberName] string methodName = null)
-        {
-            if (methodName == null) throw new ArgumentNullException("method");
-
-            var permissions =
-                    type.GetCustomAttribute<MetadataTypeAttribute>()
-                    .MetadataClassType
-                    .GetMethod(methodName)
-                    .GetCustomAttribute<RequirePermissions>()
-                    .Permissions;
-
-            var user = (await authenticationStateProvider.GetAuthenticationStateAsync()).User;
-            var isAuthorized = true;
-            AuthorizationPermissions missingPermission = default;
-            foreach (var permission in permissions)
-            {
-                if (!(await authorizationService.AuthorizeAsync(user, permission.ToString())).Succeeded)
-                {
-                    isAuthorized = false;
-                    missingPermission = permission;
-                    break;
-                }
-
-            }
-            if(!isAuthorized)
-            {
-                throw new NotAuthorizedException($"Missing the following permission: {missingPermission.ToString()}");
-            }
-        }
-
         public async Task CheckIfIsAuthorizedAsync(AuthorizationPermissions[] permissions)
         {
             var user = (await authenticationStateProvider.GetAuthenticationStateAsync()).User;

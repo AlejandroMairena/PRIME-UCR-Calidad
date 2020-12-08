@@ -1,8 +1,11 @@
-﻿function CreateColumnChart(incidentsData) {
-
-
-    //console.log(incidentsData);
-    //console.log(incidentsData[1]);
+﻿/**
+ * Funciton that creates the Incidents vs Transport Type Graph
+ * Params: result
+ * [results] only contains an array the the data to include in the graph
+ *
+ * NO SENSITIVE DATA SHOULD BE TREATED IN THIS CODE
+ */
+function CreateIncidentsVsTransportTypeComponent(results) {
 
     am4core.ready(function () {
         // Themes begin
@@ -18,10 +21,10 @@
 
         var dataArray = [];
 
-        for (var i = 0; i < incidentsData.length; i += 2) {
+        for (var i = 0; i < results.length; i += 2) {
             dataArray.push({
-                "incidentType": incidentsData[i],
-                "quantity": incidentsData[i+1],
+                "incidentType": results[i],
+                "quantity": results[i+1],
             })
         }
 

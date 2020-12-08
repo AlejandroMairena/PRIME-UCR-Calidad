@@ -20,6 +20,16 @@ namespace PRIME_UCR.Components.CheckLists.InIncident
     * */
     public class AllChecklistSingleIncidentBase : ComponentBase
     {
+        public AllChecklistSingleIncidentBase()
+        {
+            details.Add("");
+            details.Add("");
+            instruct.Add("Puede asignar y desasignar listas de chequeo a incidentes");//coordinador-before:asigned
+            instruct.Add("No puede asignar ni desasignar más listas de chequeo a este incidente");//coordinador-after:asigned
+            states.Add("El incidente se encuentra en estado: ");
+            states.Add("");
+
+        }
 
         [Inject]
         private NavigationManager NavManager { get; set; }
@@ -40,6 +50,11 @@ namespace PRIME_UCR.Components.CheckLists.InIncident
          */
         public Estado _state = new Estado();
         public bool ReadOnly;
+        //instrctions for the info to user
+        public List<string> instruct = new List<string>();
+        //array  incidente  states and asign  checklist to user
+        public List<string> states = new List<string>();
+        public List<string> details = new List<string>();
 
         private void CheckReadOnly()
         {
@@ -65,6 +80,25 @@ namespace PRIME_UCR.Components.CheckLists.InIncident
             foreach(var tempList in instancelists)
             {
                 await GetSummary(tempList.PlantillaId);
+            }
+            _state = await IncidentService.GetIncidentStateByIdAsync(IncidentCod);
+            updateState();
+        }
+        /*
+          * this method get the info about the states and to show for the user the instructions for to know what things him can do
+        * only if he is a "coordinador técnico médico"
+        */
+        public void updateState()
+        {
+            if (_state.Nombre == "En proceso de creación" || _state.Nombre == "Creado" || _state.Nombre == "Rechazado" || _state.Nombre == "Aprobado")
+            {
+                details[0] = _state.Nombre;
+                details[1] = instruct[0];
+            }
+            else if (_state.Nombre == "Finalizado" || _state.Nombre == "Asignado" || _state.Nombre == "En preparación" || _state.Nombre == "En ruta a origen" || _state.Nombre == "Paciente recolectado en origen" || _state.Nombre == "En traslado" || _state.Nombre == "Entregado" || _state.Nombre == "Reactivación")
+            {
+                details[0] = _state.Nombre;
+                details[1] = instruct[1];
             }
         }
         public async Task GetName (int id)

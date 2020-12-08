@@ -37,7 +37,6 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
         protected override async Task OnInitializedAsync()
         {
             Summary.LoadValues(Incident);
-            CheckReadOnly();
             _actionTypes =
                 (await AppointmentService.GetActionTypesAsync())
                 .ToList();

@@ -28,14 +28,12 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
 
     public partial class OriginTab
     {
-
         [Inject] private ILocationService LocationService { get; set; }
         [Inject] private IDoctorService DoctorService { get; set; }
         [Parameter] public IncidentDetailsModel Incident { get; set; }
         [Parameter] public EventCallback<OriginModel> OnSave { get; set; }
         [CascadingParameter] public Pages.Incidents.IncidentDetails ParentPage { get; set; }
         [Inject] public IIncidentService IncidentService { get; set; }
-        [CascadingParameter] public Action ClearStatusMessageCallback { get; set; }
         [Parameter] public string StatusMessage { get; set; }
         [Parameter] public string StatusClass { get; set; }
         public Ubicacion Origin { get; set; }
@@ -87,7 +85,7 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
             }
             else
             {
-                throw new ApplicationException("Household picker shouldn't return null longitude or latitude");                    
+                throw new ApplicationException("Household picker shouldn't return null longitude or latitude");
             }
 
             _householdModel = household;
@@ -100,7 +98,7 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
             {
                 NombrePais = international.Country.Nombre
             };
-            
+
             _internationalModel = international;
             await Save();
         }
@@ -178,7 +176,7 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
             }
             _model.Origin = Origin;
             ParentPage.ClearStatusMessage();
-            TypeOfOrigin = _selectedOriginType.Item2; 
+            TypeOfOrigin = _selectedOriginType.Item2;
             _model.Origin = Origin;
             _isLoading = false;
         }
@@ -189,5 +187,5 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Tabs
             await LoadExistingValues();
         }
     }
-    
+
 }
