@@ -12,6 +12,9 @@ namespace PRIME_UCR.Components.Dashboard.IncidentsGraph
         public string Title { get; set; }
 
         [Parameter]
+        public string QuantityTitle { get; set; }
+
+        [Parameter]
         public int EventQuantity { get; set; }
 
         [Parameter]
@@ -22,5 +25,8 @@ namespace PRIME_UCR.Components.Dashboard.IncidentsGraph
 
         [Parameter]
         public bool ZoomActive { get; set; }
+
+        [Parameter]
+        public bool IsAppointment { get; set; }
     }
 }
