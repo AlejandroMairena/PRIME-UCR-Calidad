@@ -25,5 +25,12 @@ namespace PRIME_UCR.Test.IntegrationTests.MedicalRecord
             var result = await mbService.GetBackgroundByRecordId(-1);
             Assert.Empty(result);
         }
+        [Fact]
+        public async Task GetAllAsync()
+        {
+            var result = await mbService.GetAll();
+            //Asserts the result
+            Assert.Equal(4,result.Count());
+        }
     }
 }
