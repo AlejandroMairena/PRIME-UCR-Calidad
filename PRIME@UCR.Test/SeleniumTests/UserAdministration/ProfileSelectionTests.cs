@@ -30,6 +30,7 @@ namespace PRIME_UCR.Test.SeleniumTests.UserAdministration
 
             Login(webDriverWait);
 
+            Thread.Sleep(5000);
             webDriverWait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(By.XPath("/html/body/app/div/div/aside/nav/div/ul/li[7]/a")));
             driver.FindElement(By.XPath("/html/body/app/div/div/aside/nav/div/ul/li[7]/a")).Click();
 

@@ -131,6 +131,7 @@ namespace PRIME_UCR.Test.SeleniumTests.UserAdministration
             
             Authenticate(webDriverWait);
 
+            Thread.Sleep(3000);
             webDriverWait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(By.XPath("/html/body/header/div[2]/div[2]/div/a")));
             driver.FindElement(By.XPath("/html/body/header/div[2]/div[2]/div/a")).Click();
 
@@ -158,7 +159,8 @@ namespace PRIME_UCR.Test.SeleniumTests.UserAdministration
             var webDriverWait = new WebDriverWait(driver, TimeSpan.FromMinutes(timeout));
 
             Authenticate(webDriverWait);
-
+            
+            Thread.Sleep(3000);
             webDriverWait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(By.XPath("/html/body/header/div[2]/div[2]/div/a")));
             driver.FindElement(By.XPath("/html/body/header/div[2]/div[2]/div/a")).Click();
 
