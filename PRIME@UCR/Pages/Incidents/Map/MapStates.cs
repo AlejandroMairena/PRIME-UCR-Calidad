@@ -1,7 +1,9 @@
+#nullable enable
 using System.Collections.Generic;
 using Fluxor;
 using PRIME_UCR.Application.DTOs.Incidents;
 using PRIME_UCR.Domain.Models;
+using PRIME_UCR.Domain.Models.Incidents;
 
 namespace PRIME_UCR.Pages.Incidents.Map
 {
@@ -16,8 +18,10 @@ namespace PRIME_UCR.Pages.Incidents.Map
     public record LoadedMapState : MapState
     {
         public IEnumerable<IncidentGpsData> GpsData { get; init; }
-        public IEnumerable<Modalidad> AvailableFilters { get; init; }
-        public Modalidad Filter { get; init; }
+        public IEnumerable<Modalidad> AvailableUnitFilters { get; init; }
+        public IEnumerable<Estado> AvailableStateFilters { get; init; }
+        public Modalidad? UnitFilter { get; init; }
+        public Estado? StateFilter { get; init; }
         public GpsPoint Center { get; init; }
     }
 

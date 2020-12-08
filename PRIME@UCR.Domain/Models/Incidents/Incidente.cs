@@ -1,6 +1,7 @@
 ﻿using PRIME_UCR.Domain.Models.Incidents;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using PRIME_UCR.Domain.Constants;
 
@@ -29,6 +30,10 @@ namespace PRIME_UCR.Domain.Models
         public string CedulaTecnicoCoordinador { get; set; }
         public string CedulaRevisor { get; set; }
         public List<CambioIncidente> CambioIncidentes { get; private set; }
+        /// <summary>
+        /// Gets the currently active state.
+        /// </summary>
+        public Estado EstadoActivo => EstadoIncidentes.FirstOrDefault(ei => ei.Activo)?.Estado;
 
         public bool IsCompleted()
         {
