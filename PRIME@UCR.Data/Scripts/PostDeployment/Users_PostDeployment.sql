@@ -3,6 +3,7 @@ DELETE FROM CambioIncidente
 DELETE FROM EstadoIncidente
 DELETE FROM Estado
 DELETE FROM Incidente
+DELETE FROM CitaMedica
 DELETE FROM Cita
 DELETE FROM Expediente
 DELETE FROM AdministradorCentroDeControl

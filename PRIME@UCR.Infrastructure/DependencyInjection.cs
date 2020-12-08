@@ -76,7 +76,6 @@ namespace PRIME_UCR.Infrastructure
             services.AddTransient<ILocationRepository, LocationRepository>();
             services.AddTransient<ITransportUnitRepository, TransportUnitRepository>();
             services.AddTransient<IActionTypeRepository, ActionTypeRepository>();
-            services.AddTransient<IGpsDataRepository, GpsDataRepository>();
             services.AddTransient<IDocumentacionIncidenteRepository, DocumentacionIncidenteRepository>();
 
             // medical records
@@ -118,6 +117,8 @@ namespace PRIME_UCR.Infrastructure
             // temporary file service with no encryption
             services.AddTransient<ITempFileServiceNoEncryption, TempFileServiceNoEncryption>();
 
+            // external
+            services.AddScoped<IGpsDataRepository, GpsDataRepository>();
 
             return services;
         }

@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using PRIME_UCR.Application.Services.Multimedia;
 
 namespace PRIME_UCR.Application.Permissions.UserAdministration
 {
@@ -15,17 +16,18 @@ namespace PRIME_UCR.Application.Permissions.UserAdministration
     public class SecurePatientService : IPatientService
     {
         private readonly IPacienteRepository patientRepo;
+        private readonly IEncryptionService encryptionService;
 
         private readonly IPrimeSecurityService primeSecurityService;
 
         private readonly PatientService patientService;
 
-        public SecurePatientService(IPacienteRepository _patientRepo,
+        public SecurePatientService(IPacienteRepository _patientRepo, IEncryptionService encryptionService,
             IPrimeSecurityService _primeSecurityService)
         {
             patientRepo = _patientRepo;
             primeSecurityService = _primeSecurityService;
-            patientService = new PatientService(patientRepo);
+            patientService = new PatientService(patientRepo, encryptionService);
         }
 
         public async Task<Paciente> GetPatientByIdAsync(string id)

@@ -9,6 +9,8 @@ Post-Deployment Script Template
                SELECT * FROM [$(TableName)]					
 --------------------------------------------------------------------------------------
 */
+DELETE FROM Expediente
+DBCC CHECKIDENT ('Expediente', RESEED, 0)
 
 
 INSERT INTO Expediente(CedulaPaciente, CedulaMedicoDuenno, FechaCreacion, Clinica)
