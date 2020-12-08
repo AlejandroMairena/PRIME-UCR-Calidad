@@ -23,6 +23,9 @@ namespace PRIME_UCR.Components.UserAdministration
         [Inject]
         public UserManager<Usuario> userManager { get; set; }
 
+        [Inject]
+        public NavigationManager NavigationManager { get; set; }
+
         public List<Usuario> ListNotAuthenticatedUsers { get; set; }
 
         private string statusMessage = String.Empty;
@@ -57,7 +60,7 @@ namespace PRIME_UCR.Components.UserAdministration
             var code1 = code.Substring(0, firstHalf);
             var code2 = code.Substring(firstHalf, code.Length - firstHalf);
             var emailCoded = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(user.Email));
-            var url = "https://localhost:44368/validateUserAccount/" + emailCoded + "/" + code1 + "/" + code2;
+            var url = $"{NavigationManager.BaseUri}/validateUserAccount/" + emailCoded + "/" + code1 + "/" + code2;
             var message = new EmailContentModel()
             {
                 Destination = user.Email,

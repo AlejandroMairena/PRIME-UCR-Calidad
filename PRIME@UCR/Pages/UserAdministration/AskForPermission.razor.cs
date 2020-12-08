@@ -110,7 +110,7 @@ namespace PRIME_UCR.Pages.UserAdministration
                 {
                     if (actUser.UsuariosYPerfiles.Find(p => p.Perfil.NombrePerfil == "Administrador") == null ? false : true)
                     {
-                        var url = "https://localhost:44368//user_administration/profiles";
+                        var url = $"{NavigationManager.BaseUri}/user_administration/profiles";
                         var message = new EmailContentModel()
                         {
                             Destination = actUser.Email,

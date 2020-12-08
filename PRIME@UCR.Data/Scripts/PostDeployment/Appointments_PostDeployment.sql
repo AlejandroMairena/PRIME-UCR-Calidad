@@ -6,6 +6,7 @@ DELETE FROM EstadoCitaMedica
 DELETE FROM RecetaMedica
 
 DBCC CHECKIDENT ('Cita', RESEED, 0)
+DBCC CHECKIDENT ('EstadoCitaMedica', RESEED, 0)
 
 INSERT INTO TipoAccion (Nombre, EsDeCitaMedica, EsDeIncidente)
 VALUES

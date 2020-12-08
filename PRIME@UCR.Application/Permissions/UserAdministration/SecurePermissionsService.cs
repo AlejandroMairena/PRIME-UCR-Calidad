@@ -29,7 +29,6 @@ namespace PRIME_UCR.Application.Permissions.UserAdministration
 
         public async Task<IEnumerable<Permiso>> GetPermisos()
         {
-            await primeSecurityService.CheckIfIsAuthorizedAsync(new[] { AuthorizationPermissions.CanManageUsers });
             return await PermissionService.GetPermisos();
         }
     }
