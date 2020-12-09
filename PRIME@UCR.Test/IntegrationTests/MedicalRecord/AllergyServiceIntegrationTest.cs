@@ -27,6 +27,13 @@ namespace PRIME_UCR.Test.IntegrationTests.MedicalRecord
         }
 
         [Fact]
+        public async Task GetAlergyByRecordId()
+        {
+            var result = await aService.GetAlergyByRecordId(12345678);
+            Assert.Empty(result);
+        }
+
+        [Fact]
         public async Task GetAllAsync()
         {
             var result = await aService.GetAll();

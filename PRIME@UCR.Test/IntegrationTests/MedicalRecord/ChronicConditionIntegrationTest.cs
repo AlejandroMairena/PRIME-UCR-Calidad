@@ -18,6 +18,12 @@ namespace PRIME_UCR.Test.IntegrationTests.MedicalRecord
             _factory = factory;
             cdService = _factory.Services.GetRequiredService<IChronicConditionService>();
         }
+        [Fact]
+        public async Task GetChronicConditionByRecordIdy()
+        {
+            var result = await cdService.GetChronicConditionByRecordId(12345678);
+            Assert.Empty(result);
+        }
 
         [Fact]
         public async Task GetChronicConditionByRecordIdEmpty()

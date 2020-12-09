@@ -20,6 +20,13 @@ namespace PRIME_UCR.Test.IntegrationTests.MedicalRecord
         }
 
         [Fact]
+        public async Task GetBackgroundByRecordId()
+        {
+            var result = await mbService.GetBackgroundByRecordId(12345678);
+            Assert.Empty(result);
+        }
+
+        [Fact]
         public async Task GetBackgroundByRecordIdEmpty()
         {
             var result = await mbService.GetBackgroundByRecordId(-1);
