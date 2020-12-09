@@ -9,14 +9,16 @@
         <div class="row">
             <div class="col-xl-6 col-lg-8">
                 @if (!ReadOnly) { 
-                    <DropDownMenu T="CentroMedico" Data="_medicalCenters"
+                    <DropDownMenu Id="Centro"
+                                  T="CentroMedico" Data="_medicalCenters"
                                   Label="Centro médico"
                                   DefaultText="Seleccione un centro médico"
                                   TextProperty="Nombre"
                                   Value="@Value.MedicalCenter"
                                   ValueExpression="() => Value.MedicalCenter"
                                   ValueChanged="@((CentroMedico mc) => OnChangeMedicalCenter(mc))"/>
-                    <DropDownMenu Data="_doctors" T="Médico"
+                    <DropDownMenu Id="Medico"
+                                  Data="_doctors" T="Médico"
                                   DefaultText="Seleccione un/una médico/médica"
                                   Label="@DoctorForLabel"
                                   TextExpression="@((Médico m) => $"{m.Nombre} {m.PrimerApellido} {m.SegundoApellido}")"
@@ -45,12 +47,12 @@
             {
                 @if (!_saveButtonEnabled)
                 {
-                    <button disabled type="submit" class="btn btn-disabled">Guardar</button>
+                    <button id="Guardar" disabled type="submit" class="btn btn-disabled">Guardar</button>
                     <button role="button" @onclick:preventDefault @onclick="@Discard" class="btn btn-secondaryOne">Descartar</button>
                 }
                 else
                 {
-                    <button type="submit" class="btn btn-primary">Guardar</button>
+                    <button id="Guardar" type="submit" class="btn btn-primary">Guardar</button>
                     <button role="button" @onclick:preventDefault @onclick="@Discard" class="btn btn-secondaryOne">Descartar</button>
                 }
             }
