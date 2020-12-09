@@ -14,6 +14,6 @@ namespace PRIME_UCR.Application.Services.MedicalRecords
 
         Task<IEnumerable<ListaAlergia>> GetAll();
 
-        Task<Alergias> InsertAllergyAsync(Alergias model);
+        Task InsertAllergyAsync(int recordId, List<ListaAlergia> insertedList, List<ListaAlergia> deletedList);
     }
 }

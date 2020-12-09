@@ -5,8 +5,8 @@
             @for (var it = 0; it < Content.Count; ++it)
             {
                 <div class="col text-center">
-                    <b>@Content[it]</b> @Values[it] 
-                    @if (Values[it] == "Finalizado")
+                    <b>@Content[it]</b> @Values[it]
+                    @if (Values[it].Trim() == "Finalizado")
                     {
                         <span data-toggle="tooltip" title="Incidente finalizado. No es posible editar información."
                         class="badge badge-primary badge-pill badge-text">!</span>

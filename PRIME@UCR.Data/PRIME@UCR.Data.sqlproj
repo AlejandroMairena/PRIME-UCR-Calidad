@@ -125,9 +125,7 @@
     <Build Include="Triggers\DeleteMultimediaContent.sql" />
     <Build Include="StoredProcedures\Incidents\InsertarNuevoIncidente.sql" />
     <Build Include="Tables\Appointments\Cita.sql" />
-    <Build Include="Tables\Appointments\Metricas.sql" />
     <Build Include="Tables\Appointments\MetricasCitaMedica.sql" />
-    <Build Include="Tables\Appointments\MetricasIncidentes.sql" />
     <Build Include="Tables\Appointments\Accion.sql" />
     <Build Include="Tables\Appointments\TipoAccion.sql" />
     <Build Include="Tables\MedicalRecords\Expediente.sql" />
@@ -163,6 +161,15 @@
     <Build Include="Triggers\AfterInsertInstance.sql" />
     <Build Include="StoredProcedures\CheckLists\InsertarInstaciaItem.sql" />
     <Build Include="StoredProcedures\CheckLists\InsertarListaIntanciada.sql" />
+    <Build Include="Tables\Appointments\CitaMedica.sql" />
+    <Build Include="Tables\Appointments\RecetaMedica.sql" />
+    <Build Include="Tables\Appointments\PoseeReceta.sql" />
+    <Build Include="Tables\Appointments\EstadoCitaMedica.sql" />
+    <Build Include="Tables\Appointments\SeEspecializa.sql" />
+    <Build Include="Tables\Appointments\EspecialidadMedica.sql" />
+    <Build Include="Tables\Appointments\ReferenciaCita.sql" />
+    <Build Include="Indexes\Checklist\ix_ListaID.sql" />
+    <Build Include="Indexes\Checklist\ix_CoreItems.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Scripts\Script.PostDeployment.sql" />
@@ -173,8 +180,13 @@
     <None Include="Scripts\PostDeployment\Appointments_PostDeployment.sql" />
     <None Include="Scripts\PostDeployment\MedicalRecords_PostDeployment.sql" />
     <None Include="Scripts\PostDeployment\Alergies_PostDeployment.sql" />
+    <None Include="Scripts\PostDeployment\MedAppointments_PostDeployment.sql" />
+    <None Include="Scripts\PostDeployment\Specialties_PostDeployment.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Triggers\DeleteMultimediaContent.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="PRIME%40UCR.Data.refactorlog" />
   </ItemGroup>
 </Project>

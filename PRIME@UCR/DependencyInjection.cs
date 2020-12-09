@@ -3,8 +3,6 @@ using Microsoft.Extensions.DependencyInjection;
 using PRIME_UCR.Application.Dtos.Incidents;
 using PRIME_UCR.Application.DTOs.Incidents;
 using PRIME_UCR.Domain.Models.UserAdministration;
-using PRIME_UCR.StateManagement.Implementations.Incidents;
-using PRIME_UCR.StateManagement.Interfaces.Incidents;
 using PRIME_UCR.Validators.Incidents;
 
 namespace PRIME_UCR
@@ -28,7 +26,8 @@ namespace PRIME_UCR
         public static IServiceCollection AddStateManagement(this IServiceCollection services)
         {
             // incidents
-            services.AddTransient<IRealTimeMapState, RealTimeMapState>();
+            // Not used for now
+            
             return services;
         }
     }

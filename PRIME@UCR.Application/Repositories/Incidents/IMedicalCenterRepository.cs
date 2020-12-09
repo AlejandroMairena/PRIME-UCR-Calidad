@@ -8,5 +8,7 @@ namespace PRIME_UCR.Application.Repositories.Incidents
     public interface IMedicalCenterRepository : IGenericRepository<CentroMedico, int>
     {
         Task<IEnumerable<Médico>> GetDoctorsByMedicalCenterId(int medicalCenterId);
+
+
     }
 }
