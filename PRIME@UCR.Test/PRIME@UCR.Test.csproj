@@ -32,7 +32,6 @@
     <Folder Include="UnitTests\Application\MedicalRecords\" />
     <Folder Include="UnitTests\Application\Incidents\" />
     <Folder Include="UnitTests\Application\Dashboards\" />
-    <Folder Include="UnitTests\Application\Appointments\" />
   </ItemGroup>
 
   <ItemGroup>

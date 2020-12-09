@@ -32,5 +32,12 @@ namespace PRIME_UCR.Test.IntegrationTests.MedicalRecord
             var result = await mrService.GetByPatientIdAsync("000000000");
             Assert.Null(result);
         }
+
+        [Fact]
+        public async Task GetByPatientIdAsyncValid()
+        {
+            var result = await mrService.GetByPatientIdAsync("12345678");
+            Assert.NotNull(result);
+        }
     }
 }

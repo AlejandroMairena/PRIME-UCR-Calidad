@@ -19,69 +19,86 @@ namespace PRIME_UCR.Test.UnitTests.Application.MedicalRecords
     public class AllergyServiceTest
     {
 
-        ////[Fact]
-        ////public async void getAllergyByRecordIdNull()
-        ////{
-        ////    var mockRepo = new Mock<IAlergyRepository>();
-        ////    var mockRepoList = new Mock<IAlergyListRepository>();
-        ////    mockRepo.Setup(p => p.GetByConditionAsync(i => i.IdExpediente == 0)).Returns(Task.FromResult<IEnumerable<Alergias>>(null));
-        ////    IAlergyService AllergyService = new AlergyService(mockRepo.Object,mockRepoList.Object);
-        ////    var result = await mockRepo.Object.GetByConditionAsync(a => a.IdExpediente == 0);
-        ////    var result2 = (await AllergyService.GetAlergyByRecordId(0));
-        ////    Assert.Null(result);
-        ////    Assert.Null(result2);
-        ////}
-        //[Fact]
-        //public async void getAllergyByRecordIdInvalid()
-        //{
-        //    var mockRepo = new Mock<IAlergyRepository>();
-        //    var mockRepoList = new Mock<IAlergyListRepository>();
-        //    var mockSecurity = new Mock<IPrimeSecurityService>();
-        //    mockSecurity.Setup(s => s.CheckIfIsAuthorizedAsync(It.IsAny<AuthorizationPermissions[]>()));
-        //    //Sets mocks for repositories
-        //    IAlergyService AllergyService = new SecureAlergyService(mockRepo.Object, mockRepoList.Object, mockSecurity.Object);
-        //    var result = (await AllergyService.GetAlergyByRecordId(-1));
-        //    //Asserts the result
-        //    Assert.Empty(result);
-        //    //Assert.Null(result2);
-        //}
+        [Fact]
+        public async void getAllergyByRecordIdNull()
+        {
+            var mockRepo = new Mock<IAlergyRepository>();
+            var mockRepoList = new Mock<IAlergyListRepository>();
+            var mockSecurity = new Mock<IPrimeSecurityService>();
+            mockSecurity.Setup(s => s.CheckIfIsAuthorizedAsync(It.IsAny<AuthorizationPermissions[]>()));
+            mockRepo.Setup(p => p.GetByConditionAsync(i => i.IdExpediente == 0)).Returns(Task.FromResult<IEnumerable<Alergias>>(null));
+            IAlergyService AllergyService =
+                    new SecureAlergyService(mockRepo.Object,
+                                            mockRepoList.Object,
+                                            mockSecurity.Object);
+            var result = await mockRepo.Object.GetByConditionAsync(a => a.IdExpediente == 0);
+            var result2 = (await AllergyService.GetAlergyByRecordId(0));
+            Assert.Null(result);
+            Assert.Empty(result2);
+        }
+        [Fact]
+        public async void getAllergyByRecordIdInvalid()
+        {
+            var mockRepo = new Mock<IAlergyRepository>();
+            var mockRepoList = new Mock<IAlergyListRepository>();
+            var mockSecurity = new Mock<IPrimeSecurityService>();
+            mockSecurity.Setup(s => s.CheckIfIsAuthorizedAsync(It.IsAny<AuthorizationPermissions[]>()));
+            //Sets mocks for repositories
+            IAlergyService AllergyService =
+                    new SecureAlergyService(mockRepo.Object,
+                                            mockRepoList.Object,
+                                            mockSecurity.Object);
+            var result = (await AllergyService.GetAlergyByRecordId(-1));
+            //Asserts the result
+            Assert.Empty(result);
+            //Assert.Null(result2);
+        }
 
-        //[Fact]
-        //public async void InsertAllergyAsync()
-        //{
-        //    var mockRepo = new Mock<IAlergyRepository>();
-        //    var mockRepoList = new Mock<IAlergyListRepository>();
-        //    var mockSecurity = new Mock<IPrimeSecurityService>();
-        //    mockSecurity.Setup(s => s.CheckIfIsAuthorizedAsync(It.IsAny<AuthorizationPermissions[]>()));
-        //    //Sets mocks for repositories
-        //    var allergyTest = new Alergias
-        //    {
-        //        IdExpediente = 1,
-        //        IdListaAlergia = 1,
-        //        FechaCreacion = DateTime.Now
-        //    };
-        //    IAlergyService AllergyService = new SecureAlergyService(mockRepo.Object, mockRepoList.Object,mockSecurity.Object);
-        //    //Creates Service for test
-        //    var result = await AllergyService.InsertAllergyAsync(allergyTest);
-        //    //Asserts the result
-        //    Assert.Equal(allergyTest.IdListaAlergia, result.IdListaAlergia);
-        //    Assert.Equal(allergyTest.IdExpediente, result.IdExpediente);
-        //}
+        [Fact]
+        public async void GetAllAsyncNull()
+        {
+            var mockRepo = new Mock<IAlergyRepository>();
+            var mockRepoList = new Mock<IAlergyListRepository>();
+            var mockSecurity = new Mock<IPrimeSecurityService>();
+            mockSecurity.Setup(s => s.CheckIfIsAuthorizedAsync(It.IsAny<AuthorizationPermissions[]>()));
+            //Sets mocks for repositories
+            mockRepoList.Setup(p => p.GetAllAsync()).Returns(Task.FromResult<IEnumerable<ListaAlergia>>(null));
+            IAlergyService AllergyService =
+                    new SecureAlergyService(mockRepo.Object,
+                                            mockRepoList.Object,
+                                            mockSecurity.Object);
+            //Creates Service for test
+            var result = await AllergyService.GetAll();
+            //Asserts the result
+            Assert.Null(result);
+        }
 
-        //[Fact]
-        //public async void GetAllAsyncNull()
-        //{
-        //    var mockRepo = new Mock<IAlergyRepository>();
-        //    var mockRepoList = new Mock<IAlergyListRepository>();
-        //    var mockSecurity = new Mock<IPrimeSecurityService>();
-        //    mockSecurity.Setup(s => s.CheckIfIsAuthorizedAsync(It.IsAny<AuthorizationPermissions[]>()));
-        //    //Sets mocks for repositories
-        //    mockRepoList.Setup(p => p.GetAllAsync()).Returns(Task.FromResult<IEnumerable<ListaAlergia>>(null));
-        //    IAlergyService AllergyService = new SecureAlergyService(mockRepo.Object, mockRepoList.Object, mockSecurity.Object);
-        //    //Creates Service for test
-        //    var result = await AllergyService.GetAll();
-        //    //Asserts the result
-        //    Assert.Null(result);
-        //}
+        [Fact]
+        public async void GetAllAsyncNotNull()
+        {
+            var mockRepo = new Mock<IAlergyRepository>();
+            var mockRepoList = new Mock<IAlergyListRepository>();
+            var mockSecurity = new Mock<IPrimeSecurityService>();
+            mockSecurity.Setup(s => s.CheckIfIsAuthorizedAsync(It.IsAny<AuthorizationPermissions[]>()));
+            //Sets mocks for repositories
+            var pruebaLista = new ListaAlergia()
+            {
+                Id = 1,
+                NombreAlergia = "prueba"
+            };
+            List<ListaAlergia> listaAlergias = new List<ListaAlergia>
+            {
+                pruebaLista
+            };
+            mockRepoList.Setup(p => p.GetAllAsync()).Returns(Task.FromResult(listaAlergias.AsEnumerable()));
+            IAlergyService AllergyService =
+                    new SecureAlergyService(mockRepo.Object,
+                                            mockRepoList.Object,
+                                            mockSecurity.Object);
+            //Creates Service for test
+            var result = await AllergyService.GetAll();
+            //Asserts the result
+            Assert.Equal(pruebaLista.NombreAlergia, result.FirstOrDefault().NombreAlergia);
+        }
     }
 }
