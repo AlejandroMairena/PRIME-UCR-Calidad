@@ -47,7 +47,7 @@ namespace PRIME_UCR.Test.SeleniumTests.Incidents
         private void ViewIncidentDetails()
         {
             AccessToFirstIncident();
-            Element = TryToFind("//h1");
+            Element = TryToFind("//h2");
             Assert.Equal("Administración del incidente", Element.Text);
         }
         
@@ -82,7 +82,7 @@ namespace PRIME_UCR.Test.SeleniumTests.Incidents
 
         private void MockOriginTab()
         {
-            Element = TryToFind("//div[@class='row']/div/ul/li[2]");//Origin tab
+            Element = TryToFind("//div/div/div/aside/nav/div/ul/li[2]");//Origin tab
             Element.Click();
             Timeout(1000);//Load tab
             Element = TryToFindById("Tipo");//Dropdown menu tipo de origen
@@ -97,7 +97,7 @@ namespace PRIME_UCR.Test.SeleniumTests.Incidents
 
         private void MockDestinationTab()
         {
-            Element = TryToFind("//div[@class='row']/div/ul/li[3]");//Destination tab
+            Element = TryToFind("//div/div/div/aside/nav/div/ul/li[3]");//Destination tab
             Element.Click();
             Timeout(1000);//Load tab
             Element = TryToFindById("Centro");//Dropdown menu Centro Medico
@@ -114,12 +114,14 @@ namespace PRIME_UCR.Test.SeleniumTests.Incidents
 
         private void MockPatientTab()
         {
-            Element = TryToFind("//div[@class='row']/div/ul/li[4]");//Patient tab
+            Element = TryToFind("//div/div/div/aside/nav/div/ul/li[4]");//Patient tab
             Element.Click();
             Timeout(1000);//Load tab
             Element = TryToFindById("Cedula");//Input cedula
             Element.Clear();
             Element.SendKeys("111111111");//Mock
+            Element = TryToFind("//form/div/button");
+            Element.Click();
             Element = TryToFindById("Nombre");//Input Nombre
             Element.Clear();
             Element.SendKeys("Daniel");//Mock
@@ -133,11 +135,11 @@ namespace PRIME_UCR.Test.SeleniumTests.Incidents
 
         private void MockChangeState()
         {
-            IWebElement ToMove = TryToFind("//h1");
+            IWebElement ToMove = TryToFind("//h2");
             Actions actions = new Actions(driver);
             actions.MoveToElement(ToMove);
             actions.Perform();
-            Element = TryToFind("//div[@class='row']/div/ul/li[1]");//Details tab
+            Element = TryToFind("//div/div/div/aside/nav/div/ul/li[1]");//Details tab
             Element.Click();
             Timeout(1000);//Load tab
             Element = TryToFindById("Aprobado");
