@@ -137,7 +137,6 @@ namespace PRIME_UCR.Pages.CheckLists.InIncident
             {
                 GenerateOrderedList(item, 0);
             }
-            //orderedList = (List<InstanciaItem>)await MyCheckInstanceChechistService.LoadRelations(orderedList);
             MyCheckInstanceChechistService.LoadRelations(orderedList);
             state = await MyIncidentService.GetIncidentStateByIdAsync(incidentcod);
             Incident = await MyIncidentService.GetIncidentDetailsAsync(incidentcod);

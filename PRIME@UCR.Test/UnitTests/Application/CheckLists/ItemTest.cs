@@ -136,15 +136,6 @@ namespace PRIME_UCR.Test.UnitTests.Application.CheckLists
         }
 
         [Fact]
-        public void InsertImageTest()
-        {
-            var mockRepo = new Mock<ICheckListService>();
-            mockRepo.Setup(p => p.SaveImageItem(new Item()))
-                .Returns(Task.FromResult<Item>(new Item()));
-            Assert.NotNull(mockRepo.Object);
-        }
-
-        [Fact]
         public void UpdateItemTest()
         {
             //arrange

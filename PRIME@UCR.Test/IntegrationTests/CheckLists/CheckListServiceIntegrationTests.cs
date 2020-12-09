@@ -59,5 +59,38 @@ namespace PRIME_UCR.Test.IntegrationTests.CheckLists
             var result = await checkListService.GetCoreItems(3);
             Assert.Equal(5, result.Count());
         }
+
+        [Fact]
+        public async Task GetItemsByCheckListIdValid()
+        {
+            /* Case: exists a checklist in post implementation
+             * ->returns an IEnumerable<Item> because the ID of the list exists in the subsequent implementation and that list has elements.
+             */
+            var checkListService = _factory.Services.GetRequiredService<ICheckListService>();
+            var result = await checkListService.GetItemsByCheckListId(1);
+            Assert.Equal(11, result.Count());
+        }
+        [Fact]
+        public async Task GetItemsByCheckListIdEmpty()
+        {
+            /*Case: There is no checklist with that ID in the post deployment
+            * ->returns an IEnumerable<Item> empty because the ID of the list dont exists in the subsequent implementation
+           */
+          var checkListService = _factory.Services.GetRequiredService<ICheckListService>();
+            var result = await checkListService.GetItemsByCheckListId(99);
+            Assert.Empty(result);
+        }
+        [Fact]
+        public async Task GetItemsBySuperitemIdEmpty()
+        {
+            /*Case: There is no checklist with that ID in the post deployment
+            * ->returns an IEnumerable<Item> empty because the ID of the list dont exists in the subsequent implementation
+           */
+            var checkListService = _factory.Services.GetRequiredService<ICheckListService>();
+            var result = await checkListService.GetItemsBySuperitemId(99);
+            Assert.Empty(result);
+        }
+
+
     }
 }

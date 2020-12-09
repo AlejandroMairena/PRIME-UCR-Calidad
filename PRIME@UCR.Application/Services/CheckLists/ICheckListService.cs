@@ -20,7 +20,6 @@ namespace PRIME_UCR.Application.Services.CheckLists
         Task<IEnumerable<Item>> GetItemsBySuperitemId(int superItemId);
         Task<IEnumerable<Item>> GetCoreItems(int checkListId);
         Task DeleteItems(int itemId);
-        Task<Item> SaveImageItem(Item item);
         Task<Item> UpdateItem(Item item);
         Task<IEnumerable<CheckList>> GetAllChecklistActivates();
     }

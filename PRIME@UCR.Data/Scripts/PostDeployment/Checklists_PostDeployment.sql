@@ -201,3 +201,17 @@ Values('Capnometría/Grafía: Comprobación Lista de Chequeo ', 3, 52, 3);
 insert into Item(Nombre, Orden, IDSuperItem, IDLista)
 Values('Retiro de EPP', 4, 52, 3);
 
+declare @code varchar(50);
+Select @code = RIGHT(REPLICATE('0', 4) + CAST(YEAR(GETDATE()) AS varchar(10)), 4) + 
+	'-' +
+	RIGHT(REPLICATE('0', 2) + CAST(MONTH(GETDATE()) AS varchar(10)), 2) + 
+	'-' +
+	RIGHT(REPLICATE('0', 2) + CAST(DAY(GETDATE()) AS varchar(10)), 2) + 
+	'-' +
+	RIGHT(REPLICATE('0', 4) + '3', 4) + 
+	'-' +
+	'IT' +
+	'-' +
+	'AER';
+
+EXEC InsertarListaIntanciada @plantillaId = 3 , @incidenteCod = @code;
