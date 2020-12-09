@@ -1,15 +1,18 @@
-﻿function CreateIncidentsVsTimeChartComponent(incidentsPerDay) {
+﻿/**
+ * Funciton that creates the Incidents vs Time Graph
+ * Params: result
+ * [results] only contains an array the the data to include in the graph
+ *
+ * NO SENSITIVE DATA SHOULD BE TREATED IN THIS CODE
+ */
 
-    //console.log(incidentsPerDay);
-    //console.log(incidentsPerDay[0][0].cita.fechaHoraEstimada.substring(0,10));
+function CreateIncidentsVsTimeChartComponent(results) {
     am4core.ready(function () {
         var chartData = [];
 
-        var chartData = [];
-
-        for (var i = 0; i < incidentsPerDay.length; i += 2) {
-            var date = incidentsPerDay[i];
-            var quantity = incidentsPerDay[i + 1];
+        for (var i = 0; i < results.length; i += 2) {
+            var date = results[i];
+            var quantity = results[i + 1];
 
 
             chartData.push({
@@ -101,22 +104,6 @@
 
             return trend;
         };
-
-        
-       // createTrendLine([
-           // { "date": "2012-01-02", "value": 10 },
-           // { "date": "2012-01-11", "value": 19 }
-        //]);
-
-        //var lastTrend = createTrendLine([
-           // { "date": "2012-01-17", "value": 16 },
-           // { "date": "2012-01-22", "value": 10 }
-        //]);
-
-        // Initial zoom once chart is ready
-       // lastTrend.events.once("datavalidated", function () {
-           // series.xAxis.zoomToDates(new Date(2012, 0, 2), new Date(2012, 0, 13));
-        //});
 
     }); // end am4core.ready()
 }

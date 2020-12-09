@@ -9,22 +9,41 @@
     @if (StateStore.Value is LoadedMapState s)
     {
         <div class="jumbotron white-panel" style="height: 100vh">
-            <EditForm Model="s.Filter ?? new Modalidad()">
-                <DropDownMenu Data="@s.AvailableFilters.ToList()"
-                              Label="Filtro por tipo de unidad"
-                              DefaultText="Sin filtro"
-                              TextProperty="Tipo"
-                              UseValidation="false"
-                              Required="false"
-                              Value="s.Filter"
-                              ValueExpression="() => s.Filter"
-                              ValueChanged="@((Modalidad f) => OnFilterChange(f))"
-                              ValueComparer="@((Modalidad f) => f.Tipo == s.Filter.Tipo)" />
-            </EditForm>
+            <div class="row">
+                <div class="col">
+                    <EditForm Model="s.UnitFilter ?? new Modalidad()">
+                        <input autofocus hidden/>
+                        <DropDownMenu Data="@s.AvailableUnitFilters.ToList()"
+                                      Label="Filtro por tipo de unidad"
+                                      DefaultText="Sin filtro"
+                                      TextProperty="Tipo"
+                                      UseValidation="false"
+                                      Required="false"
+                                      Value="s.UnitFilter"
+                                      ValueExpression="() => s.UnitFilter"
+                                      ValueChanged="@((Modalidad f) => OnUnitFilterChange(f))"
+                                      ValueComparer="@((Modalidad f) => f.Tipo == s.UnitFilter?.Tipo)"/>
+                    </EditForm>
+                </div>
+                <div class="col">
+                    <EditForm Model="s.StateFilter ?? new Estado()">
+                        <DropDownMenu Data="@s.AvailableStateFilters.ToList()"
+                                      Label="Filtro por estado del incidente"
+                                      DefaultText="Sin filtro"
+                                      TextProperty="Nombre"
+                                      UseValidation="false"
+                                      Required="false"
+                                      Value="s.StateFilter"
+                                      ValueExpression="() => s.StateFilter"
+                                      ValueChanged="@((Estado f) => OnStateFilterChange(f))"
+                                      ValueComparer="@((Estado f) => f.Nombre == s.StateFilter?.Nombre)" />
+                    </EditForm>
+                </div>
+            </div>
             @if (s.GpsData.Any())
             {
 
-                <RadzenGoogleMap style="height: 100%"
+                <RadzenGoogleMap style="height: 90%"
                                  Zoom="10" ApiKey="@Configuration["MapApiKey"]"
                                  Center="@(new GoogleMapPosition{ Lng = s.Center.Longitude, Lat = s.Center.Latitude })"
                                  MarkerClick="@OnMarkerClick">

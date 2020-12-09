@@ -27,7 +27,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="IntegrationTests\MedicalAppointments\" />
     <Folder Include="UnitTests\Application\Multimedia\" />
     <Folder Include="UnitTests\Application\MedicalRecords\" />
     <Folder Include="UnitTests\Application\Incidents\" />

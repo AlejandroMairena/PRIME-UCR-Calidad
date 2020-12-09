@@ -56,13 +56,13 @@ namespace PRIME_UCR.Infrastructure
             services.AddTransient<IMedCenterRepository, MedCenterRepository>();
             services.AddTransient<IMedicalAppointmentRepository, MedicalAppointmentRepository>();
             services.AddTransient<IHavePrescriptionRepository, HavePrescriptionRepository>();
-            services.AddTransient<IDrugRepository, DrugRepository>(); 
+            services.AddTransient<IDrugRepository, DrugRepository>();
             services.AddTransient<IDrugRepository, DrugRepository>();
             services.AddTransient<IMedAppMetricRepository, MedAppMetricRepository>();
             services.AddTransient<IMedicalSpecialtyRepository, MedicalSpecialtyRepository>();
             services.AddTransient<ISpecializesRepository, SpecializesRepository>();
-            services.AddTransient<IAppointmentReferenceRepository, AppointmentReferenceRepository>(); 
-            services.AddTransient<IAppointmentStatusRepository, AppointmentStatusRepository>(); 
+            services.AddTransient<IAppointmentReferenceRepository, AppointmentReferenceRepository>();
+            services.AddTransient<IAppointmentStatusRepository, AppointmentStatusRepository>();
             // incidents repositories
             services.AddTransient<IStateRepository, SecureStateRepository>();
             services.AddTransient<ICountryRepository, CountryRepository>();
@@ -76,7 +76,6 @@ namespace PRIME_UCR.Infrastructure
             services.AddTransient<ILocationRepository, LocationRepository>();
             services.AddTransient<ITransportUnitRepository, TransportUnitRepository>();
             services.AddTransient<IActionTypeRepository, ActionTypeRepository>();
-            services.AddTransient<IGpsDataRepository, GpsDataRepository>();
             services.AddTransient<IDocumentacionIncidenteRepository, DocumentacionIncidenteRepository>();
 
             // medical records
@@ -114,6 +113,9 @@ namespace PRIME_UCR.Infrastructure
 
             //dashboard repositories
             services.AddTransient<IDashboardRepository, SecureDashboardRepository>();
+
+            // external
+            services.AddScoped<IGpsDataRepository, GpsDataRepository>();
 
             return services;
         }

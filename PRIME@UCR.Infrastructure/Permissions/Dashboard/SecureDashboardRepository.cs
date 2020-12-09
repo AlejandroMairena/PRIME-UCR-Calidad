@@ -3,6 +3,7 @@ using PRIME_UCR.Application.Services.UserAdministration;
 using PRIME_UCR.Domain.Attributes;
 using PRIME_UCR.Domain.Constants;
 using PRIME_UCR.Domain.Models;
+using PRIME_UCR.Domain.Models.UserAdministration;
 using PRIME_UCR.Infrastructure.DataProviders;
 using PRIME_UCR.Infrastructure.Repositories.Sql.Dashboard;
 using System;
@@ -38,14 +39,17 @@ namespace PRIME_UCR.Infrastructure.Permissions.Dashboard
 
         public async Task<List<Distrito>> GetAllDistrictsAsync()
         {
-            await primeSecurityService.CheckIfIsAuthorizedAsync(new[] { AuthorizationPermissions.CanSeeIncidentsInfoOnDashboard });
             return await dashboardRepository.GetAllDistrictsAsync();
         }
 
         public async Task<List<Incidente>> GetAllIncidentsAsync()
         {
-            await primeSecurityService.CheckIfIsAuthorizedAsync(new[] { AuthorizationPermissions.CanSeeIncidentsInfoOnDashboard });
             return await dashboardRepository.GetAllIncidentsAsync();
+        }
+
+        public async Task<List<Paciente>> GetAllPacientes()
+        {
+            return await dashboardRepository.GetAllPacientes();
         }
 
         public async Task<IEnumerable<Incidente>> GetByConditionAsync(Expression<Func<Incidente, bool>> expression)
@@ -60,7 +64,6 @@ namespace PRIME_UCR.Infrastructure.Permissions.Dashboard
 
         public async Task<int> GetIncidentsCounterAsync(string modality, string filter)
         {
-            await primeSecurityService.CheckIfIsAuthorizedAsync(new[] { AuthorizationPermissions.CanSeeIncidentsInfoOnDashboard });
             return await dashboardRepository.GetIncidentsCounterAsync(modality, filter);
         }
 

@@ -43,7 +43,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.Dashboards
             mockSecurity.Setup(s => s.CheckIfIsAuthorizedAsync(It.IsAny<AuthorizationPermissions[]>()));
 
             var service = new SecureDashboardService(
-                mockRepo.Object, null,null,null,null,mockSecurity.Object);
+                mockRepo.Object, null, null, null, null, mockSecurity.Object, null, null);
 
             //act 
             var result = await service.GetAllIncidentsAsync();
@@ -76,7 +76,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.Dashboards
             mockSecurity.Setup(s => s.CheckIfIsAuthorizedAsync(It.IsAny<AuthorizationPermissions[]>()));
 
             var service = new SecureDashboardService(
-                mockRepo.Object, null, null, null, null, mockSecurity.Object);
+                mockRepo.Object, null, null, null, null, mockSecurity.Object, null, null);
 
             // act
             var result = await service.GetAllIncidentsAsync();
@@ -108,7 +108,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.Dashboards
             mockSecurity.Setup(s => s.CheckIfIsAuthorizedAsync(It.IsAny<AuthorizationPermissions[]>()));
 
             var service = new SecureDashboardService(
-                mockRepo.Object, null, null, null, null, mockSecurity.Object);
+                mockRepo.Object, null, null, null, null, mockSecurity.Object, null, null);
 
             //act 
             var result = await service.GetAllDistrictsAsync();
@@ -141,7 +141,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.Dashboards
             mockSecurity.Setup(s => s.CheckIfIsAuthorizedAsync(It.IsAny<AuthorizationPermissions[]>()));
 
             var service = new SecureDashboardService(
-                mockRepo.Object, null, null, null, null, mockSecurity.Object);
+                mockRepo.Object, null, null, null, null, mockSecurity.Object, null, null);
 
             // act
             var result = await service.GetAllDistrictsAsync();
@@ -162,26 +162,26 @@ namespace PRIME_UCR.Test.UnitTests.Application.Dashboards
         public async Task GetIncidentCounterAsyncReturnsZero()
         {
             // arrange
-            //var mockRepo = new Mock<IDashboardRepository>();
-            //int count = 0;
+            var mockRepo = new Mock<IDashboardRepository>();
+            int count = 0;
 
-            //mockRepo
-            //    .Setup(d => d.GetIncidentsCounterAsync("modalidad"))
-            //    .Returns(Task.FromResult<int>(count));
+            mockRepo
+                .Setup(d => d.GetIncidentsCounterAsync("modalidad", string.Empty))
+                .Returns(Task.FromResult<int>(count));
 
-            //var mockSecurity = new Mock<IPrimeSecurityService>();
-            //mockSecurity.Setup(s => s.CheckIfIsAuthorizedAsync(It.IsAny<AuthorizationPermissions[]>()));
+            var mockSecurity = new Mock<IPrimeSecurityService>();
+            mockSecurity.Setup(s => s.CheckIfIsAuthorizedAsync(It.IsAny<AuthorizationPermissions[]>()));
 
 
-            //var service = new SecureDashboardService(
-            //    mockRepo.Object,
-            //    null, null, null, null, mockSecurity.Object);
+            var service = new SecureDashboardService(
+                mockRepo.Object,
+                null, null, null, null, mockSecurity.Object, null, null);
 
-            //// act
-            //var result = await service.GetIncidentCounterAsync("modalidad");
+            // act
+            var result = await service.GetIncidentCounterAsync("modalidad", String.Empty);
 
-            //// assert
-            //Assert.Equal(0, result);
+            // assert
+            Assert.Equal(0, result);
         }
 
 
@@ -211,7 +211,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.Dashboards
 
             var service = new SecureDashboardService(
                 mockRepo.Object,
-                 null, null, mockCountry.Object, mockMedical.Object, mockSecurity.Object);
+                 null, null, mockCountry.Object, mockMedical.Object, mockSecurity.Object, null, null);
 
             // act
             var modalityFilter = new Modalidad();

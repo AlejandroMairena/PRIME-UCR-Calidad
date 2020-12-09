@@ -31,6 +31,9 @@ namespace PRIME_UCR.Components.UserAdministration
         [Inject]
         public IUserService userService { get; set; }
 
+        [Inject]
+        public NavigationManager NavigationManager { get; set; }
+
         private bool _isBusy = false;
 
         public async void CheckUserForRecoveryAsync()
@@ -47,7 +50,7 @@ namespace PRIME_UCR.Components.UserAdministration
                 var code1 = code.Substring(0, firstHalf);
                 var code2 = code.Substring(firstHalf, code.Length - firstHalf);
                 var emailCoded = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(EmailModel.Email));
-                var url = "https://localhost:44368/requestPasswordRecovery/" + emailCoded + "/" + code1 + "/" + code2;
+                var url = $"{NavigationManager.BaseUri}/requestPasswordRecovery/" + emailCoded + "/" + code1 + "/" + code2;
                 var emailContent = new EmailContentModel()
                 {
                     Destination = EmailModel.Email,
