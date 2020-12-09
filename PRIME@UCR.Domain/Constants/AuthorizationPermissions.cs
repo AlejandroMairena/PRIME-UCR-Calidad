@@ -48,7 +48,7 @@ namespace PRIME_UCR.Domain.Constants
         CanSeeMedicalRecordsOfHisPatients,
         [Description("observar listado de los expedientes")]
         CanSeeAllMedicalRecords,
-        [Description("ibservar información médica en el dashboard")]
+        [Description("observar información médica en el dashboard")]
         CanSeeMedicalInfoOnDashboard,
         [Description("ver información de incidentes en el dashboard")]
         CanSeeIncidentsInfoOnDashboard,
@@ -72,5 +72,7 @@ namespace PRIME_UCR.Domain.Constants
         CanManageIncidentMultimediaContent,
         [Description("manejar las listas de checkeo del incidente")]
         CanManageIncidentChecklists,
+        [Description("visualizar mapas en tiempo real")]
+        CanViewMapsInRealTime,
     }
 }

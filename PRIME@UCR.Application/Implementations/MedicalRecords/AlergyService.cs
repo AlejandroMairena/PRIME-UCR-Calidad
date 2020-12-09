@@ -16,7 +16,7 @@ using PRIME_UCR.Infrastructure.Repositories.Sql.MedicalRecords;
 
 namespace PRIME_UCR.Application.Implementations.MedicalRecords
 {
-    public class AlergyService : IAlergyService
+    internal class AlergyService : IAlergyService
     {
         private readonly IAlergyRepository _repo;
         private readonly IAlergyListRepository _repoLista;
@@ -36,10 +36,32 @@ namespace PRIME_UCR.Application.Implementations.MedicalRecords
             return await _repoLista.GetAllAsync();    
         }
 
-        public async Task<Alergias> InsertAllergyAsync(Alergias model)
+        public async Task InsertAllergyAsync(int recordId, List<ListaAlergia> insertList, List<ListaAlergia> deleteList)
         {
-            await _repo.InsertAsync(model);
-            return model;
+            if (deleteList.Count > 0)
+            {
+                foreach (ListaAlergia allergy in deleteList)
+                {
+                    await _repo.DeleteByIdsAsync(recordId, allergy.Id);
+                }
+            }
+
+            if (insertList.Count > 0)
+            {
+
+                foreach (ListaAlergia allergy in insertList)
+                {
+                    Alergias _al = new Alergias()
+                    {
+                        IdExpediente = recordId,
+                        IdListaAlergia = allergy.Id,
+                        FechaCreacion = DateTime.Now
+
+                    };
+                    await _repo.InsertAsync(_al);
+                }
+
+            }
         }
     }
 }

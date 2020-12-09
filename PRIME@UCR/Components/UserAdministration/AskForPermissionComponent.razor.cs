@@ -44,11 +44,11 @@ namespace PRIME_UCR.Components.UserAdministration
             {
                 if ((bool)e.Value)
                 {
-                    AskForPermissionModel.PermissionsList.Add(permission.DescripciónPermiso);
+                    AskForPermissionModel.PermissionsList.Add($"{permission.IDPermiso}: {permission.DescripciónPermiso}");
                 }
                 else
                 {
-                    AskForPermissionModel.PermissionsList.Remove(permission.DescripciónPermiso);
+                    AskForPermissionModel.PermissionsList.Remove($"{permission.IDPermiso}: {permission.DescripciónPermiso}");
                 }
             }
         }

@@ -63,11 +63,13 @@
             <br />
             @if (saved)
             {
-            <h6>Guardando asignacion de listas de chequeo: @porcentComplete</h6>
+            <h6>Guardando asignacion de listas de chequeo: @porcentComplete%</h6>
             <div class="progress">
                 <div class="progress-bar" role="progressbar" style="width: @porcentComplete%" aria-valuenow="@porcentComplete" aria-valuemin="0" aria-valuemax="100">@porcentComplete%</div>
             </div>
             }
         </div>
+        @if (showInfo)
+        {<SummaryMessage Content="states" Values="details" Class="info" />}
     </div>
 </Loading>

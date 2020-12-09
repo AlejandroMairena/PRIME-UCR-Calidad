@@ -21,6 +21,10 @@
     <link href="_content/MatBlazor/dist/matBlazor.css" rel="stylesheet" /> <!-- Diosvier href for MatBlazor-->
     <link href="css/site.css" rel="stylesheet" />
     <link href="css/Multimedia.css" rel="stylesheet" />
+    <link href="css/DrugSelectorComponent.css" rel="stylesheet">
+    <link href="css/PaginationDropdown.css" rel="stylesheet">
+    <link href="css/PaginationDrugSelector.css" rel="stylesheet">
+    <link href="css/Prescriptions.css" rel="stylesheet">
     <!---to add files, it is still on testing, it probably wont stay here that long-->
     <script src="_content/BlazorInputFile/inputfile.js"></script>
 
@@ -45,6 +49,7 @@
         <a class="dismiss">🗙</a>
     </div>
 
+    <script src="_content/Fluxor.Blazor.Web/scripts/index.js"></script>
     <script src="~/js/blazor-modal.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
@@ -82,15 +87,18 @@
     <script src="https://cdn.amcharts.com/lib/4/themes/frozen.js"></script>
     <script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
     <script src="https://www.amcharts.com/lib/4/lang/es_ES.js"></script>
-    <!--Graph Maps-->
+    <!--Graph-->
     <script src="https://cdn.amcharts.com/lib/4/maps.js"></script>
     <script src="https://cdn.amcharts.com/lib/4/geodata/data/countries2.js"></script>
-    <script src="~/js/AmChart.js"></script>
-    <script src="~/js/MapGraph.js"></script>
-    <script src="~/js/IncidentsVsTimeChartComponentJS.js"></script>
-    <script src="~/js/IncidentsVsOriginLocationComponentJS.js"></script>
-    <script src="~/js/IncidentsVsDestinationLocationComponentJS.js"></script>
-
+    <script src="~/js/Charts/IncidentsVsTransportTypeComponentJS.js"></script>
+    <script src="~/js/Charts/IncidentsVsTimeChartComponentJS.js"></script>
+    <script src="~/js/Charts/IncidentsVsOriginLocationComponentJS.js"></script>
+    <script src="~/js/Charts/IncidentsVsDestinationLocationComponentJS.js"></script>
+    <script src="~/js/Charts/AppointmentsVsMedicalCenterComponentJS.js"></script>
+    <script src="~/js/Charts/AppointmentsVsPatientComponentJS.js"></script>
+    <script src="~/js/Charts/PatientVsMedicalRecordsWeightComponentJS.js"></script>
+    <script src="~/js/Charts/PatientVsMedicalRecordsHeightComponentJS.js"></script>
+    <script src="~/js/Charts/PatientVsMedicalRecordsPressureComponentJS.js"></script>
     <!--Atenienses++ Modal-->
     <script src="_content/Blazored.Modal/blazored.modal.js"></script>
 

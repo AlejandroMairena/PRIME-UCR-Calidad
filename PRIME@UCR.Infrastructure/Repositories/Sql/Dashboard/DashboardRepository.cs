@@ -5,6 +5,7 @@ using PRIME_UCR.Application.Repositories.Dashboard;
 using PRIME_UCR.Application.Services.UserAdministration;
 using PRIME_UCR.Domain.Models;
 using PRIME_UCR.Domain.Models.Incidents;
+using PRIME_UCR.Domain.Models.UserAdministration;
 using PRIME_UCR.Infrastructure.DataProviders;
 using PRIME_UCR.Infrastructure.Permissions.Dashboard;
 using RepoDb;
@@ -124,7 +125,7 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Dashboard
         public async Task<List<Distrito>> GetAllDistrictsAsync()
         {
             var districts = new List<Distrito>();
-            using (var connection = new SqlConnection(_db.DbConnection.ConnectionString))
+            using (var connection = new SqlConnection(_db.ConnectionString))
             {
                 var returnedValue = await connection.ExecuteQueryMultipleAsync(@"
                     SELECT *
@@ -178,6 +179,18 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Dashboard
         public Task UpdateAsync(Incidente model)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<List<Paciente>> GetAllPacientes()
+        {
+            using (var connection = new SqlConnection(_db.DbConnection.ConnectionString))
+            {
+                var result = await connection.ExecuteQueryAsync<Paciente>(@"
+                    select Paciente.Cédula, Nombre, PrimerApellido, SegundoApellido, Sexo, FechaNacimiento from Persona
+                    join Paciente on Persona.Cédula = Paciente.Cédula
+                ");
+                return result.ToList();
+            }
         }
     }
 }

@@ -11,9 +11,6 @@ namespace PRIME_UCR.Application.Services.UserAdministration
 {
     public interface IPrimeSecurityService
     {
-
-        Task CheckIfIsAuthorizedAsync(Type type, [CallerMemberName]string methodName = null);
-
         Task CheckIfIsAuthorizedAsync(AuthorizationPermissions[] permissions);
     }
 }

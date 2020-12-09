@@ -21,7 +21,7 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Incidents
 
         public async Task<IEnumerable<EspecialistaTécnicoMédico>> GetAssignmentsByIncidentIdAsync(string code)
         {
-            using (var connection = new SqlConnection(_db.DbConnection.ConnectionString))
+            using (var connection = new SqlConnection(_db.ConnectionString))
             {
                 var result = await connection.ExecuteQueryAsync<EspecialistaTécnicoMédico>(@"
                     select P.Cédula, Nombre, PrimerApellido, SegundoApellido, Sexo, FechaNacimiento
@@ -37,7 +37,7 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Incidents
 
         public async Task AssignToIncident(string code, IEnumerable<EspecialistaTécnicoMédico> specialistIds)
         {
-            using (var connection = new SqlConnection(_db.DbConnection.ConnectionString))
+            using (var connection = new SqlConnection(_db.ConnectionString))
             {
                 var items = specialistIds.Select(etm => new AsignadoA
                 {
@@ -51,7 +51,7 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Incidents
 
         public async Task ClearTeamMembers(string code)
         {
-            using (var connection = new SqlConnection(_db.DbConnection.ConnectionString))
+            using (var connection = new SqlConnection(_db.ConnectionString))
             {
                 await connection.ExecuteNonQueryAsync(@"
                     delete from AsignadoA

@@ -23,24 +23,34 @@ namespace PRIME_UCR.Components.UserAdministration
         [Inject]
         public UserManager<Usuario> userManager { get; set; }
 
+        [Inject]
+        public NavigationManager NavigationManager { get; set; }
+
         public List<Usuario> ListNotAuthenticatedUsers { get; set; }
 
         private string statusMessage = String.Empty;
 
         private string messageType = String.Empty;
 
+        private bool isLoading;
+
         protected override void OnInitialized()
         {
             ListNotAuthenticatedUsers = new List<Usuario>();
+            isLoading = false;
         }
 
         protected override async Task OnInitializedAsync()
         {
             ListNotAuthenticatedUsers = (await userService.GetNotAuthenticatedUsers()).ToList();
+            isLoading = false;
         }
 
         public async void resendEMailConfirmation(string userEmail)
         {
+            isLoading = true;
+            StateHasChanged();
+
             var user = (await userService.GetAllUsersWithDetailsAsync()).ToList().Find(u => u.Email == userEmail);
 
             var emailConfirmedToken = await userManager.GenerateEmailConfirmationTokenAsync(user);
@@ -50,7 +60,7 @@ namespace PRIME_UCR.Components.UserAdministration
             var code1 = code.Substring(0, firstHalf);
             var code2 = code.Substring(firstHalf, code.Length - firstHalf);
             var emailCoded = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(user.Email));
-            var url = "https://localhost:44368/validateUserAccount/" + emailCoded + "/" + code1 + "/" + code2;
+            var url = $"{NavigationManager.BaseUri}/validateUserAccount/" + emailCoded + "/" + code1 + "/" + code2;
             var message = new EmailContentModel()
             {
                 Destination = user.Email,
@@ -61,8 +71,9 @@ namespace PRIME_UCR.Components.UserAdministration
             await mailService.SendEmailAsync(message);
             statusMessage = "Se ha reenviado un correo de validación de cuenta al usuario indicado.";
             messageType = "success";
+            isLoading = false;
             StateHasChanged();
-
+            
         }
     }
 }
