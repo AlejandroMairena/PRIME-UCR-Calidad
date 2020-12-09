@@ -17,7 +17,7 @@
         <div class="row">
             <div class="col-md-4">
                 <EditForm Model="_selectedOriginType">
-                    <DropDownMenu Data="@_dropdownValuesOrigin" Label="Tipo de origen" TextProperty="Item2"
+                    <DropDownMenu Id="Tipo" Data="@_dropdownValuesOrigin" Label="Tipo de origen" TextProperty="Item2"
                                   Value="_selectedOriginType"
                                   ValueChanged="@((Tuple<OriginType, string> o) => OnOriginTypeChange(o))"
                                   ValueExpression="() => _selectedOriginType"

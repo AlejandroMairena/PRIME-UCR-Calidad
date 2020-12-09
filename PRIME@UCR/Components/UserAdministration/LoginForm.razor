@@ -5,9 +5,9 @@
     <EditForm EditContext="_context" OnValidSubmit="@ValidateUser">
         <DataAnnotationsValidator />
 
-        <TextBox Label="Correo Electrónico:" @bind-Value="@logInInfo.Correo" />
+        <TextBox Id="Correo" Label="Correo Electrónico:" @bind-Value="@logInInfo.Correo" />
 
-        <PasswordTextBoxComponent Label="Contraseña:" @bind-Value="@logInInfo.Contraseña" />
+        <PasswordTextBoxComponent Id="Contrasena" Label="Contraseña:" @bind-Value="@logInInfo.Contraseña" />
 
         <a class="text-secondary" href="/requestPasswordRecovery"><u>Recuperar contraseña</u></a>
         <br />
@@ -28,11 +28,11 @@
             {
                 @if (isFormValid) // Disable button if form is not valid
                 {
-                    <button type="submit" style="width:13em" class="btn btn-light mt-2">Ingresar</button> 
+                    <button id="Ingresar" type="submit" style="width:13em" class="btn btn-light mt-2">Ingresar</button> 
                 }
                 else
                 {
-                    <button type="submit" style="width:13em" class="btn btn-secondary mt-2" disabled>Ingresar</button>
+                    <button id="Ingresar" type="submit" style="width:13em" class="btn btn-secondary mt-2" disabled>Ingresar</button>
                 }
             }
         </div>

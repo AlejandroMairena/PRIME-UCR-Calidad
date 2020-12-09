@@ -21,6 +21,7 @@ namespace PRIME_UCR.Components.Controls
         [Parameter] public bool UseValidation { get; set; } = true;
         [Parameter] public bool Disabled { get; set; } = false;
         [Parameter] public bool Required { get; set; } = true;
+        [Parameter] public string Id { get; set; }
 
         private int _index = -1;
         private string SelectedValue => _index.ToString();
