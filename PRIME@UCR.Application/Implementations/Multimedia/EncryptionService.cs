@@ -23,6 +23,10 @@ namespace PRIME_UCR.Application.Implementations.Multimedia
             setKeyIV();
         }
 
+        public EncryptionService(bool x)
+        {
+        }
+
         void setKeyIV()
         {
             string jsonAppSettings = System.IO.File.ReadAllText("../PRIME@UCR/appsettings.json");

@@ -18,7 +18,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.Multimedia
         [Fact]
         public void encryptAndDecryptUsingSameKeyIV() {
             //Encrypt with keyString and ivString
-            EncryptionService ES = new EncryptionService();
+            EncryptionService ES = new EncryptionService(true);
             string keyString = "qXOctUgD1RQCyF6dl4IjgZLAosrLh8Dn8GCklADSmvo=";
             string ivString = "fkmYijInbe9eWQbLoWtTNQ==";
             byte[] ivByte = Convert.FromBase64String(ivString);
@@ -36,8 +36,8 @@ namespace PRIME_UCR.Test.UnitTests.Application.Multimedia
         [Fact]
         public void encryptAndDecryptUsingDifferentKey() {
             //ES2 uses a diferent key than ES1 
-            EncryptionService ES1 = new EncryptionService();
-            EncryptionService ES2 = new EncryptionService();
+            EncryptionService ES1 = new EncryptionService(true);
+            EncryptionService ES2 = new EncryptionService(true);
             string keyString = "qXOctUgD1RQCyF6dl4IjgZLAosrLh8Dn8GCklADSmvo="; 
             string ivString = "fkmYijInbe9eWQbLoWtTNQ==";
             byte[] ivByte = Convert.FromBase64String(ivString);
@@ -65,8 +65,8 @@ namespace PRIME_UCR.Test.UnitTests.Application.Multimedia
         public void encryptAndDecryptUsingDifferentIV()
         {
             //ES2 uses a diferent IV than ES1 
-            EncryptionService ES1 = new EncryptionService();
-            EncryptionService ES2 = new EncryptionService();
+            EncryptionService ES1 = new EncryptionService(true);
+            EncryptionService ES2 = new EncryptionService(true);
             string keyString = "qXOctUgD1RQCyF6dl4IjgZLAosrLh8Dn8GCklADSmvo=";
             string ivString = "fkmYijInbe9eWQbLoWtTNQ==";
             byte[] ivByte = Convert.FromBase64String(ivString);
@@ -93,7 +93,7 @@ namespace PRIME_UCR.Test.UnitTests.Application.Multimedia
         }
         [Fact]
         public void generateKeyNotNull() {
-            EncryptionService ES = new EncryptionService();
+            EncryptionService ES = new EncryptionService(true);
             byte[] key = null;
             key = ES.generateKey();
             Assert.NotNull(key);
@@ -101,17 +101,17 @@ namespace PRIME_UCR.Test.UnitTests.Application.Multimedia
         [Fact]
         public void generateIvNotNull()
         {
-            EncryptionService ES = new EncryptionService();
+            EncryptionService ES = new EncryptionService(true);
             byte[] iv = null;
             iv = ES.generateIV();
             Assert.NotNull(iv);
         }
         [Fact]
-        public void keyAndIVNotNullWithoutSetting()
+        public void keyAndIVNullWithoutSetting()
         {
-            EncryptionService ES = new EncryptionService();
-            Assert.NotNull(ES.Key);
-            Assert.NotNull(ES.IV);
+            EncryptionService ES = new EncryptionService(true);
+            Assert.Null(ES.Key);
+            Assert.Null(ES.IV);
         }
     }
 }
