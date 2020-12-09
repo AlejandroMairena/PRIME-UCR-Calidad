@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Fluxor;
 using PRIME_UCR.Application.DTOs.Incidents;
-using PRIME_UCR.StateManagement.Implementations.Incidents;
 using Radzen;
 
 namespace PRIME_UCR.Pages.Incidents.Map
@@ -22,8 +21,10 @@ namespace PRIME_UCR.Pages.Incidents.Map
             {
                 GpsData = action.GpsData,
                 Center = CalculateMapCenter(action.GpsData),
-                Filter = action.Filter,
-                AvailableFilters = action.Filters
+                UnitFilter = action.SelectedUnitFilter,
+                AvailableUnitFilters = action.UnitTypeFilters,
+                AvailableStateFilters = action.StateFilters,
+                StateFilter = action.SelectedStateFilter
             };
 
         [ReducerMethod]

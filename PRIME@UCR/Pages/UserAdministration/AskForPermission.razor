@@ -4,7 +4,7 @@
 @layout MainLayout
 @using PRIME_UCR.Components.Controls
 
-<Loading IsLoading="Inicialized== 'N'">
+<Loading IsLoading="Inicialized== 'N' || isBusy == true">
         @if (ResultOfRecovery == 'T')
         {
             <StatusMessage Message="Se ha enviado exitosamente un correo a los administradores con su solicitud"

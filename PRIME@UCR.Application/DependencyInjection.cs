@@ -50,7 +50,7 @@ namespace PRIME_UCR.Application
             services.AddTransient<IAppointmentService, SecureAppointmentService>();
             // multimedia
             services.AddTransient<IMultimediaContentService, MultimediaContentService>();
-            services.AddTransient<IEncryptionService, EncryptionService>();
+            services.AddSingleton<IEncryptionService, EncryptionService>();
 
             // user administration
             services.AddScoped<IPermissionsService, SecurePermissionService>();
@@ -67,7 +67,7 @@ namespace PRIME_UCR.Application
 
             //Dashboard
             services.AddTransient<IDashboardService, SecureDashboardService>();
-
+            services.AddTransient<IFileManagerService, FileManagerService>();
             services.AddTransient<IMailService, MailService>();
             return services;
         }

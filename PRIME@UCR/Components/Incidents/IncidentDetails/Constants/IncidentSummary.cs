@@ -12,7 +12,7 @@ namespace PRIME_UCR.Components.Incidents.IncidentDetails.Constants
         public List<string> Content { get; set; }
         public void LoadValues(IncidentDetailsModel Incident)
         {
-            Values = new List<string> { Incident.Code, Incident.CurrentState, Incident.EstimatedDateOfTransfer.ToString() };
+            Values = new List<string> { Incident.Code, Incident.CurrentState + " ", Incident.EstimatedDateOfTransfer.ToString() };
             Content = new List<string> { "Incidente: ", "Estado: ", "Fecha estimada: " };
         }
     }

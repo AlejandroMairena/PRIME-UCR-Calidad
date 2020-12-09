@@ -86,7 +86,7 @@ namespace PRIME_UCR.Components.Multimedia
             string multiString = "Multimedia";
             byte[] multiByte = encrypt_service.Encrypt(multiString);
             string multiEncrypted = Convert.ToBase64String(multiByte);
-            string path = "wwwroot/"+ encrypt_service.EncodeString(multiEncrypted)+"/";
+            string path = "wwwroot/data/"+ encrypt_service.EncodeString(multiEncrypted)+"/";
             byte[] IncidentCodeEncryptedByte = null;
             string IncidentCodeEncryptedString = "";
             string general = "General";

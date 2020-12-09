@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Data.SqlTypes;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
@@ -98,6 +99,16 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Incidents
             return incident;
         }
 
+        /*
+         * Function: Obtains all the incidents registered in the system, with their respective details
+         * @Return: A list with all the incidents registered in the system
+         * @TransactionLevel: 
+         *      If another transactions tries to register an incident but fails to do so, it would be an error to show that incident, since it wasn't registered correctly in the system
+         *          Therefore, we can't set the isolation level to read uncommitted
+         *      Since the application manages medical information (which is sometimes critical), we can't slow down the process of registering new incidents with the isolation level set as serializable
+         *      Since the incidents are not used in any aggregate function (mean, max, etc), we don't need to guarantee repeteable read
+         *          Therefore, the transaction isolation level is set as read committed
+         */
         public async Task<IEnumerable<IncidentListModel>> GetIncidentListModelsAsync()
         {
             using (var connection = new SqlConnection(_db.ConnectionString))
@@ -105,6 +116,9 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Incidents
                 var sql =
                     // Incidente
                     @"
+                        set implicit_transactions off;
+	                    set transaction isolation level read committed;
+	                    begin transaction t1;
                         select *
                         from Incidente I
                         Order by I.Codigo Desc;
@@ -128,6 +142,7 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Incidents
                         from Incidente
                         join EstadoIncidente EI on Incidente.Codigo = EI.CodigoIncidente
                         where EI.Activo = 1;
+                        commit transaction t1;
                     ";
 
                 using (var result = await connection.ExecuteQueryMultipleAsync(sql))
@@ -204,33 +219,45 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Incidents
             return null;
         }
 
-        public async Task<IEnumerable<OngoingIncident>> GetOngoingIncidentsAsync()
+        public async Task<IEnumerable<OngoingIncident>> GetOngoingIncidentsAsync(Modalidad unitType, Estado state)
         {
-            // query all incidents with requiered data
-            var data =
-                await _db.Incidents
-                    .AsNoTracking()
-                    .Include(i => i.Origen)
-                    .Include(i => i.Destino)
-                    .Include(i => i.UnidadDeTransporte)
-                    .Include(i => i.EstadoIncidentes)
-                    .ToListAsync();
+            // query all incidents with required data
+            var data = _db.Incidents
+                .AsNoTracking()
+                .Include(i => i.Origen)
+                .Include(i => i.Destino)
+                .Include(i => i.UnidadDeTransporte)
+                .Include(i => i.EstadoIncidentes)
+                    .ThenInclude(i => i.Estado);
 
-            // filter out the incidents that are not ongoing
-            return data
-                .Where(i =>
-                {
-                    var currentState = i.EstadoIncidentes.First(s => s.Activo);
-                    return IncidentStates.OngoingStates.Exists(s => s.Nombre == currentState.NombreEstado);
-                })
+            Expression<Func<Incidente, bool>> query;
+            if (unitType != null)
+                query = i => i.Modalidad == unitType.Tipo;
+            else
+                query = (_) => true;
+
+            var filteredData = await data
+                .Where(query)
                 .Select(i => new OngoingIncident // create OngoingIncident DTO to return
                 {
+                    Code = i.Codigo,
+                    Incident = i,
                     Origin = i.Origen,
                     Destination = i.Destino,
-                    Incident = i,
                     TransportUnit = i.UnidadDeTransporte,
                     UnitType = new Modalidad { Tipo = i.Modalidad }
-                });
+                })
+                .ToListAsync();
+
+            if (state != null)
+                return filteredData.Where(i =>
+                    IncidentStates.OngoingStates.Exists(s =>
+                        i.Incident.EstadoActivo.Nombre == s.Nombre)
+                    && i.Incident.EstadoActivo.Nombre == state.Nombre);
+
+            return filteredData.Where(i =>
+                IncidentStates.OngoingStates.Exists(s =>
+                    i.Incident.EstadoActivo.Nombre == s.Nombre));
         }
 
         public override async Task<Incidente> GetByKeyAsync(string key)
@@ -264,14 +291,30 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Incidents
             }
         }
 
+        /*
+         * Function: Query to get the last change in an specific incident.
+         * @Return: A table of CambioIncidente that provides the date, the responsible and the tab of the last change in the incident.
+         * @TransactionLevel: 
+         *      If another transactions tries to make a change in an incident (in Patient, Origin, Destination or Assignment tabs) but fails to do so, it would be an 
+         *      error to show that change as the last change in an incident, since it wasn't actually a change.Therefore, we can't set the isolation 
+         *      level to read uncommitted
+         *      
+         *      Since the application needs to be able to handle several changes from various authorized users as quick as possible, we can't slow down the process of
+         *      making changes to an incidents with the isolation level set as serializable. Since the incidents are not used in any aggregate function (mean, max, etc),
+         *      we don't need to guarantee repeteable read. Therefore, the transaction isolation level is set as read committed
+         */
         public async Task<CambioIncidente> GetLastChange(string code)
         {
             using (var connection = new SqlConnection(_db.ConnectionString))
             {
                 return (await connection.ExecuteQueryAsync<CambioIncidente>(@"
+                    set implicit_transactions off;
+	                set transaction isolation level read committed;
+	                begin transaction t1;
                     select CambioIncidente.* from CambioIncidente
                     where CodigoIncidente = @Id
                     order by FechaHora desc
+                    commit transaction t1;
                 ", new { Id = code }))
                 .FirstOrDefault();
             }
@@ -301,9 +344,13 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Incidents
             using (var connection = new SqlConnection(_db.ConnectionString))
             {
                 var authorizedCodes = await connection.ExecuteQueryAsync<string>(@"
+                set implicit_transactions off;
+	            set transaction isolation level read committed;
+	            begin transaction t1;
                 select i.Codigo from Incidente i
                 join Centro_Ubicacion c on i.IdOrigen = c.Id
                 where c.CédulaMédico = @Id
+                commit transaction t1;
                 ", new { Id = id });
                 return authorizedCodes;
             }
@@ -320,9 +367,13 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Incidents
             using (var connection = new SqlConnection(_db.ConnectionString))
             {
                 var authorizedCodes = await connection.ExecuteQueryAsync<string>(@"
+                set implicit_transactions off;
+	            set transaction isolation level read committed;
+	            begin transaction t1;
                 select i.Codigo from Incidente i
                 join Centro_Ubicacion c on i.IdDestino = c.Id
                 where c.CédulaMédico = @Id
+                commit transaction t1;
                 ", new { Id = id });
                 return authorizedCodes;
             }
@@ -338,13 +389,19 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.Incidents
         public async Task<IEnumerable<string>> GetAuthorizedCodesForSpecialist(string id)
         {
             using (var connection = new SqlConnection(_db.ConnectionString)) 
-            { 
+            {
+                
                 var authorizedCodes = await connection.ExecuteQueryAsync<string>(@"
+                    set implicit_transactions off;
+	                set transaction isolation level read committed;
+	                begin transaction t1;
                     select i.Codigo from Incidente i
                     join AsignadoA a on a.Codigo = i.Codigo
                     where a.CedulaEspecialista = @Id
+                    commit transaction t1;
                     ", new { Id = id });
                 return authorizedCodes;
+                
             } 
         }
 
