@@ -16,3 +16,5 @@ Post-Deployment Script Template
 :r .\PostDeployment\Checklists_PostDeployment.sql
 :r .\PostDeployment\MedicalRecords_PostDeployment.sql
 :r .\PostDeployment\Alergies_PostDeployment.sql
+:r .\PostDeployment\MedAppointments_PostDeployment.sql
+:r .\PostDeployment\Specialties_PostDeployment.sql

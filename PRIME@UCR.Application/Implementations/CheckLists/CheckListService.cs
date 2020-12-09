@@ -71,6 +71,11 @@ namespace PRIME_UCR.Application.Implementations.CheckLists
             return await _itemRepository.InsertCheckItemAsync(item);
         }
 
+        public async Task DeleteItems(int itemId)
+        {
+            await _itemRepository.DeleteAsync(itemId);
+        }
+
         public async Task<IEnumerable<Item>> GetItemsByCheckListId(int checkListId)
         {
             IEnumerable<Item> items = await _itemRepository.GetByCheckListId(checkListId);

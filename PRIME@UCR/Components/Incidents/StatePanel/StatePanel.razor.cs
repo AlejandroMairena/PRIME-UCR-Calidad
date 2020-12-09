@@ -15,6 +15,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Security.Policy;
 using System.Threading.Tasks;
+using PRIME_UCR.Application.DTOs.UserAdministration;
 
 namespace PRIME_UCR.Components.Incidents.StatePanel
 {
@@ -51,6 +52,20 @@ namespace PRIME_UCR.Components.Incidents.StatePanel
         [CascadingParameter] public Pages.Incidents.IncidentDetails ParentPage { get; set; }
 
         public bool showFeedBack = false;
+
+        [Inject]
+        public IMailService mailService { get; set; }
+
+        [Inject]
+        public IAssignmentService AssignmentService { get; set; }
+
+        [Inject]
+        public IUserService userService { get; set; }
+
+        private AssignmentModel _model;
+        protected string IncidentURL = "/incidents/";
+        private CoordinadorTécnicoMédico coordinators;
+        private List<EspecialistaTécnicoMédico> _specialists;
 
         protected override async Task OnInitializedAsync()
         {
@@ -131,6 +146,7 @@ namespace PRIME_UCR.Components.Incidents.StatePanel
 
         private async Task ChangeState()
         {
+            sendInformation();
             Incident.Reviewer = CurrentUser;
             await IncidentService.ChangeState(Incident, nextState);
             await OnSave.InvokeAsync(null);
@@ -149,6 +165,42 @@ namespace PRIME_UCR.Components.Incidents.StatePanel
                 } catch(Exception e) {}
             }
         }
+
+        /*This method sends notifications by mail to medical technical coordinators and medical technicians 
+         * when they are assigned to an incident.*/
+        public async void sendInformation()
+        {
+
+            if (nextState == "Asignado")
+            {
+                _model = await AssignmentService.GetAssignmentsByIncidentIdAsync(Incident.Code);
+                _specialists = _model.TeamMembers;
+                var allocator = CurrentUser.NombreCompleto;
+                var url = "https://prime-ceaco.azurewebsites.net/";
+                foreach (var special in _specialists)
+                {
+                    var user = (await userService.GetAllUsersWithDetailsAsync()).ToList().Find(u => u.CedPersona == special.Cédula);
+                    var message = new EmailContentModel()
+                    {
+                        Destination = user.Email,
+                        Subject = "PRIME@UCR: Asignado al incidente:" + Incident.Code,
+                        Body = $"<p>{allocator} lo ha asignado a un incidente</br>Proceda a completar las listas de chequeo asignadas al incidente:<a href=\"{url}\">Haga click aquí para ser redirigido</a></p>"
+                    };
+                    await mailService.SendEmailAsync(message);
+                }
+                coordinators = _model.Coordinator;
+                var user2 = (await userService.GetAllUsersWithDetailsAsync()).ToList().Find(u => u.CedPersona == coordinators.Cédula);
+                var message2 = new EmailContentModel()
+                {
+                    
+                    Destination = user2.Email,
+                    Subject = "PRIME@UCR: Asignado al incidente:" + Incident.Code,
+                    Body = $"<p>Usted ha sido asignado al incidente:{Incident.Code} por {allocator}. <a href=\"{url}\"> Haga click aquí para ser redirigido</a></p>"
+                };
+                await mailService.SendEmailAsync(message2);
+            }
+        }
+
     }
 }
 

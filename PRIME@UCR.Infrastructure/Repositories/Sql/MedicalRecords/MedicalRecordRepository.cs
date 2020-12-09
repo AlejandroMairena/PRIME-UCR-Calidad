@@ -66,7 +66,7 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.MedicalRecords
 
         public async Task<Expediente> UpdateMedicalRecordAsync(Expediente expediente) {
 
-            await using var connection = new SqlConnection(_db.DbConnection.ConnectionString);
+            await using var connection = new SqlConnection(_db.ConnectionString);
 
             if (expediente.CedulaMedicoDuenno != null && expediente.Clinica != null)
             {

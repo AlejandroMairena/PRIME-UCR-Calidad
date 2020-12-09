@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using PRIME_UCR.Application.Dtos.Incidents;
 using PRIME_UCR.Application.DTOs.MedicalRecords;
+using PRIME_UCR.Application.Implementations.MedicalRecords;
 using PRIME_UCR.Components.Incidents.IncidentDetails.Constants;
 using PRIME_UCR.Components.Incidents.IncidentDetails.Tabs;
 using PRIME_UCR.Domain.Models;
@@ -41,7 +43,11 @@ namespace PRIME_UCR.Components.MedicalRecords
         [Parameter]
         public Cita UltimaCita { get; set; }
 
-
+        protected override async Task OnInitializedAsync() {
+            Antecedentes = (await MedicalBackgroundService.GetBackgroundByRecordId(Expediente.IdExpediente)).ToList();
+            PadecimientosCronicos = (await ChronicConditionService.GetChronicConditionByRecordId(Expediente.IdExpediente)).ToList();
+            Alergias = (await AllergyService.GetAlergyByRecordId(Expediente.IdExpediente)).ToList();
+        }
         public string get_patient_name()
         {
             return MedicalRecord.Paciente.NombreCompleto;

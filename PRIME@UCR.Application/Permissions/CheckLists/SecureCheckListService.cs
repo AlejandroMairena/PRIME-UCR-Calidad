@@ -95,5 +95,10 @@ namespace PRIME_UCR.Application.Permissions.CheckLists
         {
             return await checkListService.GetAllChecklistActivates();
         }
+
+        public async Task DeleteItems(int itemId)
+        {
+            await checkListService.DeleteItems(itemId);
+        }
     }
 }

@@ -100,18 +100,6 @@ namespace PRIME_UCR.Pages.CheckLists.InIncident
         public string StartTime;
         public string EndTime;
         public string MyDuration;
-
-        [Inject]
-        public IMailService mailService { get; set; }
-
-        [Inject] 
-        public IAssignmentService AssignmentService { get; set; }
-
-        private List<EspecialistaTécnicoMédico> _specialists;
-        [Inject]
-        public IUserService userService { get; set; }
-
-        private AssignmentModel _model;
         protected override async Task OnInitializedAsync()
         {
             _incidentModel = await MyIncidentService.GetIncidentDetailsAsync(incidentcod);
@@ -201,12 +189,6 @@ namespace PRIME_UCR.Pages.CheckLists.InIncident
                 details[1] = instruct[0];
             }
             else  if (state.Nombre == "Asignado" || state.Nombre == "En preparación" || state.Nombre == "En ruta a origen" || state.Nombre == "Paciente recolectado en origen" || state.Nombre == "En traslado" || state.Nombre ==  "Entregado" || state.Nombre == "Reactivación") {
-                var cont = 0;
-                if (cont==0 && state.Nombre == "Asignado") {
-                    sendInformation();
-                    cont = 1;
-                }
-                
                 validateEdit = 1;
                 details[0] = state.Nombre;
                 details[1] = instruct[1];
@@ -356,7 +338,7 @@ namespace PRIME_UCR.Pages.CheckLists.InIncident
         protected string truncate(string text, int level, int lines)
         {
             if (String.IsNullOrEmpty(text)) return "";
-            int maxLength = lines * (65 - level * 5);
+            int maxLength = lines * (38 - level * 5);
             return text.Length <= maxLength ? text : text.Substring(0, maxLength) + "...";
         }
 
@@ -369,32 +351,18 @@ namespace PRIME_UCR.Pages.CheckLists.InIncident
         protected void Redirect()
         {
             IncidentURL += incidentcod;
-            IncidentURL += "/Checklist";
             NavManager.NavigateTo($"{IncidentURL}");
         }
 
         protected async Task CheckItem(InstanciaItem itemIn, ChangeEventArgs e)
         {
-             itemIn.Completado = (bool)e.Value;
-            // metodo //MyCheckInstanceChechistService.UpdateItem(itemIn);
-            //count += (bool)e.Value ? 1 : -1;
+            itemIn.Completado = (bool)e.Value;
             getDate(itemIn, e);
             
             await MyCheckInstanceChechistService.UpdateItemInstance(itemIn);
             await RefreshModels();
             StateHasChanged();
         }
-
-        ///Borrar
-        // protected async Task updateItemInstance(InstanciaItem item) {
-        //     await MyCheckInstanceChechistService.UpdateItemInstance(item);
-        //     await RefreshModels();
-        // }
-        //
-
-        //metodo para actualizar estado de la lista de cheuqueo 
-        //unpdate
-        // {"Pendiente","En progreso","Completada"};
 
         protected async Task OnFileUpload(InstanciaItem item, MultimediaContent mc)
         {
@@ -423,32 +391,6 @@ namespace PRIME_UCR.Pages.CheckLists.InIncident
                 Item.FechaHoraInicio = null;
             }
         }
-        
-        public async void sendInformation()
-        {
-            _model = await AssignmentService.GetAssignmentsByIncidentIdAsync(Incident.Code);
-            _specialists = _model.TeamMembers;
-            /*_specialists =
-                (await AssignmentService.GetSpecialistsAsync())
-                .ToList();*/
 
-            foreach (var special in _specialists) {
-                var user = (await userService.GetAllUsersWithDetailsAsync()).ToList().Find(u => u.CedPersona == special.Cédula);
-                var url = "https://localhost:44368" + IncidentURL + incidentcod;
-                var message = new EmailContentModel()
-                {
-                    Destination = user.Email,
-                    Subject = "PRIME@UCR: Asignado al incidente:" + incidentcod,
-                    Body = $"<p>Proceda a completar las listas de chequeo asignadas al incidente:<a href=\"{url}\">Haga click aquí para ser redirigido</a></p>"
-                };
-
-                await mailService.SendEmailAsync(message);
-
-                StateHasChanged();
-
-            }
-        }
-
-       
     }
 }

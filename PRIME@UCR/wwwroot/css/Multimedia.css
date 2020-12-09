@@ -16,7 +16,7 @@
 }
 
 .m-menu-div {
-    padding-left: 15px;
+    /*padding-left: 15px;*/
     margin-top: 4px;
     margin-bottom: 4px;
 
@@ -180,7 +180,6 @@ button.btn.btn-danger.m-btn.m-btn-rm {
     display: block; /* Hidden by default */
     position: fixed; /* Stay in place */
     z-index: 10; /* Sit on top */
-    padding-top: 50px; /* Location of the box */
     left: 0;
     top: 0;
     width: 100%; /* Full width */
@@ -264,6 +263,7 @@ button.btn.btn-danger.m-btn.m-btn-rm {
     width: 600px;
     display: block;
     margin: auto;
+    margin-top: 50px;
 }
 
 .rt-box {
@@ -331,7 +331,6 @@ button.btn.btn-danger.m-btn.m-btn-rm {
     opacity: 0;
     transition: opacity 0.3s;
 }
-
 /* Tooltip arrow */
 .rt-img-cont .tooltiptext::after {
     content: "";
@@ -347,4 +346,18 @@ button.btn.btn-danger.m-btn.m-btn-rm {
 .rt-img-cont:hover .tooltiptext {
     visibility: visible;
     opacity: 1;
+}
+
+.rt-align {
+    padding: 0px;
+    margin: 0px;
+    text-align: left !important;
+}
+
+.rt-filename {
+    padding: 0px;
+    white-space: nowrap;
+    width: 125px;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }

@@ -29,7 +29,7 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
 
         public async Task<Médico> GetByKeyAsync(string key)
         {
-            using (var connection = new SqlConnection(_db.DbConnection.ConnectionString))
+            using (var connection = new SqlConnection(_db.ConnectionString))
             {
                 var result = await connection.ExecuteQueryAsync<Médico>(@"
                     select Persona.Cédula, Nombre, PrimerApellido, SegundoApellido, Sexo, FechaNacimiento from Persona
@@ -43,7 +43,7 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
 
         public async Task<IEnumerable<Médico>> GetAllAsync()
         {
-            using (var connection = new SqlConnection(_db.DbConnection.ConnectionString))
+            using (var connection = new SqlConnection(_db.ConnectionString))
             {
                 return await connection.ExecuteQueryAsync<Médico>($@"
                     select Persona.Cédula, Nombre, PrimerApellido, SegundoApellido, Sexo, FechaNacimiento from Persona
@@ -54,7 +54,7 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
 
         public async Task<IEnumerable<Médico>> GetByConditionAsync(Expression<Func<Médico, bool>> expression)
         {
-            using (var connection = new SqlConnection(_db.DbConnection.ConnectionString))
+            using (var connection = new SqlConnection(_db.ConnectionString))
             {
                 return await connection.QueryAsync(expression);
             }
@@ -62,7 +62,7 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
 
         public async Task<Médico> InsertAsync(Médico model)
         {
-            using (var connection = new SqlConnection(_db.DbConnection.ConnectionString))
+            using (var connection = new SqlConnection(_db.ConnectionString))
             {
                 var result = (await connection.QueryAsync<Persona>(model.Cédula)).FirstOrDefault();
                 if (result == null)
@@ -77,7 +77,7 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
 
         public async Task DeleteAsync(string key)
         {
-            using (var connection = new SqlConnection(_db.DbConnection.ConnectionString))
+            using (var connection = new SqlConnection(_db.ConnectionString))
             {
                 await connection.DeleteAsync(nameof(Médico), key as object);
             }
@@ -85,7 +85,7 @@ namespace PRIME_UCR.Infrastructure.Repositories.Sql.UserAdministration
 
         public async Task UpdateAsync(Médico model)
         {
-            using (var connection = new SqlConnection(_db.DbConnection.ConnectionString))
+            using (var connection = new SqlConnection(_db.ConnectionString))
             {
                 await connection.UpdateAsync(nameof(Médico), new {model.Cédula});
             }

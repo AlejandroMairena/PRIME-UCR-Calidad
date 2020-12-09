@@ -18,5 +18,7 @@ namespace PRIME_UCR.Domain.Models
 
         public string Tipo { get; set; }
 
+        public string Extension { get; set; }
+
     }
 }

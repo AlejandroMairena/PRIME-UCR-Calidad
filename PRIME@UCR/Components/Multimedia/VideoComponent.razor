@@ -3,10 +3,11 @@
 <div class="rt-container">
 
     <div class="card" style="padding: 20px">
-        <h2>Video</h2>
+        <h2 class="rt-align">Video</h2>
         <hr />
 
-        <MultimediaTitleComponent Title="video" OnTitleChanged="OnTitleChanged"></MultimediaTitleComponent>
+        <MultimediaAlert Message="AlertMessage"></MultimediaAlert>
+        <MultimediaTitleComponent Title="@fileName" Disabled="true"></MultimediaTitleComponent>
 
         @* Video Feed *@
         <video class="rt-box" autoplay muted @ref="videoPreview"></video>
@@ -17,7 +18,7 @@
         <div class="row" style="margin-top: 20px">
             @* Open/Close Camera *@
             <div class="col">
-                <button type="button" class="btn btn-primary rt-button" 
+                <button type="button" class="btn btn-primary rt-button"
                         @onclick="HandleOpenCloseClick"
                         @ref="closeButton">
                     @openCloseButtonText
@@ -27,18 +28,25 @@
             @* Record/Stop Button *@
             <div class="col">
                 @* Record *@
-                <button type="button" class="btn btn-primary rt-button" disabled="@cameraClose" @ref="startButton">
+                <button type="button" class="btn btn-primary rt-button" 
+                        disabled="@cameraClose" 
+                        @onclick="OnRecordPressed"
+                        @ref="startButton">
                     Grabar
                 </button>
                 @* Stop *@
-                <button class="btn btn-danger rt-button" disabled="@cameraClose" @ref="stopButton">
+                <button class="btn btn-danger rt-button" 
+                        disabled="@cameraClose" 
+                        @onclick="OnStopPressed"
+                        @ref="stopButton">
                     Detener
                 </button>
             </div>
 
             @* Download Button *@
             <div class="col">
-                <div class="btn btn-primary rt-button">
+                <button class="btn btn-primary rt-button" disabled @ref="mockDownloadButton">Descargar</button>
+                <div class="btn btn-primary rt-button hidden" @ref="downloadButtonContainer">
                     <a style="color: white;" @ref="downloadButton">
                         Descargar
                     </a>
@@ -52,52 +60,6 @@
                 <button class="btn btn-danger rt-button" @onclick="OnClose">Salir</button>
             </div>
         </div>
-
-        <!--<div class="row">
-        <div class="col">-->
-        @* Video Preview *@
-        <!--<div class="row">
-        <video class="rt-box rt-box" autoplay muted @ref="videoPreview"></video>
-    </div>
-    <div class="row" style="margin-top: 20px">-->
-        @* Open Close Camera Button *@
-        <!--<div class="col">
-        <button type="button" class="btn btn-primary rt-button" @ref="startButton">Grabar</button>
-    </div>-->
-        @* Take Photograph Button *@
-        <!--<div class="col">
-                <button class="btn btn-danger rt-button" disabled @ref="stopButton">
-                    Detener
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <div class="col">-->
-        @* Preview *@
-        <!--<div class="row">
-        <video class="rt-box rt-box" controls @ref="recordedVideo"></video>
-    </div>
-    <div class="row" style="margin-top: 20px">-->
-        @* Cancel Button *@
-        <!--<div class="col">
-
-    </div>-->
-        @* Save Photograph Button *@
-        <!--<div class="col">
-        <div class="btn btn-primary rt-button">
-            <a style="color: white;" @ref="downloadButton">
-                Descargar
-            </a>
-        </div>-->
-        @*<a class="btn btn-primary rt-button" role="button" @ref="downloadLinkRef">
-            Descargar
-        </a>*@
-        <!--</div>
-            </div>
-        </div>
-
-    </div>-->
 
     </div>
 
