@@ -47,5 +47,5 @@ jobs:
           dotnet restore PRIME@UCR.sln
           dotnet test PRIME@UCR.sln --collect "Code Coverage"
           dotnet build PRIME@UCR.sln --configuration Release
-          
+  
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
