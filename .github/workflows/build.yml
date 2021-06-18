@@ -42,10 +42,11 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: powershell
         run: |
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"AlejandroMairena_PRIME-UCR-Checklist" /o:"alejandromairena" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"AlejandroMairena_PRIME-UCR-Calidad" /o:"alejandromairena" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
           
           dotnet restore PRIME@UCR.sln
           dotnet test PRIME@UCR.sln --collect "Code Coverage"
           dotnet build PRIME@UCR.sln --configuration Release
-  
+          
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
+
